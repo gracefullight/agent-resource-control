@@ -1,0 +1,5 @@
+workspace:
+  root: /Users/gracefullight/workspace/arc
+actor:
+  type: grok
+  model: grok-4.7

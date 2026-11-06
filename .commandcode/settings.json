@@ -1,0 +1,54 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "name": "oma-hook-SessionStart",
+            "type": "command",
+            "command": "'.commandcode/hooks/oma-hook.sh' --vendor 'commandcode' --event 'SessionStart'",
+            "timeout": 13
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "hooks": [
+          {
+            "name": "oma-hook-PostToolUse",
+            "type": "command",
+            "command": "'.commandcode/hooks/oma-hook.sh' --vendor 'commandcode' --event 'PostToolUse' --matcher 'write|edit'",
+            "timeout": 21
+          }
+        ],
+        "matcher": "write|edit"
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "name": "oma-hook-Stop",
+            "type": "command",
+            "command": "'.commandcode/hooks/oma-hook.sh' --vendor 'commandcode' --event 'Stop'",
+            "timeout": 40
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "hooks": [
+          {
+            "name": "oma-hook-PreToolUse",
+            "type": "command",
+            "command": "'.commandcode/hooks/oma-hook.sh' --vendor 'commandcode' --event 'PreToolUse' --matcher 'write|edit'",
+            "timeout": 16
+          }
+        ],
+        "matcher": "write|edit"
+      }
+    ]
+  }
+}

@@ -13,6 +13,14 @@
       "env": {
         "SERENA_LOG_LEVEL": "info"
       }
+    },
+    "av": {
+      "command": "av",
+      "args": [
+        "mcp",
+        "--workspace",
+        "/Users/gracefullight/workspace/arc"
+      ]
     }
   }
 }

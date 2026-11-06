@@ -89,6 +89,14 @@
         "SERENA_LOG_LEVEL": "info"
       },
       "trust": true
+    },
+    "av": {
+      "command": "av",
+      "args": [
+        "mcp",
+        "--workspace",
+        "/Users/gracefullight/workspace/arc"
+      ]
     }
   },
   "general": {

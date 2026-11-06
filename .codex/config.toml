@@ -15,3 +15,9 @@ enabled = false
 [feedback]
 enabled = false
 
+
+# Agent Valley MCP: START
+[mcp_servers.av]
+command = "av"
+args = ["mcp","--workspace","/Users/gracefullight/workspace/arc"]
+# Agent Valley MCP: END

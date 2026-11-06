@@ -1,0 +1,32 @@
+languages:
+  - python
+  - typescript
+  - dart
+  - terraform
+
+encoding: "utf-8"
+ignore_all_files_in_gitignore: true
+ignored_paths:
+  - .serena/cache
+read_only: false
+excluded_tools:
+  - write_memory
+  - read_memory
+  - list_memories
+  - delete_memory
+  - rename_memory
+  - edit_memory
+  - onboarding
+  - check_onboarding_performed
+initial_prompt: ""
+project_name: "arc"
+included_optional_tools: []
+base_modes:
+default_modes:
+fixed_tools: []
+symbol_info_budget:
+language_backend:
+read_only_memory_patterns: []
+line_ending:
+ignored_memory_patterns: []
+ls_specific_settings: { dart: { initializationOptions: { onlyAnalyzeProjectsWithOpenFiles: true } } }

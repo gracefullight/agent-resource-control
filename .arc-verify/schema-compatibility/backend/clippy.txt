@@ -1,0 +1,30 @@
+    Checking itoa v1.0.18
+    Checking serde_core v1.0.229
+    Checking zmij v1.0.23
+    Checking memchr v2.8.3
+    Checking errno v0.3.14
+    Checking rusqlite v0.41.1
+    Checking socket2 v0.6.5
+    Checking mio v1.2.4
+    Checking signal-hook-registry v1.4.8
+    Checking pin-project-lite v0.2.17
+    Checking utf8parse v0.2.2
+    Checking anstyle-query v1.1.5
+    Checking anstyle v1.0.14
+    Checking colorchoice v1.0.5
+    Checking tokio v1.54.1
+    Checking anstyle-parse v1.0.0
+    Checking is_terminal_polyfill v1.70.2
+    Checking strsim v0.11.1
+    Checking clap_lex v1.1.1
+    Checking anstream v1.0.0
+    Checking clap_builder v4.6.7
+    Checking arc-storage v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage)
+    Checking serde v1.0.229
+    Checking serde_json v1.0.154
+    Checking clap v4.6.7
+    Checking arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-detector)
+    Checking arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-ipc)
+    Checking arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-daemon)
+    Checking arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-cli)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.85s

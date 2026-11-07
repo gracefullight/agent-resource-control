@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "final product sources equal initial and per-command hashes",
+    "exact required argv and log hashes match receipts",
+    "247 passing invocations mapped to final log; 26 requirement groups",
+    "required summary fields and matrix terms present",
+    "original SQL and harness match accepted base",
+    "actual harness exit 1 retained; missing coverage script recorded"
+  ],
+  "productFilesChanged": [],
+  "remaining": "Coverage prerequisite failure retained; independent QA and mission final delivery remain downstream."
+}

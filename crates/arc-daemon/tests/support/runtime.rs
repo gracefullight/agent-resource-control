@@ -104,7 +104,7 @@ impl Fixture {
         assert!(doctor.status.success(), "{doctor:?}");
         assert!(doctor.stderr.is_empty());
         let text = String::from_utf8(doctor.stdout).unwrap();
-        assert_eq!(text, "ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off.\n");
+        assert_eq!(text, "ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 1. Migration history verified.\n");
         assert!(!text.contains('\u{1b}'));
     }
 

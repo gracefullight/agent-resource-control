@@ -3,6 +3,7 @@
 //! It dials the owner-only Unix socket and never opens SQLite itself.
 
 mod classify;
+mod doctor;
 
 use arc_ipc::{
     self, Request, Response, OPERATION_DOCTOR, OPERATION_HELLO, PROTOCOL_VERSION, STATUS_OK,
@@ -38,7 +39,10 @@ struct Cli {
 enum Command {
     /// Report daemon liveness and protocol
     Status,
-    /// Run local daemon diagnostics
+    /// Check database integrity and schema compatibility through the daemon
+    #[command(
+        after_help = "If the daemon failed before startup, inspect its stderr for the cause."
+    )]
     Doctor,
     /// Analyze literal command text without executing it
     #[command(
@@ -101,23 +105,23 @@ fn main() -> ExitCode {
         Err(code) => {
             eprintln!("{code}");
             if classification {
-                eprintln!("{}", classify::recovery(code));
+                eprintln!("{}", classify::recovery(&code));
             }
             ExitCode::FAILURE
         }
     }
 }
 
-fn run(command: Command) -> Result<(), &'static str> {
+fn run(command: Command) -> Result<(), String> {
     let socket = arc_core::socket_path().map_err(|_| DAEMON_UNAVAILABLE)?;
     match command {
-        Command::Status => status(&socket),
-        Command::Doctor => doctor(&socket),
+        Command::Status => status(&socket).map_err(str::to_owned),
+        Command::Doctor => doctor::run(&socket),
         Command::Classify {
             command,
             shell,
             json,
-        } => classify::run(&socket, command, shell, json),
+        } => classify::run(&socket, command, shell, json).map_err(str::to_owned),
     }
 }
 
@@ -137,24 +141,6 @@ fn status(socket: &std::path::Path) -> Result<(), &'static str> {
     Ok(())
 }
 
-fn doctor(socket: &std::path::Path) -> Result<(), &'static str> {
-    let response = request(socket, OPERATION_DOCTOR)?;
-    if response.status != STATUS_OK || response.protocol_version != PROTOCOL_VERSION {
-        return Err(PROTOCOL_INCOMPATIBLE);
-    }
-    let result = response.result.ok_or(INTEGRITY_FAILED)?;
-    if result["integrity_check"].as_str() != Some("ok")
-        || result["schema_migrations"].as_i64() != Some(1)
-    {
-        return Err(INTEGRITY_FAILED);
-    }
-    println!(
-        "ok. IPC owner-only. Tray not connected. Vendors not detected. \
-         Command classification not checked. Sweeper off."
-    );
-    Ok(())
-}
-
 fn request(socket: &std::path::Path, operation: &str) -> Result<Response, &'static str> {
     let mut stream = UnixStream::connect(socket).map_err(|_| DAEMON_UNAVAILABLE)?;
     stream
@@ -166,6 +152,15 @@ fn request(socket: &std::path::Path, operation: &str) -> Result<Response, &'stat
 
     let request = Request::new(request_id(), operation);
     let response = arc_ipc::exchange(&mut stream, &request).map_err(|_| DAEMON_UNAVAILABLE)?;
+    if response.protocol_version != PROTOCOL_VERSION {
+        return Err(PROTOCOL_INCOMPATIBLE);
+    }
+    if response.request_id != request.request_id {
+        return Err(IPC_ERROR);
+    }
+    if operation == OPERATION_DOCTOR {
+        return Ok(response);
+    }
     if let Some(error) = &response.error {
         return Err(match error.code.as_str() {
             arc_ipc::ERROR_PROTOCOL_INCOMPATIBLE => PROTOCOL_INCOMPATIBLE,

@@ -420,3 +420,6 @@ async fn concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds()
     assert_eq!(recover(&worker.client()).await.integrity_check, "ok");
     stop(&mut worker, &database).await;
 }
+
+#[path = "schema_tests.rs"]
+mod schema_tests;

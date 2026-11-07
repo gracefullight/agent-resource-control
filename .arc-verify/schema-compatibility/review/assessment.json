@@ -1,0 +1,610 @@
+{
+  "taskId": "task-7",
+  "actorId": "independent-reviewer",
+  "status": "completed",
+  "reviewResult": "PASS for product requirements; harness coverage unresolved",
+  "independent": true,
+  "skillsUsed": [
+    "oma-qa"
+  ],
+  "productRequirementsPassed": true,
+  "acceptanceAssessmentRecorded": true,
+  "sourceFingerprint": "3ff8691bc3d81511f30ec68bca9a62e7bd74dabd13a3fd686a955d189d302ca5",
+  "sourceFingerprintDefinition": "SHA-256 of exact verification/source-manifest.json bytes",
+  "sourceManifest": ".arc-verify/schema-compatibility/verification/source-manifest.json",
+  "sourceInputCount": 92,
+  "baseHead": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "sourceBound": true,
+  "allRelevantCrateInputsBound": true,
+  "sourceScope": "All crate Rust/SQL/TOML, root Cargo manifest/lock/toolchain, unchanged harness and consumed compatibility/recovery docs. Not a whole-worktree fingerprint; av.yaml is inaccessible.",
+  "report": ".arc-verify/schema-compatibility/review/report.md",
+  "reportSha256": "5e510962ae263cec334dfb5ade61365d44b5245726ac66bbeb7a0afea798cef8",
+  "audit": ".arc-verify/schema-compatibility/review/audit.json",
+  "reviewedAt": "2026-11-07T22:35:26.991091+00:00",
+  "productFindings": [],
+  "unresolvedImplementationBlockers": [],
+  "unresolvedFindings": [
+    {
+      "id": "existing-harness-coverage",
+      "kind": "verification-prerequisite",
+      "productDefectEstablished": false,
+      "location": ".arc-verify/schema-compatibility/verification/harness.txt",
+      "command": "./scripts/harness/validate.sh",
+      "exitCode": 1,
+      "description": "Unchanged harness checks 1–4 passed; coverage did not execute because test:coverage is missing.",
+      "owner": "chief-director",
+      "nextAction": "Retain the actual failure in final delivery. Any separately assigned prerequisite repair must preserve the verification command and be followed by refreshed evidence."
+    }
+  ],
+  "requiredCargoGatesPassed": true,
+  "cargoEvidenceReused": true,
+  "productChecksRerunDuringReview": false,
+  "rerunDecision": "All final-source receipts and logs match; inspected assertions cover the required matrix and no concrete executable gap required a focused rerun.",
+  "commands": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "exitCode": 0,
+      "receiptSha256": "9a5f3d20e8d18a48e46bc6584c7d01ab4a3f77ac7fc94dfaf321fc080d9ec6fa",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "currentSourcesMatch": true,
+      "reused": true
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets -- -D warnings",
+      "exitCode": 0,
+      "receiptSha256": "1eae267098d4221f604b15dbc8f06364f41547f5f600c60170294964a1241a7f",
+      "logSha256": "74eb7afcff4ba44f36e7e4e4ce619e07d9d3975dc09f753d3c77fc865b805396",
+      "currentSourcesMatch": true,
+      "reused": true
+    },
+    {
+      "command": "cargo test --workspace",
+      "exitCode": 0,
+      "receiptSha256": "8150bf050dd9abc389f8b40724ce1c7a8c1b2627a111f0195a3a35fc85682bee",
+      "logSha256": "67f9687a8661e05a5aa455e836aca3a3b634624e9859a71ccb070692c11ff68f",
+      "currentSourcesMatch": true,
+      "reused": true
+    },
+    {
+      "command": "./scripts/harness/validate.sh",
+      "exitCode": 1,
+      "receiptSha256": "37323c8ac30dde6008f56f18fde4ec621f79abca8ef0e363900e901cdc95a600",
+      "logSha256": "49f59d87dbdf20269fe87f8e3d72c14fe213fc3b6c6bd01b1eb8a5354b80baac",
+      "currentSourcesMatch": true,
+      "reused": true
+    },
+    {
+      "command": "python3 .arc-verify/schema-compatibility/review/audit.py",
+      "exitCode": 0,
+      "reused": false
+    }
+  ],
+  "testInvocationsPassed": 247,
+  "distinctTestCountClaimed": false,
+  "acceptanceGroupsReviewed": 26,
+  "acceptanceAssessments": [
+    {
+      "requirement": "Fresh initialization, WAL and constraints",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/tests/nfr010.rs",
+      "tests": [
+        {
+          "name": "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+          "logLine": 362
+        },
+        {
+          "name": "foreign_keys_and_unique_resource_identity_are_enforced",
+          "logLine": 360
+        }
+      ]
+    },
+    {
+      "requirement": "Existing-database reopen, two-version additive upgrade, preservation and idempotency",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/acceptance.rs",
+      "tests": [
+        {
+          "name": "migration::tests::acceptance::fixture_initialization_additive_upgrade_reopen_and_idempotency",
+          "logLine": 344
+        }
+      ]
+    },
+    {
+      "requirement": "Legacy production database reopen",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/acceptance.rs",
+      "tests": [
+        {
+          "name": "migration::tests::acceptance::production_legacy_history_is_read_only_then_stamped_atomically",
+          "logLine": 347
+        }
+      ]
+    },
+    {
+      "requirement": "Concurrent-upgrader serialization",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/concurrency.rs",
+      "tests": [
+        {
+          "name": "migration::tests::concurrency::concurrent_upgraders_serialize_and_reread_after_lock_acquisition",
+          "logLine": 341
+        }
+      ]
+    },
+    {
+      "requirement": "SQL-failure rollback",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/acceptance.rs",
+      "tests": [
+        {
+          "name": "migration::tests::acceptance::sql_failure_rolls_back_schema_application_data_history_and_witness",
+          "logLine": 340
+        },
+        {
+          "name": "migration::tests::acceptance::initial_sql_failure_rolls_back_every_pending_object",
+          "logLine": 337
+        },
+        {
+          "name": "migration::tests::acceptance::later_failure_rolls_back_prior_migration_history_in_same_batch",
+          "logLine": 338
+        }
+      ]
+    },
+    {
+      "requirement": "Process interruption rollback and recovery",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/concurrency.rs",
+      "tests": [
+        {
+          "name": "migration::tests::concurrency::process_interruption_before_commit_rolls_back_and_recovers",
+          "logLine": 342
+        }
+      ]
+    },
+    {
+      "requirement": "Altered checksum rejection and preservation",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/rejection.rs",
+      "tests": [
+        {
+          "name": "migration::tests::rejection::checksum_defects_in_every_known_entry_leave_all_state_unchanged",
+          "logLine": 346
+        }
+      ]
+    },
+    {
+      "requirement": "Rejection of missing history and preservation",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/rejection.rs",
+      "tests": [
+        {
+          "name": "migration::tests::rejection::missing_history_table_rows_gaps_and_trailing_entry_are_rejected",
+          "logLine": 351
+        },
+        {
+          "name": "migration::tests::rejection::empty_arc_objects_or_history_and_nonzero_witness_are_never_fresh",
+          "logLine": 350
+        }
+      ]
+    },
+    {
+      "requirement": "Unsupported newer schema and explicit downgrade rejection",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/rejection.rs",
+      "tests": [
+        {
+          "name": "migration::tests::rejection::unsupported_newer_history_and_witness_and_downgrade_are_rejected",
+          "logLine": 349
+        }
+      ]
+    },
+    {
+      "requirement": "Ordered registry and complete ordered history",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/acceptance.rs; crates/arc-storage/src/migration/tests/rejection.rs",
+      "tests": [
+        {
+          "name": "migration::tests::acceptance::malformed_registry_is_rejected_before_any_sql",
+          "logLine": 336
+        },
+        {
+          "name": "migration::tests::rejection::numeric_version_order_ignores_history_insertion_and_timestamp_order",
+          "logLine": 348
+        },
+        {
+          "name": "migration::tests::rejection::known_prefix_defect_takes_precedence_over_future_history",
+          "logLine": 343
+        }
+      ]
+    },
+    {
+      "requirement": "Invalid and unreadable history; read-only assessment",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-storage/src/migration/tests/rejection.rs",
+      "tests": [
+        {
+          "name": "migration::tests::rejection::invalid_history_ids_types_duplicates_and_witness_are_rejected",
+          "logLine": 352
+        },
+        {
+          "name": "migration::tests::rejection::unreadable_layout_stays_a_typed_sql_error",
+          "logLine": 345
+        },
+        {
+          "name": "migration::tests::rejection::assessment_reuses_existing_transaction_without_committing_it",
+          "logLine": 339
+        }
+      ]
+    },
+    {
+      "requirement": "Daemon startup rejection without data/history writes",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/tests/startup.rs",
+      "tests": [
+        {
+          "name": "checksum_rejection_exits_nonzero_with_recovery_guidance",
+          "logLine": 191
+        },
+        {
+          "name": "missing_invalid_and_newer_schema_startup_reject_without_data_or_history_changes",
+          "logLine": 192
+        }
+      ]
+    },
+    {
+      "requirement": "Live schema diagnostics through bounded worker and CLI",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/tests/resident/schema.rs",
+      "tests": [
+        {
+          "name": "schema::live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_history",
+          "logLine": 184
+        }
+      ]
+    },
+    {
+      "requirement": "Verified production and fixture-version-2 CLI diagnostics",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-cli/tests/schema.rs",
+      "tests": [
+        {
+          "name": "actual_cli_reports_verified_production_and_two_version_fixture_success",
+          "logLine": 34
+        }
+      ]
+    },
+    {
+      "requirement": "older-client to new daemon, production schema",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/tests/resident/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+      "tests": [
+        {
+          "name": "schema::baseline_client_adapter_accepts_actual_new_daemon_production_report",
+          "logLine": 183
+        },
+        {
+          "name": "tests::schema::legacy_request_and_decoder_accept_new_production_report_with_truthful_count",
+          "logLine": 316
+        }
+      ]
+    },
+    {
+      "requirement": "New client to old daemon and unavailable details",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-cli/tests/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+      "tests": [
+        {
+          "name": "new_client_old_daemon_labels_unavailable_details_without_claiming_verification",
+          "logLine": 33
+        },
+        {
+          "name": "tests::schema::legacy_absence_and_null_decode_but_missing_present_fields_are_invalid",
+          "logLine": 313
+        }
+      ]
+    },
+    {
+      "requirement": "older-client fixture v2 limitation and protocol-1 honesty",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-ipc/src/tests/schema.rs",
+      "tests": [
+        {
+          "name": "tests::schema::modern_version_two_succeeds_but_legacy_count_check_rejects_without_falsifying_count",
+          "logLine": 315
+        }
+      ]
+    },
+    {
+      "requirement": "Malformed/unknown compatibility cannot report success",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-cli/tests/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+      "tests": [
+        {
+          "name": "unavailable_and_malformed_present_details_fail_without_legacy_fallback",
+          "logLine": 35
+        },
+        {
+          "name": "inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility",
+          "logLine": 36
+        },
+        {
+          "name": "tests::schema::present_but_inconsistent_details_never_fall_back_to_legacy_success",
+          "logLine": 317
+        },
+        {
+          "name": "tests::schema::every_incompatibility_keeps_diagnostic_result_and_prevents_legacy_success",
+          "logLine": 314
+        }
+      ]
+    },
+    {
+      "requirement": "Failure diagnostics, error precedence and terminal help",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-cli/tests/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+      "tests": [
+        {
+          "name": "every_schema_failure_survives_error_envelope_with_actionable_reason",
+          "logLine": 38
+        },
+        {
+          "name": "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+          "logLine": 37
+        },
+        {
+          "name": "doctor_help_explains_schema_scope_and_prestartup_stderr",
+          "logLine": 32
+        },
+        {
+          "name": "tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema",
+          "logLine": 318
+        }
+      ]
+    },
+    {
+      "requirement": "Single SQLite worker: schema cancellation, deadline and shutdown",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/src/db_worker/schema_tests.rs",
+      "tests": [
+        {
+          "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+          "logLine": 90
+        },
+        {
+          "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+          "logLine": 164
+        },
+        {
+          "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+          "logLine": 251
+        }
+      ]
+    },
+    {
+      "requirement": "Bounded worker queue and 100,000-attempt admission",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/src/db_worker/tests.rs; crates/arc-daemon/tests/worker_runtime.rs",
+      "tests": [
+        {
+          "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+          "logLine": 68
+        },
+        {
+          "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+          "logLine": 155
+        },
+        {
+          "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+          "logLine": 232
+        },
+        {
+          "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+          "logLine": 67
+        },
+        {
+          "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+          "logLine": 154
+        },
+        {
+          "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+          "logLine": 228
+        },
+        {
+          "name": "admission_load::hundred_thousand_database_attempts_bound_retained_cancelled_work",
+          "logLine": 235
+        }
+      ]
+    },
+    {
+      "requirement": "health responsiveness during real schema and SQL stalls",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/tests/worker_runtime.rs",
+      "tests": [
+        {
+          "name": "health_completes_while_schema_assessment_is_deliberately_stalled",
+          "logLine": 273
+        },
+        {
+          "name": "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+          "logLine": 272
+        },
+        {
+          "name": "controlled_slow_database_does_not_block_health_and_cli_recovers",
+          "logLine": 230
+        }
+      ]
+    },
+    {
+      "requirement": "Transport/admission bounds, deadlines and recovery",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/tests/bounded.rs; crates/arc-daemon/tests/worker_runtime.rs",
+      "tests": [
+        {
+          "name": "native_probe_then_full_100000_attempt_workload",
+          "logLine": 126
+        },
+        {
+          "name": "nonreading_peer_releases_real_daemon_capacity",
+          "logLine": 127
+        },
+        {
+          "name": "malformed_and_stalled_frames_recover_actual_cli",
+          "logLine": 128
+        },
+        {
+          "name": "admission_load::hundred_thousand_connection_attempts_never_spawn_rejection_tasks",
+          "logLine": 276
+        },
+        {
+          "name": "admission_load::hundred_thousand_request_attempts_have_no_waiting_admission",
+          "logLine": 231
+        },
+        {
+          "name": "deadline_recovery::full_request_and_connection_saturation_recovers_without_restart",
+          "logLine": 271
+        }
+      ]
+    },
+    {
+      "requirement": "Runtime identity and instance ownership",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/tests/resident/identity.rs",
+      "tests": [
+        {
+          "name": "identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+          "logLine": 178
+        },
+        {
+          "name": "identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+          "logLine": 179
+        }
+      ]
+    },
+    {
+      "requirement": "shutdown deadlines, stalled handlers, worker join",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/tests/worker_runtime.rs; crates/arc-daemon/src/lifecycle_tests.rs",
+      "tests": [
+        {
+          "name": "saturated_sigint_finishes_within_five_seconds",
+          "logLine": 274
+        },
+        {
+          "name": "saturated_sigterm_finishes_within_five_seconds",
+          "logLine": 275
+        },
+        {
+          "name": "lifecycle_tests::sigint_reaps_stalled_handlers_and_joins_worker",
+          "logLine": 117
+        },
+        {
+          "name": "lifecycle_tests::sigterm_reaps_stalled_handlers_and_joins_worker",
+          "logLine": 118
+        },
+        {
+          "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+          "logLine": 69
+        },
+        {
+          "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+          "logLine": 156
+        },
+        {
+          "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+          "logLine": 236
+        }
+      ]
+    },
+    {
+      "requirement": "Runtime reporting and typed database failures",
+      "passed": true,
+      "assessmentBasis": "Inspected test assertions plus hash-validated final-source executable log; see report.md.",
+      "source": "crates/arc-daemon/src/lifecycle_tests.rs; crates/arc-daemon/src/database_failure_tests.rs",
+      "tests": [
+        {
+          "name": "lifecycle_tests::report_lifecycle_tests::requested_export_is_open_before_readiness_and_contains_complete_schema",
+          "logLine": 116
+        },
+        {
+          "name": "lifecycle_tests::report_lifecycle_tests::report_write_failure_preserves_cleanup_and_actual_worker_accounting",
+          "logLine": 115
+        },
+        {
+          "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+          "logLine": 91
+        },
+        {
+          "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+          "logLine": 259
+        }
+      ]
+    }
+  ],
+  "compiledProductionInputs": true,
+  "fixtureInjectionInProduction": false,
+  "productionSchemaVersion": 1,
+  "originalMigration": {
+    "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "matchesBase": true,
+    "bytes": 3917
+  },
+  "protocolVersion": 1,
+  "sourceFilesWithin500Lines": true,
+  "sourceLengthInputsVerified": 248,
+  "runtimeGuaranteesPreserved": true,
+  "legacyInteroperabilityBasis": "Baseline request/decoder/validation adapters including actual production daemon; actual new CLI against legacy-response fixtures. Legacy count-2 rejection is retained honestly.",
+  "explicitDowngradeRejectionPassed": true,
+  "downgradeExecutionSupported": false,
+  "harnessPassed": false,
+  "harnessOutcomeRecorded": true,
+  "coverageStatus": "unresolved_missing_test:coverage",
+  "coverageExecuted": false,
+  "verificationCompleteness": "Product matrix and Cargo gates verified; harness coverage remains unavailable with actual exit 1 retained.",
+  "codeIntelligence": {
+    "provider": "Serena",
+    "mode": "unavailable",
+    "tools": [],
+    "limitation": "No Serena tool exposed; scoped known-path reads and diff/evidence inventories used. No native repository source-search replacement."
+  },
+  "limits": [
+    "Native aarch64-apple-darwin evidence only.",
+    "Historical client/daemon executables were not separately built.",
+    "No deployment, field/business result, browser suite or screen verification claimed.",
+    "av.yaml inaccessible; no whole-worktree cleanliness claim."
+  ],
+  "pathsChanged": [
+    ".arc-verify/schema-compatibility/review/report.md",
+    ".arc-verify/schema-compatibility/review/assessment.json",
+    ".arc-verify/schema-compatibility/review/audit.py",
+    ".arc-verify/schema-compatibility/review/audit.json",
+    ".arc-verify/schema-compatibility/review/audit-output.txt"
+  ],
+  "productFilesModified": false,
+  "missionStateModified": false,
+  "ownershipOrInterfaceConflicts": [],
+  "auditSha256": "9200e99928aa372d3bbe510fe6a5fa55cbd15ca4fe52ecfa421af860dcd3cf75"
+}

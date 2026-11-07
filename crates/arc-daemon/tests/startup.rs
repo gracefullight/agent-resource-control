@@ -61,7 +61,7 @@ fn wait_for_exit(mut child: Child, timeout: Duration) -> Output {
 }
 
 #[test]
-fn migration_failure_exits_nonzero_with_one_stderr_sentence() {
+fn checksum_rejection_exits_nonzero_with_recovery_guidance() {
     let _serial = support::serial();
     let database = TempDatabase::new();
     let socket = database.0.parent().unwrap().join("arc.sock");
@@ -69,14 +69,23 @@ fn migration_failure_exits_nonzero_with_one_stderr_sentence() {
     connection
         .execute("UPDATE schema_migrations SET checksum='invalid'", [])
         .unwrap();
+    connection
+        .execute(
+            "INSERT INTO vendors VALUES ('keep','Existing record',NULL,42)",
+            [],
+        )
+        .unwrap();
+    let before = database_snapshot(&connection);
     let child = spawn_daemon(&database.0, &socket);
     let output = wait_for_exit(child, Duration::from_secs(10));
     assert!(!output.status.success());
     assert!(output.stdout.is_empty());
     assert_eq!(
         String::from_utf8(output.stderr).unwrap(),
-        "Database startup failed: Phase 0 migration checksum is missing or mismatched.\n"
+        "Database startup failed: migration checksum mismatch; preserve the database and investigate against a trusted copy.\n"
     );
+    assert!(!socket.exists());
+    assert_eq!(database_snapshot(&connection), before);
     assert_eq!(
         connection
             .query_row("SELECT COUNT(*) FROM gc_operations", [], |row| row
@@ -93,4 +102,43 @@ fn migration_failure_exits_nonzero_with_one_stderr_sentence() {
             .unwrap(),
         "invalid"
     );
+}
+
+#[test]
+fn missing_invalid_and_newer_schema_startup_reject_without_data_or_history_changes() {
+    let _serial = support::serial();
+    for (sql, reason) in [
+        ("DELETE FROM schema_migrations", "missing migration history; preserve the database and investigate against a trusted copy"),
+        ("UPDATE schema_migrations SET id='0001_other'", "invalid migration history; preserve the database and investigate against a trusted copy"),
+        ("INSERT INTO schema_migrations VALUES ('0002_future',42,'future-checksum'); PRAGMA user_version=2", "unsupported newer schema version 2 (supported 1); use a binary supporting that version; downgrade execution is not supported"),
+    ] {
+        let database = TempDatabase::new();
+        let socket = database.0.parent().unwrap().join("arc.sock");
+        let connection = open_and_migrate(&database.0).unwrap();
+        connection.execute("INSERT INTO vendors VALUES ('keep','Existing record',NULL,42)", []).unwrap();
+        connection.execute_batch(sql).unwrap();
+        let before = database_snapshot(&connection);
+        let output = wait_for_exit(spawn_daemon(&database.0, &socket), Duration::from_secs(10));
+        assert_eq!(output.status.code(), Some(1));
+        assert!(output.stdout.is_empty());
+        assert_eq!(String::from_utf8(output.stderr).unwrap(), format!("Database startup failed: {reason}.\n"));
+        assert!(!socket.exists(), "rejected startup must not advertise doctor");
+        assert_eq!(database_snapshot(&connection), before);
+        connection.close().unwrap();
+    }
+}
+
+fn database_snapshot(connection: &rusqlite::Connection) -> (String, String, String, u32) {
+    // SQLite JSON aggregation preserves complete values without line ambiguities.
+    let query = |sql| {
+        connection
+            .query_row(sql, [], |r| r.get::<_, String>(0))
+            .unwrap()
+    };
+    (
+        query("SELECT json_group_array(json_array(id,display_name,adapter_version,discovered_at)) FROM (SELECT * FROM vendors ORDER BY id)"),
+        query("SELECT json_group_array(json_array(id,applied_at,checksum)) FROM (SELECT * FROM schema_migrations ORDER BY id)"),
+        query("SELECT json_group_array(json_array(type,name,sql)) FROM (SELECT * FROM sqlite_schema ORDER BY type,name)"),
+        connection.query_row("PRAGMA user_version", [], |r| r.get(0)).unwrap(),
+    )
 }

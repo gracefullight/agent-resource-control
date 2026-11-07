@@ -1,0 +1,15 @@
+{
+  "deadlineSeconds": 86400,
+  "maxParallelMissionTasks": 3,
+  "localCheckParallelism": 1,
+  "missionMaxRuns": 200,
+  "taskAttempt": 1,
+  "taskMaxRetries": 3,
+  "hostLimits": "ulimit -a captured in initial tool output; CPU and memory unlimited, open files 1048576",
+  "originalMigration": {
+    "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "matchesBase": true
+  },
+  "serena": "Unavailable in active and deferred tool metadata; only supplied known paths read directly",
+  "scope": "arc-storage sources, tests and fixture SQL; no manifests, lockfile or harness changes"
+}

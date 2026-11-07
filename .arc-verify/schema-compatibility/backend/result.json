@@ -1,0 +1,65 @@
+{
+  "status": "completed",
+  "taskId": "task-5",
+  "changedFiles": [
+    "crates/arc-cli/src/doctor.rs",
+    "crates/arc-cli/src/main.rs",
+    "crates/arc-cli/tests/schema.rs",
+    "crates/arc-daemon/src/database_failure_tests.rs",
+    "crates/arc-daemon/src/db_worker.rs",
+    "crates/arc-daemon/src/db_worker/execution.rs",
+    "crates/arc-daemon/src/db_worker/schema_tests.rs",
+    "crates/arc-daemon/src/db_worker/tests.rs",
+    "crates/arc-daemon/tests/resident.rs",
+    "crates/arc-daemon/tests/resident/lifecycle.rs",
+    "crates/arc-daemon/tests/resident/schema.rs",
+    "crates/arc-daemon/tests/startup.rs",
+    "crates/arc-daemon/tests/support/runtime.rs",
+    "crates/arc-daemon/tests/worker_runtime.rs",
+    "crates/arc-ipc/src/lib.rs",
+    "crates/arc-ipc/src/schema.rs",
+    "crates/arc-ipc/src/tests/dispatch.rs",
+    "crates/arc-ipc/src/tests/mod.rs",
+    "crates/arc-ipc/src/tests/schema.rs",
+    "docs/bounded-ipc-recovery.md"
+  ],
+  "artifacts": [
+    ".arc-verify/schema-compatibility/backend/boundary.json",
+    ".arc-verify/schema-compatibility/backend/check.py",
+    ".arc-verify/schema-compatibility/backend/clippy.json",
+    ".arc-verify/schema-compatibility/backend/clippy.txt",
+    ".arc-verify/schema-compatibility/backend/documentation-addition.md",
+    ".arc-verify/schema-compatibility/backend/fmt.json",
+    ".arc-verify/schema-compatibility/backend/fmt.txt",
+    ".arc-verify/schema-compatibility/backend/focused-test-1.json",
+    ".arc-verify/schema-compatibility/backend/focused-test-1.txt",
+    ".arc-verify/schema-compatibility/backend/focused-test-2.json",
+    ".arc-verify/schema-compatibility/backend/focused-test-2.txt",
+    ".arc-verify/schema-compatibility/backend/references.json",
+    ".arc-verify/schema-compatibility/backend/report.md",
+    ".arc-verify/schema-compatibility/backend/source-manifest.json"
+  ],
+  "acceptanceCriteria": {
+    "boundedWorkerCompatibility": true,
+    "protocol1LegacyInteroperability": true,
+    "actionableStartupAndCliRejection": true,
+    "runtimeGuarantees": true,
+    "focusedChecksAndMappings": true
+  },
+  "unresolved": [],
+  "chiefHandoff": [
+    "Run unchanged mission-wide cargo gates and harness; retain actual coverage result.",
+    "Independent oma-qa review remains assigned to QA."
+  ],
+  "knownLimitations": [
+    "Original count-only client rejects fixture schema version 2.",
+    "No downgrade execution.",
+    "Doctor is unavailable after startup rejection."
+  ],
+  "checks": {
+    "focused-test-1": 101,
+    "focused-test-2": 0,
+    "fmt": 0,
+    "clippy": 0
+  }
+}

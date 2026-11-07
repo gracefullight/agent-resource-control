@@ -29,12 +29,13 @@ fn hello_and_health_do_not_require_the_database() {
 }
 
 #[test]
-fn doctor_requires_ok_integrity_and_one_migration() {
+fn legacy_doctor_requires_ok_integrity_and_one_migration() {
     let request = Request::new("req", OPERATION_DOCTOR);
     let response = dispatch(&request, || {
         Ok(DoctorReport {
             integrity_check: "ok".to_owned(),
             schema_migrations: 1,
+            schema: None,
         })
     });
     assert_eq!(response.status, STATUS_OK);
@@ -50,11 +51,12 @@ fn doctor_requires_ok_integrity_and_one_migration() {
         Ok(DoctorReport {
             integrity_check: "ok".to_owned(),
             schema_migrations: 0,
+            schema: None,
         })
     });
     assert_eq!(
         response.error.map(|error| error.code),
-        Some(ERROR_INTEGRITY_FAILED.to_owned())
+        Some(ERROR_SCHEMA_DETAILS_UNAVAILABLE.to_owned())
     );
 }
 

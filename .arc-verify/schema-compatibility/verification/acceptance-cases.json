@@ -1,0 +1,618 @@
+[
+  {
+    "requirement": "Fresh initialization, WAL and constraints",
+    "sources": "crates/arc-storage/tests/nfr010.rs",
+    "tests": [
+      {
+        "suite": "Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+        "test": "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+        "outcome": "ok",
+        "logLine": 362
+      },
+      {
+        "suite": "Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+        "test": "foreign_keys_and_unique_resource_identity_are_enforced",
+        "outcome": "ok",
+        "logLine": 360
+      }
+    ],
+    "interpretation": "Creates the actual production database, pins original SQL checksum, checks WAL and resource constraints.",
+    "passed": true
+  },
+  {
+    "requirement": "Existing-database reopen, two-version additive upgrade, preservation and idempotency",
+    "sources": "crates/arc-storage/src/migration/tests/acceptance.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::acceptance::fixture_initialization_additive_upgrade_reopen_and_idempotency",
+        "outcome": "ok",
+        "logLine": 344
+      }
+    ],
+    "interpretation": "Same engine with two include_str! fixture migrations: close/reopen v1; retain vendor fields and original history tuple; add/backfill columns and rows; check exact v2 history; reopen three times with complete snapshot equality.",
+    "passed": true
+  },
+  {
+    "requirement": "Legacy production database reopen",
+    "sources": "crates/arc-storage/src/migration/tests/acceptance.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::acceptance::production_legacy_history_is_read_only_then_stamped_atomically",
+        "outcome": "ok",
+        "logLine": 347
+      }
+    ],
+    "interpretation": "Original valid schema/history with user_version=0 assesses read-only, then startup stamps only the witness; a later reopen preserves it.",
+    "passed": true
+  },
+  {
+    "requirement": "Concurrent-upgrader serialization",
+    "sources": "crates/arc-storage/src/migration/tests/concurrency.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::concurrency::concurrent_upgraders_serialize_and_reread_after_lock_acquisition",
+        "outcome": "ok",
+        "logLine": 341
+      }
+    ],
+    "interpretation": "A signals acquired BEGIN IMMEDIATE; SQLite busy handler proves B contention. Channels let A commit before B retries. B sees two committed history tuples and identical final state. No timing sleep establishes ordering.",
+    "passed": true
+  },
+  {
+    "requirement": "SQL-failure rollback",
+    "sources": "crates/arc-storage/src/migration/tests/acceptance.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::acceptance::sql_failure_rolls_back_schema_application_data_history_and_witness",
+        "outcome": "ok",
+        "logLine": 340
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::acceptance::initial_sql_failure_rolls_back_every_pending_object",
+        "outcome": "ok",
+        "logLine": 337
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::acceptance::later_failure_rolls_back_prior_migration_history_in_same_batch",
+        "outcome": "ok",
+        "logLine": 338
+      }
+    ],
+    "interpretation": "Invalid pending SQL rolls back DDL, application records, full history and user_version, including an earlier migration in the same batch; valid retry succeeds.",
+    "passed": true
+  },
+  {
+    "requirement": "Process interruption rollback and recovery",
+    "sources": "crates/arc-storage/src/migration/tests/concurrency.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::concurrency::process_interruption_before_commit_rolls_back_and_recovers",
+        "outcome": "ok",
+        "logLine": 342
+      }
+    ],
+    "interpretation": "Child confirms pending v2 DDL/data/history/witness before flushing ARC_PENDING_COMMIT. Parent proves reader isolation, kills/reaps child, reopens to exact pre-upgrade snapshot, then successfully upgrades and repeats. The standalone interrupted_child no-op invocation is not substituted for the parent proof.",
+    "passed": true
+  },
+  {
+    "requirement": "Altered checksum rejection and preservation",
+    "sources": "crates/arc-storage/src/migration/tests/rejection.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::checksum_defects_in_every_known_entry_leave_all_state_unchanged",
+        "outcome": "ok",
+        "logLine": 346
+      }
+    ],
+    "interpretation": "Corrupts each known version, including latest. Both assessment and migration reject; all application rows, schema objects, history tuples and witness remain unchanged.",
+    "passed": true
+  },
+  {
+    "requirement": "Rejection of missing history and preservation",
+    "sources": "crates/arc-storage/src/migration/tests/rejection.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::missing_history_table_rows_gaps_and_trailing_entry_are_rejected",
+        "outcome": "ok",
+        "logLine": 351
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::empty_arc_objects_or_history_and_nonzero_witness_are_never_fresh",
+        "outcome": "ok",
+        "logLine": 350
+      }
+    ],
+    "interpretation": "Rejects absent table, all rows removed, interior gap, trailing removal and empty recognizable ARC objects; user_version detects trailing history loss. Complete snapshots remain equal.",
+    "passed": true
+  },
+  {
+    "requirement": "Unsupported newer schema and explicit downgrade rejection",
+    "sources": "crates/arc-storage/src/migration/tests/rejection.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::unsupported_newer_history_and_witness_and_downgrade_are_rejected",
+        "outcome": "ok",
+        "logLine": 349
+      }
+    ],
+    "interpretation": "A lower v1 registry refuses the upgraded v2 fixture unchanged; newer history and newer witness also reject unchanged. This proves refusal, not downgrade execution; no DOWN SQL is supplied.",
+    "passed": true
+  },
+  {
+    "requirement": "Ordered registry and complete ordered history",
+    "sources": "crates/arc-storage/src/migration/tests/acceptance.rs; crates/arc-storage/src/migration/tests/rejection.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::acceptance::malformed_registry_is_rejected_before_any_sql",
+        "outcome": "ok",
+        "logLine": 336
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::numeric_version_order_ignores_history_insertion_and_timestamp_order",
+        "outcome": "ok",
+        "logLine": 348
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::known_prefix_defect_takes_precedence_over_future_history",
+        "outcome": "ok",
+        "logLine": 343
+      }
+    ],
+    "interpretation": "Rejects malformed/reversed/gapped/duplicate/empty registry before SQL; stored history orders numerically rather than by insertion/time and checks known prefixes before future rows.",
+    "passed": true
+  },
+  {
+    "requirement": "Invalid and unreadable history; read-only assessment",
+    "sources": "crates/arc-storage/src/migration/tests/rejection.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::invalid_history_ids_types_duplicates_and_witness_are_rejected",
+        "outcome": "ok",
+        "logLine": 352
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::unreadable_layout_stays_a_typed_sql_error",
+        "outcome": "ok",
+        "logLine": 345
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+        "test": "migration::tests::rejection::assessment_reuses_existing_transaction_without_committing_it",
+        "outcome": "ok",
+        "logLine": 339
+      }
+    ],
+    "interpretation": "Typed failures and exact snapshots; nested assessment does not commit caller writes.",
+    "passed": true
+  },
+  {
+    "requirement": "Daemon startup rejection without data/history writes",
+    "sources": "crates/arc-daemon/tests/startup.rs",
+    "tests": [
+      {
+        "suite": "Running tests/startup.rs (target/debug/deps/startup-44362c6a2c4ef930)",
+        "test": "checksum_rejection_exits_nonzero_with_recovery_guidance",
+        "outcome": "ok",
+        "logLine": 191
+      },
+      {
+        "suite": "Running tests/startup.rs (target/debug/deps/startup-44362c6a2c4ef930)",
+        "test": "missing_invalid_and_newer_schema_startup_reject_without_data_or_history_changes",
+        "outcome": "ok",
+        "logLine": 192
+      }
+    ],
+    "interpretation": "Real daemon exits nonzero, stdout empty, no socket, actionable stderr, preserved vendors/history/schema/witness. Startup precedes IPC; unreachable doctor is not claimed to report rejected startup.",
+    "passed": true
+  },
+  {
+    "requirement": "Live schema diagnostics through bounded worker and CLI",
+    "sources": "crates/arc-daemon/tests/resident/schema.rs",
+    "tests": [
+      {
+        "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+        "test": "schema::live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_history",
+        "outcome": "ok",
+        "logLine": 184
+      }
+    ],
+    "interpretation": "Actual daemon reports checksum/missing/invalid/newer states, true counts, versions and unverified history; actual CLI returns failure/recovery text; repeated diagnostics preserve snapshots while status works.",
+    "passed": true
+  },
+  {
+    "requirement": "Verified production and fixture-version-2 CLI diagnostics",
+    "sources": "crates/arc-cli/tests/schema.rs",
+    "tests": [
+      {
+        "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+        "test": "actual_cli_reports_verified_production_and_two_version_fixture_success",
+        "outcome": "ok",
+        "logLine": 34
+      }
+    ],
+    "interpretation": "Actual CLI accepts schema 1 and 2 report fixtures with truthful counts. Report fixtures prove rendering/validation, while storage fixture tests above prove actual upgrade execution.",
+    "passed": true
+  },
+  {
+    "requirement": "older-client to new daemon, production schema",
+    "sources": "crates/arc-daemon/tests/resident/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+    "tests": [
+      {
+        "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+        "test": "schema::baseline_client_adapter_accepts_actual_new_daemon_production_report",
+        "outcome": "ok",
+        "logLine": 183
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+        "test": "tests::schema::legacy_request_and_decoder_accept_new_production_report_with_truthful_count",
+        "outcome": "ok",
+        "logLine": 316
+      }
+    ],
+    "interpretation": "Literal protocol-1 baseline request plus original validation/decoder behavior accepts actual production daemon count 1 and ignores additive schema data. A baseline binary was not separately compiled.",
+    "passed": true
+  },
+  {
+    "requirement": "New client to old daemon and unavailable details",
+    "sources": "crates/arc-cli/tests/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+    "tests": [
+      {
+        "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+        "test": "new_client_old_daemon_labels_unavailable_details_without_claiming_verification",
+        "outcome": "ok",
+        "logLine": 33
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+        "test": "tests::schema::legacy_absence_and_null_decode_but_missing_present_fields_are_invalid",
+        "outcome": "ok",
+        "logLine": 313
+      }
+    ],
+    "interpretation": "Actual CLI against absent/null schema legacy response labels missing verification; present malformed fields cannot inherit legacy success.",
+    "passed": true
+  },
+  {
+    "requirement": "older-client fixture v2 limitation and protocol-1 honesty",
+    "sources": "crates/arc-ipc/src/tests/schema.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+        "test": "tests::schema::modern_version_two_succeeds_but_legacy_count_check_rejects_without_falsifying_count",
+        "outcome": "ok",
+        "logLine": 315
+      }
+    ],
+    "interpretation": "Modern report version/count 2 succeeds; original count==1 check rejects it. Protocol 1 stays compatible but cannot remove old client semantics. Production stays at version 1.",
+    "passed": true
+  },
+  {
+    "requirement": "Malformed/unknown compatibility cannot report success",
+    "sources": "crates/arc-cli/tests/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+    "tests": [
+      {
+        "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+        "test": "unavailable_and_malformed_present_details_fail_without_legacy_fallback",
+        "outcome": "ok",
+        "logLine": 35
+      },
+      {
+        "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+        "test": "inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility",
+        "outcome": "ok",
+        "logLine": 36
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+        "test": "tests::schema::present_but_inconsistent_details_never_fall_back_to_legacy_success",
+        "outcome": "ok",
+        "logLine": 317
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+        "test": "tests::schema::every_incompatibility_keeps_diagnostic_result_and_prevents_legacy_success",
+        "outcome": "ok",
+        "logLine": 314
+      }
+    ],
+    "interpretation": "Unknown/inconsistent/unverified schema fails closed with preserved diagnostic error result and no success stdout; legacy fallback applies only to absent schema.",
+    "passed": true
+  },
+  {
+    "requirement": "Failure diagnostics, error precedence and terminal help",
+    "sources": "crates/arc-cli/tests/schema.rs; crates/arc-ipc/src/tests/schema.rs",
+    "tests": [
+      {
+        "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+        "test": "every_schema_failure_survives_error_envelope_with_actionable_reason",
+        "outcome": "ok",
+        "logLine": 38
+      },
+      {
+        "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+        "test": "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+        "outcome": "ok",
+        "logLine": 37
+      },
+      {
+        "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+        "test": "doctor_help_explains_schema_scope_and_prestartup_stderr",
+        "outcome": "ok",
+        "logLine": 32
+      },
+      {
+        "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+        "test": "tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema",
+        "outcome": "ok",
+        "logLine": 318
+      }
+    ],
+    "interpretation": "All schema statuses retain recovery causes/versions, protocol mismatch/integrity keep precedence, unavailable and busy retain categories, help stays plain text.",
+    "passed": true
+  },
+  {
+    "requirement": "Single SQLite worker: schema cancellation, deadline and shutdown",
+    "sources": "crates/arc-daemon/src/db_worker/schema_tests.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+        "outcome": "ok",
+        "logLine": 90
+      },
+      {
+        "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+        "test": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+        "outcome": "ok",
+        "logLine": 164
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+        "outcome": "ok",
+        "logLine": 251
+      }
+    ],
+    "interpretation": "Native authorizer/channel gates active schema assessment; dropping ticket, absolute deadline or shutdown cannot produce escaped success; recovery, DbExecuting high-water 1, connection close and thread join checked.",
+    "passed": true
+  },
+  {
+    "requirement": "Bounded worker queue and 100,000-attempt admission",
+    "sources": "crates/arc-daemon/src/db_worker/tests.rs; crates/arc-daemon/tests/worker_runtime.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "outcome": "ok",
+        "logLine": 68
+      },
+      {
+        "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+        "test": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "outcome": "ok",
+        "logLine": 155
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "outcome": "ok",
+        "logLine": 232
+      },
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+        "outcome": "ok",
+        "logLine": 67
+      },
+      {
+        "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+        "test": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+        "outcome": "ok",
+        "logLine": 154
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+        "outcome": "ok",
+        "logLine": 228
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "admission_load::hundred_thousand_database_attempts_bound_retained_cancelled_work",
+        "outcome": "ok",
+        "logLine": 235
+      }
+    ],
+    "interpretation": "Retained work stays finite during repeated/concurrent admission and cancellation; worker recovers.",
+    "passed": true
+  },
+  {
+    "requirement": "health responsiveness during real schema and SQL stalls",
+    "sources": "crates/arc-daemon/tests/worker_runtime.rs",
+    "tests": [
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "health_completes_while_schema_assessment_is_deliberately_stalled",
+        "outcome": "ok",
+        "logLine": 273
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+        "outcome": "ok",
+        "logLine": 272
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "controlled_slow_database_does_not_block_health_and_cli_recovers",
+        "outcome": "ok",
+        "logLine": 230
+      }
+    ],
+    "interpretation": "Controlled native preparation/assessment stalls establish active DB work while actual health/status complete independently, then doctor recovers. This does not claim unconditional health under all transport saturation.",
+    "passed": true
+  },
+  {
+    "requirement": "Transport/admission bounds, deadlines and recovery",
+    "sources": "crates/arc-daemon/tests/bounded.rs; crates/arc-daemon/tests/worker_runtime.rs",
+    "tests": [
+      {
+        "suite": "Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)",
+        "test": "native_probe_then_full_100000_attempt_workload",
+        "outcome": "ok",
+        "logLine": 126
+      },
+      {
+        "suite": "Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)",
+        "test": "nonreading_peer_releases_real_daemon_capacity",
+        "outcome": "ok",
+        "logLine": 127
+      },
+      {
+        "suite": "Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)",
+        "test": "malformed_and_stalled_frames_recover_actual_cli",
+        "outcome": "ok",
+        "logLine": 128
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "admission_load::hundred_thousand_connection_attempts_never_spawn_rejection_tasks",
+        "outcome": "ok",
+        "logLine": 276
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "admission_load::hundred_thousand_request_attempts_have_no_waiting_admission",
+        "outcome": "ok",
+        "logLine": 231
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "deadline_recovery::full_request_and_connection_saturation_recovers_without_restart",
+        "outcome": "ok",
+        "logLine": 271
+      }
+    ],
+    "interpretation": "Existing saturation/absolute-deadline/backpressure behavior remains exercised in the combined workspace run.",
+    "passed": true
+  },
+  {
+    "requirement": "Runtime identity and instance ownership",
+    "sources": "crates/arc-daemon/tests/resident/identity.rs",
+    "tests": [
+      {
+        "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+        "test": "identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+        "outcome": "ok",
+        "logLine": 178
+      },
+      {
+        "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+        "test": "identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+        "outcome": "ok",
+        "logLine": 179
+      }
+    ],
+    "interpretation": "One runtime identity across socket overrides, clean shutdown/death recovery, stable native path independent of TMPDIR.",
+    "passed": true
+  },
+  {
+    "requirement": "shutdown deadlines, stalled handlers, worker join",
+    "sources": "crates/arc-daemon/tests/worker_runtime.rs; crates/arc-daemon/src/lifecycle_tests.rs",
+    "tests": [
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "saturated_sigint_finishes_within_five_seconds",
+        "outcome": "ok",
+        "logLine": 274
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "saturated_sigterm_finishes_within_five_seconds",
+        "outcome": "ok",
+        "logLine": 275
+      },
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "lifecycle_tests::sigint_reaps_stalled_handlers_and_joins_worker",
+        "outcome": "ok",
+        "logLine": 117
+      },
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "lifecycle_tests::sigterm_reaps_stalled_handlers_and_joins_worker",
+        "outcome": "ok",
+        "logLine": 118
+      },
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+        "outcome": "ok",
+        "logLine": 69
+      },
+      {
+        "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+        "test": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+        "outcome": "ok",
+        "logLine": 156
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+        "outcome": "ok",
+        "logLine": 236
+      }
+    ],
+    "interpretation": "Real signals and worker ownership tests preserve shared bounded shutdown, task reaping and worker-handle retention until thread exit.",
+    "passed": true
+  },
+  {
+    "requirement": "Runtime reporting and typed database failures",
+    "sources": "crates/arc-daemon/src/lifecycle_tests.rs; crates/arc-daemon/src/database_failure_tests.rs",
+    "tests": [
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "lifecycle_tests::report_lifecycle_tests::requested_export_is_open_before_readiness_and_contains_complete_schema",
+        "outcome": "ok",
+        "logLine": 116
+      },
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "lifecycle_tests::report_lifecycle_tests::report_write_failure_preserves_cleanup_and_actual_worker_accounting",
+        "outcome": "ok",
+        "logLine": 115
+      },
+      {
+        "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+        "test": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+        "outcome": "ok",
+        "logLine": 91
+      },
+      {
+        "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+        "test": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+        "outcome": "ok",
+        "logLine": 259
+      }
+    ],
+    "interpretation": "Optional export identity/accounting and error categories/recovery remain exercised, including real report-write failure cleanup.",
+    "passed": true
+  }
+]

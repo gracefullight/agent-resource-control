@@ -11,12 +11,45 @@ running. Socket: <socket>. Protocol: 1. Sweeper off.
 ```
 
 ```text
-ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off.
+ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 1. Migration history verified.
 ```
 
-`status` sends protocol `hello`; it proves daemon liveness and protocol compatibility. It does not inspect SQLite. `doctor` checks SQLite integrity and requires one recorded schema migration. Its successful text does not claim tray connectivity, vendor detection, command classification or an active Sweeper.
+`status` sends protocol `hello`; it proves daemon liveness and protocol compatibility. It does not inspect SQLite. `doctor` checks SQLite integrity and validates explicit schema compatibility against the compiled migration registry. Its successful text does not claim tray connectivity, vendor detection, command classification or an active Sweeper.
 
 Ctrl-C (SIGINT) and SIGTERM to the known daemon PID initiate shutdown directly. No confirmation, diagnostic command or retention step is required. Wait for process exit before starting a replacement. The instance lock remains held while handlers and the database worker stop. ARC removes its socket on graceful shutdown; an anchor pathname may remain. After forced death, restart normally so ARC can reacquire admission and handle its stale socket. Do not delete locks or sockets as a saturation remedy.
+
+## Schema compatibility and older clients
+
+Startup automatically applies pending compiled migrations before opening IPC. Doctor uses the same bounded SQLite worker to assess the complete migration history and version witness. It reports the actual migration count alongside `schema.status`, `schema.applied_version`, `schema.supported_version` and `schema.history_verified`. Integrity `ok` alone does not establish schema compatibility. Production remains version 1; additive version-2 migrations are isolated storage-test inputs.
+
+Current successful doctor output appends `Schema compatible. Version 1. Migration history verified.` to the existing capability disclosures. A compatible two-version protocol fixture appends version 2 and succeeds with its actual count 2. Applied and supported versions must match, history must be verified and the count must agree with the contiguous registry. Unknown or inconsistent present details cannot fall back to legacy success.
+
+Protocol remains version 1. Added `schema` details are optional when decoding an older daemon. A legacy result with integrity `ok` and count 1 succeeds with `Schema compatibility details unavailable (legacy daemon).` It does not claim verified compatibility. Any other legacy count fails with `SCHEMA_DETAILS_UNAVAILABLE`. A malformed present schema object also fails with that code; an unknown status produces `SCHEMA_INCOMPATIBLE`.
+
+The original client ignores added fields and succeeds against the new production daemon's truthful count 1. Its count-based doctor rejects an isolated version-2 report as `INTEGRITY_FAILED`, even when the new client accepts that report. Additive fields and protocol 1 cannot remove that old-client limitation. Counts are never falsified. Schema error envelopes retain diagnostic results and use `SCHEMA_INCOMPATIBLE`, preventing legacy success even at count 1; an original client maps that unfamiliar code to `IPC_ERROR`.
+
+| Schema status | Current doctor outcome and recovery |
+| --- | --- |
+| `compatible` | Exit 0 only with consistent verified details; print the applied version. |
+| `upgrade_required` | Exit 1; restart with a binary supporting the database version. Doctor does not apply migrations. |
+| `checksum_mismatch` | Exit 1; preserve the database and investigate against a trusted copy. |
+| `missing_history` | Exit 1; preserve the database and investigate against a trusted copy. |
+| `invalid_history` | Exit 1; preserve the database and investigate against a trusted copy. |
+| `unsupported_newer` | Exit 1; use a binary supporting the advertised version. Downgrade execution is not supported. |
+| Unrecognized status or inconsistent details | Exit 1; compatibility is unavailable, with no success fallback. |
+
+Schema failures print `SCHEMA_INCOMPATIBLE: <reason>. Applied version: <value or unavailable>. Supported version: <value>.` on stderr with empty stdout. A newer advertised version is unverified. Ordinary success does not dump checksums, SQL or application records.
+
+An incompatible database is rejected before daemon readiness and IPC binding. Startup stderr reports the storage cause and recovery guidance, for example:
+
+```text
+Database startup failed: migration checksum mismatch; preserve the database and investigate against a trusted copy.
+Database startup failed: unsupported newer schema version 2 (supported 1); use a binary supporting that version; downgrade execution is not supported.
+```
+
+There is no doctor endpoint after that startup rejection. A later CLI attempt reports `DAEMON_UNAVAILABLE`; inspect daemon stderr for the underlying cause. No history repair, checksum rewrite or downgrade command is provided. Rejection is not downgrade execution. SQL migration failures remain startup failures; no successful rollback is inferred from terminal wording.
+
+Backend evidence is in [the task-5 report](../.arc-verify/schema-compatibility/backend/report.md). It maps protocol fixtures, actual CLI exchanges, startup preservation and live worker diagnostics to executable tests. The existing health, admission, identity and shutdown checks remain in place; schema-specific gates additionally exercise health during assessment, cancellation, deadline expiry and worker join.
 
 ## Limits and waiting budgets
 
@@ -53,12 +86,13 @@ The default frame, DB-response and write budgets sum to four seconds. This is a 
 | Connection cap reached, or request permit unavailable before decoding | Close the accepted connection without a response | Failed exchange maps to nonzero exit, empty stdout and `DAEMON_UNAVAILABLE` on stderr |
 | Authenticated, decoded protocol-1 doctor request; DB queue full, worker stopping/unavailable, contention or DB deadline | Error response with the same request ID and `DB_BUSY` | Nonzero exit, empty stdout and exactly `IPC_ERROR\n` on stderr |
 | Decoded doctor request; operational, resource or unexpected database error, including SQLite I/O or allocation failure | `DB_BUSY` | Nonzero exit, empty stdout and exactly `IPC_ERROR\n` on stderr |
-| Positive SQLite corruption evidence (`CORRUPT` or `NOTADB`), failed integrity result or invalid migration count | `INTEGRITY_FAILED` | Nonzero exit, empty stdout and exactly `INTEGRITY_FAILED\n` on stderr |
+| Positive SQLite corruption evidence (`CORRUPT` or `NOTADB`), failed integrity result | `INTEGRITY_FAILED` | Nonzero exit, empty stdout and exactly `INTEGRITY_FAILED\n` on stderr |
+| Readable incompatible schema history | Error response with `SCHEMA_INCOMPATIBLE` and diagnostic result | Nonzero exit, empty stdout, cause and applied/supported versions on stderr |
 | Protocol version mismatch | `PROTOCOL_INCOMPATIBLE`; a later valid frame may continue on the connection | Nonzero exit with `PROTOCOL_INCOMPATIBLE` on stderr |
 
 Busy responses use the same bounded write as other responses. If that write fails or expires, the stream closes; the failed CLI exchange then reports `DAEMON_UNAVAILABLE`. A decoded request therefore does not guarantee delivery of its busy response.
 
-The [client](../crates/arc-cli/src/main.rs) checks a response's error code before interpreting success fields. It maps unknown error codes, including `DB_BUSY`, to `IPC_ERROR`. Ordinary saturation must therefore not be interpreted as corruption or a version mismatch. Conversely, `IPC_ERROR` is a general CLI category; it does not identify DB overload by itself or guarantee that retry will resolve the underlying failure. An unavailable endpoint, a lost exchange and predecode overload share `DAEMON_UNAVAILABLE`.
+The [client](../crates/arc-cli/src/main.rs) checks protocol and request identity, then handles explicit errors before interpreting success fields. Doctor retains the diagnostic result on schema errors. It maps unknown error codes, including `DB_BUSY`, to `IPC_ERROR`. Ordinary saturation must therefore not be interpreted as corruption or a version mismatch. Conversely, `IPC_ERROR` is a general CLI category; it does not identify DB overload by itself or guarantee that retry will resolve the underlying failure. An unavailable endpoint, a lost exchange and predecode overload share `DAEMON_UNAVAILABLE`.
 
 For a transient busy/unavailable result, pause four seconds after the failed attempt, then run `arcctl status` once. This is recovery guidance derived from the default server budgets, not a measured optimal retry interval or a retry guarantee. A persistent connection starts another idle-header budget after a response, so the four-second pause alone does not ensure every connection has expired. If status succeeds, continue your work; use doctor only if integrity diagnostics are needed. If it still fails, check the foreground daemon's stderr and the configured socket. Persistent traffic can keep exhausting capacity, so repeated retries do not establish a broken database or justify lock deletion. Keep the existing identity, duplicate-start and unsafe-path recovery guidance in the usage document.
 
@@ -72,7 +106,9 @@ Preserve the current two-command journey and fail fast at capacity. Automatic re
 
 Assumed users are a developer starting ARC, an operator investigating a stalled local tool and an integration developer handling protocol failures. These personas are inferred from the existing CLI, not recruited participants. Shorter recovery, clearer state and reduced abandonment are intended outcomes, not measured findings. There was no participant study, screen-reader test, screen check, conversion/churn/retention measurement or user-reaction collection. Paused-time tests simulate elapsed time; subprocess/CLI tests execute native software under controlled fixture conditions. Neither establishes human usability or production performance.
 
-## Evidence and limits
+## Evidence from the earlier bounded-IPC mission
+
+The evidence below predates schema compatibility integration. Current backend evidence is recorded in the task-5 report linked above; mission-wide final verification belongs to the Chief.
 
 The accepted committed baseline is `42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0`, tree `c802f71ac4d91ed6b8a602d5c83bf9cf57116b76`. This attempt inspected local snapshot HEAD `eb45d23b3b3be650f4a5cb8e064ba6715ae78b86`, tree `4746b22753c020491e2570d684e5edd86c02d468`, matching the supplied snapshot commit/tree. The snapshot includes integrated repair and tests absent from the accepted baseline. The supplied snapshot and worker ref names each failed local resolution with exit 128; their values are not inferred from HEAD. See [preflight observations](../.arc-verify/bounded-ipc/task-6/attempt-4/preflight.json).
 

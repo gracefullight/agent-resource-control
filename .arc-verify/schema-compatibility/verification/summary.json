@@ -1,0 +1,127 @@
+{
+  "taskId": "task-6",
+  "status": "completed",
+  "verifiedAt": "2026-11-07T22:30:09.072135+00:00",
+  "baseHead": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "head": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace",
+  "sourceManifest": "source-manifest.json",
+  "sourceManifestSha256": "3ff8691bc3d81511f30ec68bca9a62e7bd74dabd13a3fd686a955d189d302ca5",
+  "sourceInputCount": 92,
+  "sourceScope": "All crate Rust/SQL/TOML inputs, root Cargo manifest/lock/toolchain, harness and consumed interface/recovery docs. Not a whole-worktree fingerprint; av.yaml is inaccessible and excluded.",
+  "originalMigration": {
+    "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "baseSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "matchesBase": true,
+    "bytes": 3917
+  },
+  "sourceFilesWithin500Lines": true,
+  "sourceFilesAudited": 248,
+  "protocolVersion": 1,
+  "compiledOnlyProductionMigrationInputs": true,
+  "productionSupportedSchemaVersion": 1,
+  "requiredCargoGatesPassed": true,
+  "sourceBound": true,
+  "sourceUnchangedAcrossAllRuns": true,
+  "commands": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T22:26:57.460677+00:00",
+      "finishedAt": "2026-11-07T22:26:57.784933+00:00",
+      "elapsedSeconds": 0.32403337498544715,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/fmt.txt",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets -- -D warnings",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T22:26:57.904136+00:00",
+      "finishedAt": "2026-11-07T22:26:58.773303+00:00",
+      "elapsedSeconds": 0.8689517500170041,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/clippy.txt",
+      "logSha256": "74eb7afcff4ba44f36e7e4e4ce619e07d9d3975dc09f753d3c77fc865b805396"
+    },
+    {
+      "command": "cargo test --workspace",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T22:27:01.246686+00:00",
+      "finishedAt": "2026-11-07T22:27:44.312394+00:00",
+      "elapsedSeconds": 43.06613158300752,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/workspace-test.txt",
+      "logSha256": "67f9687a8661e05a5aa455e836aca3a3b634624e9859a71ccb070692c11ff68f"
+    },
+    {
+      "command": "./scripts/harness/validate.sh",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "startedAt": "2026-11-07T22:27:49.876523+00:00",
+      "finishedAt": "2026-11-07T22:29:31.829011+00:00",
+      "elapsedSeconds": 101.95224770798814,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/harness.txt",
+      "logSha256": "49f59d87dbdf20269fe87f8e3d72c14fe213fc3b6c6bd01b1eb8a5354b80baac"
+    }
+  ],
+  "testInvocationsPassed": 247,
+  "distinctTestCountClaimed": false,
+  "failedTests": 0,
+  "ignoredTests": 0,
+  "filteredTests": 0,
+  "nonemptyTestSuites": 18,
+  "acceptanceRequirementGroups": 26,
+  "acceptanceMatrix": "acceptance-matrix.md",
+  "harnessPassed": false,
+  "coverageStatus": "unresolved: error: Script not found \"test:coverage\"; coverage did not execute; unchanged harness exited 1",
+  "taskAcceptance": {
+    "exactCargoCommandsPass": true,
+    "fullAcceptanceMatrixExercisedAndMapped": true,
+    "unchangedHarnessActualResultRetained": true,
+    "sourceAndCompatibilityAuditRecorded": true
+  },
+  "independentQaVerdictClaimed": false,
+  "remaining": [
+    "Missing test:coverage leaves harness coverage gate unresolved; no workaround applied.",
+    "Independent oma-qa review and mission final delivery remain assigned downstream."
+  ],
+  "skillsUsed": [
+    "oma-coordination"
+  ],
+  "preparation": {
+    "command": "cargo fetch --offline --target aarch64-apple-darwin",
+    "exitCode": 0,
+    "receipt": "prepare-host.json"
+  },
+  "limits": [
+    "Native aarch64-apple-darwin results only.",
+    "Baseline-client adapters and legacy-response fixtures; no separate historical binary compiled.",
+    "Explicit downgrade rejection tested; downgrade execution is unsupported.",
+    "Serena tools unavailable; known-path reads and hash/length audit inventories used."
+  ]
+}

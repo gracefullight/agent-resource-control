@@ -1,0 +1,1604 @@
+{
+  "log": ".arc-verify/schema-compatibility/verification/workspace-test.txt",
+  "tests": [
+    {
+      "suite": "Running tests/binary.rs (target/debug/deps/binary-c4318fd78e2e57e4)",
+      "test": "arcctl_binary_is_built_next_to_the_test_harness",
+      "outcome": "ok",
+      "logLine": 14
+    },
+    {
+      "suite": "Running tests/binary.rs (target/debug/deps/binary-c4318fd78e2e57e4)",
+      "test": "no_arguments_names_both_commands_and_exits_nonzero",
+      "outcome": "ok",
+      "logLine": 15
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)",
+      "test": "help_usage_privacy_and_absent_daemon",
+      "outcome": "ok",
+      "logLine": 22
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)",
+      "test": "literal_payloads_and_options_are_preserved_in_one_request",
+      "outcome": "ok",
+      "logLine": 23
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)",
+      "test": "peer_failures_are_typed_correlated_and_never_reflected",
+      "outcome": "ok",
+      "logLine": 24
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)",
+      "test": "timeout_is_bounded_with_no_retry_or_partial_result",
+      "outcome": "ok",
+      "logLine": 25
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "test": "doctor_help_explains_schema_scope_and_prestartup_stderr",
+      "outcome": "ok",
+      "logLine": 32
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "test": "new_client_old_daemon_labels_unavailable_details_without_claiming_verification",
+      "outcome": "ok",
+      "logLine": 33
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "test": "actual_cli_reports_verified_production_and_two_version_fixture_success",
+      "outcome": "ok",
+      "logLine": 34
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "test": "unavailable_and_malformed_present_details_fail_without_legacy_fallback",
+      "outcome": "ok",
+      "logLine": 35
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "test": "inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility",
+      "outcome": "ok",
+      "logLine": 36
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "test": "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+      "outcome": "ok",
+      "logLine": 37
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "test": "every_schema_failure_survives_error_envelope_with_actionable_reason",
+      "outcome": "ok",
+      "logLine": 38
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_core-b8dbbbda8203ad41)",
+      "test": "tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+      "outcome": "ok",
+      "logLine": 45
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_core-b8dbbbda8203ad41)",
+      "test": "tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths",
+      "outcome": "ok",
+      "logLine": 46
+    },
+    {
+      "suite": "Running tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)",
+      "test": "configuration_probe",
+      "outcome": "ok",
+      "logLine": 53
+    },
+    {
+      "suite": "Running tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)",
+      "test": "native_default_is_independent_of_child_tmpdir",
+      "outcome": "ok",
+      "logLine": 54
+    },
+    {
+      "suite": "Running tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)",
+      "test": "nonempty_socket_override_and_empty_override_policy_are_preserved",
+      "outcome": "ok",
+      "logLine": 55
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+      "outcome": "ok",
+      "logLine": 62
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+      "outcome": "ok",
+      "logLine": 63
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+      "outcome": "ok",
+      "logLine": 64
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+      "outcome": "ok",
+      "logLine": 65
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+      "outcome": "ok",
+      "logLine": 66
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+      "outcome": "ok",
+      "logLine": 67
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+      "outcome": "ok",
+      "logLine": 68
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+      "outcome": "ok",
+      "logLine": 69
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+      "outcome": "ok",
+      "logLine": 70
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+      "outcome": "ok",
+      "logLine": 71
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "instance::tests::a_live_duplicate_is_rejected",
+      "outcome": "ok",
+      "logLine": 72
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+      "outcome": "ok",
+      "logLine": 73
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+      "outcome": "ok",
+      "logLine": 74
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+      "outcome": "ok",
+      "logLine": 75
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+      "outcome": "ok",
+      "logLine": 76
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+      "outcome": "ok",
+      "logLine": 77
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+      "outcome": "ok",
+      "logLine": 78
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable",
+      "outcome": "ok",
+      "logLine": 79
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure",
+      "outcome": "ok",
+      "logLine": 80
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable",
+      "outcome": "ok",
+      "logLine": 81
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation",
+      "outcome": "ok",
+      "logLine": 82
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures",
+      "outcome": "ok",
+      "logLine": 83
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::accept_recovery_tests::accept_child",
+      "outcome": "ok",
+      "logLine": 84
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+      "outcome": "ok",
+      "logLine": 85
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+      "outcome": "ok",
+      "logLine": 86
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+      "outcome": "ok",
+      "logLine": 87
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::accept_recovery_tests::isolated_transient_accept_error_recovers_cli",
+      "outcome": "ok",
+      "logLine": 88
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::controlled_worker_child",
+      "outcome": "ok",
+      "logLine": 89
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+      "outcome": "ok",
+      "logLine": 90
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+      "outcome": "ok",
+      "logLine": 91
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::report_lifecycle_tests::report_child",
+      "outcome": "ok",
+      "logLine": 92
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+      "outcome": "ok",
+      "logLine": 93
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::accept_recovery_tests::repeated_resource_pressure_recovers_cli",
+      "outcome": "ok",
+      "logLine": 94
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::accept_recovery_tests::signal_while_backing_off_is_accounted",
+      "outcome": "ok",
+      "logLine": 95
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::accept_recovery_tests::unusable_listener_cause_survives_accounted_shutdown",
+      "outcome": "ok",
+      "logLine": 96
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "limits::tests::limits_reject_invalid_config_and_profiles",
+      "outcome": "ok",
+      "logLine": 97
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+      "outcome": "ok",
+      "logLine": 98
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "runtime_report::tests::complete_serialization_is_capped_before_any_file_write",
+      "outcome": "ok",
+      "logLine": 99
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures",
+      "outcome": "ok",
+      "logLine": 100
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+      "outcome": "ok",
+      "logLine": 101
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement",
+      "outcome": "ok",
+      "logLine": 102
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+      "outcome": "ok",
+      "logLine": 103
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+      "outcome": "ok",
+      "logLine": 104
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+      "outcome": "ok",
+      "logLine": 105
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::report_lifecycle_tests::disabled_export_creates_no_report_or_runtime_stdout_record",
+      "outcome": "ok",
+      "logLine": 106
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::already_exists_is_validated_without_repair_or_following_links",
+      "outcome": "ok",
+      "logLine": 107
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+      "outcome": "ok",
+      "logLine": 108
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+      "outcome": "ok",
+      "logLine": 109
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+      "outcome": "ok",
+      "logLine": 110
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+      "outcome": "ok",
+      "logLine": 111
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+      "outcome": "ok",
+      "logLine": 112
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+      "outcome": "ok",
+      "logLine": 113
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::report_lifecycle_tests::invalid_exports_refuse_startup_preserve_entries_and_join_worker",
+      "outcome": "ok",
+      "logLine": 114
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::report_lifecycle_tests::report_write_failure_preserves_cleanup_and_actual_worker_accounting",
+      "outcome": "ok",
+      "logLine": 115
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::report_lifecycle_tests::requested_export_is_open_before_readiness_and_contains_complete_schema",
+      "outcome": "ok",
+      "logLine": 116
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::sigint_reaps_stalled_handlers_and_joins_worker",
+      "outcome": "ok",
+      "logLine": 117
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "lifecycle_tests::sigterm_reaps_stalled_handlers_and_joins_worker",
+      "outcome": "ok",
+      "logLine": 118
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "test": "accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold",
+      "outcome": "ok",
+      "logLine": 119
+    },
+    {
+      "suite": "Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)",
+      "test": "native_probe_then_full_100000_attempt_workload",
+      "outcome": "ok",
+      "logLine": 126
+    },
+    {
+      "suite": "Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)",
+      "test": "nonreading_peer_releases_real_daemon_capacity",
+      "outcome": "ok",
+      "logLine": 127
+    },
+    {
+      "suite": "Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)",
+      "test": "malformed_and_stalled_frames_recover_actual_cli",
+      "outcome": "ok",
+      "logLine": 128
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "ssh_option_values_preserve_typed_daemon_and_cli_observations",
+      "outcome": "ok",
+      "logLine": 135
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown",
+      "outcome": "ok",
+      "logLine": 136
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "invalid_payloads_version_priority_and_same_connection_recovery",
+      "outcome": "ok",
+      "logLine": 137
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "privacy::required_loopback_endpoint_nonexecution_and_privacy",
+      "outcome": "ok",
+      "logLine": 138
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "privacy::unix_endpoint_traps_substitutions_and_live_wal_never_receive_input",
+      "outcome": "ok",
+      "logLine": 139
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "boundaries::detector_budgets_are_preserved_through_daemon_and_cli",
+      "outcome": "ok",
+      "logLine": 140
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "ssh_post_destination_daemon_human_and_json_cli_matrix",
+      "outcome": "ok",
+      "logLine": 141
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "test": "actual_daemon_and_cli_delivered_contract_matrix",
+      "outcome": "ok",
+      "logLine": 142
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+      "outcome": "ok",
+      "logLine": 149
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+      "outcome": "ok",
+      "logLine": 150
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+      "outcome": "ok",
+      "logLine": 151
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+      "outcome": "ok",
+      "logLine": 152
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+      "outcome": "ok",
+      "logLine": 153
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+      "outcome": "ok",
+      "logLine": 154
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+      "outcome": "ok",
+      "logLine": 155
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+      "outcome": "ok",
+      "logLine": 156
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "limits::tests::limits_reject_invalid_config_and_profiles",
+      "outcome": "ok",
+      "logLine": 157
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+      "outcome": "ok",
+      "logLine": 158
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+      "outcome": "ok",
+      "logLine": 159
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+      "outcome": "ok",
+      "logLine": 160
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+      "outcome": "ok",
+      "logLine": 161
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+      "outcome": "ok",
+      "logLine": 162
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+      "outcome": "ok",
+      "logLine": 163
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+      "outcome": "ok",
+      "logLine": 164
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "test": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+      "outcome": "ok",
+      "logLine": 165
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "fixture_serialization_probe",
+      "outcome": "ok",
+      "logLine": 172
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "provisioning::overlong_socket_paths_and_existing_socket_entries_reject_without_mutation",
+      "outcome": "ok",
+      "logLine": 173
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "lifecycle::resident_contract_holds_until_sigterm",
+      "outcome": "ok",
+      "logLine": 174
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "lifecycle::commands_report_daemon_unavailable_when_absent",
+      "outcome": "ok",
+      "logLine": 175
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "provisioning::nondirectory_parent_is_rejected_before_lock_or_database_initialization",
+      "outcome": "ok",
+      "logLine": 176
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "coordination::fixture_coordination_is_shared_across_processes",
+      "outcome": "ok",
+      "logLine": 177
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+      "outcome": "ok",
+      "logLine": 178
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+      "outcome": "ok",
+      "logLine": 179
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "provisioning::permissive_directories_and_their_contents_survive_daemon_and_cli_rejection",
+      "outcome": "ok",
+      "logLine": 180
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "provisioning::private_existing_and_new_nested_directories_support_override_startup",
+      "outcome": "ok",
+      "logLine": 181
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "provisioning::symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection",
+      "outcome": "ok",
+      "logLine": 182
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "schema::baseline_client_adapter_accepts_actual_new_daemon_production_report",
+      "outcome": "ok",
+      "logLine": 183
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "test": "schema::live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_history",
+      "outcome": "ok",
+      "logLine": 184
+    },
+    {
+      "suite": "Running tests/startup.rs (target/debug/deps/startup-44362c6a2c4ef930)",
+      "test": "checksum_rejection_exits_nonzero_with_recovery_guidance",
+      "outcome": "ok",
+      "logLine": 191
+    },
+    {
+      "suite": "Running tests/startup.rs (target/debug/deps/startup-44362c6a2c4ef930)",
+      "test": "missing_invalid_and_newer_schema_startup_reject_without_data_or_history_changes",
+      "outcome": "ok",
+      "logLine": 192
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "limits::tests::limits_reject_invalid_config_and_profiles",
+      "outcome": "ok",
+      "logLine": 199
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+      "outcome": "ok",
+      "logLine": 200
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::metrics_are_fixed_size_and_preserve_high_waters",
+      "outcome": "ok",
+      "logLine": 201
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::cancellation_reaps_unpolled_handlers_and_drops_all_guards",
+      "outcome": "ok",
+      "logLine": 202
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::header_progress_does_not_renew_the_body_budget",
+      "outcome": "ok",
+      "logLine": 203
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::headers_and_trickled_bodies_have_absolute_deadlines",
+      "outcome": "ok",
+      "logLine": 204
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::malformed_json_and_version_errors_continue_without_database",
+      "outcome": "ok",
+      "logLine": 205
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::same_user_authentication_supports_async_sockets_and_rejects_non_sockets",
+      "outcome": "ok",
+      "logLine": 206
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::saturated_requests_close_before_allocating_even_for_invalid_prefixes",
+      "outcome": "ok",
+      "logLine": 207
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::typed_worker_outcomes_keep_busy_distinct_from_integrity",
+      "outcome": "ok",
+      "logLine": 208
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::stalled_header_and_partial_body_release_request_capacity",
+      "outcome": "ok",
+      "logLine": 209
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::retained_tasks_reap_and_rejections_do_not_call_factory",
+      "outcome": "ok",
+      "logLine": 210
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::zero_and_oversized_frames_reject_without_body_allocation",
+      "outcome": "ok",
+      "logLine": 211
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::request_admission_races_and_unwind_never_exceed_cap",
+      "outcome": "ok",
+      "logLine": 212
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::nonreading_peer_expires_under_write_backpressure",
+      "outcome": "ok",
+      "logLine": 213
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::blocked_handler_write_releases_request_and_response_reservations",
+      "outcome": "ok",
+      "logLine": 214
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::response_serialization_is_capped_before_any_prefix_is_written",
+      "outcome": "ok",
+      "logLine": 215
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "test": "tests::oversized_echo_uses_one_small_fallback_then_closes",
+      "outcome": "ok",
+      "logLine": 216
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "controlled_daemon_child",
+      "outcome": "ok",
+      "logLine": 223
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+      "outcome": "ok",
+      "logLine": 224
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+      "outcome": "ok",
+      "logLine": 225
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+      "outcome": "ok",
+      "logLine": 226
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+      "outcome": "ok",
+      "logLine": 227
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+      "outcome": "ok",
+      "logLine": 228
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+      "outcome": "ok",
+      "logLine": 229
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "controlled_slow_database_does_not_block_health_and_cli_recovers",
+      "outcome": "ok",
+      "logLine": 230
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "admission_load::hundred_thousand_request_attempts_have_no_waiting_admission",
+      "outcome": "ok",
+      "logLine": 231
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+      "outcome": "ok",
+      "logLine": 232
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+      "outcome": "ok",
+      "logLine": 233
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+      "outcome": "ok",
+      "logLine": 234
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "admission_load::hundred_thousand_database_attempts_bound_retained_cancelled_work",
+      "outcome": "ok",
+      "logLine": 235
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+      "outcome": "ok",
+      "logLine": 236
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+      "outcome": "ok",
+      "logLine": 237
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+      "outcome": "ok",
+      "logLine": 238
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+      "outcome": "ok",
+      "logLine": 239
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+      "outcome": "ok",
+      "logLine": 240
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "instance::tests::a_live_duplicate_is_rejected",
+      "outcome": "ok",
+      "logLine": 241
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+      "outcome": "ok",
+      "logLine": 242
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+      "outcome": "ok",
+      "logLine": 243
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+      "outcome": "ok",
+      "logLine": 244
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+      "outcome": "ok",
+      "logLine": 245
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+      "outcome": "ok",
+      "logLine": 246
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation",
+      "outcome": "ok",
+      "logLine": 247
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable",
+      "outcome": "ok",
+      "logLine": 248
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure",
+      "outcome": "ok",
+      "logLine": 249
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable",
+      "outcome": "ok",
+      "logLine": 250
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+      "outcome": "ok",
+      "logLine": 251
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures",
+      "outcome": "ok",
+      "logLine": 252
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "limits::tests::limits_reject_invalid_config_and_profiles",
+      "outcome": "ok",
+      "logLine": 253
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+      "outcome": "ok",
+      "logLine": 254
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "runtime_report::tests::complete_serialization_is_capped_before_any_file_write",
+      "outcome": "ok",
+      "logLine": 255
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures",
+      "outcome": "ok",
+      "logLine": 256
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+      "outcome": "ok",
+      "logLine": 257
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement",
+      "outcome": "ok",
+      "logLine": 258
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+      "outcome": "ok",
+      "logLine": 259
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+      "outcome": "ok",
+      "logLine": 260
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+      "outcome": "ok",
+      "logLine": 261
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+      "outcome": "ok",
+      "logLine": 262
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+      "outcome": "ok",
+      "logLine": 263
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+      "outcome": "ok",
+      "logLine": 264
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::already_exists_is_validated_without_repair_or_following_links",
+      "outcome": "ok",
+      "logLine": 265
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+      "outcome": "ok",
+      "logLine": 266
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+      "outcome": "ok",
+      "logLine": 267
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+      "outcome": "ok",
+      "logLine": 268
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+      "outcome": "ok",
+      "logLine": 269
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+      "outcome": "ok",
+      "logLine": 270
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "deadline_recovery::full_request_and_connection_saturation_recovers_without_restart",
+      "outcome": "ok",
+      "logLine": 271
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+      "outcome": "ok",
+      "logLine": 272
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "health_completes_while_schema_assessment_is_deliberately_stalled",
+      "outcome": "ok",
+      "logLine": 273
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "saturated_sigint_finishes_within_five_seconds",
+      "outcome": "ok",
+      "logLine": 274
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "saturated_sigterm_finishes_within_five_seconds",
+      "outcome": "ok",
+      "logLine": 275
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "admission_load::hundred_thousand_connection_attempts_never_spawn_rejection_tasks",
+      "outcome": "ok",
+      "logLine": 276
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "test": "accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold",
+      "outcome": "ok",
+      "logLine": 277
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::ssh_post_destination_work_checks_refuse_before_overrun",
+      "outcome": "ok",
+      "logLine": 284
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::ipv6_destination_numeric_validation_and_loopback_conservatism",
+      "outcome": "ok",
+      "logLine": 285
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::malformed_payloads_are_not_analysis_requests",
+      "outcome": "ok",
+      "logLine": 286
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::work_counter_refuses_before_operations_and_never_wraps",
+      "outcome": "ok",
+      "logLine": 287
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::syntax_quotes_aggregation_and_ssh_negative_matrix",
+      "outcome": "ok",
+      "logLine": 288
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::production_work_exhaustion_trace",
+      "outcome": "ok",
+      "logLine": 289
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::delivered_contract_matrix",
+      "outcome": "ok",
+      "logLine": 290
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::input_unicode_tokens_invocations_and_depth_boundaries",
+      "outcome": "ok",
+      "logLine": 291
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::ssh_post_destination_matrix",
+      "outcome": "ok",
+      "logLine": 292
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "test": "tests::bounded_deterministic_arbitrary_unicode_inputs_never_panic",
+      "outcome": "ok",
+      "logLine": 293
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::dispatch::unknown_operation_is_unsupported",
+      "outcome": "ok",
+      "logLine": 300
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::dispatch::hello_and_health_do_not_require_the_database",
+      "outcome": "ok",
+      "logLine": 301
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds",
+      "outcome": "ok",
+      "logLine": 302
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::dispatch::legacy_doctor_requires_ok_integrity_and_one_migration",
+      "outcome": "ok",
+      "logLine": 303
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::multiple_json_values_are_rejected",
+      "outcome": "ok",
+      "logLine": 304
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::a_framed_array_is_rejected_without_reaching_a_handler",
+      "outcome": "ok",
+      "logLine": 305
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::frame_round_trips_one_json_object",
+      "outcome": "ok",
+      "logLine": 306
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::an_object_request_still_decodes_after_a_rejected_array",
+      "outcome": "ok",
+      "logLine": 307
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::non_object_roots_are_rejected",
+      "outcome": "ok",
+      "logLine": 308
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::oversize_declared_length_is_rejected_without_reading_the_body",
+      "outcome": "ok",
+      "logLine": 309
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::responses_are_objects_too",
+      "outcome": "ok",
+      "logLine": 310
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame",
+      "outcome": "ok",
+      "logLine": 311
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::framing::zero_length_is_rejected_without_reading_a_body",
+      "outcome": "ok",
+      "logLine": 312
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::schema::legacy_absence_and_null_decode_but_missing_present_fields_are_invalid",
+      "outcome": "ok",
+      "logLine": 313
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::schema::every_incompatibility_keeps_diagnostic_result_and_prevents_legacy_success",
+      "outcome": "ok",
+      "logLine": 314
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::schema::modern_version_two_succeeds_but_legacy_count_check_rejects_without_falsifying_count",
+      "outcome": "ok",
+      "logLine": 315
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::schema::legacy_request_and_decoder_accept_new_production_report_with_truthful_count",
+      "outcome": "ok",
+      "logLine": 316
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::schema::present_but_inconsistent_details_never_fall_back_to_legacy_success",
+      "outcome": "ok",
+      "logLine": 317
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "test": "tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema",
+      "outcome": "ok",
+      "logLine": 318
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)",
+      "test": "ssh_option_values_are_not_forwarding_flags",
+      "outcome": "ok",
+      "logLine": 325
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)",
+      "test": "malformed_payload_version_priority_and_legacy_envelopes",
+      "outcome": "ok",
+      "logLine": 326
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)",
+      "test": "ssh_post_destination_typed_dispatch",
+      "outcome": "ok",
+      "logLine": 327
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)",
+      "test": "classification_contract_dispatch_never_calls_doctor",
+      "outcome": "ok",
+      "logLine": 328
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::concurrency::interrupted_child",
+      "outcome": "ok",
+      "logLine": 335
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::acceptance::malformed_registry_is_rejected_before_any_sql",
+      "outcome": "ok",
+      "logLine": 336
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::acceptance::initial_sql_failure_rolls_back_every_pending_object",
+      "outcome": "ok",
+      "logLine": 337
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::acceptance::later_failure_rolls_back_prior_migration_history_in_same_batch",
+      "outcome": "ok",
+      "logLine": 338
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::assessment_reuses_existing_transaction_without_committing_it",
+      "outcome": "ok",
+      "logLine": 339
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::acceptance::sql_failure_rolls_back_schema_application_data_history_and_witness",
+      "outcome": "ok",
+      "logLine": 340
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::concurrency::concurrent_upgraders_serialize_and_reread_after_lock_acquisition",
+      "outcome": "ok",
+      "logLine": 341
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::concurrency::process_interruption_before_commit_rolls_back_and_recovers",
+      "outcome": "ok",
+      "logLine": 342
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::known_prefix_defect_takes_precedence_over_future_history",
+      "outcome": "ok",
+      "logLine": 343
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::acceptance::fixture_initialization_additive_upgrade_reopen_and_idempotency",
+      "outcome": "ok",
+      "logLine": 344
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::unreadable_layout_stays_a_typed_sql_error",
+      "outcome": "ok",
+      "logLine": 345
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::checksum_defects_in_every_known_entry_leave_all_state_unchanged",
+      "outcome": "ok",
+      "logLine": 346
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::acceptance::production_legacy_history_is_read_only_then_stamped_atomically",
+      "outcome": "ok",
+      "logLine": 347
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::numeric_version_order_ignores_history_insertion_and_timestamp_order",
+      "outcome": "ok",
+      "logLine": 348
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::unsupported_newer_history_and_witness_and_downgrade_are_rejected",
+      "outcome": "ok",
+      "logLine": 349
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::empty_arc_objects_or_history_and_nonzero_witness_are_never_fresh",
+      "outcome": "ok",
+      "logLine": 350
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::missing_history_table_rows_gaps_and_trailing_entry_are_rejected",
+      "outcome": "ok",
+      "logLine": 351
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "test": "migration::tests::rejection::invalid_history_ids_types_duplicates_and_witness_are_rejected",
+      "outcome": "ok",
+      "logLine": 352
+    },
+    {
+      "suite": "Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+      "test": "migration_failure_rolls_back_all_new_tables",
+      "outcome": "ok",
+      "logLine": 359
+    },
+    {
+      "suite": "Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+      "test": "foreign_keys_and_unique_resource_identity_are_enforced",
+      "outcome": "ok",
+      "logLine": 360
+    },
+    {
+      "suite": "Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+      "test": "mismatched_checksum_is_rejected_without_reapplying_migration",
+      "outcome": "ok",
+      "logLine": 361
+    },
+    {
+      "suite": "Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+      "test": "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+      "outcome": "ok",
+      "logLine": 362
+    }
+  ],
+  "summaries": [
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arcctl-7bac95b2d513d7e6)",
+      "result": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 9
+    },
+    {
+      "suite": "Running tests/binary.rs (target/debug/deps/binary-c4318fd78e2e57e4)",
+      "result": "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.17s",
+      "logLine": 17
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)",
+      "result": "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.52s",
+      "logLine": 27
+    },
+    {
+      "suite": "Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)",
+      "result": "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+      "logLine": 40
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_core-b8dbbbda8203ad41)",
+      "result": "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 48
+    },
+    {
+      "suite": "Running tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)",
+      "result": "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+      "logLine": 57
+    },
+    {
+      "suite": "Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)",
+      "result": "test result: ok. 58 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.57s",
+      "logLine": 121
+    },
+    {
+      "suite": "Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)",
+      "result": "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.41s",
+      "logLine": 130
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)",
+      "result": "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.57s",
+      "logLine": 144
+    },
+    {
+      "suite": "Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)",
+      "result": "test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.24s",
+      "logLine": 167
+    },
+    {
+      "suite": "Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)",
+      "result": "test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.80s",
+      "logLine": 186
+    },
+    {
+      "suite": "Running tests/startup.rs (target/debug/deps/startup-44362c6a2c4ef930)",
+      "result": "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s",
+      "logLine": 194
+    },
+    {
+      "suite": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)",
+      "result": "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+      "logLine": 218
+    },
+    {
+      "suite": "Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)",
+      "result": "test result: ok. 55 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.81s",
+      "logLine": 279
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)",
+      "result": "test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+      "logLine": 295
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)",
+      "result": "test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 320
+    },
+    {
+      "suite": "Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)",
+      "result": "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 330
+    },
+    {
+      "suite": "Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "result": "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s",
+      "logLine": 354
+    },
+    {
+      "suite": "Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+      "result": "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+      "logLine": 364
+    },
+    {
+      "suite": "Doc-tests arc_core",
+      "result": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 370
+    },
+    {
+      "suite": "Doc-tests arc_detector",
+      "result": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 376
+    },
+    {
+      "suite": "Doc-tests arc_ipc",
+      "result": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 382
+    },
+    {
+      "suite": "Doc-tests arc_storage",
+      "result": "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "logLine": 388
+    }
+  ]
+}

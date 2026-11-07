@@ -1,0 +1,99 @@
+{
+  "status": "completed",
+  "taskId": "task-4",
+  "skill": "oma-db",
+  "base": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "head": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "originalMigration": {
+    "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "bytes": 3917,
+    "lines": 154
+  },
+  "unchangedAgainstBase": {
+    "crates/arc-storage/migrations/0001_phase0.sql": true,
+    "crates/arc-storage/Cargo.toml": true,
+    "Cargo.toml": true,
+    "Cargo.lock": true,
+    "scripts/harness/validate.sh": true
+  },
+  "sourceFilesWithin500Lines": true,
+  "checks": {
+    "storage-test": {
+      "exitCode": 0,
+      "sourceBound": true,
+      "command": [
+        "cargo",
+        "test",
+        "--offline",
+        "-p",
+        "arc-storage"
+      ]
+    },
+    "storage-clippy-final": {
+      "exitCode": 0,
+      "sourceBound": true,
+      "command": [
+        "cargo",
+        "clippy",
+        "--offline",
+        "-p",
+        "arc-storage",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ]
+    },
+    "fmt-final": {
+      "exitCode": 0,
+      "sourceBound": true,
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ]
+    },
+    "diff-check": {
+      "exitCode": 0,
+      "sourceBound": true,
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "crates/arc-storage"
+      ]
+    },
+    "offline-host-dependencies": {
+      "exitCode": 0,
+      "sourceBound": true,
+      "command": [
+        "cargo",
+        "fetch",
+        "--offline",
+        "--target",
+        "aarch64-apple-darwin"
+      ]
+    }
+  },
+  "currentInputsMatchPassingStorageChecks": true,
+  "tests": {
+    "unit": 18,
+    "integration": 4,
+    "failed": 0
+  },
+  "interfaces": "task-1 revision 1 implemented without signature changes; backend integration remains task-5",
+  "integrationNote": "crates/arc-daemon/tests/startup.rs:78 expects the old checksum sentence and must be updated by its backend owner per the shared contract",
+  "failuresRetained": [
+    "fmt-initial exit 1, corrected by storage-only rustfmt",
+    "offline-dependencies cargo fetch --offline exit 101: uncached anstyle-wincon 3.0.11; host-target offline fetch passes"
+  ],
+  "remainingMissionChecks": [
+    "cargo clippy --workspace --all-targets -- -D warnings",
+    "cargo test --workspace",
+    "unchanged ./scripts/harness/validate.sh",
+    "backend diagnostic/CLI integration and independent QA"
+  ]
+}

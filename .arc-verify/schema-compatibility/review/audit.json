@@ -1,0 +1,84 @@
+{
+  "checkedAt": "2026-11-07T22:35:27.270642+00:00",
+  "command": "python3 .arc-verify/schema-compatibility/review/audit.py",
+  "sourceFingerprint": "3ff8691bc3d81511f30ec68bca9a62e7bd74dabd13a3fd686a955d189d302ca5",
+  "fingerprintDefinition": "SHA-256 of exact verification/source-manifest.json bytes",
+  "sourceInputCount": 92,
+  "allCrateInputsBound": true,
+  "currentSourcesMatch": true,
+  "receiptsMatchCurrentSources": true,
+  "artifactManifestEntriesVerified": 28,
+  "immutableInputs": {
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "matchesBase": true,
+      "bytes": 3917
+    },
+    "scripts/harness/validate.sh": {
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "matchesBase": true,
+      "bytes": 20351
+    },
+    "Cargo.toml": {
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "matchesBase": true,
+      "bytes": 770
+    },
+    "Cargo.lock": {
+      "sha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "matchesBase": true,
+      "bytes": 15162
+    },
+    "rust-toolchain.toml": {
+      "sha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+      "matchesBase": true,
+      "bytes": 86
+    }
+  },
+  "sourceLengthInputsVerified": 248,
+  "sourceFilesWithin500Lines": true,
+  "protocolVersion": 1,
+  "testInvocationsPassed": 247,
+  "distinctTestsClaimed": false,
+  "acceptanceGroupsWithValidatedLogReferences": 26,
+  "validatedTestReferences": 68,
+  "commands": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "exitCode": 0,
+      "receiptSha256": "9a5f3d20e8d18a48e46bc6584c7d01ab4a3f77ac7fc94dfaf321fc080d9ec6fa",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "currentSourcesMatch": true,
+      "reused": true
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets -- -D warnings",
+      "exitCode": 0,
+      "receiptSha256": "1eae267098d4221f604b15dbc8f06364f41547f5f600c60170294964a1241a7f",
+      "logSha256": "74eb7afcff4ba44f36e7e4e4ce619e07d9d3975dc09f753d3c77fc865b805396",
+      "currentSourcesMatch": true,
+      "reused": true
+    },
+    {
+      "command": "cargo test --workspace",
+      "exitCode": 0,
+      "receiptSha256": "8150bf050dd9abc389f8b40724ce1c7a8c1b2627a111f0195a3a35fc85682bee",
+      "logSha256": "67f9687a8661e05a5aa455e836aca3a3b634624e9859a71ccb070692c11ff68f",
+      "currentSourcesMatch": true,
+      "reused": true
+    },
+    {
+      "command": "./scripts/harness/validate.sh",
+      "exitCode": 1,
+      "receiptSha256": "37323c8ac30dde6008f56f18fde4ec621f79abca8ef0e363900e901cdc95a600",
+      "logSha256": "49f59d87dbdf20269fe87f8e3d72c14fe213fc3b6c6bd01b1eb8a5354b80baac",
+      "currentSourcesMatch": true,
+      "reused": true
+    }
+  ],
+  "harnessPassed": false,
+  "coverageExecuted": false,
+  "coverageIssue": "Missing test:coverage; unchanged harness exited 1",
+  "executedProductChecksDuringReview": [],
+  "allAssertionsPassed": true
+}

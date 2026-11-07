@@ -1,0 +1,1308 @@
+{
+  "auditedAt": "2026-11-07T22:27:35.610832+00:00",
+  "baseHead": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "immutableInputs": {
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "baseSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "matchesBase": true,
+      "bytes": 3917
+    },
+    "scripts/harness/validate.sh": {
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "baseSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "matchesBase": true,
+      "bytes": 20351
+    },
+    "Cargo.toml": {
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "baseSha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "matchesBase": true,
+      "bytes": 770
+    },
+    "Cargo.lock": {
+      "sha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "baseSha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "matchesBase": true,
+      "bytes": 15162
+    },
+    "rust-toolchain.toml": {
+      "sha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+      "baseSha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+      "matchesBase": true,
+      "bytes": 86
+    }
+  },
+  "sourceFileLengths": {
+    ".arc-verify/bounded-ipc/database/attempt-7/finalize.py": {
+      "lines": 151,
+      "sha256": "795ad3bb6bee64ffbf579a994797aa9627e072ca570f45274e684c597c670863",
+      "bytes": 17040
+    },
+    ".arc-verify/bounded-ipc/database/attempt-7/record.py": {
+      "lines": 134,
+      "sha256": "9c734ef92d1b7d1fa5a67768edb7e2477a2d5fa0df14c88797a7b741586ec0e0",
+      "bytes": 6492
+    },
+    ".arc-verify/bounded-ipc/database/attempt-7/verify_delivery.py": {
+      "lines": 65,
+      "sha256": "488f66688f558aff3ffafaf0b738096f701efc3c5613e61057525830b19223f1",
+      "bytes": 3242
+    },
+    ".arc-verify/bounded-ipc/database/collect_evidence.py": {
+      "lines": 73,
+      "sha256": "5b210a23a575e082a3069798ed6742121f47bace2942806a999e4bd980324061",
+      "bytes": 4100
+    },
+    ".arc-verify/bounded-ipc/database/driver/src/lib.rs": {
+      "lines": 105,
+      "sha256": "a242c371f58fe2011bd6e3a5a96dce272d441affa553c15acb02fca5f95e05a6",
+      "bytes": 3221
+    },
+    ".arc-verify/bounded-ipc/database/repair-6/finalize.py": {
+      "lines": 174,
+      "sha256": "137ffb08a4bf6f7cefd9306c291a7f92299ef8475c954686b5de50f501bc19f5",
+      "bytes": 19520
+    },
+    ".arc-verify/bounded-ipc/database/repair-6/record.py": {
+      "lines": 123,
+      "sha256": "374c5623a495f0673b9bda4bf5c084bfb0d5700ce979a89033f5631920139cd5",
+      "bytes": 6698
+    },
+    ".arc-verify/bounded-ipc/database/repair-6/verify_delivery.py": {
+      "lines": 39,
+      "sha256": "80cd7455632cf671b1dd85c0165b8ec0588caaac2134c2f62c9105abab6f4efc",
+      "bytes": 1982
+    },
+    ".arc-verify/bounded-ipc/database/run_check.py": {
+      "lines": 41,
+      "sha256": "649f5d26a1d4e12b73b2b7eb150fc3fbfda87510a378ca329a5b24f0834584d6",
+      "bytes": 1591
+    },
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.py": {
+      "lines": 175,
+      "sha256": "71c8ad201104f038782912bc37ff3a34393933f3be0d47455cbac227c10361a0",
+      "bytes": 9875
+    },
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.py": {
+      "lines": 198,
+      "sha256": "1b07534981f3fcf0e4e18061d4167c690060a94ce41d458d368a12b1bdfa9eb5",
+      "bytes": 11922
+    },
+    ".arc-verify/bounded-ipc/implementation/finalize.py": {
+      "lines": 198,
+      "sha256": "3410239c32c4384fa1a855789613d5596096887a41a20ac46d5d722041fac23f",
+      "bytes": 23831
+    },
+    ".arc-verify/bounded-ipc/implementation/record.py": {
+      "lines": 76,
+      "sha256": "c1abb2612fa424d65e6ecafb78698eeb4d8c04e6596c06792dcbc108c7a75e30",
+      "bytes": 4345
+    },
+    ".arc-verify/bounded-ipc/implementation/recovery-current/check.py": {
+      "lines": 414,
+      "sha256": "ab69573c3be7a0af9c982cc98be1b3d5794194b1da5ad260fa0eba7e161e1118",
+      "bytes": 28308
+    },
+    ".arc-verify/bounded-ipc/implementation/recovery-current/run.py": {
+      "lines": 45,
+      "sha256": "d4fb39fbf100036de31161a1d61c54be95c2d1238f664a388f4c1252b7f6562c",
+      "bytes": 1900
+    },
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/collect.py": {
+      "lines": 280,
+      "sha256": "c29e41e89950594943dbabee3538754e4d63db0d1ba9939b64566efa3a88fbb8",
+      "bytes": 19293
+    },
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/record.py": {
+      "lines": 17,
+      "sha256": "db3040d6fe25023eecc8b9577cc4666276c05a597c5586eebdd8352f6e2e9ae4",
+      "bytes": 576
+    },
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py": {
+      "lines": 124,
+      "sha256": "594364d0d19725d448325597daaf776358a8b493bca686ccf117d5202d44a4f2",
+      "bytes": 6526
+    },
+    ".arc-verify/bounded-ipc/implementation/verify.py": {
+      "lines": 61,
+      "sha256": "32af497caac93e0bbda40b8c0230c08e5f206b9ac0478a74b7340039a5f56628",
+      "bytes": 3425
+    },
+    ".arc-verify/bounded-ipc/integration/collect.py": {
+      "lines": 36,
+      "sha256": "97f1104b46e59656742f2f55056a97c84da9330cfcc2563fd421d96370b8a9dd",
+      "bytes": 3021
+    },
+    ".arc-verify/bounded-ipc/integration/record.py": {
+      "lines": 72,
+      "sha256": "2e4ea9a880f937ae2f535854f564cdf3996c6b5add2910533f88fff82dcca98a",
+      "bytes": 3881
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/finalize.py": {
+      "lines": 51,
+      "sha256": "b59d681f7fac41aceee96a28ff047c5cb0163fd4b3da1dc11f6b0ba7d3eabde4",
+      "bytes": 3645
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/record.py": {
+      "lines": 75,
+      "sha256": "84146b175e704d0986d04e2a2203293478d5ac02c918969cc12ac6adf2bbffaf",
+      "bytes": 4221
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/verify.py": {
+      "lines": 50,
+      "sha256": "fee5a834aae9065003216141a11d668211bb41251346262d141ba69a47a072d9",
+      "bytes": 3314
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/collect.py": {
+      "lines": 80,
+      "sha256": "ddaeabe3d9d1b30027b264130217baf5c5361b0c2a6052b9ae2b1638501043c4",
+      "bytes": 4136
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/record.py": {
+      "lines": 75,
+      "sha256": "4a43bdd247ade5ddbea49ce89e5a2830dd7e8b843b0da319bd348c0f68dfd6f1",
+      "bytes": 4260
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/verify.py": {
+      "lines": 49,
+      "sha256": "3b2dd73d49308f49f910280bc16add8e3c89757f661fb20746fdc1a65878618a",
+      "bytes": 2728
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-5/collect.py": {
+      "lines": 73,
+      "sha256": "f4c7dc9f5a3ef4565244b101705c3d61375aef5519bb983b35fc5a099a89b95e",
+      "bytes": 4448
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-5/record.py": {
+      "lines": 75,
+      "sha256": "617b8a5ce18ec9a82ee2a44529c485b40a1f568dbf9eadb1f8d3843bed98eae5",
+      "bytes": 4260
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-5/verify.py": {
+      "lines": 65,
+      "sha256": "b5b093bbf2123fd32bdbde103639513552b09ede102f3a453b2712a214829c47",
+      "bytes": 4077
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-6/collect_missing_report.py": {
+      "lines": 113,
+      "sha256": "4d69dfe0c569d305e7edc4a722886bb783371e4a126c69e848ab9e814079b9c5",
+      "bytes": 5630
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-6/verify_collection.py": {
+      "lines": 32,
+      "sha256": "4ceda9718619b8ce519197983f0111e457cbd016c74ee888c9f4ebd7246190e1",
+      "bytes": 1283
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7/finalize.py": {
+      "lines": 95,
+      "sha256": "9988e465e98a64b63c66e6bb3b652491a97f6972e41bda2c11781349fed3e902",
+      "bytes": 6317
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7/record.py": {
+      "lines": 76,
+      "sha256": "ede5e75cee3adf031749fc3ccbfd77b0caa8c4c88031f2115799ddad18ee7816",
+      "bytes": 4504
+    },
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7/verify.py": {
+      "lines": 60,
+      "sha256": "f1adb63b0db8deb7f5dafa0438e6e2206c8d049001f86a7314ead33b69be6c40",
+      "bytes": 2896
+    },
+    ".arc-verify/bounded-ipc/integration/verify_delivery.py": {
+      "lines": 37,
+      "sha256": "218dc2e94f7a1e34b6720ae8d5f32697b3c2c3ce9fe6855f395b14736390fdf0",
+      "bytes": 2379
+    },
+    ".arc-verify/bounded-ipc/ipc/attempt-4/finalize.py": {
+      "lines": 125,
+      "sha256": "27559d14e2eed5672c7ce23458d1425a075729d9f317bdf73519e401ba28edd7",
+      "bytes": 16336
+    },
+    ".arc-verify/bounded-ipc/ipc/attempt-4/local_cache.py": {
+      "lines": 19,
+      "sha256": "c5c2b4877777759973d0359087841d686d56c891359c4104f70ee3b4372d11ad",
+      "bytes": 809
+    },
+    ".arc-verify/bounded-ipc/ipc/attempt-4/record.py": {
+      "lines": 143,
+      "sha256": "890a929193e871a6e474dbe7ed83015d00c86841d5c0acd09489902eb374756a",
+      "bytes": 7775
+    },
+    ".arc-verify/bounded-ipc/ipc/attempt-5/record.py": {
+      "lines": 132,
+      "sha256": "cc5b6bd02aeae30295f8f43c823b0500b935e1e8fd4b14c946732f004e624524",
+      "bytes": 8142
+    },
+    ".arc-verify/bounded-ipc/ipc/attempt-6/check_collection.py": {
+      "lines": 26,
+      "sha256": "9fc304098d6d67037ab0dc70ba39695816ae38e9ff6dc3ed0219e2ae1fb8031e",
+      "bytes": 1220
+    },
+    ".arc-verify/bounded-ipc/ipc/attempt-6/finalize.py": {
+      "lines": 141,
+      "sha256": "79f777714d1c7be4433bcab3f5f8c73d1bb9d963c8ebab36b0d5553d22ec1f23",
+      "bytes": 17044
+    },
+    ".arc-verify/bounded-ipc/ipc/attempt-6/record.py": {
+      "lines": 132,
+      "sha256": "64d398fa7077233b6d55fea0ace7d0bfd65208a989c4d329899da671e47bd06a",
+      "bytes": 8142
+    },
+    ".arc-verify/bounded-ipc/ipc/finalize.py": {
+      "lines": 100,
+      "sha256": "8ab8129b5524a664ff95534b713238ff01cf290cf48b3dec05c4435ff3f40d3d",
+      "bytes": 6007
+    },
+    ".arc-verify/bounded-ipc/ipc/record.py": {
+      "lines": 176,
+      "sha256": "cee9f961c2e6977b773c416b2d4f3f0f7e80e293f1cb46cdc49b2305f17d0159",
+      "bytes": 8570
+    },
+    ".arc-verify/bounded-ipc/ipc/resume.py": {
+      "lines": 98,
+      "sha256": "add2f562a6f859344d75cb2194daff5aa8dd8dbd9c5aa09ceb1c91096f4548f3",
+      "bytes": 5157
+    },
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/check.py": {
+      "lines": 50,
+      "sha256": "76fbb88fc5b56136eeb89e7c606bc1df600ab2583cb86399f825c0f041dc74b9",
+      "bytes": 2737
+    },
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/finalize.py": {
+      "lines": 283,
+      "sha256": "db5dc2198f582fcc7bd30b70a431b214ef3b0525d023bc3efc957fa5c3b8ef80",
+      "bytes": 31159
+    },
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/run.py": {
+      "lines": 9,
+      "sha256": "8dfbdb0378ec98e435a35390367aa6bd318b92cc2e8a6b59232629001beac429",
+      "bytes": 1041
+    },
+    ".arc-verify/bounded-ipc/qa-review/attempt-3/check.py": {
+      "lines": 62,
+      "sha256": "649533a92051bde1d0f83076b92e8e2c6d2fcb6102499b769980bb8f9176b660",
+      "bytes": 3599
+    },
+    ".arc-verify/bounded-ipc/qa-review/attempt-3/finalize.py": {
+      "lines": 345,
+      "sha256": "efb1ab287ed34511435388fc3f214280eafeaeb88eb828a7f184816599c5e32a",
+      "bytes": 34498
+    },
+    ".arc-verify/bounded-ipc/qa-review/attempt-3/run.py": {
+      "lines": 60,
+      "sha256": "eb14b0dcf1258ca7f38479c72a1959957ec44b62ee4f3aed36af7acc29800be7",
+      "bytes": 2923
+    },
+    ".arc-verify/bounded-ipc/qa-review/run.py": {
+      "lines": 33,
+      "sha256": "935644e5a9a5b7a58526fa02dc851dd687d9c29707f5bfb6adc345584fe7cd92",
+      "bytes": 3180
+    },
+    ".arc-verify/bounded-ipc/qa-review/verify-review.py": {
+      "lines": 22,
+      "sha256": "d5b1b63bb47d2e5c9c7d5cbb74ec566831fcf4ffe4109d44e19f0819fe087745",
+      "bytes": 1780
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-3/verify.py": {
+      "lines": 148,
+      "sha256": "6189be041e89487c92674433a7ff58f89d18831c29b7337228383ffcb9e54d32",
+      "bytes": 8038
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/check_delivery.py": {
+      "lines": 20,
+      "sha256": "8617eb54eccb9a918ad2ee3398382db1921e8ac3cda12fb87efeaa44757aec95",
+      "bytes": 768
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/verify.py": {
+      "lines": 169,
+      "sha256": "59f021244ea48806c24e050c1bddf412c5511c047642fd4fd8441580469f8aa3",
+      "bytes": 9008
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-3/check.py": {
+      "lines": 164,
+      "sha256": "3020a50bc888cfcf67d4b8d61ad7f269b4ca1c115e5dfed6da5e18735150680b",
+      "bytes": 7744
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/check.py": {
+      "lines": 168,
+      "sha256": "d584f6cc48ff71a9ef89b88ee3896058919a601949a8b5805d6d6ba3705dfdf5",
+      "bytes": 8233
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/verify.py": {
+      "lines": 79,
+      "sha256": "51f5dd8928b770eab2a659fe0a66c5838da9452fe83dec52c9e99487cdaef47f",
+      "bytes": 5043
+    },
+    ".arc-verify/command-classification/implementation/finalize.py": {
+      "lines": 66,
+      "sha256": "1066da6c7a70cf14fb2327dc57837b03e7efc76c610b18fbf5cfe1bb74ffc438",
+      "bytes": 4954
+    },
+    ".arc-verify/command-classification/implementation/inventory.py": {
+      "lines": 39,
+      "sha256": "61bc6650726c464c472891e58f7f73923ebc9a7b768b1c963f658e98ec73cbfd",
+      "bytes": 2347
+    },
+    ".arc-verify/command-classification/implementation/record.py": {
+      "lines": 54,
+      "sha256": "1a4ef4873235f4f406f3ec065ae2d0ab312f12f63c6db9739ec38c6632dcc9dc",
+      "bytes": 2388
+    },
+    ".arc-verify/command-classification/implementation/repair-2-finalize.py": {
+      "lines": 94,
+      "sha256": "28938c332a6d61a3331beaced3996144e0d105189d0e0e5b2b0787489eed8137",
+      "bytes": 6343
+    },
+    ".arc-verify/command-classification/implementation/repair-2-inventory.py": {
+      "lines": 39,
+      "sha256": "b56f49c816336fca2ae9dd2d30edd789d2f5478a9b04f56de7a4f5ee9d4595dd",
+      "bytes": 2356
+    },
+    ".arc-verify/command-classification/implementation/repair-2-record.py": {
+      "lines": 54,
+      "sha256": "f17b3d8fd6413a3f895c6f05dfdc08e65f54414ba5bda7a6fcefcc92504ae3c4",
+      "bytes": 2392
+    },
+    ".arc-verify/command-classification/implementation/repair-3-finalize.py": {
+      "lines": 96,
+      "sha256": "c03a679b0f1c7504f62998de4719331e894c78f3b8a86754bc41e158ec5226c2",
+      "bytes": 7039
+    },
+    ".arc-verify/command-classification/implementation/repair-3-inventory.py": {
+      "lines": 39,
+      "sha256": "6a26288af5eb01cc205189cf95315c6aa634ccc0a9bd140f1f47bcd2d5342542",
+      "bytes": 2356
+    },
+    ".arc-verify/command-classification/implementation/repair-3-record.py": {
+      "lines": 54,
+      "sha256": "f1806cf83683701af5a5153a977b4bbd8cf833d501050b1d1bdc75d7991ebd70",
+      "bytes": 2392
+    },
+    ".arc-verify/command-classification/implementation/repair-4-finalize.py": {
+      "lines": 113,
+      "sha256": "9a232934d931d82c58554ecb6d91b54601819eddd5f7ce81ad3c4101389ce3f4",
+      "bytes": 7561
+    },
+    ".arc-verify/command-classification/implementation/repair-4-inventory.py": {
+      "lines": 77,
+      "sha256": "ab0359b8556097a8ea5a58586a5fa312f08cb770220d3bc494269e10f52a9fce",
+      "bytes": 4611
+    },
+    ".arc-verify/command-classification/implementation/repair-4-record.py": {
+      "lines": 57,
+      "sha256": "be356183367e2476445b1b687c369dcedd5aadbc73c7b0fec24345427ce564ef",
+      "bytes": 2712
+    },
+    ".arc-verify/command-classification/implementation/repair-5-finalize.py": {
+      "lines": 132,
+      "sha256": "7b6425ee63e4f19b37974db6158fa62d956a24c1b518bd5b7d3b15058145196f",
+      "bytes": 7568
+    },
+    ".arc-verify/command-classification/implementation/repair-5-record.py": {
+      "lines": 66,
+      "sha256": "436af43ce6c5c574e22cd76b68f9527ac80b29558d12b1e701eb002531e9950c",
+      "bytes": 2851
+    },
+    ".arc-verify/command-classification/implementation/repair-6-finalize.py": {
+      "lines": 107,
+      "sha256": "a78eed29a006d0541ca3323cc09815e290b7a70f47cbbd7da938451030ed37e6",
+      "bytes": 6131
+    },
+    ".arc-verify/command-classification/implementation/repair-6-record.py": {
+      "lines": 65,
+      "sha256": "96a58d3b0bfe49db969a8a416ec6f36d957466fdc612dfde1100a2c453bc188b",
+      "bytes": 2754
+    },
+    ".arc-verify/command-classification/implementation/repair-6-trace-record.py": {
+      "lines": 65,
+      "sha256": "a8349f88ad5c7601503a9f937e032eafc6e451b73114cedfc8178afe04d61462",
+      "bytes": 2818
+    },
+    ".arc-verify/command-classification/implementation/repair-7-finalize.py": {
+      "lines": 153,
+      "sha256": "32d1fc43cb5ad6ea9dbc755d37179c2add77f4fb05e9ff83e328d362f112c317",
+      "bytes": 9534
+    },
+    ".arc-verify/command-classification/implementation/repair-7-record.py": {
+      "lines": 68,
+      "sha256": "a86d7f10a39fc30929825adcb2c5e77a4f8ebd97dee8973df6758946eda3ffc0",
+      "bytes": 3247
+    },
+    ".arc-verify/command-classification/verification/finalize-repair.py": {
+      "lines": 131,
+      "sha256": "8c0e653611c5fa845b5cd42a702b996ec061494bf55de5948c0abaabc7044528",
+      "bytes": 12135
+    },
+    ".arc-verify/command-classification/verification/finalize.py": {
+      "lines": 112,
+      "sha256": "53942ce196b0d59edd3e112374dd7ec7c6ea7572e026fde953f7742d5ae41819",
+      "bytes": 11685
+    },
+    ".arc-verify/command-classification/verification/record.py": {
+      "lines": 64,
+      "sha256": "1397c8f4eb9ea3bbc96e50a581ad5095a2401026c74094dc38f013d8ef1ea6cb",
+      "bytes": 4732
+    },
+    ".arc-verify/command-classification/verification/ssh-post-destination.py": {
+      "lines": 150,
+      "sha256": "e6e659947d2d963c6d3e8dba243a3c507c1d94a173c5481b2a5c831374fb437e",
+      "bytes": 7694
+    },
+    ".arc-verify/command-classification/verification/ssh-repair.py": {
+      "lines": 176,
+      "sha256": "43956ad8e952acb9aeee26e7b8bfa37adeb28db1cbbfc78e947ab474cba8e92c",
+      "bytes": 9232
+    },
+    ".arc-verify/command-classification/verification/work-trace-record.py": {
+      "lines": 24,
+      "sha256": "e60b7e2b99f0d13a9a46bc14c51a130e0446dc6e892c0b0b0f2e22a15d9b0d23",
+      "bytes": 1951
+    },
+    ".arc-verify/module-conformance/baseline/audit.py": {
+      "lines": 116,
+      "sha256": "145e0fe29c0bc57c78d4c2d1eb2cee189d787af41c3a71b31beadaf40cf0ff9c",
+      "bytes": 6427
+    },
+    ".arc-verify/module-conformance/baseline/capture.py": {
+      "lines": 333,
+      "sha256": "b7d083545f702a11155050c5ca5e74970d0a2bba4b805dc4e21bb21b4c7fdc3b",
+      "bytes": 17074
+    },
+    ".arc-verify/module-conformance/implementation/audit_delivery.py": {
+      "lines": 128,
+      "sha256": "73355e21b8d8314623cc3055cb00e83647b72b397a61e6691e82d07413a47b78",
+      "bytes": 7045
+    },
+    ".arc-verify/module-conformance/implementation/map_preservation.py": {
+      "lines": 180,
+      "sha256": "1729425d6a6e1a753ef791742e8c40c498b6a3681d1ab3c540f243e1b50a53b5",
+      "bytes": 9274
+    },
+    ".arc-verify/module-conformance/implementation/move_tests.py": {
+      "lines": 66,
+      "sha256": "361993a79c83ea298bf4a0919f225598d0feb3bdeec80cf8554ea62167ba1fd2",
+      "bytes": 2256
+    },
+    ".arc-verify/module-conformance/implementation/record.py": {
+      "lines": 75,
+      "sha256": "3bc4b4cc796400db86267d1005d928ae3929a2c0becaae41cd5a9e93d6ff18a7",
+      "bytes": 3341
+    },
+    ".arc-verify/module-conformance/qa/audit-lib.mjs": {
+      "lines": 218,
+      "sha256": "178cb38ba11838d8e3a7d7ff95585bce2e1573902f2710ce23c2e929984b7d51",
+      "bytes": 11164
+    },
+    ".arc-verify/module-conformance/qa/finalize.mjs": {
+      "lines": 113,
+      "sha256": "fb3f132f8bfad5990eb61176fbb441a455ba2f19281fc86ed97701fbfb5b5472",
+      "bytes": 8440
+    },
+    ".arc-verify/module-conformance/qa/preservation-and-receipts.test.mjs": {
+      "lines": 203,
+      "sha256": "98e2e21071f6b960bc2c707fd3771d61e5bd9fb1819cc5f9f9b9bad6c321382f",
+      "bytes": 12042
+    },
+    ".arc-verify/module-conformance/qa/record-audits.mjs": {
+      "lines": 50,
+      "sha256": "4e4d7a48403a4332dd03e20ab6f44c23914f75e35d242ff70c667f3a2d1a6ac0",
+      "bytes": 2604
+    },
+    ".arc-verify/module-conformance/qa/structure-and-mapping.test.mjs": {
+      "lines": 123,
+      "sha256": "31cceeebfd7a69114be52679be6c68481216632f855a8c2388b879129642546a",
+      "bytes": 7259
+    },
+    ".arc-verify/runtime-identity/implementation/run_checks.py": {
+      "lines": 54,
+      "sha256": "de412f207e61d7ed8fcc5be23ba9ac9ad66483dbb16ebdc2eca6b406daa4288f",
+      "bytes": 2301
+    },
+    ".arc-verify/runtime-identity/qa/assemble_evidence.py": {
+      "lines": 124,
+      "sha256": "2492dc5eea8d3a6ffe386392ab8228901976a39b0cade5e5f060de9abb765f43",
+      "bytes": 9462
+    },
+    ".arc-verify/runtime-identity/qa/run_checks.py": {
+      "lines": 136,
+      "sha256": "55b13e732eeffdc4a1130172f00c41a962ae375748dd1eb499e9829202fd1a53",
+      "bytes": 6897
+    },
+    ".arc-verify/runtime-identity/qa/validate_artifacts.py": {
+      "lines": 41,
+      "sha256": "53226a610df0db00f3cc19fc393639d119e181a0c81949c2ccda5a9b72e59037",
+      "bytes": 2441
+    },
+    ".opencode/plugins/oma/agentmemory-client.ts": {
+      "lines": 307,
+      "sha256": "5c03ec191ae9e4865abb61c10e4c70329fbd44aca8ac94eefc52ec4a9b939ccf",
+      "bytes": 10296
+    },
+    ".opencode/plugins/oma/agy-input.ts": {
+      "lines": 243,
+      "sha256": "d383f8123fd4dd9e1816e0f04894cd710c7cae5549df1721a2e3de472b4ce64f",
+      "bytes": 7648
+    },
+    ".opencode/plugins/oma/code-fingerprint.ts": {
+      "lines": 84,
+      "sha256": "4b09a7874571669b1136a30da4ff8581ebbea5db0cb6578ee55caab911813441",
+      "bytes": 2239
+    },
+    ".opencode/plugins/oma/code-intelligence-guard.ts": {
+      "lines": 24,
+      "sha256": "06ece1fbba63e428da458d90f30d1fccc093ee4f3a17f1ef95501713eb23dae6",
+      "bytes": 802
+    },
+    ".opencode/plugins/oma/code-intelligence-primer.ts": {
+      "lines": 24,
+      "sha256": "9636a9cb29a1e686f48f3099a4c7cd55ea3cae7ee1a2245558116fd237880f65",
+      "bytes": 803
+    },
+    ".opencode/plugins/oma/code-intelligence-scope.ts": {
+      "lines": 307,
+      "sha256": "b1f7dcc56fb9569c33cd3ffc488090e3d2283947d85f623e88d718d5fdc43029",
+      "bytes": 9938
+    },
+    ".opencode/plugins/oma/constants.ts": {
+      "lines": 56,
+      "sha256": "1963620aac462121d4eb721de146087c392f564d546aa47f86a45d73e4a63454",
+      "bytes": 2497
+    },
+    ".opencode/plugins/oma/event-contract.ts": {
+      "lines": 76,
+      "sha256": "a1ed07ca4f5913048f5a24d5bf70baee6a427a835f548f3bc1ec3d1ed95149af",
+      "bytes": 2581
+    },
+    ".opencode/plugins/oma/evolution-notice.ts": {
+      "lines": 146,
+      "sha256": "ec0ed33a4bad542ceacc22ad3d24ad401cae1f92d84bdbb72b7d91e8ade2a626",
+      "bytes": 4971
+    },
+    ".opencode/plugins/oma/fs-utils.ts": {
+      "lines": 87,
+      "sha256": "13d87885bbc8a0dc96b5ef50507035a9d70aa0b5c3d0d890a019955518ea28b1",
+      "bytes": 2824
+    },
+    ".opencode/plugins/oma/hook-output.ts": {
+      "lines": 300,
+      "sha256": "37a80fbb55bb6de508f82d1319bec8f232c71126f4798f28cdd590e3de1a4968",
+      "bytes": 12106
+    },
+    ".opencode/plugins/oma/hud.ts": {
+      "lines": 365,
+      "sha256": "73fae4f29869b41a4186e58267a0790327d99a939466c528dcc7e41e08475a7e",
+      "bytes": 13121
+    },
+    ".opencode/plugins/oma/inject-log.ts": {
+      "lines": 154,
+      "sha256": "1a2d8d128156409cb0ee1fe1da9b118e8d43048b027850e60594c2e5458d8ea7",
+      "bytes": 5111
+    },
+    ".opencode/plugins/oma/keyword-detector.ts": {
+      "lines": 24,
+      "sha256": "fca33fafe14b2b3f5c74c219ddfdda3c2bed1296f36f65e0c7c922a2603bd8ce",
+      "bytes": 795
+    },
+    ".opencode/plugins/oma/memory-adapter.ts": {
+      "lines": 62,
+      "sha256": "5ebdc74a12ba7b25910f32efb973bc0a561c871c3283f3e7da981d0b6a96e8c7",
+      "bytes": 1820
+    },
+    ".opencode/plugins/oma/oma-home.ts": {
+      "lines": 34,
+      "sha256": "9a3c6be1154907c0dc42a2783d1f85be049190de2e55ec91248e56d501d592eb",
+      "bytes": 1122
+    },
+    ".opencode/plugins/oma/oma.ts": {
+      "lines": 468,
+      "sha256": "fcd97cec846a199bd515c743f4bec8f4b9aa7771687607de6c86ea0cfdadc7c2",
+      "bytes": 17832
+    },
+    ".opencode/plugins/oma/persistent-mode.ts": {
+      "lines": 24,
+      "sha256": "b4a768f3cb58af73afd7d41e20bd4d4df84b9d69f31286637290a07ebd34cda8",
+      "bytes": 795
+    },
+    ".opencode/plugins/oma/prompt-input.ts": {
+      "lines": 55,
+      "sha256": "04bc815cbe50c065662c7b1cd52b0e7a7243270ae16e6b3561721ae632f6c0f5",
+      "bytes": 2341
+    },
+    ".opencode/plugins/oma/refactor-guard.ts": {
+      "lines": 24,
+      "sha256": "22d0d1e96992c00d560d0c99285879e5148c186252c877805087745b8eb4eff8",
+      "bytes": 793
+    },
+    ".opencode/plugins/oma/scm-guard.ts": {
+      "lines": 24,
+      "sha256": "89ae9b61828305c5db19596afbf7efd0955810271d998a3a66e21e8c9166ea36",
+      "bytes": 788
+    },
+    ".opencode/plugins/oma/serena-primer.ts": {
+      "lines": 24,
+      "sha256": "a8a4919e2d72cf476be5604c2205219f49cb4febdb591c448acf3cc335a86c6b",
+      "bytes": 792
+    },
+    ".opencode/plugins/oma/session-storage.ts": {
+      "lines": 233,
+      "sha256": "b8a1de037c409e49bffdfe04d3ba69ce346413bba981d31e2a1e941e090d74b6",
+      "bytes": 7008
+    },
+    ".opencode/plugins/oma/session-summary.ts": {
+      "lines": 192,
+      "sha256": "decee518b50c2f47fd1e006b1e3cf8cf0b901397e0983e579da2f4fa886d07e1",
+      "bytes": 6381
+    },
+    ".opencode/plugins/oma/skill-injector.ts": {
+      "lines": 24,
+      "sha256": "a36dab75d0215ca74234f2623efae4a8f8d42a2535b75cb4fa8003ab65f949e6",
+      "bytes": 793
+    },
+    ".opencode/plugins/oma/state-boundary.ts": {
+      "lines": 24,
+      "sha256": "1273b2ee8dabcbde6c1d9f0dac188a80e0580fbc466f3e34d6cdbc853e4a0896",
+      "bytes": 793
+    },
+    ".opencode/plugins/oma/state-core.ts": {
+      "lines": 430,
+      "sha256": "c6e26948912b0bf4d296f7170be55c1fa37ad915795898743bdde7155e13a400",
+      "bytes": 11939
+    },
+    ".opencode/plugins/oma/state-emit.ts": {
+      "lines": 63,
+      "sha256": "2b60814bf695b0effec72197e426a8bd84f55e6b2d78b793dab825060ff96ec7",
+      "bytes": 1870
+    },
+    ".opencode/plugins/oma/state-index-lock.ts": {
+      "lines": 139,
+      "sha256": "5316b944b5fdcde5eb7a0f213c40b95092abee1641a18acb539ad0be31b02272",
+      "bytes": 4163
+    },
+    ".opencode/plugins/oma/state-marker.ts": {
+      "lines": 16,
+      "sha256": "d42a12d1c4cd79f4cbc09308eb9b7786586996fe406d719df6a4fab0b3fd4369",
+      "bytes": 308
+    },
+    ".opencode/plugins/oma/test-filter.ts": {
+      "lines": 24,
+      "sha256": "e74f81e1f287a477c851784d1df6bb2907766dedabe34ec6597cc525c2555328",
+      "bytes": 790
+    },
+    ".opencode/plugins/oma/types.ts": {
+      "lines": 166,
+      "sha256": "213b0a9c967ef4c64d608d1ffa4ef75e528f4d2848e2bcb47e64faf1bd4b1a19",
+      "bytes": 6039
+    },
+    ".opencode/plugins/oma/vendor-detect.ts": {
+      "lines": 184,
+      "sha256": "b105b9cfd2456712ceff911adae6c1310781816e1976f3a98700362293e3a83e",
+      "bytes": 7375
+    },
+    ".opencode/plugins/oma/vendor-renderer.ts": {
+      "lines": 161,
+      "sha256": "d18837b8e58944569d57b382d115a254f10c3c9dddd2770231150aa38824ef54",
+      "bytes": 4755
+    },
+    ".pi/extensions/oma/agentmemory-client.ts": {
+      "lines": 307,
+      "sha256": "5c03ec191ae9e4865abb61c10e4c70329fbd44aca8ac94eefc52ec4a9b939ccf",
+      "bytes": 10296
+    },
+    ".pi/extensions/oma/agy-input.ts": {
+      "lines": 243,
+      "sha256": "d383f8123fd4dd9e1816e0f04894cd710c7cae5549df1721a2e3de472b4ce64f",
+      "bytes": 7648
+    },
+    ".pi/extensions/oma/code-fingerprint.ts": {
+      "lines": 84,
+      "sha256": "4b09a7874571669b1136a30da4ff8581ebbea5db0cb6578ee55caab911813441",
+      "bytes": 2239
+    },
+    ".pi/extensions/oma/code-intelligence-guard.ts": {
+      "lines": 24,
+      "sha256": "301f4606eb1463d7424f3ca352085018a322de2530ed09106548834b93ef23a0",
+      "bytes": 796
+    },
+    ".pi/extensions/oma/code-intelligence-primer.ts": {
+      "lines": 24,
+      "sha256": "0cd56045cbc879b51139d2531e3c830a6a1ace2b342facdb74a2f47036d9f631",
+      "bytes": 797
+    },
+    ".pi/extensions/oma/code-intelligence-scope.ts": {
+      "lines": 307,
+      "sha256": "b1f7dcc56fb9569c33cd3ffc488090e3d2283947d85f623e88d718d5fdc43029",
+      "bytes": 9938
+    },
+    ".pi/extensions/oma/constants.ts": {
+      "lines": 56,
+      "sha256": "1963620aac462121d4eb721de146087c392f564d546aa47f86a45d73e4a63454",
+      "bytes": 2497
+    },
+    ".pi/extensions/oma/event-contract.ts": {
+      "lines": 76,
+      "sha256": "a1ed07ca4f5913048f5a24d5bf70baee6a427a835f548f3bc1ec3d1ed95149af",
+      "bytes": 2581
+    },
+    ".pi/extensions/oma/evolution-notice.ts": {
+      "lines": 146,
+      "sha256": "ec0ed33a4bad542ceacc22ad3d24ad401cae1f92d84bdbb72b7d91e8ade2a626",
+      "bytes": 4971
+    },
+    ".pi/extensions/oma/fs-utils.ts": {
+      "lines": 87,
+      "sha256": "13d87885bbc8a0dc96b5ef50507035a9d70aa0b5c3d0d890a019955518ea28b1",
+      "bytes": 2824
+    },
+    ".pi/extensions/oma/hook-output.ts": {
+      "lines": 300,
+      "sha256": "37a80fbb55bb6de508f82d1319bec8f232c71126f4798f28cdd590e3de1a4968",
+      "bytes": 12106
+    },
+    ".pi/extensions/oma/hud.ts": {
+      "lines": 365,
+      "sha256": "73fae4f29869b41a4186e58267a0790327d99a939466c528dcc7e41e08475a7e",
+      "bytes": 13121
+    },
+    ".pi/extensions/oma/index.ts": {
+      "lines": 250,
+      "sha256": "1cceeafb9f7c447e253f6fcfd87ac6d807d9e34516b7577c6e29b2c5fa6c59ee",
+      "bytes": 10583
+    },
+    ".pi/extensions/oma/inject-log.ts": {
+      "lines": 154,
+      "sha256": "1a2d8d128156409cb0ee1fe1da9b118e8d43048b027850e60594c2e5458d8ea7",
+      "bytes": 5111
+    },
+    ".pi/extensions/oma/keyword-detector.ts": {
+      "lines": 24,
+      "sha256": "3767d620d91d8d91d686aaeca8ffd180bbe58336afd1ab4e678f76e56501cda7",
+      "bytes": 789
+    },
+    ".pi/extensions/oma/memory-adapter.ts": {
+      "lines": 62,
+      "sha256": "5ebdc74a12ba7b25910f32efb973bc0a561c871c3283f3e7da981d0b6a96e8c7",
+      "bytes": 1820
+    },
+    ".pi/extensions/oma/oma-home.ts": {
+      "lines": 34,
+      "sha256": "9a3c6be1154907c0dc42a2783d1f85be049190de2e55ec91248e56d501d592eb",
+      "bytes": 1122
+    },
+    ".pi/extensions/oma/persistent-mode.ts": {
+      "lines": 24,
+      "sha256": "3179fee0f1d3e2bd4f29554d5eaefca05f8f7c1b8c4bc0426f8031a3f5e0e428",
+      "bytes": 789
+    },
+    ".pi/extensions/oma/prompt-input.ts": {
+      "lines": 55,
+      "sha256": "04bc815cbe50c065662c7b1cd52b0e7a7243270ae16e6b3561721ae632f6c0f5",
+      "bytes": 2341
+    },
+    ".pi/extensions/oma/refactor-guard.ts": {
+      "lines": 24,
+      "sha256": "6850c0e4fc2958b33e92b60ebc1a34991c46b1bc5c77ae7c26f86444c7260a7a",
+      "bytes": 787
+    },
+    ".pi/extensions/oma/scm-guard.ts": {
+      "lines": 24,
+      "sha256": "2d5d0e0ced12d657b1085cf0b4a8295091db4b84df88fc36769fec0efd011c16",
+      "bytes": 782
+    },
+    ".pi/extensions/oma/serena-primer.ts": {
+      "lines": 24,
+      "sha256": "49aeeba11efb4bb74e074afbc33eb54af0ace6fcda0e2884b353ee6b4d26e4c7",
+      "bytes": 786
+    },
+    ".pi/extensions/oma/session-storage.ts": {
+      "lines": 233,
+      "sha256": "b8a1de037c409e49bffdfe04d3ba69ce346413bba981d31e2a1e941e090d74b6",
+      "bytes": 7008
+    },
+    ".pi/extensions/oma/session-summary.ts": {
+      "lines": 192,
+      "sha256": "decee518b50c2f47fd1e006b1e3cf8cf0b901397e0983e579da2f4fa886d07e1",
+      "bytes": 6381
+    },
+    ".pi/extensions/oma/skill-injector.ts": {
+      "lines": 24,
+      "sha256": "8b66d9d95e2f73d13235bd6b871e29ada597360f261dd5d096f98f3349110c45",
+      "bytes": 787
+    },
+    ".pi/extensions/oma/state-boundary.ts": {
+      "lines": 24,
+      "sha256": "3066b485e2c1b4a5d54aab5cd8f14d190b287f8847c91be9ab9a274b5fb2e4d4",
+      "bytes": 787
+    },
+    ".pi/extensions/oma/state-core.ts": {
+      "lines": 430,
+      "sha256": "c6e26948912b0bf4d296f7170be55c1fa37ad915795898743bdde7155e13a400",
+      "bytes": 11939
+    },
+    ".pi/extensions/oma/state-emit.ts": {
+      "lines": 63,
+      "sha256": "2b60814bf695b0effec72197e426a8bd84f55e6b2d78b793dab825060ff96ec7",
+      "bytes": 1870
+    },
+    ".pi/extensions/oma/state-index-lock.ts": {
+      "lines": 139,
+      "sha256": "5316b944b5fdcde5eb7a0f213c40b95092abee1641a18acb539ad0be31b02272",
+      "bytes": 4163
+    },
+    ".pi/extensions/oma/state-marker.ts": {
+      "lines": 16,
+      "sha256": "d42a12d1c4cd79f4cbc09308eb9b7786586996fe406d719df6a4fab0b3fd4369",
+      "bytes": 308
+    },
+    ".pi/extensions/oma/test-filter.ts": {
+      "lines": 24,
+      "sha256": "7491c6676108872434333b893c4f50c01b0f5f1a81b05b0ff2d26c25a484d3e8",
+      "bytes": 784
+    },
+    ".pi/extensions/oma/types.ts": {
+      "lines": 166,
+      "sha256": "213b0a9c967ef4c64d608d1ffa4ef75e528f4d2848e2bcb47e64faf1bd4b1a19",
+      "bytes": 6039
+    },
+    ".pi/extensions/oma/vendor-detect.ts": {
+      "lines": 184,
+      "sha256": "b105b9cfd2456712ceff911adae6c1310781816e1976f3a98700362293e3a83e",
+      "bytes": 7375
+    },
+    ".pi/extensions/oma/vendor-renderer.ts": {
+      "lines": 161,
+      "sha256": "d18837b8e58944569d57b382d115a254f10c3c9dddd2770231150aa38824ef54",
+      "bytes": 4755
+    },
+    "crates/arc-cli/src/classify.rs": {
+      "lines": 85,
+      "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+      "bytes": 3267
+    },
+    "crates/arc-cli/src/doctor.rs": {
+      "lines": 85,
+      "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+      "bytes": 3766
+    },
+    "crates/arc-cli/src/main.rs": {
+      "lines": 180,
+      "sha256": "62005310d32c69f201a4f7798492418c03d3338fc6a940024b98d3c0fdda897b",
+      "bytes": 6104
+    },
+    "crates/arc-cli/tests/binary.rs": {
+      "lines": 25,
+      "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+      "bytes": 822
+    },
+    "crates/arc-cli/tests/classification.rs": {
+      "lines": 241,
+      "sha256": "0ec64a81cc16f936d5b189be760b58eaf88e6ddafffa611782209de1e399af54",
+      "bytes": 10274
+    },
+    "crates/arc-cli/tests/schema.rs": {
+      "lines": 228,
+      "sha256": "fa95e1e54c01293f31daf0958f4542fa0559f6406a19377b65b763666feee707",
+      "bytes": 8663
+    },
+    "crates/arc-core/src/lib.rs": {
+      "lines": 176,
+      "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "bytes": 6013
+    },
+    "crates/arc-core/tests/runtime.rs": {
+      "lines": 64,
+      "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+      "bytes": 2176
+    },
+    "crates/arc-daemon/src/accept_recovery.rs": {
+      "lines": 174,
+      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "bytes": 6183
+    },
+    "crates/arc-daemon/src/accept_recovery_tests.rs": {
+      "lines": 155,
+      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "bytes": 5876
+    },
+    "crates/arc-daemon/src/admission.rs": {
+      "lines": 144,
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "bytes": 4357
+    },
+    "crates/arc-daemon/src/connection.rs": {
+      "lines": 172,
+      "sha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
+      "bytes": 6115
+    },
+    "crates/arc-daemon/src/database_failure_tests.rs": {
+      "lines": 358,
+      "sha256": "4851a2c1f7630492d9878c624fd5590cffaf1dc79dfacde74fa1dac57351183d",
+      "bytes": 12677
+    },
+    "crates/arc-daemon/src/db_worker.rs": {
+      "lines": 330,
+      "sha256": "7784ea662d806d458fe9c878cdf0a127a64c34d5c6bf290d962fd54eb1e5223d",
+      "bytes": 10233
+    },
+    "crates/arc-daemon/src/db_worker/execution.rs": {
+      "lines": 341,
+      "sha256": "ef135ed9b956b12cdea1ca93f3bc2260897d78d25b4a732577ed250875753ff0",
+      "bytes": 11932
+    },
+    "crates/arc-daemon/src/db_worker/schema_tests.rs": {
+      "lines": 76,
+      "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+      "bytes": 3139
+    },
+    "crates/arc-daemon/src/db_worker/tests.rs": {
+      "lines": 425,
+      "sha256": "ad4d62631f91287b298ae5314930f82a96f69d2facfa8d13d2837104827e2728",
+      "bytes": 15223
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "lines": 441,
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "bytes": 15423
+    },
+    "crates/arc-daemon/src/lifecycle.rs": {
+      "lines": 303,
+      "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+      "bytes": 10398
+    },
+    "crates/arc-daemon/src/lifecycle_tests.rs": {
+      "lines": 433,
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+      "bytes": 14740
+    },
+    "crates/arc-daemon/src/limits.rs": {
+      "lines": 156,
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "bytes": 5256
+    },
+    "crates/arc-daemon/src/main.rs": {
+      "lines": 79,
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "bytes": 2752
+    },
+    "crates/arc-daemon/src/platform.rs": {
+      "lines": 121,
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "bytes": 4046
+    },
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": {
+      "lines": 251,
+      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "bytes": 9834
+    },
+    "crates/arc-daemon/src/runtime_metrics.rs": {
+      "lines": 276,
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "bytes": 8012
+    },
+    "crates/arc-daemon/src/runtime_report.rs": {
+      "lines": 164,
+      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "bytes": 5316
+    },
+    "crates/arc-daemon/src/runtime_report_tests.rs": {
+      "lines": 121,
+      "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
+      "bytes": 4268
+    },
+    "crates/arc-daemon/src/server.rs": {
+      "lines": 312,
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+      "bytes": 11597
+    },
+    "crates/arc-daemon/src/server_tests.rs": {
+      "lines": 403,
+      "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+      "bytes": 14650
+    },
+    "crates/arc-daemon/src/transport.rs": {
+      "lines": 169,
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "bytes": 5408
+    },
+    "crates/arc-daemon/src/transport_test_support.rs": {
+      "lines": 62,
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "bytes": 2003
+    },
+    "crates/arc-daemon/src/transport_tests.rs": {
+      "lines": 474,
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "bytes": 16773
+    },
+    "crates/arc-daemon/tests/bounded.rs": {
+      "lines": 131,
+      "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+      "bytes": 4508
+    },
+    "crates/arc-daemon/tests/classification.rs": {
+      "lines": 241,
+      "sha256": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
+      "bytes": 8036
+    },
+    "crates/arc-daemon/tests/classification/boundaries.rs": {
+      "lines": 70,
+      "sha256": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
+      "bytes": 2414
+    },
+    "crates/arc-daemon/tests/classification/privacy.rs": {
+      "lines": 221,
+      "sha256": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
+      "bytes": 7620
+    },
+    "crates/arc-daemon/tests/classification/saturation.rs": {
+      "lines": 142,
+      "sha256": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
+      "bytes": 6463
+    },
+    "crates/arc-daemon/tests/db_worker_unit.rs": {
+      "lines": 10,
+      "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "bytes": 327
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "lines": 423,
+      "sha256": "46401f275d7aaaf051503332f6f2e1a268c934b3060e0bd70c4e9ec741304013",
+      "bytes": 13133
+    },
+    "crates/arc-daemon/tests/resident/coordination.rs": {
+      "lines": 32,
+      "sha256": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
+      "bytes": 1097
+    },
+    "crates/arc-daemon/tests/resident/identity.rs": {
+      "lines": 149,
+      "sha256": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
+      "bytes": 5871
+    },
+    "crates/arc-daemon/tests/resident/lifecycle.rs": {
+      "lines": 146,
+      "sha256": "ce417b8adb49af65ff79605bdddb7879896eafc363b00a11b38045f8768c5934",
+      "bytes": 4973
+    },
+    "crates/arc-daemon/tests/resident/provisioning.rs": {
+      "lines": 166,
+      "sha256": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
+      "bytes": 7207
+    },
+    "crates/arc-daemon/tests/resident/schema.rs": {
+      "lines": 131,
+      "sha256": "eeea4387e63373ccac880325a2bf1ca80da2907011c76dec1468b796ffaa3030",
+      "bytes": 6081
+    },
+    "crates/arc-daemon/tests/startup.rs": {
+      "lines": 144,
+      "sha256": "992be2ff74b1d10cceababaa6cb726732ef0726a9b64c2f5901a71f6bcc33745",
+      "bytes": 5538
+    },
+    "crates/arc-daemon/tests/support/admission_load.rs": {
+      "lines": 197,
+      "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+      "bytes": 7519
+    },
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": {
+      "lines": 64,
+      "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+      "bytes": 2311
+    },
+    "crates/arc-daemon/tests/support/measurements.rs": {
+      "lines": 188,
+      "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+      "bytes": 8194
+    },
+    "crates/arc-daemon/tests/support/mod.rs": {
+      "lines": 66,
+      "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+      "bytes": 2230
+    },
+    "crates/arc-daemon/tests/support/native.rs": {
+      "lines": 88,
+      "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+      "bytes": 2764
+    },
+    "crates/arc-daemon/tests/support/runtime.rs": {
+      "lines": 295,
+      "sha256": "f7a22c665f955457d9c753f487c8e40afa17e0a7c98e874bd405361788960f44",
+      "bytes": 9834
+    },
+    "crates/arc-daemon/tests/transport_unit.rs": {
+      "lines": 20,
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "bytes": 512
+    },
+    "crates/arc-daemon/tests/worker_runtime.rs": {
+      "lines": 308,
+      "sha256": "8e9dcd0f00ffa0ffce506f12f5effbaa346571647a03022b5d54a423360a27b8",
+      "bytes": 12920
+    },
+    "crates/arc-detector/src/budget.rs": {
+      "lines": 72,
+      "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+      "bytes": 2097
+    },
+    "crates/arc-detector/src/lexer.rs": {
+      "lines": 180,
+      "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+      "bytes": 5584
+    },
+    "crates/arc-detector/src/lib.rs": {
+      "lines": 71,
+      "sha256": "b7a913d6be3eb2ca600a0234cd0977e4eb14da7777e6c33433208c5cfc206a74",
+      "bytes": 2459
+    },
+    "crates/arc-detector/src/parser.rs": {
+      "lines": 134,
+      "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+      "bytes": 4535
+    },
+    "crates/arc-detector/src/rules.rs": {
+      "lines": 262,
+      "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+      "bytes": 8753
+    },
+    "crates/arc-detector/src/tests.rs": {
+      "lines": 304,
+      "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+      "bytes": 11473
+    },
+    "crates/arc-detector/src/types.rs": {
+      "lines": 153,
+      "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+      "bytes": 4874
+    },
+    "crates/arc-detector/tests/support/contract.rs": {
+      "lines": 108,
+      "sha256": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+      "bytes": 3846
+    },
+    "crates/arc-detector/tests/support/ssh.rs": {
+      "lines": 254,
+      "sha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+      "bytes": 6862
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "lines": 364,
+      "sha256": "57807b93f06693000117ca9ae12738e63e38ddfd8629b16aff3829ec17df7064",
+      "bytes": 11658
+    },
+    "crates/arc-ipc/src/schema.rs": {
+      "lines": 78,
+      "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+      "bytes": 2693
+    },
+    "crates/arc-ipc/src/tests/dispatch.rs": {
+      "lines": 71,
+      "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+      "bytes": 2439
+    },
+    "crates/arc-ipc/src/tests/framing.rs": {
+      "lines": 122,
+      "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+      "bytes": 3653
+    },
+    "crates/arc-ipc/src/tests/mod.rs": {
+      "lines": 9,
+      "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+      "bytes": 124
+    },
+    "crates/arc-ipc/src/tests/schema.rs": {
+      "lines": 154,
+      "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+      "bytes": 5603
+    },
+    "crates/arc-ipc/tests/classification.rs": {
+      "lines": 102,
+      "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+      "bytes": 3951
+    },
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "lines": 154,
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "bytes": 3917
+    },
+    "crates/arc-storage/src/history.rs": {
+      "lines": 138,
+      "sha256": "31bd31276df810465752cc9e1492f3c90dabde0f1209e99ae6b5ce9ccfc02a5f",
+      "bytes": 4730
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "lines": 50,
+      "sha256": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b",
+      "bytes": 1868
+    },
+    "crates/arc-storage/src/migration.rs": {
+      "lines": 177,
+      "sha256": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533",
+      "bytes": 5979
+    },
+    "crates/arc-storage/src/migration/tests.rs": {
+      "lines": 149,
+      "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+      "bytes": 4553
+    },
+    "crates/arc-storage/src/migration/tests/acceptance.rs": {
+      "lines": 191,
+      "sha256": "60bd1084d6954b6ee47d8176620d702b705d922831937ac84e666007453ea10f",
+      "bytes": 7100
+    },
+    "crates/arc-storage/src/migration/tests/concurrency.rs": {
+      "lines": 161,
+      "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+      "bytes": 5377
+    },
+    "crates/arc-storage/src/migration/tests/rejection.rs": {
+      "lines": 173,
+      "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+      "bytes": 6250
+    },
+    "crates/arc-storage/tests/fixtures/0001_fixture.sql": {
+      "lines": 6,
+      "sha256": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639",
+      "bytes": 187
+    },
+    "crates/arc-storage/tests/fixtures/0002_additive.sql": {
+      "lines": 3,
+      "sha256": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127",
+      "bytes": 234
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "lines": 233,
+      "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "bytes": 7743
+    }
+  },
+  "filesAudited": 248,
+  "sourceFilesWithin500Lines": true,
+  "capFailures": {},
+  "protocolVersion": 1,
+  "dependencyManifests": {
+    "storage": {
+      "manifestSha256": "e563570d108e3c4d5c3ea63bf185bfb23ef2c3c1f322999ba0c9cf8639d504c0",
+      "comparedInputs": 15,
+      "differences": {}
+    },
+    "backend": {
+      "manifestSha256": "4a9b753c04cb923e9289e6a39746c500b4ec834b6b2bf16b47276be4f271e38f",
+      "comparedInputs": 91,
+      "differences": {}
+    }
+  },
+  "integrationOrderEvidence": [
+    "Task-4 storage report and source manifest delivered before task-5; task-5 report explicitly consumed delivered storage API and contracts.",
+    "Current relevant hashes checked against both dependency manifests. HEAD remains accepted base; implementation is integrated as working-tree changes, not invented task commits."
+  ],
+  "compiledInputs": {
+    "productionRegistry": "crates/arc-storage/src/migration.rs:5-10",
+    "sql": "include_str!(\"../migrations/0001_phase0.sql\")",
+    "productionVersions": [
+      1
+    ],
+    "fixtureModule": "crates/arc-storage/src/migration.rs:176-177 #[cfg(test)] mod tests",
+    "configurationOverride": false,
+    "basis": "Known-path source reads: public open_and_migrate and assess_schema always pass MIGRATIONS; alternate registry and fixture synchronization helpers are crate-private/test-only; no production 0002."
+  }
+}

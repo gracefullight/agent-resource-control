@@ -4,6 +4,11 @@
 //! JSON object. The protocol version is 1 and a frame may not exceed 1 MiB.
 //! Classification command text is transient and never sent to storage or logs.
 
+mod schema;
+pub use schema::{
+    SchemaReport, SchemaStatus, ERROR_SCHEMA_DETAILS_UNAVAILABLE, ERROR_SCHEMA_INCOMPATIBLE,
+};
+
 pub use arc_detector::{Classification, ClassifyRequest, JobClass, Locality, Reason, Uncertainty};
 
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
@@ -110,6 +115,8 @@ pub struct ErrorBody {
 pub struct DoctorReport {
     pub integrity_check: String,
     pub schema_migrations: i64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub schema: Option<SchemaReport>,
 }
 
 /// Errors from reading or writing one frame.
@@ -334,22 +341,7 @@ where
             }),
         ),
         OPERATION_DOCTOR => match doctor() {
-            Ok(report) if report.integrity_check == "ok" && report.schema_migrations == 1 => {
-                Response::ok(
-                    &request.request_id,
-                    json!({
-                        "operation": OPERATION_DOCTOR,
-                        "integrity_check": report.integrity_check,
-                        "schema_migrations": report.schema_migrations,
-                        "ipc_owner_only": true,
-                        "tray_connected": false,
-                        "vendors_detected": false,
-                        "command_classification": "not_checked",
-                        "sweeper": "off",
-                    }),
-                )
-            }
-            Ok(_) => Response::error(&request.request_id, ERROR_INTEGRITY_FAILED),
+            Ok(report) => schema::doctor_response(request, report),
             Err(_) => Response::error(&request.request_id, ERROR_INTEGRITY_FAILED),
         },
         _ => Response::error(&request.request_id, ERROR_UNSUPPORTED_CAPABILITY),

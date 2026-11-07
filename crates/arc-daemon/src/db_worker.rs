@@ -37,6 +37,7 @@ pub(crate) enum DbError {
     WorkerLost,
     ShutdownDeadline,
     Sql(rusqlite::Error),
+    Migration(arc_storage::MigrationError),
     Io(io::Error),
 }
 
@@ -49,6 +50,7 @@ impl fmt::Display for DbError {
             Self::Deadline => "database request deadline expired",
             Self::WorkerLost => "database worker terminated unexpectedly",
             Self::ShutdownDeadline => "database worker shutdown deadline expired",
+            Self::Migration(_) => "database assessment failed",
             Self::Sql(_) => "database operation failed",
             Self::Io(_) => "database worker startup failed",
         })
@@ -59,6 +61,7 @@ impl std::error::Error for DbError {
     fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
         match self {
             Self::Sql(error) => Some(error),
+            Self::Migration(error) => Some(error),
             Self::Io(error) => Some(error),
             _ => None,
         }

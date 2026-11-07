@@ -1,0 +1,254 @@
+{
+  "recordedAt": "2026-11-07T21:40:59.685029+00:00",
+  "scope": "task-1 Actor-local documentation deliverable; no implementation verification",
+  "passed": true,
+  "artifacts": [
+    {
+      "path": "docs/schema-compatibility-contract.md",
+      "sha256": "d796b2875b3c998fd186e18043317f355896a3fa4ca705952752b105c46e5e9e",
+      "bytes": 23734,
+      "lines": 186
+    },
+    {
+      "path": ".arc-verify/schema-compatibility/technical/report.md",
+      "sha256": "b73cd549a611de0c9c61299a8b37af641e2ef438bd62ab3075e4469a55ac8ce5",
+      "bytes": 12459,
+      "lines": 94
+    },
+    {
+      "path": ".arc-verify/schema-compatibility/technical/source-inspection.json",
+      "sha256": "aff498e7841f911e7b270e1fdeff84f7659b48af265bbfc9b3618f6039ee92f9",
+      "bytes": 9919,
+      "lines": 295
+    }
+  ],
+  "checks": [
+    {
+      "name": "public storage API",
+      "passed": true,
+      "detail": {
+        "missingTokens": []
+      }
+    },
+    {
+      "name": "wire and fallback",
+      "passed": true,
+      "detail": {
+        "missingTokens": []
+      }
+    },
+    {
+      "name": "atomic history contract",
+      "passed": true,
+      "detail": {
+        "missingTokens": []
+      }
+    },
+    {
+      "name": "deterministic and production boundaries",
+      "passed": true,
+      "detail": {
+        "missingTokens": []
+      }
+    },
+    {
+      "name": "exact final gate handoff",
+      "passed": true,
+      "detail": {
+        "missingTokens": []
+      }
+    },
+    {
+      "name": "local artifact links",
+      "passed": true,
+      "detail": [
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../crates/arc-storage/migrations/0001_phase0.sql",
+          "exists": true
+        },
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../crates/arc-storage/src/lib.rs",
+          "exists": true
+        },
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../crates/arc-daemon/src/db_worker/execution.rs",
+          "exists": true
+        },
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../crates/arc-ipc/src/lib.rs",
+          "exists": true
+        },
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../crates/arc-cli/src/main.rs",
+          "exists": true
+        },
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../crates/arc-daemon/src/main.rs",
+          "exists": true
+        },
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../crates/arc-daemon/src/lifecycle.rs",
+          "exists": true
+        },
+        {
+          "source": "docs/schema-compatibility-contract.md",
+          "target": "../.arc-verify/schema-compatibility/technical/source-inspection.json",
+          "exists": true
+        },
+        {
+          "source": ".arc-verify/schema-compatibility/technical/report.md",
+          "target": "../../../docs/schema-compatibility-contract.md",
+          "exists": true
+        },
+        {
+          "source": ".arc-verify/schema-compatibility/technical/report.md",
+          "target": "source-inspection.json",
+          "exists": true
+        },
+        {
+          "source": ".arc-verify/schema-compatibility/technical/report.md",
+          "target": "artifact-checks.json",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "name": "all inspected product inputs unchanged",
+      "passed": true,
+      "detail": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-storage/Cargo.toml",
+          "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-storage/src/lib.rs",
+          "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-storage/migrations/0001_phase0.sql",
+          "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-storage/tests/nfr010.rs",
+          "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-ipc/Cargo.toml",
+          "sha256": "1448e14d83c9cf6fe162a68c35aaa14d603c910079992e0c5de48c5af004398a",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-ipc/src/lib.rs",
+          "sha256": "4fe35c6cf064cf5c06fc79aecd0e2af0a06c8525997be2125d8870297ad51a28",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-cli/src/main.rs",
+          "sha256": "4e05860a6f57116fa02469138dd196fe9d5d9cea52f78a3af57ed2e9a14d6d90",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-daemon/src/main.rs",
+          "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-daemon/src/db_worker.rs",
+          "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-daemon/src/db_worker/execution.rs",
+          "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-daemon/src/connection.rs",
+          "sha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "crates/arc-daemon/src/lifecycle.rs",
+          "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+          "unchangedSinceInspection": true
+        },
+        {
+          "path": "scripts/harness/validate.sh",
+          "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+          "unchangedSinceInspection": true
+        }
+      ]
+    },
+    {
+      "name": "git diff --check scoped",
+      "passed": true,
+      "detail": {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "--",
+          "docs/schema-compatibility-contract.md",
+          ".arc-verify/schema-compatibility/technical"
+        ],
+        "exitCode": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "new prose whitespace",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "scoped status captured",
+      "passed": true,
+      "detail": {
+        "argv": [
+          "git",
+          "status",
+          "--short",
+          "--untracked-files=all",
+          "--",
+          "docs/schema-compatibility-contract.md",
+          ".arc-verify/schema-compatibility",
+          "crates",
+          "Cargo.toml",
+          "Cargo.lock",
+          "scripts/harness/validate.sh"
+        ],
+        "exitCode": 0,
+        "stdout": "?? .arc-verify/schema-compatibility/technical/artifact-checks.json\n?? .arc-verify/schema-compatibility/technical/report.md\n?? .arc-verify/schema-compatibility/technical/source-inspection.json\n?? docs/schema-compatibility-contract.md\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "unrunProductChecks": [
+    "cargo fmt --all -- --check",
+    "cargo clippy --workspace --all-targets -- -D warnings",
+    "cargo test --workspace",
+    "./scripts/harness/validate.sh"
+  ]
+}

@@ -1,0 +1,13 @@
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-ipc)
+   Compiling arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-cli)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-daemon)
+error[E0616]: field `deadline` of struct `db_worker::execution::Active` is private
+  --> crates/arc-daemon/tests/../src/db_worker/schema_tests.rs:54:22
+   |
+54 |                     .deadline;
+   |                      ^^^^^^^^ private field
+
+For more information about this error, try `rustc --explain E0616`.
+error: could not compile `arc-daemon` (test "db_worker_unit") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `arc-daemon` (test "worker_runtime") due to 1 previous error

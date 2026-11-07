@@ -1,0 +1,295 @@
+{
+  "recordedAt": "2026-11-07T21:37:47.947212+00:00",
+  "scope": "Actor-local initial snapshot and known-path inspection; not integrated delivery or implementation verification",
+  "baselineHead": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "baselineTree": "cde83859dbe37796b62b134384627f657eeae010",
+  "suppliedSnapshotCommit": "5cbb04f332d9e3144ed4c71f99bc145d06451bdb",
+  "suppliedSnapshotTree": "cde83859dbe37796b62b134384627f657eeae010",
+  "inspectedHead": "5cbb04f332d9e3144ed4c71f99bc145d06451bdb",
+  "inspectedTree": "cde83859dbe37796b62b134384627f657eeae010",
+  "files": [
+    {
+      "path": "Cargo.toml",
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "bytes": 770,
+      "lines": 27,
+      "baselineBlob": "115dda1d984fcb6a08ba1bee5e8e6ca0ff0caf99",
+      "baselineSha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "matchesBaseline": true
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "bytes": 15162,
+      "lines": 604,
+      "baselineBlob": "95011d19ac1ea05a2713adf546b6a2c4a4fd9583",
+      "baselineSha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-storage/Cargo.toml",
+      "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+      "bytes": 201,
+      "lines": 9,
+      "baselineBlob": "878023e0b0c3d120bf749ab5021aafae606e64d3",
+      "baselineSha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-storage/src/lib.rs",
+      "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+      "bytes": 3624,
+      "lines": 94,
+      "baselineBlob": "6d805500e373f334c3c4d2e82e8cd43181ac8f5d",
+      "baselineSha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-storage/migrations/0001_phase0.sql",
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "bytes": 3917,
+      "lines": 154,
+      "baselineBlob": "8d8e5d5eb4ea9706119c054dc77cdacbdb3725e8",
+      "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-storage/tests/nfr010.rs",
+      "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "bytes": 7743,
+      "lines": 233,
+      "baselineBlob": "35fae26fa23b8f1bc7bfff75a7e24706a13dc157",
+      "baselineSha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-ipc/Cargo.toml",
+      "sha256": "1448e14d83c9cf6fe162a68c35aaa14d603c910079992e0c5de48c5af004398a",
+      "bytes": 174,
+      "lines": 9,
+      "baselineBlob": "e2d4ec441cf93a3755bb7adee1fe398f6a5a906a",
+      "baselineSha256": "1448e14d83c9cf6fe162a68c35aaa14d603c910079992e0c5de48c5af004398a",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "sha256": "4fe35c6cf064cf5c06fc79aecd0e2af0a06c8525997be2125d8870297ad51a28",
+      "bytes": 12143,
+      "lines": 372,
+      "baselineBlob": "0254168876e513f6ec40d8f1337fcba5161bf81a",
+      "baselineSha256": "4fe35c6cf064cf5c06fc79aecd0e2af0a06c8525997be2125d8870297ad51a28",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-cli/src/main.rs",
+      "sha256": "4e05860a6f57116fa02469138dd196fe9d5d9cea52f78a3af57ed2e9a14d6d90",
+      "bytes": 6272,
+      "lines": 185,
+      "baselineBlob": "e6a6be12ac756ce9680ebdb60b7188f03a724f8a",
+      "baselineSha256": "4e05860a6f57116fa02469138dd196fe9d5d9cea52f78a3af57ed2e9a14d6d90",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-daemon/src/main.rs",
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "bytes": 2752,
+      "lines": 79,
+      "baselineBlob": "72d761b8cc5beb6e43eca33968c5e623c01bd55a",
+      "baselineSha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker.rs",
+      "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "bytes": 10074,
+      "lines": 327,
+      "baselineBlob": "cbd46a06e8d2390b95c74716dc64b9febcfe81b6",
+      "baselineSha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/execution.rs",
+      "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "bytes": 10971,
+      "lines": 320,
+      "baselineBlob": "62aa5fafc615cd97c16284e3bede0f819360e12a",
+      "baselineSha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
+      "bytes": 6115,
+      "lines": 172,
+      "baselineBlob": "0caafba539a956606ee27735fb0ceda0090578f9",
+      "baselineSha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
+      "matchesBaseline": true
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle.rs",
+      "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+      "bytes": 10398,
+      "lines": 303,
+      "baselineBlob": "be02560e63512dd10d4aca677f412519a6f15785",
+      "baselineSha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+      "matchesBaseline": true
+    },
+    {
+      "path": "scripts/harness/validate.sh",
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "bytes": 20351,
+      "lines": 444,
+      "baselineBlob": "d90f4626868bd1c6ccaed84200a8f23ac83eef0e",
+      "baselineSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "matchesBaseline": true
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "5cbb04f332d9e3144ed4c71f99bc145d06451bdb\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "cde83859dbe37796b62b134384627f657eeae010\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "cde83859dbe37796b62b134384627f657eeae010\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "av.yaml: Operation not permitted\n"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--stat"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "av.yaml: Operation not permitted\n"
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        "docs/schema-compatibility-contract.md",
+        "crates",
+        "Cargo.toml",
+        "Cargo.lock",
+        "scripts/harness/validate.sh"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code",
+        "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+        "--",
+        "crates",
+        "Cargo.toml",
+        "Cargo.lock",
+        "scripts/harness/validate.sh"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only",
+        "--",
+        "docs",
+        "crates",
+        "Cargo.toml",
+        "Cargo.lock",
+        "scripts/harness/validate.sh"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/fdf57c1d58d8223e-7afaa346b4bf92bf-1/snapshot"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/fdf57c1d58d8223e-7afaa346b4bf92bf-1/worker"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n"
+    },
+    {
+      "argv": [
+        "git",
+        "branch",
+        "--show-current"
+      ],
+      "exitCode": 0,
+      "stdout": "av-task/fdf57c1d58d8223e-7afaa346b4bf92bf-1\n",
+      "stderr": ""
+    }
+  ],
+  "limitations": [
+    "Serena tools absent from available tool metadata; no repository-wide native code search performed.",
+    "Global git status and diff cannot inspect av.yaml: Operation not permitted; scoped commands remain usable.",
+    "Named snapshot and worker refs were supplied but do not resolve locally.",
+    "No implementation, test, lint, build, harness, browser, GUI or external-effect checks run in this documentation task."
+  ],
+  "inspectedWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/.agent-valley/parallel/workspaces/fdf57c1d58d8223e-7afaa346b4bf92bf-1",
+  "inspectedBranch": "av-task/fdf57c1d58d8223e-7afaa346b4bf92bf-1",
+  "knownPathReadFailures": [
+    {
+      "path": "crates/arc-daemon/src/diagnostics.rs",
+      "existsAtFinalInspection": false,
+      "resolution": "Use the supplied actual worker execution path, crates/arc-daemon/src/db_worker/execution.rs; no code search fallback."
+    }
+  ]
+}

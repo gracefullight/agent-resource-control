@@ -78,7 +78,7 @@ fn resident_contract_holds_until_sigterm() {
     assert_eq!(
         stdout.trim_end(),
         "ok. IPC owner-only. Tray not connected. Vendors not detected. \
-         Command classification not checked. Sweeper off."
+         Command classification not checked. Sweeper off. Schema compatible. Version 1. Migration history verified."
     );
     assert!(!stdout.contains("eleven"), "{stdout}");
 

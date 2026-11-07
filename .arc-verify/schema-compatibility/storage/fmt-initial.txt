@@ -1,0 +1,697 @@
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:1:
+-use crate::migration::{checksum, parse_id, Migration, MigrationError, SchemaCompatibility, SchemaStatus};
++use crate::migration::{
++    checksum, parse_id, Migration, MigrationError, SchemaCompatibility, SchemaStatus,
++};
+ use rusqlite::{types::ValueRef, Connection};
+ 
+ const ARC_OBJECTS: &[&str] = &[
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:5:
+-    "vendors", "agent_instances", "projects", "agent_sessions", "jobs", "permits",
+-    "resource_objects", "resource_leases", "gc_operations", "resource_samples", "policy_states",
+-    "policy_decisions", "audit_events", "idx_jobs_state_class", "idx_jobs_project_time",
+-    "idx_resource_identity", "idx_lease_resource_state", "idx_gc_state",
++    "vendors",
++    "agent_instances",
++    "projects",
++    "agent_sessions",
++    "jobs",
++    "permits",
++    "resource_objects",
++    "resource_leases",
++    "gc_operations",
++    "resource_samples",
++    "policy_states",
++    "policy_decisions",
++    "audit_events",
++    "idx_jobs_state_class",
++    "idx_jobs_project_time",
++    "idx_resource_identity",
++    "idx_lease_resource_state",
++    "idx_gc_state",
+ ];
+ 
+-pub(crate) fn assess(connection: &Connection, registry: &[Migration]) -> Result<SchemaCompatibility, MigrationError> {
++pub(crate) fn assess(
++    connection: &Connection,
++    registry: &[Migration],
++) -> Result<SchemaCompatibility, MigrationError> {
+     let supported = registry.last().unwrap().version;
+     let witness: i64 = connection.query_row("PRAGMA user_version", [], |row| row.get(0))?;
+     let mut objects = connection.prepare("SELECT name, type FROM sqlite_schema")?;
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:15:
+-    let names = objects.query_map([], |row| Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?)))?
++    let names = objects
++        .query_map([], |row| {
++            Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
++        })?
+         .collect::<Result<Vec<_>, _>>()?;
+-    let history_exists = names.iter().any(|(name, kind)| name == "schema_migrations" && kind == "table");
++    let history_exists = names
++        .iter()
++        .any(|(name, kind)| name == "schema_migrations" && kind == "table");
+     let history_named = names.iter().any(|(name, _)| name == "schema_migrations");
+-    let arc_exists = names.iter().any(|(name, _)| ARC_OBJECTS.contains(&name.as_str()));
++    let arc_exists = names
++        .iter()
++        .any(|(name, _)| ARC_OBJECTS.contains(&name.as_str()));
+     let mut result = SchemaCompatibility {
+         status: SchemaStatus::InvalidHistory,
+         applied_version: None,
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:25:
+         schema_migrations: 0,
+     };
+     if !history_exists {
+-        result.status = if history_named { SchemaStatus::InvalidHistory }
+-            else if witness != 0 || arc_exists { SchemaStatus::MissingHistory }
+-            else { SchemaStatus::UpgradeRequired };
++        result.status = if history_named {
++            SchemaStatus::InvalidHistory
++        } else if witness != 0 || arc_exists {
++            SchemaStatus::MissingHistory
++        } else {
++            SchemaStatus::UpgradeRequired
++        };
+         if result.status == SchemaStatus::UpgradeRequired {
+             result.applied_version = Some(0);
+             result.history_verified = true;
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:34:
+         }
+         return Ok(result);
+     }
+-    result.schema_migrations = connection.query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| row.get(0))?;
+-    let mut statement = connection.prepare("SELECT id, applied_at, checksum FROM schema_migrations")?;
++    result.schema_migrations =
++        connection.query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| {
++            row.get(0)
++        })?;
++    let mut statement =
++        connection.prepare("SELECT id, applied_at, checksum FROM schema_migrations")?;
+     let mut rows = statement.query([])?;
+     let mut history = Vec::new();
+     while let Some(row) = rows.next()? {
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:42:
+         let (ValueRef::Text(id), ValueRef::Integer(_), ValueRef::Text(hash)) =
+-            (row.get_ref(0)?, row.get_ref(1)?, row.get_ref(2)?) else { return Ok(result); };
+-        let (Ok(id), Ok(hash)) = (std::str::from_utf8(id), std::str::from_utf8(hash)) else { return Ok(result); };
+-        let Some(version) = parse_id(id) else { return Ok(result); };
++            (row.get_ref(0)?, row.get_ref(1)?, row.get_ref(2)?)
++        else {
++            return Ok(result);
++        };
++        let (Ok(id), Ok(hash)) = (std::str::from_utf8(id), std::str::from_utf8(hash)) else {
++            return Ok(result);
++        };
++        let Some(version) = parse_id(id) else {
++            return Ok(result);
++        };
+         history.push((version, id.to_owned(), hash.to_owned()));
+     }
+     history.sort_by_key(|entry| entry.0);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:51:
+         return Ok(result);
+     }
+     for (index, (version, id, hash)) in history.iter().enumerate() {
+-        if index > 0 && history[index - 1].0 == *version { return Ok(result); }
++        if index > 0 && history[index - 1].0 == *version {
++            return Ok(result);
++        }
+         if *version as usize != index + 1 {
+             result.status = SchemaStatus::MissingHistory;
+             return Ok(result);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:58:
+         }
+         if let Some(migration) = registry.get(index) {
+-            if id != migration.id { return Ok(result); }
++            if id != migration.id {
++                return Ok(result);
++            }
+             if *hash != checksum(migration.sql) {
+                 result.status = SchemaStatus::ChecksumMismatch;
+                 return Ok(result);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/history.rs:72:
+     } else if witness > i64::from(last) {
+         result.status = SchemaStatus::MissingHistory;
+     } else if witness == i64::from(last)
+-        || (witness == 0 && last == 1 && history[0].1 == crate::MIGRATION_ID
+-            && history[0].2 == checksum(crate::MIGRATIONS[0].sql)) {
+-        result.status = if last == supported { SchemaStatus::Compatible } else { SchemaStatus::UpgradeRequired };
++        || (witness == 0
++            && last == 1
++            && history[0].1 == crate::MIGRATION_ID
++            && history[0].2 == checksum(crate::MIGRATIONS[0].sql))
++    {
++        result.status = if last == supported {
++            SchemaStatus::Compatible
++        } else {
++            SchemaStatus::UpgradeRequired
++        };
+         result.applied_version = Some(last);
+         result.history_verified = true;
+     }
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/acceptance.rs:9:
+     assert_eq!(fresh.applied_version, Some(0));
+     assert_eq!(fresh.schema_migrations, 0);
+     migrate(&mut connection, &FIXTURES[..1]).unwrap();
+-    connection.execute("INSERT INTO vendors VALUES ('kept', 'original')", []).unwrap();
++    connection
++        .execute("INSERT INTO vendors VALUES ('kept', 'original')", [])
++        .unwrap();
+     connection.close().unwrap();
+     let mut connection = database.connect();
+     let v1 = snapshot(&connection);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/acceptance.rs:24:
+     assert_eq!(pending.status, SchemaStatus::UpgradeRequired);
+     assert_eq!(pending.applied_version, Some(1));
+     migrate(&mut connection, FIXTURES).unwrap();
+-    let rows: (String, String, String) = connection.query_row(
+-        "SELECT id, display_name, note FROM vendors", [],
+-        |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+-    ).unwrap();
++    let rows: (String, String, String) = connection
++        .query_row("SELECT id, display_name, note FROM vendors", [], |row| {
++            Ok((row.get(0)?, row.get(1)?, row.get(2)?))
++        })
++        .unwrap();
+     assert_eq!(rows, ("kept".into(), "original".into(), "preserved".into()));
+-    let note: (String, String) = connection.query_row(
+-        "SELECT vendor_id, note FROM migration_notes", [], |row| Ok((row.get(0)?, row.get(1)?)),
+-    ).unwrap();
++    let note: (String, String) = connection
++        .query_row("SELECT vendor_id, note FROM migration_notes", [], |row| {
++            Ok((row.get(0)?, row.get(1)?))
++        })
++        .unwrap();
+     assert_eq!(note, ("kept".into(), "upgraded".into()));
+     let upgraded_history = history(&connection);
+     assert_eq!(upgraded_history[0], first_history[0]);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/acceptance.rs:70:
+     assert_eq!(stamped.schema, legacy.schema);
+     assert_eq!(stamped.witness, 1);
+     connection.close().unwrap();
+-    assert_eq!(snapshot(&crate::open_and_migrate(&database.0).unwrap()), stamped);
++    assert_eq!(
++        snapshot(&crate::open_and_migrate(&database.0).unwrap()),
++        stamped
++    );
+ }
+ 
+ #[test]
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/acceptance.rs:98:
+     let before = snapshot(&connection);
+     let broken = [Migration { version: 1, id: "0001_failure", sql:
+         "CREATE TABLE vendors (id TEXT); CREATE TABLE schema_migrations (id TEXT PRIMARY KEY, applied_at INTEGER NOT NULL, checksum TEXT NOT NULL); INSERT INTO absent_table VALUES (1);" }];
+-    assert!(matches!(migrate(&mut connection, &broken), Err(MigrationError::Sql(_))));
++    assert!(matches!(
++        migrate(&mut connection, &broken),
++        Err(MigrationError::Sql(_))
++    ));
+     assert_eq!(snapshot(&connection), before);
+ }
+ 
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/acceptance.rs:108:
+     let mut connection = database.connect();
+     let before = snapshot(&connection);
+     let cases: Vec<Vec<Migration>> = vec![
+-        vec![], vec![FIXTURES[1]], vec![FIXTURES[1], FIXTURES[0]],
++        vec![],
++        vec![FIXTURES[1]],
++        vec![FIXTURES[1], FIXTURES[0]],
+         vec![FIXTURES[0], FIXTURES[0]],
+-        vec![Migration { version: 1, id: "0002_wrong", ..FIXTURES[0] }],
+-        vec![Migration { id: "0001_", ..FIXTURES[0] }],
+-        vec![Migration { id: "0001_Upper", ..FIXTURES[0] }],
+-        vec![Migration { id: "1_short", ..FIXTURES[0] }],
+-        vec![Migration { id: "00001_padding", ..FIXTURES[0] }],
+-        vec![Migration { id: "", ..FIXTURES[0] }],
+-        vec![Migration { sql: " \n", ..FIXTURES[0] }],
+-        vec![Migration { version: u32::MAX, id: "4294967295_overflow", ..FIXTURES[0] }],
++        vec![Migration {
++            version: 1,
++            id: "0002_wrong",
++            ..FIXTURES[0]
++        }],
++        vec![Migration {
++            id: "0001_",
++            ..FIXTURES[0]
++        }],
++        vec![Migration {
++            id: "0001_Upper",
++            ..FIXTURES[0]
++        }],
++        vec![Migration {
++            id: "1_short",
++            ..FIXTURES[0]
++        }],
++        vec![Migration {
++            id: "00001_padding",
++            ..FIXTURES[0]
++        }],
++        vec![Migration {
++            id: "",
++            ..FIXTURES[0]
++        }],
++        vec![Migration {
++            sql: " \n",
++            ..FIXTURES[0]
++        }],
++        vec![Migration {
++            version: u32::MAX,
++            id: "4294967295_overflow",
++            ..FIXTURES[0]
++        }],
+     ];
+     for registry in cases {
+-        assert!(matches!(migrate(&mut connection, &registry), Err(MigrationError::InvalidRegistry(_))));
++        assert!(matches!(
++            migrate(&mut connection, &registry),
++            Err(MigrationError::InvalidRegistry(_))
++        ));
+         assert_eq!(snapshot(&connection), before);
+     }
+ }
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/concurrency.rs:28:
+     let (locked_tx, locked_rx) = mpsc::channel();
+     let (release_tx, release_rx) = mpsc::channel();
+     let first_thread = thread::spawn(move || {
+-        observer(move |stage, _| if stage == Stage::Locked {
+-            locked_tx.send(()).unwrap();
+-            release_rx.recv_timeout(WAIT).unwrap();
++        observer(move |stage, _| {
++            if stage == Stage::Locked {
++                locked_tx.send(()).unwrap();
++                release_rx.recv_timeout(WAIT).unwrap();
++            }
+         });
+         migrate(&mut first, FIXTURES).unwrap();
+         snapshot(&first)
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/concurrency.rs:42:
+     let second_thread = thread::spawn(move || {
+         BUSY.with_borrow_mut(|slot| *slot = Some((busy_tx, retry_rx)));
+         second.busy_handler(Some(busy_handshake)).unwrap();
+-        observer(move |stage, connection| if stage == Stage::Locked {
+-            reread_tx.send(history(connection)).unwrap();
++        observer(move |stage, connection| {
++            if stage == Stage::Locked {
++                reread_tx.send(history(connection)).unwrap();
++            }
+         });
+         migrate(&mut second, FIXTURES).unwrap();
+         snapshot(&second)
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/concurrency.rs:54:
+     let committed = first_thread.join().unwrap();
+     retry_tx.send(()).unwrap();
+     let reread = reread_rx.recv_timeout(WAIT).unwrap();
+-    assert_eq!(reread.len(), 2, "B must see A's committed migration history");
+-    assert_eq!(second_thread.join().unwrap(), committed, "B reapplied an upgrade");
++    assert_eq!(
++        reread.len(),
++        2,
++        "B must see A's committed migration history"
++    );
++    assert_eq!(
++        second_thread.join().unwrap(),
++        committed,
++        "B reapplied an upgrade"
++    );
+ }
+ 
+ struct ChildGuard(Child);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/concurrency.rs:71:
+     let database = Database::new();
+     let connection = database.v1();
+     let before = snapshot(&connection);
+-    let mut child = ChildGuard(Command::new(std::env::current_exe().unwrap())
+-        .args(["--exact", "migration::tests::concurrency::interrupted_child", "--nocapture"])
+-        .env("ARC_MIGRATION_INTERRUPTED_CHILD", &database.0)
+-        .stdin(Stdio::piped()).stdout(Stdio::piped()).stderr(Stdio::inherit())
+-        .spawn().unwrap());
++    let mut child = ChildGuard(
++        Command::new(std::env::current_exe().unwrap())
++            .args([
++                "--exact",
++                "migration::tests::concurrency::interrupted_child",
++                "--nocapture",
++            ])
++            .env("ARC_MIGRATION_INTERRUPTED_CHILD", &database.0)
++            .stdin(Stdio::piped())
++            .stdout(Stdio::piped())
++            .stderr(Stdio::inherit())
++            .spawn()
++            .unwrap(),
++    );
+     let stdout = child.0.stdout.take().unwrap();
+     let (ready_tx, ready_rx) = mpsc::channel();
+     let reader = thread::spawn(move || {
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/concurrency.rs:86:
+             }
+         }
+     });
+-    ready_rx.recv_timeout(WAIT).expect("child must reach known pre-commit boundary");
+-    assert_eq!(snapshot(&connection), before, "uncommitted changes leaked to reader");
++    ready_rx
++        .recv_timeout(WAIT)
++        .expect("child must reach known pre-commit boundary");
++    assert_eq!(
++        snapshot(&connection),
++        before,
++        "uncommitted changes leaked to reader"
++    );
+     child.0.kill().unwrap();
+     assert!(!child.0.wait().unwrap().success());
+     reader.join().unwrap();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/concurrency.rs:94:
+     connection.close().unwrap();
+     let mut recovered = database.connect();
+-    assert_eq!(snapshot(&recovered), before, "interruption left pending state");
++    assert_eq!(
++        snapshot(&recovered),
++        before,
++        "interruption left pending state"
++    );
+     migrate(&mut recovered, FIXTURES).unwrap();
+     let committed = snapshot(&recovered);
+     assert_eq!(committed.witness, 2);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/concurrency.rs:104:
+ 
+ #[test]
+ fn interrupted_child() {
+-    let Some(path) = std::env::var_os("ARC_MIGRATION_INTERRUPTED_CHILD") else { return; };
++    let Some(path) = std::env::var_os("ARC_MIGRATION_INTERRUPTED_CHILD") else {
++        return;
++    };
+     let mut connection = crate::open_connection(std::path::Path::new(&path)).unwrap();
+-    observer(|stage, connection| if stage == Stage::BeforeCommit {
+-        assert_eq!(history(connection).len(), 2);
+-        assert_eq!(snapshot(connection).witness, 2);
+-        let count: i64 = connection.query_row("SELECT COUNT(*) FROM migration_notes", [], |row| row.get(0)).unwrap();
+-        assert_eq!(count, 1);
+-        std::io::stdout().write_all(b"\nARC_PENDING_COMMIT\n").unwrap();
+-        std::io::stdout().flush().unwrap();
+-        let mut buffer = String::new();
+-        std::io::stdin().read_line(&mut buffer).unwrap();
+-        panic!("parent must terminate the pending transaction");
++    observer(|stage, connection| {
++        if stage == Stage::BeforeCommit {
++            assert_eq!(history(connection).len(), 2);
++            assert_eq!(snapshot(connection).witness, 2);
++            let count: i64 = connection
++                .query_row("SELECT COUNT(*) FROM migration_notes", [], |row| row.get(0))
++                .unwrap();
++            assert_eq!(count, 1);
++            std::io::stdout()
++                .write_all(b"\nARC_PENDING_COMMIT\n")
++                .unwrap();
++            std::io::stdout().flush().unwrap();
++            let mut buffer = String::new();
++            std::io::stdin().read_line(&mut buffer).unwrap();
++            panic!("parent must terminate the pending transaction");
++        }
+     });
+     migrate(&mut connection, FIXTURES).unwrap();
+     panic!("interrupted upgrade unexpectedly committed");
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/rejection.rs:6:
+         let database = Database::new();
+         let mut connection = database.v1();
+         migrate(&mut connection, FIXTURES).unwrap();
+-        connection.execute("UPDATE schema_migrations SET checksum='altered' WHERE id=?1", [FIXTURES[version - 1].id]).unwrap();
++        connection
++            .execute(
++                "UPDATE schema_migrations SET checksum='altered' WHERE id=?1",
++                [FIXTURES[version - 1].id],
++            )
++            .unwrap();
+         reject_unchanged(&mut connection, FIXTURES, SchemaStatus::ChecksumMismatch);
+     }
+ }
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/rejection.rs:48:
+     let mut connection = database.v1();
+     migrate(&mut connection, FIXTURES).unwrap();
+     // This is an explicit refusal to open a newer DB; no DOWN SQL is executed.
+-    reject_unchanged(&mut connection, &FIXTURES[..1], SchemaStatus::UnsupportedNewer);
++    reject_unchanged(
++        &mut connection,
++        &FIXTURES[..1],
++        SchemaStatus::UnsupportedNewer,
++    );
+     let report = assess_with_registry(&connection, &FIXTURES[..1]).unwrap();
+     assert_eq!(report.applied_version, Some(2));
+-    connection.execute("INSERT INTO schema_migrations VALUES ('0003_future', 9, 'unknown-to-this-binary')", []).unwrap();
++    connection
++        .execute(
++            "INSERT INTO schema_migrations VALUES ('0003_future', 9, 'unknown-to-this-binary')",
++            [],
++        )
++        .unwrap();
+     connection.pragma_update(None, "user_version", 3).unwrap();
+     reject_unchanged(&mut connection, FIXTURES, SchemaStatus::UnsupportedNewer);
+-    connection.execute("DELETE FROM schema_migrations WHERE id='0003_future'", []).unwrap();
++    connection
++        .execute("DELETE FROM schema_migrations WHERE id='0003_future'", [])
++        .unwrap();
+     reject_unchanged(&mut connection, FIXTURES, SchemaStatus::UnsupportedNewer);
+-    assert_eq!(assess_with_registry(&connection, FIXTURES).unwrap().applied_version, Some(3));
++    assert_eq!(
++        assess_with_registry(&connection, FIXTURES)
++            .unwrap()
++            .applied_version,
++        Some(3)
++    );
+ }
+ 
+ #[test]
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/rejection.rs:84:
+     let database = Database::new();
+     let mut connection = database.v1();
+     connection.execute_batch("UPDATE schema_migrations SET checksum='altered'; INSERT INTO schema_migrations VALUES ('0002_future', 4, 'future'); PRAGMA user_version=2;").unwrap();
+-    reject_unchanged(&mut connection, &FIXTURES[..1], SchemaStatus::ChecksumMismatch);
++    reject_unchanged(
++        &mut connection,
++        &FIXTURES[..1],
++        SchemaStatus::ChecksumMismatch,
++    );
+ }
+ 
+ #[test]
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/rejection.rs:93:
+     let mut connection = database.v1();
+     migrate(&mut connection, FIXTURES).unwrap();
+     let stored = history(&connection);
+-    connection.execute("DELETE FROM schema_migrations", []).unwrap();
++    connection
++        .execute("DELETE FROM schema_migrations", [])
++        .unwrap();
+     for (index, entry) in stored.iter().enumerate().rev() {
+-        connection.execute("INSERT INTO schema_migrations VALUES (?1, ?2, ?3)", params![entry.0, 10 - index as i64, entry.2]).unwrap();
++        connection
++            .execute(
++                "INSERT INTO schema_migrations VALUES (?1, ?2, ?3)",
++                params![entry.0, 10 - index as i64, entry.2],
++            )
++            .unwrap();
+     }
+     let before = snapshot(&connection);
+     migrate(&mut connection, FIXTURES).unwrap();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/rejection.rs:106:
+ fn unreadable_layout_stays_a_typed_sql_error() {
+     let database = Database::new();
+     let mut connection = database.connect();
+-    connection.execute("CREATE TABLE schema_migrations (unknown_column TEXT)", []).unwrap();
++    connection
++        .execute("CREATE TABLE schema_migrations (unknown_column TEXT)", [])
++        .unwrap();
+     let before = snapshot(&connection);
+-    assert!(matches!(assess_with_registry(&connection, FIXTURES), Err(MigrationError::Sql(_))));
+-    assert!(matches!(migrate(&mut connection, FIXTURES), Err(MigrationError::Sql(_))));
++    assert!(matches!(
++        assess_with_registry(&connection, FIXTURES),
++        Err(MigrationError::Sql(_))
++    ));
++    assert!(matches!(
++        migrate(&mut connection, FIXTURES),
++        Err(MigrationError::Sql(_))
++    ));
+     assert_eq!(snapshot(&connection), before);
+ }
+ 
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests/rejection.rs:119:
+     let mut connection = database.v1();
+     let before = snapshot(&connection);
+     let transaction = connection.transaction().unwrap();
+-    transaction.execute("UPDATE vendors SET display_name='uncommitted'", []).unwrap();
+-    assert_eq!(assess_with_registry(&transaction, FIXTURES).unwrap().status, SchemaStatus::UpgradeRequired);
++    transaction
++        .execute("UPDATE vendors SET display_name='uncommitted'", [])
++        .unwrap();
++    assert_eq!(
++        assess_with_registry(&transaction, FIXTURES).unwrap().status,
++        SchemaStatus::UpgradeRequired
++    );
+     assert!(!transaction.is_autocommit());
+     transaction.rollback().unwrap();
+     assert_eq!(snapshot(&connection), before);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests.rs:35:
+ }
+ pub(super) fn observe(stage: Stage, connection: &Connection) {
+     OBSERVER.with_borrow_mut(|observer| {
+-        if let Some(observer) = observer { observer(stage, connection); }
++        if let Some(observer) = observer {
++            observer(stage, connection);
++        }
+     });
+ }
+ fn observer(callback: impl FnMut(Stage, &Connection) + 'static) {
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests.rs:47:
+     fn new() -> Self {
+         static NEXT: AtomicU64 = AtomicU64::new(0);
+         let directory = std::env::temp_dir().join(format!(
+-            "arc-migration-{}-{}", std::process::id(), NEXT.fetch_add(1, Ordering::Relaxed)
++            "arc-migration-{}-{}",
++            std::process::id(),
++            NEXT.fetch_add(1, Ordering::Relaxed)
+         ));
+         fs::create_dir(&directory).unwrap();
+         Self(directory.join("db.sqlite3"))
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests.rs:58:
+     fn v1(&self) -> Connection {
+         let mut connection = self.connect();
+         migrate(&mut connection, &FIXTURES[..1]).unwrap();
+-        connection.execute("INSERT INTO vendors VALUES ('kept', 'original')", []).unwrap();
+         connection
++            .execute("INSERT INTO vendors VALUES ('kept', 'original')", [])
++            .unwrap();
++        connection
+     }
+ }
+ impl Drop for Database {
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests.rs:70:
+ 
+ type History = Vec<(String, i64, String)>;
+ fn history(connection: &Connection) -> History {
+-    connection.prepare("SELECT id, applied_at, checksum FROM schema_migrations ORDER BY id").unwrap()
+-        .query_map([], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?))).unwrap()
+-        .collect::<Result<_, _>>().unwrap()
++    connection
++        .prepare("SELECT id, applied_at, checksum FROM schema_migrations ORDER BY id")
++        .unwrap()
++        .query_map([], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)))
++        .unwrap()
++        .collect::<Result<_, _>>()
++        .unwrap()
+ }
+ 
+ #[derive(Debug, PartialEq)]
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests.rs:83:
+ }
+ fn snapshot(connection: &Connection) -> Snapshot {
+     let schema: Vec<(String, String, String, Option<String>)> = connection
+-        .prepare("SELECT type, name, tbl_name, sql FROM sqlite_schema ORDER BY type, name").unwrap()
+-        .query_map([], |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?))).unwrap()
+-        .collect::<Result<_, _>>().unwrap();
+-    let tables = schema.iter().filter(|object| object.0 == "table").map(|object| {
+-        let name = &object.1;
+-        let mut statement = connection.prepare(&format!("SELECT * FROM \"{}\" ORDER BY rowid", name.replace('"', "\"\""))).unwrap();
+-        let columns = statement.column_count();
+-        let rows = statement.query_map([], |row| (0..columns).map(|index| row.get(index)).collect()).unwrap()
+-            .collect::<Result<Vec<Vec<Value>>, _>>().unwrap();
+-        (name.clone(), rows)
+-    }).collect();
++        .prepare("SELECT type, name, tbl_name, sql FROM sqlite_schema ORDER BY type, name")
++        .unwrap()
++        .query_map([], |row| {
++            Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?))
++        })
++        .unwrap()
++        .collect::<Result<_, _>>()
++        .unwrap();
++    let tables = schema
++        .iter()
++        .filter(|object| object.0 == "table")
++        .map(|object| {
++            let name = &object.1;
++            let mut statement = connection
++                .prepare(&format!(
++                    "SELECT * FROM \"{}\" ORDER BY rowid",
++                    name.replace('"', "\"\"")
++                ))
++                .unwrap();
++            let columns = statement.column_count();
++            let rows = statement
++                .query_map([], |row| (0..columns).map(|index| row.get(index)).collect())
++                .unwrap()
++                .collect::<Result<Vec<Vec<Value>>, _>>()
++                .unwrap();
++            (name.clone(), rows)
++        })
++        .collect();
+     Snapshot {
+-        schema, tables,
+-        witness: connection.query_row("PRAGMA user_version", [], |row| row.get(0)).unwrap(),
++        schema,
++        tables,
++        witness: connection
++            .query_row("PRAGMA user_version", [], |row| row.get(0))
++            .unwrap(),
+     }
+ }
+ 
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration/tests.rs:111:
+         error => panic!("unexpected error: {error}"),
+     }
+     assert!(connection.is_autocommit());
+-    assert_eq!(snapshot(connection), before, "rejected open changed database");
++    assert_eq!(
++        snapshot(connection),
++        before,
++        "rejected open changed database"
++    );
+ }
+ 
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration.rs:88:
+         && version <= i32::MAX as u32
+         && prefix == format!("{version:04}")
+         && !suffix.is_empty()
+-        && suffix.bytes().all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'_'))
++        && suffix
++            .bytes()
++            .all(|b| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'_'))
+     .then_some(version)
+ }
+ 
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration.rs:97:
+         return Err(MigrationError::InvalidRegistry("empty registry"));
+     }
+     for (index, migration) in registry.iter().enumerate() {
+-        if migration.version as usize != index + 1 || parse_id(migration.id) != Some(migration.version) {
+-            return Err(MigrationError::InvalidRegistry("versions and IDs must form an ordered sequence from 1"));
++        if migration.version as usize != index + 1
++            || parse_id(migration.id) != Some(migration.version)
++        {
++            return Err(MigrationError::InvalidRegistry(
++                "versions and IDs must form an ordered sequence from 1",
++            ));
+         }
+         if migration.sql.trim().is_empty() {
+             return Err(MigrationError::InvalidRegistry("empty SQL"));
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration.rs:105:
+         }
+-        if registry[..index].iter().any(|prior| prior.id == migration.id) {
++        if registry[..index]
++            .iter()
++            .any(|prior| prior.id == migration.id)
++        {
+             return Err(MigrationError::InvalidRegistry("duplicate ID"));
+         }
+     }
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace/crates/arc-storage/src/migration.rs:130:
+     }
+ }
+ 
+-pub(crate) fn migrate(connection: &mut Connection, registry: &[Migration]) -> Result<(), MigrationError> {
++pub(crate) fn migrate(
++    connection: &mut Connection,
++    registry: &[Migration],
++) -> Result<(), MigrationError> {
+     validate_registry(registry)?;
+     let transaction = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+     #[cfg(test)]

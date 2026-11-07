@@ -75,12 +75,19 @@ async fn failed_integrity_and_schema_reports_keep_dispatch_validation() {
         DoctorReport {
             integrity_check: "failed integrity check".into(),
             schema_migrations: 1,
+            schema: None,
         },
         DoctorReport {
             integrity_check: "ok".into(),
             schema_migrations: 0,
+            schema: None,
         },
     ] {
+        let expected = if report.integrity_check == "ok" {
+            arc_ipc::ERROR_SCHEMA_DETAILS_UNAVAILABLE
+        } else {
+            ERROR_INTEGRITY_FAILED
+        };
         let (limits, metrics) = crate::transport_test_support::setup();
         let requests = Requests::new(&limits, Arc::clone(&metrics)).unwrap();
         let (server, client) = UnixStream::pair().unwrap();
@@ -96,7 +103,7 @@ async fn failed_integrity_and_schema_reports_keep_dispatch_validation() {
         ));
         let response = request(&client, &Request::new("invalid-report", OPERATION_DOCTOR)).await;
         assert_eq!(response.protocol_version, 1);
-        assert_eq!(response.error.unwrap().code, ERROR_INTEGRITY_FAILED);
+        assert_eq!(response.error.unwrap().code, expected);
         drop(client);
         tokio::time::timeout(Duration::from_secs(2), handler)
             .await
@@ -341,7 +348,7 @@ async fn typed_worker_errors_reach_protocol_and_actual_cli_then_recover() {
             doctor.status.success() && doctor.stderr.is_empty(),
             "{doctor:?}"
         );
-        assert_eq!(doctor.stdout, b"ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off.\n");
+        assert_eq!(doctor.stdout, b"ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 1. Migration history verified.\n");
         eprintln!(
             "classification-receipt: {}",
             serde_json::json!({"sqlite_code":code,"protocol":1,"wire":wire,"cli_stderr":cli_error,"status_recovered":true,"doctor_recovered":true})

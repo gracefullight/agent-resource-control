@@ -11,6 +11,8 @@ mod identity;
 mod lifecycle;
 #[path = "resident/provisioning.rs"]
 mod provisioning;
+#[path = "resident/schema.rs"]
+mod schema;
 
 use arc_ipc::{
     self, Request, Response, ERROR_PROTOCOL_INCOMPATIBLE, OPERATION_HELLO, PROTOCOL_VERSION,

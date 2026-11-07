@@ -1,0 +1,313 @@
+{
+  "taskId": "task-8",
+  "actorId": "chief-director",
+  "status": "completed",
+  "missionStatus": "product_passed_coverage_unresolved",
+  "fullVerificationPassed": false,
+  "sourceFingerprint": "3ff8691bc3d81511f30ec68bca9a62e7bd74dabd13a3fd686a955d189d302ca5",
+  "sourceFingerprintDefinition": "SHA-256 of exact verification/source-manifest.json bytes",
+  "sourceManifest": ".arc-verify/schema-compatibility/verification/source-manifest.json",
+  "sourceScope": "All crate Rust/SQL/TOML inputs, root Cargo manifest/lock/toolchain, harness and consumed interface/recovery docs. Not a whole-worktree fingerprint; av.yaml is inaccessible and excluded.",
+  "sourceInputCount": 92,
+  "baseHead": "bf28a35b594f5ae83ac97c216bd3b09e60a2dfa1",
+  "productRequirementsPassed": true,
+  "requiredCargoGatesPassed": true,
+  "harnessExitCode": 1,
+  "harnessCoverageStatus": "unresolved_missing_test:coverage",
+  "harnessPassed": false,
+  "coverageExecuted": false,
+  "independentReviewPassed": true,
+  "evidenceComplete": true,
+  "evidenceCompletenessMeaning": "All saved acceptance evidence and final deliverables are present and source-matched, including actual harness failure; coverage qualification is incomplete.",
+  "goalBriefUnchanged": true,
+  "verificationContractUnchanged": true,
+  "missionStateModified": false,
+  "immutableRequirementAssessment": [
+    {
+      "criterion": 1,
+      "met": true,
+      "evidence": [
+        "verification/summary.json",
+        "review/report.md"
+      ]
+    },
+    {
+      "criterion": 2,
+      "met": true,
+      "evidence": [
+        "verification/acceptance-matrix.md",
+        "verification/workspace-test.json",
+        "review/assessment.json"
+      ]
+    },
+    {
+      "criterion": 3,
+      "met": true,
+      "evidence": [
+        "verification/fmt.json",
+        "verification/clippy.json",
+        "verification/workspace-test.json"
+      ]
+    },
+    {
+      "criterion": 4,
+      "met": true,
+      "evidence": [
+        "verification/source-manifest.json",
+        "verification/harness.json",
+        "review/assessment.json",
+        "final.md",
+        "final.json"
+      ],
+      "qualification": "Actual harness exit 1 retained; coverage gate has not passed."
+    }
+  ],
+  "originalMigration": {
+    "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "baseSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "matchesBase": true,
+    "bytes": 3917
+  },
+  "protocolVersion": 1,
+  "sourceFilesWithin500Lines": true,
+  "compiledOnlyProductionMigrationInputs": true,
+  "productionSchemaVersion": 1,
+  "testInvocationsPassed": 247,
+  "distinctTestCountClaimed": false,
+  "acceptanceGroups": 26,
+  "explicitDowngradeRejectionPassed": true,
+  "downgradeExecutionSupported": false,
+  "legacyClientLimitations": [
+    "Baseline protocol-1 behavior adapters and legacy-response fixtures; historical executables were not separately compiled.",
+    "Old count==1 validators reject truthful fixture count 2.",
+    "Absent legacy schema details do not establish checksum verification."
+  ],
+  "commandsReused": [
+    {
+      "command": "cargo fmt --all -- --check",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T22:26:57.460677+00:00",
+      "finishedAt": "2026-11-07T22:26:57.784933+00:00",
+      "elapsedSeconds": 0.32403337498544715,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/fmt.txt",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": "cargo clippy --workspace --all-targets -- -D warnings",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T22:26:57.904136+00:00",
+      "finishedAt": "2026-11-07T22:26:58.773303+00:00",
+      "elapsedSeconds": 0.8689517500170041,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/clippy.txt",
+      "logSha256": "74eb7afcff4ba44f36e7e4e4ce619e07d9d3975dc09f753d3c77fc865b805396"
+    },
+    {
+      "command": "cargo test --workspace",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T22:27:01.246686+00:00",
+      "finishedAt": "2026-11-07T22:27:44.312394+00:00",
+      "elapsedSeconds": 43.06613158300752,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/workspace-test.txt",
+      "logSha256": "67f9687a8661e05a5aa455e836aca3a3b634624e9859a71ccb070692c11ff68f"
+    },
+    {
+      "command": "./scripts/harness/validate.sh",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "startedAt": "2026-11-07T22:27:49.876523+00:00",
+      "finishedAt": "2026-11-07T22:29:31.829011+00:00",
+      "elapsedSeconds": 101.95224770798814,
+      "sourceUnchanged": true,
+      "log": ".arc-verify/schema-compatibility/verification/harness.txt",
+      "logSha256": "49f59d87dbdf20269fe87f8e3d72c14fe213fc3b6c6bd01b1eb8a5354b80baac"
+    }
+  ],
+  "productChecksRerunDuringFinalDelivery": false,
+  "rerunDecision": "Current source, receipt and log hashes match verified and independently reviewed sources; no changed input or concrete executable gap.",
+  "finalAudit": {
+    "command": "python3 - (read-only source/receipt/acceptance audit)",
+    "exitCode": 0,
+    "sourceEntriesVerified": 92,
+    "verificationArtifactEntriesVerified": 28,
+    "reviewReportAndAuditHashesMatch": true,
+    "acceptanceGroupsVerified": 26,
+    "testReferencesVerified": 68,
+    "immutableInputsMatchBase": true,
+    "sourceFilesWithin500Lines": true,
+    "writes": 0
+  },
+  "skillsUsed": [
+    "oma-coordination",
+    "oma-pm"
+  ],
+  "implementationSkills": [
+    "oma-db",
+    "oma-backend"
+  ],
+  "independentReviewSkill": "oma-qa",
+  "pathsChanged": [
+    ".arc-verify/schema-compatibility/final.md",
+    ".arc-verify/schema-compatibility/final.json"
+  ],
+  "productFilesModified": false,
+  "ownershipOrInterfaceConflicts": [],
+  "externalEffects": {
+    "deployment": false,
+    "operationalRestart": false,
+    "outreach": false,
+    "publication": false,
+    "spendingAction": false,
+    "distribution": false,
+    "testOwnedDaemonLifecycleOnly": true,
+    "providerCostKnown": false
+  },
+  "visualVerification": "not applicable: terminal-only change; no screen checks or browser suites performed",
+  "remainingRisks": [
+    "Unchanged harness exit 1: missing test:coverage; coverage did not execute.",
+    "Native aarch64-apple-darwin evidence only.",
+    "Legacy interoperability uses adapters/fixtures with the count-2 limitation retained.",
+    "Scoped product-source fingerprint; inaccessible av.yaml is excluded.",
+    "Usability, retention, support savings, demand and commercial outcomes unmeasured."
+  ],
+  "nextActions": [
+    "Retain the coverage prerequisite failure. If separately assigned, repair the coverage entry point through its owner without changing the harness command, then refresh affected evidence and review.",
+    "Refresh source-bound verification and independent review after any later product-input change."
+  ],
+  "consumedArtifacts": {
+    "technical/report.md": {
+      "sha256": "b73cd549a611de0c9c61299a8b37af641e2ef438bd62ab3075e4469a55ac8ce5",
+      "bytes": 12459
+    },
+    "technical/source-inspection.json": {
+      "sha256": "aff498e7841f911e7b270e1fdeff84f7659b48af265bbfc9b3618f6039ee92f9",
+      "bytes": 9919
+    },
+    "technical/artifact-checks.json": {
+      "sha256": "fe11621ec314bb412a8f3a5c0c7c933a4ab2cc9be4cd1acb21375f331d581a05",
+      "bytes": 8040
+    },
+    "design/diagnostic-contract.md": {
+      "sha256": "b1ffa89ba48db04f70790f24a6186efda6d3053c4321bde850d74707ba05ea86",
+      "bytes": 24571
+    },
+    "marketing/value-scope.md": {
+      "sha256": "100f2682a1088d6d9f0b4164d69b9b30dfd11575e0fc19fed6d011ad5d983d8b",
+      "bytes": 13087
+    },
+    "storage/report.md": {
+      "sha256": "c641bad30ac8aae78f92d71959f38094458bf7a5939bba91c31fa8bff9439dbf",
+      "bytes": 11618
+    },
+    "storage/source-manifest.json": {
+      "sha256": "e563570d108e3c4d5c3ea63bf185bfb23ef2c3c1f322999ba0c9cf8639d504c0",
+      "bytes": 2518
+    },
+    "backend/report.md": {
+      "sha256": "1044acdb227105e3e20595cbd3c33aa9ee06a2cfea9cb25d94a9df58dc5b4ac4",
+      "bytes": 15043
+    },
+    "backend/source-manifest.json": {
+      "sha256": "4a9b753c04cb923e9289e6a39746c500b4ec834b6b2bf16b47276be4f271e38f",
+      "bytes": 15263
+    },
+    "backend/boundary.json": {
+      "sha256": "9360e56318702c5fffdf287e052ed6b02bf7550f87e592327b7a4b22bd63f8b4",
+      "bytes": 2425
+    },
+    "verification/report.md": {
+      "sha256": "160a727d66a8f1dff1b31c8e0c0685b09811ac9056fe3ee25a7b3aff6d626c13",
+      "bytes": 8089
+    },
+    "verification/summary.json": {
+      "sha256": "eeca30037796322913145970325d38e725485096d3ec331a0859d26853f42dbb",
+      "bytes": 4821
+    },
+    "verification/source-manifest.json": {
+      "sha256": "3ff8691bc3d81511f30ec68bca9a62e7bd74dabd13a3fd686a955d189d302ca5",
+      "bytes": 15409
+    },
+    "verification/acceptance-matrix.md": {
+      "sha256": "cbb6784ec6db2e892dacf7f2d046bb020382d85b6e423a3be81551863be954ec",
+      "bytes": 17433
+    },
+    "verification/acceptance-cases.json": {
+      "sha256": "51673c3c5afb31e699e01401c310e198d74b221115751f067095747d7def5b58",
+      "bytes": 27983
+    },
+    "verification/artifact-manifest.json": {
+      "sha256": "22364ede33c477a961e58014048072ca072d4340eea933a3b0156dc275ae649f",
+      "bytes": 3614
+    },
+    "verification/fmt.json": {
+      "sha256": "9a5f3d20e8d18a48e46bc6584c7d01ab4a3f77ac7fc94dfaf321fc080d9ec6fa",
+      "bytes": 33601
+    },
+    "verification/clippy.json": {
+      "sha256": "1eae267098d4221f604b15dbc8f06364f41547f5f600c60170294964a1241a7f",
+      "bytes": 33673
+    },
+    "verification/workspace-test.json": {
+      "sha256": "8150bf050dd9abc389f8b40724ce1c7a8c1b2627a111f0195a3a35fc85682bee",
+      "bytes": 33592
+    },
+    "verification/harness.json": {
+      "sha256": "37323c8ac30dde6008f56f18fde4ec621f79abca8ef0e363900e901cdc95a600",
+      "bytes": 33914
+    },
+    "review/report.md": {
+      "sha256": "5e510962ae263cec334dfb5ade61365d44b5245726ac66bbeb7a0afea798cef8",
+      "bytes": 16292
+    },
+    "review/assessment.json": {
+      "sha256": "50520762d4f214b2ca57afd6d40cca6c010d36e1e4a6af4820b3673be8981864",
+      "bytes": 24390
+    },
+    "review/audit.json": {
+      "sha256": "9200e99928aa372d3bbe510fe6a5fa55cbd15ca4fe52ecfa421af860dcd3cf75",
+      "bytes": 3105
+    }
+  },
+  "report": "final.md",
+  "reportSha256": "cde5723e387b6b2273fc00b0253713ba1102c1ebe17cc31263e559eb579c23de",
+  "reportedAt": "2026-11-07T22:39:37.854059+00:00",
+  "deliveryChecks": {
+    "command": "python3 - (final JSON/link/hash/whitespace validation)",
+    "exitCode": 0,
+    "checks": [
+      "Final JSON schema/value assertions",
+      "All local Markdown links resolve",
+      "Report and consumed-artifact hashes match",
+      "92 product-source hashes still match reviewed fingerprint",
+      "Harness exit 1 and missing coverage remain explicit",
+      "Owned output whitespace checks"
+    ],
+    "localLinksVerified": 41,
+    "consumedArtifactHashesVerified": 23
+  }
+}

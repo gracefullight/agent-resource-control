@@ -1,0 +1,29 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "-p",
+    "arc-storage"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/1f8a7d5e-7262-4d6d-acdd-bfed3071e32b/workspace",
+  "exitCode": 0,
+  "elapsedSeconds": 8.918206930160522,
+  "sourceBound": true,
+  "inputs": {
+    "Cargo.toml": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+    "Cargo.lock": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+    "crates/arc-storage/Cargo.toml": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+    "crates/arc-storage/src/history.rs": "9d2aedd932cc50f4bb2f1db068e457cd38b9a40a9aff5464ee19dbecd11d7274",
+    "crates/arc-storage/src/lib.rs": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b",
+    "crates/arc-storage/src/migration/tests/acceptance.rs": "193f99841022761e50a3d4a3b90d0be15d9ee319fa0d009f8bdab4c700dcde03",
+    "crates/arc-storage/src/migration/tests/concurrency.rs": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+    "crates/arc-storage/src/migration/tests/rejection.rs": "22cb4c7b0e10fa78d949d9576376b58f9734bc12ff31115e379c483182052ace",
+    "crates/arc-storage/src/migration/tests.rs": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+    "crates/arc-storage/src/migration.rs": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533",
+    "crates/arc-storage/tests/fixtures/0001_fixture.sql": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639",
+    "crates/arc-storage/tests/fixtures/0002_additive.sql": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127",
+    "crates/arc-storage/tests/nfr010.rs": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+    "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  }
+}

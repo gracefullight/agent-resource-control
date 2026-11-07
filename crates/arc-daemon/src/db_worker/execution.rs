@@ -189,18 +189,39 @@ fn execute(
             connection.execute_batch("BEGIN IMMEDIATE; ROLLBACK;")
         })?;
     }
-    // Only these two fixed, read-only diagnostics are reachable in production.
+    // Fixed read-only diagnostics use this worker and its cancellation budget.
     let integrity_check = query(connection, shared, || {
         connection.query_row("PRAGMA integrity_check", [], |row| row.get(0))
     })?;
-    let schema_migrations = query(connection, shared, || {
-        connection.query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| {
-            row.get(0)
-        })
-    })?;
+    check(shared)?;
+    let assessment = arc_storage::assess_schema(connection);
+    check(shared)?;
+    let assessment = match assessment {
+        Ok(assessment) => assessment,
+        Err(arc_storage::MigrationError::Sql(error)) => {
+            return query(connection, shared, || Err(error));
+        }
+        Err(error) => return Err(DbError::Migration(error)),
+    };
+    use arc_ipc::{SchemaReport, SchemaStatus as Wire};
+    use arc_storage::SchemaStatus as Storage;
+    let status = match assessment.status {
+        Storage::Compatible => Wire::Compatible,
+        Storage::UpgradeRequired => Wire::UpgradeRequired,
+        Storage::MissingHistory => Wire::MissingHistory,
+        Storage::ChecksumMismatch => Wire::ChecksumMismatch,
+        Storage::InvalidHistory => Wire::InvalidHistory,
+        Storage::UnsupportedNewer => Wire::UnsupportedNewer,
+    };
     Ok(DoctorReport {
         integrity_check,
-        schema_migrations,
+        schema_migrations: assessment.schema_migrations,
+        schema: Some(SchemaReport {
+            status,
+            applied_version: assessment.applied_version,
+            supported_version: assessment.supported_version,
+            history_verified: assessment.history_verified,
+        }),
     })
 }
 

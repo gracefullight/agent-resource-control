@@ -1,0 +1,13 @@
+{
+  "document": "docs/bounded-ipc-recovery.md",
+  "newEvidenceLink": "../.arc-verify/schema-compatibility/backend/report.md",
+  "targetExists": true,
+  "docs/schema-compatibility-contract.md": {
+    "sha256": "d796b2875b3c998fd186e18043317f355896a3fa4ca705952752b105c46e5e9e",
+    "bytes": 23734
+  },
+  ".arc-verify/schema-compatibility/design/diagnostic-contract.md": {
+    "sha256": "b1ffa89ba48db04f70790f24a6186efda6d3053c4321bde850d74707ba05ea86",
+    "bytes": 24571
+  }
+}

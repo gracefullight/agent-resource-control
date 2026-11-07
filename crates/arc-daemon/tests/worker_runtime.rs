@@ -66,10 +66,11 @@ fn controlled_daemon_child() {
         let config = db_worker::DbConfig {
             queue_capacity:limits.db_queue,busy_timeout:limits.db_busy_timeout,execution_timeout:limits.db_execution_timeout,
         };
-        let worker = if mode == "sql" {
+        let worker = if mode == "sql" || mode == "schema" {
+            let paused_pragma = if mode == "schema" { "user_version" } else { "integrity_check" };
             let mut gate = Some(receiver);
             database.authorizer(Some(move |context: rusqlite::hooks::AuthContext<'_>| {
-                if matches!(context.action, rusqlite::hooks::AuthAction::Pragma { pragma_name: "integrity_check", .. }) {
+                if matches!(context.action, rusqlite::hooks::AuthAction::Pragma { pragma_name, .. } if pragma_name == paused_pragma) {
                     if let Some(gate) = gate.take() {
                         // Deliberately pause inside SQLite's preparation of the
                         // real fixed diagnostic, without replacing its result.
@@ -102,7 +103,7 @@ fn controlled_daemon_child() {
                 println!("bounded-child:{marker}");
                 std::io::stdout().flush().unwrap();
             }
-            if mode == "release" || mode == "sql" {
+            if mode == "release" || mode == "sql" || mode == "schema" {
                 while !socket.parent().unwrap().join("release").exists() { tokio::time::sleep(Duration::from_millis(1)).await; }
                 release.send(()).unwrap();
                 metrics.wait_for(|s|s.gauge(Gauge::DbOutstanding).current==0).await;
@@ -203,9 +204,18 @@ fn controlled_slow_database_does_not_block_health_and_cli_recovers() {
 
 #[test]
 fn health_completes_while_native_sql_preparation_is_deliberately_stalled() {
+    health_during_preparation("sql");
+}
+
+#[test]
+fn health_completes_while_schema_assessment_is_deliberately_stalled() {
+    health_during_preparation("schema");
+}
+
+fn health_during_preparation(mode: &str) {
     let _serial = support::serial();
     let fixture = Fixture::new();
-    let mut child = spawn(&fixture, "sql");
+    let mut child = spawn(&fixture, mode);
     let mut streams = saturate_db(&fixture, &mut child);
     fixture.wait_for(&mut child, "bounded-child:sql-active");
     let start = Instant::now();
@@ -223,9 +233,9 @@ fn health_completes_while_native_sql_preparation_is_deliberately_stalled() {
     fixture.assert_cli();
     child.stop(libc::SIGTERM);
     receipt(
-        "native-sql-health",
+        mode,
         &serde_json::json!({"report":fixture.report(),"health_cli_us":health_us,
-        "controlled_delay":"one bounded test-only SQLite authorizer callback inside preparation of PRAGMA integrity_check; original SQL executes after release"}),
+        "controlled_delay":"one bounded test-only SQLite authorizer callback; original diagnostic SQL executes after release", "mode":mode}),
     );
 }
 

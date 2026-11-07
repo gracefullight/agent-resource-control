@@ -1,0 +1,602 @@
+[
+  {
+    "path": "Cargo.lock",
+    "sha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2",
+    "mode": "0o644"
+  },
+  {
+    "path": "Cargo.toml",
+    "sha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-cli/Cargo.toml",
+    "sha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-cli/src/main.rs",
+    "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-cli/tests/binary.rs",
+    "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-core/Cargo.toml",
+    "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-core/src/lib.rs",
+    "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-core/tests/runtime.rs",
+    "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/Cargo.toml",
+    "sha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+    "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/admission.rs",
+    "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/connection.rs",
+    "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker.rs",
+    "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/tests.rs",
+    "sha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/instance.rs",
+    "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/lifecycle.rs",
+    "sha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+    "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/limits.rs",
+    "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/main.rs",
+    "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/platform.rs",
+    "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+    "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_metrics.rs",
+    "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_report.rs",
+    "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+    "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/server.rs",
+    "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/server_tests.rs",
+    "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/transport.rs",
+    "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/transport_test_support.rs",
+    "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/src/transport_tests.rs",
+    "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/bounded.rs",
+    "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+    "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/resident.rs",
+    "sha256": "351d81a201217608690128f0e8017f40048c32cfbd1537e524e83e60fbc730b6",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/startup.rs",
+    "sha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/support/admission_load.rs",
+    "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/support/deadline_recovery.rs",
+    "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/support/measurements.rs",
+    "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/support/mod.rs",
+    "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/support/native.rs",
+    "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/support/runtime.rs",
+    "sha256": "9a53fa762b6fcdb2429b964221bb1756e35a37c33a674a7baf57abd1a0592535",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/transport_unit.rs",
+    "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-daemon/tests/worker_runtime.rs",
+    "sha256": "4ab079e2cc01018742c9e3f3088938dab5f067ff0a94d464754a8c3b356d9f5c",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-ipc/Cargo.toml",
+    "sha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-ipc/src/lib.rs",
+    "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-storage/Cargo.toml",
+    "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-storage/migrations/0001_phase0.sql",
+    "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-storage/src/lib.rs",
+    "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+    "mode": "0o644"
+  },
+  {
+    "path": "crates/arc-storage/tests/nfr010.rs",
+    "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/architecture/CONSTRAINTS.md",
+    "sha256": "ec660774adafb8b26d7cdd8acd69279a54dd4547e721fcf14bed95965b5b7d8e",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/architecture/LAYERS.md",
+    "sha256": "993dcb4a901eead83bc907daf09ca79550fcf8ff68162d3a2226dd4f5b2a7116",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/architecture/enforcement/go.md",
+    "sha256": "d5257f51a3881f85570cf224919bc0db18f0bcd965d31e5db9db42ea6a1ee68c",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/architecture/enforcement/python.md",
+    "sha256": "30a23eba1046d888d4d5b1de3c108fe72b80c248494ea6592b54b10aa9be12af",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/architecture/enforcement/typescript.md",
+    "sha256": "318a03139a301e7325851954fb8c24365dc8f05ec18fad3b48402d1713a65f58",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/bounded-ipc-contract.md",
+    "sha256": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/bounded-ipc-final.md",
+    "sha256": "0f84abe66240144c6e9f7f89ebd775f58af624b55c51c74975f7ea602adadea4",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/bounded-ipc-recovery.md",
+    "sha256": "f3bf611cf8d883ea0122975d52976b5196c7fdcd891da6c8b341ab7ad2b4b369",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/bounded-ipc-targets.md",
+    "sha256": "991aa83a4c7d721a3b4eec303b635aa5df88cd7830918aa5309b1ef3cff41ddd",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/bounded-ipc-value-scope.md",
+    "sha256": "f0f6f0f932eeab477d9ba99339b302b4c57853f283d880a6eb7c490647fc0026",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/0001-turso-team-ledger.md",
+    "sha256": "9473a89dd8d23d396fbc08e31793566c0993151900d7be64fb0e08cc729aef54",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/001-chief-continuous-operation.md",
+    "sha256": "0fe7bbcde69d62953225e59cd7e52af516e3b57993e9f3f100b4bfb492d3e220",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/README.md",
+    "sha256": "8d547d5006eadbb51bb8deea683a21146324233615fd4cb0094422de98e3b7af",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/adr-chief-decision-ownership.md",
+    "sha256": "699b673b774c82e396ec22af5e180f87606055c2a09b65dd07366e493e39c258",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/adr-runtime-execution-and-state-ownership.archify.delivery.json",
+    "sha256": "14ebfe3cdbedf0ca299a74d5601d443eb69d5f1c5ec4b5bea93926a9d3ee99df",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/adr-runtime-execution-and-state-ownership.archify.html",
+    "sha256": "927014c8f52cb19efe42869c72b55788056302591fde8ee8e11cc22d63fb0400",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/adr-runtime-execution-and-state-ownership.archify.json",
+    "sha256": "6c059e24ed960a460e5484ebeae1788d39cb4fd29273c2804067440ec516cd15",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/decisions/adr-runtime-execution-and-state-ownership.md",
+    "sha256": "37b9a98320399cc6016b926f2dc54027d36a39255aeda786d2b56064bc50e454",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/a2a-execution.md",
+    "sha256": "cf50b554ec0fada1eed0dea86fea78d4538d0c0c955f8c74f14f47f762d1ed4b",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/agent-clients.md",
+    "sha256": "489e9c3acbc608fb653fe7026ab8db93bba476daff76f2feb2f421d7fd41782b",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/chief-containers.md",
+    "sha256": "6c7c25f855b3a542b1220130b8c81b6ad890e89911fc557b08617880f857021d",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/chief-continuous.md",
+    "sha256": "7af839979d06ef17cc7ca817f2ba4a58000744b9fe15034a73c87411d119c38e",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/chief-integrations.md",
+    "sha256": "31560e57afd429259dcb4b9ea853ef1a9c53bbaeb96b9ddeb97784c2f0446b65",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/chief-missions.md",
+    "sha256": "2f5e8949302a8471a9cff4e99ac24f9161008830722350542986499b8fa69b3c",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/conformance-checklist.md",
+    "sha256": "ede334510052e7cda4688f459353f39710d2bcf93812e8bca9cbdca538485efe",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/conventions.md",
+    "sha256": "2d344e455221e1a40d8eb680f8089b20b711ebeca8ee191c7578fe8a2b4bc545",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/environment-setup.md",
+    "sha256": "bb43205beb4a9cca289f58c4013decc5b66947722e53046bf1372a39c99aed04",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/implementation-guide.md",
+    "sha256": "1cfca7a3192b6c85bb49d5db1597532e36a504d16d985f810cdcea98e7f7412e",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/native-plugins.md",
+    "sha256": "8dcf69b168e381939d5d996a20f7eb1fd6630e0b318ea9897a48c26789cf0f74",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/oma-integration.md",
+    "sha256": "428d5d15a5673b29a741f4e58d0f2664653f9a98c3045e1ff323037cdeca9f53",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/production-readiness.md",
+    "sha256": "c68d849f50a7713b4fc51a98aa362be665fe8f6f208497257cd3a9b6da439b5b",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/team-ledger.md",
+    "sha256": "a36d7950294590472ebf184c7013df164f027994cd1d3f10c4119fdd1b7dd306",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/unattended-delivery.md",
+    "sha256": "0a3876094bfd54a6e115355af253932e4b8732e343175ebbbc7815d79d6636a4",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/guides/web-mcp.md",
+    "sha256": "55c0c40360bd0cdfe442c593560ec839ca2444fd960597f7bfab6a6097fd9874",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/harness/ENTROPY.md",
+    "sha256": "ca32015de4ce8ae1e1cf9b03cbfbc0a3b058b7352b50dec4e25338415f0a57b7",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/harness/FEEDBACK-LOOPS.md",
+    "sha256": "c573b93367d8148a684a816ffb9f84a3c6806fc2cc70baf47abf1b6ed36a55fa",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/harness/LEGIBILITY.md",
+    "sha256": "44e245a70c882a06ad142ac166186bb05010a1091c725e375b9b7caba7e07b4f",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/harness/SAFETY.md",
+    "sha256": "cc5596ae4aaaa87e1e4bbc5bdc6c746d34524e1a100049d789d3f72a1eff7167",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/ipc-provisioning-design-review.md",
+    "sha256": "05d79061d397688dc0f19da1dec290bba413e7483ceb5ee3aa94d70992085b70",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/ipc-provisioning-final.md",
+    "sha256": "47e7116ea4f46306c442a30a8d1fc554422fc38ff44eb30ab39cb73a4e58f845",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/ipc-provisioning-implementation.md",
+    "sha256": "4b0236cb11364fba28eb2a87ff1bb084e136cc3e6e40d1d52a895bd15372d47b",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/ipc-provisioning-qa.md",
+    "sha256": "66efac5bd2840b9af6fb8063c59c2b849e38b6bff4a1fa900a19301f9c055b48",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/ipc-provisioning-technical-review.md",
+    "sha256": "ab9d6a7ec000618711b26bef6f5c76154eb404b978c4540dd2008609c30ff655",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/ipc-provisioning-value-scope.md",
+    "sha256": "b7570650336cf44ecc1445f3fc2efe36e352b4d85a5ad1887bc9eedeeac8ea48",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/phase0-review.md",
+    "sha256": "f37a21aaec805952d7f656eb6987b9dffe20a6142eeaa2ce5cbf056fc2dad800",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/prd.md",
+    "sha256": "2a87a8090ae8d90a7b50d4eeb92e17d6c1e5fcdbf70853a21760faebab9b7a2a",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/releases/release-checks.md",
+    "sha256": "e5c2dffa68da418be547cbec54b048bc0feb1359f987ea6fbf4546ba172fe928",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/releases/v0.2.0.md",
+    "sha256": "ba1a7c4a6210ab65b8490257d134ca7a2100a0b06149ad3d5a5f7023483554a2",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/releases/v1.0.0.md",
+    "sha256": "bdf37b438cee693f22fec786533c3558997a2d52df6c0d28eaaaeb144743f495",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/reports/operability-audit-2026-10-03.md",
+    "sha256": "1e55e512b505c0c0c6da2aa14f5b0f0370d37be6bca3c4fce83057f8a2dd6792",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/resident-slice-review.md",
+    "sha256": "b98fc5cac9836bb3d97d28ec7c96d83387acffa6e72c41fc39b9f3c4d3f6f188",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/runtime-identity-evidence.json",
+    "sha256": "e1184cc85e7ad2e7dded8e2d5aff172375d62b2eb52546bdc3e645f706b9e888",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/runtime-identity-final.md",
+    "sha256": "3b4aea741ac3b21cb9c0c0ed1767d80483494e67f6f84423d26161bdf2a762a3",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/runtime-identity-implementation.md",
+    "sha256": "1aafd9d0fa49b989ad97b734e987124d9abc40788ab1deea767226ddc6a9ffe6",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/runtime-identity-qa.md",
+    "sha256": "af20ea9d6590d5d74e8fbf237d56c82ad72af4f493aae608d5569ef35794a562",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/runtime-identity-technical-review.md",
+    "sha256": "cf13c873b784d8a5b430b80d5fb8b799ea48b75f5ba121bcbe27879a442c409c",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/runtime-identity-usage.md",
+    "sha256": "6392b5122c1843731706c1e8e62afade5b873e07f8d608e28c841fe9d8c15541",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/runtime-identity-value-scope.md",
+    "sha256": "85ef668df693c92241f420bdc05a53440dfe2231d9a9bdae59db46a464c9f311",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/agent-runner.md",
+    "sha256": "14cfbe8e24d0905b1e28de2ebcf96b7d47de461a590777d2b604284f1f7601e7",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/config-layer.md",
+    "sha256": "38b5144fa5a959e886a9ce428f08f2052dadb03a9a5085242b57a00d0db48d94",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/domain-models.md",
+    "sha256": "d625d04e45606d76a50b262b04a4c6c4e9df8e1a5ecd95d967d50d4eadc2e2f7",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/observability.md",
+    "sha256": "171295506d8e7b95be2191eb8b00549d5a04e330b0055413cda66df90377f24e",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/orchestrator.md",
+    "sha256": "fb681be78dc4009032ba2a399fe5c15180362c3e56219ad494ecf2a3d423bd68",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/tracker-client.md",
+    "sha256": "2e218829552b42c392e90920b35b3e2da5ce91cb1fa39685a733a81c991c73c3",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/workflow-loader.md",
+    "sha256": "710f60ba98dc02e234b7c100337e8304eccc63532aba21d8ae789759484847c4",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/specs/workspace-manager.md",
+    "sha256": "48bff81bfcae5983905533107253ab497c64d8fd639992ac09e85459f7fb9f48",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/stacks/go.md",
+    "sha256": "459b62b4604e924c95a39e4cd67742ba2548894434d324dfd412c3ebe2f71110",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/stacks/python.md",
+    "sha256": "8f59145b65b98a8e4b706ea2263c2bd47f65fd7f0f3a746977c9b30efe93901d",
+    "mode": "0o644"
+  },
+  {
+    "path": "docs/stacks/typescript.md",
+    "sha256": "f27116a63b74ae35256a91af93110b3ec5ac27f8b5a83c00b35813cf9dc31dc8",
+    "mode": "0o644"
+  },
+  {
+    "path": "rust-toolchain.toml",
+    "sha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+    "mode": "0o644"
+  },
+  {
+    "path": "scripts/harness/validate.sh",
+    "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+    "mode": "0o755"
+  }
+]

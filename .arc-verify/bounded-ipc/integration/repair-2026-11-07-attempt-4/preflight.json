@@ -1,0 +1,33 @@
+{
+  "recordedAt": "2026-11-07T15:24:56.282787+00:00",
+  "savedDeadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 70059.318213,
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "recordedMissionRuns": 59,
+  "maxRetries": 3,
+  "taskAttempt": 4,
+  "budgetSource": "Supplied saved mission and attempt-3 preflight; no counters reset or mission state mutated.",
+  "route": "Supplied native Actor route; supported noninteractive shell succeeded.",
+  "serenaAvailable": false,
+  "claimPath": null,
+  "omaRunId": null,
+  "limits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  }
+}

@@ -1,0 +1,265 @@
+{
+  "recordedAt": "2026-11-07T17:22:28.616798+00:00",
+  "baseline": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "frozen": {
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "bytes": 3917,
+      "byteIdentical": true
+    },
+    "scripts/harness/validate.sh": {
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "baselineSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "bytes": 20351,
+      "byteIdentical": true
+    }
+  },
+  "preserved": {
+    "crates/arc-cli/src/main.rs": {
+      "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+      "baselineSha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+      "bytes": 3848,
+      "byteIdentical": true
+    },
+    "crates/arc-cli/tests/binary.rs": {
+      "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+      "baselineSha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+      "bytes": 822,
+      "byteIdentical": true
+    },
+    "crates/arc-core/src/lib.rs": {
+      "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "baselineSha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "bytes": 6013,
+      "byteIdentical": true
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+      "baselineSha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+      "bytes": 3624,
+      "byteIdentical": true
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "baselineSha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "bytes": 7743,
+      "byteIdentical": true
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "baselineSha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "bytes": 15423,
+      "byteIdentical": true
+    }
+  },
+  "reviewBoundary": {
+    "socketPreparationAndBinding": {
+      "byteIdentical": true,
+      "bytes": 9965,
+      "sha256": "243334cf3873e83e52d758af56b45749708700c1fd0d8876e746edfa1a0d4ead"
+    }
+  },
+  "originalServerTestNames": {
+    "a_socketpair_serves_hello_and_survives_an_incompatible_version": true,
+    "permissive_existing_directories_are_rejected_without_mutation": true,
+    "new_nested_and_existing_private_directories_are_usable_without_repair": true,
+    "final_intermediate_and_dangling_symlinks_are_not_followed": true,
+    "a_directory_that_appears_between_walks_is_validated_before_nested_creation": true,
+    "foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy": true,
+    "already_exists_is_validated_without_repair_or_following_links": true,
+    "a_shared_temporary_root_is_refused_instead_of_tightened": true,
+    "socket_length_validation_counts_native_bytes_and_preserves_entries": true,
+    "a_positional_array_is_rejected_and_the_connection_stays_usable": true
+  },
+  "testAttributes": {
+    "crates/arc-cli/src/main.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-cli/tests/binary.rs": {
+      "testAttributes": 2,
+      "ignoredAttributes": []
+    },
+    "crates/arc-core/src/lib.rs": {
+      "testAttributes": 2,
+      "ignoredAttributes": []
+    },
+    "crates/arc-core/tests/runtime.rs": {
+      "testAttributes": 3,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/accept_recovery.rs": {
+      "testAttributes": 1,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/accept_recovery_tests.rs": {
+      "testAttributes": 5,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/admission.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/connection.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/database_failure_tests.rs": {
+      "testAttributes": 5,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/db_worker.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/db_worker/execution.rs": {
+      "testAttributes": 1,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/db_worker/tests.rs": {
+      "testAttributes": 13,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "testAttributes": 7,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/lifecycle.rs": {
+      "testAttributes": 1,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/lifecycle_tests.rs": {
+      "testAttributes": 3,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/limits.rs": {
+      "testAttributes": 1,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/main.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/platform.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": {
+      "testAttributes": 5,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/runtime_metrics.rs": {
+      "testAttributes": 1,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/runtime_report.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/runtime_report_tests.rs": {
+      "testAttributes": 4,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/server.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/server_tests.rs": {
+      "testAttributes": 10,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/transport.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/transport_test_support.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/src/transport_tests.rs": {
+      "testAttributes": 16,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/bounded.rs": {
+      "testAttributes": 3,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/db_worker_unit.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "testAttributes": 11,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/startup.rs": {
+      "testAttributes": 1,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/support/admission_load.rs": {
+      "testAttributes": 3,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": {
+      "testAttributes": 1,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/support/measurements.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/support/mod.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/support/native.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/support/runtime.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/transport_unit.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-daemon/tests/worker_runtime.rs": {
+      "testAttributes": 5,
+      "ignoredAttributes": []
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "testAttributes": 13,
+      "ignoredAttributes": []
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "testAttributes": 0,
+      "ignoredAttributes": []
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "testAttributes": 4,
+      "ignoredAttributes": []
+    }
+  },
+  "srs": {
+    "path": "/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md",
+    "sha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+    "lines": [
+      {
+        "line": 2426,
+        "text": "| NFR-002 | Daemon idle RSS | **50 MB 미만 목표** (플랫폼별 측정) |"
+      },
+      {
+        "line": 2428,
+        "text": "| NFR-004 | IPC 왕복 | 로컬 작은 메시지 P95 **20ms 이내 목표** |"
+      }
+    ]
+  },
+  "containerConfiguration": {
+    "readable": false,
+    "error": "[Errno 1] Operation not permitted: '/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/av.yaml'",
+    "targetsEstablished": false,
+    "healthVerified": false
+  }
+}

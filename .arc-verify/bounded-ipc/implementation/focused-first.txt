@@ -1,0 +1,77 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/e4213bbb083bb36a: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/252aaa6589cc7114: Operation not permitted (os error 1)
+   Compiling libc v0.2.191
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.15
+   Compiling typenum v1.20.1
+   Compiling serde_core v1.0.229
+   Compiling cc v1.11.0
+   Compiling pkg-config v0.3.34
+   Compiling vcpkg v0.2.15
+   Compiling hybrid-array v0.4.15
+   Compiling zmij v1.0.23
+   Compiling foldhash v0.2.0
+   Compiling hashbrown v0.17.1
+   Compiling block-buffer v0.12.1
+   Compiling crypto-common v0.2.2
+   Compiling serde_json v1.0.154
+   Compiling serde v1.0.229
+   Compiling const-oid v0.10.2
+   Compiling hashlink v0.12.2
+   Compiling libsqlite3-sys v0.39.1
+   Compiling digest v0.11.3
+   Compiling cpufeatures v0.3.1
+   Compiling syn v3.0.9
+   Compiling errno v0.3.14
+   Compiling smallvec v1.16.4
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling itoa v1.0.18
+   Compiling cfg-if v1.0.5
+   Compiling fallible-iterator v0.3.0
+   Compiling memchr v2.8.3
+   Compiling bitflags v2.13.2
+   Compiling sha2 v0.11.1
+   Compiling signal-hook-registry v1.4.8
+   Compiling mio v1.2.4
+   Compiling arc-core v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/crates/arc-core)
+   Compiling socket2 v0.6.5
+   Compiling pin-project-lite v0.2.17
+   Compiling serde_derive v1.0.229
+   Compiling tokio-macros v2.7.2
+   Compiling tokio v1.54.1
+   Compiling rusqlite v0.41.1
+   Compiling arc-storage v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/crates/arc-storage)
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/crates/arc-ipc)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.58s
+     Running tests/bounded.rs (target/debug/deps/bounded-bac97ef5a669d3cb)
+
+running 3 tests
+
+thread 'nonreading_peer_releases_real_daemon_capacity' (15594491) panicked at crates/arc-daemon/tests/support/runtime.rs:83:9:
+workspace CLI prerequisite: /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/target/debug/arcctl
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test nonreading_peer_releases_real_daemon_capacity ... FAILED
+bounded-runtime-native-probe: {"attempts":200,"completed":200,"lifetime_peak_rss_bytes":5799936,"p95_ns":76417,"report":{"accept_error_os_code":null,"accounted":true,"connection_closed":true,"deadline_met":true,"event":"ipc_shutdown","gauges_zero":true,"handlers_reaped":true,"handlers_remaining":0,"limits":{"connections":64,"db_busy_timeout_ms":100,"db_executing":1,"db_execution_timeout_ms":1000,"db_queue":8,"db_response_timeout_ms":1500,"frame_timeout_ms":2000,"header_timeout_ms":1000,"max_frame_bytes":1048576,"requests":16,"shutdown_timeout_ms":3500,"write_timeout_ms":500},"metrics":{"accepted":1,"caps":{"connections":64,"db_executing":1,"db_queue":8,"requests":16,"supervisor":1},"connection_rejected":0,"connections":{"current":0,"high_water":1},"db_executing":{"current":0,"high_water":0},"db_outstanding":{"current":0,"high_water":0},"db_queued":{"current":0,"high_water":0},"db_rejected":0,"db_timeouts":0,"frame_timeouts":0,"frames_completed":200,"handlers_reaped":1,"handlers_spawned":1,"header_timeouts":0,"rejection_work":{"current":0,"high_water":0},"request_body_bytes":{"current":0,"high_water":86},"request_rejected":0,"requests":{"current":0,"high_water":1},"response_bytes":{"current":0,"high_water":1048576},"tracked_tasks":{"current":0,"high_water":1},"worker_joined":1,"worker_started":1,"write_timeouts":0},"profiles":{"ipc":"default"},"reason":"SIGTERM","shutdown_elapsed_ms":2,"socket_removed":true,"supervisor":{"accept_errors":0,"accept_retries":0,"backoff_high_water_ms":0,"consecutive_errors":0,"consecutive_errors_high_water":0,"fatal_errors":0,"other_errors":0,"resource_pressure_errors":0,"retry_tasks":0,"shutdown_during_backoff":false,"supervisors":{"current":1,"high_water":1},"transient_errors":0},"worker_joined":true},"rss_bytes":5603328,"signal_to_exit_us":4573,"threads":4}
+
+thread 'native_probe_then_full_100000_attempt_workload' (15594490) panicked at crates/arc-daemon/tests/support/runtime.rs:83:9:
+workspace CLI prerequisite: /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/target/debug/arcctl
+test native_probe_then_full_100000_attempt_workload ... FAILED
+
+thread 'malformed_and_stalled_frames_recover_actual_cli' (15594489) panicked at crates/arc-daemon/tests/support/runtime.rs:264:43:
+called `Result::unwrap()` on an `Err` value: Os { code: 22, kind: InvalidInput, message: "Invalid argument" }
+test malformed_and_stalled_frames_recover_actual_cli ... FAILED
+
+failures:
+
+failures:
+    malformed_and_stalled_frames_recover_actual_cli
+    native_probe_then_full_100000_attempt_workload
+    nonreading_peer_releases_real_daemon_capacity
+
+test result: FAILED. 0 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.24s
+
+error: test failed, to rerun pass `-p arc-daemon --test bounded`

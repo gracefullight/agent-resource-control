@@ -1,0 +1,29 @@
+{
+  "status": "assigned task complete; independent review pending",
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "workspacePassingInvocations": 173,
+  "focusedPassingInvocations": 51,
+  "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "ownedSourceChanges": [
+    "crates/arc-daemon/tests/resident.rs",
+    "crates/arc-daemon/tests/support/mod.rs"
+  ],
+  "harnessExit": 1,
+  "unresolvedHarnessFailures": [
+    "resident.rs 901 lines exceeds 500",
+    "arc-ipc/src/lib.rs 551 lines exceeds 500",
+    "missing test:coverage"
+  ],
+  "signalToExitUs": {
+    "SIGINT": 7300,
+    "SIGTERM": 4588
+  },
+  "interfaceCompatibility": "Production modules/manifests unchanged. ARC_RUNTIME_REPORT consumed as specified. Existing assertions, command timeouts and CLI output retained.",
+  "remaining": [
+    "Independent collection/review and mission evidence promotion",
+    "Linux/Windows and remaining Phase 0 obligations",
+    "av.yaml configured-target applicability inaccessible"
+  ]
+}

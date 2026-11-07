@@ -1,0 +1,87 @@
+{
+  "recordedAt": "2026-11-07T15:33:03.452271+00:00",
+  "savedDeadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 69572.149429,
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "recordedMissionRunsAtDispatch": 63,
+  "maxRetries": 3,
+  "taskAttempt": 3,
+  "budgetSource": "Supplied saved mission; limits and elapsed budget not reset.",
+  "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "limits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "head": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exitCode": 0,
+    "stdout": "eed6986a06f66dcfd09eb2d05f04a3b5ca9e5206",
+    "stderr": ""
+  },
+  "tree": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD^{tree}"
+    ],
+    "exitCode": 0,
+    "stdout": "87d951cecbcdf7236abf9af5da192e5e897096c0",
+    "stderr": ""
+  },
+  "baselineTree": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0^{tree}"
+    ],
+    "exitCode": 0,
+    "stdout": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+    "stderr": ""
+  },
+  "snapshotRef": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "--verify",
+      "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-98c4ca9fa7207111-2/snapshot"
+    ],
+    "exitCode": 128,
+    "stdout": "",
+    "stderr": "fatal: Needed a single revision"
+  },
+  "workerRef": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "--verify",
+      "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-98c4ca9fa7207111-2/worker"
+    ],
+    "exitCode": 128,
+    "stdout": "",
+    "stderr": "fatal: Needed a single revision"
+  },
+  "claimPath": null,
+  "omaRunId": null,
+  "serenaAvailable": false,
+  "scope": "Only two assigned docs and task-specific evidence/report outputs."
+}

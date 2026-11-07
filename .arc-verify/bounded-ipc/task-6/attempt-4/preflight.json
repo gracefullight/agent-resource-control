@@ -1,0 +1,94 @@
+{
+  "recordedAt": "2026-11-07T16:55:32.478598+00:00",
+  "savedDeadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 64623.122647,
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "recordedMissionRunsAtDispatch": 104,
+  "maxRetries": 3,
+  "taskAttempt": 4,
+  "budgetSource": "Supplied saved mission limits; absolute deadline retained from attempt-3/preflight.json; elapsed and spent attempts not reset.",
+  "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "limits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "head": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exitCode": 0,
+    "stdout": "eb45d23b3b3be650f4a5cb8e064ba6715ae78b86",
+    "stderr": ""
+  },
+  "tree": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD^{tree}"
+    ],
+    "exitCode": 0,
+    "stdout": "4746b22753c020491e2570d684e5edd86c02d468",
+    "stderr": ""
+  },
+  "baselineTree": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0^{tree}"
+    ],
+    "exitCode": 0,
+    "stdout": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+    "stderr": ""
+  },
+  "suppliedSnapshotCommit": "eb45d23b3b3be650f4a5cb8e064ba6715ae78b86",
+  "suppliedSnapshotTree": "4746b22753c020491e2570d684e5edd86c02d468",
+  "snapshotRef": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "--verify",
+      "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-98c4ca9fa7207111-4/snapshot"
+    ],
+    "exitCode": 128,
+    "stdout": "",
+    "stderr": "fatal: Needed a single revision"
+  },
+  "workerRef": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "--verify",
+      "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-98c4ca9fa7207111-4/worker"
+    ],
+    "exitCode": 128,
+    "stdout": "",
+    "stderr": "fatal: Needed a single revision"
+  },
+  "claimPath": null,
+  "omaRunId": null,
+  "serenaAvailable": false,
+  "scope": "Only two assigned docs and task-specific evidence/report outputs.",
+  "registryOwnership": "docs/generated/doc-refs.json is shared and has no handoff to task-6; verify/sync must not write it.",
+  "actorLocalResultsDirectory": ".agents/results is absent; material report will be in nonignored task-6/attempt-4/delivery.md.",
+  "boundaryExclusions": {
+    "av.yaml": "Host denied read with Operation not permitted; unverified."
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "recordedAt": "2026-11-07T15:32:12.700995+00:00",
+  "savedDeadline": "2026-11-08T10:52:35.601Z",
+  "remainingSeconds": 69622.900005,
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "recordedRunsFromAssignment": 63,
+  "maxRetries": 3,
+  "attempt": 3,
+  "claimPath": null,
+  "omaRunId": null,
+  "parallelCargoCommands": 1,
+  "commandTimeoutSeconds": 120,
+  "resourceLimits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "serenaAvailable": false,
+  "scope": "Known-path reads and Git/hash comparison; no native recursive code discovery; existing budgets retained."
+}

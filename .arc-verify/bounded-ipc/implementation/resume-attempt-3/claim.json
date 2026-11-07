@@ -1,0 +1,26 @@
+{
+  "status": "completed",
+  "scope": "assigned task-5; mission completion not claimed",
+  "changedFiles": [
+    "crates/arc-daemon/tests/resident.rs",
+    "crates/arc-daemon/tests/support/mod.rs",
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/",
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.md",
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.json",
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/source-evidence.json",
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/acceptance.json"
+  ],
+  "unresolved": [
+    "resident.rs 901 lines exceeds 500",
+    "arc-ipc/src/lib.rs 551 lines exceeds 500",
+    "missing test:coverage",
+    "Independent collection/review and wider platform/Phase 0 obligations remain",
+    "Configured target applicability inaccessible"
+  ],
+  "omaRunId": null,
+  "injectedClaimPath": null
+}

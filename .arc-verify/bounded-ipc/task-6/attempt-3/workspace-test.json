@@ -1,0 +1,33 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-98c4ca9fa7207111-2",
+  "pid": 52844,
+  "startedAt": "2026-11-07T15:33:04.853201+00:00",
+  "finishedAt": "2026-11-07T15:34:25.315449+00:00",
+  "elapsedSeconds": 80.46182491700165,
+  "exitCode": 0,
+  "timedOut": false,
+  "processExitObserved": true,
+  "environment": {
+    "CARGO_TARGET_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-98c4ca9fa7207111-2/target",
+    "CARGO_NET_OFFLINE": "true"
+  },
+  "output": "workspace-test.txt",
+  "outputSha256": "098486af88c672aec33b693db338481be4c7524cd3497ee482604294809e4301",
+  "sourceFiles": 50,
+  "sourceBeforeSha256": "a511f37e30201c7dd92f8a603ba3bb5f83b1ff7e74cb4bd4d00d5f13459e93d0",
+  "sourceAfterSha256": "a511f37e30201c7dd92f8a603ba3bb5f83b1ff7e74cb4bd4d00d5f13459e93d0",
+  "productInputsUnchanged": true,
+  "suites": 17,
+  "totals": {
+    "passed": 173,
+    "failed": 0,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0
+  }
+}

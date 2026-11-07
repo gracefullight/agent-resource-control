@@ -1,0 +1,9 @@
+{
+  "trackedFilesInspected": 120,
+  "changedPaths": [
+    "crates/arc-daemon/tests/resident.rs",
+    "crates/arc-daemon/tests/support/mod.rs"
+  ],
+  "outsideOwnedPathsUnchanged": true,
+  "finalProductFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4"
+}

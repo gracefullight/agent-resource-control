@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "./scripts/harness/validate.sh"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T12:55:10.438721+00:00",
+  "finishedAt": "2026-11-07T12:55:52.116024+00:00",
+  "elapsedSeconds": 41.67698295900482,
+  "exitCode": 1,
+  "timedOut": false,
+  "pid": 93785,
+  "processExitObserved": true,
+  "output": "harness.txt",
+  "outputSha256": "25a488894b19c19ba0a1ec6fda031380b9cfab2de223e799628c3c673d0a0488",
+  "sourceBefore": "e416d6c25ae8131fbc4f6ca093335cd502f6f51c61cf7ae3ef033cabf52a65fe",
+  "sourceAfter": "e416d6c25ae8131fbc4f6ca093335cd502f6f51c61cf7ae3ef033cabf52a65fe",
+  "productInputsUnchanged": true
+}

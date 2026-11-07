@@ -1,0 +1,16 @@
+{
+  "recordedAt": "2026-11-07T15:01:15.172808+00:00",
+  "status": "passed",
+  "sourceFilesChecked": 53,
+  "preservedAllCheckedBytesAndModes": true,
+  "preservation": true,
+  "nativeOfflineDependenciesReady": true,
+  "formattingPassed": true,
+  "contractReview": "Known-path source inspection; no runtime or benchmark rerun.",
+  "configurationObligation": "unresolved",
+  "missingOutsideOwnershipReceipts": [
+    ".agents/results/task-6-design/workspace-test.json",
+    ".agents/results/task-6-design/workspace-test.txt",
+    ".agents/results/task-6-design/checks.json"
+  ]
+}

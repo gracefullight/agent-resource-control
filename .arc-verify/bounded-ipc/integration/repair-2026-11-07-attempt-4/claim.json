@@ -1,0 +1,29 @@
+{
+  "status": "completed",
+  "changedFiles": [
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/",
+    ".arc-verify/bounded-ipc/integration/delivery.md",
+    ".arc-verify/bounded-ipc/integration/evidence.json",
+    ".arc-verify/bounded-ipc/integration/claim.json",
+    ".agents/results/result-backend-task-4-attempt-4-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "unresolved": [
+    "Independent task review required before downstream execution.",
+    "Unchanged harness exits 1 with three retained failures.",
+    "Mission-wide/downstream evidence, native performance/SRS comparison, final QA/operator verification and Phase 0/Linux/Windows obligations remain Chief-managed; this task does not close them.",
+    "av.yaml is inaccessible; configured external-target applicability unverified."
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/integration/delivery.md",
+    ".arc-verify/bounded-ipc/integration/evidence.json",
+    ".agents/results/result-backend-task-4-attempt-4-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "identity": {
+    "actorId": "backend",
+    "taskId": "task-4",
+    "attempt": 4,
+    "injectedClaimPath": null,
+    "omaRunId": null
+  },
+  "productChangedThisAttempt": false
+}

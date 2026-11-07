@@ -1,0 +1,15 @@
+{
+  "pid": 88409,
+  "processGroup": 88409,
+  "argv": [
+    "cargo",
+    "clippy",
+    "--workspace",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "startedAt": "2026-11-07T17:21:46.563347+00:00",
+  "timeoutSeconds": 120
+}

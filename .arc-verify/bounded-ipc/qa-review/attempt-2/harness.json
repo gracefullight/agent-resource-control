@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "./scripts/harness/validate.sh"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:03:04.217152+00:00",
+  "finishedAt": "2026-11-07T16:03:45.350418+00:00",
+  "elapsedSeconds": 41.13402812500135,
+  "exitCode": 1,
+  "timedOut": false,
+  "sourceBefore": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "sourceAfter": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "productUnchanged": true,
+  "outputSha256": "e50786fc256444b3a2db23ea387d580f726a244b2156e1c82fc29d3c77641f72",
+  "pid": 83242,
+  "processExitObserved": true,
+  "environment": {
+    "CARGO_NET_OFFLINE": "true",
+    "ARC_TEST_EVIDENCE_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.arc-verify/bounded-ipc/qa-review/attempt-2/harness-raw"
+  }
+}

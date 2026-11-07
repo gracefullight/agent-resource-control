@@ -1,0 +1,21 @@
+{
+  "acceptedBaselineFiles": {
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "bytes": 3917,
+      "byteIdentical": true
+    },
+    "scripts/harness/validate.sh": {
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "bytes": 20351,
+      "byteIdentical": true
+    }
+  },
+  "changedProductPaths": [
+    "crates/arc-daemon/src/database_failure_tests.rs",
+    "crates/arc-daemon/src/lifecycle.rs"
+  ],
+  "allOtherProductInputsPreserved": true,
+  "initialFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "finalFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970"
+}

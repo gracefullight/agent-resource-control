@@ -1,0 +1,47 @@
+{
+  "recordedAt": "2026-11-07T17:04:02.799544+00:00",
+  "actor": "test-engineer",
+  "task": "task-5",
+  "attempt": 9,
+  "codexSessionId": "01a1b6f6-4587-7a13-93d9-2167f6ab05de",
+  "injectedClaimPath": null,
+  "deadlineUtc": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 64112.801456,
+  "savedLimits": {
+    "maxParallel": 3,
+    "maxDurationSec": 86400,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "measuredRunsAtAssignment": 109
+  },
+  "budgetReset": false,
+  "parallelCommands": 1,
+  "cancellationObserved": false,
+  "cancellationEvidence": "No cancellation instruction received; no cancellation-control tool exposed. Managed mission state is not modified. Recheck before each command.",
+  "toolDiscovery": {
+    "serenaAvailable": false,
+    "fallback": "Known-path reads, scoped Git metadata and non-code evidence only"
+  },
+  "hostLimits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "ownership": "Only recovery-current and existing original report path; no product/test/docs/collector/mission/ref edits",
+  "skillsUsed": [
+    "oma-backend"
+  ]
+}

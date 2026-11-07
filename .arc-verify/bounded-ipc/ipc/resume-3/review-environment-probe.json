@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "/bin/pwd"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07 12:08:34 UTC",
+  "finishedAt": "2026-11-07 12:08:34 UTC",
+  "tool": "exec_command",
+  "toolRoute": "Codex actor, noninteractive, no PTY",
+  "result": {
+    "chunk_id": "90f2af",
+    "wall_time_seconds": 0.00001125,
+    "exit_code": 0,
+    "original_token_count": 39,
+    "output": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace\n"
+  },
+  "qwenRunnerRecoveryVerified": false,
+  "limitation": "One supported noninteractive probe in the review checkout. Independent reviewer must probe its own runner; if grantpt denial persists, return unmet prerequisite for routing to an existing configured reviewer with working noninteractive tools. This does not prove qwen runner recovery."
+}

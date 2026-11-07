@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:02:23.863834+00:00",
+  "finishedAt": "2026-11-07T16:02:57.302412+00:00",
+  "elapsedSeconds": 33.438289000012446,
+  "exitCode": 0,
+  "timedOut": false,
+  "sourceBefore": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "sourceAfter": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "productUnchanged": true,
+  "outputSha256": "f7dc35504151bd061e28c98bce5460a47c57c9242bc978f50ab74dfbf6c9c6a1",
+  "pid": 82552,
+  "processExitObserved": true,
+  "environment": {
+    "CARGO_NET_OFFLINE": "true",
+    "ARC_TEST_EVIDENCE_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw"
+  }
+}

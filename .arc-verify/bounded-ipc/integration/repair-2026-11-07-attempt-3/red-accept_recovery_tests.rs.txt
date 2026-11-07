@@ -1,0 +1,44 @@
+use super::*;
+
+#[test]
+fn accept_child() {
+    let Some(mode) = std::env::var_os("ARC_ACCEPT_CHILD") else { return };
+    tokio::runtime::Builder::new_current_thread().enable_all().build().unwrap().block_on(async {
+        let (socket, _instance) = crate::prepare_instance().unwrap();
+        let connection = arc_storage::open_and_migrate(arc_core::database_path().unwrap()).unwrap();
+        let limits = RuntimeLimits::test_profile();
+        let metrics = Arc::new(RuntimeMetrics::new(&limits));
+        let worker = db_worker::DbWorker::start(connection, db_worker::DbConfig {
+            queue_capacity: limits.db_queue, busy_timeout: limits.db_busy_timeout,
+            execution_timeout: limits.db_execution_timeout,
+        }, Arc::clone(&metrics)).unwrap();
+        let (errno, count) = if mode == "once" { (libc::ECONNABORTED, 1) } else { (libc::EMFILE, 9) };
+        crate::lifecycle::supervise_with_acceptor(socket, limits, metrics, worker,
+            crate::accept_recovery::Acceptor::injected(errno, count)).await.unwrap();
+    });
+}
+
+fn cli_path() -> PathBuf {
+    std::env::current_exe().unwrap().parent().unwrap().parent().unwrap().join("arcctl")
+}
+
+fn recovery_case(mode: &str) {
+    let _serial = support::serial();
+    let fixture = Fixture::new();
+    let mut child = fixture.spawn_test("lifecycle_tests::accept_recovery_tests::accept_child", "ARC_ACCEPT_CHILD", mode);
+    fixture.wait_for(&mut child, "arc-daemon ready.");
+    for operation in ["status", "doctor"] {
+        let output = Command::new(cli_path()).arg(operation)
+            .env(arc_core::ARC_SOCKET_PATH, &fixture.socket).output().unwrap();
+        assert!(output.status.success(), "{mode} {operation}: {output:?} {}", fixture.stdout());
+        assert!(output.stderr.is_empty(), "{output:?}");
+    }
+    assert_eq!(unsafe { libc::kill(child.0.id() as libc::pid_t, libc::SIGTERM) }, 0);
+    assert!(child.0.wait().unwrap().success());
+}
+
+#[test]
+fn isolated_transient_accept_error_recovers_cli() { recovery_case("once"); }
+
+#[test]
+fn repeated_resource_pressure_recovers_cli() { recovery_case("pressure"); }

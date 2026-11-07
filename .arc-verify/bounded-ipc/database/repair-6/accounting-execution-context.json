@@ -1,0 +1,107 @@
+{
+  "recordedAt": "2026-11-07T12:38:56.372727+00:00",
+  "identity": {
+    "actorId": "database",
+    "taskId": "task-3",
+    "attempt": 6,
+    "codexSessionId": "01a1b601-5447-70c3-96af-7a24d2fefec5",
+    "omaRunId": null,
+    "injectedClaimPath": null,
+    "note": "No OMA run or claim identity injected; none manufactured."
+  },
+  "skillsUsed": [
+    "oma-db",
+    "oma-backend"
+  ],
+  "tools": [
+    {
+      "argv": [
+        "rustc",
+        "-Vv"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "-Vv"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\nrelease: 1.95.0\ncommit-hash: f2d3ce0bd7f24a49f8f72d9000448f8838c4e850\ncommit-date: 2026-03-21\nhost: aarch64-apple-darwin\nlibgit2: 1.9.2 (sys:0.20.4 vendored)\nlibcurl: 8.7.1 (sys:0.4.83+curl-8.15.0 system ssl:(SecureTransport) LibreSSL/3.3.6)\nssl: OpenSSL 3.5.4 30 Sep 2025\nos: Mac OS 27.2.0 [64-bit]\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustup",
+        "show",
+        "active-toolchain"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "1.95.0-aarch64-apple-darwin (overridden by environment variable RUSTUP_TOOLCHAIN)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uname",
+        "-a"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64\n",
+      "stderr": ""
+    }
+  ],
+  "environment": {
+    "CARGO_HOME": "/Users/gracefullight/.cargo",
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_HOME": "/Users/gracefullight/.rustup",
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+    "AGENT_VALLEY_MANAGED_RUN": "1",
+    "RUST_TEST_THREADS": "1"
+  },
+  "budget": {
+    "missionMaxDurationSeconds": 86400,
+    "missionMaxParallel": 3,
+    "missionMaxRuns": 200,
+    "missionMaxRetries": 3,
+    "attempt": 6,
+    "concurrentCargoCommands": 1,
+    "commandTimeoutSeconds": 120,
+    "note": "Existing spent limits retained; no dispatch, routing mutation or counter reset."
+  },
+  "hostLimits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "preflight": {
+    "argv": [
+      "pwd"
+    ],
+    "exitCode": 0,
+    "result": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+    "noninteractiveExecutionSucceeded": true,
+    "serenaAvailable": false,
+    "inspection": "Known-path direct reads only."
+  },
+  "reason": "Avoid libtest stdout interleaving with JSON on combined stderr; concurrent producer fixture remains unchanged."
+}

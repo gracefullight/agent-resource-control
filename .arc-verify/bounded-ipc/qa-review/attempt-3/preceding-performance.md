@@ -1,0 +1,28 @@
+# Independent native performance measurements
+
+Fresh task-8 attempt-2 measurements ran through `cargo test --workspace` at 2026-11-07T16:02:23.863834+00:00. No inherited measurement was substituted. Source fingerprint: `b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4` (50 files). Raw receipts and all 10,000 latency values are in qa-review/attempt-2/workspace-raw; runtime-validation.json independently recalculates P95, RSS maxima, thread peak and accounting.
+
+| Measurement | Observed | Target / interpretation |
+| --- | --- | --- |
+| Idle RSS maximum | 5,619,712 bytes = 5.619712 MB = 5.359375 MiB | SRS NFR-002: below 50 MB; passes using disclosed decimal MB convention |
+| Native daemon lifetime peak RSS | 6,651,904 bytes = 6.343750 MiB | wait4 child ru_maxrss; no SRS saturation-peak threshold supplied |
+| Native thread sampled peak | 4 | Native observations, not inferred configuration; sampling can miss brief peaks |
+| Tracked handler task high water | 4 / 64 default cap | Structural accounting, not a native thread measurement |
+| Successful small-message P95 | 90,750 ns = 0.090750 ms | SRS NFR-004: ≤20 ms; passes |
+| Small-message P50 / maximum | 62,959 / 1,588,250 ns | 10,000 sequential successes, zero failures |
+| Post-load P95 | 93,458 ns | Separate 200-exchange recovery sample; no during-saturation latency claim |
+| 100,000 network exchanges | 2,344,583 µs elapsed; all completed | Four persistent clients; workload is separate from latency baseline |
+
+The ARC SRS was read directly from `/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md` and hash-verified as `a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e`. Section 18, lines 2426 and 2428 supply NFR-002 idle RSS and NFR-004 local small-message round-trip P95. Its front matter and summary have inconsistent draft version labels; filename/hash/requirement IDs identify the source. These are development targets requiring platform measurements. Neither structural buffer reservations nor task caps establish measured performance, and the idle threshold is not a saturation-peak threshold. No SRS native thread/task threshold exists in the located source. Comparison completeness is true for these two targets on this native host; it is not full-SRS completion.
+
+Host: Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64. Hardware: 17179869184; 8; Apple M1 Pro (17,179,869,184 bytes RAM; 8 logical CPUs; Apple M1 Pro). Profile: debug/unoptimized with debug information. Rust: rustc 1.95.0 (59807616e 2026-04-14); cargo 1.95.0 (f2d3ce0bd 2026-03-21). Default daemon limits are C=64/R=16/Q=8 plus one executing worker; two Tokio runtime threads, main and the SQLite worker were observed as four native threads. The final supervisor gauge is one while it exports its report; observed process exit establishes its completion. Handler gauges exclude the supervisor and native SQLite worker, which have separate accounting.
+
+An owned 200-exchange native probe ran first, all successful. The main child then settled for five seconds, followed by 100 idle RSS/thread samples at nominal 100 ms cadence (observed sample span 10,671,473 µs). Load sampling used nominal 10 ms cadence. macOS proc_pidinfo(PROC_PIDTASKINFO) reads the child RSS and thread count; wait4 ru_maxrss reports the owned daemon lifetime peak in bytes. The sampler runs in the test parent; its memory/threads are not attributed to the daemon. The Linux code converts KiB, but Linux was not executed.
+
+Warmup: 200 hello/health exchanges. A new persistent socket then carried 10,000 sequential alternating daemon.hello/daemon.health exchanges, using request ID small and null payload. Encoded body sizes are 85/86 bytes for requests and 124 bytes for responses, each with a four-byte framing prefix. Clock: std::time::Instant; timing starts before request write and ends after complete decoded response. Socket setup (63,833 ns) is reported separately. Sorted sample index 9,499 is nearest-rank P95 (ceil(0.95*N)-1); no failure was discarded. This fixture warms a different connection before opening the measured one; the first measured exchange therefore includes that connection's first server dispatch. No SQL doctor work enters the latency baseline.
+
+The four-client × 25,000 load completed 100,000 attempts with no rejection, timeout or cancellation. Its final report contains 110,402 frames including disclosed latency/warmup/recovery/CLI traffic; admission overload is tested separately. Controlled saturation reaches C=8/R=4/Q=2+1, while separate 100,000 direct DB attempts reach Q=8+1. Task/gauge caps passed independent raw validation. No accepted-HEAD performance baseline was built or measured, so no speedup, RSS reduction or causal before/after performance claim is made.
+
+SIGINT and SIGTERM saturated subprocess exits were 4,866 and 9,643 µs, respectively, below five seconds, with every handler/worker accounted for, successful reopen/integrity and restart. Those controlled-subprocess values are not conflated with the default measurement child's lifetime peak or thread sample. Raw signal reports preserve their own peak RSS values.
+
+Remaining: native Linux and Windows qualification, Windows Named Pipe/tray/runtime measurements, long-run idle CPU NFR-001, remaining Phase 0, configured deployed-target applicability/health access, and the unchanged harness's three conformance failures. No participant or commercial experiment, deployed observation or external delivery occurred. The results apply to this host/profile/workload and do not certify indefinitely stalled OS filesystem operations.

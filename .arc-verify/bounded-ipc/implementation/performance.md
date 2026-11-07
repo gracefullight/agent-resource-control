@@ -1,0 +1,24 @@
+# Task-5 native measurements
+
+Measured on Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64. Hardware: Apple M1 Pro, 8 logical CPUs, 17,179,869,184 bytes RAM. Rust/Cargo 1.95.0, debug test profile, real `target/debug/arc-daemon`, default IPC limits C=64/R=16/Q=8, two configured Tokio worker threads and one SQLite worker. The source is the Actor-local snapshot 39fa9765dcb70a6c12049d84e59bc0086487b539 plus owned uncommitted tests; exact product bytes are bound by `source-evidence.json`, fingerprint `f9c6c5baeb3e95c48603717f08cf2abb88baf85f334250db739eb903c44b4999`. This does not attribute the implementation to the accepted baseline 42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0.
+
+A separate 200-request owned subprocess probe ran first and verified the native sampler, final report, successful exit and integrity. The full measured child then settled for 5 seconds. We collected 100 idle samples at a nominal 100 ms cadence; actual first-to-last sample span was 10.623673 seconds. Monotonic timestamps in `workspace-final-raw/native-observations.json` disclose scheduler jitter. The idle threshold applies to idle RSS, not to load peak.
+
+| Measurement | Observed | SRS or scope |
+| --- | ---: | --- |
+| Maximum observed idle RSS | 5,554,176 bytes (5.554176 MB; 5.296875 MiB) | NFR-002 <50,000,000 bytes: pass |
+| Daemon native lifetime peak RSS | 6,209,536 bytes | wait4 ru_maxrss; no SRS saturation-peak threshold |
+| Sampled OS thread peak | 4 | proc_pidinfo; no SRS thread threshold |
+| Application retained-handler/task high water | 4 | Runtime report, including completed-but-unreaped entries; separate supervisor=1 |
+| 10,000 small-message P95 | 0.078542 ms | NFR-004 <=20 ms: pass |
+| P50 / max | 0.062125 / 0.196875 ms | All samples retained; zero failures |
+| After-load 200-message P95 | 0.073958 ms | Recovery observation; no during-saturation P95 claim |
+| Separate four-client 100,000-request load | 2.177738 seconds | 100,000 completed, zero rejected/timeouts/cancellation |
+
+The latency sample follows 200 warmups on a persistent same-user Unix connection. It alternates hello/health with ID `small` and null payload. Encoded bodies are 85/86 request bytes and 124 response bytes, with an additional four-byte prefix each way. `std::time::Instant` spans write through full decoded response, including serialization; connection setup is separate (92833 ns). Nearest-rank P95 is sorted index 9,499. Raw 10,000 nanosecond durations, sizes and P50/max are in `workspace-final-raw/small-message-samples.json`. Failed exchanges would fail the fixture; none are silently removed.
+
+macOS `proc_pidinfo(PROC_PIDTASKINFO)` supplies actual daemon RSS bytes and native thread counts. Linux support uses `/proc/PID/status`, converting VmRSS KiB to bytes, but was not executed here. Owned-child wait4 supplies lifetime ru_maxrss (bytes on macOS, KiB converted on Linux). Idle sampling is nominally 100 ms and load sampling 10 ms, performed in the parent; brief thread spikes can escape sampling. Runtime fixed counters/report remain enabled in the daemon. Sampling overhead and instrumented-versus-uninstrumented cost were not quantified. Parent client/sampler threads are excluded from daemon measurements. Application task gauges do not measure Tokio internal tasks or OS threads; structural byte reservations are not RSS measurements.
+
+The ARC SRS was re-read in place at `/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md`, SHA-256 `a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e`. Section 18 lines 2426/2428 defines these idle RSS and local small-message round-trip targets. Decimal MB is the disclosed convention; the source does not define MB more precisely. Its front matter says 1.1.0-draft while summary/footer retain 1.0.0-draft; file hash and requirement IDs identify this source. Comparisons are complete and both targets passed for this host/debug run. No accepted-baseline performance delta, release-build result, long-run CPU qualification or saturation-latency claim is made. Linux/Windows measurements and wider Phase 0 qualification remain open.
+
+Reproduce with `ARC_TEST_EVIDENCE_DIR=<existing-output-directory> cargo test --workspace` so the CLI prerequisite is compiled. `bounded::native_probe_then_full_100000_attempt_workload` is active, not ignored. Focused tests can run afterward with `cargo test -p arc-daemon --test bounded --test worker_runtime -- --nocapture`. `record.py` provides serial 120-second command deadlines, output hashes and source-before/after receipts without building separately. This task leaves final shared performance/QA artifacts to their assigned writers; `performance.json` here is the promotable measurement input.

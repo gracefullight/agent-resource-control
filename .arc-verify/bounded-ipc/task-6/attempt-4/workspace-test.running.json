@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-98c4ca9fa7207111-4",
+  "pid": 82539,
+  "startedAt": "2026-11-07T16:55:33.201535+00:00",
+  "timeoutSeconds": 120
+}

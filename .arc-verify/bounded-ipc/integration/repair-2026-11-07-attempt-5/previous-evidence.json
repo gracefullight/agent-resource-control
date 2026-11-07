@@ -1,0 +1,1180 @@
+{
+  "version": 2,
+  "recordedAt": "2026-11-07T15:28:35.769015+00:00",
+  "status": "ready-for-independent-task-review",
+  "actorId": "backend",
+  "taskId": "task-4",
+  "attempt": 4,
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "changedProductPaths": [],
+  "sourceFileCount": 50,
+  "sourceFingerprint": "f9c6c5baeb3e95c48603717f08cf2abb88baf85f334250db739eb903c44b4999",
+  "sourceHashes": [
+    {
+      "path": "Cargo.lock",
+      "sha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2",
+      "mode": "0o644"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-cli/Cargo.toml",
+      "sha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-cli/src/main.rs",
+      "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-cli/tests/binary.rs",
+      "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-core/Cargo.toml",
+      "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-core/src/lib.rs",
+      "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-core/tests/runtime.rs",
+      "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/Cargo.toml",
+      "sha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery.rs",
+      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker.rs",
+      "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/execution.rs",
+      "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/tests.rs",
+      "sha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/instance.rs",
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle.rs",
+      "sha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/main.rs",
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report.rs",
+      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+      "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/server.rs",
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/server_tests.rs",
+      "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/bounded.rs",
+      "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+      "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "sha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/startup.rs",
+      "sha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/admission_load.rs",
+      "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/deadline_recovery.rs",
+      "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/measurements.rs",
+      "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/mod.rs",
+      "sha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/native.rs",
+      "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/runtime.rs",
+      "sha256": "9a53fa762b6fcdb2429b964221bb1756e35a37c33a674a7baf57abd1a0592535",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/transport_unit.rs",
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-daemon/tests/worker_runtime.rs",
+      "sha256": "4ab079e2cc01018742c9e3f3088938dab5f067ff0a94d464754a8c3b356d9f5c",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-ipc/Cargo.toml",
+      "sha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-storage/Cargo.toml",
+      "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-storage/migrations/0001_phase0.sql",
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-storage/src/lib.rs",
+      "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+      "mode": "0o644"
+    },
+    {
+      "path": "crates/arc-storage/tests/nfr010.rs",
+      "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "mode": "0o644"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "sha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+      "mode": "0o644"
+    }
+  ],
+  "finalChecks": {
+    "focused": {
+      "receipt": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused.json",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--bin",
+        "arc-daemon",
+        "--",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0
+    },
+    "fmt": {
+      "receipt": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt.json",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0
+    },
+    "clippy": {
+      "receipt": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy.json",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0
+    },
+    "workspace-test": {
+      "receipt": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test.json",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0
+    },
+    "harness": {
+      "receipt": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness.json",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1
+    },
+    "diff-check": {
+      "receipt": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check.json",
+      "argv": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0
+    }
+  },
+  "historicalArtifacts": [
+    {
+      "path": "crates/arc-daemon/src/accept_recovery.rs",
+      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676"
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb"
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle.rs",
+      "sha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e"
+    },
+    {
+      "path": "crates/arc-daemon/src/main.rs",
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b"
+    },
+    {
+      "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report.rs",
+      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+      "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e"
+    },
+    {
+      "path": "crates/arc-daemon/src/server.rs",
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd"
+    },
+    {
+      "path": "crates/arc-daemon/src/server_tests.rs",
+      "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc"
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/boundary-check.json",
+      "sha256": "e12ff91ccc3d18aedca0bf3cea7ba64174a469f09a6f8eb7df1ebd39987b87bb",
+      "bytes": 6592
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-claim.json",
+      "sha256": "87cfddb8d6d3cabfc7cbc08cbbbe80c84afc02d48fe88e55316e24132f33079e",
+      "bytes": 1070,
+      "originalPath": ".arc-verify/bounded-ipc/integration/claim.json"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.json",
+      "sha256": "69e62cdfacef60190bbe4db9db58a4d0cace760fa028c9d71ea474511229c680",
+      "bytes": 840
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.running.json",
+      "sha256": "8ccca86008bc0f3795aabc195255848d919c56536b2879e830d10e514bc7e398",
+      "bytes": 406
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.txt",
+      "sha256": "7e231890d2158b70ecae200858352d502e9cdf7e8afc326533dae7442a358a38",
+      "bytes": 278
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-source.json",
+      "sha256": "7faaab916c433e0341a624dad451b6c0948d4f0523b30112961f4e10ff900fae",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.json",
+      "sha256": "5097997d3751a70b879e3b23de5e3e8bd9a48bb36aa9908a4966f4ff9e8c653e",
+      "bytes": 836
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.running.json",
+      "sha256": "5fbd8b3234f55e24b5de1d5756aa2f6fb25a9db1017f270a98ed4e2095f35edc",
+      "bytes": 406
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.txt",
+      "sha256": "a387291a1585bd037d474f636c9213552b7157fc325abfd6ff1bff695bb7eec7",
+      "bytes": 1378
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/collect.py",
+      "sha256": "97f1104b46e59656742f2f55056a97c84da9330cfcc2563fd421d96370b8a9dd",
+      "bytes": 3021
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-delivery.md",
+      "sha256": "b59ef1d4cc52c71c574a5a82b367b327f3f9b82a34eeef853918b9a446586a7d",
+      "bytes": 16368,
+      "originalPath": ".arc-verify/bounded-ipc/integration/delivery.md"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/evidence-index-initial.txt",
+      "sha256": "571f18c470f16bd67fcb7702928229e94ca6749f246535024ff03cb5fd2d3265",
+      "bytes": 428
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/execution-context.json",
+      "sha256": "47ada36526cea6aef6da9689930eb856820974f58873029ef58fbb7d99d17eff",
+      "bytes": 9389
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.json",
+      "sha256": "fb98957fedd9f7b8809f4fd23cfe7efe1d218e4f0b6b62cff7ab6f9523b9bf70",
+      "bytes": 797
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.running.json",
+      "sha256": "4d4b90c9385f17f99f9aa06903e70ed3a17f1f4184a78f2dff072e9f0392fd7a",
+      "bytes": 365
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-source.json",
+      "sha256": "7faaab916c433e0341a624dad451b6c0948d4f0523b30112961f4e10ff900fae",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.json",
+      "sha256": "3082c3881299e90596d0a7184607949dfd80edea190eac3828edf4bd98211897",
+      "bytes": 791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.running.json",
+      "sha256": "0a41d42f50b47bb819527be192faa8dffa60ce6407d0ccd979abf115e9d17971",
+      "bytes": 365
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial-source.json",
+      "sha256": "ff4cb4875f2cc1f33e45fdcbeaa911dfd6c5a58a58e5c31cc4c5345cf861dcd7",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.json",
+      "sha256": "554c518e04ebd6f763e6ced0b2a36a66c4f53b656f0e7b25f3fe39e38487ade8",
+      "bytes": 852
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.running.json",
+      "sha256": "727b41683c70bfc1ba211fd77b81d0ff9f20ffc0073abbd6262186864c834d58",
+      "bytes": 416
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.txt",
+      "sha256": "1eb0965dd1c4ec63839bf1bfbd4936f9a1dfde9efd274735ca3114a340289698",
+      "bytes": 42728
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.json",
+      "sha256": "ed19b0baa6c4934c094bb7190e00c69df65a5fdc7b506ffe1cbf8ab1158226c9",
+      "bytes": 768
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.running.json",
+      "sha256": "769456ec0a0d8464bda118da4c0f3e3e6bffdeef41522d31f4cc2139466e40f6",
+      "bytes": 340
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.txt",
+      "sha256": "25a488894b19c19ba0a1ec6fda031380b9cfab2de223e799628c3c673d0a0488",
+      "bytes": 1906
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.json",
+      "sha256": "fabb63376d77b6502f819d2bd536a9e9f037fd2e916627eaa9f47345947ccb5d",
+      "bytes": 900
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.running.json",
+      "sha256": "ff4d210c527efe76d3622cfa93a64ea3517a69d53d547a710f83942700c3d23a",
+      "bytes": 463
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.txt",
+      "sha256": "1a40786900d4b1f9ad64db5e402dc39b4836ce38563c355b72d125862383891b",
+      "bytes": 2626
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-source.json",
+      "sha256": "7faaab916c433e0341a624dad451b6c0948d4f0523b30112961f4e10ff900fae",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.json",
+      "sha256": "232d6e6d00987b90b0e22fbe36210cf41f12f7c0f13740b28666281ba72954d0",
+      "bytes": 894
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.running.json",
+      "sha256": "94da2e7baae3b965ff9dbf83fc6df9e0c529bbea72523ed1b19782e023aeed70",
+      "bytes": 463
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.txt",
+      "sha256": "f9a6190557ef71d360f4e4d33a0084338159977d30abe06981048b4f4745c78c",
+      "bytes": 2832
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/original-server.rs.txt",
+      "sha256": "d54bac32e50195673207359a44b6f1a9e887666d3693a36f7551bca5797a394f",
+      "bytes": 29432
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/record.py",
+      "sha256": "2e4ea9a880f937ae2f535854f564cdf3996c6b5add2910533f88fff82dcca98a",
+      "bytes": 3881
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/accept-recovery.json",
+      "sha256": "a42fe991aef391f94019be51bc400c8cd9e77652a1e5d3ad2108482984b12cfe",
+      "bytes": 7400
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/before-hashes.json",
+      "sha256": "f2805286275d9276e222a20cabf4f4af4461d88f5f7ed65eea63d218c0c5d1dc",
+      "bytes": 4149
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/boundary-check.json",
+      "sha256": "70cb301247a9dcc6ba90858750e4c9666676b5af561a66def4057fea9c8c0072",
+      "bytes": 12454
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final-source.json",
+      "sha256": "689cd34c7181ada58d29568f58303eb3bc5b39cd62249c6670f72701a86eec27",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.json",
+      "sha256": "508bdbfb9410214a45cfdddb04fad0a2071c22d692262cb70c3d99e30fc2d396",
+      "bytes": 1592
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.running.json",
+      "sha256": "e095e36f7d52ac287427f449f639920a3da97a0b9179b9d0a23bea56cdfbfa4d",
+      "bytes": 404
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.txt",
+      "sha256": "6f7cb38c38739e88929c701f52df980bf826ae43d556d51054ef93fc6e02d1e4",
+      "bytes": 278
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check-source.json",
+      "sha256": "689cd34c7181ada58d29568f58303eb3bc5b39cd62249c6670f72701a86eec27",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.json",
+      "sha256": "ee5e70e351ebca180cea3b8cacb924dcf55e3cbe94482ffe5e1c10e1ac0efbc6",
+      "bytes": 1526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.running.json",
+      "sha256": "fcb2942fe48bbfc39aaca64dd9ce554be361f31d44f69b6fa0a52830aa91cb9f",
+      "bytes": 341
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.txt",
+      "sha256": "c8d82f077d9ef7dc8a1bfd79fff5e463a1c515ef70b83e67bb84255abdcac546",
+      "bytes": 33
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/execution-context.json",
+      "sha256": "cda9dfafcd9ad327ee474163585f7017ab7ea25805627c4451235ae0e8855069",
+      "bytes": 10341
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/finalize.py",
+      "sha256": "b59d681f7fac41aceee96a28ff047c5cb0163fd4b3da1dc11f6b0ba7d3eabde4",
+      "bytes": 3645
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final-source.json",
+      "sha256": "689cd34c7181ada58d29568f58303eb3bc5b39cd62249c6670f72701a86eec27",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.json",
+      "sha256": "eb3754335979d23c0c23c7351ecf928fa9ee6462bf364a8f238503590877a8f6",
+      "bytes": 1549
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.running.json",
+      "sha256": "0965572ff7fb64b1f80ef7ea023057730106b13f0d55aebfa71c4645404c4734",
+      "bytes": 363
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final-source.json",
+      "sha256": "689cd34c7181ada58d29568f58303eb3bc5b39cd62249c6670f72701a86eec27",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.json",
+      "sha256": "5689883d5a5b7dbff3fafea4e0ee010cc3c453a18d0091690162e316b39eaf0f",
+      "bytes": 1626
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.running.json",
+      "sha256": "b3c8113126353aa8de072100b5a0a5de5783b96233757aabba61e792ae5a2970",
+      "bytes": 436
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.txt",
+      "sha256": "5ca65f621fed6e20010c07137f00aa344353552d21058d8a545ba17fb563522a",
+      "bytes": 49497
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first-source.json",
+      "sha256": "40abed1dd1c92dc2a51f85cc26022c80a48623d821cdb2a3d591e4019cf90c3f",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.json",
+      "sha256": "6cdf360d73046d9613385f8e218d19a3a9cefea116761583bcd74cd3efc73e79",
+      "bytes": 876
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.running.json",
+      "sha256": "67f412b7fed1a418e2849fd9a0fc0e0b7e48f26c98263275115738027e01a2c5",
+      "bytes": 440
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.txt",
+      "sha256": "86276c42503e1caac5ec4710a7b067211cdf7968f7b7ccdc50865557490e83eb",
+      "bytes": 46862
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second-source.json",
+      "sha256": "2b05ee2a83264f1919fb1c3e49e42c0ec2c12620631785c5ac677f9e311724f9",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.json",
+      "sha256": "75cc431f4c11a9c90552333929a51a7dec3e68791a4d3cb2a68de89f1225b303",
+      "bytes": 1626
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.running.json",
+      "sha256": "e5387c6fa681664a940ea45265d971480092474c34c28267dbcfba54267a1d2a",
+      "bytes": 436
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.txt",
+      "sha256": "bfa13ba96fe1ade5e989a33c770bd4e57b498f6f8dcef35aaaa9ae2055dead92",
+      "bytes": 49496
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final-source.json",
+      "sha256": "c755c088b00701e2038bd01dc67a73fda7246913e5be23221e3672b2616b4273",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.json",
+      "sha256": "f48746c9e210a7d99f019b709c63c345402da12c2c09c2ba032e9b694987d873",
+      "bytes": 1728
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.running.json",
+      "sha256": "f659eca0450c1f30d9474a53a85a940ebdb4ed24a2292f6b96cf409152380791",
+      "bytes": 536
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned-source.json",
+      "sha256": "29ea7f44ff0c89cf2c85c57f9d2250322e7c9d14c572c542c58765836c44f7f5",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.json",
+      "sha256": "9904132f5e2bb64c5565b967c2df4034fa91fb29e970f203f1b1b112b58c24bf",
+      "bytes": 1961
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.running.json",
+      "sha256": "d525f1ebe7fd1d712747b1ac93e8e15f626109fb77fb8ba29b9af31033ae2b69",
+      "bytes": 769
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/git-status.txt",
+      "sha256": "5ad7c7a028770068a35d6ce320cb088961d3531d5bfed5e0fc9efba81b6793bb",
+      "bytes": 1207
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness-source.json",
+      "sha256": "689cd34c7181ada58d29568f58303eb3bc5b39cd62249c6670f72701a86eec27",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.json",
+      "sha256": "1f2f0ee0b4b086ef1d9a592013b9e1fcf4eccf5c7f0bad4abd1da54b40109d60",
+      "bytes": 1522
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.running.json",
+      "sha256": "aaa6a3d0332fa0c395053cbc08a8c9f698da2db7beef685d6dcb8f20eaf302e4",
+      "bytes": 338
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.txt",
+      "sha256": "25a488894b19c19ba0a1ec6fda031380b9cfab2de223e799628c3c673d0a0488",
+      "bytes": 1906
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/preflight.json",
+      "sha256": "912bcc5353f219a1e852a830f2da1c08890bb4ce0709171a74d525db6d21d8b3",
+      "bytes": 1064
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-claim.json",
+      "sha256": "72d81f9988e8f7703b588d489dd7f918fb9c9678b637519ad4820d59a849edd1",
+      "bytes": 895
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-delivery.md",
+      "sha256": "6e355239d792a3f3e2c6f33948f90936bddeefa5444cebb199f6c5cf6231290a",
+      "bytes": 12482
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-evidence.json",
+      "sha256": "61305e35b0d03bfec6f65a5df3ab4c2dbc24cb16ac589b55f07fb63d40c5f3e9",
+      "bytes": 10845
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/record.py",
+      "sha256": "84146b175e704d0986d04e2a2203293478d5ac02c918969cc12ac6adf2bbffaf",
+      "bytes": 4221
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept-source.json",
+      "sha256": "634a48a90dc8a2a2b0be5869bca1b7fa0520e9129ba0d1e42e9bd601b734616e",
+      "bytes": 6984
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.json",
+      "sha256": "c0a0a8f3dd0d0716ebf2751184935c9a35fef4ef22b50c18880f7e35e15f42c3",
+      "bytes": 925
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.running.json",
+      "sha256": "77c4966aa857e9df63974a833816b5a56fc1208a5653f9a7d64d77bf9c8ae655",
+      "bytes": 492
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.txt",
+      "sha256": "d031212247938b1f6394298b53385054f45c661012da0d35a3fb62a92a6c8706",
+      "bytes": 2486
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept_recovery.rs.txt",
+      "sha256": "d5729893b6ad8910436958293515c3d4115620e7d2920e245461463104f43ea6",
+      "bytes": 905
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept_recovery_tests.rs.txt",
+      "sha256": "7f79db248d96bce3eb6b92faa3378f1494f520928c9e1b134caed21d72df832d",
+      "bytes": 2100
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-lifecycle.rs.txt",
+      "sha256": "5534efd160f862a17e875a834087d71d36be31f6992efc481d0e97fa59dad30c",
+      "bytes": 8132
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/signals.json",
+      "sha256": "f88a21b0ecdf4f3c9dc3c41b4e0e480e6a5566232f2c0a1c8a09588481e479c5",
+      "bytes": 5583
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary-correction.txt",
+      "sha256": "88083853b8f8a2136facb3c9279cefa9a7cfcb80c9ef6817dda33667ddd4a4c2",
+      "bytes": 281
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary-initial.json",
+      "sha256": "3fffe63813c47dcf407d646401fa051123e54e642a5e330319cb524096dc5dc3",
+      "bytes": 348
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary.json",
+      "sha256": "2afb0f775df87f2e94a73f200a5d45bacccb87adaa10d56163157649f2174bc6",
+      "bytes": 1093
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/verify.py",
+      "sha256": "fee5a834aae9065003216141a11d668211bb41251346262d141ba69a47a072d9",
+      "bytes": 3314
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test-source.json",
+      "sha256": "689cd34c7181ada58d29568f58303eb3bc5b39cd62249c6670f72701a86eec27",
+      "bytes": 7526
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.json",
+      "sha256": "18c1e4baca95f6c623a87acd355fd45acb4c9e99f5eceb5e5b30317bb2234dbc",
+      "bytes": 1535
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.running.json",
+      "sha256": "99f6a97b28b5ab774f3901f9524e2a96cecd9ae458e0bd3aafe27b7e44724d76",
+      "bytes": 345
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.txt",
+      "sha256": "6979a538985cddf4825826ceb1b6f7b5e5028ced3806c727f3d8531fd63d788a",
+      "bytes": 12913
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/signals.json",
+      "sha256": "6ff870dd0be106647a6d3ecc8d9dabcd0b2688c84569c1e08b832c7392d5434e",
+      "bytes": 3549
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/test-preservation-initial.txt",
+      "sha256": "714f8528cd7f3679d5eb5df2929cd959652b19586b884620c0a8a8b1942fa972",
+      "bytes": 620
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/test-preservation.json",
+      "sha256": "fc3acd01a1f17615e47db45597dc2a8d56162fb44487e401bc7ea4e9a1e13976",
+      "bytes": 1917
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/verify_delivery.py",
+      "sha256": "218dc2e94f7a1e34b6720ae8d5f32697b3c2c3ce9fe6855f395b14736390fdf0",
+      "bytes": 2379
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1",
+      "bytes": 6624
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.json",
+      "sha256": "2cb3de0b3c16854f9705eabc382168f4db33de1f2706d5f12ce5ac6b3b3914b4",
+      "bytes": 782
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.running.json",
+      "sha256": "1cd4f831b27102b0c1a9e1d0121de591eeb5ea56a3ba396ac279a31f6b1871d5",
+      "bytes": 347
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.txt",
+      "sha256": "cec5b67d4ecb11c70d1eface4f43deab1d407598574a5c04e5534cd5ffd49bba",
+      "bytes": 11844
+    },
+    {
+      "path": ".agents/results/result-backend-task-4-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "sha256": "b59ef1d4cc52c71c574a5a82b367b327f3f9b82a34eeef853918b9a446586a7d",
+      "bytes": 16368
+    }
+  ],
+  "authoritativeReportChannel": "ARC_RUNTIME_REPORT",
+  "reportMaxBytes": 4096,
+  "stdoutSubstitutionSuperseded": true,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "harnessExitCode": 1,
+  "unresolvedHarnessFailures": [
+    "resident.rs: 901 lines",
+    "arc-ipc/src/lib.rs: 551 lines",
+    "missing test:coverage"
+  ],
+  "independentReviewComplete": false,
+  "postCollectionVerified": false,
+  "artifacts": [
+    {
+      "path": ".agents/results/result-backend-task-4-attempt-4-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "sha256": "c87b9f7f6b3ec968afd9f42c657a7af39494cd70763fe47689df12d10d5fbb5e",
+      "bytes": 3967
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/claim.json",
+      "sha256": "e7858abf20d801370b9901fb58bd1769e1d1e7e734af3635d1b1c7c6b197311b",
+      "bytes": 1229
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/delivery.md",
+      "sha256": "7571b968e2dafa5ece88b54743f9dbd51cd0c0ab7606780d8463aec877829a57",
+      "bytes": 11449
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/acceptance-summary.json",
+      "sha256": "b248e0834d0f6642bb7da5e129d4da79bd7ecdc155487e0c2d9652d4b1b40db9",
+      "bytes": 14408
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/before-boundary.json",
+      "sha256": "1580560cdc52614d566df02e91c584ef6a2b0f0e5eaae270b67ba99c7bfbacc5",
+      "bytes": 19265
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/boundary-check.json",
+      "sha256": "1e1459b8c8d006ca2764007098740a6c7c920e5c0913ace2ceb9328edc9f0564",
+      "bytes": 93
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/claim.json",
+      "sha256": "e7858abf20d801370b9901fb58bd1769e1d1e7e734af3635d1b1c7c6b197311b",
+      "bytes": 1229
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy.json",
+      "sha256": "b8b89e857b75008a8cb4fd11b80043e67182e560a99f01e39b6495c81636f504",
+      "bytes": 1777
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy.running.json",
+      "sha256": "0dee25350cbead18fc4a55e63d942993333a049c08a58ec09fe5c56a63a220c5",
+      "bytes": 406
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy.txt",
+      "sha256": "f591e097f22f91dd5c31fbbf7e587d80c0a4e0ed594f9c9012a544f38c52d926",
+      "bytes": 72
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/collect.py",
+      "sha256": "ddaeabe3d9d1b30027b264130217baf5c5361b0c2a6052b9ae2b1638501043c4",
+      "bytes": 4136
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/delivery.md",
+      "sha256": "7571b968e2dafa5ece88b54743f9dbd51cd0c0ab7606780d8463aec877829a57",
+      "bytes": 11449
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check.json",
+      "sha256": "ccf281da7cd0ee21c9ff1cf4e9337e070e90e0cc8b590332f58841c5934ee145",
+      "bytes": 1718
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check.running.json",
+      "sha256": "61cc68706e1b0c7d86883c4f8301e99999d486edbcfeb854e869582014060450",
+      "bytes": 341
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check.txt",
+      "sha256": "c8d82f077d9ef7dc8a1bfd79fff5e463a1c515ef70b83e67bb84255abdcac546",
+      "bytes": 33
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/execution-context.json",
+      "sha256": "5dc999a184a7cd7864eb770579c4192069a2d4649b7cbf54b512b9ecda097ec4",
+      "bytes": 11865
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt.json",
+      "sha256": "505d9d7bde60d85ef766ede1606847a6c8f8ac6fddf08e281691e90a91e66762",
+      "bytes": 1734
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt.running.json",
+      "sha256": "8d23bf0c5eafbc801c65f61910911b91f7b8e33b7b660678f227c7f8d2ecde93",
+      "bytes": 365
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused.json",
+      "sha256": "9afe94e0599cdadbdfbc83751ed5426189958c47b5afad61a9c8e4c45aad588d",
+      "bytes": 1812
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused.running.json",
+      "sha256": "fb998c716f1df5d73117490a7cf592be81dbc9050609b9af3184bacaaa80f26f",
+      "bytes": 440
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused.txt",
+      "sha256": "f05a5e4bcfb53cdd2c9c0a54c73ce00cfded5d0b4183388fe08041fb54de944d",
+      "bytes": 49290
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness.json",
+      "sha256": "1448f3628c0d32ab5b795b88f7742d1a483de7790c2aea42ec406d9cdc2e2882",
+      "bytes": 1711
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness.running.json",
+      "sha256": "8e5e3a75d2b8c4db316668f6567c785b43402be5f4c0767838e8f725600d1dd7",
+      "bytes": 340
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness.txt",
+      "sha256": "25a488894b19c19ba0a1ec6fda031380b9cfab2de223e799628c3c673d0a0488",
+      "bytes": 1906
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/historical-binding.json",
+      "sha256": "547a23236cafb794f5bc35cbe3ab6f7bbb1b04b1180cab3daf1b5f1a777cadc4",
+      "bytes": 16644
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/initial-status.txt",
+      "sha256": "03959a748bf4aee0a8153bcd60a5cc47a990cac63326ed9696d064f1380a7f67",
+      "bytes": 1636
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/initial-verifier-observation.json",
+      "sha256": "20d6bf4a03570b05eaa84159d659f04fc056e599484c51d5377bfd0717d6794b",
+      "bytes": 776
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/preflight.json",
+      "sha256": "892248914817806ec1835ca64c3bcca986e686d95b247c2d563c5e6fcceb8c04",
+      "bytes": 819
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/preservation.json",
+      "sha256": "2191a4fc5a313dfb5d167014b56c8a227ebb4a79bbf9c68ccac6d58a653d5509",
+      "bytes": 329
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-claim.json",
+      "sha256": "87cfddb8d6d3cabfc7cbc08cbbbe80c84afc02d48fe88e55316e24132f33079e",
+      "bytes": 1070
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-delivery.md",
+      "sha256": "b59ef1d4cc52c71c574a5a82b367b327f3f9b82a34eeef853918b9a446586a7d",
+      "bytes": 16368
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-evidence.json",
+      "sha256": "691fd52e6115db6fe3dfea7b232f2d972d1e142ac8c37a444a1ccb550b1bb661",
+      "bytes": 27508
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/record.py",
+      "sha256": "4a43bdd247ade5ddbea49ce89e5a2830dd7e8b843b0da319bd348c0f68dfd6f1",
+      "bytes": 4260
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/verify.py",
+      "sha256": "3b2dd73d49308f49f910280bc16add8e3c89757f661fb20746fdc1a65878618a",
+      "bytes": 2728
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test.json",
+      "sha256": "795233f5aefc49db22df52a52d056b9f49444cdc0aae750cff8251203b1c7125",
+      "bytes": 1725
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test.running.json",
+      "sha256": "0f0188093d769e6a5f70205af8eae1833b3e8bbb6b4b01195625a17e536302a7",
+      "bytes": 347
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test.txt",
+      "sha256": "bdf4fe32ad18049382a237ea23a43fad3ae904a4d14ffde12114a6b109842706",
+      "bytes": 17439
+    }
+  ]
+}

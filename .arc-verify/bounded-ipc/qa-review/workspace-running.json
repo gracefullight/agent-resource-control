@@ -1,0 +1,11 @@
+{
+  "pid": 36304,
+  "processGroup": 36304,
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "startedAt": "2026-11-07T14:35:36.034559+00:00",
+  "timeoutSeconds": 120
+}

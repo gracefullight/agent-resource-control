@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "db_worker_unit",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T12:36:22.721520+00:00",
+  "finishedAt": "2026-11-07T12:36:32.299200+00:00",
+  "elapsedSeconds": 9.577455791993998,
+  "exitCode": 101,
+  "timedOut": false,
+  "pid": 77042,
+  "processExitObserved": true,
+  "output": "registered-constructor-failure.txt",
+  "outputSha256": "8a571ebb48a5abc40e6e54689382b076e762097414064c7a86b930ef4a93d261",
+  "outputIncludes": "full combined stdout and stderr",
+  "context": "execution-context.json",
+  "sourceBefore": "df1c2d5de61a420e2e3d2685d74083469694318ed87176f4bf1ad3898c484b5c",
+  "sourceAfter": "df1c2d5de61a420e2e3d2685d74083469694318ed87176f4bf1ad3898c484b5c",
+  "productInputsUnchanged": true
+}

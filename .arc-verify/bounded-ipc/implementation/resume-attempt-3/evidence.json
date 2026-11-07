@@ -1,0 +1,540 @@
+{
+  "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "artifacts": [
+    {
+      "path": ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "bytes": 8417,
+      "sha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/evidence.json",
+      "bytes": 17207,
+      "sha256": "83171de11de1663028f81deaa3a4167a66b86a4765e97f104169266ff73235c4"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/record.py",
+      "bytes": 4345,
+      "sha256": "c1abb2612fa424d65e6ecafb78698eeb4d8c04e6596c06792dcbc108c7a75e30"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/acceptance.json",
+      "bytes": 1015,
+      "sha256": "a07e2ed9702375567f2d472dba6714cffb2f90ff89d99ff84b5259ceea612b57"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/accounting.json",
+      "bytes": 1554,
+      "sha256": "c8f7fee4489fc23b1918ba9cccc97f1efcff4a0ca7403c9ff2d1b1a3604e1a7e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/before-boundary.json",
+      "bytes": 20482,
+      "sha256": "9322310efd9c7e30086bd26cd932bde96cba21f6243c8ebff807a5aaec453409"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/before-source.json",
+      "bytes": 8791,
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/boundary-check.json",
+      "bytes": 283,
+      "sha256": "d1c3ce20940cf035d1b8b5d4f799ede8235abfe6cec35a2319275746a01946df"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/claim.json",
+      "bytes": 1120,
+      "sha256": "1ef365b512d2e94c685c5df4e3ab26e6cab3df6261c194e3174cad3b1431d747"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final-source.json",
+      "bytes": 8791,
+      "sha256": "1db33eb6195f9cab53e596b417cdfb7a5ae2b1e959c941d9028adf2eb6415aa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.json",
+      "bytes": 1968,
+      "sha256": "527663dbc228a70ce55e68dca4c04a1e230cb3f2b366c027934414658d8a87bd"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.running.json",
+      "bytes": 476,
+      "sha256": "a6e29431fd8796cc425c1346f120c4cd4686b910f5276c404826bb6be9411d59"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.txt",
+      "bytes": 348,
+      "sha256": "6a3519313ed0bcfa43d5bc2d79a5f4e0cb7be70f758de44ac988ee6ca867adeb"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture-source.json",
+      "bytes": 8791,
+      "sha256": "aeebce644207367bad3de8b1b56b48172d336031b2a8f1d0f155309bc8c22b0d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.json",
+      "bytes": 1975,
+      "sha256": "c3cc9a74394d7d9dd126246d668ac37d013b998a861beb85fd69e5039df6be67"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.running.json",
+      "bytes": 476,
+      "sha256": "02404a62fc9a4961d4746812082e9cb38c1bcff59f2c7fad6e769cfcdbe30353"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.txt",
+      "bytes": 1820,
+      "sha256": "371b01ef3cd1bf44ca9fd46d3e2c921e3e03b3232e0412d91b859f89a9ca1b93"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-source.json",
+      "bytes": 8791,
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.json",
+      "bytes": 1958,
+      "sha256": "34d30ba20dbb02a030a396b020824cbc022c8d95f69fc2d0a4085d2e760bd199"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.running.json",
+      "bytes": 476,
+      "sha256": "60fb0ae6c34febc375cabb00c0291a444ec66b0429d082d8e9fc8feee2c1d1f8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.txt",
+      "bytes": 3137,
+      "sha256": "17c44bc6e035a4849651f1e2744223c2435ec1c71c23294fa14182827dbd45f6"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/collect.py",
+      "bytes": 19293,
+      "sha256": "c29e41e89950594943dbabee3538754e4d63db0d1ba9939b64566efa3a88fbb8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/collection-first-failure.json",
+      "bytes": 826,
+      "sha256": "13a7408e4eb58d783fc5b7e08ec26365d088d83fe2d97f9114df7cdf2f75c944"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green-source.json",
+      "bytes": 8791,
+      "sha256": "aeebce644207367bad3de8b1b56b48172d336031b2a8f1d0f155309bc8c22b0d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.json",
+      "bytes": 1990,
+      "sha256": "bd0dc03f7e6a67645a0b09860e5e661e994108b79d34e9ccfb26e6975455f5a7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.running.json",
+      "bytes": 485,
+      "sha256": "f526c3068ed3060b7b2f51c35a045c0b76a07de32d0a38fdc62343ded09b0620"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.txt",
+      "bytes": 1334,
+      "sha256": "1955b86824fe1d67aadcb11749cb96b91b2c7df2de3419cc656aa3253a770551"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red-source.json",
+      "bytes": 8791,
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.json",
+      "bytes": 2057,
+      "sha256": "bf720557772fb7d53413cd59b226b6a1b60fcd9e6749141123ed07f8efcb3fa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.running.json",
+      "bytes": 555,
+      "sha256": "999fedf6c9bb2df2bb987fbd30014f07ea6a133cee78f11541bc8faacc18e578"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.txt",
+      "bytes": 323,
+      "sha256": "bde1399df7dbed0b465fb32d5d7398e05d234050e2a49db334542275a6ef02f5"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/delivery.md",
+      "bytes": 8417,
+      "sha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check-source.json",
+      "bytes": 8791,
+      "sha256": "1db33eb6195f9cab53e596b417cdfb7a5ae2b1e959c941d9028adf2eb6415aa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.json",
+      "bytes": 1926,
+      "sha256": "b72e6c6aae6fe136515370195fb5f853453bfa264a3bdaef394c6d51c876b27c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.running.json",
+      "bytes": 435,
+      "sha256": "0783cbf308d9eee9e722ac8f7fadbe271b3a908ed2dd7d98bb735c1d5dfa2c55"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/final-source.json",
+      "bytes": 8791,
+      "sha256": "1db33eb6195f9cab53e596b417cdfb7a5ae2b1e959c941d9028adf2eb6415aa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fixture-change.patch",
+      "bytes": 2260,
+      "sha256": "48d664a1b76dbb270332b0c6ee45b8b9982a27d26491c998077c5a672eb92cee"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final-source.json",
+      "bytes": 8791,
+      "sha256": "1db33eb6195f9cab53e596b417cdfb7a5ae2b1e959c941d9028adf2eb6415aa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.json",
+      "bytes": 1923,
+      "sha256": "29678a71bb06d17c93ecff07233b7661fc4443d0874e0e04b5406f484a16541e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.running.json",
+      "bytes": 435,
+      "sha256": "29af4cc7fd4a2393a75f64f047aad69797ae018948650b229461112ec4585c69"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-source.json",
+      "bytes": 8791,
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.json",
+      "bytes": 1910,
+      "sha256": "4560eaf6f7b00529577851e452a3bccf643a3239dee9a064b565d8f8fb354576"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.running.json",
+      "bytes": 435,
+      "sha256": "c99f3db83968e2d4fdf1f7b58c0e36e1e978e021dfe5d9e196fe723ec1c38552"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/SIGINT.json",
+      "bytes": 5141,
+      "sha256": "2aef2bd7791fd11bcf470e221120d79d89ea1a74dc2b0fa49c7907cb1da818e8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/SIGTERM.json",
+      "bytes": 5142,
+      "sha256": "f9e0c0327e9162d8e598b138e0b584765cb254898b1871cbc294ec21f8687453"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/connection-100000.json",
+      "bytes": 1358,
+      "sha256": "30da6f8304c6bf31ad6f00022fbbef5dace92deab11b0d53a9eb3bfce83e5a83"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/db-100000.json",
+      "bytes": 1403,
+      "sha256": "9be0320596e7a1c59265ddf6cfe83a8a5b73d2326c16f46a4b8222fab434acba"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/deadline-saturation.json",
+      "bytes": 2589,
+      "sha256": "bc095548a7b55a30aa4b73981cb57ec419a09c55b1eebd5ff549b41f8fd5cd3f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/frames.json",
+      "bytes": 2540,
+      "sha256": "7f6656e314464a28c089db025fab60bba5f5808b23671e2b15ee557626afee69"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-measurements.json",
+      "bytes": 4423,
+      "sha256": "afd732d7a79c6dc7e88c1f907c7ae21744c418f971258a23d7a70608e2d19415"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-observations.json",
+      "bytes": 25827,
+      "sha256": "25f0f1dd4725ef4c03a041fd7df01f84721713a9ec1412801df4b7d693b4600c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-probe.json",
+      "bytes": 2652,
+      "sha256": "9e0da137441e138e73a885cb2c06d7d2452cb11deff67c746aa721cc58c6dc91"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-sql-health.json",
+      "bytes": 2663,
+      "sha256": "d7bfdea7ce87518b5d5692cda872456d9122f1f7daf08c69fcedb960398456aa"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/nonreader.json",
+      "bytes": 2530,
+      "sha256": "f840cced7905082d4bfd3d98c43d630c0aaca020bcf53911d7517dded17e7dff"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/request-100000.json",
+      "bytes": 1362,
+      "sha256": "d03c1d6126669271664dedc72dbc21e99b0d7c4c84898da04364979ce28cd15b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/slow-db-release.json",
+      "bytes": 2539,
+      "sha256": "8ca141f4ef4b82247bccb30a0964a9e3c6292e08c6ea894002ab4da4f7a9bbe9"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/small-message-samples.json",
+      "bytes": 110958,
+      "sha256": "3032c173b42738081898b69f87f691b58351ed767335ca985d85a8ad27db67e8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-source.json",
+      "bytes": 8791,
+      "sha256": "1db33eb6195f9cab53e596b417cdfb7a5ae2b1e959c941d9028adf2eb6415aa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.json",
+      "bytes": 2004,
+      "sha256": "5ec458ce27eb71ecab145ddc08a540b4628845e44c6e598c560d0e7c34ba31e1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.running.json",
+      "bytes": 520,
+      "sha256": "9c2ca9ed32dfcd898756c9451ce2acb8feda1b91c3bd02bf1357f303f8b110c3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.txt",
+      "bytes": 64567,
+      "sha256": "f3f33b3ced0047fcab63c05e7cda210cda966a70c801fa9e4dec9a2c0df23f6c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness-source.json",
+      "bytes": 8791,
+      "sha256": "1db33eb6195f9cab53e596b417cdfb7a5ae2b1e959c941d9028adf2eb6415aa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.json",
+      "bytes": 1893,
+      "sha256": "f17043bf11e681bc710074a25788b7e06557e782f3b112eb50665b3361dcc216"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.running.json",
+      "bytes": 410,
+      "sha256": "7213c07eef2b1f39ee1dd4356fefa044979b1f50f4d649809f6ceff293bd1b51"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.txt",
+      "bytes": 2296,
+      "sha256": "0c04d53e551bef730fdc225bf713fb495d31c32e4c6ceff27f040a45256300f1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/historical-source-check.json",
+      "bytes": 374,
+      "sha256": "13040b3470ec9c1d1bdde64deeb05c9d2a28fc5cbc7f9a376fb7b8c89e23ae99"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/historical-verifier.json",
+      "bytes": 881,
+      "sha256": "abfeb427f3dea774b812e67fa50df53f249d7f77935b6122b4444d8b92db1f60"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.json",
+      "bytes": 4703,
+      "sha256": "5d662fe6fbae6cd1ed05925c7c9a13725b62c34e1558aa3f3df5d1d551242ac7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.md",
+      "bytes": 4137,
+      "sha256": "c5e8970962f6e4d233362e9803f4370b04901a667d8a49a8f1f74effe5ddadc7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/preflight.json",
+      "bytes": 805,
+      "sha256": "6a57cee42cbab1d299149bc2234b09b8a146169f576b138b3e54f484e244a2e0"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/preservation-targets.json",
+      "bytes": 1131,
+      "sha256": "88914e5e17bd6614491b2a244b299d00608075869bee5c0c0623d8d6b0445f2d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/provenance.json",
+      "bytes": 2570,
+      "sha256": "2f68c75e6f1b198a850c8542c21e523997e59f0438e922121088766ca81c2a33"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/record.py",
+      "bytes": 576,
+      "sha256": "db3040d6fe25023eecc8b9577cc4666276c05a597c5586eebdd8352f6e2e9ae4"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/source-evidence.json",
+      "bytes": 12107,
+      "sha256": "af3dcd99e3fe5dcf54a93706de12c16a767f2e8ca36f58c97e20ffc68f222750"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py",
+      "bytes": 6526,
+      "sha256": "594364d0d19725d448325597daaf776358a8b493bca686ccf117d5202d44a4f2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/SIGINT.json",
+      "bytes": 5141,
+      "sha256": "6c614f2c889c7854e225c61878f8bd8453a1bb73ba28da8adbf264aa86669a6b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/SIGTERM.json",
+      "bytes": 5142,
+      "sha256": "2d123e2409a44304472e2d7024e11a865ea2602755d4a469c2b40aa568f88607"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/connection-100000.json",
+      "bytes": 1358,
+      "sha256": "0d9c47cc14b3344036fa9196e225466ed7b5029396354a5dec504f191d3c2c91"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/db-100000.json",
+      "bytes": 1403,
+      "sha256": "a5e88723e97602e96943ba90e845974c12b328a58db16ba4fcb910c79513d480"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/deadline-saturation.json",
+      "bytes": 2589,
+      "sha256": "05247ecae4aa24da12e071a2ed439d261e6111120dfb9ba30f6d082905d1263a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/frames.json",
+      "bytes": 2540,
+      "sha256": "b8023e99cbbcaf2721cf226a03f87227167a0f7ca194d89023ff5e5f9cc93e27"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-measurements.json",
+      "bytes": 4426,
+      "sha256": "abc532902f8cc1b015c1f655652d655076cf9520553a26d5b799913c238062f9"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-observations.json",
+      "bytes": 25741,
+      "sha256": "1a477b946e7b9306a6172c86dad5e0528f7b8652353c315f0c51195016bf9de7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-probe.json",
+      "bytes": 2652,
+      "sha256": "74df8cbd283038a0d14d88ccca37cbc3593b09db9d4f8c046b79edd636abc680"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-sql-health.json",
+      "bytes": 2663,
+      "sha256": "8585eccb1f28d69c83e5a09dc89fcde07d6cf117d9a413026ff837e9f803166e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/nonreader.json",
+      "bytes": 2530,
+      "sha256": "da89b78d4ffc921cb0482db20e9db4f243c1661bc0fbc0443adf759831245a55"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/request-100000.json",
+      "bytes": 1362,
+      "sha256": "d03c1d6126669271664dedc72dbc21e99b0d7c4c84898da04364979ce28cd15b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/slow-db-release.json",
+      "bytes": 2539,
+      "sha256": "d3fbe2f6e326d420307683491fe1a505056a3f5bbe687609ab13943482729dd9"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/small-message-samples.json",
+      "bytes": 110801,
+      "sha256": "2b589ade5a419e205e85b1b1d4e93b26eee00ab8fd48cd93eab4e7b59c2b609d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-source.json",
+      "bytes": 8791,
+      "sha256": "1db33eb6195f9cab53e596b417cdfb7a5ae2b1e959c941d9028adf2eb6415aa2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.json",
+      "bytes": 1916,
+      "sha256": "61f73ba6fbbdaf9aec55ef5cefcd630fc2280e2515925d3fdb9a72b0f95eff8d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.running.json",
+      "bytes": 417,
+      "sha256": "f3e711ec7f6305b004326bceea13657cdf3264d8d109bcf0a7d10c0139538a0d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.txt",
+      "bytes": 17715,
+      "sha256": "255f646e7b58ee6f67f90a3fb10b27d613dc80a2dc18c6a08df7a41fb5df8dc2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/frames.json",
+      "bytes": 2540,
+      "sha256": "11570c7c7f66d12d8714b576f84bb440c29334b52e917ec5531d42a3d84f5d3c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-measurements.json",
+      "bytes": 4428,
+      "sha256": "7359d6e5f00a0022d7cc0cbdfea112844776018ffdeb40a85603f3c0c4373a5e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-observations.json",
+      "bytes": 29212,
+      "sha256": "f0ae0679efc6c31a8b462103dce4fbf84a3c17e41717ee03c72967fa665494f9"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-probe.json",
+      "bytes": 2652,
+      "sha256": "0295492903e64ef4233dbf1c7394fffab727a3cdd5b770491e59ec71ac0772e7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/nonreader.json",
+      "bytes": 2530,
+      "sha256": "ba58e6ef4ca5d2f9d4069076c926cd80073c888edf74319dc9d942acf24bfb09"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/small-message-samples.json",
+      "bytes": 111137,
+      "sha256": "1f3850b7cb7264a5804f8a81557a232fd7432633896f75a460517478fffc93ab"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-source.json",
+      "bytes": 8791,
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.json",
+      "bytes": 1906,
+      "sha256": "9d617ba1d15ddc39413be36c800f9f5e29a12d6c296945c3d41bad42deb7543b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.running.json",
+      "bytes": 417,
+      "sha256": "79957a0a0c6abb91e475ae0a312cf924504b87413ee44a9ea5e7c62ad1e4f375"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.txt",
+      "bytes": 12271,
+      "sha256": "4354bd4f290ae32c86e0c841469262dbaffe60b08d5e314363f4e74f3c56b5d3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/source-evidence.json",
+      "bytes": 12245,
+      "sha256": "d3818048f0d696b9d0638f5bd01b68986154c29a26af34a16d04d30d995d3933"
+    }
+  ]
+}

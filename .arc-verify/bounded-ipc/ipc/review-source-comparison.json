@@ -1,0 +1,83 @@
+{
+  "recordedAt": "2026-11-07T12:01:28.387721+00:00",
+  "reviewCwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "hashes": [
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "reviewSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "repairSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "reviewSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "repairSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "reviewSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "repairSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "reviewSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "repairSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "reviewSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "repairSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "reviewSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "repairSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "reviewSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "repairSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "reviewSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "repairSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/tests/transport_unit.rs",
+      "reviewSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "repairSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "matches": true
+    }
+  ],
+  "status": {
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1",
+      "--untracked-files=all",
+      "--",
+      "crates/arc-daemon/src/admission.rs",
+      "crates/arc-daemon/src/connection.rs",
+      "crates/arc-daemon/src/limits.rs",
+      "crates/arc-daemon/src/platform.rs",
+      "crates/arc-daemon/src/runtime_metrics.rs",
+      "crates/arc-daemon/src/transport.rs",
+      "crates/arc-daemon/src/transport_test_support.rs",
+      "crates/arc-daemon/src/transport_tests.rs",
+      "crates/arc-daemon/tests/transport_unit.rs"
+    ],
+    "exitCode": 0,
+    "stdout": " M crates/arc-daemon/src/platform.rs\n?? crates/arc-daemon/src/admission.rs\n?? crates/arc-daemon/src/connection.rs\n?? crates/arc-daemon/src/limits.rs\n?? crates/arc-daemon/src/runtime_metrics.rs\n?? crates/arc-daemon/src/transport.rs\n?? crates/arc-daemon/src/transport_test_support.rs\n?? crates/arc-daemon/src/transport_tests.rs\n?? crates/arc-daemon/tests/transport_unit.rs\n",
+    "stderr": ""
+  },
+  "repairEvidenceCollected": false,
+  "note": "Read-only observation before normal collection. New task-2 evidence is still Actor-local; re-hash delivery.md and evidence.json after collection, without treating the current local snapshot as the review HEAD."
+}

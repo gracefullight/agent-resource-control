@@ -1,0 +1,137 @@
+{
+  "baseline": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineFiles": {
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "currentSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "unchanged": true
+    },
+    "scripts/harness/validate.sh": {
+      "baselineSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "currentSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "baselineSha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "currentSha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "unchanged": true
+    },
+    "crates/arc-core/src/lib.rs": {
+      "baselineSha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "currentSha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "unchanged": true
+    },
+    "crates/arc-cli/src/main.rs": {
+      "baselineSha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+      "currentSha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+      "unchanged": true
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "baselineSha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+      "currentSha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+      "unchanged": true
+    },
+    "crates/arc-daemon/tests/startup.rs": {
+      "baselineSha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+      "currentSha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+      "unchanged": true
+    }
+  },
+  "acceptedInputs": {
+    "crates/arc-daemon/src/db_worker.rs": {
+      "currentSha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "acceptedSha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/db_worker/execution.rs": {
+      "currentSha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "acceptedSha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/db_worker/tests.rs": {
+      "currentSha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+      "acceptedSha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+      "unchanged": true
+    },
+    "crates/arc-daemon/tests/db_worker_unit.rs": {
+      "currentSha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "acceptedSha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/limits.rs": {
+      "currentSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "acceptedSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/runtime_metrics.rs": {
+      "currentSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "acceptedSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "unchanged": true
+    },
+    "docs/bounded-ipc-contract.md": {
+      "currentSha256": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0",
+      "acceptedSha256": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0",
+      "unchanged": true
+    },
+    ".arc-verify/bounded-ipc/ipc/evidence.json": {
+      "currentSha256": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739",
+      "acceptedSha256": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739",
+      "unchanged": true
+    },
+    "scripts/harness/validate.sh": {
+      "currentSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "acceptedSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/admission.rs": {
+      "currentSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "acceptedSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/connection.rs": {
+      "currentSha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+      "acceptedSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "unchanged": false
+    },
+    "crates/arc-daemon/src/platform.rs": {
+      "currentSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "acceptedSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/transport.rs": {
+      "currentSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "acceptedSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/transport_test_support.rs": {
+      "currentSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "acceptedSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "unchanged": true
+    },
+    "crates/arc-daemon/src/transport_tests.rs": {
+      "currentSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "acceptedSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "unchanged": true
+    },
+    "crates/arc-daemon/tests/transport_unit.rs": {
+      "currentSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "acceptedSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "unchanged": true
+    }
+  },
+  "sharedManifestAndLockfiles": {
+    "Cargo.lock": {
+      "sha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2",
+      "unchanged": true
+    },
+    "Cargo.toml": {
+      "sha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad",
+      "unchanged": true
+    },
+    "crates/arc-daemon/Cargo.toml": {
+      "sha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+      "unchanged": true
+    }
+  },
+  "serverFilesystemFunctionsByteIdentical": true
+}

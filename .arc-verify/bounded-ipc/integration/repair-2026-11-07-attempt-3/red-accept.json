@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--bin",
+    "arc-daemon",
+    "isolated_transient_accept_error_recovers_cli",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T13:42:31.280140+00:00",
+  "finishedAt": "2026-11-07T13:42:35.148142+00:00",
+  "elapsedSeconds": 3.867791999975452,
+  "exitCode": 101,
+  "timedOut": false,
+  "pid": 96539,
+  "processExitObserved": true,
+  "output": "red-accept.txt",
+  "outputSha256": "d031212247938b1f6394298b53385054f45c661012da0d35a3fb62a92a6c8706",
+  "sourceBefore": "da5700deb67a7dfba69fdcf72747da518cdf5f2dd2a699b127abcce4affbc8aa",
+  "sourceAfter": "da5700deb67a7dfba69fdcf72747da518cdf5f2dd2a699b127abcce4affbc8aa",
+  "productInputsUnchanged": true
+}

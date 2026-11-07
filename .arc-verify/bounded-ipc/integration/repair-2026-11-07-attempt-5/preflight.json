@@ -1,0 +1,34 @@
+{
+  "recordedAt": "2026-11-07T16:33:46.281456+00:00",
+  "savedDeadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 65929.319544,
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "recordedMissionRuns": 95,
+  "maxRetries": 3,
+  "taskAttempt": 5,
+  "budgetSource": "Supplied mission and retained attempt-4 preflight; no counters reset or mission state mutated.",
+  "route": "Supplied actual codex/native route. Noninteractive shell succeeded; no routing probe needed.",
+  "serenaAvailable": false,
+  "claimPath": null,
+  "omaRunId": null,
+  "preparedCache": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/target",
+  "limits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  }
+}

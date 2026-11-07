@@ -1,0 +1,399 @@
+{
+  "version": 1,
+  "recordedAt": "2026-11-07T15:11:47.999664+00:00",
+  "status": "ready for independent review",
+  "actorId": "backend",
+  "taskId": "task-2",
+  "attempt": 4,
+  "missionId": "b137e253-def6-46ef-a75d-25ab414784ea",
+  "sessionId": "01a1b68c-b5e1-78e0-902b-b47669bb7195",
+  "omaRunId": null,
+  "injectedClaimPath": null,
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineTree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+  "snapshotCommit": "eac1ffc1739f3cc3da254376b8243c7e05012087",
+  "snapshotTree": "4214462f01a3c059d825ca6ae7ed90dc156ed086",
+  "sourceFingerprint": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+  "sourceHashes": [
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "originalSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+      "originalSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "matchesOriginal": false,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "originalSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "originalSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "originalSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "originalSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "originalSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "originalSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/tests/transport_unit.rs",
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "originalSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "matchesOriginal": true,
+      "matchesInputSnapshot": true,
+      "reviewSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "matchesReview": true
+    }
+  ],
+  "productInputsUnchanged": true,
+  "earlierArtifactsPreserved": true,
+  "gates": [
+    {
+      "path": "fmt.json",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+      "startedAt": "2026-11-07T15:08:50.337181+00:00",
+      "finishedAt": "2026-11-07T15:08:50.818472+00:00",
+      "elapsedSeconds": 0.481290333,
+      "exitCode": 0,
+      "timedOut": false,
+      "pid": 876,
+      "processExitObserved": true,
+      "context": "execution-context.json",
+      "output": "fmt.txt",
+      "outputIncludes": "full combined stdout/stderr",
+      "outputSha256": "764b5962bb0ed635ebd543347c32653e42b1e94c0b90c60ebfed0c4d2f16d13b",
+      "sourceBefore": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "sourceAfter": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "productInputsUnchanged": true
+    },
+    {
+      "path": "clippy.json",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+      "startedAt": "2026-11-07T15:08:53.159416+00:00",
+      "finishedAt": "2026-11-07T15:08:53.469386+00:00",
+      "elapsedSeconds": 0.309972042,
+      "exitCode": 101,
+      "timedOut": false,
+      "pid": 979,
+      "processExitObserved": true,
+      "context": "execution-context.json",
+      "output": "clippy.txt",
+      "outputIncludes": "full combined stdout/stderr",
+      "outputSha256": "6b21a6564f54ada2ef4b000a3dab309d4cf72b6920c2065e8bba3dac97afa6b1",
+      "sourceBefore": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "sourceAfter": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "productInputsUnchanged": true
+    },
+    {
+      "path": "workspace-test.json",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+      "startedAt": "2026-11-07T15:08:56.032191+00:00",
+      "finishedAt": "2026-11-07T15:08:56.175801+00:00",
+      "elapsedSeconds": 0.14361162499999997,
+      "exitCode": 101,
+      "timedOut": false,
+      "pid": 1159,
+      "processExitObserved": true,
+      "context": "execution-context.json",
+      "output": "workspace-test.txt",
+      "outputIncludes": "full combined stdout/stderr",
+      "outputSha256": "6b21a6564f54ada2ef4b000a3dab309d4cf72b6920c2065e8bba3dac97afa6b1",
+      "sourceBefore": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "sourceAfter": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "productInputsUnchanged": true
+    },
+    {
+      "path": "local-cache/fmt.json",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+      "startedAt": "2026-11-07T15:09:11.048961+00:00",
+      "finishedAt": "2026-11-07T15:09:11.364082+00:00",
+      "elapsedSeconds": 0.31511849999999997,
+      "exitCode": 0,
+      "timedOut": false,
+      "pid": 1599,
+      "processExitObserved": true,
+      "context": "execution-context.json",
+      "output": "fmt.txt",
+      "outputIncludes": "full combined stdout/stderr",
+      "outputSha256": "764b5962bb0ed635ebd543347c32653e42b1e94c0b90c60ebfed0c4d2f16d13b",
+      "sourceBefore": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "sourceAfter": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "productInputsUnchanged": true
+    },
+    {
+      "path": "local-cache/clippy.json",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+      "startedAt": "2026-11-07T15:09:13.695295+00:00",
+      "finishedAt": "2026-11-07T15:09:22.620813+00:00",
+      "elapsedSeconds": 8.925505416,
+      "exitCode": 0,
+      "timedOut": false,
+      "pid": 1658,
+      "processExitObserved": true,
+      "context": "execution-context.json",
+      "output": "clippy.txt",
+      "outputIncludes": "full combined stdout/stderr",
+      "outputSha256": "84ea60590558fd384a1ce4a5219362fd3ff0472e3a06f966dab6f6ea9ffffa67",
+      "sourceBefore": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "sourceAfter": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "productInputsUnchanged": true
+    },
+    {
+      "path": "local-cache/workspace-test.json",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+      "startedAt": "2026-11-07T15:09:26.748713+00:00",
+      "finishedAt": "2026-11-07T15:10:32.906600+00:00",
+      "elapsedSeconds": 66.157735875,
+      "exitCode": 0,
+      "timedOut": false,
+      "pid": 2278,
+      "processExitObserved": true,
+      "context": "execution-context.json",
+      "output": "workspace-test.txt",
+      "outputIncludes": "full combined stdout/stderr",
+      "outputSha256": "e647c3a09464a186c5c37de3a9cd123f10d5eabe030896ac39a51ca4e2e61214",
+      "sourceBefore": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "sourceAfter": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4",
+      "productInputsUnchanged": true
+    }
+  ],
+  "testSummary": {
+    "transportUnit18Executed": true,
+    "transportUnitOutput": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-d734e18fd1baa8d5)\n\nrunning 18 tests\ntest limits::tests::limits_reject_invalid_config_and_profiles ... ok\ntest runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping ... ok\ntest tests::cancellation_reaps_unpolled_handlers_and_drops_all_guards ... ok\ntest tests::metrics_are_fixed_size_and_preserve_high_waters ... ok\ntest tests::headers_and_trickled_bodies_have_absolute_deadlines ... ok\ntest tests::malformed_json_and_version_errors_continue_without_database ... ok\ntest tests::retained_tasks_reap_and_rejections_do_not_call_factory ... ok\ntest tests::header_progress_does_not_renew_the_body_budget ... ok\ntest tests::same_user_authentication_supports_async_sockets_and_rejects_non_sockets ... ok\ntest tests::saturated_requests_close_before_allocating_even_for_invalid_prefixes ... ok\ntest tests::typed_worker_outcomes_keep_busy_distinct_from_integrity ... ok\ntest tests::zero_and_oversized_frames_reject_without_body_allocation ... ok\ntest tests::stalled_header_and_partial_body_release_request_capacity ... ok\ntest tests::nonreading_peer_expires_under_write_backpressure ... ok\ntest tests::request_admission_races_and_unwind_never_exceed_cap ... ok\ntest tests::blocked_handler_write_releases_request_and_response_reservations ... ok\ntest tests::response_serialization_is_capped_before_any_prefix_is_written ... ok\ntest tests::oversized_echo_uses_one_small_fallback_then_closes ... ok\n\ntest result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+    "suiteCount": 17,
+    "passed": 173,
+    "failed": 0,
+    "ignored": 0,
+    "workspaceExitCode": 0
+  },
+  "artifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/clippy.json",
+      "sha256": "b4aa52e8fd0a4c8a81c1b4db2f5cced25b03a79fb92051f455a2aeb6acaa8b44"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/clippy.running.json",
+      "sha256": "7ed08798049a789fb56664299d9285b0a55c0bce07dbe448e7e9638dc01a01ba"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/clippy.txt",
+      "sha256": "6b21a6564f54ada2ef4b000a3dab309d4cf72b6920c2065e8bba3dac97afa6b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/collection-check.json",
+      "sha256": "6003e650dd429d986fa4875d316f3f2fad9ebc53db91340ae52588c25c083461"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/delivery.md",
+      "sha256": "2708f75befd32524fd01126ec6c3ad3191d411d7a1539ed52f82df7d22fdf027"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/execution-context.json",
+      "sha256": "7cba2bc0c0d91a52158bea79a3f227f9db8277159591cc58965a286582100ac9"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/finalize.py",
+      "sha256": "27559d14e2eed5672c7ce23458d1425a075729d9f317bdf73519e401ba28edd7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/fmt.json",
+      "sha256": "f8a710daad715c0ddbe9903f107c6439a45e1ed46495a23c28e4c8a3f1485ba3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/fmt.running.json",
+      "sha256": "f35d7adec022895adbea485334ab2e1d8af39708149ec63ba30a44aade2bc48c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/fmt.txt",
+      "sha256": "764b5962bb0ed635ebd543347c32653e42b1e94c0b90c60ebfed0c4d2f16d13b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.json",
+      "sha256": "541ab0d75bf26ecc79691d163de20f3a620a732626f8a86948fde1ea601f2770"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.running.json",
+      "sha256": "9491d0d23e1039d53d5c96d134e6ba515582119a712561c0357b5758c2e38178"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.txt",
+      "sha256": "84ea60590558fd384a1ce4a5219362fd3ff0472e3a06f966dab6f6ea9ffffa67"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/execution-context.json",
+      "sha256": "31fe7fe3a82f07f7d544f45196a91e703fb7b89353d5bac2dde6930a9dda04dd"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.json",
+      "sha256": "54cefd62755480b089eebcbfdaae7ba1e10eb8c507d738601d01b4f1197c71ae"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.running.json",
+      "sha256": "db660fb536cbd3a5c2fbebe48e7269d8f6944a2bf8a5007c9ddf0b6d844010a0"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.txt",
+      "sha256": "764b5962bb0ed635ebd543347c32653e42b1e94c0b90c60ebfed0c4d2f16d13b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.json",
+      "sha256": "311a87a770b5bf30240804e938b2a5afe9ff58226faf6ac4a2f970b11e8ac054"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.running.json",
+      "sha256": "69d1069f93c4c931615745073c11c4fb2652947798f695fcd11a56cd8f852807"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.txt",
+      "sha256": "e647c3a09464a186c5c37de3a9cd123f10d5eabe030896ac39a51ca4e2e61214"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local_cache.py",
+      "sha256": "c5c2b4877777759973d0359087841d686d56c891359c4104f70ee3b4372d11ad"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/provenance-after.json",
+      "sha256": "f9dd776f7e57599bdecfbe160bec0193fbf484a5013e93b30ea971ae48a0c810"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/provenance-before.json",
+      "sha256": "c7508cef5bbffa2fea06d22de0d8d6f7057b306ff653a2ded39de973476ee056"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/record.py",
+      "sha256": "890a929193e871a6e474dbe7ed83015d00c86841d5c0acd09489902eb374756a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/review-environment-probe.json",
+      "sha256": "7376a231fdf9e6a4b32c10cbb42ba49b47704910b3425ce40c4b3002f75046d5"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/test-summary.json",
+      "sha256": "774dbd63ecfa8f0f5367dfc757644083eb0fb16f1d44f83d51face4903f9974a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.json",
+      "sha256": "d9e75666fba1e03f46bfa1e9228f36581db4c7c89546e16dcc0b71fc8f529e31"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.running.json",
+      "sha256": "36ebc1b78b2b73442e2f287761f8fbadfac2804acc89086b0921c7bcaa8bd0a6"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.txt",
+      "sha256": "6b21a6564f54ada2ef4b000a3dab309d4cf72b6920c2065e8bba3dac97afa6b1"
+    }
+  ],
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "scope": {
+    "evidenceOnly": true,
+    "inheritedProductionDeclarations": true,
+    "testTargetDeadCodeAllowance": true,
+    "missionAcceptanceComplete": false,
+    "independentReviewExecuted": false,
+    "postCollectionVerified": false,
+    "task3AcceptedByTheseReceipts": false,
+    "nativePerformanceRefreshed": false
+  },
+  "unresolved": [
+    "Normal framework collection and independent hash validation pending.",
+    "Independent reviewer must validate its own noninteractive route; Codex probe does not establish qwen recovery.",
+    "Task-3/task-4 and later mission acceptance remain separate; preserve final QA and known closure findings."
+  ]
+}

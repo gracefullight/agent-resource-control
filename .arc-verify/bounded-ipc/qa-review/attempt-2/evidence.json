@@ -1,0 +1,295 @@
+{
+  "recordedAt": "2026-11-07T16:06:25.035398+00:00",
+  "task": "task-8",
+  "attempt": 2,
+  "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "changedFiles": [
+    ".arc-verify/bounded-ipc/harness.txt",
+    ".arc-verify/bounded-ipc/performance.json",
+    ".arc-verify/bounded-ipc/performance.md",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/check.py",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy-running.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy-source.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy.txt",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/context.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/delivery-check.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/dependency-test-audit.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/evidence.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/finalize.py",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt-running.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt-source.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt.txt",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/harness-running.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/harness-source.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/harness.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/harness.txt",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-harness.txt",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-performance.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-performance.md",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-qa.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-qa.md",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/preservation-targets.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/run.py",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/runtime-validation.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGINT.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGTERM.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/connection-100000.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/db-100000.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/deadline-saturation.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/frames.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-measurements.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-observations.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-probe.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-sql-health.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/nonreader.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/request-100000.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/slow-db-release.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/small-message-samples.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-running.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-source.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace.json",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace.txt",
+    ".arc-verify/bounded-ipc/qa.json",
+    ".arc-verify/bounded-ipc/qa.md"
+  ],
+  "artifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/qa.json",
+      "bytes": 7068,
+      "sha256": "f37eb40347434a9040883a09414c23e2552668a127887abe39337f9e4689b27a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa.md",
+      "bytes": 13413,
+      "sha256": "9863c9b69f080e5bfe034ab23efea87df1a5ad9a8ec9528e7cad5b4d99e6430a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/performance.json",
+      "bytes": 6434,
+      "sha256": "94273c772423627467181e78572b51749fb944a869265da7bcbbab4646109dd8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/performance.md",
+      "bytes": 5728,
+      "sha256": "adfe45949dca48f790c9ce954d674c696ade2424a079aeb9d8ee0ef946c4f435"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/harness.txt",
+      "bytes": 1906,
+      "sha256": "e50786fc256444b3a2db23ea387d580f726a244b2156e1c82fc29d3c77641f72"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy-running.json",
+      "bytes": 239,
+      "sha256": "5c2f5350eb0a62b746d108e7eb5985d6d10f654ff3d559468873989c61a001ee"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy-source.json",
+      "bytes": 8697,
+      "sha256": "aef3eb84f985efffe03baa52dd2f6aa49bd93ad3501b91feb5f888f98a1182c8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy.json",
+      "bytes": 1100,
+      "sha256": "9cfd13fc93e0b5780a4e009b5af5bf4da8dd15d65ebdb8447ab30196261838a4"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy.txt",
+      "bytes": 278,
+      "sha256": "13dcadb3ff563c6eb37dd6fcbd6cb5c080a2e8349af081da022ca8c28064f8fd"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/context.json",
+      "bytes": 10050,
+      "sha256": "d5ed72c1d376e5129699fe0efc4b5d990b803d7a89c6cd0af2b18de3d5f92a79"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/dependency-test-audit.json",
+      "bytes": 28421,
+      "sha256": "f3f62356dcddc1f50cc4a1b6e4f980061ed471af633564120d72c07536cd09dd"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/finalize.py",
+      "bytes": 31159,
+      "sha256": "db5dc2198f582fcc7bd30b70a431b214ef3b0525d023bc3efc957fa5c3b8ef80"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt-running.json",
+      "bytes": 198,
+      "sha256": "c55df783bdeaff8dee884d78713cc3dd2c61532060582f1ba394ee5804b7b25d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt-source.json",
+      "bytes": 8697,
+      "sha256": "aef3eb84f985efffe03baa52dd2f6aa49bd93ad3501b91feb5f888f98a1182c8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt.json",
+      "bytes": 1056,
+      "sha256": "693131bc197a8626ed4c40fe6835306972a99b1d1ece4ccdeaeb2e1bc5283b39"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/harness-running.json",
+      "bytes": 173,
+      "sha256": "432c9a4a5f872a19524993f0196724b1db729288ee4f010f2cb135bdc3f1ad70"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/harness-source.json",
+      "bytes": 8697,
+      "sha256": "aef3eb84f985efffe03baa52dd2f6aa49bd93ad3501b91feb5f888f98a1182c8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/harness.json",
+      "bytes": 1034,
+      "sha256": "3ef7f9d8dee84812dee567e598bc6983d9d9f458206d709567b38262f004d15d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/harness.txt",
+      "bytes": 1906,
+      "sha256": "e50786fc256444b3a2db23ea387d580f726a244b2156e1c82fc29d3c77641f72"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-harness.txt",
+      "bytes": 1906,
+      "sha256": "25a488894b19c19ba0a1ec6fda031380b9cfab2de223e799628c3c673d0a0488"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-performance.json",
+      "bytes": 6308,
+      "sha256": "7c4457382ef9f0fd409441c4d4c8ea8d8c81fea7c00bf3072bfc0f68d216c3ff"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-performance.md",
+      "bytes": 6152,
+      "sha256": "01dc323f8944980c2d86c6ed6beac0586bd373b66d950d190cf7ea0a7f818365"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-qa.json",
+      "bytes": 6234,
+      "sha256": "a042023d0412ba0927e16c47aa6a99ca92f162d02a92bb2adce8ca9244a1a2c8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/preceding-qa.md",
+      "bytes": 19112,
+      "sha256": "c4c285f38cde0461169ebbbed6b8b0815943c03a9f6485de1896de2d6f98bdb2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/preservation-targets.json",
+      "bytes": 1328,
+      "sha256": "b88f16d9b8da653cef55ce759fd9e0e061b980e45bb633d4b2a99413c78bacfe"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/run.py",
+      "bytes": 1041,
+      "sha256": "8dfbdb0378ec98e435a35390367aa6bd318b92cc2e8a6b59232629001beac429"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/runtime-validation.json",
+      "bytes": 3047,
+      "sha256": "24b1af56b4df2e756e9d126d438d84ebc18d10c14c56d9a5f3fa249c1dd5b3a3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGINT.json",
+      "bytes": 5141,
+      "sha256": "870459c5884637b17ab3dc4a9b58e582e94a8f785761ce12b95d2f595b7b0bab"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGTERM.json",
+      "bytes": 5142,
+      "sha256": "8ac417f130d75505d1ff5251974f62de5d42fc2d1b6ac1395402876640141b75"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/connection-100000.json",
+      "bytes": 1358,
+      "sha256": "e758286ed515429130066f7ef7a7a36ff5915d1f2aa5085882342bdb96fb3534"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/db-100000.json",
+      "bytes": 1403,
+      "sha256": "1f8f2aed5fc4510c89c2ca8a362ccc7102fa55490cdb586a23b546f3b94e544a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/deadline-saturation.json",
+      "bytes": 2589,
+      "sha256": "5b0d46fb64281c10d22bfb66c35636ed29ba68f247bb48c0beff3f59a0310685"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/frames.json",
+      "bytes": 2540,
+      "sha256": "289f9afa5290d7409cc4056f318376c9fbe564d47c6f94f0646808d05d3e09c3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-measurements.json",
+      "bytes": 4427,
+      "sha256": "e15461ea00c059d3766047e3ccadcd1734772ed45e09826e0708e9c29f7d7ed1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-observations.json",
+      "bytes": 24152,
+      "sha256": "abbb37a0b70a75fc7fa8996ed574a936e2ffe39838eaf25f0175436bd828fa64"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-probe.json",
+      "bytes": 2652,
+      "sha256": "2a7106807d086b5117977eb770599743bd13d57226e88104c7dba7bb729dcd1b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-sql-health.json",
+      "bytes": 2663,
+      "sha256": "ece9560c4344babecbfb5792de5738715e728ba3a78d6ed7eb04a2b523238654"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/nonreader.json",
+      "bytes": 2530,
+      "sha256": "c6b990b3b56de3079e362ca183fbd653688583301df86193fc48270a03a5419a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/request-100000.json",
+      "bytes": 1362,
+      "sha256": "d03c1d6126669271664dedc72dbc21e99b0d7c4c84898da04364979ce28cd15b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/slow-db-release.json",
+      "bytes": 2540,
+      "sha256": "13c40ea9f93db25c21495a8586f02ca07fc3a0e85fbb3c96e3e3c60be543f53d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/small-message-samples.json",
+      "bytes": 110827,
+      "sha256": "413d72b3006b77487bc589e36c99adcfc623e8ab9b6cf6d81692f7f50ae66412"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-running.json",
+      "bytes": 180,
+      "sha256": "94c11adb78e117883a7ba6b0c3b5ec3b312960d6e68fbedda9b379ac1741c1a4"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-source.json",
+      "bytes": 8697,
+      "sha256": "aef3eb84f985efffe03baa52dd2f6aa49bd93ad3501b91feb5f888f98a1182c8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace.json",
+      "bytes": 1044,
+      "sha256": "17a3e5ff3d720faf38b021558c142411c00ba973f63c6d61ec3911e2d0bd1515"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace.txt",
+      "bytes": 17645,
+      "sha256": "f7dc35504151bd061e28c98bce5460a47c57c9242bc978f50ab74dfbf6c9c6a1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/qa-review/attempt-2/check.py",
+      "bytes": 2737,
+      "sha256": "76fbb88fc5b56136eeb89e7c606bc1df600ab2583cb86399f825c0f041dc74b9"
+    }
+  ],
+  "ownership": "Only five assigned top-level deliverables and associated attempt-2 raw review receipts. Existing implementation, tests, dependencies, framework task reviews, mission state, and task-9 report preserved."
+}

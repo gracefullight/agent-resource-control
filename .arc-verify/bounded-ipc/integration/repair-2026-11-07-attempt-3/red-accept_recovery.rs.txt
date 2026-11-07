@@ -1,0 +1,34 @@
+//! One accept future; test injection never enters the production environment.
+
+use std::io;
+use tokio::net::{UnixListener, UnixStream};
+
+#[derive(Default)]
+pub(crate) struct Acceptor {
+    #[cfg(test)]
+    injection: Option<Injection>,
+}
+
+impl Acceptor {
+    pub(crate) async fn accept(&mut self, listener: &UnixListener) -> io::Result<UnixStream> {
+        #[cfg(test)]
+        if let Some(injection) = &mut self.injection {
+            if injection.remaining != 0 {
+                injection.remaining -= 1;
+                return Err(io::Error::from_raw_os_error(injection.errno));
+            }
+        }
+        listener.accept().await.map(|(stream, _)| stream)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn injected(errno: i32, remaining: usize) -> Self {
+        Self { injection: Some(Injection { errno, remaining }) }
+    }
+}
+
+#[cfg(test)]
+struct Injection {
+    errno: i32,
+    remaining: usize,
+}

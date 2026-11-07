@@ -1,0 +1,30 @@
+{
+  "acceptedBaseline": {
+    "head": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+    "tree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76"
+  },
+  "actorSnapshot": {
+    "head": "2fe61708aeffcd3638c7e9331a3ef3b4f8394ddf",
+    "tree": "327fef63bace20053064f9662e5b1a5f7a2ea761"
+  },
+  "actorLocalHead": "2fe61708aeffcd3638c7e9331a3ef3b4f8394ddf",
+  "scope": "Current isolated Actor snapshot plus task-local uncommitted evidence. Integration source is present in the snapshot, not claimed present in accepted baseline. No commits or refs changed.",
+  "refs": {
+    "snapshot": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-8f9ba36d8e59dd86-5/snapshot",
+    "worker": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-8f9ba36d8e59dd86-5/worker"
+  },
+  "refObservations": {
+    "snapshot": {
+      "ref": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-8f9ba36d8e59dd86-5/snapshot",
+      "observedExitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision"
+    },
+    "worker": {
+      "ref": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-8f9ba36d8e59dd86-5/worker",
+      "observedExitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision"
+    }
+  }
+}

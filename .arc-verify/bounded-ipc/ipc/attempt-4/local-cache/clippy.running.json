@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "--workspace",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+  "startedAt": "2026-11-07T15:09:13.695295+00:00",
+  "pid": 1658,
+  "processGroup": 1658,
+  "timeoutSec": 120
+}

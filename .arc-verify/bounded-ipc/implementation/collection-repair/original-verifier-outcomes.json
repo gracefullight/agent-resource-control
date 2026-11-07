@@ -1,0 +1,14 @@
+{
+  "beforeRestoration": {
+    "exitCode": 1,
+    "failure": "Missing indexed supplemental report",
+    "log": "original-verifier-before.txt"
+  },
+  "afterRestoration": {
+    "exitCode": 1,
+    "failure": "Whole-boundary assertion rejects independently owned docs/bounded-ipc-recovery.md; correction checker verifies exactly both task-6 document differences against its delivery manifest.",
+    "log": "original-verifier-after.txt"
+  },
+  "originalVerifyPyUnchanged": true,
+  "originalVerifierPassClaimed": false
+}

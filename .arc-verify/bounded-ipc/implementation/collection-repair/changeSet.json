@@ -1,0 +1,28 @@
+{
+  "scope": "Actual Actor delta relative to the pre-repair inventory, including the explicitly staged ignored report. Existing mission changes are preserved.",
+  "addedPaths": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/before.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/changeSet.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.py",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.stderr.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/claim.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/collection.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-after.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-before.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-outcomes.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/preflight.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/repair-failed-attempts.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/restoration.json"
+  ],
+  "modifiedPaths": [],
+  "deletedPaths": [],
+  "stagedPaths": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "collectorProducedChangeSet": null,
+  "postCollectionReviewVerified": false,
+  "note": "Host collection runs after Actor completion; independent receiving-checkout verification is required."
+}

@@ -1,0 +1,20 @@
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.91s
+     Running unittests src/main.rs (target/debug/deps/arc_daemon-0128c47ebc6eddeb)
+
+running 6 tests
+test lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure ... ok
+test lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable ... ok
+test lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable ... ok
+test lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures ... ok
+test lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation ... ok
+classification-receipt: {"cli_stderr":"IPC_ERROR\n","doctor_recovered":true,"protocol":1,"sqlite_code":10,"status_recovered":true,"wire":"DB_BUSY"}
+classification-receipt: {"cli_stderr":"IPC_ERROR\n","doctor_recovered":true,"protocol":1,"sqlite_code":266,"status_recovered":true,"wire":"DB_BUSY"}
+classification-receipt: {"cli_stderr":"IPC_ERROR\n","doctor_recovered":true,"protocol":1,"sqlite_code":7,"status_recovered":true,"wire":"DB_BUSY"}
+classification-receipt: {"cli_stderr":"INTEGRITY_FAILED\n","doctor_recovered":true,"protocol":1,"sqlite_code":11,"status_recovered":true,"wire":"INTEGRITY_FAILED"}
+classification-receipt: {"cli_stderr":"INTEGRITY_FAILED\n","doctor_recovered":true,"protocol":1,"sqlite_code":26,"status_recovered":true,"wire":"INTEGRITY_FAILED"}
+classification-cleanup: handlers reaped; worker joined; gauges zero; database reopened; integrity ok
+test lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 51 filtered out; finished in 0.10s
+

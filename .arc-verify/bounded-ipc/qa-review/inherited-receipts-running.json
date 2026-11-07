@@ -1,0 +1,10 @@
+{
+  "pid": 76461,
+  "processGroup": 76461,
+  "argv": [
+    "python3",
+    ".arc-verify/bounded-ipc/implementation/verify.py"
+  ],
+  "startedAt": "2026-11-07T14:38:23.538999+00:00",
+  "timeoutSeconds": 120
+}

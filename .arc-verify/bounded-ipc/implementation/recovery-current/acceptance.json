@@ -1,0 +1,802 @@
+{
+  "retainedTask4Gates": [
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7/fmt.json",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T16:48:58.399838+00:00",
+      "finishedAt": "2026-11-07T16:48:58.666801+00:00",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+      "completeInputFiles": 51
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7/clippy.json",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T16:49:02.238876+00:00",
+      "finishedAt": "2026-11-07T16:49:03.478135+00:00",
+      "outputSha256": "83e28e9220aa5f290d46614d96906c88f6a2792945f556a4dddc2b9117228a2c",
+      "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+      "completeInputFiles": 51
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7/workspace-test.json",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T16:49:15.425314+00:00",
+      "finishedAt": "2026-11-07T16:49:46.346312+00:00",
+      "outputSha256": "768a40723b020d7d4772900b70aa3bf099ab27b663f5d5d05890beb9f5ec4cb8",
+      "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+      "completeInputFiles": 51
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7/harness.json",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "startedAt": "2026-11-07T16:49:52.558459+00:00",
+      "finishedAt": "2026-11-07T16:50:34.255944+00:00",
+      "outputSha256": "e50786fc256444b3a2db23ea387d580f726a244b2156e1c82fc29d3c77641f72",
+      "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+      "completeInputFiles": 51
+    }
+  ],
+  "retainedWorkspacePassedInvocations": 183,
+  "freshFocused": {
+    "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused.json",
+    "argv": [
+      "cargo",
+      "test",
+      "-p",
+      "arc-daemon",
+      "--test",
+      "bounded",
+      "--test",
+      "worker_runtime",
+      "--",
+      "--nocapture"
+    ],
+    "exitCode": 0,
+    "startedAt": "2026-11-07T17:04:13.729030+00:00",
+    "finishedAt": "2026-11-07T17:04:36.715187+00:00",
+    "outputSha256": "2055e0aad34c3e2b9c0882c430fad4300c9d48592f685bc227454a3699dad168",
+    "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+    "completeInputFiles": 51
+  },
+  "freshPassedInvocations": 56,
+  "attempts": {
+    "connection": {
+      "admitted": 8,
+      "attempted": 100000,
+      "completed": 0,
+      "elapsed_us": 1398694,
+      "rejected": 99992,
+      "scope": "production Handlers::try_spawn with authenticated native socketpairs",
+      "shutdown_cancelled": 8,
+      "timed_out": 0,
+      "bounds": {
+        "connections": {
+          "highWater": 8,
+          "cap": 8,
+          "final": 0
+        },
+        "requests": {
+          "highWater": 0,
+          "cap": 4,
+          "final": 0
+        },
+        "tracked_tasks": {
+          "highWater": 8,
+          "cap": 8,
+          "final": 0
+        },
+        "db_queued": {
+          "highWater": 0,
+          "cap": 2,
+          "final": 0
+        },
+        "db_executing": {
+          "highWater": 0,
+          "cap": 1,
+          "final": 0
+        },
+        "db_outstanding": {
+          "highWater": 0,
+          "cap": 3,
+          "final": 0
+        },
+        "request_body_bytes": {
+          "highWater": 0,
+          "cap": 4194304,
+          "final": 0
+        },
+        "response_bytes": {
+          "highWater": 0,
+          "cap": 4194304,
+          "final": 0
+        },
+        "rejection_work": {
+          "highWater": 1,
+          "cap": 1,
+          "final": 0
+        }
+      }
+    },
+    "request": {
+      "admitted": 4,
+      "attempted": 100000,
+      "completed": 0,
+      "rejected": 99996,
+      "released_without_dispatch": 4,
+      "scope": "production Requests::try_admit; no network or latency inference",
+      "shutdown_cancelled": 0,
+      "timed_out": 0,
+      "bounds": {
+        "connections": {
+          "highWater": 0,
+          "cap": 8,
+          "final": 0
+        },
+        "requests": {
+          "highWater": 4,
+          "cap": 4,
+          "final": 0
+        },
+        "tracked_tasks": {
+          "highWater": 0,
+          "cap": 8,
+          "final": 0
+        },
+        "db_queued": {
+          "highWater": 0,
+          "cap": 2,
+          "final": 0
+        },
+        "db_executing": {
+          "highWater": 0,
+          "cap": 1,
+          "final": 0
+        },
+        "db_outstanding": {
+          "highWater": 0,
+          "cap": 3,
+          "final": 0
+        },
+        "request_body_bytes": {
+          "highWater": 0,
+          "cap": 4194304,
+          "final": 0
+        },
+        "response_bytes": {
+          "highWater": 0,
+          "cap": 4194304,
+          "final": 0
+        },
+        "rejection_work": {
+          "highWater": 0,
+          "cap": 1,
+          "final": 0
+        }
+      }
+    },
+    "db": {
+      "admitted": 9,
+      "attempted": 100000,
+      "client_cancelled": 9,
+      "completed": 0,
+      "elapsed_us": 119301,
+      "rejected": 99991,
+      "reopen_integrity": "ok",
+      "scope": "production DbClient::try_doctor with controlled real worker",
+      "shutdown_cancelled": 0,
+      "timed_out": 0,
+      "bounds": {
+        "connections": {
+          "highWater": 0,
+          "cap": 64,
+          "final": 0
+        },
+        "requests": {
+          "highWater": 0,
+          "cap": 16,
+          "final": 0
+        },
+        "tracked_tasks": {
+          "highWater": 0,
+          "cap": 64,
+          "final": 0
+        },
+        "db_queued": {
+          "highWater": 8,
+          "cap": 8,
+          "final": 0
+        },
+        "db_executing": {
+          "highWater": 1,
+          "cap": 1,
+          "final": 0
+        },
+        "db_outstanding": {
+          "highWater": 9,
+          "cap": 9,
+          "final": 0
+        },
+        "request_body_bytes": {
+          "highWater": 0,
+          "cap": 16777216,
+          "final": 0
+        },
+        "response_bytes": {
+          "highWater": 0,
+          "cap": 16777216,
+          "final": 0
+        },
+        "rejection_work": {
+          "highWater": 0,
+          "cap": 1,
+          "final": 0
+        }
+      }
+    }
+  },
+  "signals": {
+    "SIGINT": {
+      "signalToReapedExitUs": 5126,
+      "handlersReaped": 11,
+      "workerJoined": true,
+      "restartIntegrity": "ok"
+    },
+    "SIGTERM": {
+      "signalToReapedExitUs": 10178,
+      "handlersReaped": 11,
+      "workerJoined": true,
+      "restartIntegrity": "ok"
+    }
+  },
+  "reportsChecked": 11,
+  "reportBounds": {
+    "SIGINT.json:report": {
+      "connections": {
+        "highWater": 8,
+        "cap": 8,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 4,
+        "cap": 4,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 8,
+        "cap": 8,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 2,
+        "cap": 2,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 3,
+        "cap": 3,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 1024,
+        "cap": 4194304,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 4194304,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "SIGINT.json:restart_report": {
+      "connections": {
+        "highWater": 1,
+        "cap": 64,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 1,
+        "cap": 16,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 1,
+        "cap": 64,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 1,
+        "cap": 8,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 1,
+        "cap": 9,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 118,
+        "cap": 16777216,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 16777216,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "SIGTERM.json:report": {
+      "connections": {
+        "highWater": 8,
+        "cap": 8,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 4,
+        "cap": 4,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 8,
+        "cap": 8,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 2,
+        "cap": 2,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 3,
+        "cap": 3,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 1024,
+        "cap": 4194304,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 4194304,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "SIGTERM.json:restart_report": {
+      "connections": {
+        "highWater": 1,
+        "cap": 64,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 1,
+        "cap": 16,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 1,
+        "cap": 64,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 1,
+        "cap": 8,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 1,
+        "cap": 9,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 118,
+        "cap": 16777216,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 16777216,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "deadline-saturation.json:report": {
+      "connections": {
+        "highWater": 8,
+        "cap": 8,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 4,
+        "cap": 4,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 8,
+        "cap": 8,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 1,
+        "cap": 2,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 1,
+        "cap": 3,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 4096,
+        "cap": 4194304,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 4194304,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "frames.json:report": {
+      "connections": {
+        "highWater": 1,
+        "cap": 8,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 1,
+        "cap": 4,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 1,
+        "cap": 8,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 1,
+        "cap": 2,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 1,
+        "cap": 3,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 1024,
+        "cap": 4194304,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 4194304,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "native-measurements.json:report": {
+      "connections": {
+        "highWater": 4,
+        "cap": 64,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 3,
+        "cap": 16,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 4,
+        "cap": 64,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 1,
+        "cap": 8,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 1,
+        "cap": 9,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 263,
+        "cap": 16777216,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 2097152,
+        "cap": 16777216,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "native-probe.json:report": {
+      "connections": {
+        "highWater": 1,
+        "cap": 64,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 1,
+        "cap": 16,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 1,
+        "cap": 64,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 0,
+        "cap": 8,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 0,
+        "cap": 9,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 86,
+        "cap": 16777216,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 16777216,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "native-sql-health.json:report": {
+      "connections": {
+        "highWater": 4,
+        "cap": 8,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 4,
+        "cap": 4,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 4,
+        "cap": 8,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 2,
+        "cap": 2,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 3,
+        "cap": 3,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 184,
+        "cap": 4194304,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 4194304,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "nonreader.json:report": {
+      "connections": {
+        "highWater": 1,
+        "cap": 8,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 1,
+        "cap": 4,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 1,
+        "cap": 8,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 1,
+        "cap": 2,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 1,
+        "cap": 3,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 524368,
+        "cap": 4194304,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 4194304,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    },
+    "slow-db-release.json:report": {
+      "connections": {
+        "highWater": 4,
+        "cap": 8,
+        "final": 0
+      },
+      "requests": {
+        "highWater": 4,
+        "cap": 4,
+        "final": 0
+      },
+      "tracked_tasks": {
+        "highWater": 4,
+        "cap": 8,
+        "final": 0
+      },
+      "db_queued": {
+        "highWater": 2,
+        "cap": 2,
+        "final": 0
+      },
+      "db_executing": {
+        "highWater": 1,
+        "cap": 1,
+        "final": 0
+      },
+      "db_outstanding": {
+        "highWater": 3,
+        "cap": 3,
+        "final": 0
+      },
+      "request_body_bytes": {
+        "highWater": 118,
+        "cap": 4194304,
+        "final": 0
+      },
+      "response_bytes": {
+        "highWater": 1048576,
+        "cap": 4194304,
+        "final": 0
+      },
+      "rejection_work": {
+        "highWater": 0,
+        "cap": 1,
+        "final": 0
+      }
+    }
+  },
+  "harnessFailuresRetained": [
+    "resident.rs 901 lines",
+    "arc-ipc/src/lib.rs 551 lines",
+    "missing test:coverage"
+  ],
+  "freshExecution": "focused suite only; task-4 exact Cargo/harness gates reused after full source/receipt binding; independent task-8 remains required"
+}

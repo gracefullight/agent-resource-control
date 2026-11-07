@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/check.py"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:06:32.978783+00:00",
+  "finishedAt": "2026-11-07T16:06:33.100086+00:00",
+  "exitCode": 0,
+  "stdout": "{\"status\": \"verified-current-checkout\", \"sourceFingerprint\": \"b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4\", \"sourceFiles\": 50, \"artifacts\": 47, \"cargoGatesPassed\": true, \"harnessExit\": 1, \"remaining\": [\"three harness findings\", \"av.yaml target applicability/access\", \"task-9 evidence refresh\", \"Phase 0/Linux/Windows\"]}\n",
+  "stderr": ""
+}

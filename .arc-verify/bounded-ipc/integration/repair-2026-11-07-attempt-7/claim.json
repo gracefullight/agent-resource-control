@@ -1,0 +1,28 @@
+{
+  "status": "completed",
+  "scope": "Task-4 classification repair; independent review pending",
+  "changedFiles": [
+    "crates/arc-daemon/src/database_failure_tests.rs",
+    "crates/arc-daemon/src/lifecycle.rs"
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/integration/delivery.md",
+    ".arc-verify/bounded-ipc/integration/evidence.json"
+  ],
+  "skillsUsed": [
+    "oma-backend",
+    "oma-db"
+  ],
+  "unresolved": [
+    "Independent technical-director review and current-tree task-8/task-9 acceptance remain open.",
+    "Unchanged harness exits 1: two oversized files and missing test:coverage.",
+    "Task-6 collection, configured-target applicability and remaining Phase 0/Linux/Windows obligations remain with their owners."
+  ],
+  "identity": {
+    "actorId": "backend",
+    "taskId": "task-4",
+    "attempt": 7,
+    "injectedClaimPath": null,
+    "omaRunId": null
+  }
+}

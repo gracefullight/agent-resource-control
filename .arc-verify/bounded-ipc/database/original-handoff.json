@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "scope": "task-3 owned SQLite worker; integration and mission-wide verification pending assigned Actors",
+  "changedFiles": [
+    "crates/arc-daemon/src/db_worker.rs",
+    "crates/arc-daemon/src/db_worker/execution.rs",
+    "crates/arc-daemon/src/db_worker/tests.rs"
+  ],
+  "unresolved": [
+    "IPC Actor must register the module and provide production runtime metrics; unit-test metrics constructor uses Default",
+    "Integrated daemon/health/signal/CLI and native performance acceptance remain with assigned Actors",
+    "Unchanged harness retains three existing file-size failures and missing test:coverage"
+  ],
+  "artifacts": [
+    ".agents/results/result-database-task-3-attempt-1-01a1b5b4-8e03-7f00-9299-23bd311a20ac.md",
+    ".arc-verify/bounded-ipc/database/evidence.json",
+    ".arc-verify/bounded-ipc/database/unit-tests.json",
+    ".arc-verify/bounded-ipc/database/unit-tests.txt",
+    ".arc-verify/bounded-ipc/database/clippy.txt",
+    ".arc-verify/bounded-ipc/database/scoped-fmt.txt",
+    ".arc-verify/bounded-ipc/database/workspace-fmt.txt",
+    ".arc-verify/bounded-ipc/database/workspace-clippy.txt",
+    ".arc-verify/bounded-ipc/database/workspace-test.json",
+    ".arc-verify/bounded-ipc/database/workspace-test.txt",
+    ".arc-verify/bounded-ipc/database/harness.json",
+    ".arc-verify/bounded-ipc/database/harness.txt",
+    ".arc-verify/bounded-ipc/database/unit-tests-first-failure.txt",
+    ".arc-verify/bounded-ipc/database/clippy-first-failure.txt",
+    ".arc-verify/bounded-ipc/database/driver/Cargo.toml",
+    ".arc-verify/bounded-ipc/database/driver/Cargo.lock",
+    ".arc-verify/bounded-ipc/database/driver/src/lib.rs",
+    ".arc-verify/bounded-ipc/database/run_check.py",
+    ".arc-verify/bounded-ipc/database/collect_evidence.py"
+  ]
+}

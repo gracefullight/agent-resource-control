@@ -1,0 +1,284 @@
+{
+  "recordedAt": "2026-11-07T15:12:14.355367+00:00",
+  "actorSnapshotCommit": "8571d9f990d8d521fee007e0131d07bb383bd66f",
+  "productFilesCompared": 50,
+  "allProductBytesEqualSnapshot": true,
+  "productFiles": [
+    {
+      "path": "Cargo.lock",
+      "snapshotSha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2",
+      "currentSha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2"
+    },
+    {
+      "path": "Cargo.toml",
+      "snapshotSha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad",
+      "currentSha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad"
+    },
+    {
+      "path": "crates/arc-cli/Cargo.toml",
+      "snapshotSha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439",
+      "currentSha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439"
+    },
+    {
+      "path": "crates/arc-cli/src/main.rs",
+      "snapshotSha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+      "currentSha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed"
+    },
+    {
+      "path": "crates/arc-cli/tests/binary.rs",
+      "snapshotSha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+      "currentSha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a"
+    },
+    {
+      "path": "crates/arc-core/Cargo.toml",
+      "snapshotSha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+      "currentSha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857"
+    },
+    {
+      "path": "crates/arc-core/src/lib.rs",
+      "snapshotSha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "currentSha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435"
+    },
+    {
+      "path": "crates/arc-core/tests/runtime.rs",
+      "snapshotSha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+      "currentSha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8"
+    },
+    {
+      "path": "crates/arc-daemon/Cargo.toml",
+      "snapshotSha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+      "currentSha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0"
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery.rs",
+      "snapshotSha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "currentSha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676"
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+      "snapshotSha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "currentSha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb"
+    },
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "snapshotSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "currentSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883"
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "snapshotSha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+      "currentSha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker.rs",
+      "snapshotSha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "currentSha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/execution.rs",
+      "snapshotSha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "currentSha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/tests.rs",
+      "snapshotSha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+      "currentSha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0"
+    },
+    {
+      "path": "crates/arc-daemon/src/instance.rs",
+      "snapshotSha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "currentSha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle.rs",
+      "snapshotSha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b",
+      "currentSha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+      "snapshotSha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+      "currentSha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e"
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "snapshotSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "currentSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410"
+    },
+    {
+      "path": "crates/arc-daemon/src/main.rs",
+      "snapshotSha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "currentSha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b"
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "snapshotSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "currentSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5"
+    },
+    {
+      "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+      "snapshotSha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "currentSha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "snapshotSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "currentSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report.rs",
+      "snapshotSha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "currentSha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427"
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+      "snapshotSha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
+      "currentSha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e"
+    },
+    {
+      "path": "crates/arc-daemon/src/server.rs",
+      "snapshotSha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+      "currentSha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd"
+    },
+    {
+      "path": "crates/arc-daemon/src/server_tests.rs",
+      "snapshotSha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+      "currentSha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc"
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "snapshotSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "currentSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0"
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "snapshotSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "currentSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f"
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "snapshotSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "currentSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b"
+    },
+    {
+      "path": "crates/arc-daemon/tests/bounded.rs",
+      "snapshotSha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+      "currentSha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406"
+    },
+    {
+      "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+      "snapshotSha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "currentSha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9"
+    },
+    {
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "snapshotSha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+      "currentSha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad"
+    },
+    {
+      "path": "crates/arc-daemon/tests/startup.rs",
+      "snapshotSha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+      "currentSha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/admission_load.rs",
+      "snapshotSha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+      "currentSha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/deadline_recovery.rs",
+      "snapshotSha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+      "currentSha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/measurements.rs",
+      "snapshotSha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+      "currentSha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/mod.rs",
+      "snapshotSha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1",
+      "currentSha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/native.rs",
+      "snapshotSha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+      "currentSha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/runtime.rs",
+      "snapshotSha256": "9a53fa762b6fcdb2429b964221bb1756e35a37c33a674a7baf57abd1a0592535",
+      "currentSha256": "9a53fa762b6fcdb2429b964221bb1756e35a37c33a674a7baf57abd1a0592535"
+    },
+    {
+      "path": "crates/arc-daemon/tests/transport_unit.rs",
+      "snapshotSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "currentSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b"
+    },
+    {
+      "path": "crates/arc-daemon/tests/worker_runtime.rs",
+      "snapshotSha256": "4ab079e2cc01018742c9e3f3088938dab5f067ff0a94d464754a8c3b356d9f5c",
+      "currentSha256": "4ab079e2cc01018742c9e3f3088938dab5f067ff0a94d464754a8c3b356d9f5c"
+    },
+    {
+      "path": "crates/arc-ipc/Cargo.toml",
+      "snapshotSha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c",
+      "currentSha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c"
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "snapshotSha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+      "currentSha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef"
+    },
+    {
+      "path": "crates/arc-storage/Cargo.toml",
+      "snapshotSha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+      "currentSha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1"
+    },
+    {
+      "path": "crates/arc-storage/migrations/0001_phase0.sql",
+      "snapshotSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "currentSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+    },
+    {
+      "path": "crates/arc-storage/src/lib.rs",
+      "snapshotSha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+      "currentSha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab"
+    },
+    {
+      "path": "crates/arc-storage/tests/nfr010.rs",
+      "snapshotSha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "currentSha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "snapshotSha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+      "currentSha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f"
+    }
+  ],
+  "changedScope": {
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1",
+      "--untracked-files=all",
+      "--",
+      ".arc-verify/bounded-ipc/database",
+      ".agents/results/result-database-task-3-attempt-7-01a1b68c-b5e1-7872-bd39-51bd61865f78.md"
+    ],
+    "exitCode": 0,
+    "stdout": " M .arc-verify/bounded-ipc/database/delivery.md\n M .arc-verify/bounded-ipc/database/evidence.json\n?? .arc-verify/bounded-ipc/database/attempt-7/accounting-summary.json\n?? .arc-verify/bounded-ipc/database/attempt-7/clippy.json\n?? .arc-verify/bounded-ipc/database/attempt-7/clippy.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/clippy.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/execution-context.json\n?? .arc-verify/bounded-ipc/database/attempt-7/finalize.py\n?? .arc-verify/bounded-ipc/database/attempt-7/fmt.json\n?? .arc-verify/bounded-ipc/database/attempt-7/fmt.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/fmt.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/historical-artifact-audit.json\n?? .arc-verify/bounded-ipc/database/attempt-7/previous-delivery.md\n?? .arc-verify/bounded-ipc/database/attempt-7/previous-evidence.json\n?? .arc-verify/bounded-ipc/database/attempt-7/provenance-after.json\n?? .arc-verify/bounded-ipc/database/attempt-7/provenance-before.json\n?? .arc-verify/bounded-ipc/database/attempt-7/record.py\n?? .arc-verify/bounded-ipc/database/attempt-7/verify_delivery.py\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-accounting.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-accounting.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-accounting.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-test.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-test.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-test.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-summary.json\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-test.json\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-test.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-test.txt\n",
+    "stderr": ""
+  },
+  "diffCheck": {
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      ".arc-verify/bounded-ipc/database"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

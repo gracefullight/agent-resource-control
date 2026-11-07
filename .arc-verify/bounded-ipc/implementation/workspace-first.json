@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces",
+  "startedAt": "2026-11-07T14:11:53.180988+00:00",
+  "finishedAt": "2026-11-07T14:11:53.388474+00:00",
+  "elapsedSeconds": 0.2072631659975741,
+  "exitCode": 101,
+  "timedOut": false,
+  "pid": 44146,
+  "processExitObserved": true,
+  "output": "workspace-first.txt",
+  "outputSha256": "f473cffc8118b7d19b28ec95a02c5856dcdb9c9a7059cdb9b341641a5aafda70",
+  "sourceBefore": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "sourceAfter": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "productInputsUnchanged": true,
+  "environment": {
+    "CARGO_HOME": "/Users/gracefullight/.cargo",
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "AGENT_VALLEY_MANAGED_RUN": "1"
+  },
+  "toolchain": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+  "cargo": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\nrelease: 1.95.0\ncommit-hash: f2d3ce0bd7f24a49f8f72d9000448f8838c4e850\ncommit-date: 2026-03-21\nhost: aarch64-apple-darwin\nlibgit2: 1.9.2 (sys:0.20.4 vendored)\nlibcurl: 8.7.1 (sys:0.4.83+curl-8.15.0 system ssl:(SecureTransport) LibreSSL/3.3.6)\nssl: OpenSSL 3.5.4 30 Sep 2025\nos: Mac OS 27.2.0 [64-bit]\n"
+}

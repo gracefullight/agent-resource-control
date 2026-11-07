@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "pid": 85747,
+  "processGroup": 85747,
+  "startedAt": "2026-11-07T17:04:51.936402+00:00",
+  "timeoutSeconds": 120
+}

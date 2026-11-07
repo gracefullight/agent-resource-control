@@ -1,0 +1,44 @@
+{
+  "status": "partial",
+  "scope": "Task-5 attempt-8 collection correction; original report restored and staged, strict current-source verification fails",
+  "actorId": "test-engineer",
+  "taskId": "task-5",
+  "attempt": 8,
+  "skills": [
+    "oma-backend"
+  ],
+  "runId": null,
+  "injectedClaimPath": null,
+  "changedFiles": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/before.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/changeSet.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check-execution.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.py",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.stderr.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/claim.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/collection.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-after.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-after.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-before.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-before.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/preflight.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/restoration.json"
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.py",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/changeSet.json",
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "unresolved": [
+    "Actual receiving-checkout collection and independent technical-director review remain unverified.",
+    "Current 51-file source fingerprint 9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970 differs from retained 50-file task-5 final-source.json b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4.",
+    "Historical boundary has lifecycle.rs, docs/bounded-ipc-final.md and docs/bounded-ipc-value-scope.md differences beyond task-5 tests and the two task-6 documents.",
+    "Current-tree task-8 oma-qa and task-9 assessment remain required.",
+    "av.yaml inaccessible; configured-target applicability, authoritative SRS comparison, three harness failures and Phase 0/Linux/Windows obligations remain open."
+  ]
+}

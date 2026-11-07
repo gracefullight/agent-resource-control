@@ -1,0 +1,36 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--offline",
+    "-p",
+    "arc-daemon",
+    "--bin",
+    "arc-daemon",
+    "lifecycle::",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:48:26.885379+00:00",
+  "finishedAt": "2026-11-07T16:48:29.668091+00:00",
+  "elapsedSeconds": 2.7824743750097696,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 70297,
+  "processExitObserved": true,
+  "output": "regression-green.txt",
+  "outputSha256": "84346077efff2fabb64ff1b69c0a02bf48ef4936b29f0119d009ae2a57d303c5",
+  "sourceBefore": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+  "sourceAfter": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+  "productInputsUnchanged": true,
+  "environment": {
+    "CARGO_HOME": "/Users/gracefullight/.cargo",
+    "CARGO_TARGET_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/target",
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "AGENT_VALLEY_MANAGED_RUN": "1"
+  },
+  "toolchain": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+  "cargo": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\nrelease: 1.95.0\ncommit-hash: f2d3ce0bd7f24a49f8f72d9000448f8838c4e850\ncommit-date: 2026-03-21\nhost: aarch64-apple-darwin\nlibgit2: 1.9.2 (sys:0.20.4 vendored)\nlibcurl: 8.7.1 (sys:0.4.83+curl-8.15.0 system ssl:(SecureTransport) LibreSSL/3.3.6)\nssl: OpenSSL 3.5.4 30 Sep 2025\nos: Mac OS 27.2.0 [64-bit]\n"
+}

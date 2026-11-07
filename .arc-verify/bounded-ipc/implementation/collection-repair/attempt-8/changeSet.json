@@ -1,0 +1,28 @@
+{
+  "scope": "Actual attempt-8 delta against before.json in Actor snapshot 0192ccb29570654d2a5408162ad262deafdcd63d",
+  "addedPaths": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/before.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/changeSet.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check-execution.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.py",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.stderr.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/claim.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/collection.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-after.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-after.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-before.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-before.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/preflight.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/restoration.json"
+  ],
+  "modifiedPaths": [],
+  "deletedPaths": [],
+  "stagedPaths": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "collectorProducedChangeSet": null,
+  "postCollectionReviewVerified": false
+}

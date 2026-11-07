@@ -1,0 +1,23 @@
+{
+  "collect": {
+    "argv": [
+      "python3",
+      ".arc-verify/bounded-ipc/implementation/resume-attempt-3/collect.py"
+    ],
+    "exitCode": 1,
+    "exception": "FileNotFoundError",
+    "path": ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    "reason": "Generated .agents/results directory absent in fresh checkout"
+  },
+  "followingVerify": {
+    "argv": [
+      "python3",
+      ".arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py"
+    ],
+    "exitCode": 1,
+    "exception": "FileNotFoundError",
+    "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/evidence.json",
+    "reason": "Previous collector stopped before index creation"
+  },
+  "repair": "Create generated report directory before writing; no product/test changes"
+}

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py"
+  ],
+  "exitCode": 1,
+  "outputSha256": "f5ecab5ea628dd995686140141c7733391dea4c82f33f7b556b0c32829a06ab0",
+  "reason": "After restoration original verifier fails current product fingerprint equality, before historical boundary assertions."
+}

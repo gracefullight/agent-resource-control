@@ -1,0 +1,8 @@
+{
+  "historicalIndexedRows": 226,
+  "missing": [],
+  "mismatch": [
+    "crates/arc-daemon/src/lifecycle.rs"
+  ],
+  "note": "Historical incoming index audit before refresh; missing prior task-owned artifacts are not recreated or claimed current."
+}

@@ -1,0 +1,20 @@
+{
+  "method": "Exact cited test-name pass lines in retained current workspace log.",
+  "outputSha256": "098486af88c672aec33b693db338481be4c7524cd3497ee482604294809e4301",
+  "tests": [
+    "limits_reject_invalid_config_and_profiles",
+    "headers_and_trickled_bodies_have_absolute_deadlines",
+    "stalled_header_and_partial_body_release_request_capacity",
+    "nonreading_peer_expires_under_write_backpressure",
+    "malformed_and_stalled_frames_recover_actual_cli",
+    "nonreading_peer_releases_real_daemon_capacity",
+    "full_request_and_connection_saturation_recovers_without_restart",
+    "controlled_slow_database_does_not_block_health_and_cli_recovers",
+    "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+    "saturated_sigterm_finishes_within_five_seconds",
+    "saturated_sigint_finishes_within_five_seconds",
+    "resident_contract_holds_until_sigterm",
+    "database_contention_and_unavailability_are_not_integrity_failures"
+  ],
+  "allPassed": true
+}

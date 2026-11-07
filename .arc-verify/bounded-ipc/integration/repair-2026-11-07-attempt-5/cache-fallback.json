@@ -1,0 +1,5 @@
+{
+  "denied": "Prepared parent target/debug/.cargo-lock: Operation not permitted",
+  "action": "Use mission-worktree-local target with existing CARGO_HOME and CARGO_NET_OFFLINE=true. Required tests may compile; no standalone build or download.",
+  "noGui": true
+}

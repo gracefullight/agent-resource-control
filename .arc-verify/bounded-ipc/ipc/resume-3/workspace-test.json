@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+  "startedAt": "2026-11-07T12:08:26.902913+00:00",
+  "finishedAt": "2026-11-07T12:08:31.421238+00:00",
+  "elapsedSeconds": 4.518023875018116,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 44170,
+  "processExitObserved": true,
+  "output": "workspace-test.txt",
+  "outputSha256": "47be3fea65a6c7bdb07d8d491780ee214f21ef426d9134346767d5e05f2571cf",
+  "outputIncludes": "full combined stdout and stderr",
+  "context": "execution-context.json",
+  "sourceBefore": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+  "sourceAfter": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+  "productInputsUnchanged": true
+}

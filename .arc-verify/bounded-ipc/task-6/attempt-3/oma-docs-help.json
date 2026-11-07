@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "oma",
+    "docs",
+    "verify",
+    "--help"
+  ],
+  "exitCode": 0,
+  "scanExecuted": false,
+  "reason": "verify/sync regenerate shared docs/generated/doc-refs.json; no ownership handoff. Used local reference resolution."
+}

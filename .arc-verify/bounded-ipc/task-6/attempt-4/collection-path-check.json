@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "check-ignore",
+    ".arc-verify/bounded-ipc/task-6/attempt-4/check.py",
+    ".arc-verify/bounded-ipc/task-6/attempt-4/delivery.md",
+    ".arc-verify/bounded-ipc/task-6/attempt-4/verify.py"
+  ],
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "",
+  "interpretation": "Exit 1 with empty output means no supplied path is ignored; this does not prove external collection."
+}

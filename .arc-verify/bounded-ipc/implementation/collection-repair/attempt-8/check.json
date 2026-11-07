@@ -1,0 +1,114 @@
+{
+  "status": "failed",
+  "observedHead": "0192ccb29570654d2a5408162ad262deafdcd63d",
+  "results": {
+    "repairBoundary": {
+      "unchangedReadableInputs": 2262,
+      "unreadable": "av.yaml",
+      "addedPaths": [
+        ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/before.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/changeSet.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check-execution.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.py",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.stderr.txt",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/claim.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/collection.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/delivery.md",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-after.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-after.txt",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-before.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/original-verifier-before.txt",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/preflight.json",
+        ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/restoration.json"
+      ]
+    },
+    "collection": {
+      "indexedArtifactsVerified": 107,
+      "reportBytes": 8417,
+      "reportSha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d",
+      "gitVisible": true
+    },
+    "sourceComparison": {
+      "historicalFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+      "currentFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+      "currentFiles": 51,
+      "differences": [
+        {
+          "path": "crates/arc-daemon/src/database_failure_tests.rs",
+          "expected": null,
+          "actual": {
+            "path": "crates/arc-daemon/src/database_failure_tests.rs",
+            "sha256": "b6244ac16668b8ae6306bdff2b557bedb17fcb7de681449c215e19af8a62fdce",
+            "mode": "0o644"
+          }
+        },
+        {
+          "path": "crates/arc-daemon/src/lifecycle.rs",
+          "expected": {
+            "path": "crates/arc-daemon/src/lifecycle.rs",
+            "sha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b",
+            "mode": "0o644"
+          },
+          "actual": {
+            "path": "crates/arc-daemon/src/lifecycle.rs",
+            "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+            "mode": "0o644"
+          }
+        }
+      ],
+      "originalAlgorithmReproduced": true
+    },
+    "task6Attribution": [
+      "docs/bounded-ipc-recovery.md",
+      "docs/runtime-identity-usage.md"
+    ],
+    "historicalBoundaryComparison": {
+      "differences": [
+        "crates/arc-daemon/src/lifecycle.rs",
+        "crates/arc-daemon/tests/resident.rs",
+        "crates/arc-daemon/tests/support/mod.rs",
+        "docs/bounded-ipc-final.md",
+        "docs/bounded-ipc-recovery.md",
+        "docs/bounded-ipc-value-scope.md",
+        "docs/runtime-identity-usage.md"
+      ],
+      "unpermittedDifferences": [
+        "crates/arc-daemon/src/lifecycle.rs",
+        "docs/bounded-ipc-final.md",
+        "docs/bounded-ipc-value-scope.md"
+      ]
+    },
+    "historicalReceipts": {
+      "verifiedHistoricalReceipts": [
+        "fmt-final",
+        "clippy-final",
+        "workspace-final",
+        "focused",
+        "harness"
+      ],
+      "currentSourceBound": false,
+      "freshExecution": false
+    },
+    "preservation": {
+      "crates/arc-storage/migrations/0001_phase0.sql": {
+        "bytes": 3917,
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "acceptedHeadByteIdentical": true
+      },
+      "scripts/harness/validate.sh": {
+        "bytes": 20351,
+        "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+        "acceptedHeadByteIdentical": true
+      }
+    }
+  },
+  "failures": {
+    "currentProduct": "current product differs from final-source.json; see sourceComparison",
+    "historicalBoundary": "additional historical boundary differences: crates/arc-daemon/src/lifecycle.rs, docs/bounded-ipc-final.md, docs/bounded-ipc-value-scope.md"
+  },
+  "freshRuntimeChecks": false,
+  "postCollectionReviewVerified": false,
+  "configuredTargetApplicabilityVerified": false
+}

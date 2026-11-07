@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-11-07T17:26:25.169879+00:00",
+  "command": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/qa-review/attempt-3/check.py"
+  ],
+  "observedExitCode": 0,
+  "observedOutput": {
+    "deliveryIntegrity": "verified-current-checkout",
+    "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+    "sourceFiles": 51,
+    "artifacts": 50,
+    "cargoGatesPassed": true,
+    "harnessExit": 1,
+    "reviewCompleteness": "partial",
+    "missionCompletionClaimed": false
+  },
+  "localLinksChecked": 10,
+  "indexSha256": "fc04607c6b992ddc4aa5877537d0460a1c2d5c1073d2e25d26372003b5b6dc9e",
+  "note": "Observed check output recorded after successful tool execution; this file is separately declared and not self-indexed."
+}

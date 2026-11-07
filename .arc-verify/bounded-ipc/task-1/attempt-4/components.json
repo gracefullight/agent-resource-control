@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "rustup",
+    "component",
+    "list",
+    "--installed"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:19:12.160974+00:00",
+  "finishedAt": "2026-11-07T16:19:12.200824+00:00",
+  "elapsedSeconds": 0.039859875018009916,
+  "exitCode": 0,
+  "stdoutSha256": "241404bd7f41daccf0ce1569fdfe2d6c8d947480cb450314c73003824f2b9622",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,18 @@
+Usage: oh-my-agent docs verify [options] [path]
+
+Extract file, link, and script references from docs and report broken targets.
+Regenerates docs/generated/doc-refs.json as a side effect. Exit code: 0 = clean,
+1 = broken refs found. URL link checking is delegated to `lychee` (install: brew
+install lychee).
+
+Options:
+  --json                Output results as JSON instead of a human-readable
+                        markdown report
+  --report-file <path>  Write the full markdown report to this file path (works
+                        with or without --json)
+  --no-urls             Skip URL link checking even if docs.check_urls=true in
+                        oma-config.yaml
+  --urls-sync           Wait for lychee to finish before exiting (default is
+                        background spawn). Use in CI when complete URL data is
+                        required.
+  -h, --help            display help for command

@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-11-07T15:58:10.078246+00:00",
+  "deadline": "2026-11-08T10:52:35.601Z",
+  "remainingSeconds": 68065.522754,
+  "cancellation": "No cancellation received in active task; no cancellation-state tool exposed. No mission state changed.",
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "maxRetries": 3,
+  "attempt": 7,
+  "newAgents": 0,
+  "injectedClaimPath": null,
+  "omaRunId": null,
+  "skill": "oma-backend",
+  "stack": "Rust five-crate workspace, Tokio, rusqlite",
+  "serenaAvailable": false,
+  "scope": "Known-path reads and non-code evidence only; no source discovery.",
+  "priorIndexedCount": 107,
+  "priorMissing": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "originalVerifierBeforeExit": 1
+}

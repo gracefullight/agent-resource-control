@@ -1,0 +1,26 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/e4213bbb083bb36a: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/dcb0f286b9f142ff: Operation not permitted (os error 1)
+    Checking arc-core v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/crates/arc-core)
+    Checking utf8parse v0.2.2
+    Checking errno v0.3.14
+    Checking is_terminal_polyfill v1.70.2
+    Checking arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/crates/arc-ipc)
+    Checking anstyle v1.0.14
+    Checking anstyle-query v1.1.5
+    Checking colorchoice v1.0.5
+    Checking mio v1.2.4
+    Checking socket2 v0.6.5
+    Checking strsim v0.11.1
+    Checking anstyle-parse v1.0.0
+    Checking signal-hook-registry v1.4.8
+    Checking arc-storage v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/crates/arc-storage)
+   Compiling heck v0.5.0
+    Checking anstream v1.0.0
+    Checking clap_lex v1.1.1
+    Checking clap_builder v4.6.7
+    Checking tokio v1.54.1
+   Compiling clap_derive v4.6.7
+    Checking clap v4.6.7
+    Checking arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/crates/arc-daemon)
+    Checking arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/crates/arc-cli)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.29s

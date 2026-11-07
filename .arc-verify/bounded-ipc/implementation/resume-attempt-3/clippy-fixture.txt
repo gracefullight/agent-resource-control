@@ -1,0 +1,45 @@
+    Checking arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-2/crates/arc-daemon)
+error: field `file` is never read
+  --> crates/arc-daemon/tests/support/mod.rs:12:5
+   |
+11 | pub struct Serial {
+   |            ------ field in this struct
+12 |     file: Option<File>,
+   |     ^^^^
+   |
+   = note: `-D dead-code` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[expect(dead_code)]` or `#[allow(dead_code)]`
+
+error: method `release_process_lock` is never used
+  --> crates/arc-daemon/tests/support/mod.rs:20:12
+   |
+16 | impl Serial {
+   | ----------- method in this implementation
+...
+20 |     pub fn release_process_lock(&mut self) {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: could not compile `arc-daemon` (test "startup") due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `arc-daemon` (test "bounded") due to 2 previous errors
+error: field `file` is never read
+  --> crates/arc-daemon/src/../tests/support/mod.rs:12:5
+   |
+11 | pub struct Serial {
+   |            ------ field in this struct
+12 |     file: Option<File>,
+   |     ^^^^
+   |
+   = note: `-D dead-code` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[expect(dead_code)]` or `#[allow(dead_code)]`
+
+error: method `release_process_lock` is never used
+  --> crates/arc-daemon/src/../tests/support/mod.rs:20:12
+   |
+16 | impl Serial {
+   | ----------- method in this implementation
+...
+20 |     pub fn release_process_lock(&mut self) {
+   |            ^^^^^^^^^^^^^^^^^^^^
+
+error: could not compile `arc-daemon` (bin "arc-daemon" test) due to 2 previous errors

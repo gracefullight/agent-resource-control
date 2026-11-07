@@ -1,0 +1,515 @@
+{
+  "previousFingerprint": "49ab9bbd71a6545018377a840f901e11e8bef69fd5fbf9d6c48389dd18e307a8",
+  "currentFingerprint": "f9c6c5baeb3e95c48603717f08cf2abb88baf85f334250db739eb903c44b4999",
+  "previousCount": 43,
+  "currentCount": 50,
+  "added": [
+    "crates/arc-daemon/tests/bounded.rs",
+    "crates/arc-daemon/tests/support/admission_load.rs",
+    "crates/arc-daemon/tests/support/deadline_recovery.rs",
+    "crates/arc-daemon/tests/support/measurements.rs",
+    "crates/arc-daemon/tests/support/native.rs",
+    "crates/arc-daemon/tests/support/runtime.rs",
+    "crates/arc-daemon/tests/worker_runtime.rs"
+  ],
+  "changed": [],
+  "removed": [],
+  "historicalEntries": [
+    {
+      "path": "crates/arc-daemon/src/accept_recovery.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/main.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/server.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-daemon/src/server_tests.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/boundary-check.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/claim.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/collect.py",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/delivery.md",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/evidence-index-initial.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/execution-context.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/original-server.rs.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/record.py",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/accept-recovery.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/before-hashes.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/boundary-check.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/execution-context.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/finalize.py",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/git-status.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/preflight.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-claim.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-delivery.md",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-evidence.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/record.py",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept_recovery.rs.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept_recovery_tests.rs.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-lifecycle.rs.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/signals.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary-correction.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary-initial.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/verify.py",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/signals.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/test-preservation-initial.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/test-preservation.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/verify_delivery.py",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test-source.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.running.json",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.txt",
+      "matchesPrevious": true
+    },
+    {
+      "path": ".agents/results/result-backend-task-4-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "matchesPrevious": true
+    }
+  ]
+}

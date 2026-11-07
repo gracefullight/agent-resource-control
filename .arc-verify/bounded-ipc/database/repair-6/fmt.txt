@@ -1,0 +1,90 @@
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:188:
+ async fn stopped_worker_discards_full_queue_with_live_client_clones() {
+     let database = Database::new();
+     let (hooks, started, _release) = gate();
+-    let mut worker = start_with_test_hooks(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        start_with_test_hooks(database.open(), config(), metrics(&config()), hooks).unwrap();
+     let client = worker.client();
+     let active = client.try_doctor(deadline()).unwrap();
+     started.recv_timeout(Duration::from_secs(1)).unwrap();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:204:
+ async fn queued_deadline_is_absolute_and_expired_job_is_not_started() {
+     let database = Database::new();
+     let (hooks, started, release) = gate();
+-    let mut worker = start_with_test_hooks(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        start_with_test_hooks(database.open(), config(), metrics(&config()), hooks).unwrap();
+     let client = worker.client();
+     let active = client.try_doctor(deadline()).unwrap();
+     started.recv_timeout(Duration::from_secs(1)).unwrap();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:230:
+         expensive: Some(progress),
+         ..Default::default()
+     };
+-    let mut worker = DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
+     let ticket = worker.client().try_doctor(deadline()).unwrap();
+     // Notification comes from SQLite's VM progress callback, not before SQL.
+     observed.recv_timeout(Duration::from_secs(1)).unwrap();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:246:
+         expensive: Some(progress),
+         ..Default::default()
+     };
+-    let mut worker = DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
+     let ticket = worker.client().try_doctor(deadline()).unwrap();
+     observed.recv_timeout(Duration::from_secs(1)).unwrap();
+     drop(ticket);
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:283:
+         expensive: Some(progress),
+         ..Default::default()
+     };
+-    let mut worker = DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
+     let ticket = worker.client().try_doctor(deadline()).unwrap();
+     started.recv_timeout(Duration::from_secs(1)).unwrap();
+     worker.interrupt.interrupt(); // No SQL is active; this signal alone is insufficient.
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:305:
+         park: Some(park),
+         ..Default::default()
+     };
+-    let mut worker = DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
+     started.recv_timeout(Duration::from_secs(1)).unwrap();
+     let ticket = worker.client().try_doctor(deadline()).unwrap();
+     release.send(()).unwrap();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:321:
+         park: Some(park),
+         ..Default::default()
+     };
+-    let mut worker = DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
+     let _live_client = worker.client();
+     started.recv_timeout(Duration::from_secs(1)).unwrap();
+     worker.begin_shutdown();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:340:
+             lock_probe: Some(lock_probe),
+             ..Default::default()
+         };
+-        let mut worker = DbWorker::start_inner(connection, config(), metrics(&config()), hooks).unwrap();
++        let mut worker =
++            DbWorker::start_inner(connection, config(), metrics(&config()), hooks).unwrap();
+         let ticket = worker.client().try_doctor(deadline()).unwrap();
+         observed.recv_timeout(Duration::from_secs(1)).unwrap();
+         if shutdown_in_lock {
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon/tests/../src/db_worker/tests.rs:377:
+         exit: Some(exit),
+         ..Default::default()
+     };
+-    let mut worker = DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
++    let mut worker =
++        DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
+     worker.begin_shutdown();
+     closed.recv_timeout(Duration::from_secs(1)).unwrap();
+     // SQLite has closed but the native thread is still inside its bounded gate.

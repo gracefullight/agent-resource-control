@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "rustfmt",
+    "--edition",
+    "2021",
+    "crates/arc-daemon/src/db_worker/tests.rs"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T12:37:14.805265+00:00",
+  "finishedAt": "2026-11-07T12:37:15.059191+00:00",
+  "elapsedSeconds": 0.25373279201448895,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 77794,
+  "processExitObserved": true,
+  "output": "format-owned.txt",
+  "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "outputIncludes": "full combined stdout and stderr",
+  "context": "execution-context.json",
+  "sourceBefore": "3979219e44fa0a7df7a7512b18f522df6204dcde1a2f7168015e60c5a62b5e75",
+  "sourceAfter": "b944e93a92081eaa228da10178a427c693d79d9dae51df4f82b2de8fe9e935e7",
+  "productInputsUnchanged": false
+}

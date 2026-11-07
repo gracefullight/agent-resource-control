@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "recordedAt": "2026-11-07T12:58:23.077164+00:00",
+  "status": "completed-assigned-task-ready-for-independent-review",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "changedProductPaths": [
+    "crates/arc-daemon/src/main.rs",
+    "crates/arc-daemon/src/server.rs",
+    "crates/arc-daemon/src/connection.rs",
+    "crates/arc-daemon/src/lifecycle.rs",
+    "crates/arc-daemon/src/lifecycle_tests.rs",
+    "crates/arc-daemon/src/server_tests.rs",
+    "crates/arc-ipc/src/lib.rs"
+  ],
+  "sourceHashes": [
+    {
+      "path": "crates/arc-daemon/src/main.rs",
+      "sha256": "2492110b02602c3dc1b34097fc5834f0f8733bb9ddf9ada032c63c85b103808e"
+    },
+    {
+      "path": "crates/arc-daemon/src/server.rs",
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd"
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle.rs",
+      "sha256": "5f401bf9d9fd7c6a12c942f45572c44ef492f5f05532a6e0a4c3a7915856d15e"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+      "sha256": "8b3becf85f6d66053bbffea2d504f877e51a780cc0306ad093c8388f38422323"
+    },
+    {
+      "path": "crates/arc-daemon/src/server_tests.rs",
+      "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc"
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef"
+    }
+  ],
+  "sourceFingerprint": "e416d6c25ae8131fbc4f6ca093335cd502f6f51c61cf7ae3ef033cabf52a65fe",
+  "sourceFileCount": 38,
+  "finalChecks": [
+    "fmt-final",
+    "clippy-final",
+    "workspace-test",
+    "lifecycle-final",
+    "harness"
+  ],
+  "migrationUnchanged": true,
+  "databaseOwnedFilesUnchanged": true,
+  "sharedManifestsUnchanged": true,
+  "independentReviewComplete": false,
+  "harness": {
+    "exitCode": 1,
+    "unchanged": true,
+    "unresolved": [
+      "resident.rs:901 lines",
+      "arc-ipc/src/lib.rs:551 lines",
+      "missing test:coverage script"
+    ]
+  },
+  "remaining": [
+    "Task-5 mission-wide saturation/recovery/adversarial/native performance fixtures",
+    "Independent oma-qa and final mission evidence",
+    "Remaining Phase 0, Linux qualification and Windows runtime obligations"
+  ],
+  "artifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/integration/boundary-check.json",
+      "sha256": "e12ff91ccc3d18aedca0bf3cea7ba64174a469f09a6f8eb7df1ebd39987b87bb"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/claim.json",
+      "sha256": "72d81f9988e8f7703b588d489dd7f918fb9c9678b637519ad4820d59a849edd1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.json",
+      "sha256": "69e62cdfacef60190bbe4db9db58a4d0cace760fa028c9d71ea474511229c680"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.running.json",
+      "sha256": "8ccca86008bc0f3795aabc195255848d919c56536b2879e830d10e514bc7e398"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-final.txt",
+      "sha256": "7e231890d2158b70ecae200858352d502e9cdf7e8afc326533dae7442a358a38"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy-source.json",
+      "sha256": "7faaab916c433e0341a624dad451b6c0948d4f0523b30112961f4e10ff900fae"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.json",
+      "sha256": "5097997d3751a70b879e3b23de5e3e8bd9a48bb36aa9908a4966f4ff9e8c653e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.running.json",
+      "sha256": "5fbd8b3234f55e24b5de1d5756aa2f6fb25a9db1017f270a98ed4e2095f35edc"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/clippy.txt",
+      "sha256": "a387291a1585bd037d474f636c9213552b7157fc325abfd6ff1bff695bb7eec7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/collect.py",
+      "sha256": "97f1104b46e59656742f2f55056a97c84da9330cfcc2563fd421d96370b8a9dd"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/delivery.md",
+      "sha256": "6e355239d792a3f3e2c6f33948f90936bddeefa5444cebb199f6c5cf6231290a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/evidence-index-initial.txt",
+      "sha256": "571f18c470f16bd67fcb7702928229e94ca6749f246535024ff03cb5fd2d3265"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/execution-context.json",
+      "sha256": "47ada36526cea6aef6da9689930eb856820974f58873029ef58fbb7d99d17eff"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.json",
+      "sha256": "fb98957fedd9f7b8809f4fd23cfe7efe1d218e4f0b6b62cff7ab6f9523b9bf70"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.running.json",
+      "sha256": "4d4b90c9385f17f99f9aa06903e70ed3a17f1f4184a78f2dff072e9f0392fd7a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-final.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt-source.json",
+      "sha256": "7faaab916c433e0341a624dad451b6c0948d4f0523b30112961f4e10ff900fae"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.json",
+      "sha256": "3082c3881299e90596d0a7184607949dfd80edea190eac3828edf4bd98211897"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.running.json",
+      "sha256": "0a41d42f50b47bb819527be192faa8dffa60ce6407d0ccd979abf115e9d17971"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial-source.json",
+      "sha256": "ff4cb4875f2cc1f33e45fdcbeaa911dfd6c5a58a58e5c31cc4c5345cf861dcd7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.json",
+      "sha256": "554c518e04ebd6f763e6ced0b2a36a66c4f53b656f0e7b25f3fe39e38487ade8"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.running.json",
+      "sha256": "727b41683c70bfc1ba211fd77b81d0ff9f20ffc0073abbd6262186864c834d58"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/focused-initial.txt",
+      "sha256": "1eb0965dd1c4ec63839bf1bfbd4936f9a1dfde9efd274735ca3114a340289698"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.json",
+      "sha256": "ed19b0baa6c4934c094bb7190e00c69df65a5fdc7b506ffe1cbf8ab1158226c9"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.running.json",
+      "sha256": "769456ec0a0d8464bda118da4c0f3e3e6bffdeef41522d31f4cc2139466e40f6"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/harness.txt",
+      "sha256": "25a488894b19c19ba0a1ec6fda031380b9cfab2de223e799628c3c673d0a0488"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.json",
+      "sha256": "fabb63376d77b6502f819d2bd536a9e9f037fd2e916627eaa9f47345947ccb5d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.running.json",
+      "sha256": "ff4d210c527efe76d3622cfa93a64ea3517a69d53d547a710f83942700c3d23a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-final.txt",
+      "sha256": "1a40786900d4b1f9ad64db5e402dc39b4836ce38563c355b72d125862383891b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle-source.json",
+      "sha256": "7faaab916c433e0341a624dad451b6c0948d4f0523b30112961f4e10ff900fae"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.json",
+      "sha256": "232d6e6d00987b90b0e22fbe36210cf41f12f7c0f13740b28666281ba72954d0"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.running.json",
+      "sha256": "94da2e7baae3b965ff9dbf83fc6df9e0c529bbea72523ed1b19782e023aeed70"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/lifecycle.txt",
+      "sha256": "f9a6190557ef71d360f4e4d33a0084338159977d30abe06981048b4f4745c78c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/original-server.rs.txt",
+      "sha256": "d54bac32e50195673207359a44b6f1a9e887666d3693a36f7551bca5797a394f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/record.py",
+      "sha256": "2e4ea9a880f937ae2f535854f564cdf3996c6b5add2910533f88fff82dcca98a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/signals.json",
+      "sha256": "6ff870dd0be106647a6d3ecc8d9dabcd0b2688c84569c1e08b832c7392d5434e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/test-preservation-initial.txt",
+      "sha256": "714f8528cd7f3679d5eb5df2929cd959652b19586b884620c0a8a8b1942fa972"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/test-preservation.json",
+      "sha256": "fc3acd01a1f17615e47db45597dc2a8d56162fb44487e401bc7ea4e9a1e13976"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/verify_delivery.py",
+      "sha256": "218dc2e94f7a1e34b6720ae8d5f32697b3c2c3ce9fe6855f395b14736390fdf0"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test-source.json",
+      "sha256": "89e20a4bcc3a722868abf2a44c65b5c2d5e495280356ec0505cbe63ffa8556b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.json",
+      "sha256": "2cb3de0b3c16854f9705eabc382168f4db33de1f2706d5f12ce5ac6b3b3914b4"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.running.json",
+      "sha256": "1cd4f831b27102b0c1a9e1d0121de591eeb5ea56a3ba396ac279a31f6b1871d5"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/integration/workspace-test.txt",
+      "sha256": "cec5b67d4ecb11c70d1eface4f43deab1d407598574a5c04e5534cd5ffd49bba"
+    },
+    {
+      "path": ".agents/results/result-backend-task-4-attempt-1-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "sha256": "6e355239d792a3f3e2c6f33948f90936bddeefa5444cebb199f6c5cf6231290a"
+    }
+  ],
+  "artifactIndexScope": "All task-4 integration files except evidence.json itself, plus the supplemental result report."
+}

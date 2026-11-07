@@ -1,0 +1,14 @@
+    Checking arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-ipc)
+    Checking arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-cli)
+    Checking arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon)
+error: the borrowed expression implements the required traits
+  --> crates/arc-daemon/src/lifecycle_tests.rs:40:47
+   |
+40 |                 arc_storage::open_and_migrate(&arc_core::database_path().unwrap()).unwrap();
+   |                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: change this to: `arc_core::database_path().unwrap()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.95.0/index.html#needless_borrows_for_generic_args
+   = note: `-D clippy::needless-borrows-for-generic-args` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::needless_borrows_for_generic_args)]`
+
+error: could not compile `arc-daemon` (bin "arc-daemon" test) due to 1 previous error

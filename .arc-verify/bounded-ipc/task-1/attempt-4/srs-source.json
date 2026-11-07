@@ -1,0 +1,18 @@
+{
+  "path": "/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md",
+  "sha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+  "copiedIntoWorktree": false,
+  "targetsRevalidated": true,
+  "idleRss": {
+    "requirement": "NFR-002",
+    "line": 2426,
+    "target": "below 50 MB idle"
+  },
+  "smallMessageP95": {
+    "requirement": "NFR-004",
+    "line": 2428,
+    "target": "within 20 ms local IPC round trip"
+  },
+  "versionInconsistencyRetained": true,
+  "measurementsPerformed": false
+}

@@ -9,8 +9,18 @@ use std::{
 /// Separate from production admission; shared by threads and integration binaries.
 /// The caller holds this until all its owned daemon children have been reaped.
 pub struct Serial {
-    _file: File,
+    _file: Option<File>,
     _thread: MutexGuard<'static, ()>,
+}
+
+impl Serial {
+    /// Let a child acquire the process lock while excluding sibling test threads.
+    /// Keep this guard alive until that child exits, so a local fixture cannot
+    /// take the file lock ahead of the child during the coordination probe.
+    #[allow(dead_code)] // Only the resident coordination probe hands off this lock.
+    pub fn release_process_lock(&mut self) {
+        self._file.take();
+    }
 }
 
 pub fn serial() -> Serial {
@@ -38,7 +48,7 @@ pub fn serial() -> Serial {
         match file.try_lock() {
             Ok(()) => {
                 return Serial {
-                    _file: file,
+                    _file: Some(file),
                     _thread: thread,
                 }
             }

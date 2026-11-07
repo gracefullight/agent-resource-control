@@ -1,0 +1,34 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "worker_runtime",
+    "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1",
+  "startedAt": "2026-11-07T14:14:20.723147+00:00",
+  "finishedAt": "2026-11-07T14:14:23.794669+00:00",
+  "elapsedSeconds": 3.071303042001091,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 47356,
+  "processExitObserved": true,
+  "output": "sql-health.txt",
+  "outputSha256": "c55b6bae975bba2541e863701e0922b21ff808da2cb995182bc58c726dcc82d9",
+  "sourceBefore": "cd4a7bc1b6411002cbf9b7c8736e40244cc9eb8575981ac8ce145a53d987a38f",
+  "sourceAfter": "cd4a7bc1b6411002cbf9b7c8736e40244cc9eb8575981ac8ce145a53d987a38f",
+  "productInputsUnchanged": true,
+  "environment": {
+    "CARGO_HOME": "/Users/gracefullight/.cargo",
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "AGENT_VALLEY_MANAGED_RUN": "1"
+  },
+  "toolchain": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+  "cargo": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\nrelease: 1.95.0\ncommit-hash: f2d3ce0bd7f24a49f8f72d9000448f8838c4e850\ncommit-date: 2026-03-21\nhost: aarch64-apple-darwin\nlibgit2: 1.9.2 (sys:0.20.4 vendored)\nlibcurl: 8.7.1 (sys:0.4.83+curl-8.15.0 system ssl:(SecureTransport) LibreSSL/3.3.6)\nssl: OpenSSL 3.5.4 30 Sep 2025\nos: Mac OS 27.2.0 [64-bit]\n"
+}

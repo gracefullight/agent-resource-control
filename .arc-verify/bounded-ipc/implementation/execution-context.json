@@ -1,0 +1,339 @@
+{
+  "recordedAt": "2026-11-07T14:12:06.531250+00:00",
+  "tools": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "39fa9765dcb70a6c12049d84e59bc0086487b539\nedd2a960a87599dcba29942c6a4ff557c1ed95fc\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustc",
+        "-Vv"
+      ],
+      "exitCode": 0,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "-Vv"
+      ],
+      "exitCode": 0,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\nrelease: 1.95.0\ncommit-hash: f2d3ce0bd7f24a49f8f72d9000448f8838c4e850\ncommit-date: 2026-03-21\nhost: aarch64-apple-darwin\nlibgit2: 1.9.2 (sys:0.20.4 vendored)\nlibcurl: 8.7.1 (sys:0.4.83+curl-8.15.0 system ssl:(SecureTransport) LibreSSL/3.3.6)\nssl: OpenSSL 3.5.4 30 Sep 2025\nos: Mac OS 27.2.0 [64-bit]\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uname",
+        "-a"
+      ],
+      "exitCode": 0,
+      "stdout": "Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64\n",
+      "stderr": ""
+    }
+  ],
+  "environment": {
+    "CARGO_HOME": "/Users/gracefullight/.cargo",
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "AGENT_VALLEY_MANAGED_RUN": "1"
+  },
+  "identity": {
+    "actor": "test-engineer",
+    "task": "task-5",
+    "attempt": 1,
+    "injectedClaimPath": null,
+    "omaRunId": null
+  },
+  "budget": {
+    "missionMaxDurationSec": 86400,
+    "missionMaxParallel": 3,
+    "missionMaxRuns": 200,
+    "missionMaxRetries": 3,
+    "parallelCargoCommands": 1,
+    "commandTimeoutSec": 120,
+    "note": "Existing mission limits retained; no agents, installs, standalone builds or mission-state writes."
+  },
+  "hostLimits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "productFingerprint": {
+    "sha256": "7564621dc32f28827f3860ec13d43b0d30fa368c711c64289cca1851e8056f51",
+    "scope": [
+      "crates",
+      "Cargo.toml",
+      "Cargo.lock",
+      "rust-toolchain.toml"
+    ],
+    "files": [
+      {
+        "path": "Cargo.lock",
+        "sha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2",
+        "mode": "0o644"
+      },
+      {
+        "path": "Cargo.toml",
+        "sha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/Cargo.toml",
+        "sha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/src/main.rs",
+        "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/tests/binary.rs",
+        "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/Cargo.toml",
+        "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/src/lib.rs",
+        "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/tests/runtime.rs",
+        "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/Cargo.toml",
+        "sha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery.rs",
+        "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+        "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/admission.rs",
+        "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/connection.rs",
+        "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker.rs",
+        "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/execution.rs",
+        "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/tests.rs",
+        "sha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/instance.rs",
+        "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle.rs",
+        "sha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+        "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/limits.rs",
+        "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/main.rs",
+        "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/platform.rs",
+        "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+        "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_metrics.rs",
+        "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report.rs",
+        "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+        "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/server.rs",
+        "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/server_tests.rs",
+        "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport.rs",
+        "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_test_support.rs",
+        "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_tests.rs",
+        "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/bounded.rs",
+        "sha256": "705affd4ece4e6742363fd6ef08c79606234a5b3cf4ab6b0a42778b1ccb412f1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+        "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident.rs",
+        "sha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/startup.rs",
+        "sha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/admission_load.rs",
+        "sha256": "c5cef95e2d3742c55e5786d9f47055993340db6c96d7e455ec2449963fb42fbc",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/measurements.rs",
+        "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/mod.rs",
+        "sha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/native.rs",
+        "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/runtime.rs",
+        "sha256": "0bfcd5efc1458c1dca5139fc253d3d39590bb53508a516ec7a8098b5c5fe3aa4",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/transport_unit.rs",
+        "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/worker_runtime.rs",
+        "sha256": "27ec3275ef884f4c34ec04ac492249077f3a2ab37f7872b90c8e4b542eb413b8",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-ipc/Cargo.toml",
+        "sha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-ipc/src/lib.rs",
+        "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/Cargo.toml",
+        "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/migrations/0001_phase0.sql",
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/src/lib.rs",
+        "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/tests/nfr010.rs",
+        "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+        "mode": "0o644"
+      },
+      {
+        "path": "rust-toolchain.toml",
+        "sha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+        "mode": "0o644"
+      }
+    ]
+  }
+}

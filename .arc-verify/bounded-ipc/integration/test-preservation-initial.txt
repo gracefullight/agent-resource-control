@@ -1,0 +1,14 @@
+Initial byte-for-byte moved-body comparison failed; no product test failed. Diff follows.
+--- original-filesystem-tests
++++ moved-filesystem-tests
+@@ -214,8 +214,8 @@
+ 
+ #[test]
+ fn a_shared_temporary_root_is_refused_instead_of_tightened() {
+-    let error = prepare_socket_directory(&arc_core::runtime_root().unwrap().join("arc.sock"))
+-        .unwrap_err();
++    let error =
++        prepare_socket_directory(&arc_core::runtime_root().unwrap().join("arc.sock")).unwrap_err();
+     assert_eq!(error.kind(), io::ErrorKind::InvalidInput);
+     assert!(
+         error.to_string().contains("shared temporary directory"),

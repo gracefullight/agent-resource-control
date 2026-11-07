@@ -1,0 +1,86 @@
+{
+  "scope": "Actor-local uncommitted task-3 files; isolated worker driver with metrics interface test double",
+  "collectedAt": "2026-11-07T11:21:56.879060+00:00",
+  "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineTree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+  "snapshotCommit": "9f6532ba89de234ae11895a6f8591d1fc6195d22",
+  "snapshotTree": "e79ff4ed85c94059275bbb4992579a2d55f51eb3",
+  "inspectedLocalHead": "9f6532ba89de234ae11895a6f8591d1fc6195d22",
+  "inspectedLocalTree": "e79ff4ed85c94059275bbb4992579a2d55f51eb3",
+  "branch": "av-task/d6c6b45f4a6c3769-1724980aa084bbaa-1",
+  "sourceFiles": [
+    {
+      "path": "crates/arc-daemon/src/db_worker.rs",
+      "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "inSnapshot": false,
+      "scope": "local uncommitted file"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/execution.rs",
+      "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "inSnapshot": false,
+      "scope": "local uncommitted file"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/tests.rs",
+      "sha256": "b6af9020a2cd89ac0e22d7f850e1d3ab6218e9b4ba4fba0eb4401787972cca48",
+      "inSnapshot": false,
+      "scope": "local uncommitted file"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/database/driver/Cargo.toml",
+      "sha256": "5c441558c3903383123ed56595c7fefc3c8fd9e01d2df4fd771e59aac5958b3c",
+      "inSnapshot": false,
+      "scope": "local uncommitted file"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/database/driver/Cargo.lock",
+      "sha256": "6422f1cc323639b7eca9e24b68faab21696fa3cfec87c58c1f804ea15b1c527a",
+      "inSnapshot": false,
+      "scope": "local uncommitted file"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/database/driver/src/lib.rs",
+      "sha256": "a242c371f58fe2011bd6e3a5a96dce272d441affa553c15acb02fca5f95e05a6",
+      "inSnapshot": false,
+      "scope": "local uncommitted file"
+    }
+  ],
+  "migration": {
+    "path": "crates/arc-storage/migrations/0001_phase0.sql",
+    "unchanged": true,
+    "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "localSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  },
+  "harness": {
+    "path": "scripts/harness/validate.sh",
+    "unchanged": true
+  },
+  "workerTestsPassed": 14,
+  "workerAccountingScope": "test-double metrics assertions at every gauge transition, real SQLite worker and native join",
+  "saturation": {
+    "attempts": 100000,
+    "rejected": 100000,
+    "queuedCap": 2,
+    "executingCap": 1,
+    "outstandingCap": 3,
+    "elapsedUs": 15401
+  },
+  "observedMaxima": {
+    "queued": 2,
+    "executing": 1,
+    "outstanding": 3
+  },
+  "workerAccountingReceipts": 43,
+  "lifecycleReopenReceipts": 43,
+  "largestRecordedJoinCloseReopenUs": 24793,
+  "integrationVerified": false,
+  "nativePerformanceMeasured": false,
+  "remaining": [
+    "Production daemon module/metrics integration by IPC Actor",
+    "Integrated worker, health, subprocess and CLI tests by assigned Actors",
+    "Final integrated gates and independent review",
+    "Mission native performance, Phase 0, Linux and Windows runtime obligations"
+  ]
+}

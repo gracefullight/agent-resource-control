@@ -1,0 +1,23 @@
+{
+  "onlyRestoredPath": ".agents/results/result-backend-task-4-attempt-5-b137e253-def6-46ef-a75d-25ab414784ea.md",
+  "differences": [
+    {
+      "before": {
+        "path": ".agents/results/result-backend-task-4-attempt-5-b137e253-def6-46ef-a75d-25ab414784ea.md",
+        "missing": true
+      },
+      "after": {
+        "path": ".agents/results/result-backend-task-4-attempt-5-b137e253-def6-46ef-a75d-25ab414784ea.md",
+        "sha256": "8388a5252ff58f31a1fab8d6bdf5d4a4ba49b1b9fdbe1bb359e0a1e2369b0165",
+        "mode": "0o644"
+      }
+    }
+  ],
+  "sourceFilesUnchanged": true,
+  "historicalReceiptsAndIndexUnchanged": true,
+  "migrationVerifiedAgainstAcceptedHead": true,
+  "harnessVerifiedAgainstAcceptedHead": true,
+  "collectionVerifiedInReceivingCheckout": true,
+  "independentReviewClaimed": false,
+  "missionCompletionClaimed": false
+}

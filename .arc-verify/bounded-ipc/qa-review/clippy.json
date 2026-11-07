@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "--workspace",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T14:35:26.655537+00:00",
+  "finishedAt": "2026-11-07T14:35:28.146474+00:00",
+  "elapsedSeconds": 1.4907428750011604,
+  "exitCode": 0,
+  "timedOut": false,
+  "sourceBefore": "f9c6c5baeb3e95c48603717f08cf2abb88baf85f334250db739eb903c44b4999",
+  "sourceAfter": "f9c6c5baeb3e95c48603717f08cf2abb88baf85f334250db739eb903c44b4999",
+  "productUnchanged": true,
+  "outputSha256": "9f2ee660c0583e2e51c120ccc1abbe11065516a5d5b762bc978d679b7b0496d3",
+  "pid": 34023,
+  "processExitObserved": true,
+  "environment": {
+    "CARGO_NET_OFFLINE": "true",
+    "ARC_TEST_EVIDENCE_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.arc-verify/bounded-ipc/qa-review/clippy-raw"
+  }
+}

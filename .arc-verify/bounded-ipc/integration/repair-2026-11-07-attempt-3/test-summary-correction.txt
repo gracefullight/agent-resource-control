@@ -1,0 +1,1 @@
+Initial evidence extractor included non-test helper functions when checking test names. Corrected extraction requires a test attribute: all 10 original server tests are active and pass. No product assertion was changed. Initial false summary retained in test-summary-initial.json.

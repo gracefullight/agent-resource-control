@@ -1,0 +1,69 @@
+   Compiling libc v0.2.191
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling typenum v1.20.1
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.15
+   Compiling vcpkg v0.2.15
+   Compiling cc v1.11.0
+   Compiling serde_core v1.0.229
+   Compiling pkg-config v0.3.34
+   Compiling hybrid-array v0.4.15
+   Compiling zmij v1.0.23
+   Compiling foldhash v0.2.0
+   Compiling hashbrown v0.17.1
+   Compiling block-buffer v0.12.1
+   Compiling crypto-common v0.2.2
+   Compiling serde_json v1.0.154
+   Compiling serde v1.0.229
+   Compiling libsqlite3-sys v0.39.1
+   Compiling const-oid v0.10.2
+   Compiling digest v0.11.3
+   Compiling hashlink v0.12.2
+   Compiling memchr v2.8.3
+   Compiling bitflags v2.13.2
+   Compiling errno v0.3.14
+   Compiling cpufeatures v0.3.1
+   Compiling itoa v1.0.18
+   Compiling syn v3.0.9
+   Compiling cfg-if v1.0.5
+   Compiling smallvec v1.16.4
+   Compiling fallible-iterator v0.3.0
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling sha2 v0.11.1
+   Compiling signal-hook-registry v1.4.8
+   Compiling socket2 v0.6.5
+   Compiling mio v1.2.4
+   Compiling arc-core v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-core)
+   Compiling pin-project-lite v0.2.17
+   Compiling serde_derive v1.0.229
+   Compiling tokio-macros v2.7.2
+   Compiling tokio v1.54.1
+   Compiling rusqlite v0.41.1
+   Compiling arc-storage v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-storage)
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-ipc)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/crates/arc-daemon)
+error[E0599]: no function or associated item named `default` found for struct `runtime_metrics::RuntimeMetrics` in the current scope
+   --> crates/arc-daemon/tests/../src/db_worker/tests.rs:60:30
+    |
+ 60 |     Arc::new(RuntimeMetrics::default())
+    |                              ^^^^^^^ function or associated item not found in `runtime_metrics::RuntimeMetrics`
+    |
+   ::: crates/arc-daemon/tests/../src/runtime_metrics.rs:162:1
+    |
+162 | pub(crate) struct RuntimeMetrics {
+    | -------------------------------- function or associated item `default` not found for this struct
+    |
+note: if you're trying to build a new `runtime_metrics::RuntimeMetrics`, consider using `runtime_metrics::RuntimeMetrics::new` which returns `runtime_metrics::RuntimeMetrics`
+   --> crates/arc-daemon/tests/../src/runtime_metrics.rs:172:5
+    |
+172 |     pub(crate) fn new(limits: &RuntimeLimits) -> Self {
+    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    = help: items from traits can only be used if the trait is implemented and in scope
+    = note: the following trait defines an item `default`, perhaps you need to implement it:
+            candidate #1: `Default`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `arc-daemon` (test "db_worker_unit") due to 1 previous error
+warning: build failed, waiting for other jobs to finish...

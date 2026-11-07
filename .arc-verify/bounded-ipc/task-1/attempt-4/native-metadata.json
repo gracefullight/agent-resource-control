@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "cargo",
+    "metadata",
+    "--offline",
+    "--locked",
+    "--filter-platform",
+    "aarch64-apple-darwin",
+    "--format-version",
+    "1"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:19:12.201082+00:00",
+  "finishedAt": "2026-11-07T16:19:12.464278+00:00",
+  "elapsedSeconds": 0.2632047499937471,
+  "exitCode": 0,
+  "stdoutSha256": "539e0c56bb8877f057d88c23589409dd88593f811ea2aadd3013b2d4004571ea",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

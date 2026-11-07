@@ -1,0 +1,113 @@
+{
+  "originalTestsSource": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/crates/arc-daemon/src/db_worker/tests.rs",
+  "originalTestSourceSha256": "b6af9020a2cd89ac0e22d7f850e1d3ab6218e9b4ba4fba0eb4401787972cca48",
+  "originalFunctionNames": [
+    "new",
+    "open",
+    "reopen",
+    "drop",
+    "config",
+    "metrics",
+    "deadline",
+    "gate",
+    "stop",
+    "recover",
+    "finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+    "stopped_worker_discards_full_queue_with_live_client_clones",
+    "queued_deadline_is_absolute_and_expired_job_is_not_started",
+    "active_sql_is_interrupted_and_worker_joins",
+    "dropping_ticket_interrupts_active_sql_without_stopping_worker",
+    "execution_deadline_interrupts_sql_before_response_deadline",
+    "cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+    "enqueue_between_empty_check_and_park_is_not_lost",
+    "stop_between_empty_check_and_park_is_not_lost",
+    "lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+    "repeated_idle_workers_close_and_join_with_live_clients",
+    "shutdown_timeout_retains_handle_until_native_thread_really_exits",
+    "concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds"
+  ],
+  "repairedFunctionNames": [
+    "new",
+    "open",
+    "reopen",
+    "drop",
+    "config",
+    "metrics",
+    "assert_bounds",
+    "deadline",
+    "gate",
+    "stop",
+    "recover",
+    "finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+    "stopped_worker_discards_full_queue_with_live_client_clones",
+    "queued_deadline_is_absolute_and_expired_job_is_not_started",
+    "active_sql_is_interrupted_and_worker_joins",
+    "dropping_ticket_interrupts_active_sql_without_stopping_worker",
+    "execution_deadline_interrupts_sql_before_response_deadline",
+    "cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+    "enqueue_between_empty_check_and_park_is_not_lost",
+    "stop_between_empty_check_and_park_is_not_lost",
+    "lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+    "repeated_idle_workers_close_and_join_with_live_clients",
+    "shutdown_timeout_retains_handle_until_native_thread_really_exits",
+    "concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds"
+  ],
+  "allOriginalFunctionsRetained": true,
+  "acceptedTransportFiles": [
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "acceptedSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "actualSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "acceptedSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "actualSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "acceptedSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "actualSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "acceptedSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "actualSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "acceptedSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "actualSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "acceptedSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "actualSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "acceptedSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "actualSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "acceptedSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "actualSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "matches": true
+    },
+    {
+      "path": "crates/arc-daemon/tests/transport_unit.rs",
+      "acceptedSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "actualSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "matches": true
+    }
+  ],
+  "allAcceptedTransportHashesMatch": true
+}

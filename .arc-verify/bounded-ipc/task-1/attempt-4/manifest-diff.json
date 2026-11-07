@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "git",
+    "diff",
+    "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+    "--",
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/arc-daemon/Cargo.toml"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:19:11.932799+00:00",
+  "finishedAt": "2026-11-07T16:19:11.947071+00:00",
+  "elapsedSeconds": 0.014283041004091501,
+  "exitCode": 0,
+  "stdoutSha256": "2bb308fc8458cc9c5adb6994466eebba333dee9d410e633d668db131e2fb8e90",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

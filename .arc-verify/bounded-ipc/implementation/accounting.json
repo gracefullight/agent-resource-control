@@ -1,0 +1,45 @@
+{
+  "note": "Four independent experiments. Do not add them into a claim of 400000 network requests. Admission is an intermediate state; terminal outcomes are disjoint. Rejected attempts were never admitted.",
+  "experiments": [
+    {
+      "artifact": "workspace-final-raw/connection-100000.json",
+      "scope": "production Handlers::try_spawn with authenticated native socketpairs",
+      "attempted": 100000,
+      "admitted": 8,
+      "rejected": 99992,
+      "completed": 0,
+      "timed_out": 0,
+      "shutdown_cancelled": 8
+    },
+    {
+      "artifact": "workspace-final-raw/request-100000.json",
+      "scope": "production Requests::try_admit; no network or latency inference",
+      "attempted": 100000,
+      "admitted": 4,
+      "rejected": 99996,
+      "completed": 0,
+      "timed_out": 0,
+      "released_without_dispatch": 4
+    },
+    {
+      "artifact": "workspace-final-raw/db-100000.json",
+      "scope": "production DbClient::try_doctor with controlled real worker",
+      "attempted": 100000,
+      "admitted": 9,
+      "rejected": 99991,
+      "completed": 0,
+      "timed_out": 0,
+      "client_cancelled": 9
+    },
+    {
+      "artifact": "workspace-final-raw/native-measurements.json",
+      "scope": "real production daemon, four persistent same-user clients",
+      "attempted": 100000,
+      "admitted": 100000,
+      "completed": 100000,
+      "rejected": 0,
+      "timed_out": 0,
+      "shutdown_cancelled": 0
+    }
+  ]
+}

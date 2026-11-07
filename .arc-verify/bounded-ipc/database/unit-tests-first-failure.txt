@@ -1,0 +1,76 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/e4213bbb083bb36a: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/dcb0f286b9f142ff: Operation not permitted (os error 1)
+   Compiling arc-db-worker-evidence v0.0.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/.arc-verify/bounded-ipc/database/driver)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.49s
+     Running unittests src/lib.rs (.arc-verify/bounded-ipc/database/driver/target/debug/deps/arc_db_worker_evidence-4a79b0cbcb488ec8)
+
+running 11 tests
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::active_sql_is_interrupted_and_worker_joins ... ok
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=2 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks ... ok
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=2 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker ... ok
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=2 executing_high=1 outstanding_high=3 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=2 executing_high=1 outstanding_high=3 started=1 joined=1 final_gauges=0 rejected=100833 timeouts=0
+test db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones ... ok
+test db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation ... ok
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=2 started=1 joined=1 final_gauges=0 rejected=1 timeouts=1
+test db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started ... ok
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback ... ok
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=1
+test db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline ... ok
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients ... ok
+
+thread 'db_worker::tests::stop_between_empty_check_and_park_is_not_lost' (14727869) panicked at src/../../../../../crates/arc-daemon/src/db_worker/tests.rs:88:10:
+called `Result::unwrap()` on an `Err` value: ShutdownDeadline
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+worker-accounting: queued_high=0 executing_high=0 outstanding_high=0 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::stop_between_empty_check_and_park_is_not_lost ... FAILED
+
+thread 'db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost' (14727853) panicked at src/../../../../../crates/arc-daemon/src/db_worker/tests.rs:266:39:
+called `Result::unwrap()` on an `Err` value: Deadline
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=1
+test db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost ... FAILED
+
+failures:
+
+failures:
+    db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost
+    db_worker::tests::stop_between_empty_check_and_park_is_not_lost
+
+test result: FAILED. 9 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.03s
+
+error: test failed, to rerun pass `--lib`

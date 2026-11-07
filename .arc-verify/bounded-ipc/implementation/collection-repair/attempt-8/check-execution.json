@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/check.py"
+  ],
+  "exitCode": 1,
+  "recordedAt": "2026-11-07T16:57:30.478978+00:00",
+  "stdoutSha256": "7df4a3ae1d55cb000f4d5484feea90aeecd81702bd204449908e0ca8c7b9bb7b",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "freshRuntimeChecks": false
+}

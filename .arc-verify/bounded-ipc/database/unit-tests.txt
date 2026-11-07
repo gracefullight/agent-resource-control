@@ -1,0 +1,115 @@
+   Compiling arc-db-worker-evidence v0.0.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-1724980aa084bbaa-1/.arc-verify/bounded-ipc/database/driver)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.92s
+     Running unittests src/lib.rs (target/database-worker-evidence/debug/deps/arc_db_worker_evidence-4a79b0cbcb488ec8)
+
+running 14 tests
+test db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=11775
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=24793
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=18310
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=2 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::active_sql_is_interrupted_and_worker_joins ... ok
+test db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=18581
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=2 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker ... ok
+worker-load: attempts=100000 rejected=100000 queued=2 executing=1 elapsed_us=15401
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=16954
+worker-accounting: queued_high=2 executing_high=1 outstanding_high=3 started=1 joined=1 final_gauges=0 rejected=39742 timeouts=0
+test db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=6955
+worker-accounting: queued_high=0 executing_high=0 outstanding_high=0 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=10417
+worker-accounting: queued_high=2 executing_high=1 outstanding_high=3 started=1 joined=1 final_gauges=0 rejected=102741 timeouts=0
+test db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=7536
+worker-accounting: queued_high=0 executing_high=0 outstanding_high=0 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::stop_between_empty_check_and_park_is_not_lost ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=11186
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=11842
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=16473
+worker-accounting: queued_high=2 executing_high=1 outstanding_high=3 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5833
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4606
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5889
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=7673
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=2 started=1 joined=1 final_gauges=0 rejected=1 timeouts=1
+test db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4810
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5762
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=1
+test db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline ... ok
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4399
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=7335
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=7122
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4135
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4070
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4188
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5623
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4529
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=3180
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5104
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=23531
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=14642
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=8396
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=3806
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4416
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4047
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4301
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5818
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4996
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=7098
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5505
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5382
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=4864
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5632
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=5207
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+worker-lifecycle: joined=true closed=true reopen_integrity=ok elapsed_us=6285
+worker-accounting: queued_high=1 executing_high=1 outstanding_high=1 started=1 joined=1 final_gauges=0 rejected=0 timeouts=0
+test db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.35s
+
+   Doc-tests arc_db_worker_evidence
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

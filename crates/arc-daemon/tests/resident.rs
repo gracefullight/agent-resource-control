@@ -871,7 +871,7 @@ fn fixture_serialization_probe() {
 
 #[test]
 fn fixture_coordination_is_shared_across_processes() {
-    let serial = support::serial();
+    let mut serial = support::serial();
     let fixture = Fixture::new();
     let mut child = Daemon(
         Command::new(env::current_exe().unwrap())
@@ -895,7 +895,7 @@ fn fixture_coordination_is_shared_across_processes() {
         thread::sleep(Duration::from_millis(10));
     }
     assert!(!fixture.directory.join("acquired").exists());
-    drop(serial);
+    serial.release_process_lock();
     assert!(wait_for_exit(&mut child).success());
     assert!(fixture.directory.join("acquired").exists());
 }

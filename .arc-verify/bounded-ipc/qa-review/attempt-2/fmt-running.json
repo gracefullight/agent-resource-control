@@ -1,0 +1,13 @@
+{
+  "pid": 82524,
+  "processGroup": 82524,
+  "argv": [
+    "cargo",
+    "fmt",
+    "--all",
+    "--",
+    "--check"
+  ],
+  "startedAt": "2026-11-07T16:02:13.263539+00:00",
+  "timeoutSeconds": 120
+}

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py", line 124, in <module>
+    print(json.dumps(main()))
+                     ~~~~^^
+  File "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py", line 52, in main
+    assert current == read("final-source.json")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

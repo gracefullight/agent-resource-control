@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-11-07T16:19:11.869384+00:00",
+  "actor": "technical-director",
+  "task": "task-1",
+  "attempt": 4,
+  "managedRun": "1",
+  "suppliedMaxDurationSec": 86400,
+  "suppliedMaxRuns": 200,
+  "suppliedMaxRetries": 3,
+  "concurrentChildProcesses": 1,
+  "agentsSpawned": 0,
+  "budget": "Inherited mission allocations unchanged. No new mission, run allocation or deadline reset; original start/deadline not injected.",
+  "checks": "Serial read-only offline dependency and formatting checks; 120-second timeout per process; no build or runtime workload replay.",
+  "host": {
+    "system": "Darwin",
+    "release": "27.2.0",
+    "machine": "arm64"
+  },
+  "sourceSearch": "Serena configured, no exposed tools; known-path reads and Git only for source."
+}

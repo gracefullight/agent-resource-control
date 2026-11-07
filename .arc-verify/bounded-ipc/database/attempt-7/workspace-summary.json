@@ -1,0 +1,117 @@
+{
+  "suites": [
+    {
+      "target": "unittests src/main.rs (target/debug/deps/arcctl-c125ac6e10d54565)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/binary.rs (target/debug/deps/binary-5eba36786ecfd68b)",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "unittests src/lib.rs (target/debug/deps/arc_core-b8dbbbda8203ad41)",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "unittests src/main.rs (target/debug/deps/arc_daemon-0128c47ebc6eddeb)",
+      "passed": 52,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/bounded.rs (target/debug/deps/bounded-bac97ef5a669d3cb)",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-f820a7bdac9b3340)",
+      "passed": 16,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/resident.rs (target/debug/deps/resident-df0d654374c71b39)",
+      "passed": 11,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/startup.rs (target/debug/deps/startup-35f42ecd1777a7f6)",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/transport_unit.rs (target/debug/deps/transport_unit-d734e18fd1baa8d5)",
+      "passed": 18,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/worker_runtime.rs (target/debug/deps/worker_runtime-a9c3ea6491dc8f19)",
+      "passed": 48,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "unittests src/lib.rs (target/debug/deps/arc_ipc-aaaac96664fdee2d)",
+      "passed": 13,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    },
+    {
+      "target": "tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)",
+      "passed": 4,
+      "failed": 0,
+      "ignored": 0,
+      "measured": 0,
+      "filtered": 0
+    }
+  ],
+  "passed": 173
+}

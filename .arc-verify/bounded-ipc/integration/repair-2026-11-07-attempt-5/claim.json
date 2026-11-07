@@ -1,0 +1,31 @@
+{
+  "status": "completed",
+  "scope": "Task-4 integration resumption and verification only",
+  "changedFiles": [
+    ".arc-verify/bounded-ipc/integration/delivery.md",
+    ".arc-verify/bounded-ipc/integration/evidence.json",
+    ".arc-verify/bounded-ipc/integration/claim.json",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-5",
+    ".agents/results/result-backend-task-4-attempt-5-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".agents/results/result-backend-task-4-attempt-4-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".agents/results/result-backend-task-4-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/integration/delivery.md",
+    ".arc-verify/bounded-ipc/integration/evidence.json",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-5/verify.py",
+    ".agents/results/result-backend-task-4-attempt-5-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".agents/results/result-backend-task-4-attempt-4-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".agents/results/result-backend-task-4-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "unresolved": [
+    "Independent task review and receiving-checkout collection verification remain required.",
+    "Unchanged harness exits 1: resident.rs 901 lines; arc-ipc/src/lib.rs 551 lines; missing test:coverage.",
+    "av.yaml denied; configured-target applicability unverified.",
+    "Mission-wide performance/SRS, final QA, operator verification and Phase 0/Linux/Windows obligations remain open."
+  ],
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "productFilesChanged": []
+}

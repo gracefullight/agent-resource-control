@@ -1,0 +1,62 @@
+{
+  "recordedAt": "2026-11-07T16:26:42.990580+00:00",
+  "reviewWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "observations": [
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/delivery.md",
+      "reviewExists": true,
+      "reviewSha256": "eec0d54c70dcba74250921cca04ad638e5664b493e784cb95edf29a01ba10219",
+      "actorSha256": "811477147ef8bafe04538cada838c981a09f7295e3bb1bf8c475ed15468eea5e",
+      "note": "Pre-return observation, not proof of future collection."
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/evidence.json",
+      "reviewExists": true,
+      "reviewSha256": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739",
+      "actorSha256": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739",
+      "note": "Pre-return observation, not proof of future collection."
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-6/check_collection.py",
+      "reviewExists": false,
+      "reviewSha256": null,
+      "actorSha256": "9fc304098d6d67037ab0dc70ba39695816ae38e9ff6dc3ed0219e2ae1fb8031e",
+      "note": "Pre-return observation, not proof of future collection."
+    }
+  ],
+  "ignoreCheck": {
+    "argv": [
+      "git",
+      "check-ignore",
+      "--",
+      ".arc-verify/bounded-ipc/ipc/delivery.md",
+      ".arc-verify/bounded-ipc/ipc/evidence.json",
+      ".arc-verify/bounded-ipc/ipc/attempt-6/"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+    "startedAt": "2026-11-07T16:26:42.990590+00:00",
+    "finishedAt": "2026-11-07T16:26:43.002795+00:00",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": "",
+    "pty": false
+  },
+  "changedBoundary": {
+    "argv": [
+      "git",
+      "status",
+      "--short",
+      "--untracked-files=all",
+      "--",
+      ".arc-verify/bounded-ipc/ipc"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+    "startedAt": "2026-11-07T16:26:43.003000+00:00",
+    "finishedAt": "2026-11-07T16:26:43.021774+00:00",
+    "exitCode": 0,
+    "stdout": " M .arc-verify/bounded-ipc/ipc/delivery.md\n?? .arc-verify/bounded-ipc/ipc/attempt-5/preceding-root-delivery.md\n?? .arc-verify/bounded-ipc/ipc/attempt-5/preceding-root-evidence.json\n?? .arc-verify/bounded-ipc/ipc/attempt-5/record.py\n?? .arc-verify/bounded-ipc/ipc/attempt-6/check_collection.py\n?? .arc-verify/bounded-ipc/ipc/attempt-6/claim.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/clippy.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-6/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/finalize.py\n?? .arc-verify/bounded-ipc/ipc/attempt-6/fmt.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-6/preceding-root-delivery.md\n?? .arc-verify/bounded-ipc/ipc/attempt-6/preceding-root-evidence.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/provenance-after.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/provenance-before.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/record.py\n?? .arc-verify/bounded-ipc/ipc/attempt-6/review-environment-probe.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/test-summary.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/workspace-test.txt\n",
+    "stderr": "",
+    "pty": false
+  },
+  "pending": "Framework collection; run the read-only checker in receiving checkout afterwards."
+}

@@ -1,0 +1,799 @@
+{
+  "indexedArtifacts": [
+    {
+      "path": ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/evidence.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/record.py",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/acceptance.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/accounting.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/before-boundary.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/before-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/boundary-check.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/claim.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/collect.py",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/collection-first-failure.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/delivery.md",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/final-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fixture-change.patch",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/SIGINT.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/SIGTERM.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/connection-100000.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/db-100000.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/deadline-saturation.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/frames.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-measurements.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-observations.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-probe.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-sql-health.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/nonreader.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/request-100000.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/slow-db-release.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/small-message-samples.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/historical-source-check.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/historical-verifier.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.md",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/preflight.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/preservation-targets.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/provenance.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/record.py",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/source-evidence.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/SIGINT.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/SIGTERM.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/connection-100000.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/db-100000.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/deadline-saturation.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/frames.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-measurements.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-observations.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-probe.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-sql-health.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/nonreader.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/request-100000.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/slow-db-release.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/small-message-samples.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/frames.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-measurements.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-observations.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-probe.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/nonreader.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/small-message-samples.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-source.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.running.json",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.txt",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/source-evidence.json",
+      "matches": true
+    }
+  ],
+  "sourceTestAudit": {
+    "crates/arc-cli/src/main.rs": {
+      "lines": 123,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-cli/tests/binary.rs": {
+      "lines": 25,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "arcctl_binary_is_built_next_to_the_test_harness",
+        "no_arguments_names_both_commands_and_exits_nonzero"
+      ]
+    },
+    "crates/arc-core/src/lib.rs": {
+      "lines": 176,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+        "confstr_rejects_errors_malformed_paths_and_unstable_lengths"
+      ]
+    },
+    "crates/arc-core/tests/runtime.rs": {
+      "lines": 64,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "configuration_probe",
+        "native_default_is_independent_of_child_tmpdir",
+        "nonempty_socket_override_and_empty_override_policy_are_preserved"
+      ]
+    },
+    "crates/arc-daemon/src/accept_recovery.rs": {
+      "lines": 174,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold"
+      ]
+    },
+    "crates/arc-daemon/src/accept_recovery_tests.rs": {
+      "lines": 155,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "accept_child",
+        "isolated_transient_accept_error_recovers_cli",
+        "repeated_resource_pressure_recovers_cli",
+        "signal_while_backing_off_is_accounted",
+        "unusable_listener_cause_survives_accounted_shutdown"
+      ]
+    },
+    "crates/arc-daemon/src/admission.rs": {
+      "lines": 144,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/connection.rs": {
+      "lines": 161,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/db_worker.rs": {
+      "lines": 327,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/db_worker/execution.rs": {
+      "lines": 320,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt"
+      ]
+    },
+    "crates/arc-daemon/src/db_worker/tests.rs": {
+      "lines": 422,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "stopped_worker_discards_full_queue_with_live_client_clones",
+        "queued_deadline_is_absolute_and_expired_job_is_not_started",
+        "active_sql_is_interrupted_and_worker_joins",
+        "dropping_ticket_interrupts_active_sql_without_stopping_worker",
+        "execution_deadline_interrupts_sql_before_response_deadline",
+        "cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+        "enqueue_between_empty_check_and_park_is_not_lost",
+        "stop_between_empty_check_and_park_is_not_lost",
+        "lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+        "repeated_idle_workers_close_and_join_with_live_clients",
+        "shutdown_timeout_retains_handle_until_native_thread_really_exits",
+        "concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds"
+      ]
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "lines": 441,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "a_live_duplicate_is_rejected",
+        "a_mismatched_start_time_is_recovered_without_killing_anyone",
+        "a_dead_pid_is_recovered_without_killing_anyone",
+        "dropping_a_stale_holder_preserves_its_successors_lock",
+        "a_stale_inode_never_unlinks_the_successors_lock_file",
+        "a_stale_inode_still_named_by_the_path_is_unlinked",
+        "unsafe_anchor_entries_are_rejected_without_repair_or_writes"
+      ]
+    },
+    "crates/arc-daemon/src/lifecycle.rs": {
+      "lines": 300,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "database_contention_and_unavailability_are_not_integrity_failures"
+      ]
+    },
+    "crates/arc-daemon/src/lifecycle_tests.rs": {
+      "lines": 433,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "controlled_worker_child",
+        "sigterm_reaps_stalled_handlers_and_joins_worker",
+        "sigint_reaps_stalled_handlers_and_joins_worker"
+      ]
+    },
+    "crates/arc-daemon/src/limits.rs": {
+      "lines": 156,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "limits_reject_invalid_config_and_profiles"
+      ]
+    },
+    "crates/arc-daemon/src/main.rs": {
+      "lines": 79,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/platform.rs": {
+      "lines": 121,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": {
+      "lines": 251,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "report_child",
+        "disabled_export_creates_no_report_or_runtime_stdout_record",
+        "requested_export_is_open_before_readiness_and_contains_complete_schema",
+        "invalid_exports_refuse_startup_preserve_entries_and_join_worker",
+        "report_write_failure_preserves_cleanup_and_actual_worker_accounting"
+      ]
+    },
+    "crates/arc-daemon/src/runtime_metrics.rs": {
+      "lines": 276,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "lifetime_counters_saturate_instead_of_wrapping"
+      ]
+    },
+    "crates/arc-daemon/src/runtime_report.rs": {
+      "lines": 164,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/runtime_report_tests.rs": {
+      "lines": 121,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+        "retained_descriptor_is_not_redirected_by_path_replacement",
+        "complete_serialization_is_capped_before_any_file_write",
+        "expired_deadline_and_real_os_write_errors_are_failures"
+      ]
+    },
+    "crates/arc-daemon/src/server.rs": {
+      "lines": 312,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/server_tests.rs": {
+      "lines": 403,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "a_socketpair_serves_hello_and_survives_an_incompatible_version",
+        "permissive_existing_directories_are_rejected_without_mutation",
+        "new_nested_and_existing_private_directories_are_usable_without_repair",
+        "final_intermediate_and_dangling_symlinks_are_not_followed",
+        "a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+        "foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+        "already_exists_is_validated_without_repair_or_following_links",
+        "a_shared_temporary_root_is_refused_instead_of_tightened",
+        "socket_length_validation_counts_native_bytes_and_preserves_entries",
+        "a_positional_array_is_rejected_and_the_connection_stays_usable"
+      ]
+    },
+    "crates/arc-daemon/src/transport.rs": {
+      "lines": 169,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/transport_test_support.rs": {
+      "lines": 62,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/src/transport_tests.rs": {
+      "lines": 474,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "headers_and_trickled_bodies_have_absolute_deadlines",
+        "stalled_header_and_partial_body_release_request_capacity",
+        "malformed_json_and_version_errors_continue_without_database",
+        "zero_and_oversized_frames_reject_without_body_allocation",
+        "saturated_requests_close_before_allocating_even_for_invalid_prefixes",
+        "nonreading_peer_expires_under_write_backpressure",
+        "response_serialization_is_capped_before_any_prefix_is_written",
+        "retained_tasks_reap_and_rejections_do_not_call_factory",
+        "cancellation_reaps_unpolled_handlers_and_drops_all_guards",
+        "header_progress_does_not_renew_the_body_budget",
+        "oversized_echo_uses_one_small_fallback_then_closes",
+        "blocked_handler_write_releases_request_and_response_reservations",
+        "same_user_authentication_supports_async_sockets_and_rejects_non_sockets",
+        "metrics_are_fixed_size_and_preserve_high_waters",
+        "request_admission_races_and_unwind_never_exceed_cap",
+        "typed_worker_outcomes_keep_busy_distinct_from_integrity"
+      ]
+    },
+    "crates/arc-daemon/tests/bounded.rs": {
+      "lines": 131,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "malformed_and_stalled_frames_recover_actual_cli",
+        "nonreading_peer_releases_real_daemon_capacity",
+        "native_probe_then_full_100000_attempt_workload"
+      ]
+    },
+    "crates/arc-daemon/tests/db_worker_unit.rs": {
+      "lines": 10,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "lines": 901,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "resident_contract_holds_until_sigterm",
+        "commands_report_daemon_unavailable_when_absent",
+        "permissive_directories_and_their_contents_survive_daemon_and_cli_rejection",
+        "symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection",
+        "nondirectory_parent_is_rejected_before_lock_or_database_initialization",
+        "private_existing_and_new_nested_directories_support_override_startup",
+        "native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+        "concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+        "overlong_socket_paths_and_existing_socket_entries_reject_without_mutation",
+        "fixture_serialization_probe",
+        "fixture_coordination_is_shared_across_processes"
+      ]
+    },
+    "crates/arc-daemon/tests/startup.rs": {
+      "lines": 96,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "migration_failure_exits_nonzero_with_one_stderr_sentence"
+      ]
+    },
+    "crates/arc-daemon/tests/support/admission_load.rs": {
+      "lines": 197,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "hundred_thousand_connection_attempts_never_spawn_rejection_tasks",
+        "hundred_thousand_request_attempts_have_no_waiting_admission",
+        "hundred_thousand_database_attempts_bound_retained_cancelled_work"
+      ]
+    },
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": {
+      "lines": 64,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "full_request_and_connection_saturation_recovers_without_restart"
+      ]
+    },
+    "crates/arc-daemon/tests/support/measurements.rs": {
+      "lines": 188,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/tests/support/mod.rs": {
+      "lines": 66,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/tests/support/native.rs": {
+      "lines": 88,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/tests/support/runtime.rs": {
+      "lines": 295,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/tests/transport_unit.rs": {
+      "lines": 20,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-daemon/tests/worker_runtime.rs": {
+      "lines": 298,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "controlled_daemon_child",
+        "controlled_slow_database_does_not_block_health_and_cli_recovers",
+        "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+        "saturated_sigterm_finishes_within_five_seconds",
+        "saturated_sigint_finishes_within_five_seconds"
+      ]
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "lines": 551,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "frame_round_trips_one_json_object",
+        "writing_non_object_messages_is_rejected_before_emitting_a_frame",
+        "non_object_roots_are_rejected",
+        "multiple_json_values_are_rejected",
+        "a_framed_array_is_rejected_without_reaching_a_handler",
+        "responses_are_objects_too",
+        "an_object_request_still_decodes_after_a_rejected_array",
+        "oversize_declared_length_is_rejected_without_reading_the_body",
+        "zero_length_is_rejected_without_reading_a_body",
+        "protocol_version_99_returns_incompatible_and_a_later_hello_succeeds",
+        "hello_and_health_do_not_require_the_database",
+        "doctor_requires_ok_integrity_and_one_migration",
+        "unknown_operation_is_unsupported"
+      ]
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "lines": 94,
+      "ignoredAttributes": [],
+      "testFunctions": []
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "lines": 233,
+      "ignoredAttributes": [],
+      "testFunctions": [
+        "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+        "mismatched_checksum_is_rejected_without_reapplying_migration",
+        "migration_failure_rolls_back_all_new_tables",
+        "foreign_keys_and_unique_resource_identity_are_enforced"
+      ]
+    }
+  },
+  "preservedByteIdentical": {
+    "crates/arc-daemon/src/instance.rs": true,
+    "crates/arc-cli/src/main.rs": true,
+    "crates/arc-cli/tests/binary.rs": true,
+    "crates/arc-core/src/lib.rs": true,
+    "crates/arc-storage/src/lib.rs": true,
+    "crates/arc-storage/tests/nfr010.rs": true
+  },
+  "serverTestsRetained": {
+    "a_directory_that_appears_between_walks_is_validated_before_nested_creation": true,
+    "a_positional_array_is_rejected_and_the_connection_stays_usable": true,
+    "a_shared_temporary_root_is_refused_instead_of_tightened": true,
+    "a_socketpair_serves_hello_and_survives_an_incompatible_version": true,
+    "already_exists_is_validated_without_repair_or_following_links": true,
+    "final_intermediate_and_dangling_symlinks_are_not_followed": true,
+    "foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy": true,
+    "new_nested_and_existing_private_directories_are_usable_without_repair": true,
+    "permissive_existing_directories_are_rejected_without_mutation": true,
+    "socket_length_validation_counts_native_bytes_and_preserves_entries": true
+  }
+}

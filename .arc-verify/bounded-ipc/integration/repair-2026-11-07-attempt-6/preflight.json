@@ -1,0 +1,34 @@
+{
+  "recordedAt": "2026-11-07T16:41:46.160047+00:00",
+  "savedDeadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 65449.440944,
+  "taskAttempt": 6,
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "recordedMissionRuns": 99,
+  "maxRetries": 3,
+  "route": "Already executing supplied codex/native route; no dispatch probe needed.",
+  "scope": "Exact artifact collection and read-only verification; no product replay.",
+  "serenaAvailable": false,
+  "omaRunId": null,
+  "injectedClaimPath": null,
+  "hostLimits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "budgetNote": "Supplied mission counts and retained deadline; no resets or mission-state writes."
+}

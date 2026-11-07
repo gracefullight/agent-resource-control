@@ -1,0 +1,29 @@
+{
+  "daemonBinaryTests": 52,
+  "originalServerTestsActive": true,
+  "workerTargetPassed": 16,
+  "transportTargetPassed": 18,
+  "residentPassed": 11,
+  "ipcPassed": 13,
+  "failedIgnoredFiltered": 0,
+  "signalToExitUs": {
+    "SIGINT": 8013,
+    "SIGTERM": 7568
+  },
+  "failureHistory": {
+    "redAcceptExit": 101,
+    "focusedFirstExit": 101
+  },
+  "originalServerTestNames": [
+    "a_socketpair_serves_hello_and_survives_an_incompatible_version",
+    "permissive_existing_directories_are_rejected_without_mutation",
+    "new_nested_and_existing_private_directories_are_usable_without_repair",
+    "final_intermediate_and_dangling_symlinks_are_not_followed",
+    "a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+    "foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+    "already_exists_is_validated_without_repair_or_following_links",
+    "a_shared_temporary_root_is_refused_instead_of_tightened",
+    "socket_length_validation_counts_native_bytes_and_preserves_entries",
+    "a_positional_array_is_rejected_and_the_connection_stays_usable"
+  ]
+}

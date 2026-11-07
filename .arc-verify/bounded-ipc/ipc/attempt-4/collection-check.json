@@ -1,0 +1,47 @@
+{
+  "recordedAt": "2026-11-07T15:11:47.966822+00:00",
+  "ignoreCheck": {
+    "argv": [
+      "git",
+      "check-ignore",
+      "--",
+      ".arc-verify/bounded-ipc/ipc/attempt-4/delivery.md",
+      ".arc-verify/bounded-ipc/ipc/attempt-4/evidence.json"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+    "startedAt": "2026-11-07T15:11:47.966827+00:00",
+    "finishedAt": "2026-11-07T15:11:47.979717+00:00",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": ""
+  },
+  "actorStatus": {
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1",
+      "--untracked-files=all",
+      "--",
+      ".arc-verify/bounded-ipc/ipc/attempt-4"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+    "startedAt": "2026-11-07T15:11:47.979811+00:00",
+    "finishedAt": "2026-11-07T15:11:47.994201+00:00",
+    "exitCode": 0,
+    "stdout": "?? .arc-verify/bounded-ipc/ipc/attempt-4/clippy.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/finalize.py\n?? .arc-verify/bounded-ipc/ipc/attempt-4/fmt.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local_cache.py\n?? .arc-verify/bounded-ipc/ipc/attempt-4/provenance-after.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/provenance-before.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/record.py\n?? .arc-verify/bounded-ipc/ipc/attempt-4/review-environment-probe.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/test-summary.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.txt\n",
+    "stderr": ""
+  },
+  "inheritedNineMatchReview": true,
+  "newReviewPaths": [
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/delivery.md",
+      "exists": false
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/evidence.json",
+      "exists": false
+    }
+  ],
+  "postCollectionVerified": false,
+  "handoff": "Framework must collect normally and independently verify every manifest hash in the integrated checkout. No manual copy, commit or ref mutation used."
+}

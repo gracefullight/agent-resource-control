@@ -1,0 +1,57 @@
+diff --git a/crates/arc-daemon/tests/resident.rs b/crates/arc-daemon/tests/resident.rs
+index 26593fd..de416e4 100644
+--- a/crates/arc-daemon/tests/resident.rs
++++ b/crates/arc-daemon/tests/resident.rs
+@@ -871,7 +871,7 @@ fn fixture_serialization_probe() {
+ 
+ #[test]
+ fn fixture_coordination_is_shared_across_processes() {
+-    let serial = support::serial();
++    let mut serial = support::serial();
+     let fixture = Fixture::new();
+     let mut child = Daemon(
+         Command::new(env::current_exe().unwrap())
+@@ -895,7 +895,7 @@ fn fixture_coordination_is_shared_across_processes() {
+         thread::sleep(Duration::from_millis(10));
+     }
+     assert!(!fixture.directory.join("acquired").exists());
+-    drop(serial);
++    serial.release_process_lock();
+     assert!(wait_for_exit(&mut child).success());
+     assert!(fixture.directory.join("acquired").exists());
+ }
+diff --git a/crates/arc-daemon/tests/support/mod.rs b/crates/arc-daemon/tests/support/mod.rs
+index 7b15835..f29a080 100644
+--- a/crates/arc-daemon/tests/support/mod.rs
++++ b/crates/arc-daemon/tests/support/mod.rs
+@@ -9,10 +9,20 @@ use std::{
+ /// Separate from production admission; shared by threads and integration binaries.
+ /// The caller holds this until all its owned daemon children have been reaped.
+ pub struct Serial {
+-    _file: File,
++    _file: Option<File>,
+     _thread: MutexGuard<'static, ()>,
+ }
+ 
++impl Serial {
++    /// Let a child acquire the process lock while excluding sibling test threads.
++    /// Keep this guard alive until that child exits, so a local fixture cannot
++    /// take the file lock ahead of the child during the coordination probe.
++    #[allow(dead_code)] // Only the resident coordination probe hands off this lock.
++    pub fn release_process_lock(&mut self) {
++        self._file.take();
++    }
++}
++
+ pub fn serial() -> Serial {
+     static THREAD: Mutex<()> = Mutex::new(());
+     let thread = THREAD.lock().unwrap_or_else(|error| error.into_inner());
+@@ -38,7 +48,7 @@ pub fn serial() -> Serial {
+         match file.try_lock() {
+             Ok(()) => {
+                 return Serial {
+-                    _file: file,
++                    _file: Some(file),
+                     _thread: thread,
+                 }
+             }

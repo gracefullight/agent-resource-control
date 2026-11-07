@@ -1,0 +1,33 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "--workspace",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1",
+  "startedAt": "2026-11-07T14:14:53.997922+00:00",
+  "finishedAt": "2026-11-07T14:14:59.332192+00:00",
+  "elapsedSeconds": 5.334045249997871,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 62745,
+  "processExitObserved": true,
+  "testEvidenceDirectory": "clippy-raw",
+  "output": "clippy.txt",
+  "outputSha256": "6046edab5320951082734ac8ea74e51501cc037e97396ed1ac7200eefaf2567c",
+  "sourceBefore": "cd4a7bc1b6411002cbf9b7c8736e40244cc9eb8575981ac8ce145a53d987a38f",
+  "sourceAfter": "cd4a7bc1b6411002cbf9b7c8736e40244cc9eb8575981ac8ce145a53d987a38f",
+  "productInputsUnchanged": true,
+  "environment": {
+    "CARGO_HOME": "/Users/gracefullight/.cargo",
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "AGENT_VALLEY_MANAGED_RUN": "1"
+  },
+  "toolchain": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+  "cargo": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\nrelease: 1.95.0\ncommit-hash: f2d3ce0bd7f24a49f8f72d9000448f8838c4e850\ncommit-date: 2026-03-21\nhost: aarch64-apple-darwin\nlibgit2: 1.9.2 (sys:0.20.4 vendored)\nlibcurl: 8.7.1 (sys:0.4.83+curl-8.15.0 system ssl:(SecureTransport) LibreSSL/3.3.6)\nssl: OpenSSL 3.5.4 30 Sep 2025\nos: Mac OS 27.2.0 [64-bit]\n"
+}

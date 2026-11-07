@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-11-07T12:41:33.223079+00:00",
+  "baseline": "Accepted IPC resume-3 product fingerprint, before this repair",
+  "productDelta": [
+    {
+      "path": "crates/arc-daemon/src/db_worker/tests.rs",
+      "before": {
+        "path": "crates/arc-daemon/src/db_worker/tests.rs",
+        "sha256": "b6af9020a2cd89ac0e22d7f850e1d3ab6218e9b4ba4fba0eb4401787972cca48",
+        "mode": "0o644"
+      },
+      "after": {
+        "path": "crates/arc-daemon/src/db_worker/tests.rs",
+        "sha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+        "mode": "0o644"
+      }
+    },
+    {
+      "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+      "before": null,
+      "after": {
+        "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+        "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+        "mode": "0o644"
+      }
+    }
+  ],
+  "exactlyAssignedProductPathsChanged": true,
+  "acceptedIpcArtifactHashesVerified": 35,
+  "deliveryCheckIgnore": {
+    "argv": [
+      "git",
+      "check-ignore",
+      "--",
+      ".arc-verify/bounded-ipc/database/delivery.md",
+      ".arc-verify/bounded-ipc/database/evidence.json"
+    ],
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": ""
+  },
+  "noGitCommitsOrRefsWritten": true
+}

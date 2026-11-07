@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "scope": "assigned task-5 local delivery; mission completion not claimed",
+  "changedFiles": [
+    "crates/arc-daemon/tests/bounded.rs",
+    "crates/arc-daemon/tests/worker_runtime.rs",
+    "crates/arc-daemon/tests/support/runtime.rs",
+    "crates/arc-daemon/tests/support/native.rs",
+    "crates/arc-daemon/tests/support/measurements.rs",
+    "crates/arc-daemon/tests/support/admission_load.rs",
+    "crates/arc-daemon/tests/support/deadline_recovery.rs"
+  ],
+  "unresolved": [
+    "Unchanged harness retains 3 conformance failures",
+    "Independent review/integration and final evidence promotion pending",
+    "Linux/Windows and remaining Phase 0 qualification not completed"
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/implementation/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/performance.md",
+    ".arc-verify/bounded-ipc/implementation/performance.json",
+    ".arc-verify/bounded-ipc/implementation/source-evidence.json",
+    ".arc-verify/bounded-ipc/implementation/acceptance.json"
+  ],
+  "injectedClaimPath": null,
+  "omaRunId": null
+}

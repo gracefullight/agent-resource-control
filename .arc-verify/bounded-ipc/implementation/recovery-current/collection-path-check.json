@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "check-ignore",
+    ".arc-verify/bounded-ipc/implementation/recovery-current/report-payload.md",
+    ".arc-verify/bounded-ipc/implementation/recovery-current/collection-binding.json",
+    ".arc-verify/bounded-ipc/implementation/recovery-current/check.py"
+  ],
+  "exitCode": 1,
+  "stdout": "",
+  "stderr": "",
+  "interpretation": "Nonignored paths; actual receiving collection pending."
+}

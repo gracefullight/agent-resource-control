@@ -1,0 +1,82 @@
+{
+  "originalServerTests": [
+    "a_socketpair_serves_hello_and_survives_an_incompatible_version",
+    "permissive_existing_directories_are_rejected_without_mutation",
+    "new_nested_and_existing_private_directories_are_usable_without_repair",
+    "final_intermediate_and_dangling_symlinks_are_not_followed",
+    "a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+    "foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+    "already_exists_is_validated_without_repair_or_following_links",
+    "a_shared_temporary_root_is_refused_instead_of_tightened",
+    "socket_length_validation_counts_native_bytes_and_preserves_entries",
+    "a_positional_array_is_rejected_and_the_connection_stays_usable"
+  ],
+  "preservedNames": {
+    "a_socketpair_serves_hello_and_survives_an_incompatible_version": true,
+    "permissive_existing_directories_are_rejected_without_mutation": true,
+    "new_nested_and_existing_private_directories_are_usable_without_repair": true,
+    "final_intermediate_and_dangling_symlinks_are_not_followed": true,
+    "a_directory_that_appears_between_walks_is_validated_before_nested_creation": true,
+    "foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy": true,
+    "already_exists_is_validated_without_repair_or_following_links": true,
+    "a_shared_temporary_root_is_refused_instead_of_tightened": true,
+    "socket_length_validation_counts_native_bytes_and_preserves_entries": true,
+    "a_positional_array_is_rejected_and_the_connection_stays_usable": true
+  },
+  "existingTestIgnores": [],
+  "reviewedFileLines": {
+    "crates/arc-cli/src/main.rs": 123,
+    "crates/arc-cli/tests/binary.rs": 25,
+    "crates/arc-core/src/lib.rs": 176,
+    "crates/arc-core/tests/runtime.rs": 64,
+    "crates/arc-daemon/src/accept_recovery.rs": 174,
+    "crates/arc-daemon/src/accept_recovery_tests.rs": 155,
+    "crates/arc-daemon/src/admission.rs": 144,
+    "crates/arc-daemon/src/connection.rs": 161,
+    "crates/arc-daemon/src/db_worker.rs": 327,
+    "crates/arc-daemon/src/db_worker/execution.rs": 320,
+    "crates/arc-daemon/src/db_worker/tests.rs": 422,
+    "crates/arc-daemon/src/instance.rs": 441,
+    "crates/arc-daemon/src/lifecycle.rs": 300,
+    "crates/arc-daemon/src/lifecycle_tests.rs": 433,
+    "crates/arc-daemon/src/limits.rs": 156,
+    "crates/arc-daemon/src/main.rs": 79,
+    "crates/arc-daemon/src/platform.rs": 121,
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": 251,
+    "crates/arc-daemon/src/runtime_metrics.rs": 276,
+    "crates/arc-daemon/src/runtime_report.rs": 164,
+    "crates/arc-daemon/src/runtime_report_tests.rs": 121,
+    "crates/arc-daemon/src/server.rs": 312,
+    "crates/arc-daemon/src/server_tests.rs": 403,
+    "crates/arc-daemon/src/transport.rs": 169,
+    "crates/arc-daemon/src/transport_test_support.rs": 62,
+    "crates/arc-daemon/src/transport_tests.rs": 474,
+    "crates/arc-daemon/tests/bounded.rs": 131,
+    "crates/arc-daemon/tests/db_worker_unit.rs": 10,
+    "crates/arc-daemon/tests/resident.rs": 901,
+    "crates/arc-daemon/tests/startup.rs": 96,
+    "crates/arc-daemon/tests/support/admission_load.rs": 197,
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": 64,
+    "crates/arc-daemon/tests/support/measurements.rs": 188,
+    "crates/arc-daemon/tests/support/mod.rs": 56,
+    "crates/arc-daemon/tests/support/native.rs": 88,
+    "crates/arc-daemon/tests/support/runtime.rs": 295,
+    "crates/arc-daemon/tests/transport_unit.rs": 20,
+    "crates/arc-daemon/tests/worker_runtime.rs": 298,
+    "crates/arc-ipc/src/lib.rs": 551,
+    "crates/arc-storage/src/lib.rs": 94,
+    "crates/arc-storage/tests/nfr010.rs": 233
+  },
+  "executables": [
+    {
+      "path": "target/debug/arc-daemon",
+      "sha256": "6af32bcca604ea2b1f000b0f3e4ab6a1ea08352d99b095d5d1575145ba30a9b7",
+      "bytes": 6511496
+    },
+    {
+      "path": "target/debug/arcctl",
+      "sha256": "401039fd5bedb6ecc82faa2f16f413022ae4f5e7ae420d345786c6c619dc6d69",
+      "bytes": 3722856
+    }
+  ]
+}

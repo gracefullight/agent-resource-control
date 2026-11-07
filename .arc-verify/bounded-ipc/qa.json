@@ -1,0 +1,321 @@
+{
+  "schemaVersion": 1,
+  "actor": "reviewer",
+  "task": "task-8",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "findings": [
+    {
+      "severity": "MEDIUM",
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "line": 501,
+      "description": "901-line retained suite exceeds unchanged harness 500-line cap.",
+      "owner": "Chief Director to coordinate Runtime Test Engineer in a separate owned repair",
+      "remediation": "Split existing lifecycle/protocol/permission tests into focused test modules while preserving support::serial and every assertion; do not raise the cap."
+    },
+    {
+      "severity": "MEDIUM",
+      "path": "crates/arc-ipc/src/lib.rs",
+      "line": 501,
+      "description": "551-line IPC module exceeds unchanged harness 500-line cap (baseline 549).",
+      "owner": "Chief Director to coordinate IPC Engineer",
+      "remediation": "Move cfg(test) protocol tests into a dedicated test module with mod tests; preserve public wire types, constants and framing API."
+    },
+    {
+      "severity": "MEDIUM",
+      "path": "scripts/harness/validate.sh",
+      "line": 420,
+      "description": "Unchanged coverage gate invokes absent test:coverage; actual command exits 1.",
+      "owner": "Chief Director / repository harness owner; outside task-8 ownership",
+      "remediation": "Resolve the harness/actual Rust-workspace coverage contract through the repository owner. Retain the current failure; add no dummy script, skip flag, JS toolchain or substitute verifier in this mission."
+    }
+  ],
+  "interfaceCompatibility": "Protocol 1, CLI output/exit/error mappings, authentication, identity and filesystem policy preserved; DB_BUSY is additive and uses existing IPC_ERROR CLI fallback.",
+  "codeIntelligence": {
+    "provider": "Serena",
+    "mode": "unavailable",
+    "tools": [],
+    "fallback": "Scoped reads of known paths, Git diffs and plain-documentation reads; no native recursive source search."
+  },
+  "attempt": 3,
+  "recordedAt": "2026-11-07T17:25:36.767943+00:00",
+  "skill": "oma-qa",
+  "status": "partial",
+  "reviewResult": "NOT_ASSESSED",
+  "verificationCompleteness": "partial",
+  "localRuntimeVerification": "completed",
+  "scope": "Fresh independent verification of integrated 51-file source; harness failures and target access gap retained",
+  "behavioralContractVerified": true,
+  "compatibilityVerified": true,
+  "migrationUnchanged": true,
+  "cargoFmtPassed": true,
+  "cargoClippyPassed": true,
+  "cargoTestsPassed": true,
+  "harnessExecuted": true,
+  "harnessUnchanged": true,
+  "unresolvedHarnessFailuresRetained": true,
+  "harnessPassed": false,
+  "harnessExitCode": 1,
+  "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+  "sourceFileCount": 51,
+  "testCounts": {
+    "passed": 183,
+    "failed": 0,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0
+  },
+  "attemptExperiments": {
+    "connection": {
+      "admitted": 8,
+      "attempted": 100000,
+      "completed": 0,
+      "elapsed_us": 1376543,
+      "rejected": 99992,
+      "scope": "production Handlers::try_spawn with authenticated native socketpairs",
+      "shutdown_cancelled": 8,
+      "timed_out": 0,
+      "bounds": {
+        "connections": {
+          "cap": 8,
+          "highWater": 8,
+          "final": 0
+        },
+        "requests": {
+          "cap": 4,
+          "highWater": 0,
+          "final": 0
+        },
+        "tracked_tasks": {
+          "cap": 8,
+          "highWater": 8,
+          "final": 0
+        },
+        "db_queued": {
+          "cap": 2,
+          "highWater": 0,
+          "final": 0
+        },
+        "db_executing": {
+          "cap": 1,
+          "highWater": 0,
+          "final": 0
+        },
+        "db_outstanding": {
+          "cap": 3,
+          "highWater": 0,
+          "final": 0
+        },
+        "rejection_work": {
+          "cap": 1,
+          "highWater": 1,
+          "final": 0
+        },
+        "request_body_bytes": {
+          "cap": 4194304,
+          "highWater": 0,
+          "final": 0
+        },
+        "response_bytes": {
+          "cap": 4194304,
+          "highWater": 0,
+          "final": 0
+        }
+      }
+    },
+    "request": {
+      "admitted": 4,
+      "attempted": 100000,
+      "completed": 0,
+      "rejected": 99996,
+      "released_without_dispatch": 4,
+      "scope": "production Requests::try_admit; no network or latency inference",
+      "shutdown_cancelled": 0,
+      "timed_out": 0,
+      "bounds": {
+        "connections": {
+          "cap": 8,
+          "highWater": 0,
+          "final": 0
+        },
+        "requests": {
+          "cap": 4,
+          "highWater": 4,
+          "final": 0
+        },
+        "tracked_tasks": {
+          "cap": 8,
+          "highWater": 0,
+          "final": 0
+        },
+        "db_queued": {
+          "cap": 2,
+          "highWater": 0,
+          "final": 0
+        },
+        "db_executing": {
+          "cap": 1,
+          "highWater": 0,
+          "final": 0
+        },
+        "db_outstanding": {
+          "cap": 3,
+          "highWater": 0,
+          "final": 0
+        },
+        "rejection_work": {
+          "cap": 1,
+          "highWater": 0,
+          "final": 0
+        },
+        "request_body_bytes": {
+          "cap": 4194304,
+          "highWater": 0,
+          "final": 0
+        },
+        "response_bytes": {
+          "cap": 4194304,
+          "highWater": 0,
+          "final": 0
+        }
+      }
+    },
+    "db": {
+      "admitted": 9,
+      "attempted": 100000,
+      "client_cancelled": 9,
+      "completed": 0,
+      "elapsed_us": 119868,
+      "rejected": 99991,
+      "reopen_integrity": "ok",
+      "scope": "production DbClient::try_doctor with controlled real worker",
+      "shutdown_cancelled": 0,
+      "timed_out": 0,
+      "bounds": {
+        "connections": {
+          "cap": 64,
+          "highWater": 0,
+          "final": 0
+        },
+        "requests": {
+          "cap": 16,
+          "highWater": 0,
+          "final": 0
+        },
+        "tracked_tasks": {
+          "cap": 64,
+          "highWater": 0,
+          "final": 0
+        },
+        "db_queued": {
+          "cap": 8,
+          "highWater": 8,
+          "final": 0
+        },
+        "db_executing": {
+          "cap": 1,
+          "highWater": 1,
+          "final": 0
+        },
+        "db_outstanding": {
+          "cap": 9,
+          "highWater": 9,
+          "final": 0
+        },
+        "rejection_work": {
+          "cap": 1,
+          "highWater": 0,
+          "final": 0
+        },
+        "request_body_bytes": {
+          "cap": 16777216,
+          "highWater": 0,
+          "final": 0
+        },
+        "response_bytes": {
+          "cap": 16777216,
+          "highWater": 0,
+          "final": 0
+        }
+      }
+    }
+  },
+  "nativeNetworkWorkload": {
+    "admitted": 100000,
+    "attempted": 100000,
+    "completed": 100000,
+    "rejected": 0,
+    "shutdown_cancelled": 0,
+    "timed_out": 0
+  },
+  "signalCases": {
+    "SIGINT": {
+      "signalToReapedExitUs": 2268,
+      "handlersSpawnedReaped": 11,
+      "workerStartedJoined": 1,
+      "allGaugesZero": true,
+      "reopenIntegrity": "ok",
+      "restartVerified": true,
+      "nativePeakRssBytes": 6930432
+    },
+    "SIGTERM": {
+      "signalToReapedExitUs": 7479,
+      "handlersSpawnedReaped": 11,
+      "workerStartedJoined": 1,
+      "allGaugesZero": true,
+      "reopenIntegrity": "ok",
+      "restartVerified": true,
+      "nativePeakRssBytes": 6881280
+    }
+  },
+  "commandReceipts": {
+    "fmt": ".arc-verify/bounded-ipc/qa-review/attempt-3/fmt.json",
+    "clippy": ".arc-verify/bounded-ipc/qa-review/attempt-3/clippy.json",
+    "workspace": ".arc-verify/bounded-ipc/qa-review/attempt-3/workspace.json",
+    "harness": ".arc-verify/bounded-ipc/qa-review/attempt-3/harness.json"
+  },
+  "containerHealthVerified": false,
+  "configuredTargetApplicabilityVerified": false,
+  "missionCompletionClaimed": false,
+  "verificationGaps": [
+    {
+      "path": "av.yaml",
+      "reason": "[Errno 1] Operation not permitted: '/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/av.yaml'",
+      "effect": "Configured deployed targets cannot be established; health, availability and timestamped recent errors remain unmet if targets exist.",
+      "owner": "Chief Director: arrange supported configuration access and assign any external observation separately."
+    },
+    {
+      "path": "docs/bounded-ipc-final.md",
+      "line": 9,
+      "reason": "Historical task-9 report cites 50-file fingerprint b3610549 and task-8 attempt-2; current source and fresh independent receipts cover 51 files.",
+      "effect": "Final mission assessment needs task-9 refresh; preceding task review remains historical.",
+      "owner": "Chief Director / task-9"
+    },
+    {
+      "path": "platform qualification",
+      "reason": "Native execution covers macOS only.",
+      "effect": "Linux, Windows and remaining Phase 0 are not certified.",
+      "owner": "Chief Director / platform implementers"
+    }
+  ],
+  "remainingObligations": [
+    "Three harness conformance failures",
+    "Configured-target applicability/access and actual observations",
+    "Task-9 current-source final assessment",
+    "Remaining Phase 0, Linux and Windows runtime qualification"
+  ],
+  "failedAttempts": [
+    {
+      "operation": "Supported direct av.yaml read",
+      "result": "[Errno 1] Operation not permitted: '/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/av.yaml'"
+    },
+    {
+      "operation": "Known-path .cargo/config.toml read",
+      "result": "No such file; Cargo used prepared existing cache successfully."
+    },
+    {
+      "operation": "Shell entry mise tracking link",
+      "result": "Operation not permitted; checks themselves completed."
+    }
+  ],
+  "ownership": "Only five assigned top-level QA/performance/harness files and associated attempt-3 receipts changed; source/tests/manifests, mission state and framework reviews preserved."
+}

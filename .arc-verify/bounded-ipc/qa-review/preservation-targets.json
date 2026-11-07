@@ -1,0 +1,196 @@
+{
+  "recordedAt": "2026-11-07T14:35:59.055451+00:00",
+  "baseline": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "preservation": [
+    {
+      "path": "crates/arc-storage/migrations/0001_phase0.sql",
+      "byteIdentical": true,
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "acceptedSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+    },
+    {
+      "path": "scripts/harness/validate.sh",
+      "byteIdentical": true,
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "acceptedSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33"
+    },
+    {
+      "path": "crates/arc-daemon/src/instance.rs",
+      "byteIdentical": true,
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "acceptedSha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af"
+    },
+    {
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "byteIdentical": true,
+      "sha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+      "acceptedSha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/mod.rs",
+      "byteIdentical": true,
+      "sha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1",
+      "acceptedSha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1"
+    },
+    {
+      "path": "crates/arc-daemon/tests/startup.rs",
+      "byteIdentical": true,
+      "sha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+      "acceptedSha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724"
+    },
+    {
+      "path": "crates/arc-cli/src/main.rs",
+      "byteIdentical": true,
+      "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+      "acceptedSha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed"
+    },
+    {
+      "path": "crates/arc-cli/tests/binary.rs",
+      "byteIdentical": true,
+      "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+      "acceptedSha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a"
+    },
+    {
+      "path": "crates/arc-core/src/lib.rs",
+      "byteIdentical": true,
+      "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "acceptedSha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435"
+    },
+    {
+      "path": "crates/arc-storage/src/lib.rs",
+      "byteIdentical": true,
+      "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+      "acceptedSha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab"
+    },
+    {
+      "path": "crates/arc-storage/tests/nfr010.rs",
+      "byteIdentical": true,
+      "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+      "acceptedSha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61"
+    },
+    {
+      "path": "crates/arc-daemon/src/server.rs",
+      "boundary": "prepare/create/walk/validate/bind socket block",
+      "byteIdentical": true,
+      "bytes": 9965,
+      "sha256": "243334cf3873e83e52d758af56b45749708700c1fd0d8876e746edfa1a0d4ead"
+    }
+  ],
+  "srs": {
+    "path": "/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md",
+    "sha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+    "excerpts": [
+      {
+        "line": 1,
+        "text": "---"
+      },
+      {
+        "line": 2,
+        "text": "title: \"Agent Resource Control (ARC) \u2014 \uc81c\ud488 \uc694\uad6c\uc0ac\ud56d\u00b7\uae30\ub2a5 \ubd84\uc11d\u00b7\uae30\uc220 \uc124\uacc4 \uba85\uc138\""
+      },
+      {
+        "line": 3,
+        "text": "version: \"1.1.0-draft\""
+      },
+      {
+        "line": 4,
+        "text": "date: \"2026-11-06\""
+      },
+      {
+        "line": 5,
+        "text": "status: \"Implementation-ready specification (design baseline; unimplemented)\""
+      },
+      {
+        "line": 6,
+        "text": "language: \"ko-KR\""
+      },
+      {
+        "line": 7,
+        "text": "product: \"Agent Resource Control\""
+      },
+      {
+        "line": 8,
+        "text": "short_name: \"ARC\""
+      },
+      {
+        "line": 9,
+        "text": "---"
+      },
+      {
+        "line": 10,
+        "text": ""
+      },
+      {
+        "line": 2420,
+        "text": ""
+      },
+      {
+        "line": 2421,
+        "text": "> \uc544\ub798 \uc218\uce58\ub294 **\uac1c\ubc1c \ubaa9\ud45c**\uc774\uba70 \uc2e4\uc81c \uce21\uc815\uc73c\ub85c \uac80\uc99d\ub418\uae30 \uc804\uc5d0\ub294 \uc774\ubbf8 \ub2ec\uc131\ud55c \uc131\ub2a5\uc774 \uc544\ub2c8\ub2e4. \ubaa8\ub2c8\ud130\ub9c1 \uc815\ud655\ub3c4\u00b7OS API \uac00\uc6a9\uc131\uc5d0 \ub530\ub77c \uc801\uc6a9 \ubc94\uc704\ub97c \uba85\uc2dc\ud55c\ub2e4."
+      },
+      {
+        "line": 2422,
+        "text": ""
+      },
+      {
+        "line": 2423,
+        "text": "| ID | \ud56d\ubaa9 | \ucd08\uae30 \ubaa9\ud45c / \uc218\uc6a9 \uae30\uc900 |"
+      },
+      {
+        "line": 2424,
+        "text": "|---|---|---|"
+      },
+      {
+        "line": 2425,
+        "text": "| NFR-001 | Daemon idle CPU | \uc77c\ubc18 \uc6cc\ud06c\ub85c\ub4dc\uc5d0\uc11c \uc7a5\uae30 \ud3c9\uade0 **0.5% \ubbf8\ub9cc \ubaa9\ud45c** |"
+      },
+      {
+        "line": 2426,
+        "text": "| NFR-002 | Daemon idle RSS | **50 MB \ubbf8\ub9cc \ubaa9\ud45c** (\ud50c\ub7ab\ud3fc\ubcc4 \uce21\uc815) |"
+      },
+      {
+        "line": 2427,
+        "text": "| NFR-003 | Hook \ucd94\uac00 \uc9c0\uc5f0 | \ub2e8\uc21c bypass \uba85\ub839 P95 **50ms \uc774\ub0b4 \ubaa9\ud45c** |"
+      },
+      {
+        "line": 2428,
+        "text": "| NFR-004 | IPC \uc655\ubcf5 | \ub85c\uceec \uc791\uc740 \uba54\uc2dc\uc9c0 P95 **20ms \uc774\ub0b4 \ubaa9\ud45c** |"
+      },
+      {
+        "line": 2429,
+        "text": "| NFR-005 | Job Classifier \uc9c0\uc5f0 | \uce90\uc2dc\ub41c \uc77c\ubc18 \uba85\ub839 P95 **50ms \uc774\ub0b4 \ubaa9\ud45c** |"
+      },
+      {
+        "line": 2430,
+        "text": "| NFR-006 | UI interactive update | \uc2e4\uc81c \uc0d8\ud50c \uc218\uc2e0 \ud6c4 \uc0ac\uc6a9\uc790 \uccb4\uac10 \uc9c0\uc5f0 \ucd5c\uc18c\ud654 |"
+      },
+      {
+        "line": 2431,
+        "text": "| NFR-007 | \uc6d0\uaca9 CI \uc81c\uc678 \uc815\ud655\ub3c4 | \uacf5\uc2dd \ud2b8\ub9ac\uac70/remote fixtures\uc758 **false local classification 0** |"
+      },
+      {
+        "line": 2432,
+        "text": "| NFR-008 | GC \uc798\ubabb\ub41c \uc0ad\uc81c | \uac1c\uc778 \ube0c\ub77c\uc6b0\uc800/\ud65c\uc131 \uc138\uc158/\uc8fc Worktree \uc0ac\uace0 **0** |"
+      },
+      {
+        "line": 2433,
+        "text": "| NFR-009 | Permit \uc77c\uad00\uc131 | \uc911\ubcf5/\uc720\uc2e4 permit **0** (\ubb34\uc791\uc704 \uc7a5\uc560 \ud14c\uc2a4\ud2b8) |"
+      },
+      {
+        "line": 2434,
+        "text": "| NFR-010 | \ub370\uc774\ud130 \uc77c\uad00\uc131 | \uac15\uc81c \uc885\ub8cc \uc774\ud6c4 DB integrity check \ud1b5\uacfc |"
+      },
+      {
+        "line": 2435,
+        "text": "| NFR-011 | Desktop \ub9ac\uc18c\uc2a4 | \ucc3d \ub2eb\ud78c \uc0c1\ud0dc\uc5d0\uc11c WebView/\ub80c\ub354\ub9c1 \uc791\uc5c5 \ucd5c\uc18c\ud654 |"
+      }
+    ]
+  },
+  "containerConfiguration": {
+    "path": "av.yaml",
+    "readable": false,
+    "error": "[Errno 1] Operation not permitted: 'av.yaml'",
+    "configuredContainerTargets": "unknown",
+    "healthVerified": false
+  }
+}

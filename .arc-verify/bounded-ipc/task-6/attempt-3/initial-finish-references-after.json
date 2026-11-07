@@ -1,0 +1,266 @@
+{
+  "method": "manual inspection \u2014 oma docs verify did not run; deterministic local path/heading resolution",
+  "links": [
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "bounded-ipc-recovery.md",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "bounded-ipc-recovery.md#evidence-and-limits",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "bounded-ipc-recovery.md",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "runtime-identity-implementation.md",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../.arc-verify/runtime-identity/implementation/delivery.json",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../.arc-verify/runtime-identity/implementation/commands.json",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../.arc-verify/runtime-identity/implementation/test.txt",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../crates/arc-cli/src/main.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../crates/arc-core/src/lib.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../crates/arc-daemon/src/main.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../crates/arc-daemon/src/server.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../crates/arc-daemon/src/instance.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../crates/arc-daemon/tests/resident.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/runtime-identity-usage.md",
+      "target": "../crates/arc-core/tests/runtime.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "runtime-identity-usage.md",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "bounded-ipc-contract.md",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/limits.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/admission.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/connection.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-cli/src/main.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/preflight.json",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/limits.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/main.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/transport_tests.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/tests/bounded.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/tests/support/deadline_recovery.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/tests/worker_runtime.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/lifecycle_tests.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/tests/resident.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-cli/tests/binary.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/lifecycle.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-daemon/src/connection.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../crates/arc-cli/src/main.rs",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.txt",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.json",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/preservation.json",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/references-after.json",
+      "exists": false,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/boundary.json",
+      "exists": false,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/initial-check-failure.txt",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "bounded-ipc-targets.md",
+      "exists": true,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/integration/delivery.md",
+      "exists": true,
+      "fragmentValid": true
+    }
+  ],
+  "localLinkCount": 41,
+  "broken": [
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/references-after.json",
+      "exists": false,
+      "fragmentValid": true
+    },
+    {
+      "doc": "docs/bounded-ipc-recovery.md",
+      "target": "../.arc-verify/bounded-ipc/task-6/attempt-3/boundary.json",
+      "exists": false,
+      "fragmentValid": true
+    }
+  ]
+}

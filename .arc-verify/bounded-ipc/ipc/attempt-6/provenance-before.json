@@ -1,0 +1,1437 @@
+{
+  "recordedAt": "2026-11-07T16:24:30.156995+00:00",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineTree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+  "originalSnapshot": "3816bafaa684c8099dad78be2d0cb0e474c5f08b",
+  "suppliedSnapshot": "d2004475a01cb395753340977cc9b1b29003f6cd",
+  "suppliedSnapshotTree": "2ee8c1b555aceeaed149c7315e4feb32a8e79e5e",
+  "sourceHashes": [
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "originalSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "matchesOriginal": true,
+      "reviewSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+      "originalSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "matchesOriginal": false,
+      "reviewSha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "originalSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matchesOriginal": true,
+      "reviewSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "originalSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "matchesOriginal": true,
+      "reviewSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "originalSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matchesOriginal": true,
+      "reviewSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "originalSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "matchesOriginal": true,
+      "reviewSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "originalSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "matchesOriginal": true,
+      "reviewSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "originalSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "matchesOriginal": true,
+      "reviewSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "matchesReview": true
+    },
+    {
+      "path": "crates/arc-daemon/tests/transport_unit.rs",
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "originalSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "matchesOriginal": true,
+      "reviewSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "matchesReview": true
+    }
+  ],
+  "gitReceipts": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.473521+00:00",
+      "finishedAt": "2026-11-07T16:24:29.486661+00:00",
+      "exitCode": 0,
+      "stdout": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.486688+00:00",
+      "finishedAt": "2026-11-07T16:24:29.504029+00:00",
+      "exitCode": 0,
+      "stdout": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.504054+00:00",
+      "finishedAt": "2026-11-07T16:24:29.515085+00:00",
+      "exitCode": 0,
+      "stdout": "3816bafaa684c8099dad78be2d0cb0e474c5f08b\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.515116+00:00",
+      "finishedAt": "2026-11-07T16:24:29.528587+00:00",
+      "exitCode": 0,
+      "stdout": "e79ff4ed85c94059275bbb4992579a2d55f51eb3\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "d2004475a01cb395753340977cc9b1b29003f6cd"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.528610+00:00",
+      "finishedAt": "2026-11-07T16:24:29.539547+00:00",
+      "exitCode": 0,
+      "stdout": "d2004475a01cb395753340977cc9b1b29003f6cd\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "d2004475a01cb395753340977cc9b1b29003f6cd^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.539569+00:00",
+      "finishedAt": "2026-11-07T16:24:29.552805+00:00",
+      "exitCode": 0,
+      "stdout": "2ee8c1b555aceeaed149c7315e4feb32a8e79e5e\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "HEAD"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.552830+00:00",
+      "finishedAt": "2026-11-07T16:24:29.564159+00:00",
+      "exitCode": 0,
+      "stdout": "d2004475a01cb395753340977cc9b1b29003f6cd\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.564185+00:00",
+      "finishedAt": "2026-11-07T16:24:29.576460+00:00",
+      "exitCode": 0,
+      "stdout": "2ee8c1b555aceeaed149c7315e4feb32a8e79e5e\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.576483+00:00",
+      "finishedAt": "2026-11-07T16:24:29.588170+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.588193+00:00",
+      "finishedAt": "2026-11-07T16:24:29.599796+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.599817+00:00",
+      "finishedAt": "2026-11-07T16:24:29.611149+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.611173+00:00",
+      "finishedAt": "2026-11-07T16:24:29.622957+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/snapshot"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.622980+00:00",
+      "finishedAt": "2026-11-07T16:24:29.634585+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.634608+00:00",
+      "finishedAt": "2026-11-07T16:24:29.645466+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/worker"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.645492+00:00",
+      "finishedAt": "2026-11-07T16:24:29.656323+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.656371+00:00",
+      "finishedAt": "2026-11-07T16:24:29.670886+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.670915+00:00",
+      "finishedAt": "2026-11-07T16:24:29.685395+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+        "d2004475a01cb395753340977cc9b1b29003f6cd"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.685423+00:00",
+      "finishedAt": "2026-11-07T16:24:29.699069+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+        "--",
+        "crates/arc-daemon/src/admission.rs",
+        "crates/arc-daemon/src/connection.rs",
+        "crates/arc-daemon/src/limits.rs",
+        "crates/arc-daemon/src/platform.rs",
+        "crates/arc-daemon/src/runtime_metrics.rs",
+        "crates/arc-daemon/src/transport.rs",
+        "crates/arc-daemon/src/transport_test_support.rs",
+        "crates/arc-daemon/src/transport_tests.rs",
+        "crates/arc-daemon/tests/transport_unit.rs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.699102+00:00",
+      "finishedAt": "2026-11-07T16:24:29.712831+00:00",
+      "exitCode": 0,
+      "stdout": "100644 blob ea700c5b0a581bd48f0a328b5ddbe42b74519524\tcrates/arc-daemon/src/platform.rs\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b",
+        "--",
+        "crates/arc-daemon/src/admission.rs",
+        "crates/arc-daemon/src/connection.rs",
+        "crates/arc-daemon/src/limits.rs",
+        "crates/arc-daemon/src/platform.rs",
+        "crates/arc-daemon/src/runtime_metrics.rs",
+        "crates/arc-daemon/src/transport.rs",
+        "crates/arc-daemon/src/transport_test_support.rs",
+        "crates/arc-daemon/src/transport_tests.rs",
+        "crates/arc-daemon/tests/transport_unit.rs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.712902+00:00",
+      "finishedAt": "2026-11-07T16:24:29.730300+00:00",
+      "exitCode": 0,
+      "stdout": "100644 blob ea700c5b0a581bd48f0a328b5ddbe42b74519524\tcrates/arc-daemon/src/platform.rs\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "HEAD",
+        "--",
+        "crates/arc-daemon/src/admission.rs",
+        "crates/arc-daemon/src/connection.rs",
+        "crates/arc-daemon/src/limits.rs",
+        "crates/arc-daemon/src/platform.rs",
+        "crates/arc-daemon/src/runtime_metrics.rs",
+        "crates/arc-daemon/src/transport.rs",
+        "crates/arc-daemon/src/transport_test_support.rs",
+        "crates/arc-daemon/src/transport_tests.rs",
+        "crates/arc-daemon/tests/transport_unit.rs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.730327+00:00",
+      "finishedAt": "2026-11-07T16:24:29.744447+00:00",
+      "exitCode": 0,
+      "stdout": "100644 blob 50ca3f58957f6bd37122e37ea753db43a661d545\tcrates/arc-daemon/src/admission.rs\n100644 blob 67dad907444a6d32ba454cc8df518eca2fc941de\tcrates/arc-daemon/src/connection.rs\n100644 blob d7cb5a5eeb97758c405b55ae9c7cc516df2c3a8b\tcrates/arc-daemon/src/limits.rs\n100644 blob 1de07fc4cc39c187ec41e33b3ed8b41ce01551ae\tcrates/arc-daemon/src/platform.rs\n100644 blob 2b4aad3de2d37245aff00ce999155ec8e566a1e9\tcrates/arc-daemon/src/runtime_metrics.rs\n100644 blob 5278760a97a7ce01d29dd5e38ecacaa89b3a7766\tcrates/arc-daemon/src/transport.rs\n100644 blob a4813ffcdecadcb6d9575ed0f3d31e685eae9a72\tcrates/arc-daemon/src/transport_test_support.rs\n100644 blob 53d7313c853fbcdcd16f5a0f27ec780326a16a01\tcrates/arc-daemon/src/transport_tests.rs\n100644 blob b465361a60ccf975f1220708c21774dd6983ac9f\tcrates/arc-daemon/tests/transport_unit.rs\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.744481+00:00",
+      "finishedAt": "2026-11-07T16:24:29.785050+00:00",
+      "exitCode": 0,
+      "stdout": "?? .arc-verify/bounded-ipc/ipc/attempt-5/preceding-root-delivery.md\n?? .arc-verify/bounded-ipc/ipc/attempt-5/preceding-root-evidence.json\n?? .arc-verify/bounded-ipc/ipc/attempt-5/record.py\n?? .arc-verify/bounded-ipc/ipc/attempt-6/preceding-root-delivery.md\n?? .arc-verify/bounded-ipc/ipc/attempt-6/preceding-root-evidence.json\n?? .arc-verify/bounded-ipc/ipc/attempt-6/record.py\n",
+      "stderr": "av.yaml: Operation not permitted\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all",
+        "--",
+        "crates",
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        "scripts/harness/validate.sh",
+        "docs/bounded-ipc-contract.md",
+        "docs/bounded-ipc-targets.md"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+      "startedAt": "2026-11-07T16:24:29.785078+00:00",
+      "finishedAt": "2026-11-07T16:24:29.801354+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.801383+00:00",
+      "finishedAt": "2026-11-07T16:24:29.814531+00:00",
+      "exitCode": 0,
+      "stdout": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.814559+00:00",
+      "finishedAt": "2026-11-07T16:24:29.831410+00:00",
+      "exitCode": 0,
+      "stdout": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.831435+00:00",
+      "finishedAt": "2026-11-07T16:24:29.842388+00:00",
+      "exitCode": 0,
+      "stdout": "3816bafaa684c8099dad78be2d0cb0e474c5f08b\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.842413+00:00",
+      "finishedAt": "2026-11-07T16:24:29.856769+00:00",
+      "exitCode": 0,
+      "stdout": "e79ff4ed85c94059275bbb4992579a2d55f51eb3\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "d2004475a01cb395753340977cc9b1b29003f6cd"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.856792+00:00",
+      "finishedAt": "2026-11-07T16:24:29.868506+00:00",
+      "exitCode": 0,
+      "stdout": "d2004475a01cb395753340977cc9b1b29003f6cd\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "d2004475a01cb395753340977cc9b1b29003f6cd^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.868532+00:00",
+      "finishedAt": "2026-11-07T16:24:29.882388+00:00",
+      "exitCode": 0,
+      "stdout": "2ee8c1b555aceeaed149c7315e4feb32a8e79e5e\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "HEAD"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.882418+00:00",
+      "finishedAt": "2026-11-07T16:24:29.893041+00:00",
+      "exitCode": 0,
+      "stdout": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.893069+00:00",
+      "finishedAt": "2026-11-07T16:24:29.905254+00:00",
+      "exitCode": 0,
+      "stdout": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.905283+00:00",
+      "finishedAt": "2026-11-07T16:24:29.915945+00:00",
+      "exitCode": 0,
+      "stdout": "3816bafaa684c8099dad78be2d0cb0e474c5f08b\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.915969+00:00",
+      "finishedAt": "2026-11-07T16:24:29.930243+00:00",
+      "exitCode": 0,
+      "stdout": "e79ff4ed85c94059275bbb4992579a2d55f51eb3\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.930270+00:00",
+      "finishedAt": "2026-11-07T16:24:29.941832+00:00",
+      "exitCode": 0,
+      "stdout": "3816bafaa684c8099dad78be2d0cb0e474c5f08b\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.941861+00:00",
+      "finishedAt": "2026-11-07T16:24:29.955197+00:00",
+      "exitCode": 0,
+      "stdout": "e79ff4ed85c94059275bbb4992579a2d55f51eb3\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/snapshot"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.955221+00:00",
+      "finishedAt": "2026-11-07T16:24:29.966489+00:00",
+      "exitCode": 0,
+      "stdout": "d2004475a01cb395753340977cc9b1b29003f6cd\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.966516+00:00",
+      "finishedAt": "2026-11-07T16:24:29.978904+00:00",
+      "exitCode": 0,
+      "stdout": "2ee8c1b555aceeaed149c7315e4feb32a8e79e5e\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/worker"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.978927+00:00",
+      "finishedAt": "2026-11-07T16:24:29.989957+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-5/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:29.989978+00:00",
+      "finishedAt": "2026-11-07T16:24:30.000984+00:00",
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:30.001043+00:00",
+      "finishedAt": "2026-11-07T16:24:30.017681+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "merge-base",
+        "--is-ancestor",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+        "d2004475a01cb395753340977cc9b1b29003f6cd"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:30.017705+00:00",
+      "finishedAt": "2026-11-07T16:24:30.030487+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+        "--",
+        "crates/arc-daemon/src/admission.rs",
+        "crates/arc-daemon/src/connection.rs",
+        "crates/arc-daemon/src/limits.rs",
+        "crates/arc-daemon/src/platform.rs",
+        "crates/arc-daemon/src/runtime_metrics.rs",
+        "crates/arc-daemon/src/transport.rs",
+        "crates/arc-daemon/src/transport_test_support.rs",
+        "crates/arc-daemon/src/transport_tests.rs",
+        "crates/arc-daemon/tests/transport_unit.rs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:30.030522+00:00",
+      "finishedAt": "2026-11-07T16:24:30.044408+00:00",
+      "exitCode": 0,
+      "stdout": "100644 blob ea700c5b0a581bd48f0a328b5ddbe42b74519524\tcrates/arc-daemon/src/platform.rs\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "3816bafaa684c8099dad78be2d0cb0e474c5f08b",
+        "--",
+        "crates/arc-daemon/src/admission.rs",
+        "crates/arc-daemon/src/connection.rs",
+        "crates/arc-daemon/src/limits.rs",
+        "crates/arc-daemon/src/platform.rs",
+        "crates/arc-daemon/src/runtime_metrics.rs",
+        "crates/arc-daemon/src/transport.rs",
+        "crates/arc-daemon/src/transport_test_support.rs",
+        "crates/arc-daemon/src/transport_tests.rs",
+        "crates/arc-daemon/tests/transport_unit.rs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:30.044436+00:00",
+      "finishedAt": "2026-11-07T16:24:30.057867+00:00",
+      "exitCode": 0,
+      "stdout": "100644 blob ea700c5b0a581bd48f0a328b5ddbe42b74519524\tcrates/arc-daemon/src/platform.rs\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "HEAD",
+        "--",
+        "crates/arc-daemon/src/admission.rs",
+        "crates/arc-daemon/src/connection.rs",
+        "crates/arc-daemon/src/limits.rs",
+        "crates/arc-daemon/src/platform.rs",
+        "crates/arc-daemon/src/runtime_metrics.rs",
+        "crates/arc-daemon/src/transport.rs",
+        "crates/arc-daemon/src/transport_test_support.rs",
+        "crates/arc-daemon/src/transport_tests.rs",
+        "crates/arc-daemon/tests/transport_unit.rs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:30.057893+00:00",
+      "finishedAt": "2026-11-07T16:24:30.070434+00:00",
+      "exitCode": 0,
+      "stdout": "100644 blob ea700c5b0a581bd48f0a328b5ddbe42b74519524\tcrates/arc-daemon/src/platform.rs\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:30.070462+00:00",
+      "finishedAt": "2026-11-07T16:24:30.109485+00:00",
+      "exitCode": 0,
+      "stdout": "A  .agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md\n M Cargo.lock\n M Cargo.toml\n M crates/arc-daemon/Cargo.toml\n M crates/arc-daemon/src/main.rs\n M crates/arc-daemon/src/platform.rs\n M crates/arc-daemon/src/server.rs\n M crates/arc-daemon/tests/resident.rs\n M crates/arc-daemon/tests/support/mod.rs\n M crates/arc-ipc/src/lib.rs\n M docs/runtime-identity-usage.md\n?? .arc-verify/bounded-ipc-metadata.json\n?? .arc-verify/bounded-ipc/database/attempt-7/accounting-summary.json\n?? .arc-verify/bounded-ipc/database/attempt-7/boundary-check.json\n?? .arc-verify/bounded-ipc/database/attempt-7/clippy.json\n?? .arc-verify/bounded-ipc/database/attempt-7/clippy.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/clippy.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/collection-check.json\n?? .arc-verify/bounded-ipc/database/attempt-7/execution-context.json\n?? .arc-verify/bounded-ipc/database/attempt-7/finalize.py\n?? .arc-verify/bounded-ipc/database/attempt-7/fmt.json\n?? .arc-verify/bounded-ipc/database/attempt-7/fmt.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/fmt.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/historical-artifact-audit.json\n?? .arc-verify/bounded-ipc/database/attempt-7/previous-delivery.md\n?? .arc-verify/bounded-ipc/database/attempt-7/previous-evidence.json\n?? .arc-verify/bounded-ipc/database/attempt-7/provenance-after.json\n?? .arc-verify/bounded-ipc/database/attempt-7/provenance-before.json\n?? .arc-verify/bounded-ipc/database/attempt-7/record.py\n?? .arc-verify/bounded-ipc/database/attempt-7/verify_delivery.py\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-accounting.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-accounting.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-accounting.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-test.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-test.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/worker-test.txt\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-summary.json\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-test.json\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-test.running.json\n?? .arc-verify/bounded-ipc/database/attempt-7/workspace-test.txt\n?? .arc-verify/bounded-ipc/database/clippy-first-failure.txt\n?? .arc-verify/bounded-ipc/database/clippy.txt\n?? .arc-verify/bounded-ipc/database/collect_evidence.py\n?? .arc-verify/bounded-ipc/database/delivery.md\n?? .arc-verify/bounded-ipc/database/driver/Cargo.lock\n?? .arc-verify/bounded-ipc/database/driver/Cargo.toml\n?? .arc-verify/bounded-ipc/database/driver/src/lib.rs\n?? .arc-verify/bounded-ipc/database/evidence.json\n?? .arc-verify/bounded-ipc/database/harness.json\n?? .arc-verify/bounded-ipc/database/harness.txt\n?? .arc-verify/bounded-ipc/database/original-handoff.json\n?? .arc-verify/bounded-ipc/database/original-handoff.md\n?? .arc-verify/bounded-ipc/database/repair-6/accounting-execution-context.json\n?? .arc-verify/bounded-ipc/database/repair-6/accounting-summary.json\n?? .arc-verify/bounded-ipc/database/repair-6/boundary-check.json\n?? .arc-verify/bounded-ipc/database/repair-6/clippy.json\n?? .arc-verify/bounded-ipc/database/repair-6/clippy.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/clippy.txt\n?? .arc-verify/bounded-ipc/database/repair-6/collection-check.json\n?? .arc-verify/bounded-ipc/database/repair-6/execution-context.json\n?? .arc-verify/bounded-ipc/database/repair-6/finalize.py\n?? .arc-verify/bounded-ipc/database/repair-6/fmt-final.json\n?? .arc-verify/bounded-ipc/database/repair-6/fmt-final.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/fmt-final.txt\n?? .arc-verify/bounded-ipc/database/repair-6/fmt.json\n?? .arc-verify/bounded-ipc/database/repair-6/fmt.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/fmt.txt\n?? .arc-verify/bounded-ipc/database/repair-6/format-owned.json\n?? .arc-verify/bounded-ipc/database/repair-6/format-owned.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/format-owned.txt\n?? .arc-verify/bounded-ipc/database/repair-6/original-evidence.json\n?? .arc-verify/bounded-ipc/database/repair-6/original-tests.rs.txt\n?? .arc-verify/bounded-ipc/database/repair-6/provenance-after.json\n?? .arc-verify/bounded-ipc/database/repair-6/provenance-before.json\n?? .arc-verify/bounded-ipc/database/repair-6/record.py\n?? .arc-verify/bounded-ipc/database/repair-6/registered-constructor-failure.json\n?? .arc-verify/bounded-ipc/database/repair-6/registered-constructor-failure.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/registered-constructor-failure.txt\n?? .arc-verify/bounded-ipc/database/repair-6/source-comparison.json\n?? .arc-verify/bounded-ipc/database/repair-6/verify_delivery.py\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test-accounting.json\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test-accounting.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test-accounting.txt\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test-final.json\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test-final.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test-final.txt\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test.json\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/worker-test.txt\n?? .arc-verify/bounded-ipc/database/repair-6/workspace-test.json\n?? .arc-verify/bounded-ipc/database/repair-6/workspace-test.running.json\n?? .arc-verify/bounded-ipc/database/repair-6/workspace-test.txt\n?? .arc-verify/bounded-ipc/database/run_check.py\n?? .arc-verify/bounded-ipc/database/scoped-fmt.txt\n?? .arc-verify/bounded-ipc/database/unit-tests-first-failure.txt\n?? .arc-verify/bounded-ipc/database/unit-tests.json\n?? .arc-verify/bounded-ipc/database/unit-tests.txt\n?? .arc-verify/bounded-ipc/database/workspace-clippy.txt\n?? .arc-verify/bounded-ipc/database/workspace-fmt.txt\n?? .arc-verify/bounded-ipc/database/workspace-test.json\n?? .arc-verify/bounded-ipc/database/workspace-test.txt\n?? .arc-verify/bounded-ipc/harness.txt\n?? .arc-verify/bounded-ipc/implementation/acceptance.json\n?? .arc-verify/bounded-ipc/implementation/accounting.json\n?? .arc-verify/bounded-ipc/implementation/attempts.md\n?? .arc-verify/bounded-ipc/implementation/claim.json\n?? .arc-verify/bounded-ipc/implementation/clippy-final-source.json\n?? .arc-verify/bounded-ipc/implementation/clippy-final.json\n?? .arc-verify/bounded-ipc/implementation/clippy-final.running.json\n?? .arc-verify/bounded-ipc/implementation/clippy-final.txt\n?? .arc-verify/bounded-ipc/implementation/clippy-source.json\n?? .arc-verify/bounded-ipc/implementation/clippy.json\n?? .arc-verify/bounded-ipc/implementation/clippy.running.json\n?? .arc-verify/bounded-ipc/implementation/clippy.txt\n?? .arc-verify/bounded-ipc/implementation/collection-repair/before.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/changeSet.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/check.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/check.py\n?? .arc-verify/bounded-ipc/implementation/collection-repair/check.stderr.txt\n?? .arc-verify/bounded-ipc/implementation/collection-repair/claim.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/collection.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/delivery.md\n?? .arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-after.txt\n?? .arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-before.txt\n?? .arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-outcomes.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/preflight.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/repair-failed-attempts.json\n?? .arc-verify/bounded-ipc/implementation/collection-repair/restoration.json\n?? .arc-verify/bounded-ipc/implementation/deadlines-raw/deadline-saturation.json\n?? .arc-verify/bounded-ipc/implementation/deadlines-source.json\n?? .arc-verify/bounded-ipc/implementation/deadlines.json\n?? .arc-verify/bounded-ipc/implementation/deadlines.running.json\n?? .arc-verify/bounded-ipc/implementation/deadlines.txt\n?? .arc-verify/bounded-ipc/implementation/delivery.md\n?? .arc-verify/bounded-ipc/implementation/evidence.json\n?? .arc-verify/bounded-ipc/implementation/executables.json\n?? .arc-verify/bounded-ipc/implementation/execution-context.json\n?? .arc-verify/bounded-ipc/implementation/finalize.py\n?? .arc-verify/bounded-ipc/implementation/fmt-final-source.json\n?? .arc-verify/bounded-ipc/implementation/fmt-final.json\n?? .arc-verify/bounded-ipc/implementation/fmt-final.running.json\n?? .arc-verify/bounded-ipc/implementation/fmt-final.txt\n?? .arc-verify/bounded-ipc/implementation/fmt-source.json\n?? .arc-verify/bounded-ipc/implementation/fmt.json\n?? .arc-verify/bounded-ipc/implementation/fmt.running.json\n?? .arc-verify/bounded-ipc/implementation/fmt.txt\n?? .arc-verify/bounded-ipc/implementation/focused-first.txt\n?? .arc-verify/bounded-ipc/implementation/focused-repair-source.json\n?? .arc-verify/bounded-ipc/implementation/focused-repair.json\n?? .arc-verify/bounded-ipc/implementation/focused-repair.running.json\n?? .arc-verify/bounded-ipc/implementation/focused-repair.txt\n?? .arc-verify/bounded-ipc/implementation/harness-source.json\n?? .arc-verify/bounded-ipc/implementation/harness.json\n?? .arc-verify/bounded-ipc/implementation/harness.running.json\n?? .arc-verify/bounded-ipc/implementation/harness.txt\n?? .arc-verify/bounded-ipc/implementation/performance.json\n?? .arc-verify/bounded-ipc/implementation/performance.md\n?? .arc-verify/bounded-ipc/implementation/raw/SIGINT.json\n?? .arc-verify/bounded-ipc/implementation/raw/SIGTERM.json\n?? .arc-verify/bounded-ipc/implementation/raw/connection-100000.json\n?? .arc-verify/bounded-ipc/implementation/raw/db-100000.json\n?? .arc-verify/bounded-ipc/implementation/raw/frames.json\n?? .arc-verify/bounded-ipc/implementation/raw/native-measurements.json\n?? .arc-verify/bounded-ipc/implementation/raw/native-observations.json\n?? .arc-verify/bounded-ipc/implementation/raw/native-probe.json\n?? .arc-verify/bounded-ipc/implementation/raw/native-sql-health.json\n?? .arc-verify/bounded-ipc/implementation/raw/nonreader.json\n?? .arc-verify/bounded-ipc/implementation/raw/request-100000.json\n?? .arc-verify/bounded-ipc/implementation/raw/slow-db-release.json\n?? .arc-verify/bounded-ipc/implementation/raw/small-message-samples.json\n?? .arc-verify/bounded-ipc/implementation/record.py\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/acceptance.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/accounting.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/before-boundary.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/before-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/boundary-check.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/claim.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-final.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-fixture.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/clippy.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/collect.py\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/collection-first-failure.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-green.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/coordination-red.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/delivery.md\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/diff-check.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/evidence.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/final-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fixture-change.patch\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-final.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/fmt.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/SIGINT.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/SIGTERM.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/connection-100000.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/db-100000.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/deadline-saturation.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/frames.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-measurements.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-observations.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-probe.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/native-sql-health.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/nonreader.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/request-100000.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/slow-db-release.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-raw/small-message-samples.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/focused.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/harness-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/harness.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/historical-source-check.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/historical-verifier.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/performance.md\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/preflight.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/preservation-targets.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/provenance.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/record.py\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/source-evidence.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/verification.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/SIGINT.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/SIGTERM.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/connection-100000.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/db-100000.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/deadline-saturation.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/frames.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-measurements.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-observations.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-probe.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/native-sql-health.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/nonreader.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/request-100000.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/slow-db-release.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-raw/small-message-samples.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-final.txt\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/frames.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-measurements.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-observations.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/native-probe.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/nonreader.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-raw/small-message-samples.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace-source.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.running.json\n?? .arc-verify/bounded-ipc/implementation/resume-attempt-3/workspace.txt\n?? .arc-verify/bounded-ipc/implementation/source-evidence.json\n?? .arc-verify/bounded-ipc/implementation/sql-health-source.json\n?? .arc-verify/bounded-ipc/implementation/sql-health.json\n?? .arc-verify/bounded-ipc/implementation/sql-health.running.json\n?? .arc-verify/bounded-ipc/implementation/sql-health.txt\n?? .arc-verify/bounded-ipc/implementation/verification.json\n?? .arc-verify/bounded-ipc/implementation/verify.py\n?? .arc-verify/bounded-ipc/implementation/workspace-check-source.json\n?? .arc-verify/bounded-ipc/implementation/workspace-check.json\n?? .arc-verify/bounded-ipc/implementation/workspace-check.running.json\n?? .arc-verify/bounded-ipc/implementation/workspace-check.txt\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/SIGINT.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/SIGTERM.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/connection-100000.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/db-100000.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/deadline-saturation.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/frames.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/native-measurements.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/native-observations.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/native-probe.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/native-sql-health.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/nonreader.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/request-100000.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/slow-db-release.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-raw/small-message-samples.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final-source.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final.running.json\n?? .arc-verify/bounded-ipc/implementation/workspace-final.txt\n?? .arc-verify/bounded-ipc/implementation/workspace-first-source.json\n?? .arc-verify/bounded-ipc/implementation/workspace-first.json\n?? .arc-verify/bounded-ipc/implementation/workspace-first.running.json\n?? .arc-verify/bounded-ipc/implementation/workspace-first.txt\n?? .arc-verify/bounded-ipc/implementation/wrong-root-context.json\n?? .arc-verify/bounded-ipc/integration/boundary-check.json\n?? .arc-verify/bounded-ipc/integration/claim.json\n?? .arc-verify/bounded-ipc/integration/clippy-final-source.json\n?? .arc-verify/bounded-ipc/integration/clippy-final.json\n?? .arc-verify/bounded-ipc/integration/clippy-final.running.json\n?? .arc-verify/bounded-ipc/integration/clippy-final.txt\n?? .arc-verify/bounded-ipc/integration/clippy-source.json\n?? .arc-verify/bounded-ipc/integration/clippy.json\n?? .arc-verify/bounded-ipc/integration/clippy.running.json\n?? .arc-verify/bounded-ipc/integration/clippy.txt\n?? .arc-verify/bounded-ipc/integration/collect.py\n?? .arc-verify/bounded-ipc/integration/delivery.md\n?? .arc-verify/bounded-ipc/integration/evidence-index-initial.txt\n?? .arc-verify/bounded-ipc/integration/evidence.json\n?? .arc-verify/bounded-ipc/integration/execution-context.json\n?? .arc-verify/bounded-ipc/integration/fmt-final-source.json\n?? .arc-verify/bounded-ipc/integration/fmt-final.json\n?? .arc-verify/bounded-ipc/integration/fmt-final.running.json\n?? .arc-verify/bounded-ipc/integration/fmt-final.txt\n?? .arc-verify/bounded-ipc/integration/fmt-source.json\n?? .arc-verify/bounded-ipc/integration/fmt.json\n?? .arc-verify/bounded-ipc/integration/fmt.running.json\n?? .arc-verify/bounded-ipc/integration/fmt.txt\n?? .arc-verify/bounded-ipc/integration/focused-initial-source.json\n?? .arc-verify/bounded-ipc/integration/focused-initial.json\n?? .arc-verify/bounded-ipc/integration/focused-initial.running.json\n?? .arc-verify/bounded-ipc/integration/focused-initial.txt\n?? .arc-verify/bounded-ipc/integration/harness-source.json\n?? .arc-verify/bounded-ipc/integration/harness.json\n?? .arc-verify/bounded-ipc/integration/harness.running.json\n?? .arc-verify/bounded-ipc/integration/harness.txt\n?? .arc-verify/bounded-ipc/integration/lifecycle-final-source.json\n?? .arc-verify/bounded-ipc/integration/lifecycle-final.json\n?? .arc-verify/bounded-ipc/integration/lifecycle-final.running.json\n?? .arc-verify/bounded-ipc/integration/lifecycle-final.txt\n?? .arc-verify/bounded-ipc/integration/lifecycle-source.json\n?? .arc-verify/bounded-ipc/integration/lifecycle.json\n?? .arc-verify/bounded-ipc/integration/lifecycle.running.json\n?? .arc-verify/bounded-ipc/integration/lifecycle.txt\n?? .arc-verify/bounded-ipc/integration/original-server.rs.txt\n?? .arc-verify/bounded-ipc/integration/record.py\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/accept-recovery.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/before-hashes.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/boundary-check.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/clippy-final.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/collection-check.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/diff-check.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/execution-context.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/finalize.py\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/fmt-final.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-final.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-first.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/focused-second.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-final.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/format-owned.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/git-status.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/harness.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/preflight.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-claim.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-delivery.md\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/previous-evidence.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/record.py\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept_recovery.rs.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-accept_recovery_tests.rs.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/red-lifecycle.rs.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/signals.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary-correction.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary-initial.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/test-summary.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/verify.py\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/workspace-test.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/acceptance-summary.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/before-boundary.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/boundary-check.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/claim.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/clippy.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/collect.py\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/collection-check.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/delivery.md\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/diff-check.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/execution-context.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/fmt.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/focused.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/harness.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/historical-binding.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/initial-status.txt\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/initial-verifier-observation.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/preflight.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/preservation.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-claim.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-delivery.md\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/previous-evidence.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/record.py\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/verify.py\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test-source.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test.running.json\n?? .arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-4/workspace-test.txt\n?? .arc-verify/bounded-ipc/integration/signals.json\n?? .arc-verify/bounded-ipc/integration/test-preservation-initial.txt\n?? .arc-verify/bounded-ipc/integration/test-preservation.json\n?? .arc-verify/bounded-ipc/integration/verify_delivery.py\n?? .arc-verify/bounded-ipc/integration/workspace-test-source.json\n?? .arc-verify/bounded-ipc/integration/workspace-test.json\n?? .arc-verify/bounded-ipc/integration/workspace-test.running.json\n?? .arc-verify/bounded-ipc/integration/workspace-test.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/clippy.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/collection-check.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/delivery.md\n?? .arc-verify/bounded-ipc/ipc/attempt-4/evidence.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/finalize.py\n?? .arc-verify/bounded-ipc/ipc/attempt-4/fmt.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.txt\n?? .arc-verify/bounded-ipc/ipc/attempt-4/local_cache.py\n?? .arc-verify/bounded-ipc/ipc/attempt-4/provenance-after.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/provenance-before.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/record.py\n?? .arc-verify/bounded-ipc/ipc/attempt-4/review-environment-probe.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/test-summary.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.txt\n?? .arc-verify/bounded-ipc/ipc/clippy.json\n?? .arc-verify/bounded-ipc/ipc/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/collection-check.json\n?? .arc-verify/bounded-ipc/ipc/delivery.md\n?? .arc-verify/bounded-ipc/ipc/evidence.json\n?? .arc-verify/bounded-ipc/ipc/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/finalize.py\n?? .arc-verify/bounded-ipc/ipc/fmt.json\n?? .arc-verify/bounded-ipc/ipc/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/original-delivery.md\n?? .arc-verify/bounded-ipc/ipc/provenance-after.json\n?? .arc-verify/bounded-ipc/ipc/provenance-before.json\n?? .arc-verify/bounded-ipc/ipc/record.py\n?? .arc-verify/bounded-ipc/ipc/ref-scopes.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/clippy.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/resume-3/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/fmt.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/resume-3/interrupted-delivery.md\n?? .arc-verify/bounded-ipc/ipc/resume-3/provenance-after.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/provenance-before.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/review-environment-probe.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/workspace-test.txt\n?? .arc-verify/bounded-ipc/ipc/resume.py\n?? .arc-verify/bounded-ipc/ipc/review-environment-probe.json\n?? .arc-verify/bounded-ipc/ipc/review-source-comparison.json\n?? .arc-verify/bounded-ipc/ipc/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/workspace-test.txt\n?? .arc-verify/bounded-ipc/performance.json\n?? .arc-verify/bounded-ipc/performance.md\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/check.py\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/clippy-running.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/clippy-source.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/clippy.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/clippy.txt\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/context.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/delivery-check.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/dependency-test-audit.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/evidence.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/finalize.py\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/fmt-running.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/fmt-source.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/fmt.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/fmt.txt\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/harness-running.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/harness-source.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/harness.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/harness.txt\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/preceding-harness.txt\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/preceding-performance.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/preceding-performance.md\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/preceding-qa.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/preceding-qa.md\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/preservation-targets.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/run.py\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/runtime-validation.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGINT.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGTERM.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/connection-100000.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/db-100000.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/deadline-saturation.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/frames.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-measurements.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-observations.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-probe.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-sql-health.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/nonreader.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/request-100000.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/slow-db-release.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/small-message-samples.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-running.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace-source.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace.json\n?? .arc-verify/bounded-ipc/qa-review/attempt-2/workspace.txt\n?? .arc-verify/bounded-ipc/qa-review/clippy-running.json\n?? .arc-verify/bounded-ipc/qa-review/clippy-source.json\n?? .arc-verify/bounded-ipc/qa-review/clippy.json\n?? .arc-verify/bounded-ipc/qa-review/clippy.txt\n?? .arc-verify/bounded-ipc/qa-review/context.json\n?? .arc-verify/bounded-ipc/qa-review/evidence.json\n?? .arc-verify/bounded-ipc/qa-review/final-boundary.json\n?? .arc-verify/bounded-ipc/qa-review/fmt-running.json\n?? .arc-verify/bounded-ipc/qa-review/fmt-source.json\n?? .arc-verify/bounded-ipc/qa-review/fmt.json\n?? .arc-verify/bounded-ipc/qa-review/fmt.txt\n?? .arc-verify/bounded-ipc/qa-review/harness-running.json\n?? .arc-verify/bounded-ipc/qa-review/harness-source.json\n?? .arc-verify/bounded-ipc/qa-review/harness.json\n?? .arc-verify/bounded-ipc/qa-review/harness.txt\n?? .arc-verify/bounded-ipc/qa-review/inherited-receipts-running.json\n?? .arc-verify/bounded-ipc/qa-review/inherited-receipts-source.json\n?? .arc-verify/bounded-ipc/qa-review/inherited-receipts.json\n?? .arc-verify/bounded-ipc/qa-review/inherited-receipts.txt\n?? .arc-verify/bounded-ipc/qa-review/preservation-targets.json\n?? .arc-verify/bounded-ipc/qa-review/run.py\n?? .arc-verify/bounded-ipc/qa-review/runtime-validation.json\n?? .arc-verify/bounded-ipc/qa-review/test-audit.json\n?? .arc-verify/bounded-ipc/qa-review/verify-review.py\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/SIGINT.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/SIGTERM.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/connection-100000.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/db-100000.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/deadline-saturation.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/frames.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/native-measurements.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/native-observations.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/native-probe.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/native-sql-health.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/nonreader.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/request-100000.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/slow-db-release.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-raw/small-message-samples.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-running.json\n?? .arc-verify/bounded-ipc/qa-review/workspace-source.json\n?? .arc-verify/bounded-ipc/qa-review/workspace.json\n?? .arc-verify/bounded-ipc/qa-review/workspace.txt\n?? .arc-verify/bounded-ipc/qa.json\n?? .arc-verify/bounded-ipc/qa.md\n?? .arc-verify/bounded-ipc/task-1/attempt-3/cargo-version.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/cargo-version.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/cargo-version.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/checks.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/components.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/components.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/components.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/configuration-access.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/delivery.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/delivery.md\n?? .arc-verify/bounded-ipc/task-1/attempt-3/diff-check.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/diff-check.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/diff-check.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/dirty-before.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/dirty-before.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/dirty-before.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/execution-context.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/fmt.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/fmt.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/fmt.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/head.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/head.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/head.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/inherited-gates.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/manifest-diff.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/manifest-diff.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/manifest-diff.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/native-fetch.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/native-fetch.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/native-fetch.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/native-metadata.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/native-metadata.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/native-metadata.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/outside-ownership.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/preservation.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/rustc-version.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/rustc-version.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-3/rustc-version.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-3/source-after.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/source-before.json\n?? .arc-verify/bounded-ipc/task-1/attempt-3/verify.py\n?? .arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/check_delivery.py\n?? .arc-verify/bounded-ipc/task-1/attempt-4/checks.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/claim.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/components.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/components.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/components.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/configuration-access.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/delivery.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/delivery.md\n?? .arc-verify/bounded-ipc/task-1/attempt-4/diff-check.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/diff-check.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/diff-check.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/execution-context.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/fmt.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/fmt.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/fmt.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/head.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/head.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/head.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/inherited-gates.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/outside-ownership.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/preservation.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.stderr\n?? .arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.stdout\n?? .arc-verify/bounded-ipc/task-1/attempt-4/source-after.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/source-before.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/srs-source.json\n?? .arc-verify/bounded-ipc/task-1/attempt-4/verify.py\n?? .arc-verify/bounded-ipc/task-6/attempt-3/before.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/boundary.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/check.py\n?? .arc-verify/bounded-ipc/task-6/attempt-3/cited-tests.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/claim.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/delivery.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/delivery.md\n?? .arc-verify/bounded-ipc/task-6/attempt-3/initial-check-failure.txt\n?? .arc-verify/bounded-ipc/task-6/attempt-3/initial-finish-boundary.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/initial-finish-references-after.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/initial-permission-preflight.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/initial-root-before.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/initial-root-preflight.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/initial-symlink-preflight.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/oma-docs-help.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/oma-docs-help.txt\n?? .arc-verify/bounded-ipc/task-6/attempt-3/preflight.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/preservation.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/references-after.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/references-before.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/source-after.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/source-before.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/source-evidence.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.running.json\n?? .arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.txt\n?? crates/arc-daemon/src/accept_recovery.rs\n?? crates/arc-daemon/src/accept_recovery_tests.rs\n?? crates/arc-daemon/src/admission.rs\n?? crates/arc-daemon/src/connection.rs\n?? crates/arc-daemon/src/db_worker.rs\n?? crates/arc-daemon/src/db_worker/execution.rs\n?? crates/arc-daemon/src/db_worker/tests.rs\n?? crates/arc-daemon/src/lifecycle.rs\n?? crates/arc-daemon/src/lifecycle_tests.rs\n?? crates/arc-daemon/src/limits.rs\n?? crates/arc-daemon/src/report_lifecycle_tests.rs\n?? crates/arc-daemon/src/runtime_metrics.rs\n?? crates/arc-daemon/src/runtime_report.rs\n?? crates/arc-daemon/src/runtime_report_tests.rs\n?? crates/arc-daemon/src/server_tests.rs\n?? crates/arc-daemon/src/transport.rs\n?? crates/arc-daemon/src/transport_test_support.rs\n?? crates/arc-daemon/src/transport_tests.rs\n?? crates/arc-daemon/tests/bounded.rs\n?? crates/arc-daemon/tests/db_worker_unit.rs\n?? crates/arc-daemon/tests/support/admission_load.rs\n?? crates/arc-daemon/tests/support/deadline_recovery.rs\n?? crates/arc-daemon/tests/support/measurements.rs\n?? crates/arc-daemon/tests/support/native.rs\n?? crates/arc-daemon/tests/support/runtime.rs\n?? crates/arc-daemon/tests/transport_unit.rs\n?? crates/arc-daemon/tests/worker_runtime.rs\n?? docs/bounded-ipc-contract.md\n?? docs/bounded-ipc-final.md\n?? docs/bounded-ipc-recovery.md\n?? docs/bounded-ipc-targets.md\n?? docs/bounded-ipc-value-scope.md\n",
+      "stderr": "",
+      "pty": false
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all",
+        "--",
+        "crates",
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        "scripts/harness/validate.sh",
+        "docs/bounded-ipc-contract.md",
+        "docs/bounded-ipc-targets.md"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "startedAt": "2026-11-07T16:24:30.109531+00:00",
+      "finishedAt": "2026-11-07T16:24:30.127618+00:00",
+      "exitCode": 0,
+      "stdout": " M Cargo.lock\n M Cargo.toml\n M crates/arc-daemon/Cargo.toml\n M crates/arc-daemon/src/main.rs\n M crates/arc-daemon/src/platform.rs\n M crates/arc-daemon/src/server.rs\n M crates/arc-daemon/tests/resident.rs\n M crates/arc-daemon/tests/support/mod.rs\n M crates/arc-ipc/src/lib.rs\n?? crates/arc-daemon/src/accept_recovery.rs\n?? crates/arc-daemon/src/accept_recovery_tests.rs\n?? crates/arc-daemon/src/admission.rs\n?? crates/arc-daemon/src/connection.rs\n?? crates/arc-daemon/src/db_worker.rs\n?? crates/arc-daemon/src/db_worker/execution.rs\n?? crates/arc-daemon/src/db_worker/tests.rs\n?? crates/arc-daemon/src/lifecycle.rs\n?? crates/arc-daemon/src/lifecycle_tests.rs\n?? crates/arc-daemon/src/limits.rs\n?? crates/arc-daemon/src/report_lifecycle_tests.rs\n?? crates/arc-daemon/src/runtime_metrics.rs\n?? crates/arc-daemon/src/runtime_report.rs\n?? crates/arc-daemon/src/runtime_report_tests.rs\n?? crates/arc-daemon/src/server_tests.rs\n?? crates/arc-daemon/src/transport.rs\n?? crates/arc-daemon/src/transport_test_support.rs\n?? crates/arc-daemon/src/transport_tests.rs\n?? crates/arc-daemon/tests/bounded.rs\n?? crates/arc-daemon/tests/db_worker_unit.rs\n?? crates/arc-daemon/tests/support/admission_load.rs\n?? crates/arc-daemon/tests/support/deadline_recovery.rs\n?? crates/arc-daemon/tests/support/measurements.rs\n?? crates/arc-daemon/tests/support/native.rs\n?? crates/arc-daemon/tests/support/runtime.rs\n?? crates/arc-daemon/tests/transport_unit.rs\n?? crates/arc-daemon/tests/worker_runtime.rs\n?? docs/bounded-ipc-contract.md\n?? docs/bounded-ipc-targets.md\n",
+      "stderr": "",
+      "pty": false
+    }
+  ],
+  "preservation": [
+    {
+      "path": "crates/arc-storage/migrations/0001_phase0.sql",
+      "argv": [
+        "git",
+        "show",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0:crates/arc-storage/migrations/0001_phase0.sql"
+      ],
+      "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "currentSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "byteIdentical": true
+    },
+    {
+      "path": "scripts/harness/validate.sh",
+      "argv": [
+        "git",
+        "show",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0:scripts/harness/validate.sh"
+      ],
+      "baselineSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "currentSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "byteIdentical": true
+    }
+  ],
+  "productFingerprint": {
+    "scope": [
+      "crates",
+      "Cargo.toml",
+      "Cargo.lock",
+      "rust-toolchain.toml",
+      "scripts/harness/validate.sh",
+      "docs/bounded-ipc-contract.md",
+      "docs/bounded-ipc-targets.md"
+    ],
+    "files": [
+      {
+        "path": "Cargo.lock",
+        "sha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2",
+        "mode": "0o644"
+      },
+      {
+        "path": "Cargo.toml",
+        "sha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/Cargo.toml",
+        "sha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/src/main.rs",
+        "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/tests/binary.rs",
+        "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/Cargo.toml",
+        "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/src/lib.rs",
+        "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/tests/runtime.rs",
+        "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/Cargo.toml",
+        "sha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery.rs",
+        "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+        "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/admission.rs",
+        "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/connection.rs",
+        "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker.rs",
+        "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/execution.rs",
+        "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/tests.rs",
+        "sha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/instance.rs",
+        "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle.rs",
+        "sha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+        "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/limits.rs",
+        "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/main.rs",
+        "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/platform.rs",
+        "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+        "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_metrics.rs",
+        "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report.rs",
+        "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+        "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/server.rs",
+        "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/server_tests.rs",
+        "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport.rs",
+        "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_test_support.rs",
+        "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_tests.rs",
+        "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/bounded.rs",
+        "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+        "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident.rs",
+        "sha256": "351d81a201217608690128f0e8017f40048c32cfbd1537e524e83e60fbc730b6",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/startup.rs",
+        "sha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/admission_load.rs",
+        "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/deadline_recovery.rs",
+        "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/measurements.rs",
+        "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/mod.rs",
+        "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/native.rs",
+        "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/runtime.rs",
+        "sha256": "9a53fa762b6fcdb2429b964221bb1756e35a37c33a674a7baf57abd1a0592535",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/transport_unit.rs",
+        "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/worker_runtime.rs",
+        "sha256": "4ab079e2cc01018742c9e3f3088938dab5f067ff0a94d464754a8c3b356d9f5c",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-ipc/Cargo.toml",
+        "sha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-ipc/src/lib.rs",
+        "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/Cargo.toml",
+        "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/migrations/0001_phase0.sql",
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/src/lib.rs",
+        "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/tests/nfr010.rs",
+        "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+        "mode": "0o644"
+      },
+      {
+        "path": "docs/bounded-ipc-contract.md",
+        "sha256": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0",
+        "mode": "0o644"
+      },
+      {
+        "path": "docs/bounded-ipc-targets.md",
+        "sha256": "991aa83a4c7d721a3b4eec303b635aa5df88cd7830918aa5309b1ef3cff41ddd",
+        "mode": "0o644"
+      },
+      {
+        "path": "rust-toolchain.toml",
+        "sha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+        "mode": "0o644"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+        "mode": "0o755"
+      }
+    ],
+    "sha256": "38cf2940ebc9914d3d3bf74c83f57c3b4e9b093d97f3358713df298721290a91",
+    "algorithm": "sha256 of sorted canonical JSON path/content/mode entries"
+  },
+  "precedingArtifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/clippy.json",
+      "sha256": "b4aa52e8fd0a4c8a81c1b4db2f5cced25b03a79fb92051f455a2aeb6acaa8b44"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/clippy.running.json",
+      "sha256": "7ed08798049a789fb56664299d9285b0a55c0bce07dbe448e7e9638dc01a01ba"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/clippy.txt",
+      "sha256": "6b21a6564f54ada2ef4b000a3dab309d4cf72b6920c2065e8bba3dac97afa6b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/collection-check.json",
+      "sha256": "6003e650dd429d986fa4875d316f3f2fad9ebc53db91340ae52588c25c083461"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/delivery.md",
+      "sha256": "2708f75befd32524fd01126ec6c3ad3191d411d7a1539ed52f82df7d22fdf027"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/evidence.json",
+      "sha256": "9a349ec7c53bf36bc6ab1b449fcfc4806719d1f9561dbb9464c9e6e5bdb3b5c2"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/execution-context.json",
+      "sha256": "7cba2bc0c0d91a52158bea79a3f227f9db8277159591cc58965a286582100ac9"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/finalize.py",
+      "sha256": "27559d14e2eed5672c7ce23458d1425a075729d9f317bdf73519e401ba28edd7"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/fmt.json",
+      "sha256": "f8a710daad715c0ddbe9903f107c6439a45e1ed46495a23c28e4c8a3f1485ba3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/fmt.running.json",
+      "sha256": "f35d7adec022895adbea485334ab2e1d8af39708149ec63ba30a44aade2bc48c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/fmt.txt",
+      "sha256": "764b5962bb0ed635ebd543347c32653e42b1e94c0b90c60ebfed0c4d2f16d13b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.json",
+      "sha256": "541ab0d75bf26ecc79691d163de20f3a620a732626f8a86948fde1ea601f2770"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.running.json",
+      "sha256": "9491d0d23e1039d53d5c96d134e6ba515582119a712561c0357b5758c2e38178"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/clippy.txt",
+      "sha256": "84ea60590558fd384a1ce4a5219362fd3ff0472e3a06f966dab6f6ea9ffffa67"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/execution-context.json",
+      "sha256": "31fe7fe3a82f07f7d544f45196a91e703fb7b89353d5bac2dde6930a9dda04dd"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.json",
+      "sha256": "54cefd62755480b089eebcbfdaae7ba1e10eb8c507d738601d01b4f1197c71ae"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.running.json",
+      "sha256": "db660fb536cbd3a5c2fbebe48e7269d8f6944a2bf8a5007c9ddf0b6d844010a0"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/fmt.txt",
+      "sha256": "764b5962bb0ed635ebd543347c32653e42b1e94c0b90c60ebfed0c4d2f16d13b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.json",
+      "sha256": "311a87a770b5bf30240804e938b2a5afe9ff58226faf6ac4a2f970b11e8ac054"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.running.json",
+      "sha256": "69d1069f93c4c931615745073c11c4fb2652947798f695fcd11a56cd8f852807"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local-cache/workspace-test.txt",
+      "sha256": "e647c3a09464a186c5c37de3a9cd123f10d5eabe030896ac39a51ca4e2e61214"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/local_cache.py",
+      "sha256": "c5c2b4877777759973d0359087841d686d56c891359c4104f70ee3b4372d11ad"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/provenance-after.json",
+      "sha256": "f9dd776f7e57599bdecfbe160bec0193fbf484a5013e93b30ea971ae48a0c810"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/provenance-before.json",
+      "sha256": "c7508cef5bbffa2fea06d22de0d8d6f7057b306ff653a2ded39de973476ee056"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/record.py",
+      "sha256": "890a929193e871a6e474dbe7ed83015d00c86841d5c0acd09489902eb374756a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/review-environment-probe.json",
+      "sha256": "7376a231fdf9e6a4b32c10cbb42ba49b47704910b3425ce40c4b3002f75046d5"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/test-summary.json",
+      "sha256": "774dbd63ecfa8f0f5367dfc757644083eb0fb16f1d44f83d51face4903f9974a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.json",
+      "sha256": "d9e75666fba1e03f46bfa1e9228f36581db4c7c89546e16dcc0b71fc8f529e31"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.running.json",
+      "sha256": "36ebc1b78b2b73442e2f287761f8fbadfac2804acc89086b0921c7bcaa8bd0a6"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-4/workspace-test.txt",
+      "sha256": "6b21a6564f54ada2ef4b000a3dab309d4cf72b6920c2065e8bba3dac97afa6b1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-5/preceding-root-delivery.md",
+      "sha256": "eec0d54c70dcba74250921cca04ad638e5664b493e784cb95edf29a01ba10219"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-5/preceding-root-evidence.json",
+      "sha256": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/attempt-5/record.py",
+      "sha256": "cc5b6bd02aeae30295f8f43c823b0500b935e1e8fd4b14c946732f004e624524"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.json",
+      "sha256": "6ea0f3e147a9a10fddc6ce7088be183f578f1d84eb32d1a8445549ed26dd3c16"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.running.json",
+      "sha256": "536c07c9ef884ffa079dfa0a455df98c7a66396d31af9b19de4187b386e3d110"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.txt",
+      "sha256": "b15e0993d9a022fd130417cb4b14c27f8b9f13231b202c2ff046a2f23ce5761a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/collection-check.json",
+      "sha256": "fef820a79f931ea5f46df675bdc79c837baadf859bb3518f56cbcb4ac44a017c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/delivery.md",
+      "sha256": "eec0d54c70dcba74250921cca04ad638e5664b493e784cb95edf29a01ba10219"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/evidence.json",
+      "sha256": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/execution-context.json",
+      "sha256": "42a9cac0feb6c9281adcf7646f984d517d093a2d6aea75273cf0354d5ca7103f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/finalize.py",
+      "sha256": "8ab8129b5524a664ff95534b713238ff01cf290cf48b3dec05c4435ff3f40d3d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.json",
+      "sha256": "0632e2a4c312b8c0d8475ee679df16308cac187917f418d7e3c276d1fb0a7269"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.running.json",
+      "sha256": "74fcd0cad58a2968cc254b632c234674ae8d53d354c719ad4f74f1cdb5247a2f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/original-delivery.md",
+      "sha256": "5fea11c0be36072eb0a5dbf7791997a403fca936c0fef0a2fc0a9fc942c020cb"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/provenance-after.json",
+      "sha256": "95369c0d5aeb5f6d19ab7af904c1968250ca14cb2bf1e792442d9cd14b8cebb3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/provenance-before.json",
+      "sha256": "5198f5cc9ba2fd5dd3ed237ab51235701f142ddebc68615c975e3d7ddd70c42e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/record.py",
+      "sha256": "cee9f961c2e6977b773c416b2d4f3f0f7e80e293f1cb46cdc49b2305f17d0159"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/ref-scopes.json",
+      "sha256": "8b396787caf1ef6785b2c7a1b0998f97be5b91f9742b7fffb4454583b4a2a2c1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.json",
+      "sha256": "e09a60af4c66b32e7ffa2cbf9207c378c33d2aeb38ec469a20e73b55bc0ae36c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.running.json",
+      "sha256": "5e4212b6af2c36e4506042ddb347e86a022c862abf7d86312761d463665fe8fe"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.txt",
+      "sha256": "9a30d54c8b16d7e49510b182028079bca120aeebb7d662e88f8566e6196a49f6"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/execution-context.json",
+      "sha256": "551fcf81f14d52adbfa7a9ebffb34e7b8652ec384cf3ad6405af8a9d1116392b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.json",
+      "sha256": "1d16da17aa64b03cb76af792659ac1487fdbab5c0f118f656f4a4176c648da60"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.running.json",
+      "sha256": "36b8a0aac6d89b70894a69dbc062117c8e4e2c0ea6bed0d0ee15185895a10553"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/interrupted-delivery.md",
+      "sha256": "8e33ddfb4e2f50928fc74ba0abce88d32c19b371fde41074d66552b556b793cf"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/provenance-after.json",
+      "sha256": "faa608de2679b4a4ca3e821983b1699d69872dda35ddb7bf10dbdd9aeb8cd11e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/provenance-before.json",
+      "sha256": "914fba6852c3f28a9c0bdbe561a105279b8a0fef971ff34fb3303f323cfc8828"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/review-environment-probe.json",
+      "sha256": "1a1929a6f2a5cd1e985626d14f643a481a8394d687fcc56a6e18b9d8a4322c25"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.json",
+      "sha256": "d78999ce926604eff779e2f7e89738a845e81fd9ebbcf7b11ee2a28bd48e65f3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.running.json",
+      "sha256": "6f770d422090ca9bd35bda9bce3f34405aa531bcf2db97dd7cb6a710d270a036"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.txt",
+      "sha256": "47be3fea65a6c7bdb07d8d491780ee214f21ef426d9134346767d5e05f2571cf"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume.py",
+      "sha256": "add2f562a6f859344d75cb2194daff5aa8dd8dbd9c5aa09ceb1c91096f4548f3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/review-environment-probe.json",
+      "sha256": "05a2e1a19e260e94f53e2b348477151b4c0c69eb4dd8347d7b32cda96805e962"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/review-source-comparison.json",
+      "sha256": "48842e20ea69e3269bcd4e48b0f8b23c9c5eb781cb75469f52dec5ddad6c5d5a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.json",
+      "sha256": "ab68cae234826eb931fb0f78edd9985d826d27f3ccd5f5de3cf36eba6b3c283e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.running.json",
+      "sha256": "a31c56f12fe5e1f6859d2f5434f3e39d5c2122a6bf2a54df04d7d12a7b7a5cd1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.txt",
+      "sha256": "1f0e9f77f898caf3f9e97e8707dd8a5116ec3c807b5625c87de7be02c507a190"
+    }
+  ],
+  "originalReportSha256": "5fea11c0be36072eb0a5dbf7791997a403fca936c0fef0a2fc0a9fc942c020cb"
+}

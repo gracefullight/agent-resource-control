@@ -1,0 +1,33 @@
+--- incoming/lifecycle.rs
++++ repaired/lifecycle.rs
+@@ -208,14 +208,13 @@
+         DbError::Sql(rusqlite::Error::SqliteFailure(error, _))
+             if matches!(
+                 error.code,
+-                rusqlite::ErrorCode::DatabaseBusy
+-                    | rusqlite::ErrorCode::DatabaseLocked
+-                    | rusqlite::ErrorCode::OperationInterrupted
++                rusqlite::ErrorCode::DatabaseCorrupt | rusqlite::ErrorCode::NotADatabase
+             ) =>
+         {
+-            DoctorOutcome::Busy
+-        }
+-        DbError::Sql(_) => DoctorOutcome::IntegrityFailed,
++            DoctorOutcome::IntegrityFailed
++        }
++        // Operational, resource and unexpected errors establish unavailability,
++        // not corruption. Failed integrity/schema reports are checked by dispatch.
+         _ => DoctorOutcome::Busy,
+     }
+ }
+@@ -258,6 +257,10 @@
+         }
+     }
+ }
++
++#[cfg(test)]
++#[path = "database_failure_tests.rs"]
++mod failure_tests;
+ 
+ #[cfg(test)]
+ mod tests {

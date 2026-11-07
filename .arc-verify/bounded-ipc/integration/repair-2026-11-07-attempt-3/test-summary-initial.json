@@ -1,0 +1,17 @@
+{
+  "daemonBinaryTests": 52,
+  "originalServerTestsActive": false,
+  "workerTargetPassed": 16,
+  "transportTargetPassed": 18,
+  "residentPassed": 11,
+  "ipcPassed": 13,
+  "failedIgnoredFiltered": 0,
+  "signalToExitUs": {
+    "SIGINT": 8013,
+    "SIGTERM": 7568
+  },
+  "failureHistory": {
+    "redAcceptExit": 101,
+    "focusedFirstExit": 101
+  }
+}

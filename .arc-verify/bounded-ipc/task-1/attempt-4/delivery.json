@@ -1,0 +1,293 @@
+{
+  "actorId": "technical-director",
+  "taskId": "task-1",
+  "attempt": 4,
+  "status": "completed",
+  "recordedAt": "2026-11-07T16:20:48.063075+00:00",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "scope": "Task-1 contract/dependency resumption only; no mission completion claim",
+  "skills": [
+    "oma-architecture",
+    "oma-backend"
+  ],
+  "interfacesChanged": false,
+  "productInputsUnchanged": true,
+  "missionCompletionClaimed": false,
+  "changedFiles": [
+    ".agents/results/result-technical-director-task-1-attempt-4-local.md",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/check_delivery.py",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/checks.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/claim.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/components.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/components.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/components.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/configuration-access.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/delivery.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/delivery.md",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/diff-check.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/diff-check.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/diff-check.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/execution-context.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/fmt.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/fmt.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/fmt.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/head.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/head.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/head.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/inherited-gates.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/outside-ownership.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/preservation.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.stderr",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.stdout",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/source-after.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/source-before.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/srs-source.json",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/verify.py"
+  ],
+  "retainedDeliverables": [
+    "docs/bounded-ipc-contract.md",
+    "docs/bounded-ipc-targets.md",
+    "Cargo.toml",
+    "Cargo.lock",
+    "crates/arc-cli/Cargo.toml",
+    "crates/arc-core/Cargo.toml",
+    "crates/arc-daemon/Cargo.toml",
+    "crates/arc-ipc/Cargo.toml",
+    "crates/arc-storage/Cargo.toml"
+  ],
+  "receivingCheck": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/task-1/attempt-4/check_delivery.py"
+  ],
+  "files": {
+    ".agents/results/result-technical-director-task-1-attempt-4-local.md": {
+      "bytes": 12207,
+      "sha256": "5b5ef3b0f0bf0ec5039976d15cd33057c4aea6d670a6d9531b35b1bdb21f2c7b"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.json": {
+      "bytes": 549,
+      "sha256": "2e3de4e6b864126d3d8402432ad28919ed287e62501f6389bd248f50d6770677"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/cargo-version.stdout": {
+      "bytes": 36,
+      "sha256": "c10ec31b8c6e6e2693cf65fc1971b41edbc3da1ae7db6f9f3f36c4823f8dcab5"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/check_delivery.py": {
+      "bytes": 768,
+      "sha256": "8617eb54eccb9a918ad2ee3398382db1921e8ac3cda12fb87efeaa44757aec95"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/checks.json": {
+      "bytes": 405,
+      "sha256": "ce10740d3927789d0eed812aea6bfa2f1dbd1b5e064ea53d6b74db8ffa8ddd08"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/claim.json": {
+      "bytes": 3897,
+      "sha256": "7f679390dae0094ab353dce8a44dfd90c6c7f3f3f4de9cb28501796451d22b20"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/components.json": {
+      "bytes": 582,
+      "sha256": "feba1052071e296265b2b11a49b803d4c220e94dae8efde73b4a2e1612d067f9"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/components.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/components.stdout": {
+      "bytes": 172,
+      "sha256": "241404bd7f41daccf0ce1569fdfe2d6c8d947480cb450314c73003824f2b9622"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/configuration-access.json": {
+      "bytes": 414,
+      "sha256": "1b98f5236abeed2fe11f767ee091ba3c3efd0841f2c293642b90d93a9d21b8b3"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/delivery.md": {
+      "bytes": 12207,
+      "sha256": "5b5ef3b0f0bf0ec5039976d15cd33057c4aea6d670a6d9531b35b1bdb21f2c7b"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/diff-check.json": {
+      "bytes": 630,
+      "sha256": "e9df4c97ed5bedc661fd4af109af9757372630b42cf73879e5dfb3cf17ac01f6"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/diff-check.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/diff-check.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.json": {
+      "bytes": 560,
+      "sha256": "a1589c69fdfef86d17731f432ed37cad93a0188478ae52797d9154535de71ae2"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.stderr": {
+      "bytes": 33,
+      "sha256": "c8d82f077d9ef7dc8a1bfd79fff5e463a1c515ef70b83e67bb84255abdcac546"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/dirty-before.stdout": {
+      "bytes": 1792,
+      "sha256": "b543bb3005e3e0d1e71f28ea4a485fe39f5ea2358f9952349c7c8179ede290d8"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/execution-context.json": {
+      "bytes": 764,
+      "sha256": "4493e703d0cab0b2104277b77ff8a1ae2fde7eaea9612f2a16d3711414984958"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/fmt.json": {
+      "bytes": 581,
+      "sha256": "2870c076540aa6f6b9ab85f6d0a913f278fbd9ffbeb1f3eb496020ca3caf7566"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/fmt.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/fmt.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/head.json": {
+      "bytes": 559,
+      "sha256": "cb92b8700a618a1ec2a77018fca7261499c04b985bfabab4c8c42be66440f0df"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/head.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/head.stdout": {
+      "bytes": 41,
+      "sha256": "9d91d39e9095984f083f13fb845415677589d4df85069e6165f4aca214f77a90"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/inherited-gates.json": {
+      "bytes": 1941,
+      "sha256": "c00ed1592cefe083c2265f25b41faf276dde5dc375fb9b55e4ee4e9a324f069f"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.json": {
+      "bytes": 673,
+      "sha256": "317076e4f246997d128df8ef4d8324bebedcd16e0f9761012e13d68ba90c363a"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/manifest-diff.stdout": {
+      "bytes": 1218,
+      "sha256": "2bb308fc8458cc9c5adb6994466eebba333dee9d410e633d668db131e2fb8e90"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.json": {
+      "bytes": 622,
+      "sha256": "35d484c6697cb9aeab6ef107dd1775e96af20c1bc9d22111bd6eee1e39e247a7"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-fetch.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.json": {
+      "bytes": 666,
+      "sha256": "c766a1f44e064f638187402833c8f371b729a763dc46e275ae060e0ecfb6782e"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/native-metadata.stdout": {
+      "bytes": 291589,
+      "sha256": "539e0c56bb8877f057d88c23589409dd88593f811ea2aadd3013b2d4004571ea"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/outside-ownership.json": {
+      "bytes": 628,
+      "sha256": "a78c3da6751d1b8b2642276690e30c818d0fe1fda34357b40a076565cefba6d2"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/preservation.json": {
+      "bytes": 629,
+      "sha256": "c7ebaaf392cc1c9fefbdd70e394db7b61ddb6ecc4fb88569f8452d783812fc79"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.json": {
+      "bytes": 549,
+      "sha256": "96fdd9df0a7457f23d473eddb746b6086c30007612de3692a4531f5d3c04837b"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/rustc-version.stdout": {
+      "bytes": 36,
+      "sha256": "f4d034f5660bb49f22bfcba3f3445be67e25b704c193ff421b53863b4faee148"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/source-after.json": {
+      "bytes": 9185,
+      "sha256": "219b9b389460cf969828a2c869b7e6981f475d1063830f09abf4485962363bb7"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/source-before.json": {
+      "bytes": 9185,
+      "sha256": "219b9b389460cf969828a2c869b7e6981f475d1063830f09abf4485962363bb7"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/srs-source.json": {
+      "bytes": 547,
+      "sha256": "e6806770e3193b2218d997e1e0d9fcd3582ea6ee625c334e03870ff4e522347c"
+    },
+    ".arc-verify/bounded-ipc/task-1/attempt-4/verify.py": {
+      "bytes": 9008,
+      "sha256": "59f021244ea48806c24e050c1bddf412c5511c047642fd4fd8441580469f8aa3"
+    },
+    "Cargo.lock": {
+      "bytes": 15033,
+      "sha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2"
+    },
+    "Cargo.toml": {
+      "bytes": 695,
+      "sha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad"
+    },
+    "crates/arc-cli/Cargo.toml": {
+      "bytes": 212,
+      "sha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439"
+    },
+    "crates/arc-core/Cargo.toml": {
+      "bytes": 135,
+      "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857"
+    },
+    "crates/arc-daemon/Cargo.toml": {
+      "bytes": 378,
+      "sha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0"
+    },
+    "crates/arc-ipc/Cargo.toml": {
+      "bytes": 144,
+      "sha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c"
+    },
+    "crates/arc-storage/Cargo.toml": {
+      "bytes": 201,
+      "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1"
+    },
+    "docs/bounded-ipc-contract.md": {
+      "bytes": 28910,
+      "sha256": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0"
+    },
+    "docs/bounded-ipc-targets.md": {
+      "bytes": 9960,
+      "sha256": "991aa83a4c7d721a3b4eec303b635aa5df88cd7830918aa5309b1ef3cff41ddd"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "cargo",
+    "clippy",
+    "--workspace",
+    "--all-targets",
+    "--",
+    "-D",
+    "warnings"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+  "startedAt": "2026-11-07T16:24:36.161013+00:00",
+  "finishedAt": "2026-11-07T16:24:45.175323+00:00",
+  "elapsedSeconds": 9.014284625009168,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 43072,
+  "processExitObserved": true,
+  "pty": false,
+  "context": "execution-context.json",
+  "output": "clippy.txt",
+  "outputIncludes": "full combined stdout/stderr",
+  "outputSha256": "9a0a07574cbaf5ec7cc6929e6177c7257906ee3a34680ce87b15b38103f06236",
+  "sourceBefore": "38cf2940ebc9914d3d3bf74c83f57c3b4e9b093d97f3358713df298721290a91",
+  "sourceAfter": "38cf2940ebc9914d3d3bf74c83f57c3b4e9b093d97f3358713df298721290a91",
+  "productInputsUnchanged": true
+}

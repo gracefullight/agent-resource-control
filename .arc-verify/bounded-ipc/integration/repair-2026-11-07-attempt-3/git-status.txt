@@ -1,0 +1,32 @@
+ M Cargo.lock
+ M Cargo.toml
+ M crates/arc-daemon/Cargo.toml
+ M crates/arc-daemon/src/main.rs
+ M crates/arc-daemon/src/platform.rs
+ M crates/arc-daemon/src/server.rs
+ M crates/arc-ipc/src/lib.rs
+?? .arc-verify/bounded-ipc-metadata.json
+?? .arc-verify/bounded-ipc/
+?? crates/arc-daemon/src/accept_recovery.rs
+?? crates/arc-daemon/src/accept_recovery_tests.rs
+?? crates/arc-daemon/src/admission.rs
+?? crates/arc-daemon/src/connection.rs
+?? crates/arc-daemon/src/db_worker.rs
+?? crates/arc-daemon/src/db_worker/
+?? crates/arc-daemon/src/lifecycle.rs
+?? crates/arc-daemon/src/lifecycle_tests.rs
+?? crates/arc-daemon/src/limits.rs
+?? crates/arc-daemon/src/report_lifecycle_tests.rs
+?? crates/arc-daemon/src/runtime_metrics.rs
+?? crates/arc-daemon/src/runtime_report.rs
+?? crates/arc-daemon/src/runtime_report_tests.rs
+?? crates/arc-daemon/src/server_tests.rs
+?? crates/arc-daemon/src/transport.rs
+?? crates/arc-daemon/src/transport_test_support.rs
+?? crates/arc-daemon/src/transport_tests.rs
+?? crates/arc-daemon/tests/db_worker_unit.rs
+?? crates/arc-daemon/tests/transport_unit.rs
+?? docs/bounded-ipc-contract.md
+?? docs/bounded-ipc-targets.md
+?? docs/bounded-ipc-value-scope.md
+av.yaml: Operation not permitted

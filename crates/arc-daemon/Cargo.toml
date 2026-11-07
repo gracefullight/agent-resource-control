@@ -8,5 +8,9 @@ arc-core.workspace = true
 arc-ipc.workspace = true
 arc-storage.workspace = true
 libc.workspace = true
-rusqlite.workspace = true
+rusqlite = { workspace = true, features = ["hooks"] }
+serde_json.workspace = true
 tokio.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util"] }

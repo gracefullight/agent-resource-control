@@ -1,0 +1,44 @@
+[
+  {
+    "source": ".agent-valley/parallel/deliveries/d6c6b45f4a6c3769-98c4ca9fa7207111-4/delivery.json",
+    "copy": ".arc-verify/bounded-ipc/implementation/recovery-current/task6-delivery.json",
+    "bytes": 4733,
+    "sha256": "8778512ddead19b908ad045890c8f63d03c6fdd78968880b1bbfdfed1af1559b"
+  },
+  {
+    "source": ".agent-valley/parallel/deliveries/d6c6b45f4a6c3769-98c4ca9fa7207111-4/changes.patch",
+    "copy": ".arc-verify/bounded-ipc/implementation/recovery-current/task6-changes.patch",
+    "bytes": 489103,
+    "sha256": "dfc39870cb2220304d8de6d2e6f59405ff13d982643f66b144944e9bb2a2e2f6"
+  },
+  {
+    "source": ".agent-valley/parallel/deliveries/d6c6b45f4a6c3769-014e4ceaa5a9e511-3/delivery.json",
+    "copy": ".arc-verify/bounded-ipc/implementation/recovery-current/task7-delivery.json",
+    "bytes": 1677,
+    "sha256": "474abd52673e1570c36e2290c6514ceddfa4d9db3a939a2c1aa579606baf32fb"
+  },
+  {
+    "source": ".agent-valley/parallel/deliveries/d6c6b45f4a6c3769-014e4ceaa5a9e511-5/delivery.json",
+    "copy": ".arc-verify/bounded-ipc/implementation/recovery-current/task7-followup-delivery.json",
+    "bytes": 1484,
+    "sha256": "bf325b0c2ed9d84ee2003054e1adeb6ddbbab2db8d6fd82d5da05abf3f613870"
+  },
+  {
+    "source": ".agent-valley/parallel/deliveries/d6c6b45f4a6c3769-e7c08de777760acd-8/delivery.json",
+    "copy": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-delivery.json",
+    "bytes": 4260,
+    "sha256": "c28190b26e532a892510ae9ac5e6e599152e9262875b7e36120e31c31843e7ea"
+  },
+  {
+    "source": ".agents/results/bounded-ipc-task-9-attempt-2/checks.json",
+    "copy": ".arc-verify/bounded-ipc/implementation/recovery-current/task9-owner-checks.json",
+    "bytes": 31709,
+    "sha256": "291bbaaecab71e6e92350a073b6a546718cd2c4d03ca01d9c6850b0367dd5cef"
+  },
+  {
+    "source": ".agents/results/result-chief-director-task-9-uninjected-attempt-2-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    "copy": ".arc-verify/bounded-ipc/implementation/recovery-current/task9-owner-handoff.md",
+    "bytes": 4836,
+    "sha256": "9187ffb0ce5f4381c6c72232c01524b3d529fc051fa2a4ca1dfd04d47af965c8"
+  }
+]

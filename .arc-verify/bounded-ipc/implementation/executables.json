@@ -1,0 +1,14 @@
+{
+  "arc-daemon": {
+    "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/target/debug/arc-daemon",
+    "sha256": "06a419b2e01b23c406570d86f10246f4486046f1373c9441f7e38fff33db929b",
+    "bytes": 6566648,
+    "scope": "Actor-local executable compiled by required workspace tests; executable bytes are not an archived portable deliverable"
+  },
+  "arcctl": {
+    "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-1/target/debug/arcctl",
+    "sha256": "5b729b98292a9f9345f7a49135855720a64ff6c3efcd580c31725f461d5588f3",
+    "bytes": 3746424,
+    "scope": "Actor-local executable compiled by required workspace tests; executable bytes are not an archived portable deliverable"
+  }
+}

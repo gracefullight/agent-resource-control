@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "cargo",
+    "fmt",
+    "--all",
+    "--",
+    "--check"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-5",
+  "startedAt": "2026-11-07T16:24:33.042006+00:00",
+  "finishedAt": "2026-11-07T16:24:33.378353+00:00",
+  "elapsedSeconds": 0.33634545901441015,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 43066,
+  "processExitObserved": true,
+  "pty": false,
+  "context": "execution-context.json",
+  "output": "fmt.txt",
+  "outputIncludes": "full combined stdout/stderr",
+  "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sourceBefore": "38cf2940ebc9914d3d3bf74c83f57c3b4e9b093d97f3358713df298721290a91",
+  "sourceAfter": "38cf2940ebc9914d3d3bf74c83f57c3b4e9b093d97f3358713df298721290a91",
+  "productInputsUnchanged": true
+}

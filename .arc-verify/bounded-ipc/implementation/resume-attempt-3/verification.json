@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "python3",
+    "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-2/.arc-verify/bounded-ipc/implementation/resume-attempt-3/verify.py"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-2",
+  "recordedAt": "2026-11-07T15:39:12.629362+00:00",
+  "exitCode": 0,
+  "stdout": "{\"status\": \"verified-current-bytes\", \"sourceFiles\": 50, \"sourceFingerprint\": \"b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4\", \"artifacts\": 107, \"observedReviewHead\": \"5aa081fb2f73f3d606ef009e30872d32aa94ce6b\", \"recordedActorHead\": \"5aa081fb2f73f3d606ef009e30872d32aa94ce6b\", \"baselineHead\": \"42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0\"}\n",
+  "stderr": "",
+  "result": {
+    "status": "verified-current-bytes",
+    "sourceFiles": 50,
+    "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+    "artifacts": 107,
+    "observedReviewHead": "5aa081fb2f73f3d606ef009e30872d32aa94ce6b",
+    "recordedActorHead": "5aa081fb2f73f3d606ef009e30872d32aa94ce6b",
+    "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0"
+  },
+  "scope": "Actor-local final verification only; post-collection review remains required"
+}

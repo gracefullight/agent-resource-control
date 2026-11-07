@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-11-07T15:01:15.167558+00:00",
+  "path": "av.yaml",
+  "method": "Path.read_text (direct supported filesystem read)",
+  "outcome": "failed",
+  "errorType": "PermissionError",
+  "errno": 1,
+  "error": "[Errno 1] Operation not permitted: 'av.yaml'",
+  "targetExistenceEstablished": false,
+  "containerHealthVerified": false,
+  "bypassAttempted": false,
+  "servicesRestarted": false
+}

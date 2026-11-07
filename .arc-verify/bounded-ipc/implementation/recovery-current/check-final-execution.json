@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/implementation/recovery-current/check.py"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T17:11:28.240208+00:00",
+  "finishedAt": "2026-11-07T17:11:29.155434+00:00",
+  "elapsedSeconds": 0.9149125409894623,
+  "exitCode": 2,
+  "stdoutSha256": "4094e60f0f61d63a09b09b073b722d512598740980fd75f2d12a68d2cbc4baf1",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "checkerSha256": "ab69573c3be7a0af9c982cc98be1b3d5794194b1da5ad260fa0eba7e161e1118",
+  "remainingSecondsAtAdmission": 63667.360792,
+  "cancellationObserved": false,
+  "sourceBefore": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+  "noRuntimeSuitesReplayed": true
+}

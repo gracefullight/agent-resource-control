@@ -1,0 +1,12 @@
+{
+  "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/target/debug/arcctl",
+  "sha256": "401039fd5bedb6ecc82faa2f16f413022ae4f5e7ae420d345786c6c619dc6d69",
+  "bytes": 3722856,
+  "source": {
+    "path": "crates/arc-cli/src/main.rs",
+    "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+    "mode": "0o644"
+  },
+  "prerequisiteReceipt": "cli-prerequisite.json",
+  "note": "Offline CLI test setup; actual process invoked by the typed-error fixture; binary is not a delivery artifact."
+}

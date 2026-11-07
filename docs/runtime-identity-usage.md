@@ -16,6 +16,8 @@ arcctl status
 
 Use `arcctl doctor` when you want local IPC and database diagnostics. It is optional; starting and checking status requires no extra setup or diagnostic step. The daemon stays in the foreground. Stop the instance you started with Ctrl-C or SIGTERM to its known PID.
 
+Successful `status` proves daemon liveness and protocol compatibility. It does not check SQLite integrity. `doctor` checks SQLite integrity and the recorded migration count. Both commands still need a free connection and request slot; bypassing database work does not reserve transport capacity for status.
+
 On macOS, the default socket is `<native-runtime-root>/arc/arc.sock`. ARC obtains that root with `confstr(_CS_DARWIN_USER_TEMP_DIR)`. Unset, changed and unwritable `TMPDIR` values select the same default endpoint. A failed native query is an error; ARC does not select a TMPDIR fallback.
 
 `ARC_SOCKET_PATH` overrides the **socket file**, including its parent path. A nonempty value takes precedence; an empty value selects the default. For example, after choosing a separate, short, owned socket directory:
@@ -63,7 +65,11 @@ The inspected server prints `arc-daemon ready. Socket: <socket>. Protocol: 1. Sw
 
 ## Recovery guidance
 
-For `DAEMON_UNAVAILABLE`, check that the daemon started and that the client uses its configured socket. Read the daemon's startup stderr if startup failed. A disconnected client reports unavailability; it does not diagnose the daemon's path or database failure. Changing TMPDIR is not a way to select another default endpoint on macOS.
+For `DAEMON_UNAVAILABLE`, check that the daemon started and that the client uses its configured socket. Read the daemon's startup stderr if startup failed. A disconnected client reports unavailability; it does not diagnose the daemon's path or database failure. Transport saturation can also produce this error. Changing TMPDIR is not a way to select another default endpoint on macOS.
+
+For transient saturation, pause four seconds after the failed attempt, then run `arcctl status` once. This pause is based on the default server's combined frame, database-response and write budgets. It does not guarantee a free slot: persistent connections get a new idle-header budget after each response, and other clients can occupy capacity. Use `arcctl doctor` afterward only if you need database diagnostics. A decoded doctor request rejected by the database queue or its deadline gets protocol `DB_BUSY` if the bounded response write succeeds; the existing CLI then prints exactly `IPC_ERROR` on stderr, leaves stdout empty and exits nonzero. Operational and resource failures, such as SQLite I/O or allocation errors, also map to `DB_BUSY` → `IPC_ERROR`; this general result does not identify saturation or guarantee that retry will resolve it. Positive SQLite corruption codes, failed integrity results and invalid migration counts retain `INTEGRITY_FAILED`. If the response write fails or expires, the connection closes and the failed exchange maps to `DAEMON_UNAVAILABLE`. That result alone does not establish corruption or a protocol mismatch. If status still fails, inspect the foreground daemon's stderr and socket configuration. ARC adds no automatic retries, waiting prompt or extra mandatory command.
+
+The default daemon retains at most 64 connection handlers, admits 16 requests and queues eight database jobs plus one executing job. Header reads expire after 1,000 ms; a whole header and body share 2,000 ms from frame start. A response has 500 ms for serialization and writing. Partial progress never restarts these deadlines. On connection or request admission failure, ARC closes before decoding instead of sending a busy response. For the fixed test profile, database/shutdown budgets, protocol details and current executable evidence, see [bounded IPC recovery](bounded-ipc-recovery.md).
 
 For a duplicate start, use the already running instance. If you intend to change its configuration, gracefully stop your known instance, wait for it to exit, then start with the new configuration. Do not treat a different socket or database override as a separate instance slot.
 
@@ -71,9 +77,17 @@ For a rejected socket location, choose a **separate directory owned by you with 
 
 An unsafe instance-anchor error concerns the fixed per-user anchor. Changing socket or database overrides cannot relocate that anchor. Preserve the rejected entry and report the exact daemon diagnostic for investigation; socket-directory guidance does not resolve an unsafe anchor.
 
-Graceful shutdown closes SQLite and removes the socket. The anchor pathname may remain after shutdown; its presence alone does not prove a live daemon. The lifecycle test verifies graceful restart, then forced-death recovery with a stale socket left behind. After the process has exited, restart normally: ARC reacquires admission and handles the stale socket. Manual lock/socket deletion is not a required recovery step.
+Ctrl-C (SIGINT) and SIGTERM begin shutdown directly. The server stops admission, cancels and reaps handlers, interrupts and joins the SQLite worker, and removes its socket under one 3,500 ms internal budget. The required signal-to-exit check is below five seconds; the [bounded IPC recovery evidence](bounded-ipc-recovery.md#evidence-and-limits) identifies the executed fixtures and their scope. There is no exit confirmation or retention barrier.
 
-## Evidence scope and checks
+Graceful shutdown closes SQLite and removes the socket. The anchor pathname may remain after shutdown; its presence alone does not prove a live daemon. The resident lifecycle test verifies graceful restart, then forced-death recovery with a stale socket left behind. After the process has exited, restart normally: ARC reacquires admission and handles the stale socket. Manual lock/socket deletion is not a required recovery step.
+
+## Bounded IPC documentation scope
+
+The current bounded-behavior review inspects task-6 attempt-4 local snapshot HEAD `eb45d23b3b3be650f4a5cb8e064ba6715ae78b86`, tree `4746b22753c020491e2570d684e5edd86c02d468`. It includes the integrated database-error classification repair and supersedes the earlier task-6 inspection at `eed6986a06f66dcfd09eb2d05f04a3b5ca9e5206`. The mission's accepted committed baseline is `42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0`, tree `c802f71ac4d91ed6b8a602d5c83bf9cf57116b76`; the snapshot contains the integrated repair beyond that baseline. These edits do not claim the repair is committed in the baseline. [Bounded IPC recovery](bounded-ipc-recovery.md) records the frozen contract, source/test support, fresh deterministic checks and remaining evidence limits. Only the two assigned documentation files are edited by task-6; product interfaces remain unchanged.
+
+## Earlier runtime identity evidence (historical)
+
+The remainder of this section records the earlier documentation task and its revisions, checks and handoff. It is historical evidence, not a fresh bounded-IPC verification claim.
 
 Accepted committed baseline: `073802555b639aa2fec183d93f748d9437cbbcad`, tree `ce009646036415990a815170955421e1ab8d5c2f`. This documentation Actor inspected local snapshot HEAD `18af67c79013869ec2b624a3f0718ee87092731e`, tree `ba589d1a9ddfcf68dc1572317495601ebdd31ca0`. That snapshot includes the delivered repair; these observations do not claim it exists in the accepted baseline. The worker ref was not yet resolvable during inspection.
 

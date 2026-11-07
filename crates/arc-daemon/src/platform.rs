@@ -4,13 +4,12 @@
 //! lock file records a pid plus process start time so a stale lock is
 //! recoverable without killing any process.
 
-use std::{io, os::unix::net::UnixStream};
+use std::{io, os::fd::AsRawFd};
 
 /// Verify the peer of an accepted Unix socket connection is this user.
-pub fn ensure_same_user(stream: &UnixStream) -> io::Result<()> {
+pub fn ensure_same_user(stream: &(impl AsRawFd + ?Sized)) -> io::Result<()> {
     #[cfg(target_os = "linux")]
     {
-        use std::os::fd::AsRawFd;
         let mut credentials = libc::ucred {
             pid: 0,
             uid: 0,
@@ -40,7 +39,6 @@ pub fn ensure_same_user(stream: &UnixStream) -> io::Result<()> {
 
     #[cfg(target_os = "macos")]
     {
-        use std::os::fd::AsRawFd;
         let mut uid: libc::uid_t = 0;
         let mut gid: libc::gid_t = 0;
         let result = unsafe { libc::getpeereid(stream.as_raw_fd(), &mut uid, &mut gid) };

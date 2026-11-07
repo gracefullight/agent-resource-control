@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--bin",
+    "arc-daemon",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T13:50:43.028653+00:00",
+  "finishedAt": "2026-11-07T13:50:50.326735+00:00",
+  "elapsedSeconds": 7.297883416991681,
+  "exitCode": 101,
+  "timedOut": false,
+  "pid": 99996,
+  "processExitObserved": true,
+  "output": "focused-first.txt",
+  "outputSha256": "86276c42503e1caac5ec4710a7b067211cdf7968f7b7ccdc50865557490e83eb",
+  "sourceBefore": "bb413abb8065aa7445f9bca2fe8fedddb6418327050a32e45ee600b040b6545e",
+  "sourceAfter": "bb413abb8065aa7445f9bca2fe8fedddb6418327050a32e45ee600b040b6545e",
+  "productInputsUnchanged": true
+}

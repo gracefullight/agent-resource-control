@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-11-07T15:01:15.167089+00:00",
+  "baseline": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "migrationSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+  "migrationByteIdentical": true,
+  "harnessSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+  "harnessByteIdentical": true,
+  "lockPackagesAdded": [],
+  "lockPackagesRemoved": [],
+  "lockPackagesChanged": [
+    "arc-daemon"
+  ],
+  "packageVersionsAndChecksumsUnchanged": true,
+  "onlyLockChange": "arc-daemon -> existing serde_json",
+  "nativeWorkspaceMembers": 5,
+  "tokioVersion": "1.54.1",
+  "rusqliteVersion": "0.41.1",
+  "srsPath": "/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md",
+  "srsSha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+  "srsComparedInThisAttempt": false
+}

@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--bin",
+    "arc-daemon",
+    "lifecycle_tests",
+    "--",
+    "--nocapture",
+    "--test-threads=1"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T12:55:07.887012+00:00",
+  "finishedAt": "2026-11-07T12:55:08.159369+00:00",
+  "elapsedSeconds": 0.2721619170042686,
+  "exitCode": 0,
+  "timedOut": false,
+  "pid": 93765,
+  "processExitObserved": true,
+  "output": "lifecycle-final.txt",
+  "outputSha256": "1a40786900d4b1f9ad64db5e402dc39b4836ce38563c355b72d125862383891b",
+  "sourceBefore": "e416d6c25ae8131fbc4f6ca093335cd502f6f51c61cf7ae3ef033cabf52a65fe",
+  "sourceAfter": "e416d6c25ae8131fbc4f6ca093335cd502f6f51c61cf7ae3ef033cabf52a65fe",
+  "productInputsUnchanged": true
+}

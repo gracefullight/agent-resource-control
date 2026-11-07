@@ -1,0 +1,27 @@
+{
+  "retainedSource": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-2/.agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+  "originalDestination": ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+  "payloadPath": ".arc-verify/bounded-ipc/implementation/recovery-current/report-payload.md",
+  "bytes": 8417,
+  "sha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d",
+  "threeSourcesByteIdentical": true,
+  "historicalIndex": ".arc-verify/bounded-ipc/implementation/resume-attempt-3/evidence.json",
+  "historicalIndexCount": 107,
+  "history": {
+    "attempt8Restoration": ".arc-verify/bounded-ipc/implementation/collection-repair/attempt-8/restoration.json",
+    "historicalDeliveryTree": "6cab57f62ebeb0ae38ee9609c974f15816390abc",
+    "originalReportOmittedFromHistoricalDeliveryTree": true,
+    "treeProbe": {
+      "argv": [
+        "git",
+        "show",
+        "6cab57f62ebeb0ae38ee9609c974f15816390abc:.agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+      ],
+      "exitCode": 128,
+      "stderr": "fatal: path '.agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md' exists on disk, but not in '6cab57f62ebeb0ae38ee9609c974f15816390abc'\n"
+    }
+  },
+  "bindingScope": "Actor-local bytes only. Payload is supplemental; original index is unchanged.",
+  "receivingCheckoutVerified": false,
+  "receivingPrerequisite": "Independent technical-director must bind report-payload.md and this binding to actual supplied changeSet and delivery-tree blob, compare original receiving report byte-for-byte, and independently verify 107 original indexed files. Missing payload or original report is a collection prerequisite, not a passed receipt."
+}

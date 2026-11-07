@@ -1,0 +1,31 @@
+{
+  "sourceChangesSinceAttempt4": [
+    {
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "oldSha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+      "currentSha256": "351d81a201217608690128f0e8017f40048c32cfbd1537e524e83e60fbc730b6",
+      "scope": "Preexisting downstream fixture changes; not edited in this attempt."
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/mod.rs",
+      "oldSha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1",
+      "currentSha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+      "scope": "Preexisting downstream fixture changes; not edited in this attempt."
+    }
+  ],
+  "integrationSourceUnchanged": true,
+  "restoredArtifacts": [
+    {
+      "path": ".agents/results/result-backend-task-4-attempt-4-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "sha256": "c87b9f7f6b3ec968afd9f42c657a7af39494cd70763fe47689df12d10d5fbb5e",
+      "bytes": 3967,
+      "restoredFrom": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agents/results/result-backend-task-4-attempt-4-b137e253-def6-46ef-a75d-25ab414784ea.md"
+    },
+    {
+      "path": ".agents/results/result-backend-task-4-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "sha256": "b59ef1d4cc52c71c574a5a82b367b327f3f9b82a34eeef853918b9a446586a7d",
+      "bytes": 16368,
+      "restoredFrom": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agents/results/result-backend-task-4-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+    }
+  ]
+}

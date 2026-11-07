@@ -1,0 +1,9 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running tests/binary.rs (target/debug/deps/binary-5eba36786ecfd68b)
+
+running 2 tests
+test arcctl_binary_is_built_next_to_the_test_harness ... ok
+test no_arguments_names_both_commands_and_exits_nonzero ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.99s
+

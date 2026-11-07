@@ -1,0 +1,44 @@
+{
+  "status": "completed",
+  "scope": "Task-5 collection correction only; ready for collection and independent review, not mission completion.",
+  "actorId": "test-engineer",
+  "taskId": "task-5",
+  "attempt": 7,
+  "runId": null,
+  "injectedClaimPath": null,
+  "skills": [
+    "oma-backend"
+  ],
+  "changedFiles": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/before.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/changeSet.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.py",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.stderr.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/claim.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/collection.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-after.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-before.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-outcomes.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/preflight.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/repair-failed-attempts.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/restoration.json"
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/implementation/collection-repair/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.py",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/changeSet.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/collection.json",
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "unresolved": [
+    "Independent technical-director must inspect checker and verify all 107 indexed files after normal collection in actual review checkout.",
+    "Current-tree task-8 independent oma-qa and task-9 final assessment remain required.",
+    "av.yaml inaccessible: configured-target applicability unmet.",
+    "Three harness failures retained; authoritative SRS applicability/comparison and remaining Phase 0/Linux/Windows obligations remain downstream."
+  ],
+  "verificationScope": "Read-only artifact, product-fingerprint, historical receipt/output binding, accounting and preservation checks only. No Cargo, harness, runtime benchmark, build, installation or GUI run."
+}

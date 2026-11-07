@@ -1,0 +1,320 @@
+[
+  {
+    "accept_error_os_code": null,
+    "accounted": true,
+    "connection_closed": true,
+    "deadline_met": true,
+    "event": "ipc_shutdown",
+    "gauges_zero": true,
+    "handlers_reaped": true,
+    "handlers_remaining": 0,
+    "limits": {
+      "connections": 8,
+      "db_busy_timeout_ms": 50,
+      "db_executing": 1,
+      "db_execution_timeout_ms": 300,
+      "db_queue": 2,
+      "db_response_timeout_ms": 500,
+      "frame_timeout_ms": 300,
+      "header_timeout_ms": 150,
+      "max_frame_bytes": 1048576,
+      "requests": 4,
+      "shutdown_timeout_ms": 3500,
+      "write_timeout_ms": 100
+    },
+    "metrics": {
+      "accepted": 2,
+      "caps": {
+        "connections": 8,
+        "db_executing": 1,
+        "db_queue": 2,
+        "requests": 4,
+        "supervisor": 1
+      },
+      "connection_rejected": 0,
+      "connections": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_executing": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_outstanding": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_queued": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_rejected": 0,
+      "db_timeouts": 0,
+      "frame_timeouts": 0,
+      "frames_completed": 2,
+      "handlers_reaped": 2,
+      "handlers_spawned": 2,
+      "header_timeouts": 0,
+      "rejection_work": {
+        "current": 0,
+        "high_water": 0
+      },
+      "request_body_bytes": {
+        "current": 0,
+        "high_water": 116
+      },
+      "request_rejected": 0,
+      "requests": {
+        "current": 0,
+        "high_water": 1
+      },
+      "response_bytes": {
+        "current": 0,
+        "high_water": 1048576
+      },
+      "tracked_tasks": {
+        "current": 0,
+        "high_water": 1
+      },
+      "worker_joined": 1,
+      "worker_started": 1,
+      "write_timeouts": 0
+    },
+    "profiles": {
+      "ipc": "default"
+    },
+    "reason": "SIGTERM",
+    "shutdown_elapsed_ms": 2,
+    "socket_removed": true,
+    "supervisor": {
+      "accept_errors": 1,
+      "accept_retries": 1,
+      "backoff_high_water_ms": 5,
+      "consecutive_errors": 0,
+      "consecutive_errors_high_water": 1,
+      "fatal_errors": 0,
+      "other_errors": 0,
+      "resource_pressure_errors": 0,
+      "retry_tasks": 0,
+      "shutdown_during_backoff": false,
+      "supervisors": {
+        "current": 1,
+        "high_water": 1
+      },
+      "transient_errors": 1
+    },
+    "worker_joined": true
+  },
+  {
+    "accept_error_os_code": null,
+    "accounted": true,
+    "connection_closed": true,
+    "deadline_met": true,
+    "event": "ipc_shutdown",
+    "gauges_zero": true,
+    "handlers_reaped": true,
+    "handlers_remaining": 0,
+    "limits": {
+      "connections": 8,
+      "db_busy_timeout_ms": 50,
+      "db_executing": 1,
+      "db_execution_timeout_ms": 300,
+      "db_queue": 2,
+      "db_response_timeout_ms": 500,
+      "frame_timeout_ms": 300,
+      "header_timeout_ms": 150,
+      "max_frame_bytes": 1048576,
+      "requests": 4,
+      "shutdown_timeout_ms": 3500,
+      "write_timeout_ms": 100
+    },
+    "metrics": {
+      "accepted": 2,
+      "caps": {
+        "connections": 8,
+        "db_executing": 1,
+        "db_queue": 2,
+        "requests": 4,
+        "supervisor": 1
+      },
+      "connection_rejected": 0,
+      "connections": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_executing": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_outstanding": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_queued": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_rejected": 0,
+      "db_timeouts": 0,
+      "frame_timeouts": 0,
+      "frames_completed": 2,
+      "handlers_reaped": 2,
+      "handlers_spawned": 2,
+      "header_timeouts": 0,
+      "rejection_work": {
+        "current": 0,
+        "high_water": 0
+      },
+      "request_body_bytes": {
+        "current": 0,
+        "high_water": 116
+      },
+      "request_rejected": 0,
+      "requests": {
+        "current": 0,
+        "high_water": 1
+      },
+      "response_bytes": {
+        "current": 0,
+        "high_water": 1048576
+      },
+      "tracked_tasks": {
+        "current": 0,
+        "high_water": 1
+      },
+      "worker_joined": 1,
+      "worker_started": 1,
+      "write_timeouts": 0
+    },
+    "profiles": {
+      "ipc": "default"
+    },
+    "reason": "SIGTERM",
+    "shutdown_elapsed_ms": 2,
+    "socket_removed": true,
+    "supervisor": {
+      "accept_errors": 9,
+      "accept_retries": 9,
+      "backoff_high_water_ms": 100,
+      "consecutive_errors": 0,
+      "consecutive_errors_high_water": 9,
+      "fatal_errors": 0,
+      "other_errors": 0,
+      "resource_pressure_errors": 9,
+      "retry_tasks": 0,
+      "shutdown_during_backoff": false,
+      "supervisors": {
+        "current": 1,
+        "high_water": 1
+      },
+      "transient_errors": 0
+    },
+    "worker_joined": true
+  },
+  {
+    "accept_error_os_code": null,
+    "accounted": true,
+    "connection_closed": true,
+    "deadline_met": true,
+    "event": "ipc_shutdown",
+    "gauges_zero": true,
+    "handlers_reaped": true,
+    "handlers_remaining": 0,
+    "limits": {
+      "connections": 8,
+      "db_busy_timeout_ms": 50,
+      "db_executing": 1,
+      "db_execution_timeout_ms": 300,
+      "db_queue": 2,
+      "db_response_timeout_ms": 500,
+      "frame_timeout_ms": 300,
+      "header_timeout_ms": 150,
+      "max_frame_bytes": 1048576,
+      "requests": 4,
+      "shutdown_timeout_ms": 3500,
+      "write_timeout_ms": 100
+    },
+    "metrics": {
+      "accepted": 1,
+      "caps": {
+        "connections": 8,
+        "db_executing": 1,
+        "db_queue": 2,
+        "requests": 4,
+        "supervisor": 1
+      },
+      "connection_rejected": 0,
+      "connections": {
+        "current": 0,
+        "high_water": 1
+      },
+      "db_executing": {
+        "current": 0,
+        "high_water": 0
+      },
+      "db_outstanding": {
+        "current": 0,
+        "high_water": 0
+      },
+      "db_queued": {
+        "current": 0,
+        "high_water": 0
+      },
+      "db_rejected": 0,
+      "db_timeouts": 0,
+      "frame_timeouts": 0,
+      "frames_completed": 1,
+      "handlers_reaped": 1,
+      "handlers_spawned": 1,
+      "header_timeouts": 0,
+      "rejection_work": {
+        "current": 0,
+        "high_water": 0
+      },
+      "request_body_bytes": {
+        "current": 0,
+        "high_water": 94
+      },
+      "request_rejected": 0,
+      "requests": {
+        "current": 0,
+        "high_water": 1
+      },
+      "response_bytes": {
+        "current": 0,
+        "high_water": 1048576
+      },
+      "tracked_tasks": {
+        "current": 0,
+        "high_water": 1
+      },
+      "worker_joined": 1,
+      "worker_started": 1,
+      "write_timeouts": 0
+    },
+    "profiles": {
+      "ipc": "default"
+    },
+    "reason": "SIGINT",
+    "shutdown_elapsed_ms": 17,
+    "socket_removed": true,
+    "supervisor": {
+      "accept_errors": 6,
+      "accept_retries": 6,
+      "backoff_high_water_ms": 100,
+      "consecutive_errors": 6,
+      "consecutive_errors_high_water": 6,
+      "fatal_errors": 0,
+      "other_errors": 0,
+      "resource_pressure_errors": 6,
+      "retry_tasks": 0,
+      "shutdown_during_backoff": true,
+      "supervisors": {
+        "current": 1,
+        "high_water": 1
+      },
+      "transient_errors": 0
+    },
+    "worker_joined": true
+  }
+]

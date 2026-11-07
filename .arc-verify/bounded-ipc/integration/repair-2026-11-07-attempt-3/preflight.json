@@ -1,0 +1,45 @@
+{
+  "utc": "2026-11-07T13:42:03.838769+00:00",
+  "savedExecution": {
+    "startedAt": "2026-11-07T10:52:35.601Z",
+    "runsStarted": 36,
+    "retries": 0,
+    "crashRestarts": 1,
+    "progressKey": "3760f849782859c10fa5822b89321de5df6ae5886e1e9aff58fc91708529e648",
+    "interventionAt": "2026-11-07T13:14:31.935Z"
+  },
+  "savedPolicy": {
+    "maxParallel": 3,
+    "maxDurationSec": 86400,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "retryDelayMs": 1000,
+    "autoResume": true
+  },
+  "remainingDeadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 76231.762231,
+  "actor": "backend",
+  "task": "task-4",
+  "attempt": 3,
+  "claimPath": null,
+  "route": "supplied supported native default; actual shell succeeded",
+  "hostLimits": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "serenaAvailable": false
+}

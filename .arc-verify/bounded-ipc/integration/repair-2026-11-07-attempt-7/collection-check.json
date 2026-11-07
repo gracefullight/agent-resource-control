@@ -1,0 +1,13 @@
+{
+  "status": "matches-receiving-mission-checkout",
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "artifactsVerified": 296,
+  "sourceFiles": 51,
+  "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+  "checksVerified": 10,
+  "changedProductPaths": [
+    "crates/arc-daemon/src/database_failure_tests.rs",
+    "crates/arc-daemon/src/lifecycle.rs"
+  ],
+  "migrationAndHarnessMatchAcceptedHead": true
+}

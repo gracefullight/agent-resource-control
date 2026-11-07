@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "rustfmt",
+    "--edition",
+    "2021",
+    "--config",
+    "skip_children=true",
+    "crates/arc-daemon/src/accept_recovery.rs",
+    "crates/arc-daemon/src/lifecycle_tests.rs",
+    "crates/arc-daemon/src/report_lifecycle_tests.rs"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "pid": 920,
+  "processGroup": 920,
+  "startedAt": "2026-11-07T13:52:29.474857+00:00",
+  "timeoutSeconds": 120
+}

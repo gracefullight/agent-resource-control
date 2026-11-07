@@ -1,0 +1,43 @@
+{
+  "status": "completed",
+  "changedFiles": [
+    "docs/runtime-identity-usage.md",
+    "docs/bounded-ipc-recovery.md",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/before.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/boundary.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/check.py",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/cited-tests.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/delivery.md",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/initial-check-failure.txt",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/initial-finish-boundary.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/initial-finish-references-after.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/initial-permission-preflight.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/initial-root-before.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/initial-root-preflight.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/initial-symlink-preflight.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/oma-docs-help.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/oma-docs-help.txt",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/preflight.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/preservation.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/references-after.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/references-before.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/source-after.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/source-before.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/source-evidence.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.running.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.txt"
+  ],
+  "unresolved": [
+    "Independent collection/review and mission-wide final acceptance remain with the Chief.",
+    "Three integration harness failures remain retained; av.yaml and supplied named refs are locally unavailable.",
+    "Remaining Phase 0/Linux/Windows qualification and performance/SRS evidence are outside task-6."
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/task-6/attempt-3/delivery.md",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/workspace-test.json",
+    ".arc-verify/bounded-ipc/task-6/attempt-3/boundary.json",
+    ".agents/results/result-design-director-task-6-attempt-3-local.md"
+  ],
+  "scope": "Task-6 work completed in Actor worktree; not a mission completion claim."
+}

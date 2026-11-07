@@ -1,0 +1,81 @@
+{
+  "scope": "Task-6 attempt-4 owned documentation and material evidence; current Actor files, no delivery commit invented. Index excludes itself.",
+  "files": {
+    "docs/runtime-identity-usage.md": {
+      "sha256": "5c5a852344a000f2e9aa3b93aa6487a3b09262512b5de40d2473fd804c73773a",
+      "bytes": 15863
+    },
+    "docs/bounded-ipc-recovery.md": {
+      "sha256": "d690a0432c86a418557a0dac6bc772e6cc68cded79245678f5ed167f616317b5",
+      "bytes": 17203
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/before.json": {
+      "sha256": "63618d912c5871b3d893b578d229ae582943bcf94c8f00bd61025b4bcbedae10",
+      "bytes": 359100
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/boundary.json": {
+      "sha256": "e64b758e4e9cd2f8971704340c4a326175c22e210a0515cd14f6aa812a93ec6c",
+      "bytes": 791
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/check.py": {
+      "sha256": "d584f6cc48ff71a9ef89b88ee3896058919a601949a8b5805d6d6ba3705dfdf5",
+      "bytes": 8233
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/collection-path-check.json": {
+      "sha256": "4e9cbf90bb50b8a904b453cf2a5cf7ba222c393e11b838e91c66ec5b85b956c0",
+      "bytes": 398
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/delivery.md": {
+      "sha256": "4533586bbd9b18f8e484cd43b50db4e87609f61d7d04690e3c75454816186d51",
+      "bytes": 9402
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/first-finish-failure.json": {
+      "sha256": "89938099821ba0f6bbdb5ee8321af398b7a3a831f5df9ced4b70b8167888d419",
+      "bytes": 9369
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/preflight.json": {
+      "sha256": "328d73ac71900a67f82e6d115871f1178cd08bf8aebef8edcecf6c6bace6f98c",
+      "bytes": 2557
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/preservation.json": {
+      "sha256": "30fb867ad1c52d1a38d7a391f946344718651ba36aa01c066eb72fcca719989e",
+      "bytes": 513
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/references-after.json": {
+      "sha256": "721447e9123e985925e8ade5938b4c6b2c75b0d9d73828206732765766d5a818",
+      "bytes": 7168
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/references-before.json": {
+      "sha256": "5d433bbc4d75caa8dc983f38f861eec1b753cfc2696808f8e82452b1c9d523cf",
+      "bytes": 7136
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/source-after.json": {
+      "sha256": "e5b8e3aa1c77758c6ded9bbb3e16d477a602882600dabfdeea251fde704c48d0",
+      "bytes": 7662
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/source-before.json": {
+      "sha256": "e5b8e3aa1c77758c6ded9bbb3e16d477a602882600dabfdeea251fde704c48d0",
+      "bytes": 7662
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/source-evidence.json": {
+      "sha256": "29576b41da68227527602db5c37778b5285f3edd62e878effa1dc839c05dc578",
+      "bytes": 1032
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/verify.py": {
+      "sha256": "51f5dd8928b770eab2a659fe0a66c5838da9452fe83dec52c9e99487cdaef47f",
+      "bytes": 5043
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/workspace-test.json": {
+      "sha256": "608b43373a1d46b3855ae73f476a5c3c7d0dee46896068edc63ac2eabd415310",
+      "bytes": 1327
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/workspace-test.running.json": {
+      "sha256": "53bb8dcc56f10619cbdde775e7f695544a8754a029315b125b22f4ba46919a11",
+      "bytes": 392
+    },
+    ".arc-verify/bounded-ipc/task-6/attempt-4/workspace-test.txt": {
+      "sha256": "da1641b1ad999f0d9bd235b1ba9079f83f3cf377b52997ede48f4f60cb36e4c7",
+      "bytes": 21468
+    }
+  }
+}

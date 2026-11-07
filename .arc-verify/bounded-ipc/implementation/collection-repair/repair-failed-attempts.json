@@ -1,0 +1,16 @@
+{
+  "failures": [
+    {
+      "operation": "Initial in-memory boundary inventory",
+      "exitCode": 1,
+      "reason": "read_bytes followed existing skill directory symlinks; pre-write assertion rejected errors. No files written.",
+      "repair": "Use lstat/readlink for symlink entries; do not traverse targets."
+    },
+    {
+      "operation": "git add -f -- .agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+      "exitCode": 128,
+      "reason": "Preceding restoration had failed, so destination did not yet exist. No index mutation.",
+      "repair": "Verify restoration before retrying exact authorized add."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "missionId": "b137e253-def6-46ef-a75d-25ab414784ea",
+  "taskId": "task-6",
+  "attempt": 4,
+  "sourceWorkspacePath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-98c4ca9fa7207111-4",
+  "branch": "av-task/d6c6b45f4a6c3769-98c4ca9fa7207111-4",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineTree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+  "snapshotTree": "4746b22753c020491e2570d684e5edd86c02d468",
+  "snapshotCommit": "eb45d23b3b3be650f4a5cb8e064ba6715ae78b86",
+  "snapshotRef": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-98c4ca9fa7207111-4/snapshot",
+  "workerRef": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-98c4ca9fa7207111-4/worker"
+}

@@ -1,0 +1,27 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "cat-file",
+        "-t",
+        "aee07c312f488891b288f6fa1e06973417b414cc"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: git cat-file: could not get object info\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0\nc802f71ac4d91ed6b8a602d5c83bf9cf57116b76\n",
+      "stderr": ""
+    }
+  ],
+  "task6TreeAlternative": "Full read-only Merkle reconstruction and actual blob/mode verification in attribution.json; no object import or ref mutation."
+}

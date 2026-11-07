@@ -1,0 +1,33 @@
+{
+  "trackedPathsChecked": 1855,
+  "changedTrackedPaths": [
+    "docs/bounded-ipc-recovery.md",
+    "docs/runtime-identity-usage.md"
+  ],
+  "onlyOwnedDocsChanged": true,
+  "diffCheck": {
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "docs/runtime-identity-usage.md",
+      "docs/bounded-ipc-recovery.md"
+    ],
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "referencesBroken": 2,
+  "documentHashes": {
+    "docs/runtime-identity-usage.md": {
+      "sha256": "6392b5122c1843731706c1e8e62afade5b873e07f8d608e28c841fe9d8c15541",
+      "mode": "0o644"
+    },
+    "docs/bounded-ipc-recovery.md": {
+      "sha256": "f3bf611cf8d883ea0122975d52976b5196c7fdcd891da6c8b341ab7ad2b4b369",
+      "mode": "0o644"
+    }
+  },
+  "postCollectionVerified": false
+}

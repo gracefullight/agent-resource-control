@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "python3",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/verify.py"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T13:57:48.796021+00:00",
+  "finishedAt": "2026-11-07T13:57:48.978398+00:00",
+  "exitCode": 0,
+  "processExitObserved": true,
+  "stdout": "{\n  \"status\": \"matches-current-checkout\",\n  \"sourceFiles\": 43,\n  \"artifactsVerified\": 112,\n  \"checksVerified\": 6,\n  \"fingerprint\": \"49ab9bbd71a6545018377a840f901e11e8bef69fd5fbf9d6c48389dd18e307a8\"\n}\n",
+  "stderr": "",
+  "stdoutSha256": "e8713b1b360499fe9ee6de5c6725f01659698e704da5b5e4fedb353ed6dc7b1f",
+  "indexSha256": "691fd52e6115db6fe3dfea7b232f2d972d1e142ac8c37a444a1ccb550b1bb661",
+  "verifierSha256": "fee5a834aae9065003216141a11d668211bb41251346262d141ba69a47a072d9",
+  "savedMissionStatus": "executing",
+  "savedDeadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 75286.62239,
+  "runsStarted": 36,
+  "noMissionStateMutation": true,
+  "independentReviewComplete": false
+}

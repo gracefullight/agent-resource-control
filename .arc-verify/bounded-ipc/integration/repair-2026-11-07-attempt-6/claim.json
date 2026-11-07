@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "scope": "Task-4 exact artifact collection repair only",
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "changedFiles": [
+    ".agents/results/result-backend-task-4-attempt-5-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".agents/results/result-backend-task-4-attempt-6-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-6"
+  ],
+  "artifacts": [
+    ".agents/results/result-backend-task-4-attempt-6-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".agents/results/result-backend-task-4-attempt-5-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-6/delivery.md",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-6/index.json",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-6/verification.json"
+  ],
+  "productFilesChanged": [],
+  "unresolved": [
+    "Independent task review remains with the Chief.",
+    "Unchanged harness retains three failures: resident.rs 901 lines, arc-ipc/src/lib.rs 551 lines, missing test:coverage.",
+    "Task-6 missing report and denied av.yaml configuration access remain with their owners.",
+    "Mission-wide final QA/operator verification and Phase 0/Linux/Windows obligations remain open."
+  ],
+  "verificationSkipped": "No product checks replayed for exact artifact collection; historical current-source Cargo/harness receipts validated by unchanged receiving checker."
+}

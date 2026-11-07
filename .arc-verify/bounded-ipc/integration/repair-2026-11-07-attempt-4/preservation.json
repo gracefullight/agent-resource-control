@@ -1,0 +1,10 @@
+{
+  "crates/arc-storage/migrations/0001_phase0.sql": {
+    "matchesAcceptedHead": true,
+    "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  },
+  "scripts/harness/validate.sh": {
+    "matchesAcceptedHead": true,
+    "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33"
+  }
+}

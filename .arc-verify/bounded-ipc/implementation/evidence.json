@@ -1,0 +1,441 @@
+{
+  "sourceFingerprint": "f9c6c5baeb3e95c48603717f08cf2abb88baf85f334250db739eb903c44b4999",
+  "sourceEvidence": "source-evidence.json",
+  "artifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/acceptance.json",
+      "sha256": "3031ba5f7584413a1f04e7e56207685620073ca7b1d76f6dfc0c774eac23eed7",
+      "bytes": 1222
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/accounting.json",
+      "sha256": "63326b4c30a0db4de688bc7eb64607dcc5ec26f41b15f731a9b024e050ea34d6",
+      "bytes": 1454
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/attempts.md",
+      "sha256": "6fefd332d2a6cc0bf605ec28980fe2e7d1bebde492a9c03b0bc44cb1d8627236",
+      "bytes": 1559
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/claim.json",
+      "sha256": "9da5cecc2d192f5c218e0e6e2b45eb3a75f41c3933518d27cd49edac2a73ce27",
+      "bytes": 1096
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy-final-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy-final.json",
+      "sha256": "71c8b1067a33a9cda9275721efacedf2da7d0cb4a02f086fb85efd1089c7285a",
+      "bytes": 1711
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy-final.running.json",
+      "sha256": "863579ffab1a17645dc4ed04a6be59cac000210038c26c7219b060b5e76b7af1",
+      "bytes": 476
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy-final.txt",
+      "sha256": "e57f6ac2bfb6e34e7da8419eaa2cac87e51a21d53c75641134d64ea462866d08",
+      "bytes": 348
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy-source.json",
+      "sha256": "07b80d19f93da00580286e450d205aad7b8f3fde03ebd3c6121eefa803ba2c34",
+      "bytes": 8602
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy.json",
+      "sha256": "2a79105ff5ba02c4830d2d41198b923cecad75d7f528c94ec00b78364b8f94d6",
+      "bytes": 1698
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy.running.json",
+      "sha256": "d7901f2261bc6016a545815084769a94e58b3ef2a2433b0feb825e1d55fd2693",
+      "bytes": 476
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/clippy.txt",
+      "sha256": "6046edab5320951082734ac8ea74e51501cc037e97396ed1ac7200eefaf2567c",
+      "bytes": 2745
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/deadlines-raw/deadline-saturation.json",
+      "sha256": "c688ad425abeecc7f109c56003fa41ac8b6d7891f93af4060ea3ce774e2dc8a4",
+      "bytes": 2589
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/deadlines-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/deadlines.json",
+      "sha256": "1acc9439ce934b0b56620cddec9e8027ed18c85982611ee1f066a2be3c71d400",
+      "bytes": 1790
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/deadlines.running.json",
+      "sha256": "fe0ef5e69675f6c21ac18e982eec8e05d2846238244ab2d67a10d52eacda1a8f",
+      "bytes": 562
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/deadlines.txt",
+      "sha256": "39197876e9adc5e4b7eb3b03fde2523b79d839885771f5de2074df7383968165",
+      "bytes": 2422
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/delivery.md",
+      "sha256": "88a44614a8a94dd6638549877331ae03a51cf03f04159e23788c5fa059e3c152",
+      "bytes": 9248
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/executables.json",
+      "sha256": "535614888b52519fed474c6cf74518427f187c17d7127714bd2ba17772d067ec",
+      "bytes": 1045
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/execution-context.json",
+      "sha256": "2b7d634e31696b8a1e73b15008638d68ffbde53b173c8c2431013df75c6844df",
+      "bytes": 11483
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/finalize.py",
+      "sha256": "3410239c32c4384fa1a855789613d5596096887a41a20ac46d5d722041fac23f",
+      "bytes": 23831
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt-final-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt-final.json",
+      "sha256": "0bae6a1cf4d4ee120381aa02300b7c507c249320657e41134e9044f07d2850c0",
+      "bytes": 1665
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt-final.running.json",
+      "sha256": "cefdbe86383f141fb933e15fce942ee6bc97951190050ec210f3ff28a2ec8ccf",
+      "bytes": 435
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt-final.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt-source.json",
+      "sha256": "07b80d19f93da00580286e450d205aad7b8f3fde03ebd3c6121eefa803ba2c34",
+      "bytes": 8602
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt.json",
+      "sha256": "579ad53ec65ea0e6f9db1f1582a43d3da3f7191d3790eef9d8d57405005c2405",
+      "bytes": 1652
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt.running.json",
+      "sha256": "60b5f967a246c88205a141d3627eb7c3c5ebf2b18df0ad9544cefd4c25af21f5",
+      "bytes": 435
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/focused-first.txt",
+      "sha256": "cb70db4ba16a852a58b0a11890d2d57d4f7e29fd7b3cc1e737f9a17e08cdb8cd",
+      "bytes": 6740
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/focused-repair-source.json",
+      "sha256": "577d6a97ee9bb6309afdbd096587769c713ab4be6f556c224e3f645252469bfa",
+      "bytes": 8602
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/focused-repair.json",
+      "sha256": "a2258b44b8fb9e626f5f79da5bda0f381d63dab6955cc76664b47c6c74e3e667",
+      "bytes": 1709
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/focused-repair.running.json",
+      "sha256": "ee31d833203b365fba5d5f3b338e19dbaa4f08f523db05673dce59f311d7685a",
+      "bytes": 520
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/focused-repair.txt",
+      "sha256": "7a6503f4a1dced5d312c678fc249ea0beeb8a8a2c283433105233e1720253c89",
+      "bytes": 61034
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/harness-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/harness.json",
+      "sha256": "80036806912ff4f27c1447b525418a7d6fb8f331b23bc70b315b8b980e202b2c",
+      "bytes": 1634
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/harness.running.json",
+      "sha256": "b52bb00230970267feddeae9a672823e15ebd52ebb9d9f20d36e8d3d156f41e5",
+      "bytes": 410
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/harness.txt",
+      "sha256": "e5146713a4c52df2d04cf0decc05fdf12dc22ea886b13a22b2987f7503e522a0",
+      "bytes": 2296
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/performance.json",
+      "sha256": "4431bebc3f3cd3661ea89f355c76a4bc8680d9f58faf18b7be2b5d3efb946c74",
+      "bytes": 5236
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/performance.md",
+      "sha256": "f7b36369263a3c1b1cca9f1fb81c5b643612c311bab07eff55f4b2819334e95a",
+      "bytes": 4829
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/SIGINT.json",
+      "sha256": "e9dce6584b1894af096320569f7a20c05d6dbabfdc416f0a2c4eeaa346a17517",
+      "bytes": 5141
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/SIGTERM.json",
+      "sha256": "c8f37c89c1fd1154821d544fceb162b8b9e758a9784bdabf4f17dbf2b3e7c0b7",
+      "bytes": 5143
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/connection-100000.json",
+      "sha256": "345e36da874f7afcf05cfc16b8c7035f7a395f225215c324d4e18c0b240ff3ec",
+      "bytes": 1358
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/db-100000.json",
+      "sha256": "952cdf08b2b59693d02665a4f0eab3c10f22ae7a195d4e6d1b504fc94dc29a56",
+      "bytes": 1403
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/frames.json",
+      "sha256": "9d511cedbb28ffd1df663d70c4b0b2ad25f10114a8f5148608ac2f0559a879a9",
+      "bytes": 2540
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/native-measurements.json",
+      "sha256": "37eda49c89fa386003c2b1024934aeabb3c75539b6a9752534c5d0331a02dd32",
+      "bytes": 4427
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/native-observations.json",
+      "sha256": "2dff260f28eee099a0818a9c3f416644300ded115644209b774394fe7e061a52",
+      "bytes": 23082
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/native-probe.json",
+      "sha256": "834c56b2dca8868e81767e33dc8e243e9adfda84259d48ddd82240fe76198f00",
+      "bytes": 2652
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/native-sql-health.json",
+      "sha256": "fe61035cf4763f15c1b7e672f32b6cde997a250f382b88bd7f6b49ff2404a4a4",
+      "bytes": 2663
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/nonreader.json",
+      "sha256": "0e322cece99687419dac5f6b22b338f953726478a888b4933f0df25cd46ea0d1",
+      "bytes": 2530
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/request-100000.json",
+      "sha256": "d03c1d6126669271664dedc72dbc21e99b0d7c4c84898da04364979ce28cd15b",
+      "bytes": 1362
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/slow-db-release.json",
+      "sha256": "2af51a07bab6faa077349f9530a3b8186cec34244dd9c7478b34bd2511c9ef08",
+      "bytes": 2539
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/raw/small-message-samples.json",
+      "sha256": "bf3d5fcc2e34e536b0635d81d3d156462372b9cd351da4e6bb02a6a803c7480d",
+      "bytes": 110676
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/record.py",
+      "sha256": "c1abb2612fa424d65e6ecafb78698eeb4d8c04e6596c06792dcbc108c7a75e30",
+      "bytes": 4345
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/source-evidence.json",
+      "sha256": "d3818048f0d696b9d0638f5bd01b68986154c29a26af34a16d04d30d995d3933",
+      "bytes": 12245
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/sql-health-source.json",
+      "sha256": "07b80d19f93da00580286e450d205aad7b8f3fde03ebd3c6121eefa803ba2c34",
+      "bytes": 8602
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/sql-health.json",
+      "sha256": "dd937613fa14b37150fc2f9f2807402e59f2898784f87f1b10ad2770eb1087b6",
+      "bytes": 1753
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/sql-health.running.json",
+      "sha256": "8d2c4d70ca8bdf4f62ef3c3e8425f953528e519c1c8189d8dfea4465e3d73484",
+      "bytes": 568
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/sql-health.txt",
+      "sha256": "c55b6bae975bba2541e863701e0922b21ff808da2cb995182bc58c726dcc82d9",
+      "bytes": 2489
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/verify.py",
+      "sha256": "32af497caac93e0bbda40b8c0230c08e5f206b9ac0478a74b7340039a5f56628",
+      "bytes": 3425
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-check-source.json",
+      "sha256": "3326f6f90aa074bd4b6e55291caccd25819b69febdbc55163aa7f71fde3eaf7f",
+      "bytes": 8602
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-check.json",
+      "sha256": "9f8e7374665910593da7431ca5a75f4c6bc45d5b362d4b725bc40f85c360152f",
+      "bytes": 1609
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-check.running.json",
+      "sha256": "34051bfceb87674c3958fb61d7ff9bf73c0b134ba69be2b34f085d18149f67b8",
+      "bytes": 417
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-check.txt",
+      "sha256": "ad0eb3afad450af8cb569ac8d5ceefeb98c5559319ca71c54db714a56809f3dd",
+      "bytes": 8822
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/SIGINT.json",
+      "sha256": "5f7575706ea486153b9e8295f1961dc657d28078f18fea177568d7ec2f0961b6",
+      "bytes": 5141
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/SIGTERM.json",
+      "sha256": "aac776367d44073bcc6654c308eb708c5a2bc3f9dff5ec081430755e93009f4f",
+      "bytes": 5142
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/connection-100000.json",
+      "sha256": "d8c7b46e8a3718f202ae0a66c7ca3f37047c2e02248f32275fe1eeda52a36bc3",
+      "bytes": 1358
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/db-100000.json",
+      "sha256": "2bed2f75611523ae6c9914b1b5f4d79fa1669bad88253ee87218027d6dfd3bf1",
+      "bytes": 1403
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/deadline-saturation.json",
+      "sha256": "8efe85280b57c9ce8154cfe1dc0adefcf41fac3db8b9e8a683001b231d33fb2f",
+      "bytes": 2589
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/frames.json",
+      "sha256": "67b624a70e6333a504ea2543b911c9432841b5da947926556f0de5abb90217b8",
+      "bytes": 2540
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/native-measurements.json",
+      "sha256": "449799eb7e5a602a986616640bb3ea99921e8ee40ab1f9c46ff5b0be36e410da",
+      "bytes": 4426
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/native-observations.json",
+      "sha256": "a31f0c3e19a7657af2da070a4ce4018fe5c2172fca9b06f06520821b6cdabeef",
+      "bytes": 23260
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/native-probe.json",
+      "sha256": "fcc448519eb76e041cd667fa7b2761e30228295d6587a239a85410127b208b8b",
+      "bytes": 2652
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/native-sql-health.json",
+      "sha256": "0329a4f3e9f310c58c2967d5b9231da00c3eae737895fb099f594617cb26c31b",
+      "bytes": 2663
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/nonreader.json",
+      "sha256": "6d1d6f2613245ac97b6d6286a26fde0ed3cd78d15b393265b6abbf7a14e2e25a",
+      "bytes": 2530
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/request-100000.json",
+      "sha256": "d03c1d6126669271664dedc72dbc21e99b0d7c4c84898da04364979ce28cd15b",
+      "bytes": 1362
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/slow-db-release.json",
+      "sha256": "ef6abdf93a48f85059cc1c97eec5960d5c8a424357c0eb879648b62908f97bbe",
+      "bytes": 2539
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-raw/small-message-samples.json",
+      "sha256": "a5162a236995cfdaa23dcba78c6c49f28595753f9f181ea140976ab9846557c8",
+      "bytes": 110654
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final-source.json",
+      "sha256": "cb10ac6cbd7a1cec2aa3f72e12842a7756b5b2a3ca76d1637decd0de3ebb389f",
+      "bytes": 8791
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final.json",
+      "sha256": "cecee9dd9da74c418a0191903113b3941c99056c5900d35f36f2e2b981ab7f2b",
+      "bytes": 1656
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final.running.json",
+      "sha256": "177879663f03c3d087ec0b995868740d501abed6a18b2d28ab72aba608e007cb",
+      "bytes": 417
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-final.txt",
+      "sha256": "83ae49e5e8866d4e776cb5f14e52ac29323caa63f9248c7e1c216e9b5c8862cf",
+      "bytes": 17715
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-first-source.json",
+      "sha256": "baa5cbab6452d7a5e030b38e6148c7d9b2ad3ebee110b6a8f8fbe9a8dc22e4da",
+      "bytes": 192
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-first.json",
+      "sha256": "fde3fea1f76704178b8b825dc5e587cb8cf5d4f2cdc30fc5fcb852752e6c2676",
+      "bytes": 1574
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-first.running.json",
+      "sha256": "c014cceff2fa430929b5fb89065e976a926ba10bb172ebd3dc631d71de3338ef",
+      "bytes": 381
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/workspace-first.txt",
+      "sha256": "f473cffc8118b7d19b28ec95a02c5856dcdb9c9a7059cdb9b341641a5aafda70",
+      "bytes": 254
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/wrong-root-context.json",
+      "sha256": "638cd065bf4ea486c74a5f22322b476a427d22ddf7a3bd9655e0d12e90efeab7",
+      "bytes": 2575
+    }
+  ]
+}

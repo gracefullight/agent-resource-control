@@ -1,0 +1,25 @@
+{
+  "argv": [
+    "/Users/gracefullight/.local/share/mise/installs/python/3.14/bin/python3",
+    "-B",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-5/verify.py"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "startedAt": "2026-11-07T16:41:46.316235+00:00",
+  "finishedAt": "2026-11-07T16:41:46.512949+00:00",
+  "elapsedSeconds": 0.1967152500001248,
+  "exitCode": 0,
+  "processExitObserved": true,
+  "timeoutSeconds": 60,
+  "timedOut": false,
+  "environment": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "AGENT_VALLEY_MANAGED_RUN": "1"
+  },
+  "python": "3.14.10 (main, Oct 26 2026, 13:59:48) [Clang 23.1.3 ]",
+  "output": "collection-after.txt",
+  "outputSha256": "1d52e8076716a2ab5356f1032d45521c1e27471a27758f074bfbc1ee59f9d817",
+  "inputSnapshotBeforeSha256": "55444e8130511853b443bd23b75abecfbb2a574404a87b64c3e51562fec9ecc9",
+  "inputSnapshotAfterSha256": "55444e8130511853b443bd23b75abecfbb2a574404a87b64c3e51562fec9ecc9",
+  "inputsUnchanged": true
+}

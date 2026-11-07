@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-11-07T16:55:57.023666+00:00",
+  "deadline": "2026-11-08T10:52:35.601000+00:00",
+  "remainingSeconds": 64598.577334,
+  "cancellation": "No cancellation received; no cancellation-state tool exposed.",
+  "attempt": 8,
+  "maxParallel": 3,
+  "maxRuns": 200,
+  "maxRetries": 3,
+  "newAgents": 0,
+  "skill": "oma-backend",
+  "scope": "Collection restoration and new correction evidence only",
+  "observedActorHead": "0192ccb29570654d2a5408162ad262deafdcd63d",
+  "snapshotCommit": "0192ccb29570654d2a5408162ad262deafdcd63d",
+  "snapshotTree": "4746b22753c020491e2570d684e5edd86c02d468",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineTree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+  "freshRuntimeChecks": false,
+  "serenaAvailable": false,
+  "injectedClaimPath": null,
+  "omaRunId": null
+}

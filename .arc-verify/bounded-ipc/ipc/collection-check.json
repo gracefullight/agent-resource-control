@@ -1,0 +1,47 @@
+{
+  "recordedAt": "2026-11-07T12:10:42.585802+00:00",
+  "phase": "before Actor return / framework collection",
+  "actorWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+  "reviewWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "ignoreReceipt": {
+    "argv": [
+      "git",
+      "check-ignore",
+      "--",
+      ".arc-verify/bounded-ipc/ipc/delivery.md",
+      ".arc-verify/bounded-ipc/ipc/evidence.json"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+    "exitCode": 1,
+    "stdout": "",
+    "stderr": ""
+  },
+  "scopedStatus": {
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1",
+      "--untracked-files=all",
+      "--",
+      ".arc-verify/bounded-ipc/ipc"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+    "exitCode": 0,
+    "stdout": "?? .arc-verify/bounded-ipc/ipc/clippy.json\n?? .arc-verify/bounded-ipc/ipc/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/delivery.md\n?? .arc-verify/bounded-ipc/ipc/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/finalize.py\n?? .arc-verify/bounded-ipc/ipc/fmt.json\n?? .arc-verify/bounded-ipc/ipc/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/original-delivery.md\n?? .arc-verify/bounded-ipc/ipc/provenance-after.json\n?? .arc-verify/bounded-ipc/ipc/provenance-before.json\n?? .arc-verify/bounded-ipc/ipc/record.py\n?? .arc-verify/bounded-ipc/ipc/ref-scopes.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/clippy.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/clippy.running.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/clippy.txt\n?? .arc-verify/bounded-ipc/ipc/resume-3/execution-context.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/fmt.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/fmt.running.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/fmt.txt\n?? .arc-verify/bounded-ipc/ipc/resume-3/interrupted-delivery.md\n?? .arc-verify/bounded-ipc/ipc/resume-3/provenance-after.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/provenance-before.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/review-environment-probe.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/resume-3/workspace-test.txt\n?? .arc-verify/bounded-ipc/ipc/resume.py\n?? .arc-verify/bounded-ipc/ipc/review-environment-probe.json\n?? .arc-verify/bounded-ipc/ipc/review-source-comparison.json\n?? .arc-verify/bounded-ipc/ipc/workspace-test.json\n?? .arc-verify/bounded-ipc/ipc/workspace-test.running.json\n?? .arc-verify/bounded-ipc/ipc/workspace-test.txt\n",
+    "stderr": ""
+  },
+  "reviewArtifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/delivery.md",
+      "present": false,
+      "sha256": null
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/evidence.json",
+      "present": false,
+      "sha256": null
+    }
+  ],
+  "postCollectionVerified": false,
+  "requiredNextStep": "Chief/framework collects normally, then verifies delivery/index and all artifact hashes in review checkout. Actor does not manually copy across checkouts or infer collection from non-ignored status."
+}

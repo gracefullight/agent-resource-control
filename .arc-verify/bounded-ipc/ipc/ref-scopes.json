@@ -1,0 +1,125 @@
+{
+  "recordedAt": "2026-11-07T12:01:05.828212+00:00",
+  "receipts": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0\nc802f71ac4d91ed6b8a602d5c83bf9cf57116b76\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "3816bafaa684c8099dad78be2d0cb0e474c5f08b\ne79ff4ed85c94059275bbb4992579a2d55f51eb3\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "3816bafaa684c8099dad78be2d0cb0e474c5f08b\ne79ff4ed85c94059275bbb4992579a2d55f51eb3\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/snapshot",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 0,
+      "stdout": "eee0c01750bcf852d691395774215b18628e89d7\n90ce687dd5407eff881a03c666ebe89d79ca66da\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+      "exitCode": 128,
+      "stdout": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker\n",
+      "stderr": "fatal: ambiguous argument 'refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-1",
+      "exitCode": 0,
+      "stdout": "3816bafaa684c8099dad78be2d0cb0e474c5f08b\ne79ff4ed85c94059275bbb4992579a2d55f51eb3\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-1",
+      "exitCode": 128,
+      "stdout": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot\n",
+      "stderr": "fatal: ambiguous argument 'refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/snapshot': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-1",
+      "exitCode": 128,
+      "stdout": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker\n",
+      "stderr": "fatal: ambiguous argument 'refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-1/worker': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/snapshot",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/snapshot^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-1",
+      "exitCode": 128,
+      "stdout": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/snapshot\n",
+      "stderr": "fatal: ambiguous argument 'refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/snapshot': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-1",
+      "exitCode": 128,
+      "stdout": "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker\n",
+      "stderr": "fatal: ambiguous argument 'refs/agent-valley/task-evidence/d6c6b45f4a6c3769-78686d2704d4d690-2/worker': unknown revision or path not in the working tree.\nUse '--' to separate paths from revisions, like this:\n'git <command> [<revision>...] -- [<file>...]'\n"
+    }
+  ]
+}

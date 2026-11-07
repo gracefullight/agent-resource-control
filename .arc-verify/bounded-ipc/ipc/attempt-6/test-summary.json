@@ -1,0 +1,25 @@
+{
+  "workspacePassed": 173,
+  "transportTests": 18,
+  "transportTargetOutput": "Running tests/transport_unit.rs (target/debug/deps/transport_unit-d734e18fd1baa8d5)\n\nrunning 18 tests\ntest limits::tests::limits_reject_invalid_config_and_profiles ... ok\ntest runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping ... ok\ntest tests::metrics_are_fixed_size_and_preserve_high_waters ... ok\ntest tests::cancellation_reaps_unpolled_handlers_and_drops_all_guards ... ok\ntest tests::headers_and_trickled_bodies_have_absolute_deadlines ... ok\ntest tests::header_progress_does_not_renew_the_body_budget ... ok\ntest tests::malformed_json_and_version_errors_continue_without_database ... ok\ntest tests::same_user_authentication_supports_async_sockets_and_rejects_non_sockets ... ok\ntest tests::saturated_requests_close_before_allocating_even_for_invalid_prefixes ... ok\ntest tests::typed_worker_outcomes_keep_busy_distinct_from_integrity ... ok\ntest tests::stalled_header_and_partial_body_release_request_capacity ... ok\ntest tests::zero_and_oversized_frames_reject_without_body_allocation ... ok\ntest tests::retained_tasks_reap_and_rejections_do_not_call_factory ... ok\ntest tests::request_admission_races_and_unwind_never_exceed_cap ... ok\ntest tests::nonreading_peer_expires_under_write_backpressure ... ok\ntest tests::blocked_handler_write_releases_request_and_response_reservations ... ok\ntest tests::response_serialization_is_capped_before_any_prefix_is_written ... ok\ntest tests::oversized_echo_uses_one_small_fallback_then_closes ... ok\n\ntest result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s\n",
+  "testResultLines": [
+    "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.56s",
+    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+    "test result: ok. 52 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.58s",
+    "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.18s",
+    "test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s",
+    "test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.48s",
+    "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+    "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+    "test result: ok. 48 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.80s",
+    "test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+    "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+    "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+  ],
+  "note": "Passing invocations include shared-source targets; this is not a unique-test count."
+}

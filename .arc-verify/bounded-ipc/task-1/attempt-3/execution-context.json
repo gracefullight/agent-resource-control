@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-11-07T15:01:14.046841+00:00",
+  "actor": "technical-director",
+  "task": "task-1",
+  "attempt": 3,
+  "nativeSession": "01a1b685-19d3-7e32-b9db-1498329b014e",
+  "managedRun": "1",
+  "suppliedMaxDurationSec": 86400,
+  "suppliedMaxRuns": 200,
+  "suppliedMaxRetries": 3,
+  "parallelismThisAttempt": 1,
+  "delegation": false,
+  "budget": "Existing mission limits retained; no new mission, deadline, retry or run allocation.",
+  "checks": "Read-only native dependency and formatting checks, each with a 120-second process timeout.",
+  "host": {
+    "system": "Darwin",
+    "release": "27.2.0",
+    "machine": "arm64"
+  },
+  "sourceSearch": "No Serena tools exposed. Known-path reads/Git only for source; non-code documentation search permitted."
+}

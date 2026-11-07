@@ -1,0 +1,482 @@
+{
+  "scope": "Attempt-6 source and artifact hashes before refreshing delivery/evidence; original receipts remain historical with original cwd/revisions.",
+  "records": [
+    {
+      "kind": "sourceHashes",
+      "path": "crates/arc-daemon/src/db_worker.rs",
+      "expected": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "actual": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": "crates/arc-daemon/src/db_worker/execution.rs",
+      "expected": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "actual": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": "crates/arc-daemon/src/db_worker/tests.rs",
+      "expected": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+      "actual": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+      "expected": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "actual": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": "crates/arc-daemon/src/limits.rs",
+      "expected": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "actual": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "expected": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "actual": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": "docs/bounded-ipc-contract.md",
+      "expected": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0",
+      "actual": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": ".arc-verify/bounded-ipc/ipc/evidence.json",
+      "expected": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739",
+      "actual": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739",
+      "matches": true
+    },
+    {
+      "kind": "sourceHashes",
+      "path": "scripts/harness/validate.sh",
+      "expected": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "actual": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/clippy-first-failure.txt",
+      "expected": "92b2363954a72cfa90197da25ac7322390ab37b2f7c1d855dd05536c52dc8e77",
+      "actual": "92b2363954a72cfa90197da25ac7322390ab37b2f7c1d855dd05536c52dc8e77",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/clippy.txt",
+      "expected": "6b01610b0ed3ac6a71f0ba397c38a19dc77a4138cb568541eb9a6f7e75fe8d87",
+      "actual": "6b01610b0ed3ac6a71f0ba397c38a19dc77a4138cb568541eb9a6f7e75fe8d87",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/collect_evidence.py",
+      "expected": "5b210a23a575e082a3069798ed6742121f47bace2942806a999e4bd980324061",
+      "actual": "5b210a23a575e082a3069798ed6742121f47bace2942806a999e4bd980324061",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/delivery.md",
+      "expected": "2cf8b3412d33af135d06c0e5b7a7b958eab0346de9287dc2f64dd5b4234471b8",
+      "actual": "2cf8b3412d33af135d06c0e5b7a7b958eab0346de9287dc2f64dd5b4234471b8",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/driver/Cargo.lock",
+      "expected": "6422f1cc323639b7eca9e24b68faab21696fa3cfec87c58c1f804ea15b1c527a",
+      "actual": "6422f1cc323639b7eca9e24b68faab21696fa3cfec87c58c1f804ea15b1c527a",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/driver/Cargo.toml",
+      "expected": "5c441558c3903383123ed56595c7fefc3c8fd9e01d2df4fd771e59aac5958b3c",
+      "actual": "5c441558c3903383123ed56595c7fefc3c8fd9e01d2df4fd771e59aac5958b3c",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/driver/src/lib.rs",
+      "expected": "a242c371f58fe2011bd6e3a5a96dce272d441affa553c15acb02fca5f95e05a6",
+      "actual": "a242c371f58fe2011bd6e3a5a96dce272d441affa553c15acb02fca5f95e05a6",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/harness.json",
+      "expected": "4a859ee6a359b3ee5cbea5c0880394ddfacb6eb699f990cb6900301f8e9c7141",
+      "actual": "4a859ee6a359b3ee5cbea5c0880394ddfacb6eb699f990cb6900301f8e9c7141",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/harness.txt",
+      "expected": "0d00ae57ae40f224382991c684afbd4b5a64a4335de5db5474b91c6c5d807628",
+      "actual": "0d00ae57ae40f224382991c684afbd4b5a64a4335de5db5474b91c6c5d807628",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/original-handoff.json",
+      "expected": "3bf49b5ba381bec5afb5322331ec522e6065ec9da51586fbdccfbf2b21418215",
+      "actual": "3bf49b5ba381bec5afb5322331ec522e6065ec9da51586fbdccfbf2b21418215",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/original-handoff.md",
+      "expected": "3103ae666082256911c61fcb71c299c1384bd5408a5ad7b34aa04d1dda057589",
+      "actual": "3103ae666082256911c61fcb71c299c1384bd5408a5ad7b34aa04d1dda057589",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/accounting-execution-context.json",
+      "expected": "348427a2f2dea545d0a30df5093794be95467e865e527870e809ee40df8d60de",
+      "actual": "348427a2f2dea545d0a30df5093794be95467e865e527870e809ee40df8d60de",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/accounting-summary.json",
+      "expected": "670cfaf86586246634412c6c8337e98ce4865eae5faa3efe1b2a094b55b1c999",
+      "actual": "670cfaf86586246634412c6c8337e98ce4865eae5faa3efe1b2a094b55b1c999",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/boundary-check.json",
+      "expected": "9431b42aef3d4dbb565ae18393af43c7ef9fb12714bb379763e171df7a7d17af",
+      "actual": "9431b42aef3d4dbb565ae18393af43c7ef9fb12714bb379763e171df7a7d17af",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/clippy.json",
+      "expected": "8a917d51f9e4614a1623260d377c7ba534a40583484e73c48e8696b60b5b85d1",
+      "actual": "8a917d51f9e4614a1623260d377c7ba534a40583484e73c48e8696b60b5b85d1",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/clippy.running.json",
+      "expected": "76741f11837b40aa01610e9c73bf1170b7ab677ae3553fd5499e5ade9391e7fa",
+      "actual": "76741f11837b40aa01610e9c73bf1170b7ab677ae3553fd5499e5ade9391e7fa",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/clippy.txt",
+      "expected": "345aa469f2bb12857c6524dfdec0182b04bf4fae408d86bbd8aed21833333b85",
+      "actual": "345aa469f2bb12857c6524dfdec0182b04bf4fae408d86bbd8aed21833333b85",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/execution-context.json",
+      "expected": "67b883287e17f424775e109d0abdded2e4d822a0b90cf763368f7abe17bca6cc",
+      "actual": "67b883287e17f424775e109d0abdded2e4d822a0b90cf763368f7abe17bca6cc",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/finalize.py",
+      "expected": "137ffb08a4bf6f7cefd9306c291a7f92299ef8475c954686b5de50f501bc19f5",
+      "actual": "137ffb08a4bf6f7cefd9306c291a7f92299ef8475c954686b5de50f501bc19f5",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/fmt-final.json",
+      "expected": "b831fa61f441c67a230eb46467128fcf0099cc66fd8fb27d2e94cd3fe69a877b",
+      "actual": "b831fa61f441c67a230eb46467128fcf0099cc66fd8fb27d2e94cd3fe69a877b",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/fmt-final.running.json",
+      "expected": "684f64cbc20e2b9d0e8f3c9a8931439e93041496d5978609ecde9347c646c324",
+      "actual": "684f64cbc20e2b9d0e8f3c9a8931439e93041496d5978609ecde9347c646c324",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/fmt-final.txt",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/fmt.json",
+      "expected": "71e1a2bfaa5cf186518844e256716d18de14d9cd353136408ff28daa32c76396",
+      "actual": "71e1a2bfaa5cf186518844e256716d18de14d9cd353136408ff28daa32c76396",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/fmt.running.json",
+      "expected": "3c20f975e1b29a15ee787b375a0694f42d35bce37b9d65bbf58005bb1e01c870",
+      "actual": "3c20f975e1b29a15ee787b375a0694f42d35bce37b9d65bbf58005bb1e01c870",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/fmt.txt",
+      "expected": "19cba6ff219ff7f56a42e933d69b07f7d95e1ba9c2db2bcf54530f975b83c86d",
+      "actual": "19cba6ff219ff7f56a42e933d69b07f7d95e1ba9c2db2bcf54530f975b83c86d",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/format-owned.json",
+      "expected": "f08f525ccc491af449626e74aeae76bbbd82086a620a6c4fd9ba4529ac128f89",
+      "actual": "f08f525ccc491af449626e74aeae76bbbd82086a620a6c4fd9ba4529ac128f89",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/format-owned.running.json",
+      "expected": "55da125a0020a028a738518baabb3fa770e4b5cc205fcd4765985d49a372633a",
+      "actual": "55da125a0020a028a738518baabb3fa770e4b5cc205fcd4765985d49a372633a",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/format-owned.txt",
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/original-evidence.json",
+      "expected": "bb72a350bf7be6b87c214a728de204709eeff065eea5ff927996ce7ee6bb7729",
+      "actual": "bb72a350bf7be6b87c214a728de204709eeff065eea5ff927996ce7ee6bb7729",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/original-tests.rs.txt",
+      "expected": "b6af9020a2cd89ac0e22d7f850e1d3ab6218e9b4ba4fba0eb4401787972cca48",
+      "actual": "b6af9020a2cd89ac0e22d7f850e1d3ab6218e9b4ba4fba0eb4401787972cca48",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/provenance-after.json",
+      "expected": "965f564ba619c86d8d049683b2c9a1fa6ca135426c5e51a39b3c46ad3f8e2300",
+      "actual": "965f564ba619c86d8d049683b2c9a1fa6ca135426c5e51a39b3c46ad3f8e2300",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/provenance-before.json",
+      "expected": "5244172960e77c36fab70d3bd2971e815c25a1948e84c4c5ffefe5cfcf438999",
+      "actual": "5244172960e77c36fab70d3bd2971e815c25a1948e84c4c5ffefe5cfcf438999",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/record.py",
+      "expected": "374c5623a495f0673b9bda4bf5c084bfb0d5700ce979a89033f5631920139cd5",
+      "actual": "374c5623a495f0673b9bda4bf5c084bfb0d5700ce979a89033f5631920139cd5",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/registered-constructor-failure.json",
+      "expected": "1a1ad127a3af7ada763c587c1c5344051ba8625a7c328fdb2ff89bd4a2476f10",
+      "actual": "1a1ad127a3af7ada763c587c1c5344051ba8625a7c328fdb2ff89bd4a2476f10",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/registered-constructor-failure.running.json",
+      "expected": "18e4ed61f2e348e0b777c5f35ad0a884aa29ddb28410abc610f3269a4e7ed8dd",
+      "actual": "18e4ed61f2e348e0b777c5f35ad0a884aa29ddb28410abc610f3269a4e7ed8dd",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/registered-constructor-failure.txt",
+      "expected": "8a571ebb48a5abc40e6e54689382b076e762097414064c7a86b930ef4a93d261",
+      "actual": "8a571ebb48a5abc40e6e54689382b076e762097414064c7a86b930ef4a93d261",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/source-comparison.json",
+      "expected": "a7ff942e7e764f017d75b1c1cdf74685f2f1299ebc7449d37a1ce51767fcd30b",
+      "actual": "a7ff942e7e764f017d75b1c1cdf74685f2f1299ebc7449d37a1ce51767fcd30b",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/verify_delivery.py",
+      "expected": "80cd7455632cf671b1dd85c0165b8ec0588caaac2134c2f62c9105abab6f4efc",
+      "actual": "80cd7455632cf671b1dd85c0165b8ec0588caaac2134c2f62c9105abab6f4efc",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test-accounting.json",
+      "expected": "eb27409e739f332476dc9a6cb0de3e83992a8a4e995fd289a61c2cf3608601dd",
+      "actual": "eb27409e739f332476dc9a6cb0de3e83992a8a4e995fd289a61c2cf3608601dd",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test-accounting.running.json",
+      "expected": "2b415e2000960bfa0216239a32d7d1b26f0eaaaa81d1cafd5755335f22e24219",
+      "actual": "2b415e2000960bfa0216239a32d7d1b26f0eaaaa81d1cafd5755335f22e24219",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test-accounting.txt",
+      "expected": "0a359b10d453760d4dcb504e9a3fdd124abd0187191ab6b0188227adcfc5dee7",
+      "actual": "0a359b10d453760d4dcb504e9a3fdd124abd0187191ab6b0188227adcfc5dee7",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test-final.json",
+      "expected": "0e6a810fa85532224a005fd23089bb63e14605d52133686455f61025cdd0c2ca",
+      "actual": "0e6a810fa85532224a005fd23089bb63e14605d52133686455f61025cdd0c2ca",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test-final.running.json",
+      "expected": "fc7ad1d55dafcee50042c971159d7879bb1d1cf14bf4728dcf39aa53afdd1708",
+      "actual": "fc7ad1d55dafcee50042c971159d7879bb1d1cf14bf4728dcf39aa53afdd1708",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test-final.txt",
+      "expected": "81db02a187cc15995b8a8519322c5691f130a5bb7b29ba9cef14e054cde9b3a9",
+      "actual": "81db02a187cc15995b8a8519322c5691f130a5bb7b29ba9cef14e054cde9b3a9",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test.json",
+      "expected": "7a8391ffa7ead1a7dbabc2ef8ea916eb52691ffc6f1cf3cfef3674e5ea578426",
+      "actual": "7a8391ffa7ead1a7dbabc2ef8ea916eb52691ffc6f1cf3cfef3674e5ea578426",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test.running.json",
+      "expected": "28081d369e6a08cdf9304eb52b3fd986abf17a858d934df809ce9b359cf98369",
+      "actual": "28081d369e6a08cdf9304eb52b3fd986abf17a858d934df809ce9b359cf98369",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/worker-test.txt",
+      "expected": "39f790aa1204cc90f76eea946f99f462a95f10a3384512a62ada75681d167533",
+      "actual": "39f790aa1204cc90f76eea946f99f462a95f10a3384512a62ada75681d167533",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/workspace-test.json",
+      "expected": "bd1a94d2a7a4d1252fbec41f6d0d624d5f7ea3d6981d8365f14860854dd660b2",
+      "actual": "bd1a94d2a7a4d1252fbec41f6d0d624d5f7ea3d6981d8365f14860854dd660b2",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/workspace-test.running.json",
+      "expected": "14e1608908e0d6717324fc0cb00cbedf9f108b340a4a6cdc051db4d1964bbc68",
+      "actual": "14e1608908e0d6717324fc0cb00cbedf9f108b340a4a6cdc051db4d1964bbc68",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/repair-6/workspace-test.txt",
+      "expected": "e4478b2b999b9fc7c71c1a9aa2e056b544c32d0f24322e70c80d8a207432f015",
+      "actual": "e4478b2b999b9fc7c71c1a9aa2e056b544c32d0f24322e70c80d8a207432f015",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/run_check.py",
+      "expected": "649f5d26a1d4e12b73b2b7eb150fc3fbfda87510a378ca329a5b24f0834584d6",
+      "actual": "649f5d26a1d4e12b73b2b7eb150fc3fbfda87510a378ca329a5b24f0834584d6",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/scoped-fmt.txt",
+      "expected": "714620aa37f187875380662c6c43f333542f5cb04d2b8bcda17a384e1d7430a9",
+      "actual": "714620aa37f187875380662c6c43f333542f5cb04d2b8bcda17a384e1d7430a9",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/unit-tests-first-failure.txt",
+      "expected": "0f0fe2729f6cd03e6740a77c034d29c25880404c291ee0c869dbbc33da11b724",
+      "actual": "0f0fe2729f6cd03e6740a77c034d29c25880404c291ee0c869dbbc33da11b724",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/unit-tests.json",
+      "expected": "262e172807d3a886fc9178c88e18b6fad0a63ba50988d196ad2164704649737c",
+      "actual": "262e172807d3a886fc9178c88e18b6fad0a63ba50988d196ad2164704649737c",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/unit-tests.txt",
+      "expected": "b4d77d3c314e07c2469cc15be375ba467b2b516d38c4aa114cfc93d2ecda5b2c",
+      "actual": "b4d77d3c314e07c2469cc15be375ba467b2b516d38c4aa114cfc93d2ecda5b2c",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/workspace-clippy.txt",
+      "expected": "e7b6c8e3b6b179d2f27ee22c6e8228031267a1ad3f5347330a90743e465c6f83",
+      "actual": "e7b6c8e3b6b179d2f27ee22c6e8228031267a1ad3f5347330a90743e465c6f83",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/workspace-fmt.txt",
+      "expected": "714620aa37f187875380662c6c43f333542f5cb04d2b8bcda17a384e1d7430a9",
+      "actual": "714620aa37f187875380662c6c43f333542f5cb04d2b8bcda17a384e1d7430a9",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/workspace-test.json",
+      "expected": "673ccd1a5a45f33a94d22a9ed18da80ad7b60c2d8e24c3cbec73eb524125ea9b",
+      "actual": "673ccd1a5a45f33a94d22a9ed18da80ad7b60c2d8e24c3cbec73eb524125ea9b",
+      "matches": true
+    },
+    {
+      "kind": "artifacts",
+      "path": ".arc-verify/bounded-ipc/database/workspace-test.txt",
+      "expected": "2217026ac3adfbbf523439a40231d91f1ad0ef758a4256142802402098f778c4",
+      "actual": "2217026ac3adfbbf523439a40231d91f1ad0ef758a4256142802402098f778c4",
+      "matches": true
+    }
+  ],
+  "allMatch": true
+}

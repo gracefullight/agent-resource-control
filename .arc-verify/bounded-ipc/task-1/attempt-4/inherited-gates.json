@@ -1,0 +1,63 @@
+{
+  "productFilesMatched": 50,
+  "fingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "gates": [
+    {
+      "receipt": ".arc-verify/bounded-ipc/qa-review/attempt-2/fmt.json",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "originalStartedAt": "2026-11-07T16:02:13.263539+00:00",
+      "exitCode": 0,
+      "outputHashMatches": true,
+      "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+      "replayed": false
+    },
+    {
+      "receipt": ".arc-verify/bounded-ipc/qa-review/attempt-2/clippy.json",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "originalStartedAt": "2026-11-07T16:02:16.798361+00:00",
+      "exitCode": 0,
+      "outputHashMatches": true,
+      "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+      "replayed": false
+    },
+    {
+      "receipt": ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace.json",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "originalStartedAt": "2026-11-07T16:02:23.863834+00:00",
+      "exitCode": 0,
+      "outputHashMatches": true,
+      "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+      "replayed": false
+    },
+    {
+      "receipt": ".arc-verify/bounded-ipc/qa-review/attempt-2/harness.json",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "originalStartedAt": "2026-11-07T16:03:04.217152+00:00",
+      "exitCode": 1,
+      "outputHashMatches": true,
+      "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+      "replayed": false
+    }
+  ],
+  "evidenceBoundary": "Historical source-matched command receipts; no runtime or benchmark rerun."
+}

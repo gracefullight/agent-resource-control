@@ -1,0 +1,81 @@
+{
+  "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "reportsValidated": [
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGINT.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGINT.json:restart_report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGTERM.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/SIGTERM.json:restart_report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/deadline-saturation.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/frames.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-measurements.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-probe.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/native-sql-health.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/nonreader.json:report",
+    ".arc-verify/bounded-ipc/qa-review/attempt-2/workspace-raw/slow-db-release.json:report"
+  ],
+  "attemptExperiments": [
+    {
+      "admitted": 8,
+      "attempted": 100000,
+      "completed": 0,
+      "elapsed_us": 1374589,
+      "rejected": 99992,
+      "scope": "production Handlers::try_spawn with authenticated native socketpairs",
+      "shutdown_cancelled": 8,
+      "timed_out": 0
+    },
+    {
+      "admitted": 4,
+      "attempted": 100000,
+      "completed": 0,
+      "rejected": 99996,
+      "released_without_dispatch": 4,
+      "scope": "production Requests::try_admit; no network or latency inference",
+      "shutdown_cancelled": 0,
+      "timed_out": 0
+    },
+    {
+      "admitted": 9,
+      "attempted": 100000,
+      "client_cancelled": 9,
+      "completed": 0,
+      "elapsed_us": 129860,
+      "rejected": 99991,
+      "reopen_integrity": "ok",
+      "scope": "production DbClient::try_doctor with controlled real worker",
+      "shutdown_cancelled": 0,
+      "timed_out": 0
+    }
+  ],
+  "signalCases": {
+    "SIGINT": {
+      "signalToReapedExitUs": 4866,
+      "handlersSpawnedReaped": 11,
+      "workerStartedJoined": 1,
+      "allGaugesZero": true,
+      "reopenIntegrity": "ok",
+      "restartVerified": true
+    },
+    "SIGTERM": {
+      "signalToReapedExitUs": 9643,
+      "handlersSpawnedReaped": 11,
+      "workerStartedJoined": 1,
+      "allGaugesZero": true,
+      "reopenIntegrity": "ok",
+      "restartVerified": true
+    }
+  },
+  "testCounts": {
+    "passed": 173,
+    "failed": 0,
+    "ignored": 0,
+    "measured": 0,
+    "filtered": 0
+  },
+  "recomputedP95Ns": 90750,
+  "recomputedIdleRssBytes": 5619712,
+  "recomputedNativeThreadPeak": 4,
+  "assertions": "All metrics current zero, high waters within configured caps; accounting reconciles; both signals strictly under five seconds; restart/integrity reports validated",
+  "dependencyArtifactsVerified": 107,
+  "precedingEvidence": "Preserved at original paths; prior top-level deliverables copied to preceding-* before replacement"
+}

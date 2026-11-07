@@ -1,0 +1,30 @@
+{
+  "status": "completed",
+  "changedFiles": [
+    "crates/arc-daemon/src/main.rs",
+    "crates/arc-daemon/src/lifecycle.rs",
+    "crates/arc-daemon/src/lifecycle_tests.rs",
+    "crates/arc-daemon/src/accept_recovery.rs",
+    "crates/arc-daemon/src/accept_recovery_tests.rs",
+    "crates/arc-daemon/src/runtime_report.rs",
+    "crates/arc-daemon/src/runtime_report_tests.rs",
+    "crates/arc-daemon/src/report_lifecycle_tests.rs"
+  ],
+  "unresolved": [
+    "Independent task review required before downstream execution.",
+    "Unchanged harness exits 1 with three retained failures.",
+    "Tasks 5-9 and all mission-wide saturation/native measurement/final QA/platform obligations remain open."
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/integration/delivery.md",
+    ".arc-verify/bounded-ipc/integration/evidence.json",
+    ".agents/results/result-backend-task-4-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "identity": {
+    "actorId": "backend",
+    "taskId": "task-4",
+    "attempt": 3,
+    "injectedClaimPath": null,
+    "omaRunId": null
+  }
+}

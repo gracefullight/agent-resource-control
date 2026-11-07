@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "git",
+    "ls-files",
+    "--others",
+    "--exclude-standard",
+    "--",
+    ".arc-verify/bounded-ipc/integration/delivery.md",
+    ".arc-verify/bounded-ipc/integration/evidence.json",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-7"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "pid": 81582,
+  "processGroup": 81582,
+  "startedAt": "2026-11-07T16:52:58.711168+00:00",
+  "timeoutSeconds": 120
+}

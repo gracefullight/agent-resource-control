@@ -1,0 +1,99 @@
+{
+  "suppliedSourceEvidenceAttempt": 2,
+  "actualTaskAttempt": 3,
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineTree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+  "snapshotCommit": "5aa081fb2f73f3d606ef009e30872d32aa94ce6b",
+  "snapshotTree": "87d951cecbcdf7236abf9af5da192e5e897096c0",
+  "observations": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "5aa081fb2f73f3d606ef009e30872d32aa94ce6b\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "HEAD^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "87d951cecbcdf7236abf9af5da192e5e897096c0\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0"
+      ],
+      "exitCode": 0,
+      "stdout": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "5aa081fb2f73f3d606ef009e30872d32aa94ce6b"
+      ],
+      "exitCode": 0,
+      "stdout": "5aa081fb2f73f3d606ef009e30872d32aa94ce6b\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "5aa081fb2f73f3d606ef009e30872d32aa94ce6b^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "87d951cecbcdf7236abf9af5da192e5e897096c0\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-e7c08de777760acd-2/snapshot"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n"
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "--verify",
+        "refs/agent-valley/task-evidence/d6c6b45f4a6c3769-e7c08de777760acd-2/worker"
+      ],
+      "exitCode": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision\n"
+    }
+  ],
+  "scope": "Current local HEAD/snapshot input plus subsequent evidence-only edits. Product/test bytes not attributed to committed accepted baseline. Missing local refs remain unresolved. Collection in review workspace must compare actual hashes."
+}

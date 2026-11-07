@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-11-07T16:57:29.702287+00:00",
+  "argv": [
+    "git",
+    "add",
+    "-f",
+    "--",
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "exitCode": 0,
+  "stagedPaths": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md"
+  ],
+  "stagedReportBytes": 8417,
+  "stagedReportSha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d",
+  "collectionMethod": "Force-stage the exact ignored generated report; normal host collection runs after Actor completion.",
+  "actualReceivingCheckoutVerified": false,
+  "headUnchanged": true,
+  "commitOrRefMutation": false
+}

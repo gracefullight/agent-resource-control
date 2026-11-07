@@ -1,0 +1,19 @@
+{
+  "baseline": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "files": {
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "byteIdentical": true,
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+    },
+    "scripts/harness/validate.sh": {
+      "byteIdentical": true,
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33"
+    }
+  },
+  "packageVersionsAndChecksumsUnchanged": true,
+  "lockPackagesAdded": [],
+  "lockPackagesRemoved": [],
+  "onlyLockChange": "arc-daemon -> existing serde_json",
+  "nativeDependenciesReady": true,
+  "workspaceMembers": 5
+}

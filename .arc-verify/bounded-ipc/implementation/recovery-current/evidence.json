@@ -1,0 +1,385 @@
+{
+  "actor": "test-engineer",
+  "task": "task-5",
+  "attempt": 9,
+  "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+  "scope": "New recovery-current files only; original 107-entry historical index unchanged",
+  "artifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/acceptance.json",
+      "bytes": 17544,
+      "sha256": "66f2080f75f1fba87c1054a5446f8ce41dc8d7a4279e7bafccfc5352d424c633",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-checker-admission.json",
+      "bytes": 279,
+      "sha256": "dcff7be7015889c7a17137595cf61b4ba40157c68d2cde2cdc91237282c63d80",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-checker-source-after.json",
+      "bytes": 8975,
+      "sha256": "c79745e69242d3225f23ee266a2c2e177366b620aa00dd5749b0287a505a070e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-checker-source.json",
+      "bytes": 8975,
+      "sha256": "c79745e69242d3225f23ee266a2c2e177366b620aa00dd5749b0287a505a070e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-checker.json",
+      "bytes": 1843,
+      "sha256": "7c29cc860b70408453d56c3d9c18f74f599a37915aee81c312cf07bc6b12d93b",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-checker.running.json",
+      "bytes": 411,
+      "sha256": "d8e3093ac37a25423029b0e9bc458a4affbdf078ecd9446a903dcd767760f700",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-checker.txt",
+      "bytes": 3296,
+      "sha256": "65827cb2d2990c2e91db6660bb000743f3a1936cd6d9bc9702d1ff70c3d1c961",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attempt8-delivery.json",
+      "bytes": 4260,
+      "sha256": "c28190b26e532a892510ae9ac5e6e599152e9262875b7e36120e31c31843e7ea",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/attribution.json",
+      "bytes": 28285,
+      "sha256": "25efff5fabb169c3f58a2e991803c87af0d4b32d3b4300e793ef6b675d3b3252",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/before-initial.json",
+      "bytes": 500555,
+      "sha256": "cdc20d44e09220fcc8b36bdcbb597b89b35ea9b504b67c4eaaeef964ddc4d07b",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/before.json",
+      "bytes": 527596,
+      "sha256": "543877dcbcf4cf706fd51b56e202271cbda8857724ce0300fd9f506d5000eb1c",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/check-initial-execution.json",
+      "bytes": 481,
+      "sha256": "7e9a9891979d87375b1348f5d935fd43cf518df76ca7229e2d2fe4f047416338",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/check-initial.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/check-initial.stdout.json",
+      "bytes": 60451,
+      "sha256": "ee08d4b5ba9c2427d1a3cd37b0d51bce21892cd5c2017b764e011a40a05d21d0",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/check.py",
+      "bytes": 28308,
+      "sha256": "ab69573c3be7a0af9c982cc98be1b3d5794194b1da5ad260fa0eba7e161e1118",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/collection-binding.json",
+      "bytes": 2065,
+      "sha256": "60b95a39411d56dd18dd39b4bff120c78b172249a847adf051ea8067b27b6b0e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/collection-path-check.json",
+      "bytes": 417,
+      "sha256": "bab9634131bce4925d3de8c67d1759a5c3d6201aefbdf47df021c9ddb4946252",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/configured-target-access.json",
+      "bytes": 444,
+      "sha256": "d55af71f76bc7d62970dd9b4f74b1d2637623f456cab5ea50e2ea8134c8e3cd7",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/current-source.json",
+      "bytes": 8975,
+      "sha256": "c79745e69242d3225f23ee266a2c2e177366b620aa00dd5749b0287a505a070e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/execution-context.json",
+      "bytes": 1312,
+      "sha256": "a5d3efe37389671dc860c276a2e21650584e6b2108b558d64b2bf8061f031576",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-admission.json",
+      "bytes": 280,
+      "sha256": "c4ef5ac475a9aa0b502a04b210cdabb98b4ee14f4d9c347b1414ce7266221134",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/SIGINT.json",
+      "bytes": 5141,
+      "sha256": "8cd3dbd86c8d9c9e952cd53fdd137b17810bbac9321c0fc65c8afdbe714a2966",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/SIGTERM.json",
+      "bytes": 5143,
+      "sha256": "60a7fa5b1c778f0a3599e38bafad91a8cb2fafe4fd3aed42d27699ef2f463bee",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/connection-100000.json",
+      "bytes": 1358,
+      "sha256": "5b9295270f01f0285a0ef14df71fd4e6b1c5754ed11216a937f4f1512945b491",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/db-100000.json",
+      "bytes": 1403,
+      "sha256": "c019c957f0eebec953b56a14b63bce3c7e9a12b5116fd9db8cca2808770b4363",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/deadline-saturation.json",
+      "bytes": 2589,
+      "sha256": "89bd4fecceb5993d45ecc46cfd6843e481484a1996e91c48b945b03be077c1f3",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/frames.json",
+      "bytes": 2540,
+      "sha256": "7337eb4fe4c55825550257cab0e67597ea9d4e5b28a37c5cb12ee8e97b364ff3",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/native-measurements.json",
+      "bytes": 4423,
+      "sha256": "b3dafaf1e944b890afcbc345a770bb8d744d6d91d4fd205a793e6dbc90eeffc6",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/native-observations.json",
+      "bytes": 23706,
+      "sha256": "b7814547142f76dddcdde7c3a0bbe24a6b1006fc566fd12313eae386da5cb21e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/native-probe.json",
+      "bytes": 2652,
+      "sha256": "0b559b42ccdc067021b1a33a6c7744701c020dc50ac4c89703ffa0f5a17a7633",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/native-sql-health.json",
+      "bytes": 2663,
+      "sha256": "2470fdb595a19df745011e78474aabf5fa2fa1e723bf774719ecac7765e34537",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/nonreader.json",
+      "bytes": 2530,
+      "sha256": "48a88d3ed80467dfea22c016907c521816ca4505f6f4ba8f2cd00e634e1933ac",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/request-100000.json",
+      "bytes": 1362,
+      "sha256": "d03c1d6126669271664dedc72dbc21e99b0d7c4c84898da04364979ce28cd15b",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/slow-db-release.json",
+      "bytes": 2539,
+      "sha256": "2f342c859e94692336dede19ea1ea8295a3646e3076bd62036c3e980b8b29100",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-raw/small-message-samples.json",
+      "bytes": 110850,
+      "sha256": "e9ed3cec974251978f17b6e1b23c111db424c8bc45220f8cc1280080bbdcd814",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-source-after.json",
+      "bytes": 8975,
+      "sha256": "c79745e69242d3225f23ee266a2c2e177366b620aa00dd5749b0287a505a070e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused-source.json",
+      "bytes": 8975,
+      "sha256": "c79745e69242d3225f23ee266a2c2e177366b620aa00dd5749b0287a505a070e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused.json",
+      "bytes": 1864,
+      "sha256": "16d8006e594879eecfb1c3f3abc3337245ea7e38a9faa6270e610e12c965a0f1",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused.running.json",
+      "bytes": 450,
+      "sha256": "cbb29c737d69950a5b00c9d73e2fb46ff4acb8244d7eab7d3b2103802b5c0d1d",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/focused.txt",
+      "bytes": 65920,
+      "sha256": "2055e0aad34c3e2b9c0882c430fad4300c9d48592f685bc227454a3699dad168",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/git-probes.json",
+      "bytes": 682,
+      "sha256": "e652399f487a19426ca4b96d6dddcc621cdad82e9e9645c52d2e714ebc1e39a3",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/handoff.md",
+      "bytes": 15093,
+      "sha256": "d30db84de0e455fd8428f629453f48cbbacf52f33fa895d9e5e5f52ab9849dc0",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/historical-verifier-admission.json",
+      "bytes": 280,
+      "sha256": "12d86aa9e987687bf036924d52ba887c221907d4756c92eac7489eb2323c4013",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/historical-verifier-source-after.json",
+      "bytes": 8975,
+      "sha256": "c79745e69242d3225f23ee266a2c2e177366b620aa00dd5749b0287a505a070e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/historical-verifier-source.json",
+      "bytes": 8975,
+      "sha256": "c79745e69242d3225f23ee266a2c2e177366b620aa00dd5749b0287a505a070e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/historical-verifier.json",
+      "bytes": 1840,
+      "sha256": "4316b72a7250ebe9f9293b6a12b89d97d5c04a9bda88c60cf7580d14398a4373",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/historical-verifier.running.json",
+      "bytes": 401,
+      "sha256": "ff9907d89bda2e49d57c8691d292ecbb48af82d63dd36f8ef01c3ece04a08f92",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/historical-verifier.txt",
+      "bytes": 705,
+      "sha256": "1daadebb22a43373dbe6e32b698271802183a761fd23a811049773a5ebb212e3",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/owner-receipt-copies.json",
+      "bytes": 2127,
+      "sha256": "8e2b3959c54f6cdb254e3de3b2cdecb123a8a2e3ace38523c044e654fca359e2",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/performance.json",
+      "bytes": 1722,
+      "sha256": "3f404c0e36301a95fdb08e82b77e6efa96425861d3fc5be522e5178fc991824e",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/performance.md",
+      "bytes": 4943,
+      "sha256": "c42ba0534a4832f1e92d7310f99102db11e908c747d2c247e6fdf67ca3812030",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/preservation.json",
+      "bytes": 380,
+      "sha256": "9ada173909ed6107d0570619db7fc45f5c597baa0e524dcabf49c2a9325cb89a",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/recovery-boundary.json",
+      "bytes": 4278,
+      "sha256": "49f5e2d792035bd379682afe3a1ce673326d37bc53d13a59e60a66f8df12a3c8",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/report-payload.md",
+      "bytes": 8417,
+      "sha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/run.py",
+      "bytes": 1900,
+      "sha256": "d4fb39fbf100036de31161a1d61c54be95c2d1238f664a388f4c1252b7f6562c",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/task6-changes.patch",
+      "bytes": 489103,
+      "sha256": "dfc39870cb2220304d8de6d2e6f59405ff13d982643f66b144944e9bb2a2e2f6",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/task6-delivery.json",
+      "bytes": 4733,
+      "sha256": "8778512ddead19b908ad045890c8f63d03c6fdd78968880b1bbfdfed1af1559b",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/task7-delivery.json",
+      "bytes": 1677,
+      "sha256": "474abd52673e1570c36e2290c6514ceddfa4d9db3a939a2c1aa579606baf32fb",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/task7-followup-delivery.json",
+      "bytes": 1484,
+      "sha256": "bf325b0c2ed9d84ee2003054e1adeb6ddbbab2db8d6fd82d5da05abf3f613870",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/task9-owner-checks.json",
+      "bytes": 31709,
+      "sha256": "291bbaaecab71e6e92350a073b6a546718cd2c4d03ca01d9c6850b0367dd5cef",
+      "mode": "0o644"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/implementation/recovery-current/task9-owner-handoff.md",
+      "bytes": 4836,
+      "sha256": "9187ffb0ce5f4381c6c72232c01524b3d529fc051fa2a4ca1dfd04d47af965c8",
+      "mode": "0o644"
+    }
+  ],
+  "explicitNonrecursiveIndexExclusions": [
+    "evidence.json",
+    "check-final.stdout.json",
+    "check-final.stderr.txt",
+    "check-final-execution.json",
+    "claim.json"
+  ],
+  "exclusionReason": "Avoid self-reference: index, final checker result/execution and claim are collected separately with their actual tree blobs. No product input or historical artifact is excluded from verification.",
+  "receivingCollectionVerified": false,
+  "missionCompletionClaimed": false
+}

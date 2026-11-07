@@ -1,0 +1,380 @@
+{
+  "version": 1,
+  "recordedAt": "2026-11-07T12:10:42.692039+00:00",
+  "status": "ready-for-independent-review",
+  "identity": {
+    "actorId": "backend",
+    "taskId": "task-2",
+    "attempt": 3,
+    "missionId": "b137e253-def6-46ef-a75d-25ab414784ea",
+    "codexSessionId": "01a1b5e7-ee84-7902-99e0-7f9bf5e2ef8c",
+    "omaRunId": null,
+    "injectedClaimPath": null
+  },
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "changedPathsScope": ".arc-verify/bounded-ipc/ipc/ only; no product inputs changed",
+  "delivery": ".arc-verify/bounded-ipc/ipc/delivery.md",
+  "baselineHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "baselineTree": "c802f71ac4d91ed6b8a602d5c83bf9cf57116b76",
+  "originalActorSnapshotCommit": "3816bafaa684c8099dad78be2d0cb0e474c5f08b",
+  "originalActorSnapshotTree": "e79ff4ed85c94059275bbb4992579a2d55f51eb3",
+  "repairSnapshotCommit": "eee0c01750bcf852d691395774215b18628e89d7",
+  "repairSnapshotTree": "90ce687dd5407eff881a03c666ebe89d79ca66da",
+  "currentWorkerRefResolvedInReview": false,
+  "sourceHashes": [
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "originalSha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "originalSha256": "90c31e454a00b698dd1390f6dbe18edc9211f27a34b3d5848e43602142ed2195",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "originalSha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "originalSha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "originalSha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "originalSha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "originalSha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "originalSha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "matchesOriginal": true
+    },
+    {
+      "path": "crates/arc-daemon/tests/transport_unit.rs",
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "originalSha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "matchesOriginal": true
+    }
+  ],
+  "sourceFingerprint": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+  "allNineOriginalHashesMatch": true,
+  "reviewOverlayHashesMatchAtObservation": true,
+  "migration": {
+    "path": "crates/arc-storage/migrations/0001_phase0.sql",
+    "baselineRead": {
+      "argv": [
+        "git",
+        "show",
+        "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0:crates/arc-storage/migrations/0001_phase0.sql"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+      "exitCode": 0,
+      "stdout": "CREATE TABLE vendors (\n  id TEXT PRIMARY KEY,\n  display_name TEXT NOT NULL,\n  adapter_version TEXT,\n  discovered_at INTEGER NOT NULL\n);\n\nCREATE TABLE agent_instances (\n  id TEXT PRIMARY KEY,\n  vendor_id TEXT NOT NULL REFERENCES vendors(id),\n  executable_path_hash TEXT,\n  os_process_id INTEGER,\n  process_start_ns TEXT,\n  state TEXT NOT NULL,\n  created_at INTEGER NOT NULL,\n  last_seen_at INTEGER\n);\n\nCREATE TABLE projects (\n  id TEXT PRIMARY KEY,\n  root_path TEXT NOT NULL,\n  canonical_file_identity TEXT,\n  repo_identity TEXT,\n  created_at INTEGER NOT NULL\n);\n\nCREATE TABLE agent_sessions (\n  id TEXT PRIMARY KEY,\n  instance_id TEXT NOT NULL REFERENCES agent_instances(id),\n  project_id TEXT REFERENCES projects(id),\n  vendor_session_id TEXT,\n  started_at INTEGER NOT NULL,\n  last_seen_at INTEGER,\n  ended_at INTEGER,\n  state TEXT NOT NULL,\n  owner_verified INTEGER NOT NULL DEFAULT 0\n);\n\nCREATE TABLE jobs (\n  id TEXT PRIMARY KEY,\n  session_id TEXT REFERENCES agent_sessions(id),\n  project_id TEXT REFERENCES projects(id),\n  worktree_id TEXT,\n  workload_signature TEXT,\n  job_class TEXT NOT NULL,\n  locality TEXT NOT NULL,\n  enforcement TEXT NOT NULL,\n  state TEXT NOT NULL,\n  queue_at INTEGER,\n  reserved_at INTEGER,\n  started_at INTEGER,\n  finished_at INTEGER,\n  exit_code INTEGER,\n  created_at INTEGER NOT NULL\n);\nCREATE INDEX idx_jobs_state_class ON jobs(state, job_class);\nCREATE INDEX idx_jobs_project_time ON jobs(project_id, created_at DESC);\n\nCREATE TABLE permits (\n  id TEXT PRIMARY KEY,\n  job_id TEXT NOT NULL UNIQUE REFERENCES jobs(id),\n  state TEXT NOT NULL,\n  cpu_cores_est REAL,\n  memory_bytes_est INTEGER,\n  reserved_at INTEGER NOT NULL,\n  released_at INTEGER\n);\n\nCREATE TABLE resource_objects (\n  id TEXT PRIMARY KEY,\n  resource_type TEXT NOT NULL,\n  resource_identity TEXT NOT NULL,\n  canonical_path TEXT,\n  canonical_file_identity TEXT,\n  owner_vendor_id TEXT,\n  owner_session_id TEXT,\n  ownership_level TEXT NOT NULL,\n  created_at INTEGER,\n  last_active_at INTEGER,\n  protected INTEGER NOT NULL DEFAULT 0,\n  state TEXT NOT NULL\n);\nCREATE UNIQUE INDEX idx_resource_identity\n  ON resource_objects(resource_type, resource_identity);\n\nCREATE TABLE resource_leases (\n  id TEXT PRIMARY KEY,\n  resource_id TEXT NOT NULL REFERENCES resource_objects(id),\n  session_id TEXT REFERENCES agent_sessions(id),\n  process_identity TEXT,\n  acquired_at INTEGER NOT NULL,\n  last_heartbeat_at INTEGER,\n  expires_at INTEGER,\n  state TEXT NOT NULL\n);\nCREATE INDEX idx_lease_resource_state ON resource_leases(resource_id, state);\n\nCREATE TABLE gc_operations (\n  id TEXT PRIMARY KEY,\n  resource_id TEXT NOT NULL REFERENCES resource_objects(id),\n  gc_reason TEXT NOT NULL,\n  ownership_evidence TEXT NOT NULL,\n  state TEXT NOT NULL,\n  started_at INTEGER,\n  ended_at INTEGER,\n  reclaimed_allocated_bytes INTEGER,\n  error_code TEXT\n);\nCREATE INDEX idx_gc_state ON gc_operations(state);\n\nCREATE TABLE resource_samples (\n  id INTEGER PRIMARY KEY,\n  timestamp_ns TEXT NOT NULL,\n  job_id TEXT REFERENCES jobs(id),\n  agent_session_id TEXT REFERENCES agent_sessions(id),\n  process_identity TEXT,\n  cpu_time_ns TEXT,\n  rss_bytes INTEGER,\n  disk_read_bytes INTEGER,\n  disk_write_bytes INTEGER,\n  attribution_confidence TEXT NOT NULL\n);\n\nCREATE TABLE policy_states (\n  key TEXT PRIMARY KEY,\n  enabled INTEGER NOT NULL,\n  policy_revision INTEGER NOT NULL,\n  updated_at INTEGER NOT NULL\n);\n\nCREATE TABLE policy_decisions (\n  id TEXT PRIMARY KEY,\n  job_id TEXT REFERENCES jobs(id),\n  policy_version TEXT NOT NULL,\n  decision TEXT NOT NULL,\n  reason_code TEXT NOT NULL,\n  prediction_confidence REAL,\n  created_at INTEGER NOT NULL\n);\n\nCREATE TABLE audit_events (\n  id TEXT PRIMARY KEY,\n  severity TEXT NOT NULL,\n  event_type TEXT NOT NULL,\n  entity_id TEXT,\n  payload_redacted_json TEXT,\n  created_at INTEGER NOT NULL\n);\n\nCREATE TABLE schema_migrations (\n  id TEXT PRIMARY KEY,\n  applied_at INTEGER NOT NULL,\n  checksum TEXT NOT NULL\n);\n",
+      "stderr": ""
+    },
+    "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "currentSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "byteIdentical": true
+  },
+  "checks": [
+    {
+      "receipt": "resume-3/fmt.json",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+      "startedAt": "2026-11-07T12:08:21.147546+00:00",
+      "finishedAt": "2026-11-07T12:08:21.402161+00:00",
+      "elapsedSeconds": 0.25437037501251325,
+      "exitCode": 0,
+      "timedOut": false,
+      "pid": 44037,
+      "processExitObserved": true,
+      "output": "fmt.txt",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputIncludes": "full combined stdout and stderr",
+      "context": "execution-context.json",
+      "sourceBefore": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+      "sourceAfter": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+      "productInputsUnchanged": true
+    },
+    {
+      "receipt": "resume-3/clippy.json",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+      "startedAt": "2026-11-07T12:08:24.288373+00:00",
+      "finishedAt": "2026-11-07T12:08:24.706482+00:00",
+      "elapsedSeconds": 0.41787566599668935,
+      "exitCode": 0,
+      "timedOut": false,
+      "pid": 44044,
+      "processExitObserved": true,
+      "output": "clippy.txt",
+      "outputSha256": "9a30d54c8b16d7e49510b182028079bca120aeebb7d662e88f8566e6196a49f6",
+      "outputIncludes": "full combined stdout and stderr",
+      "context": "execution-context.json",
+      "sourceBefore": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+      "sourceAfter": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+      "productInputsUnchanged": true
+    },
+    {
+      "receipt": "resume-3/workspace-test.json",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-2",
+      "startedAt": "2026-11-07T12:08:26.902913+00:00",
+      "finishedAt": "2026-11-07T12:08:31.421238+00:00",
+      "elapsedSeconds": 4.518023875018116,
+      "exitCode": 0,
+      "timedOut": false,
+      "pid": 44170,
+      "processExitObserved": true,
+      "output": "workspace-test.txt",
+      "outputSha256": "47be3fea65a6c7bdb07d8d491780ee214f21ef426d9134346767d5e05f2571cf",
+      "outputIncludes": "full combined stdout and stderr",
+      "context": "execution-context.json",
+      "sourceBefore": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+      "sourceAfter": "eabc0c7347d1d52d428f45512191d5931df608092b409836c873c94561d4adea",
+      "productInputsUnchanged": true
+    }
+  ],
+  "transportUnit": {
+    "passed": 18,
+    "failed": 0,
+    "ignored": 0,
+    "filtered": 0
+  },
+  "scope": {
+    "testTargetDeadCodeAllowance": true,
+    "productionModulesRegistered": false,
+    "productionBehaviorVerified": false,
+    "combinedWorkerVerified": false,
+    "nativePerformanceMeasured": false,
+    "missionAcceptanceComplete": false,
+    "postCollectionVerified": false,
+    "independentReviewExecutedByThisActor": false
+  },
+  "unresolved": [
+    "Framework normal collection plus review-tree artifact/hash validation pending.",
+    "Independent reviewer must probe its own noninteractive runner; Codex probe does not prove qwen grantpt recovery.",
+    "Task-3 metrics helper/driver repair and independent acceptance remain separate prerequisites.",
+    "Task-4 production declarations, lifecycle/worker adaptation, public ERROR_DB_BUSY and actual CLI mapping test remain required.",
+    "Later 100000-attempt, shutdown, native measurements, unchanged harness and Phase 0/Linux/Windows obligations remain intact."
+  ],
+  "artifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.json",
+      "bytes": 998,
+      "sha256": "6ea0f3e147a9a10fddc6ce7088be183f578f1d84eb32d1a8445549ed26dd3c16"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.running.json",
+      "bytes": 451,
+      "sha256": "536c07c9ef884ffa079dfa0a455df98c7a66396d31af9b19de4187b386e3d110"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.txt",
+      "bytes": 3137,
+      "sha256": "b15e0993d9a022fd130417cb4b14c27f8b9f13231b202c2ff046a2f23ce5761a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/collection-check.json",
+      "bytes": 3847,
+      "sha256": "fef820a79f931ea5f46df675bdc79c837baadf859bb3518f56cbcb4ac44a017c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/delivery.md",
+      "bytes": 22348,
+      "sha256": "eec0d54c70dcba74250921cca04ad638e5664b493e784cb95edf29a01ba10219"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/execution-context.json",
+      "bytes": 6217,
+      "sha256": "42a9cac0feb6c9281adcf7646f984d517d093a2d6aea75273cf0354d5ca7103f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/finalize.py",
+      "bytes": 6007,
+      "sha256": "8ab8129b5524a664ff95534b713238ff01cf290cf48b3dec05c4435ff3f40d3d"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.json",
+      "bytes": 954,
+      "sha256": "0632e2a4c312b8c0d8475ee679df16308cac187917f418d7e3c276d1fb0a7269"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.running.json",
+      "bytes": 410,
+      "sha256": "74fcd0cad58a2968cc254b632c234674ae8d53d354c719ad4f74f1cdb5247a2f"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/original-delivery.md",
+      "bytes": 14774,
+      "sha256": "5fea11c0be36072eb0a5dbf7791997a403fca936c0fef0a2fc0a9fc942c020cb"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/provenance-after.json",
+      "bytes": 8220,
+      "sha256": "95369c0d5aeb5f6d19ab7af904c1968250ca14cb2bf1e792442d9cd14b8cebb3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/provenance-before.json",
+      "bytes": 27365,
+      "sha256": "5198f5cc9ba2fd5dd3ed237ab51235701f142ddebc68615c975e3d7ddd70c42e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/record.py",
+      "bytes": 8570,
+      "sha256": "cee9f961c2e6977b773c416b2d4f3f0f7e80e293f1cb46cdc49b2305f17d0159"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/ref-scopes.json",
+      "bytes": 7099,
+      "sha256": "8b396787caf1ef6785b2c7a1b0998f97be5b91f9742b7fffb4454583b4a2a2c1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.json",
+      "bytes": 999,
+      "sha256": "e09a60af4c66b32e7ffa2cbf9207c378c33d2aeb38ec469a20e73b55bc0ae36c"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.running.json",
+      "bytes": 451,
+      "sha256": "5e4212b6af2c36e4506042ddb347e86a022c862abf7d86312761d463665fe8fe"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.txt",
+      "bytes": 72,
+      "sha256": "9a30d54c8b16d7e49510b182028079bca120aeebb7d662e88f8566e6196a49f6"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/execution-context.json",
+      "bytes": 6201,
+      "sha256": "551fcf81f14d52adbfa7a9ebffb34e7b8652ec384cf3ad6405af8a9d1116392b"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.json",
+      "bytes": 955,
+      "sha256": "1d16da17aa64b03cb76af792659ac1487fdbab5c0f118f656f4a4176c648da60"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.running.json",
+      "bytes": 410,
+      "sha256": "36b8a0aac6d89b70894a69dbc062117c8e4e2c0ea6bed0d0ee15185895a10553"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/interrupted-delivery.md",
+      "bytes": 14081,
+      "sha256": "8e33ddfb4e2f50928fc74ba0abce88d32c19b371fde41074d66552b556b793cf"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/provenance-after.json",
+      "bytes": 9298,
+      "sha256": "faa608de2679b4a4ca3e821983b1699d69872dda35ddb7bf10dbdd9aeb8cd11e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/provenance-before.json",
+      "bytes": 50458,
+      "sha256": "914fba6852c3f28a9c0bdbe561a105279b8a0fef971ff34fb3303f323cfc8828"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/review-environment-probe.json",
+      "bytes": 1017,
+      "sha256": "1a1929a6f2a5cd1e985626d14f643a481a8394d687fcc56a6e18b9d8a4322c25"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.json",
+      "bytes": 946,
+      "sha256": "d78999ce926604eff779e2f7e89738a845e81fd9ebbcf7b11ee2a28bd48e65f3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.running.json",
+      "bytes": 392,
+      "sha256": "6f770d422090ca9bd35bda9bce3f34405aa531bcf2db97dd7cb6a710d270a036"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.txt",
+      "bytes": 7856,
+      "sha256": "47be3fea65a6c7bdb07d8d491780ee214f21ef426d9134346767d5e05f2571cf"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume.py",
+      "bytes": 5157,
+      "sha256": "add2f562a6f859344d75cb2194daff5aa8dd8dbd9c5aa09ceb1c91096f4548f3"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/review-environment-probe.json",
+      "bytes": 909,
+      "sha256": "05a2e1a19e260e94f53e2b348477151b4c0c69eb4dd8347d7b32cda96805e962"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/review-source-comparison.json",
+      "bytes": 3931,
+      "sha256": "48842e20ea69e3269bcd4e48b0f8b23c9c5eb781cb75469f52dec5ddad6c5d5a"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.json",
+      "bytes": 945,
+      "sha256": "ab68cae234826eb931fb0f78edd9985d826d27f3ccd5f5de3cf36eba6b3c283e"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.running.json",
+      "bytes": 391,
+      "sha256": "a31c56f12fe5e1f6859d2f5434f3e39d5c2122a6bf2a54df04d7d12a7b7a5cd1"
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.txt",
+      "bytes": 10530,
+      "sha256": "1f0e9f77f898caf3f9e97e8707dd8a5116ec3c807b5625c87de7be02c507a190"
+    }
+  ],
+  "artifactIndexScope": "All non-pycache files under owned ipc directory except evidence.json itself; no self-hash cycle."
+}

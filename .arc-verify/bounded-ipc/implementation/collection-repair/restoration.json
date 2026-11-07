@@ -1,0 +1,14 @@
+{
+  "source": ".agent-valley/parallel/workspaces/d6c6b45f4a6c3769-e7c08de777760acd-2/.agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+  "destination": ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+  "bytes": 8417,
+  "sha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d",
+  "equalsRetainedDelivery": true,
+  "restoredAt": "2026-11-07T15:58:10.522769+00:00",
+  "freshImplementationOrTestRun": false,
+  "history": [
+    "Task-5 attempt-3 report omitted from normal collection; report directory ignored by .gitignore:5.",
+    "Retained review failures: 00405e10, cd421f47, 17bf2b0f; 106 present entries were insufficient for the unchanged 107-entry index."
+  ],
+  "collectionMethod": "Force-stage only the exact restored report; nonignored collection-repair artifacts remain normal Git untracked changes for Actor collection. No commit or ref mutation."
+}

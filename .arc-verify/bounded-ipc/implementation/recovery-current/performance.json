@@ -1,0 +1,40 @@
+{
+  "sourceFingerprint": "9e3335b98f73d9ef964809c8fbb08fb1530661adb1d6e2c1adac492d28543970",
+  "nativeMeasurementsRecorded": true,
+  "srsComparisonComplete": true,
+  "srsSource": {
+    "path": "/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md",
+    "sha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+    "requirements": [
+      {
+        "line": 2426,
+        "text": "| NFR-002 | Daemon idle RSS | **50 MB 미만 목표** (플랫폼별 측정) |"
+      },
+      {
+        "line": 2428,
+        "text": "| NFR-004 | IPC 왕복 | 로컬 작은 메시지 P95 **20ms 이내 목표** |"
+      }
+    ]
+  },
+  "idleRssBytes": 5636096,
+  "nativeLifetimePeakRssBytes": 6062080,
+  "sampledNativeThreadPeak": 4,
+  "trackedTaskHighWater": 4,
+  "p95Ns": 90542,
+  "afterLoadP95Ns": 85000,
+  "nativeSamples": {
+    "idle": 100,
+    "load": 167,
+    "latency": 10000
+  },
+  "host": {
+    "cargo": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)",
+    "hardware": "17179869184\n8\nApple M1 Pro",
+    "instrumentation": "proc_pidinfo(PROC_PIDTASKINFO) on macOS; /proc/PID/status on Linux; wait4 child ru_maxrss lifetime peak; sampler is in test parent",
+    "local_head": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+    "profile": "debug",
+    "rustc": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2",
+    "uname": "Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64"
+  },
+  "structuralCountersArePerformanceMeasurements": false
+}

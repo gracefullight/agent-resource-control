@@ -1,0 +1,509 @@
+{
+  "recordedAt": "2026-11-07T15:11:47.909916+00:00",
+  "actorFingerprint": {
+    "algorithm": "sha256 of json.dumps(files, sort_keys=True)",
+    "scope": [
+      "crates",
+      "Cargo.toml",
+      "Cargo.lock",
+      "rust-toolchain.toml",
+      "scripts/harness/validate.sh"
+    ],
+    "files": [
+      {
+        "path": "Cargo.lock",
+        "sha256": "2a67c85f5a7fd2d9c63cf252a97aa7e31903172fd3d08c27a1be9b229913a9b2",
+        "mode": "0o644"
+      },
+      {
+        "path": "Cargo.toml",
+        "sha256": "8e8383e8a2356b9eb6135c64554b8bfd4d8ddfb421c4e850f20b54a1fe5f5dad",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/Cargo.toml",
+        "sha256": "c6d4137bbc6d3c1a63592ff88f3e0f34743c4afb634aefbe5844a58505f73439",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/src/main.rs",
+        "sha256": "f016929b258c35cf357cfcd1cf23b12fb541c5824f7876837385d7af5a7786ed",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-cli/tests/binary.rs",
+        "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/Cargo.toml",
+        "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/src/lib.rs",
+        "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-core/tests/runtime.rs",
+        "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/Cargo.toml",
+        "sha256": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery.rs",
+        "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+        "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/admission.rs",
+        "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/connection.rs",
+        "sha256": "560c0cd1728d50ac507fc42506bcd859941b6d46f706ab3276676add18f66244",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker.rs",
+        "sha256": "be69e38d503c13abd458dda3f3e81eb87c85a04cb9c19fdcdf628aabb28598e1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/execution.rs",
+        "sha256": "eeb3830c26dcc17219734caa9eea082569293793936dde950bb0b95002ecde32",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/tests.rs",
+        "sha256": "d137827bafec333045245a4ed7c3bf799a176c72c0c00062cecb45b1d0963ea0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/instance.rs",
+        "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle.rs",
+        "sha256": "6fadd2ba2175532b6cfe83872ff33c0cd5de48407870fd92ce24fa4ac4bc5a7b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+        "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/limits.rs",
+        "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/main.rs",
+        "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/platform.rs",
+        "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+        "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_metrics.rs",
+        "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report.rs",
+        "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+        "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/server.rs",
+        "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/server_tests.rs",
+        "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport.rs",
+        "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_test_support.rs",
+        "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_tests.rs",
+        "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/bounded.rs",
+        "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+        "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident.rs",
+        "sha256": "9d7df214b52cdda0768c8675831fea5cbb9de935b3b722a11abc7bb2c1a3caad",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/startup.rs",
+        "sha256": "145d25de967338b71e554e609901052f02b21e64642306ae238c9ccad3af2724",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/admission_load.rs",
+        "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/deadline_recovery.rs",
+        "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/measurements.rs",
+        "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/mod.rs",
+        "sha256": "130ecae3b1eac7c7bdb4300db06f0b74ab6061f095480af53a1c8a91d9f327a1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/native.rs",
+        "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/runtime.rs",
+        "sha256": "9a53fa762b6fcdb2429b964221bb1756e35a37c33a674a7baf57abd1a0592535",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/transport_unit.rs",
+        "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-daemon/tests/worker_runtime.rs",
+        "sha256": "4ab079e2cc01018742c9e3f3088938dab5f067ff0a94d464754a8c3b356d9f5c",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-ipc/Cargo.toml",
+        "sha256": "e54d8851a296da7f2b4471fae32eb831d043185124fb445106c4f44ea538651c",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-ipc/src/lib.rs",
+        "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/Cargo.toml",
+        "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/migrations/0001_phase0.sql",
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/src/lib.rs",
+        "sha256": "fbbbbf0f9ae4f6628475d79e7f6dbd348691dfdcaf99567ef2f275e6eff2dcab",
+        "mode": "0o644"
+      },
+      {
+        "path": "crates/arc-storage/tests/nfr010.rs",
+        "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+        "mode": "0o644"
+      },
+      {
+        "path": "rust-toolchain.toml",
+        "sha256": "7d21c66a15f41bad66b82ed06a289f5dc8a6e3751951d2696bbf20ce296f2b0f",
+        "mode": "0o644"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+        "mode": "0o755"
+      }
+    ],
+    "sha256": "ce490655f54afd9eda3498a1d2c78d02dfde38707b2cc4a4688d300f84a725a4"
+  },
+  "unchanged": true,
+  "preservedArtifacts": [
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.json",
+      "sha256": "6ea0f3e147a9a10fddc6ce7088be183f578f1d84eb32d1a8445549ed26dd3c16",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.running.json",
+      "sha256": "536c07c9ef884ffa079dfa0a455df98c7a66396d31af9b19de4187b386e3d110",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/clippy.txt",
+      "sha256": "b15e0993d9a022fd130417cb4b14c27f8b9f13231b202c2ff046a2f23ce5761a",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/collection-check.json",
+      "sha256": "fef820a79f931ea5f46df675bdc79c837baadf859bb3518f56cbcb4ac44a017c",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/delivery.md",
+      "sha256": "eec0d54c70dcba74250921cca04ad638e5664b493e784cb95edf29a01ba10219",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/evidence.json",
+      "sha256": "7f9e4db092bbc3c2ee248d5e83325c03c5d991fa30209da5f2aa57cc23d6e739",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/execution-context.json",
+      "sha256": "42a9cac0feb6c9281adcf7646f984d517d093a2d6aea75273cf0354d5ca7103f",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/finalize.py",
+      "sha256": "8ab8129b5524a664ff95534b713238ff01cf290cf48b3dec05c4435ff3f40d3d",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.json",
+      "sha256": "0632e2a4c312b8c0d8475ee679df16308cac187917f418d7e3c276d1fb0a7269",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.running.json",
+      "sha256": "74fcd0cad58a2968cc254b632c234674ae8d53d354c719ad4f74f1cdb5247a2f",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/original-delivery.md",
+      "sha256": "5fea11c0be36072eb0a5dbf7791997a403fca936c0fef0a2fc0a9fc942c020cb",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/provenance-after.json",
+      "sha256": "95369c0d5aeb5f6d19ab7af904c1968250ca14cb2bf1e792442d9cd14b8cebb3",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/provenance-before.json",
+      "sha256": "5198f5cc9ba2fd5dd3ed237ab51235701f142ddebc68615c975e3d7ddd70c42e",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/record.py",
+      "sha256": "cee9f961c2e6977b773c416b2d4f3f0f7e80e293f1cb46cdc49b2305f17d0159",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/ref-scopes.json",
+      "sha256": "8b396787caf1ef6785b2c7a1b0998f97be5b91f9742b7fffb4454583b4a2a2c1",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.json",
+      "sha256": "e09a60af4c66b32e7ffa2cbf9207c378c33d2aeb38ec469a20e73b55bc0ae36c",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.running.json",
+      "sha256": "5e4212b6af2c36e4506042ddb347e86a022c862abf7d86312761d463665fe8fe",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/clippy.txt",
+      "sha256": "9a30d54c8b16d7e49510b182028079bca120aeebb7d662e88f8566e6196a49f6",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/execution-context.json",
+      "sha256": "551fcf81f14d52adbfa7a9ebffb34e7b8652ec384cf3ad6405af8a9d1116392b",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.json",
+      "sha256": "1d16da17aa64b03cb76af792659ac1487fdbab5c0f118f656f4a4176c648da60",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.running.json",
+      "sha256": "36b8a0aac6d89b70894a69dbc062117c8e4e2c0ea6bed0d0ee15185895a10553",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/interrupted-delivery.md",
+      "sha256": "8e33ddfb4e2f50928fc74ba0abce88d32c19b371fde41074d66552b556b793cf",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/provenance-after.json",
+      "sha256": "faa608de2679b4a4ca3e821983b1699d69872dda35ddb7bf10dbdd9aeb8cd11e",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/provenance-before.json",
+      "sha256": "914fba6852c3f28a9c0bdbe561a105279b8a0fef971ff34fb3303f323cfc8828",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/review-environment-probe.json",
+      "sha256": "1a1929a6f2a5cd1e985626d14f643a481a8394d687fcc56a6e18b9d8a4322c25",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.json",
+      "sha256": "d78999ce926604eff779e2f7e89738a845e81fd9ebbcf7b11ee2a28bd48e65f3",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.running.json",
+      "sha256": "6f770d422090ca9bd35bda9bce3f34405aa531bcf2db97dd7cb6a710d270a036",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume-3/workspace-test.txt",
+      "sha256": "47be3fea65a6c7bdb07d8d491780ee214f21ef426d9134346767d5e05f2571cf",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/resume.py",
+      "sha256": "add2f562a6f859344d75cb2194daff5aa8dd8dbd9c5aa09ceb1c91096f4548f3",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/review-environment-probe.json",
+      "sha256": "05a2e1a19e260e94f53e2b348477151b4c0c69eb4dd8347d7b32cda96805e962",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/review-source-comparison.json",
+      "sha256": "48842e20ea69e3269bcd4e48b0f8b23c9c5eb781cb75469f52dec5ddad6c5d5a",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.json",
+      "sha256": "ab68cae234826eb931fb0f78edd9985d826d27f3ccd5f5de3cf36eba6b3c283e",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.running.json",
+      "sha256": "a31c56f12fe5e1f6859d2f5434f3e39d5c2122a6bf2a54df04d7d12a7b7a5cd1",
+      "matches": true
+    },
+    {
+      "path": ".arc-verify/bounded-ipc/ipc/workspace-test.txt",
+      "sha256": "1f0e9f77f898caf3f9e97e8707dd8a5116ec3c807b5625c87de7be02c507a190",
+      "matches": true
+    }
+  ],
+  "productStatus": {
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1",
+      "--untracked-files=all",
+      "--",
+      "crates",
+      "Cargo.toml",
+      "Cargo.lock",
+      "rust-toolchain.toml",
+      "scripts/harness/validate.sh"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+    "startedAt": "2026-11-07T15:11:47.909943+00:00",
+    "finishedAt": "2026-11-07T15:11:47.932920+00:00",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "diffCheck": {
+    "argv": [
+      "git",
+      "diff",
+      "--check",
+      "--",
+      "crates",
+      "Cargo.toml",
+      "Cargo.lock",
+      "rust-toolchain.toml",
+      "scripts/harness/validate.sh"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+    "startedAt": "2026-11-07T15:11:47.932952+00:00",
+    "finishedAt": "2026-11-07T15:11:47.945173+00:00",
+    "exitCode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "inheritedConnectionDelta": {
+    "argv": [
+      "git",
+      "diff",
+      "eee0c01750bcf852d691395774215b18628e89d7",
+      "eac1ffc1739f3cc3da254376b8243c7e05012087",
+      "--",
+      "crates/arc-daemon/src/connection.rs"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace/.agent-valley/parallel/workspaces/d6c6b45f4a6c3769-78686d2704d4d690-4",
+    "startedAt": "2026-11-07T15:11:47.945214+00:00",
+    "finishedAt": "2026-11-07T15:11:47.961541+00:00",
+    "exitCode": 0,
+    "stdout": "diff --git a/crates/arc-daemon/src/connection.rs b/crates/arc-daemon/src/connection.rs\nindex bb0f990..67dad90 100644\n--- a/crates/arc-daemon/src/connection.rs\n+++ b/crates/arc-daemon/src/connection.rs\n@@ -16,9 +16,7 @@ use tokio::{\n     time::{timeout_at, Instant},\n };\n \n-// The arc-ipc constant is a task-4 shared-path prerequisite. Keep the wire code\n-// here until its assigned writer adds that constant; no synchronous API changes.\n-pub(crate) const ERROR_DB_BUSY: &str = \"DB_BUSY\";\n+pub(crate) use arc_ipc::ERROR_DB_BUSY;\n \n /// A worker adapter maps typed DbError values without exposing SQLite to I/O.\n pub(crate) enum DoctorOutcome {\n",
+    "stderr": ""
+  }
+}

@@ -29,6 +29,8 @@ pub const ERROR_UNSUPPORTED_CAPABILITY: &str = "UNSUPPORTED_CAPABILITY";
 pub const ERROR_INVALID_REQUEST: &str = "INVALID_REQUEST";
 pub const ERROR_FRAME_TOO_LARGE: &str = "FRAME_TOO_LARGE";
 pub const ERROR_INTEGRITY_FAILED: &str = "INTEGRITY_FAILED";
+/// Diagnostics could not be admitted or completed within the database budget.
+pub const ERROR_DB_BUSY: &str = "DB_BUSY";
 
 /// One request object.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

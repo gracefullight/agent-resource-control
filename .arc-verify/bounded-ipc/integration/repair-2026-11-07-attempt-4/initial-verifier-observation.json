@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    ".arc-verify/bounded-ipc/integration/repair-2026-11-07-attempt-3/verify.py"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/b137e253-def6-46ef-a75d-25ab414784ea/workspace",
+  "observedExitCode": 1,
+  "phase": "Initial inspection, before creating this directory",
+  "failure": "AssertionError at aggregate sourceFingerprint comparison, line 45. Earlier individual source/artifact/receipt/boundary assertions passed.",
+  "note": "Observed from tool result; not rerun or represented as a new subprocess receipt. Complete historical receipts remain unchanged.",
+  "warning": "mise tracking-config symlink: Operation not permitted; shell and Python succeeded."
+}

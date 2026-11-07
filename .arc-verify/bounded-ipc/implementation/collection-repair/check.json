@@ -1,0 +1,62 @@
+{
+  "status": "verified-current-checkout-collection",
+  "observedHead": "42f0178ec8c7542b010a7d43c1fb1d6daed8d8a0",
+  "sourceFiles": 50,
+  "sourceFingerprint": "b3610549adfebffdd626a760741a200c848ec7ee26a88482bcf7e38e563383c4",
+  "indexedArtifactsVerified": 107,
+  "restoredReport": {
+    "path": ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    "bytes": 8417,
+    "sha256": "43c6657a2ddb223d78e1fa4299b719499a8527d90d741e843d66a6878fce991d"
+  },
+  "preRepairInputsUnchanged": 1986,
+  "unreadableInput": "av.yaml",
+  "task6BoundaryAttribution": [
+    "docs/bounded-ipc-recovery.md",
+    "docs/runtime-identity-usage.md"
+  ],
+  "historicalTask5TestChanges": [
+    "crates/arc-daemon/tests/resident.rs",
+    "crates/arc-daemon/tests/support/mod.rs"
+  ],
+  "repairAddedPaths": [
+    ".agents/results/result-test-engineer-task-5-uninjected-attempt-3-b137e253-def6-46ef-a75d-25ab414784ea.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/before.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/changeSet.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.py",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/check.stderr.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/claim.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/collection.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/delivery.md",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-after.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-before.txt",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/original-verifier-outcomes.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/preflight.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/repair-failed-attempts.json",
+    ".arc-verify/bounded-ipc/implementation/collection-repair/restoration.json"
+  ],
+  "repairModifiedExistingPaths": [],
+  "preservation": {
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "bytes": 3917,
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "acceptedHeadByteIdentical": true
+    },
+    "scripts/harness/validate.sh": {
+      "bytes": 20351,
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "acceptedHeadByteIdentical": true
+    }
+  },
+  "historicalReceiptsVerified": [
+    "fmt-final",
+    "clippy-final",
+    "workspace-final",
+    "focused",
+    "harness"
+  ],
+  "freshRuntimeChecks": false,
+  "independentReviewRequired": true,
+  "configuredTargetApplicabilityVerified": false
+}

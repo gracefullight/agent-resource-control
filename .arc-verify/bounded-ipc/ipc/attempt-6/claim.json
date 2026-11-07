@@ -1,0 +1,26 @@
+{
+  "status": "partial",
+  "summary": "Fresh task-2 checks pass; collection and independent review pending.",
+  "actorId": "backend",
+  "taskId": "task-2",
+  "attempt": 6,
+  "sessionId": "01a1b6d2-c4fb-7d21-902f-39ea6d5490f3",
+  "runId": null,
+  "injectedClaimPath": null,
+  "changedFiles": [
+    ".arc-verify/bounded-ipc/ipc/delivery.md",
+    ".arc-verify/bounded-ipc/ipc/evidence.json",
+    ".arc-verify/bounded-ipc/ipc/attempt-6/"
+  ],
+  "unresolved": [
+    "Normal framework collection and receiving-checkout validation of this evidence remain pending.",
+    "Independent reviewer must probe its own supported noninteractive command route; Codex success does not prove qwen grantpt recovery.",
+    "Task-3 independent acceptance, real metrics driver binding and its non-ignored evidence remain separately owned prerequisites.",
+    "Task-4 retains production integration acceptance, worker lifecycle and actual CLI DB_BUSY mapping obligations.",
+    "Full mission acceptance, native performance/SRS assessment, unchanged harness failure disposition, configured-target evidence and remaining Phase 0/Linux/Windows obligations are not accepted by this repair."
+  ],
+  "artifacts": [
+    ".arc-verify/bounded-ipc/ipc/delivery.md",
+    ".arc-verify/bounded-ipc/ipc/evidence.json"
+  ]
+}

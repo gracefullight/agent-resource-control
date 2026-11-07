@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-5",
+  "actorId": "reviewer",
+  "inspectedAt": "2026-11-07T18:39:02.790Z",
+  "reviewWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/.agent-valley/parallel/workspaces/9dd58b3e81e0c07c-e7c08de777760acd-1",
+  "reviewHead": "5d0f5c5b93edc214bff099f73ca8422f0c669565",
+  "reviewHeadTree": "a3dfc866c7ac3ae80a7e9f7fac36b799ce2bdacb",
+  "baselineHead": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "baselineTree": "c72fead1fdc7262d4a297d18e74f89e2bbfd6157",
+  "snapshotCommit": "5d0f5c5b93edc214bff099f73ca8422f0c669565",
+  "snapshotTree": "a3dfc866c7ac3ae80a7e9f7fac36b799ce2bdacb",
+  "snapshotRefSupplied": "refs/agent-valley/task-evidence/9dd58b3e81e0c07c-e7c08de777760acd-1/snapshot",
+  "workerRefSupplied": "refs/agent-valley/task-evidence/9dd58b3e81e0c07c-e7c08de777760acd-1/worker",
+  "refResolution": "Supplied named refs were not available locally; actual snapshot commit/tree are verified Git objects. No workerRef commit invented.",
+  "scope": "Actual files and index in review checkout equal the supplied snapshot product bytes; implementation receipts describe uncommitted task edits at accepted baseline HEAD in the source workspace.",
+  "sourceFingerprint": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "fingerprintContract": ".arc-verify/module-conformance/baseline/fingerprint.md",
+  "receiptWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "receiptExecutionHead": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "receiptReuse": "Product fingerprint, all protected bytes and exact argv/output hashes match. QA evidence is excluded from the product fingerprint; no required Cargo/harness gate was replayed.",
+  "codeIntelligence": {
+    "provider": "serena",
+    "mode": "unavailable",
+    "tools": [],
+    "fallback": "Scoped reads of assigned known paths and Git metadata/accepted objects; no native source discovery or provider changes."
+  }
+}

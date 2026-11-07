@@ -1,0 +1,34 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "arc-ipc",
+    "--lib"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "environmentOverrides": {
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_AUTO_INSTALL": "0"
+  },
+  "startedAt": "2026-11-07T18:19:16.394277+00:00",
+  "elapsedSeconds": 0.09597,
+  "exitCode": 0,
+  "timedOut": false,
+  "outputSha256": "853af8ccf643e6a64af911bf8860df0a0801724f10e08809cce2d473c16922eb",
+  "outputBytes": 1113,
+  "outputParts": [
+    {
+      "path": "ipc-baseline.part-01.txt",
+      "sha256": "853af8ccf643e6a64af911bf8860df0a0801724f10e08809cce2d473c16922eb",
+      "lines": 20
+    }
+  ],
+  "pid": 68732,
+  "processReaped": true,
+  "acceptedRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "sourceFingerprintBefore": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5",
+  "sourceFingerprintAfter": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5"
+}

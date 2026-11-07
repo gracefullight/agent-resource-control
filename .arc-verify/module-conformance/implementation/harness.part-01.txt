@@ -1,0 +1,21 @@
+[0;34m[validate][0m Mode: all-tracked
+[0;34m[validate][0m Files to check: 2416
+[0;34m[validate][0m Check 1/5: Hardcoded secrets
+[0;32m[ok][0m       No hardcoded secrets found
+[0;34m[validate][0m Check 2/5: Dangerous shell commands
+[0;32m[ok][0m       No dangerous shell commands found
+[0;34m[validate][0m Check 3/5: Architecture layer violations (domain must be pure)
+[0;32m[ok][0m       No architecture layer violations found
+[0;34m[validate][0m Check 4/5: File length cap (CONSTRAINTS.md §5: max 500 lines per file)
+[0;32m[ok][0m       No oversized files found
+[0;34m[validate][0m Check 5/5: Test coverage thresholds
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/1d191c2ada260423: Operation not permitted (os error 1)
+error: Script not found "test:coverage"
+[0;31m[VIOLATION][0m Tests or coverage check failed — see vitest output above.
+[0;31m[VIOLATION][0m   Fix: resolve reported test failures. If coverage is below threshold,
+[0;31m[VIOLATION][0m        add tests for the reported uncovered lines/branches.
+[0;31m[VIOLATION][0m   Thresholds live in: vitest.config.ts
+[0;31m[VIOLATION][0m   Design reference: docs/plans/v0-2-bigbang-design.md §5.6 / §7
+
+[0;31m[VIOLATION][0m Total violations: 1
+[0;31m[VIOLATION][0m Fix all violations above and re-run: ./scripts/harness/validate.sh

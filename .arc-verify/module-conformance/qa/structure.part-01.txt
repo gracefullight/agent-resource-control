@@ -1,0 +1,14 @@
+✔ all resulting source and evidence files meet both line-count definitions (56.68525ms)
+✔ native modules are explicit, private and exhaustively wired (223.326792ms)
+✔ derive each test, helper, assertion and attribute directly from accepted Git bytes (162.822166ms)
+✔ implementer mapping is checked against independently derived ranges and assertion arguments (1242.765166ms)
+✔ all residual statements and helper declaration order survive module extraction (97.391375ms)
+✔ independent parser preserves tricky literals, comments and nested assertion ownership (0.330709ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1868.160167

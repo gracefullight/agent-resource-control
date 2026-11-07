@@ -1,0 +1,11 @@
+[
+{"path":"crates/arc-daemon/tests/resident.rs","lines":421,"logicalLines":421,"sha256":"a6abf84f45597cf3839f379b34e0d35073ff6314d9bed76a974c1e82615227a7"},
+{"path":"crates/arc-ipc/src/lib.rs","lines":356,"logicalLines":356,"sha256":"08e2a76995e10ef45c6229ceda943817107798acc425ff35ff46840c096d40b1"},
+{"path":"crates/arc-daemon/tests/resident/lifecycle.rs","lines":146,"logicalLines":146,"sha256":"36635e569a669173844a00e7287009a7d28f2ddee576eadf2c6b12311bd67b1f"},
+{"path":"crates/arc-daemon/tests/resident/provisioning.rs","lines":166,"logicalLines":166,"sha256":"328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af"},
+{"path":"crates/arc-daemon/tests/resident/identity.rs","lines":149,"logicalLines":149,"sha256":"47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3"},
+{"path":"crates/arc-daemon/tests/resident/coordination.rs","lines":32,"logicalLines":32,"sha256":"8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c"},
+{"path":"crates/arc-ipc/src/tests/framing.rs","lines":122,"logicalLines":122,"sha256":"34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960"},
+{"path":"crates/arc-ipc/src/tests/dispatch.rs","lines":69,"logicalLines":69,"sha256":"eaeec5bcffc35ec877e48a29e6a7d3638cd89d29382daa6af6bb2a6f2ab29576"},
+{"path":"crates/arc-ipc/src/tests/mod.rs","lines":8,"logicalLines":8,"sha256":"351c1b7c44e94a8cd29f50939d7a4f907c47ef82ecad44996b08b7c87dfb2124"}
+]

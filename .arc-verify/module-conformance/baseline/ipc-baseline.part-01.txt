@@ -1,0 +1,20 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/lib.rs (target/debug/deps/arc_ipc-c58ead2ac2fda1e8)
+
+running 13 tests
+test tests::multiple_json_values_are_rejected ... ok
+test tests::oversize_declared_length_is_rejected_without_reading_the_body ... ok
+test tests::non_object_roots_are_rejected ... ok
+test tests::a_framed_array_is_rejected_without_reaching_a_handler ... ok
+test tests::an_object_request_still_decodes_after_a_rejected_array ... ok
+test tests::frame_round_trips_one_json_object ... ok
+test tests::hello_and_health_do_not_require_the_database ... ok
+test tests::doctor_requires_ok_integrity_and_one_migration ... ok
+test tests::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds ... ok
+test tests::responses_are_objects_too ... ok
+test tests::unknown_operation_is_unsupported ... ok
+test tests::writing_non_object_messages_is_rejected_before_emitting_a_frame ... ok
+test tests::zero_length_is_rejected_without_reading_a_body ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

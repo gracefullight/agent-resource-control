@@ -1,0 +1,35 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "resident"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "environmentOverrides": {
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_AUTO_INSTALL": "0"
+  },
+  "startedAt": "2026-11-07T18:19:20.475944+00:00",
+  "elapsedSeconds": 3.15102,
+  "exitCode": 0,
+  "timedOut": false,
+  "outputSha256": "305df6e24aac5babf975180cea7db17a786162b05623a8a40b8870ab07a8dc2e",
+  "outputBytes": 1058,
+  "outputParts": [
+    {
+      "path": "resident-baseline.part-01.txt",
+      "sha256": "305df6e24aac5babf975180cea7db17a786162b05623a8a40b8870ab07a8dc2e",
+      "lines": 18
+    }
+  ],
+  "pid": 68745,
+  "processReaped": true,
+  "acceptedRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "sourceFingerprintBefore": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5",
+  "sourceFingerprintAfter": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5"
+}

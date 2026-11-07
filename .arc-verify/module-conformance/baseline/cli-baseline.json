@@ -1,0 +1,35 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "arc-cli",
+    "--test",
+    "binary"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "environmentOverrides": {
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_AUTO_INSTALL": "0"
+  },
+  "startedAt": "2026-11-07T18:19:19.542676+00:00",
+  "elapsedSeconds": 0.812334,
+  "exitCode": 0,
+  "timedOut": false,
+  "outputSha256": "7b7f167e0b716be9bc0b7125337b69a7008cadda4bacaac71ec9337db5a88e22",
+  "outputBytes": 382,
+  "outputParts": [
+    {
+      "path": "cli-baseline.part-01.txt",
+      "sha256": "7b7f167e0b716be9bc0b7125337b69a7008cadda4bacaac71ec9337db5a88e22",
+      "lines": 9
+    }
+  ],
+  "pid": 68738,
+  "processReaped": true,
+  "acceptedRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "sourceFingerprintBefore": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5",
+  "sourceFingerprintAfter": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5"
+}

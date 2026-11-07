@@ -1,0 +1,15 @@
+✔ accepted baseline objects and snapshot provenance retain their actual identity (1633.958834ms)
+✔ all protected Git bytes and modes remain unchanged, including migration and harness (2240.830333ms)
+✔ source fingerprint is recomputed over actual integrated source, not substituted HEAD (977.528291ms)
+✔ exact required receipts contain complete hash-checked output on this source (34.824792ms)
+✔ workspace output proves every moved native test and the CLI contracts executed (167.358333ms)
+✔ fixture ordering, exact subprocess discovery, handshake assertions and owned-child reaping persist (0.596083ms)
+✔ unchanged full harness includes tracked modules and retains its actual coverage failure (223.6865ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5353.989125

@@ -1,0 +1,47 @@
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.15
+   Compiling typenum v1.20.1
+   Compiling vcpkg v0.2.15
+   Compiling pkg-config v0.3.34
+   Compiling foldhash v0.2.0
+   Compiling const-oid v0.10.2
+   Compiling errno v0.3.14
+   Compiling hashbrown v0.17.1
+   Compiling cpufeatures v0.3.1
+   Compiling fallible-iterator v0.3.0
+   Compiling cc v1.11.0
+   Compiling bitflags v2.13.2
+   Compiling cfg-if v1.0.5
+   Compiling smallvec v1.16.4
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling signal-hook-registry v1.4.8
+   Compiling tokio-macros v2.7.2
+   Compiling mio v1.2.4
+   Compiling socket2 v0.6.5
+   Compiling hybrid-array v0.4.15
+   Compiling hashlink v0.12.2
+   Compiling pin-project-lite v0.2.17
+   Compiling tokio v1.54.1
+   Compiling crypto-common v0.2.2
+   Compiling block-buffer v0.12.1
+   Compiling libsqlite3-sys v0.39.1
+   Compiling digest v0.11.3
+   Compiling sha2 v0.11.1
+   Compiling rusqlite v0.41.1
+   Compiling arc-storage v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-storage)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.95s
+     Running tests/resident.rs (target/debug/deps/resident-df0d654374c71b39)
+commands_report_daemon_unavailable_when_absent: test
+concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death: test
+fixture_coordination_is_shared_across_processes: test
+fixture_serialization_probe: test
+native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir: test
+nondirectory_parent_is_rejected_before_lock_or_database_initialization: test
+overlong_socket_paths_and_existing_socket_entries_reject_without_mutation: test
+permissive_directories_and_their_contents_survive_daemon_and_cli_rejection: test
+private_existing_and_new_nested_directories_support_override_startup: test
+resident_contract_holds_until_sigterm: test
+symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection: test
+
+11 tests, 0 benchmarks

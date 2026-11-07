@@ -1,0 +1,27 @@
+{
+  "status": "completed",
+  "task": "task-1",
+  "acceptedRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "checkedAt": "2026-11-07T18:21:04.945999+00:00",
+  "sourceFingerprint": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5",
+  "sourceFilesByteIdentical": 60,
+  "testInventoryCount": 24,
+  "helperInventoryCount": 27,
+  "assertionSites": 137,
+  "attributes": 28,
+  "receiptCount": 14,
+  "allReceiptOutputsVerified": true,
+  "focusedTestsPassed": 26,
+  "productFilesChanged": [],
+  "limitations": [
+    "av.yaml access denied; global cleanliness unverified",
+    "Serena unavailable; known-path fallback",
+    "No coverage, mutation or flakiness measurement",
+    "No injected OMA claim/run/session identity"
+  ],
+  "command": [
+    "python3",
+    ".arc-verify/module-conformance/baseline/audit.py"
+  ],
+  "exitCode": 0
+}

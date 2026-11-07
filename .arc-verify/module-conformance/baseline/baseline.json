@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "acceptedRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "capturedAt": "2026-11-07T18:19:41.548415+00:00",
+  "task": "task-1",
+  "actor": "technical-director",
+  "skill": "oma-refactor",
+  "workspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "scope": "preservation baseline only; product unchanged",
+  "sourceFiles": "source-files.json",
+  "inventory": "inventory.json",
+  "assertions": "assertions.json",
+  "attributes": "attributes.json",
+  "declarations": "declarations.json",
+  "targets": [
+    {
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "gitBlob": "de416e444a103e70ee69dc87805c4bdea91cce7e",
+      "sha256": "351d81a201217608690128f0e8017f40048c32cfbd1537e524e83e60fbc730b6",
+      "bytes": 31917,
+      "lines": 901,
+      "workingSha256": "351d81a201217608690128f0e8017f40048c32cfbd1537e524e83e60fbc730b6",
+      "workingMatchesAccepted": true,
+      "readError": null
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "gitBlob": "95fbf2e670fe44ab914ea9330102300f0d2b531b",
+      "sha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+      "bytes": 18184,
+      "lines": 551,
+      "workingSha256": "9e8792708c90cd6bc11dc01a7e126c6539ace0597360e04b31900a1ef596c3ef",
+      "workingMatchesAccepted": true,
+      "readError": null
+    }
+  ],
+  "testCounts": {
+    "crates/arc-daemon/tests/resident.rs": 11,
+    "crates/arc-ipc/src/lib.rs": 13
+  },
+  "helperCount": 27,
+  "assertionSiteCount": 137,
+  "attributeCount": 28,
+  "ipcProductionPrefix": {
+    "path": "crates/arc-ipc/src/lib.rs",
+    "range": [
+      1,
+      354
+    ],
+    "sha256": "7c35f21c80a5a16089e9f1104b45b490605c372df76786fb6bd352673759a79b",
+    "boundary": "bytes preceding #[cfg(test)] mod tests"
+  },
+  "protectedPaths": [
+    ".agents/oma-config.cue",
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/arc-cli/Cargo.toml",
+    "crates/arc-cli/src/main.rs",
+    "crates/arc-cli/tests/binary.rs",
+    "crates/arc-core/Cargo.toml",
+    "crates/arc-core/src/lib.rs",
+    "crates/arc-core/tests/runtime.rs",
+    "crates/arc-daemon/Cargo.toml",
+    "crates/arc-daemon/src/accept_recovery.rs",
+    "crates/arc-daemon/src/accept_recovery_tests.rs",
+    "crates/arc-daemon/src/admission.rs",
+    "crates/arc-daemon/src/connection.rs",
+    "crates/arc-daemon/src/database_failure_tests.rs",
+    "crates/arc-daemon/src/db_worker.rs",
+    "crates/arc-daemon/src/db_worker/execution.rs",
+    "crates/arc-daemon/src/db_worker/tests.rs",
+    "crates/arc-daemon/src/instance.rs",
+    "crates/arc-daemon/src/lifecycle.rs",
+    "crates/arc-daemon/src/lifecycle_tests.rs",
+    "crates/arc-daemon/src/limits.rs",
+    "crates/arc-daemon/src/main.rs",
+    "crates/arc-daemon/src/platform.rs",
+    "crates/arc-daemon/src/report_lifecycle_tests.rs",
+    "crates/arc-daemon/src/runtime_metrics.rs",
+    "crates/arc-daemon/src/runtime_report.rs",
+    "crates/arc-daemon/src/runtime_report_tests.rs",
+    "crates/arc-daemon/src/server.rs",
+    "crates/arc-daemon/src/server_tests.rs",
+    "crates/arc-daemon/src/transport.rs",
+    "crates/arc-daemon/src/transport_test_support.rs",
+    "crates/arc-daemon/src/transport_tests.rs",
+    "crates/arc-daemon/tests/bounded.rs",
+    "crates/arc-daemon/tests/db_worker_unit.rs",
+    "crates/arc-daemon/tests/startup.rs",
+    "crates/arc-daemon/tests/support/admission_load.rs",
+    "crates/arc-daemon/tests/support/deadline_recovery.rs",
+    "crates/arc-daemon/tests/support/measurements.rs",
+    "crates/arc-daemon/tests/support/mod.rs",
+    "crates/arc-daemon/tests/support/native.rs",
+    "crates/arc-daemon/tests/support/runtime.rs",
+    "crates/arc-daemon/tests/transport_unit.rs",
+    "crates/arc-daemon/tests/worker_runtime.rs",
+    "crates/arc-ipc/Cargo.toml",
+    "crates/arc-storage/Cargo.toml",
+    "crates/arc-storage/migrations/0001_phase0.sql",
+    "crates/arc-storage/src/lib.rs",
+    "crates/arc-storage/tests/nfr010.rs",
+    "docs/architecture/CONSTRAINTS.md",
+    "docs/harness/ENTROPY.md",
+    "docs/harness/FEEDBACK-LOOPS.md",
+    "docs/harness/LEGIBILITY.md",
+    "docs/harness/SAFETY.md",
+    "mise.toml",
+    "rust-toolchain.toml",
+    "scripts/harness/gc.sh",
+    "scripts/harness/validate.sh"
+  ],
+  "fingerprint": {
+    "algorithm": "sha256",
+    "value": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5",
+    "records": "fingerprint-files.json",
+    "contract": "fingerprint.md"
+  },
+  "mappingContract": "mapping-contract.json",
+  "fixtureInvariants": "baseline.md",
+  "codeIntelligence": {
+    "provider": "serena",
+    "mode": "unavailable",
+    "tools": [],
+    "fallback": "known-path reads and Git object/path metadata only",
+    "limitation": "No recursive native source text/symbol search; no provider changes"
+  },
+  "cleanliness": {
+    "globalVerified": false,
+    "reason": "git status --short reports av.yaml: Operation not permitted",
+    "scopedEvidence": [
+      "scoped-worktree-diff.json",
+      "scoped-staged-diff.json",
+      "scoped-untracked.json"
+    ]
+  },
+  "environment": {
+    "os": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "uname": [
+      "Darwin",
+      "Eunkwangui-MacBookPro.local",
+      "27.2.0",
+      "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+      "arm64",
+      "arm"
+    ],
+    "cpuCount": 8,
+    "tools": {
+      "cargo": "/Users/gracefullight/.cargo/bin/cargo",
+      "rustc": "/Users/gracefullight/.cargo/bin/rustc",
+      "rustup": "/Users/gracefullight/.cargo/bin/rustup",
+      "node": "/Users/gracefullight/.local/share/mise/installs/node/26/bin/node",
+      "bun": "/Users/gracefullight/.local/share/mise/shims/bun",
+      "lsof": "/usr/sbin/lsof",
+      "cc": "/usr/bin/cc",
+      "python3": "/Users/gracefullight/.local/share/mise/installs/python/3.14/bin/python3"
+    },
+    "limits": {
+      "RLIMIT_CPU": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "RLIMIT_AS": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "RLIMIT_NOFILE": [
+        1048576,
+        9223372036854775807
+      ]
+    }
+  },
+  "budget": {
+    "missionMaxDurationSec": 86400,
+    "maxParallel": 3,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "localProcessesAtOnce": 1,
+    "perCommandTimeoutSec": 120,
+    "downloads": false,
+    "installs": false,
+    "monetaryCost": "unknown; local native checks only"
+  },
+  "limits": [
+    "One baseline run does not establish flakiness rate, coverage or mutation strength",
+    "No OMA claim/run/session path was injected; do not create or mutate mission state",
+    "Separate final workspace, fmt, clippy and harness receipts belong to later tasks"
+  ],
+  "baselineChecks": {
+    "ipcPassed": 13,
+    "cliPassed": 2,
+    "residentPassed": 11,
+    "discoveryNamesVerified": true,
+    "receiptIndex": "commands.json",
+    "fullWorkspaceAndHarness": "not run in this baseline task"
+  },
+  "finalSourceAudit": {
+    "allCapturedFilesByteIdentical": true,
+    "capturedFiles": 60,
+    "sourceFingerprint": "46ee27daa0957c86e794ac14ce917c81d4f026bb4364e9879aee3dc77835d9d5",
+    "globalCleanlinessVerified": false
+  }
+}

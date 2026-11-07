@@ -1,0 +1,18 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/resident.rs (target/debug/deps/resident-df0d654374c71b39)
+
+running 11 tests
+test fixture_serialization_probe ... ok
+test overlong_socket_paths_and_existing_socket_entries_reject_without_mutation ... ok
+test commands_report_daemon_unavailable_when_absent ... ok
+test concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death ... ok
+test nondirectory_parent_is_rejected_before_lock_or_database_initialization ... ok
+test permissive_directories_and_their_contents_survive_daemon_and_cli_rejection ... ok
+test native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir ... ok
+test fixture_coordination_is_shared_across_processes ... ok
+test private_existing_and_new_nested_directories_support_override_startup ... ok
+test resident_contract_holds_until_sigterm ... ok
+test symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.04s
+

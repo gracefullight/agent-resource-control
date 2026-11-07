@@ -1,0 +1,50 @@
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon/tests/resident.rs:3:
+ 
+ mod support;
+ 
++#[path = "resident/coordination.rs"]
++mod coordination;
++#[path = "resident/identity.rs"]
++mod identity;
+ #[path = "resident/lifecycle.rs"]
+ mod lifecycle;
+ #[path = "resident/provisioning.rs"]
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon/tests/resident.rs:9:
+ mod provisioning;
+-#[path = "resident/identity.rs"]
+-mod identity;
+-#[path = "resident/coordination.rs"]
+-mod coordination;
+ 
+ use arc_ipc::{
+     self, Request, Response, ERROR_PROTOCOL_INCOMPATIBLE, OPERATION_HELLO, PROTOCOL_VERSION,
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon/tests/resident.rs:271:
+     );
+ }
+ 
+-
+ // Capture every entry without following links. Equality proves inode/mode/
+ // ownership preservation, unchanged names and bytes, and no startup artifacts.
+ #[derive(Debug, PartialEq, Eq)]
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon/tests/resident.rs:397:
+     );
+ }
+ 
+-
+ fn stop(daemon: &mut Daemon) {
+     assert_eq!(
+         unsafe { libc::kill(daemon.id() as libc::pid_t, libc::SIGTERM) },
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon/tests/resident.rs:412:
+     assert_eq!(metadata.mode() & 0o7777, permissions, "{}", path.display());
+ }
+ 
+-
+ #[test]
+ fn fixture_serialization_probe() {
+     if let Some(root) = env::var_os("ARC_FIXTURE_COORDINATION_PROBE") {
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon/tests/resident.rs:422:
+         fs::write(root.join("acquired"), b"held").unwrap();
+     }
+ }
+-
+ 

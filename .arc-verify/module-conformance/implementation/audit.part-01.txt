@@ -1,0 +1,33 @@
+{
+  "task": "task-2",
+  "status": "completed",
+  "skill": "oma-refactor",
+  "checkedAt": "2026-11-07T18:31:05.186871+00:00",
+  "sourceFingerprint": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "baselineRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "mappedTests": 24,
+  "mappedHelpers": 27,
+  "mappedAssertionSites": 137,
+  "mappedAttributes": 28,
+  "mappedDeclarations": 22,
+  "productionAndProtectedFilesPreserved": true,
+  "baselineArtifactsUnchanged": true,
+  "probeSelectorUnchanged": true,
+  "coordinationHandoffPassed": true,
+  "requiredCargoChecksPassed": true,
+  "newModulesTrackedAndIndexMatchesWorkingBytes": true,
+  "fileLengthViolations": 0,
+  "harnessExitCode": 1,
+  "harnessOtherFailures": [
+    "Tests or coverage check failed; bun run test:coverage reports missing script"
+  ],
+  "independentQa": "pending subsequent assigned reviewer; not claimed by implementer",
+  "globalCleanliness": "unverified: av.yaml access denial",
+  "failedAttempts": [
+    {
+      "receipt": "fmt.json",
+      "exitCode": 1,
+      "resolution": "rustfmt sorted module wiring and removed boundary blank lines; fmt-final passed"
+    }
+  ]
+}

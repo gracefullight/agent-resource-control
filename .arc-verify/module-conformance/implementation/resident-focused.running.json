@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "resident"
+  ],
+  "pid": 71211,
+  "ownedProcessGroup": 71211,
+  "startedAt": "2026-11-07T18:26:50.550029+00:00",
+  "sourceFingerprintBefore": "34eac2152f3847a4fdaf8290d3fda70d796d1ae5d5da2015163fdaa107345118",
+  "timeoutSeconds": 120
+}

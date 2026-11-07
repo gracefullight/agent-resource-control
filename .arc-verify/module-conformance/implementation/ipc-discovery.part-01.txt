@@ -1,0 +1,17 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.03s
+     Running unittests src/lib.rs (target/debug/deps/arc_ipc-c58ead2ac2fda1e8)
+tests::dispatch::doctor_requires_ok_integrity_and_one_migration: test
+tests::dispatch::hello_and_health_do_not_require_the_database: test
+tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds: test
+tests::dispatch::unknown_operation_is_unsupported: test
+tests::framing::a_framed_array_is_rejected_without_reaching_a_handler: test
+tests::framing::an_object_request_still_decodes_after_a_rejected_array: test
+tests::framing::frame_round_trips_one_json_object: test
+tests::framing::multiple_json_values_are_rejected: test
+tests::framing::non_object_roots_are_rejected: test
+tests::framing::oversize_declared_length_is_rejected_without_reading_the_body: test
+tests::framing::responses_are_objects_too: test
+tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame: test
+tests::framing::zero_length_is_rejected_without_reading_a_body: test
+
+13 tests, 0 benchmarks

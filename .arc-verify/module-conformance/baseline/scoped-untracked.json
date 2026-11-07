@@ -1,0 +1,24 @@
+{
+  "command": [
+    "git",
+    "ls-files",
+    "--others",
+    "--exclude-standard",
+    "--",
+    "crates",
+    ".cargo",
+    "scripts/harness"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "environmentOverrides": {
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_AUTO_INSTALL": "0"
+  },
+  "startedAt": "2026-11-07T18:17:46.520081+00:00",
+  "elapsedSeconds": 0.015928,
+  "exitCode": 0,
+  "timedOut": false,
+  "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "outputBytes": 0,
+  "outputParts": []
+}

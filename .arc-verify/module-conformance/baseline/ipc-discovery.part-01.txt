@@ -1,0 +1,29 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling serde_core v1.0.229
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.154
+   Compiling serde v1.0.229
+   Compiling itoa v1.0.18
+   Compiling memchr v2.8.3
+   Compiling syn v3.0.9
+   Compiling serde_derive v1.0.229
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-ipc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.91s
+     Running unittests src/lib.rs (target/debug/deps/arc_ipc-c58ead2ac2fda1e8)
+tests::a_framed_array_is_rejected_without_reaching_a_handler: test
+tests::an_object_request_still_decodes_after_a_rejected_array: test
+tests::doctor_requires_ok_integrity_and_one_migration: test
+tests::frame_round_trips_one_json_object: test
+tests::hello_and_health_do_not_require_the_database: test
+tests::multiple_json_values_are_rejected: test
+tests::non_object_roots_are_rejected: test
+tests::oversize_declared_length_is_rejected_without_reading_the_body: test
+tests::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds: test
+tests::responses_are_objects_too: test
+tests::unknown_operation_is_unsupported: test
+tests::writing_non_object_messages_is_rejected_before_emitting_a_frame: test
+tests::zero_length_is_rejected_without_reading_a_body: test
+
+13 tests, 0 benchmarks

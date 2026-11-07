@@ -1,0 +1,19 @@
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.46s
+     Running tests/resident.rs (target/debug/deps/resident-df0d654374c71b39)
+
+running 11 tests
+test fixture_serialization_probe ... ok
+test coordination::fixture_coordination_is_shared_across_processes ... ok
+test provisioning::overlong_socket_paths_and_existing_socket_entries_reject_without_mutation ... ok
+test lifecycle::commands_report_daemon_unavailable_when_absent ... ok
+test provisioning::nondirectory_parent_is_rejected_before_lock_or_database_initialization ... ok
+test identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir ... ok
+test lifecycle::resident_contract_holds_until_sigterm ... ok
+test identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death ... ok
+test provisioning::permissive_directories_and_their_contents_survive_daemon_and_cli_rejection ... ok
+test provisioning::private_existing_and_new_nested_directories_support_override_startup ... ok
+test provisioning::symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.05s
+

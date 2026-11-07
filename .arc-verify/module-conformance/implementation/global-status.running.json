@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "git",
+    "status",
+    "--short",
+    "--untracked-files=normal"
+  ],
+  "pid": 76063,
+  "ownedProcessGroup": 76063,
+  "startedAt": "2026-11-07T18:29:33.914922+00:00",
+  "sourceFingerprintBefore": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "timeoutSeconds": 120
+}

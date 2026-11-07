@@ -1,0 +1,400 @@
++        format!(
++            "running. Socket: {}. Protocol: 1. Sweeper off.",
++            fixture.socket.display()
++        )
++    );
++    assert!(!stdout.contains("eleven"), "{stdout}");
++
++    let doctor = arcctl(&fixture, "doctor");
++    assert!(doctor.status.success(), "{doctor:?}");
++    let stdout = String::from_utf8(doctor.stdout).unwrap();
++    assert_eq!(
++        stdout.trim_end(),
++        "ok. IPC owner-only. Tray not connected. Vendors not detected. \
++         Command classification not checked. Sweeper off."
++    );
++    assert!(!stdout.contains("eleven"), "{stdout}");
++
++    let mut second = fixture.spawn();
++    let second_status = wait_for_exit(&mut second);
++    assert!(
++        !second_status.success(),
++        "a second daemon must exit non-zero: {second_status:?}"
++    );
++    let mut second_stderr = String::new();
++    if let Some(pipe) = second.stderr.as_mut() {
++        let _ = pipe.read_to_string(&mut second_stderr);
++    }
++    assert!(
++        second_stderr.contains("socket already served"),
++        "second daemon stderr: {second_stderr}"
++    );
++    assert_hello(&fixture.socket);
++
++    let result = unsafe { libc::kill(daemon.id() as libc::pid_t, libc::SIGTERM) };
++    assert_eq!(result, 0, "SIGTERM failed");
++    let exit = wait_for_exit(&mut daemon);
++    assert!(exit.success(), "daemon exit status after SIGTERM: {exit:?}");
++    assert!(
++        !fixture.socket.exists(),
++        "socket {} must be removed on shutdown",
++        fixture.socket.display()
++    );
++
++    let reopened = rusqlite::Connection::open(&fixture.database).unwrap();
++    let integrity: String = reopened
++        .query_row("PRAGMA integrity_check", [], |row| row.get(0))
++        .unwrap();
++    assert_eq!(integrity, "ok");
++    assert_eq!(
++        reopened
++            .query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| row
++                .get::<_, i64>(0))
++            .unwrap(),
++        1
++    );
++    assert_eq!(
++        reopened
++            .query_row("SELECT COUNT(*) FROM gc_operations", [], |row| row
++                .get::<_, i64>(0))
++            .unwrap(),
++        0
++    );
++    reopened.close().unwrap();
++}
++
++#[test]
++fn commands_report_daemon_unavailable_when_absent() {
++    let _serial = support::serial();
++    let fixture = Fixture::new();
++    for command in ["status", "doctor"] {
++        let output = arcctl(&fixture, command);
++        assert!(!output.status.success(), "{command} must fail: {output:?}");
++        let stderr = String::from_utf8(output.stderr).unwrap();
++        assert!(
++            stderr.contains("DAEMON_UNAVAILABLE"),
++            "{command} stderr: {stderr}"
++        );
++    }
++}
+diff --git a/crates/arc-daemon/tests/resident/provisioning.rs b/crates/arc-daemon/tests/resident/provisioning.rs
+new file mode 100644
+index 0000000..7213aa7
+--- /dev/null
++++ b/crates/arc-daemon/tests/resident/provisioning.rs
+@@ -0,0 +1,166 @@
++use super::*;
++
++#[test]
++fn permissive_directories_and_their_contents_survive_daemon_and_cli_rejection() {
++    let _serial = support::serial();
++    for permissions in [0o755, 0o770] {
++        let mut fixture = Fixture::new();
++        let directory = fixture.directory.join("arc");
++        fs::create_dir(&directory).unwrap();
++        fs::set_permissions(&directory, fs::Permissions::from_mode(permissions)).unwrap();
++        fs::write(directory.join("sentinel"), b"operator-owned bytes\0\xff").unwrap();
++        fixture.socket = directory.join("arc.sock");
++        assert_preserved_rejection(&fixture, false, &format!("permissions {permissions:04o}"));
++    }
++}
++
++#[test]
++fn symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection() {
++    let _serial = support::serial();
++    for permissions in [0o700, 0o755, 0o770] {
++        for intermediate in [false, true] {
++            let mut fixture = Fixture::new();
++            let target = fixture.directory.join("target");
++            fs::create_dir(&target).unwrap();
++            fs::set_permissions(&target, fs::Permissions::from_mode(permissions)).unwrap();
++            fs::write(target.join("sentinel"), b"symlink target stays intact").unwrap();
++            let link = fixture.directory.join("arc");
++            symlink(&target, &link).unwrap();
++            fixture.socket = if intermediate {
++                link.join("missing/arc.sock")
++            } else {
++                link.join("arc.sock")
++            };
++            assert_preserved_rejection(&fixture, false, "symlink");
++            if !intermediate {
++                fixture.socket = fixture.directory.join("new/../arc/arc.sock");
++                assert_preserved_rejection(&fixture, false, "symlink");
++                assert!(!fixture.directory.join("new").exists());
++            }
++        }
++    }
++    let mut fixture = Fixture::new();
++    let target = fixture.directory.join("absent");
++    let link = fixture.directory.join("arc");
++    symlink(&target, &link).unwrap();
++    fixture.socket = link.join("arc.sock");
++    assert_preserved_rejection(&fixture, false, "symlink");
++    assert!(!target.exists(), "dangling target was created");
++}
++
++#[test]
++fn nondirectory_parent_is_rejected_before_lock_or_database_initialization() {
++    let _serial = support::serial();
++    let mut fixture = Fixture::new();
++    let file = fixture.directory.join("file");
++    fs::write(&file, b"not a directory").unwrap();
++    fixture.socket = file.join("arc.sock");
++    assert_preserved_rejection(&fixture, false, "must be a directory");
++}
++
++#[test]
++fn private_existing_and_new_nested_directories_support_override_startup() {
++    let _serial = support::serial();
++    for nested in [false, true] {
++        for existing in [false, true] {
++            for mask in [0o000, 0o022, 0o077] {
++                let mut fixture = Fixture::new();
++                let first = fixture.directory.join("arc");
++                let parent = if nested {
++                    first.join("nested")
++                } else {
++                    first.clone()
++                };
++                let sentinel = parent.join("sentinel");
++                let before = if existing {
++                    fs::DirBuilder::new()
++                        .recursive(true)
++                        .mode(0o700)
++                        .create(&parent)
++                        .unwrap();
++                    fs::write(&sentinel, b"existing private content").unwrap();
++                    let metadata = fs::metadata(&parent).unwrap();
++                    Some((
++                        metadata.dev(),
++                        metadata.ino(),
++                        metadata.uid(),
++                        metadata.gid(),
++                    ))
++                } else {
++                    None
++                };
++                fixture.socket = parent.join("arc.sock");
++                let mut daemon = fixture.spawn_configured(false, Some(mask));
++                wait_until_ready(&mut daemon, &fixture.socket);
++                assert_eq!(mode(&first), 0o700);
++                assert_eq!(mode(&parent), 0o700);
++                assert_eq!(mode(&fixture.socket), 0o600);
++                if let Some(before) = before {
++                    let metadata = fs::metadata(&parent).unwrap();
++                    assert_eq!(
++                        before,
++                        (
++                            metadata.dev(),
++                            metadata.ino(),
++                            metadata.uid(),
++                            metadata.gid()
++                        )
++                    );
++                    assert_eq!(fs::read(&sentinel).unwrap(), b"existing private content");
++                }
++                for operation in ["status", "doctor"] {
++                    let output = cli_configured(&fixture, operation, false);
++                    assert!(output.status.success(), "{output:?}");
++                }
++                let mut duplicate = fixture.spawn_configured(false, Some(mask));
++                assert!(!wait_for_exit(&mut duplicate).success());
++                let mut stderr = String::new();
++                duplicate
++                    .stderr
++                    .as_mut()
++                    .unwrap()
++                    .read_to_string(&mut stderr)
++                    .unwrap();
++                assert!(stderr.contains("socket already served"), "{stderr}");
++                assert_hello(&fixture.socket);
++                // SAFETY: this child is owned by the fixture and still running.
++                assert_eq!(
++                    unsafe { libc::kill(daemon.id() as libc::pid_t, libc::SIGTERM) },
++                    0
++                );
++                assert!(wait_for_exit(&mut daemon).success());
++                assert!(!fixture.socket.exists());
++                assert_eq!(mode(&parent), 0o700);
++            }
++        }
++    }
++}
++
++#[test]
++fn overlong_socket_paths_and_existing_socket_entries_reject_without_mutation() {
++    let _serial = support::serial();
++    let mut fixture = Fixture::new();
++    fixture.database = fixture.directory.join("db/arc.sqlite3");
++    fs::write(fixture.directory.join("sentinel"), b"protected").unwrap();
++    let anchor = arc_core::instance_anchor().unwrap();
++    let anchor_before = fs::read(&anchor).ok();
++    fixture.socket = fixture.directory.join("new").join("s".repeat(104));
++    assert_preserved_rejection(&fixture, false, "maximum");
++    assert_eq!(
++        anchor_before,
++        fs::read(&anchor).ok(),
++        "overlong rejection wrote admission contents"
++    );
++    fixture.socket = fixture.directory.join("s".repeat(104));
++    fs::write(&fixture.socket, b"overlong existing entry stays intact").unwrap();
++    assert_preserved_rejection(&fixture, false, "maximum");
++    assert_eq!(anchor_before, fs::read(&anchor).ok());
++    let target = fixture.directory.join("target");
++    fs::write(&target, b"socket target").unwrap();
++    fixture.socket = fixture.directory.join("entry");
++    symlink(&target, &fixture.socket).unwrap();
++    assert_preserved_rejection(&fixture, false, "symlink");
++    fs::remove_file(&fixture.socket).unwrap();
++    fs::write(&fixture.socket, b"existing regular file").unwrap();
++    assert_preserved_rejection(&fixture, false, "Unix socket");
++}
+diff --git a/crates/arc-ipc/src/lib.rs b/crates/arc-ipc/src/lib.rs
+index 95fbf2e..6374919 100644
+--- a/crates/arc-ipc/src/lib.rs
++++ b/crates/arc-ipc/src/lib.rs
+@@ -353,199 +353,4 @@ where
+ }
+ 
+ #[cfg(test)]
+-mod tests {
+-    use super::*;
+-    use std::io::Cursor;
+-
+-    fn hello() -> Request {
+-        Request::new("req-1", OPERATION_HELLO)
+-    }
+-
+-    #[test]
+-    fn frame_round_trips_one_json_object() {
+-        let request = hello();
+-        let mut buffer = Vec::new();
+-        write_message(&mut buffer, &request).unwrap();
+-        assert_eq!(
+-            u32::from_be_bytes(buffer[..4].try_into().unwrap()) as usize,
+-            buffer.len() - 4
+-        );
+-        let mut reader = Cursor::new(buffer);
+-        let decoded: Request = read_message(&mut reader).unwrap();
+-        assert_eq!(decoded, request);
+-    }
+-
+-    #[test]
+-    fn writing_non_object_messages_is_rejected_before_emitting_a_frame() {
+-        for message in [
+-            json!([1, "req-1", "daemon.hello"]),
+-            json!("text"),
+-            json!(42),
+-            json!(null),
+-            json!(true),
+-        ] {
+-            let mut output = Vec::new();
+-            assert!(matches!(
+-                write_message(&mut output, &message),
+-                Err(IpcError::NotAnObject)
+-            ));
+-            assert!(output.is_empty());
+-        }
+-    }
+-
+-    #[test]
+-    fn non_object_roots_are_rejected() {
+-        let bodies: [&[u8]; 6] = [
+-            br#"[1,"req-1","daemon.hello",null]"#,
+-            br#"[1,"req-1","daemon.hello"]"#,
+-            br#""daemon.hello""#,
+-            b"42",
+-            b"null",
+-            b"true",
+-        ];
+-        for body in bodies {
+-            assert!(
+-                matches!(Request::decode(body), Err(IpcError::NotAnObject)),
+-                "{} must not decode as a request",
+-                String::from_utf8_lossy(body)
+-            );
+-        }
+-    }
+-
+-    #[test]
+-    fn multiple_json_values_are_rejected() {
+-        let body = br#"{"protocol_version":1,"request_id":"a","operation":"daemon.hello"} {"protocol_version":1,"request_id":"b","operation":"daemon.hello"}"#;
+-        assert!(matches!(Request::decode(body), Err(IpcError::Json(_))));
+-    }
+-
+-    #[test]
+-    fn a_framed_array_is_rejected_without_reaching_a_handler() {
+-        let mut frame = Vec::new();
+-        write_frame(&mut frame, br#"[1,"req-1","daemon.hello",null]"#).unwrap();
+-        let mut reader = Cursor::new(frame);
+-        assert!(matches!(
+-            read_message::<_, Request>(&mut reader),
+-            Err(IpcError::NotAnObject)
+-        ));
+-    }
+-
+-    #[test]
+-    fn responses_are_objects_too() {
+-        let mut frame = Vec::new();
+-        write_frame(&mut frame, br#"[1,"req-1","ok",null,null]"#).unwrap();
+-        assert!(matches!(
+-            read_response(&mut Cursor::new(frame)),
+-            Err(IpcError::NotAnObject)
+-        ));
+-
+-        let response = Response::ok("req-2", json!({"daemon": "running"}));
+-        let mut buffer = Vec::new();
+-        write_response(&mut buffer, &response).unwrap();
+-        assert_eq!(read_response(&mut Cursor::new(buffer)).unwrap(), response);
+-    }
+-
+-    #[test]
+-    fn an_object_request_still_decodes_after_a_rejected_array() {
+-        assert!(matches!(
+-            Request::decode(br#"[1,"req-1","daemon.hello",null]"#),
+-            Err(IpcError::NotAnObject)
+-        ));
+-        let decoded = Request::decode(
+-            br#"{"protocol_version":1,"request_id":"req-2","operation":"daemon.hello"}"#,
+-        )
+-        .unwrap();
+-        assert_eq!(decoded, Request::new("req-2", OPERATION_HELLO));
+-    }
+-
+-    #[test]
+-    fn oversize_declared_length_is_rejected_without_reading_the_body() {
+-        let mut frame = (MAX_FRAME_BYTES + 1).to_be_bytes().to_vec();
+-        frame.extend_from_slice(b"body that must not be read");
+-        let mut reader = Cursor::new(frame);
+-        match read_frame(&mut reader) {
+-            Err(FrameError::TooLarge { declared }) => {
+-                assert_eq!(declared, MAX_FRAME_BYTES + 1)
+-            }
+-            other => panic!("expected TooLarge, got {other:?}"),
+-        }
+-        assert_eq!(reader.position(), 4);
+-    }
+-
+-    #[test]
+-    fn zero_length_is_rejected_without_reading_a_body() {
+-        let mut reader = Cursor::new(vec![0, 0, 0, 0]);
+-        assert!(matches!(
+-            read_frame(&mut reader),
+-            Err(FrameError::EmptyFrame)
+-        ));
+-        assert_eq!(reader.position(), 4);
+-    }
+-
+-    #[test]
+-    fn protocol_version_99_returns_incompatible_and_a_later_hello_succeeds() {
+-        let mut incompatible = hello();
+-        incompatible.protocol_version = 99;
+-        let response = dispatch(&incompatible, || unreachable!("handler must not run"));
+-        assert_eq!(response.status, STATUS_ERROR);
+-        assert_eq!(
+-            response.error.as_ref().map(|error| error.code.as_str()),
+-            Some(ERROR_PROTOCOL_INCOMPATIBLE)
+-        );
+-
+-        let response = dispatch(&hello(), || unreachable!("handler must not run"));
+-        assert_eq!(response.status, STATUS_OK);

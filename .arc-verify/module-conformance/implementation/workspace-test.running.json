@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "pid": 71654,
+  "ownedProcessGroup": 71654,
+  "startedAt": "2026-11-07T18:28:11.769803+00:00",
+  "sourceFingerprintBefore": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "timeoutSeconds": 120
+}

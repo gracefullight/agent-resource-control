@@ -1,0 +1,400 @@
+diff --git a/crates/arc-daemon/tests/resident.rs b/crates/arc-daemon/tests/resident.rs
+index de416e4..5e10d8a 100644
+--- a/crates/arc-daemon/tests/resident.rs
++++ b/crates/arc-daemon/tests/resident.rs
+@@ -3,6 +3,15 @@
+ 
+ mod support;
+ 
++#[path = "resident/coordination.rs"]
++mod coordination;
++#[path = "resident/identity.rs"]
++mod identity;
++#[path = "resident/lifecycle.rs"]
++mod lifecycle;
++#[path = "resident/provisioning.rs"]
++mod provisioning;
++
+ use arc_ipc::{
+     self, Request, Response, ERROR_PROTOCOL_INCOMPATIBLE, OPERATION_HELLO, PROTOCOL_VERSION,
+     STATUS_ERROR, STATUS_OK,
+@@ -262,151 +271,6 @@ fn assert_no_tcp_listener(pid: u32) {
+     );
+ }
+ 
+-#[test]
+-fn resident_contract_holds_until_sigterm() {
+-    let _serial = support::serial();
+-    let fixture = Fixture::new();
+-    let mut daemon = fixture.spawn();
+-    wait_until_ready(&mut daemon, &fixture.socket);
+-
+-    assert!(fs::symlink_metadata(&fixture.socket)
+-        .unwrap()
+-        .file_type()
+-        .is_socket());
+-    assert_eq!(mode(&fixture.socket), 0o600, "socket mode must be 0600");
+-    assert_eq!(
+-        mode(&fixture.directory),
+-        0o700,
+-        "socket directory mode must be 0700"
+-    );
+-    assert_no_tcp_listener(daemon.id());
+-
+-    assert_hello(&fixture.socket);
+-
+-    let mut incompatible = Request::new("resident-v99", OPERATION_HELLO);
+-    incompatible.protocol_version = 99;
+-    let mut stream = UnixStream::connect(&fixture.socket).unwrap();
+-    stream
+-        .set_read_timeout(Some(Duration::from_secs(5)))
+-        .unwrap();
+-    stream
+-        .set_write_timeout(Some(Duration::from_secs(5)))
+-        .unwrap();
+-    let response = arc_ipc::exchange(&mut stream, &incompatible).unwrap();
+-    assert_eq!(response.status, STATUS_ERROR);
+-    assert_eq!(
+-        response.error.as_ref().map(|error| error.code.as_str()),
+-        Some(ERROR_PROTOCOL_INCOMPATIBLE)
+-    );
+-    let response = arc_ipc::exchange(
+-        &mut stream,
+-        &Request::new("resident-after-v99", OPERATION_HELLO),
+-    )
+-    .unwrap();
+-    assert_eq!(response.status, STATUS_OK);
+-    assert_eq!(response.protocol_version, PROTOCOL_VERSION);
+-    assert_hello(&fixture.socket);
+-
+-    // An oversized declaration must be rejected before waiting for any body.
+-    let mut oversized = UnixStream::connect(&fixture.socket).unwrap();
+-    oversized
+-        .set_read_timeout(Some(Duration::from_secs(5)))
+-        .unwrap();
+-    std::io::Write::write_all(
+-        &mut oversized,
+-        &(arc_ipc::MAX_FRAME_BYTES + 1).to_be_bytes(),
+-    )
+-    .unwrap();
+-    let response = arc_ipc::read_response(&mut oversized).unwrap();
+-    assert_eq!(response.status, STATUS_ERROR);
+-    assert_eq!(response.error.unwrap().code, arc_ipc::ERROR_FRAME_TOO_LARGE);
+-    assert_hello(&fixture.socket);
+-
+-    let status = arcctl(&fixture, "status");
+-    assert!(status.status.success(), "{status:?}");
+-    let stdout = String::from_utf8(status.stdout).unwrap();
+-    assert_eq!(
+-        stdout.trim_end(),
+-        format!(
+-            "running. Socket: {}. Protocol: 1. Sweeper off.",
+-            fixture.socket.display()
+-        )
+-    );
+-    assert!(!stdout.contains("eleven"), "{stdout}");
+-
+-    let doctor = arcctl(&fixture, "doctor");
+-    assert!(doctor.status.success(), "{doctor:?}");
+-    let stdout = String::from_utf8(doctor.stdout).unwrap();
+-    assert_eq!(
+-        stdout.trim_end(),
+-        "ok. IPC owner-only. Tray not connected. Vendors not detected. \
+-         Command classification not checked. Sweeper off."
+-    );
+-    assert!(!stdout.contains("eleven"), "{stdout}");
+-
+-    let mut second = fixture.spawn();
+-    let second_status = wait_for_exit(&mut second);
+-    assert!(
+-        !second_status.success(),
+-        "a second daemon must exit non-zero: {second_status:?}"
+-    );
+-    let mut second_stderr = String::new();
+-    if let Some(pipe) = second.stderr.as_mut() {
+-        let _ = pipe.read_to_string(&mut second_stderr);
+-    }
+-    assert!(
+-        second_stderr.contains("socket already served"),
+-        "second daemon stderr: {second_stderr}"
+-    );
+-    assert_hello(&fixture.socket);
+-
+-    let result = unsafe { libc::kill(daemon.id() as libc::pid_t, libc::SIGTERM) };
+-    assert_eq!(result, 0, "SIGTERM failed");
+-    let exit = wait_for_exit(&mut daemon);
+-    assert!(exit.success(), "daemon exit status after SIGTERM: {exit:?}");
+-    assert!(
+-        !fixture.socket.exists(),
+-        "socket {} must be removed on shutdown",
+-        fixture.socket.display()
+-    );
+-
+-    let reopened = rusqlite::Connection::open(&fixture.database).unwrap();
+-    let integrity: String = reopened
+-        .query_row("PRAGMA integrity_check", [], |row| row.get(0))
+-        .unwrap();
+-    assert_eq!(integrity, "ok");
+-    assert_eq!(
+-        reopened
+-            .query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| row
+-                .get::<_, i64>(0))
+-            .unwrap(),
+-        1
+-    );
+-    assert_eq!(
+-        reopened
+-            .query_row("SELECT COUNT(*) FROM gc_operations", [], |row| row
+-                .get::<_, i64>(0))
+-            .unwrap(),
+-        0
+-    );
+-    reopened.close().unwrap();
+-}
+-
+-#[test]
+-fn commands_report_daemon_unavailable_when_absent() {
+-    let _serial = support::serial();
+-    let fixture = Fixture::new();
+-    for command in ["status", "doctor"] {
+-        let output = arcctl(&fixture, command);
+-        assert!(!output.status.success(), "{command} must fail: {output:?}");
+-        let stderr = String::from_utf8(output.stderr).unwrap();
+-        assert!(
+-            stderr.contains("DAEMON_UNAVAILABLE"),
+-            "{command} stderr: {stderr}"
+-        );
+-    }
+-}
+-
+ // Capture every entry without following links. Equality proves inode/mode/
+ // ownership preservation, unchanged names and bytes, and no startup artifacts.
+ #[derive(Debug, PartialEq, Eq)]
+@@ -532,142 +396,6 @@ fn assert_preserved_rejection(fixture: &Fixture, default_socket: bool, reason: &
+     );
+ }
+ 
+-#[test]
+-fn permissive_directories_and_their_contents_survive_daemon_and_cli_rejection() {
+-    let _serial = support::serial();
+-    for permissions in [0o755, 0o770] {
+-        let mut fixture = Fixture::new();
+-        let directory = fixture.directory.join("arc");
+-        fs::create_dir(&directory).unwrap();
+-        fs::set_permissions(&directory, fs::Permissions::from_mode(permissions)).unwrap();
+-        fs::write(directory.join("sentinel"), b"operator-owned bytes\0\xff").unwrap();
+-        fixture.socket = directory.join("arc.sock");
+-        assert_preserved_rejection(&fixture, false, &format!("permissions {permissions:04o}"));
+-    }
+-}
+-
+-#[test]
+-fn symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection() {
+-    let _serial = support::serial();
+-    for permissions in [0o700, 0o755, 0o770] {
+-        for intermediate in [false, true] {
+-            let mut fixture = Fixture::new();
+-            let target = fixture.directory.join("target");
+-            fs::create_dir(&target).unwrap();
+-            fs::set_permissions(&target, fs::Permissions::from_mode(permissions)).unwrap();
+-            fs::write(target.join("sentinel"), b"symlink target stays intact").unwrap();
+-            let link = fixture.directory.join("arc");
+-            symlink(&target, &link).unwrap();
+-            fixture.socket = if intermediate {
+-                link.join("missing/arc.sock")
+-            } else {
+-                link.join("arc.sock")
+-            };
+-            assert_preserved_rejection(&fixture, false, "symlink");
+-            if !intermediate {
+-                fixture.socket = fixture.directory.join("new/../arc/arc.sock");
+-                assert_preserved_rejection(&fixture, false, "symlink");
+-                assert!(!fixture.directory.join("new").exists());
+-            }
+-        }
+-    }
+-    let mut fixture = Fixture::new();
+-    let target = fixture.directory.join("absent");
+-    let link = fixture.directory.join("arc");
+-    symlink(&target, &link).unwrap();
+-    fixture.socket = link.join("arc.sock");
+-    assert_preserved_rejection(&fixture, false, "symlink");
+-    assert!(!target.exists(), "dangling target was created");
+-}
+-
+-#[test]
+-fn nondirectory_parent_is_rejected_before_lock_or_database_initialization() {
+-    let _serial = support::serial();
+-    let mut fixture = Fixture::new();
+-    let file = fixture.directory.join("file");
+-    fs::write(&file, b"not a directory").unwrap();
+-    fixture.socket = file.join("arc.sock");
+-    assert_preserved_rejection(&fixture, false, "must be a directory");
+-}
+-
+-#[test]
+-fn private_existing_and_new_nested_directories_support_override_startup() {
+-    let _serial = support::serial();
+-    for nested in [false, true] {
+-        for existing in [false, true] {
+-            for mask in [0o000, 0o022, 0o077] {
+-                let mut fixture = Fixture::new();
+-                let first = fixture.directory.join("arc");
+-                let parent = if nested {
+-                    first.join("nested")
+-                } else {
+-                    first.clone()
+-                };
+-                let sentinel = parent.join("sentinel");
+-                let before = if existing {
+-                    fs::DirBuilder::new()
+-                        .recursive(true)
+-                        .mode(0o700)
+-                        .create(&parent)
+-                        .unwrap();
+-                    fs::write(&sentinel, b"existing private content").unwrap();
+-                    let metadata = fs::metadata(&parent).unwrap();
+-                    Some((
+-                        metadata.dev(),
+-                        metadata.ino(),
+-                        metadata.uid(),
+-                        metadata.gid(),
+-                    ))
+-                } else {
+-                    None
+-                };
+-                fixture.socket = parent.join("arc.sock");
+-                let mut daemon = fixture.spawn_configured(false, Some(mask));
+-                wait_until_ready(&mut daemon, &fixture.socket);
+-                assert_eq!(mode(&first), 0o700);
+-                assert_eq!(mode(&parent), 0o700);
+-                assert_eq!(mode(&fixture.socket), 0o600);
+-                if let Some(before) = before {
+-                    let metadata = fs::metadata(&parent).unwrap();
+-                    assert_eq!(
+-                        before,
+-                        (
+-                            metadata.dev(),
+-                            metadata.ino(),
+-                            metadata.uid(),
+-                            metadata.gid()
+-                        )
+-                    );
+-                    assert_eq!(fs::read(&sentinel).unwrap(), b"existing private content");
+-                }
+-                for operation in ["status", "doctor"] {
+-                    let output = cli_configured(&fixture, operation, false);
+-                    assert!(output.status.success(), "{output:?}");
+-                }
+-                let mut duplicate = fixture.spawn_configured(false, Some(mask));
+-                assert!(!wait_for_exit(&mut duplicate).success());
+-                let mut stderr = String::new();
+-                duplicate
+-                    .stderr
+-                    .as_mut()
+-                    .unwrap()
+-                    .read_to_string(&mut stderr)
+-                    .unwrap();
+-                assert!(stderr.contains("socket already served"), "{stderr}");
+-                assert_hello(&fixture.socket);
+-                // SAFETY: this child is owned by the fixture and still running.
+-                assert_eq!(
+-                    unsafe { libc::kill(daemon.id() as libc::pid_t, libc::SIGTERM) },
+-                    0
+-                );
+-                assert!(wait_for_exit(&mut daemon).success());
+-                assert!(!fixture.socket.exists());
+-                assert_eq!(mode(&parent), 0o700);
+-            }
+-        }
+-    }
+-}
+-
+ fn stop(daemon: &mut Daemon) {
+     assert_eq!(
+         unsafe { libc::kill(daemon.id() as libc::pid_t, libc::SIGTERM) },
+@@ -682,183 +410,6 @@ fn assert_private(path: &Path, permissions: u32) {
+     assert_eq!(metadata.mode() & 0o7777, permissions, "{}", path.display());
+ }
+ 
+-#[cfg(target_os = "macos")]
+-#[test]
+-fn native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir() {
+-    let _serial = support::serial();
+-    let mut fixture = Fixture::new();
+-    fixture.socket = arc_core::runtime_root().unwrap().join("arc/arc.sock");
+-    let unwritable = fixture.directory.join("no-write");
+-    fs::DirBuilder::new()
+-        .mode(0o500)
+-        .create(&unwritable)
+-        .unwrap();
+-    assert!(
+-        fs::write(unwritable.join("probe"), b"cannot write").is_err(),
+-        "TMPDIR must be demonstrably unwritable"
+-    );
+-    let changed = fixture.directory.join("changed");
+-    fs::DirBuilder::new().mode(0o700).create(&changed).unwrap();
+-    for daemon_tmpdir in [None, Some(&changed), Some(&unwritable)] {
+-        let mut command = fixture.command(true);
+-        command.env_remove("TMPDIR");
+-        if let Some(path) = daemon_tmpdir {
+-            command.env("TMPDIR", path);
+-        }
+-        let mut daemon = Daemon(command.spawn().unwrap());
+-        wait_until_ready(&mut daemon, &fixture.socket);
+-        assert_private(fixture.socket.parent().unwrap(), 0o700);
+-        assert_private(&fixture.socket, 0o600);
+-        let anchor = arc_core::instance_anchor().unwrap();
+-        assert_private(anchor.parent().unwrap(), 0o700);
+-        assert_private(&anchor, 0o600);
+-        for client_tmpdir in [None, Some(&changed), Some(&unwritable)] {
+-            for operation in ["status", "doctor"] {
+-                let mut client = Command::new(wait_for_binary("arcctl"));
+-                client
+-                    .arg(operation)
+-                    .env_remove(arc_core::ARC_SOCKET_PATH)
+-                    .env_remove("TMPDIR");
+-                if let Some(path) = client_tmpdir {
+-                    client.env("TMPDIR", path);
+-                }
+-                let output = client.output().unwrap();
+-                assert!(output.status.success(), "{output:?}");
+-                if operation == "status" {
+-                    assert!(String::from_utf8_lossy(&output.stdout)
+-                        .contains(fixture.socket.to_str().unwrap()));
+-                }
+-            }
+-        }
+-        stop(&mut daemon);
+-        assert!(!fixture.socket.exists());
+-    }
+-    assert!(!changed.join("arc").exists());
+-    assert!(!unwritable.join("arc").exists());
+-    fs::set_permissions(unwritable, fs::Permissions::from_mode(0o700)).unwrap();
+-}
+-
+-#[test]
+-fn concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death() {
+-    let _serial = support::serial();
+-    let mut fixtures = [Fixture::new(), Fixture::new()];
+-    for (index, fixture) in fixtures.iter_mut().enumerate() {
+-        fixture.socket = fixture.directory.join(format!("ipc/{index}.sock"));
+-        fixture.database = fixture.directory.join("db/arc.sqlite3");
+-        fs::write(
+-            fixture.directory.join("sentinel"),
+-            b"preserve contender content",
+-        )
+-        .unwrap();
+-    }
+-    let before = [
+-        snapshot(&fixtures[0].directory),
+-        snapshot(&fixtures[1].directory),
+-    ];
+-    let mut children = [fixtures[0].spawn_gated(), fixtures[1].spawn_gated()];
+-    for child in &mut children {
+-        child.stdin.take().unwrap().write_all(b"go\n").unwrap();
+-    }
+-    let deadline = Instant::now() + READY_TIMEOUT;
+-    let loser = loop {
+-        let exits = [
+-            children[0].try_wait().unwrap(),

@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "git",
+    "ls-files",
+    "--stage",
+    "--",
+    "crates/arc-daemon/tests/resident.rs",
+    "crates/arc-daemon/tests/resident",
+    "crates/arc-ipc/src/lib.rs",
+    "crates/arc-ipc/src/tests"
+  ],
+  "pid": 72505,
+  "ownedProcessGroup": 72505,
+  "startedAt": "2026-11-07T18:29:18.978446+00:00",
+  "sourceFingerprintBefore": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "timeoutSeconds": 120
+}

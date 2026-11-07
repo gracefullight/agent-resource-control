@@ -1,0 +1,11 @@
+av.yaml: Operation not permitted
+M  crates/arc-daemon/tests/resident.rs
+A  crates/arc-daemon/tests/resident/coordination.rs
+A  crates/arc-daemon/tests/resident/identity.rs
+A  crates/arc-daemon/tests/resident/lifecycle.rs
+A  crates/arc-daemon/tests/resident/provisioning.rs
+M  crates/arc-ipc/src/lib.rs
+A  crates/arc-ipc/src/tests/dispatch.rs
+A  crates/arc-ipc/src/tests/framing.rs
+A  crates/arc-ipc/src/tests/mod.rs
+?? .arc-verify/module-conformance/

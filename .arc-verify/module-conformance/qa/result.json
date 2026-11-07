@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-5",
+  "actorId": "reviewer",
+  "skill": "oma-qa",
+  "status": "completed",
+  "verdict": "PASS",
+  "approved": true,
+  "completeness": "completed",
+  "checkedAt": "2026-11-07T18:39:02.890Z",
+  "sourceFingerprint": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "baselineHead": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "inspectedHead": "5d0f5c5b93edc214bff099f73ca8422f0c669565",
+  "mapping": {
+    "tests": 24,
+    "helpers": 27,
+    "assertionSites": 137,
+    "attributes": 28
+  },
+  "protectedFilesByteIdentical": 58,
+  "ipcProductionPrefixByteIdentical": true,
+  "fixtureSerializationVerified": true,
+  "ownedChildCleanupPreserved": true,
+  "nativeMacOSCoverageExecuted": true,
+  "exactProbeName": "fixture_serialization_probe",
+  "requiredCargoGates": "passed; independently validated original executable receipts on identical product bytes",
+  "workspaceTestExecutionsPassed": 183,
+  "requiredCargoGatesReplayedByReviewer": false,
+  "fileLengthViolations": 0,
+  "harnessExitCode": 1,
+  "harnessOtherFailures": [
+    "bun run test:coverage: Script not found \"test:coverage\"; unchanged harness reports Total violations: 1"
+  ],
+  "auditChecks": [
+    {
+      "path": ".arc-verify/module-conformance/qa/structure.json",
+      "sha256": "c34482aadc1525975b0bcdb2ea24bb4647ad04f8ac5813aa6e41500e552f69c9",
+      "command": [
+        "node",
+        "--test",
+        ".arc-verify/module-conformance/qa/structure-and-mapping.test.mjs"
+      ],
+      "exitCode": 0,
+      "outputSha256": "596a2af2c4bbe813a4a3cb8d072506178938185948e5b792b36bb1f2c9fe0d28"
+    },
+    {
+      "path": ".arc-verify/module-conformance/qa/preservation.json",
+      "sha256": "b8fdceda7ad38e79e280bbc4849b2e8c5da758d0a8ca191c71818dd89a9bda1a",
+      "command": [
+        "node",
+        "--test",
+        ".arc-verify/module-conformance/qa/preservation-and-receipts.test.mjs"
+      ],
+      "exitCode": 0,
+      "outputSha256": "a22c0948d305fa7d6e201ce73908bf13adaadf620745793a399d6c96534990d3"
+    }
+  ],
+  "findings": [],
+  "blockingGaps": [],
+  "acceptance": {
+    "independentNodeAudits": "pass: six structure checks and seven preservation/receipt checks",
+    "exhaustivePreservation": "pass: independently parsed accepted Git objects; raw items, assertion tokens, cfg and names checked",
+    "fixtureAndNativeTests": "pass: ready/blocked/acquired ordering, exact one-test handoff and native macOS workspace output",
+    "protectedBoundaries": "pass: Git-object byte equality and filesystem/index mode checks",
+    "executableEvidence": "pass: exact Cargo gates; harness has zero lengths and retained non-length failure",
+    "sourceBinding": "pass: independently recomputed delivery fingerprint matches receipts and current files"
+  },
+  "failedAttempts": [
+    "QA development run 1: audit root was one directory too high; corrected only qa/audit-lib.mjs.",
+    "QA development run 2: audit expected alternate exact-filter argv placement, omitted trailing attribute comment, and counted trailing blank separator. Corrected expected representation after inspecting actual argv/raw source; preservation comparisons unchanged.",
+    "Implementer initial fmt exit 1 remains in implementation/fmt.json; final exact fmt exit 0 is validated.",
+    "Supplied snapshot/worker named refs could not resolve locally; actual snapshot commit/tree verified directly.",
+    "Optional .agents/oma-config.yaml and implementation/delivery.json reads returned missing; used existing CUE configuration and actual handoff/result/receipt files."
+  ],
+  "limits": [
+    "Global cleanliness is not established; baseline/implementation status receipts retain av.yaml access denial. Scoped product diffs and all owned/protected bytes are verified.",
+    "Missing Bun coverage script remains an actual harness failure, not a passing coverage claim.",
+    "One recorded native run does not measure flakiness, mutation strength or coverage percentage.",
+    "No external delivery, browser checks, installations, downloads or product edits were performed."
+  ],
+  "report": ".arc-verify/module-conformance/qa/review.md",
+  "sourceEvidence": ".arc-verify/module-conformance/qa/source-evidence.json"
+}

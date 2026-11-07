@@ -1,0 +1,31 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--offline",
+    "--locked",
+    "-p",
+    "arc-ipc",
+    "--lib",
+    "--",
+    "--list"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "environmentOverrides": {
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_AUTO_INSTALL": "0"
+  },
+  "startedAt": "2026-11-07T18:17:52.288628+00:00",
+  "elapsedSeconds": 7.49857,
+  "exitCode": 0,
+  "timedOut": false,
+  "outputSha256": "514ff3268c03f2d563840a8e03ad042257657edf2f0d4e9580323c32ed57a149",
+  "outputBytes": 1472,
+  "outputParts": [
+    {
+      "path": "ipc-discovery.part-01.txt",
+      "sha256": "514ff3268c03f2d563840a8e03ad042257657edf2f0d4e9580323c32ed57a149",
+      "lines": 29
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "acceptedRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "output": ".arc-verify/module-conformance/implementation/mapping.json",
+  "requiredTopLevelFields": ["schemaVersion", "baselineRevision", "entries", "declarations", "sourceFingerprint"],
+  "inventoryInput": ".arc-verify/module-conformance/baseline/inventory.json",
+  "assertionsInput": ".arc-verify/module-conformance/baseline/assertions.json",
+  "attributesInput": ".arc-verify/module-conformance/baseline/attributes.json",
+  "entryCoverage": "Exactly one entry per inventory id, including unmoved helpers and shared support helpers; no dropped or duplicate original id",
+  "requiredEntryFields": ["originalId", "kind", "original", "destination", "comparison"],
+  "originalFields": ["path", "name", "qualifiedName", "range", "bodyRange", "attributes", "rawItemSha256", "rawBodySha256", "bodyTokenSha256", "assertionLines"],
+  "destinationFields": ["path", "name", "qualifiedName", "range", "bodyRange", "attributes", "rawBodySha256", "bodyTokenSha256", "assertionLines"],
+  "comparisonFields": ["bodyTokensEqual", "attributesEqual", "assertions", "mechanicalDifferences"],
+  "assertionMappingFields": ["originalLine", "destinationLine", "macro", "tokensEqual"],
+  "rangeConvention": "Inclusive one-based line numbers against accepted Git bytes for original and actual delivered bytes for destination",
+  "originalSourceAuthority": "git show a905653d557f4c5246a1f656042cb8d29e46c052:PATH; baseline files are indexes, not substitutes for immutable originals",
+  "tokenAlgorithm": "capture.py lex() and token_sha(): preserve literal bytes as whole tokens, discard comments/whitespace, SHA-256 of UTF-8 compact JSON token array with ensure_ascii=False",
+  "independentComparison": "QA must reread Git and destination bytes, compare actual bodies, assertions, literals, loops, helper calls, attributes and declaration/drop order; stored equal flags alone are not proof",
+  "comments": "Raw hashes retain comments. Review any raw-byte difference after removing only common leading indentation. Comments are not authorized for deletion or rewriting by the token comparator",
+  "attributes": "Preserve every test and platform attribute; inherited cfg(test) may move to the explicit module declaration. Preserve derive attributes and the shared support allow(dead_code)",
+  "declarations": {
+    "requiredFields": ["originalPath", "originalRange", "destinationPath", "destinationRange", "comparison", "mechanicalDifferences"],
+    "coverage": "Account for nonfunction helper declarations, constants, imports, trait implementations and their attributes, including Fixture/Daemon/EntrySnapshot, timeouts, fixture counter, shared Serial and THREAD",
+    "production": "IPC production prefix lines 1-354 stays byte-identical; daemon production, migrations, manifests, lockfile and harness rules stay byte-identical"
+  },
+  "permittedMechanicalDifferences": [
+    {"id": "relocation", "scope": "Test/helper source locations and resulting qualified test/module names"},
+    {"id": "indentation", "scope": "Leading Rust source indentation needed for ordinary module moves, with literal bytes and comments preserved"},
+    {"id": "module_wiring", "scope": "Explicit mod/use declarations and private helper reexports/imports; keep one resident integration target"},
+    {"id": "helper_visibility", "scope": "Only private pub(super) or pub(crate) exposure needed between test modules; no production or public IPC visibility changes"},
+    {"id": "probe_selector_qualification", "scope": "Only if probe is moved: replace the --exact fixture_serialization_probe selector with its actual qualified name; map this literal exception and prove ready/acquired handoff plus nonzero discovery"}
+  ],
+  "notPermitted": ["Changed assertions, case arrays, loops, literals or expected outputs", "Fixture lock or child drop-order changes", "Independent module-local fixture locks", "New dependency or manifest edits", "Production code changes", "Textual include or numbered size-only chunks"],
+  "lineLimit": {"ceiling": 500, "measurement": "Count newline bytes as wc -l and also logical lines; enumerate every resulting source/evidence file including untracked modules"},
+  "discovery": "Record original and final cargo -- --list names. The child probe must select one actual test. Final tests must preserve the same platform availability",
+  "fingerprintContract": "fingerprint.md"
+}

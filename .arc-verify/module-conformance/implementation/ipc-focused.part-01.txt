@@ -1,0 +1,21 @@
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/crates/arc-ipc)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.66s
+     Running unittests src/lib.rs (target/debug/deps/arc_ipc-c58ead2ac2fda1e8)
+
+running 13 tests
+test tests::dispatch::unknown_operation_is_unsupported ... ok
+test tests::framing::a_framed_array_is_rejected_without_reaching_a_handler ... ok
+test tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds ... ok
+test tests::framing::an_object_request_still_decodes_after_a_rejected_array ... ok
+test tests::framing::multiple_json_values_are_rejected ... ok
+test tests::dispatch::doctor_requires_ok_integrity_and_one_migration ... ok
+test tests::framing::non_object_roots_are_rejected ... ok
+test tests::dispatch::hello_and_health_do_not_require_the_database ... ok
+test tests::framing::frame_round_trips_one_json_object ... ok
+test tests::framing::oversize_declared_length_is_rejected_without_reading_the_body ... ok
+test tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame ... ok
+test tests::framing::zero_length_is_rejected_without_reading_a_body ... ok
+test tests::framing::responses_are_objects_too ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

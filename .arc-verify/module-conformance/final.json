@@ -1,0 +1,381 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-6",
+  "actorId": "chief-director",
+  "skill": "oma-pm",
+  "roleDefinition": ".agents/agents/pm-planner.md",
+  "status": "completed",
+  "completed": true,
+  "assessedAt": "2026-11-07T18:44:09.436Z",
+  "baselineRevision": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "integratedHead": "a905653d557f4c5246a1f656042cb8d29e46c052",
+  "sourceFingerprint": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "approvedSnapshot": "5d0f5c5b93edc214bff099f73ca8422f0c669565",
+  "sourceFingerprintRecords": 73,
+  "fingerprintContract": ".arc-verify/module-conformance/baseline/fingerprint.md",
+  "independentQaApproved": true,
+  "independentQaCompleteness": "completed",
+  "independentQaEvidence": ".arc-verify/module-conformance/qa/result.json",
+  "cargoChecksPassed": true,
+  "cargoChecks": [
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "receipt": ".arc-verify/module-conformance/implementation/fmt-final.json",
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reused": true
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "receipt": ".arc-verify/module-conformance/implementation/clippy.json",
+      "outputSha256": "a19b38674d9d1720965859f8b8aca220b371284860430dac934f75b1478d4173",
+      "reused": true
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "receipt": ".arc-verify/module-conformance/implementation/workspace-test.json",
+      "outputSha256": "6f7ea4823af474661ce1edcf8a6d94044a1b9b161faec1689472a78255a070dd",
+      "reused": true
+    }
+  ],
+  "cargoGatesRerunByChief": false,
+  "workspaceTestExecutionsPassed": 183,
+  "fileLengthViolations": 0,
+  "sourceLengths": {
+    "crates/arc-daemon/tests/resident.rs": 421,
+    "crates/arc-ipc/src/lib.rs": 356,
+    "crates/arc-daemon/tests/resident/coordination.rs": 32,
+    "crates/arc-daemon/tests/resident/identity.rs": 149,
+    "crates/arc-daemon/tests/resident/lifecycle.rs": 146,
+    "crates/arc-daemon/tests/resident/provisioning.rs": 166,
+    "crates/arc-ipc/src/tests/mod.rs": 8,
+    "crates/arc-ipc/src/tests/framing.rs": 122,
+    "crates/arc-ipc/src/tests/dispatch.rs": 69
+  },
+  "harnessExitCode": 1,
+  "harnessPassed": false,
+  "harnessReceipt": ".arc-verify/module-conformance/implementation/harness.json",
+  "harnessOutputSha256": "8049b82826700b637f5816ba661d684a54ce3357d9f086d9dce23df73de44c0a",
+  "harnessMode": "all-tracked",
+  "harnessTrackedFileCount": 2416,
+  "harnessCoverageBypassed": false,
+  "harnessRerunByChief": false,
+  "harnessOtherFailures": [
+    "bun run test:coverage: Script not found \"test:coverage\"; Total violations: 1"
+  ],
+  "reuseBasis": "Exact argv/cwd and hashed complete outputs on the unchanged integrated product fingerprint; nine current staged/working source files equal approved snapshot bytes. Evidence reports are excluded from product fingerprint and hashed separately.",
+  "preservation": {
+    "tests": 24,
+    "helpers": 27,
+    "assertionSites": 137,
+    "attributes": 28,
+    "protectedFilesByteIdentical": 58,
+    "ipcProductionPrefixByteIdentical": true,
+    "fixtureSerializationPreserved": true,
+    "ownedChildCleanupPreserved": true,
+    "probeSelector": "fixture_serialization_probe"
+  },
+  "successCriteria": [
+    {
+      "criterion": "Discoverable scenario modules; all resulting source and evidence files at most 500 lines",
+      "passed": true,
+      "evidence": [
+        ".arc-verify/module-conformance/implementation/source-lengths.json",
+        ".arc-verify/module-conformance/qa/structure.json"
+      ],
+      "currentCheck": 0
+    },
+    {
+      "criterion": "Every original test, assertion, helper assertion and platform attribute preserved",
+      "passed": true,
+      "evidence": [
+        ".arc-verify/module-conformance/implementation/mapping.json",
+        ".arc-verify/module-conformance/qa/independent-mapping.json"
+      ],
+      "currentCheck": 0
+    },
+    {
+      "criterion": "IPC/daemon behavior, cross-process serialization and owned-child cleanup preserved; workspace tests pass",
+      "passed": true,
+      "evidence": [
+        ".arc-verify/module-conformance/implementation/workspace-test.json",
+        ".arc-verify/module-conformance/implementation/coordination-handoff.json",
+        ".arc-verify/module-conformance/qa/review.md"
+      ],
+      "currentCheck": 1
+    },
+    {
+      "criterion": "Daemon production, IPC production statements, migration bytes and harness rules unchanged",
+      "passed": true,
+      "evidence": [
+        ".arc-verify/module-conformance/baseline/source-files.json",
+        ".arc-verify/module-conformance/implementation/protected-paths.json",
+        ".arc-verify/module-conformance/qa/preservation.json"
+      ],
+      "currentCheck": 1
+    },
+    {
+      "criterion": "All three exact Cargo gates pass",
+      "passed": true,
+      "evidence": [
+        ".arc-verify/module-conformance/implementation/fmt-final.json",
+        ".arc-verify/module-conformance/implementation/clippy.json",
+        ".arc-verify/module-conformance/implementation/workspace-test.json"
+      ],
+      "currentCheck": 1
+    },
+    {
+      "criterion": "Unchanged full harness reports zero file-length violations and retains actual unrelated failure",
+      "passed": true,
+      "evidence": [
+        ".arc-verify/module-conformance/implementation/harness.json",
+        ".arc-verify/module-conformance/implementation/harness.part-01.txt",
+        ".arc-verify/module-conformance/implementation/tracked-modules.json"
+      ],
+      "currentCheck": 1
+    },
+    {
+      "criterion": "Source-bound evidence and completed independent oma-qa approval",
+      "passed": true,
+      "evidence": [
+        ".arc-verify/module-conformance/baseline/baseline.json",
+        ".arc-verify/module-conformance/qa/result.json",
+        ".arc-verify/module-conformance/qa/review.md",
+        ".arc-verify/module-conformance/design-review.md",
+        ".arc-verify/module-conformance/evidence-scope.md",
+        ".arc-verify/module-conformance/final.md"
+      ]
+    }
+  ],
+  "chiefAudits": [
+    {
+      "command": [
+        "node",
+        "--test",
+        ".arc-verify/module-conformance/qa/structure-and-mapping.test.mjs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+      "startedAt": "2026-11-07T18:44:02.152Z",
+      "finishedAt": "2026-11-07T18:44:04.066Z",
+      "exitCode": 0,
+      "signal": null,
+      "stdout": "✔ all resulting source and evidence files meet both line-count definitions (77.8575ms)\n✔ native modules are explicit, private and exhaustively wired (206.793917ms)\n✔ derive each test, helper, assertion and attribute directly from accepted Git bytes (161.96025ms)\n✔ implementer mapping is checked against independently derived ranges and assertion arguments (1235.089917ms)\n✔ all residual statements and helper declaration order survive module extraction (99.9545ms)\n✔ independent parser preserves tricky literals, comments and nested assertion ownership (0.323041ms)\nℹ tests 6\nℹ suites 0\nℹ pass 6\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 1859.625208\n",
+      "stderr": "",
+      "stdoutSha256": "953eda80b4e82d1379231e1ebc1003180a1de07511463f5fb569cb2326038ac0",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceFingerprint": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a"
+    },
+    {
+      "command": [
+        "node",
+        "--test",
+        ".arc-verify/module-conformance/qa/preservation-and-receipts.test.mjs"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+      "startedAt": "2026-11-07T18:44:04.066Z",
+      "finishedAt": "2026-11-07T18:44:09.385Z",
+      "exitCode": 0,
+      "signal": null,
+      "stdout": "✔ accepted baseline objects and snapshot provenance retain their actual identity (1614.437959ms)\n✔ all protected Git bytes and modes remain unchanged, including migration and harness (2223.87875ms)\n✔ source fingerprint is recomputed over actual integrated source, not substituted HEAD (955.167292ms)\n✔ exact required receipts contain complete hash-checked output on this source (32.366875ms)\n✔ workspace output proves every moved native test and the CLI contracts executed (166.255125ms)\n✔ fixture ordering, exact subprocess discovery, handshake assertions and owned-child reaping persist (0.724083ms)\n✔ unchanged full harness includes tracked modules and retains its actual coverage failure (205.230917ms)\nℹ tests 7\nℹ suites 0\nℹ pass 7\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5269.998875\n",
+      "stderr": "",
+      "stdoutSha256": "436f2db9f6f064636960b52aa647525c77752b861730ca1786394f3adca28273",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceFingerprint": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a"
+    }
+  ],
+  "chiefAdditionalChecks": {
+    "qaApprovalAndReceiptInputOutputHashes": "passed",
+    "finalArtifactReferencesAndHashes": "passed",
+    "finalArtifactLineLimit": "passed",
+    "sourceUnchanged": "passed"
+  },
+  "changedPaths": [
+    ".arc-verify/module-conformance/final.md",
+    ".arc-verify/module-conformance/final.json"
+  ],
+  "frameworkReviews": {
+    "source": "Supplied immutable assignment/dependency review results; not newly executed by Chief",
+    "tasks1Through5": "passed",
+    "dependencyFindings": [],
+    "crossVendorReview": "Earlier opencode readiness failure provided no verdict; completed independent Codex oma-qa used"
+  },
+  "directorDispositions": {
+    "technical": "Accepted bounded native modules, shared fixtures, exhaustive mapping and source-bound checks",
+    "design": "Accepted behavior/probe preservation; deferred user-study and retention hypotheses",
+    "marketing": "Accepted evidence boundaries; deferred all commercial experiments"
+  },
+  "failedAttemptsRetained": [
+    "Initial implementation fmt exit 1, followed by fmt-final exit 0",
+    "Early QA audit root/representation failures corrected within QA only",
+    "Earlier opencode review failed before readiness; no cross-vendor verdict",
+    "Optional YAML configuration read missing; no provider configuration changed"
+  ],
+  "limits": [
+    "Global cleanliness unverified: av.yaml access denial; scoped product bytes verified",
+    "Mise tracked-config symlink warning retained; no denied operation bypassed",
+    "No measured flakiness, mutation strength, coverage percentage, user-research or commercial outcome",
+    "Unavailable named review refs distinguished from verified snapshot commit/tree",
+    "Source fingerprint excludes evidence, caches, live processes and external filesystem state; evidence hashes are local integrity checks"
+  ],
+  "codeIntelligence": {
+    "provider": "serena",
+    "mode": "unavailable",
+    "tools": [],
+    "fallback": "Known-path reads and Git metadata only"
+  },
+  "remainingNextAction": "No required refactor repair. Missing Bun coverage script remains a separate maintenance issue. Refresh affected evidence if product inputs change.",
+  "evidenceSha256": {
+    ".arc-verify/module-conformance/baseline/artifacts.json": "93aa908ff26ceab0a6f7bd965a8d52d58e3c84bb212415505280e68efc128b07",
+    ".arc-verify/module-conformance/baseline/assertions.json": "6cf873541ccb7b6aa747857f74c09965a91bc37f7470f233aa53c27ff8f68390",
+    ".arc-verify/module-conformance/baseline/attributes.json": "15b9847a35e561e49b2fa1b87d9b6d7d4b0296765478076b1d85829e55d22c98",
+    ".arc-verify/module-conformance/baseline/audit-result.json": "69b20714ba903ca77e32c1569c2bc17967adb114793c1ebadb0351a0f1d7bf01",
+    ".arc-verify/module-conformance/baseline/audit.py": "145e0fe29c0bc57c78d4c2d1eb2cee189d787af41c3a71b31beadaf40cf0ff9c",
+    ".arc-verify/module-conformance/baseline/baseline.json": "93356d14b07cb8dbcdaf65dcd1fe9a9eeef1fddca8b7378b1511fb36b7221577",
+    ".arc-verify/module-conformance/baseline/baseline.md": "72f337f593d69fc05d1fa1a14620bbd65fc274bab6ae34d443eb7a085e25347f",
+    ".arc-verify/module-conformance/baseline/capture.py": "b7d083545f702a11155050c5ca5e74970d0a2bba4b805dc4e21bb21b4c7fdc3b",
+    ".arc-verify/module-conformance/baseline/cargo-metadata.json": "bacaa2e4860a3523a93595409fccf2cb4202143c3081ffc2b97746cdce80dc72",
+    ".arc-verify/module-conformance/baseline/cargo-metadata.part-01.txt": "497b6cc17d765751ec3327444ae251ebcaab750fb1767dd1da0138bccf9c1628",
+    ".arc-verify/module-conformance/baseline/cargo-version.json": "e3ec31646ec1ee4c7c2da5f8e11ee845c1511bf13d30a3bfb32eafce7eeba885",
+    ".arc-verify/module-conformance/baseline/cargo-version.part-01.txt": "c10ec31b8c6e6e2693cf65fc1971b41edbc3da1ae7db6f9f3f36c4823f8dcab5",
+    ".arc-verify/module-conformance/baseline/cli-baseline.json": "8c93a87dc377a7ae0ec82b8633bffa2327522edd3f26b8cf47c4f111f542f8ec",
+    ".arc-verify/module-conformance/baseline/cli-baseline.part-01.txt": "7b7f167e0b716be9bc0b7125337b69a7008cadda4bacaac71ec9337db5a88e22",
+    ".arc-verify/module-conformance/baseline/cli-baseline.running.json": "43a9b4b0dcb46b8c1fe066db22e9ada6b792fadaca8de78d31a1702113f2e917",
+    ".arc-verify/module-conformance/baseline/cli-discovery.json": "57fc2d5a03101b4a4e5a5dd0583eb1c326877011a40d5db13ca0b8acf7cad428",
+    ".arc-verify/module-conformance/baseline/cli-discovery.part-01.txt": "6647e4abfdae8d49ab8d134fe9bcc4b1287fe607ab0fc3f5caf5d46d026680cf",
+    ".arc-verify/module-conformance/baseline/cli-discovery.running.json": "ae5f4348a36bf7d7ab2120fa3f31ac840aff0c98e4b444fa5d465c06345cf8c7",
+    ".arc-verify/module-conformance/baseline/commands.json": "9ec58688d8476a86044b762b7edabf4a4dedd0c24b8f77f1613a3cb8aeb4fde2",
+    ".arc-verify/module-conformance/baseline/components.json": "ab2102aa26edd01de4e5de4d0174112b9cb8cd4ac0b2ac5b0f80a85d259d9da0",
+    ".arc-verify/module-conformance/baseline/components.part-01.txt": "241404bd7f41daccf0ce1569fdfe2d6c8d947480cb450314c73003824f2b9622",
+    ".arc-verify/module-conformance/baseline/declarations.json": "b95aee4b54109ab5bd2b43a9d9fe26b4f04039cc50563728ad1a2e2c15b2cc38",
+    ".arc-verify/module-conformance/baseline/fingerprint-files.json": "835606d43abc2e2a661d5b995ec60488fb5546b0818dc977f5e46eb712b7a398",
+    ".arc-verify/module-conformance/baseline/fingerprint.md": "8ab0d3ac0dc1e92042fab89d45abde67e23a633d80ccdf48b4532b92099069ce",
+    ".arc-verify/module-conformance/baseline/global-status.json": "4139e42510cd28eb34408631333562c561b71105878bf1419d0bc95fb0b1f672",
+    ".arc-verify/module-conformance/baseline/global-status.part-01.txt": "0028e3a33554c0373226c3a2af68053fbe33a28255a89cd5d8487134d3b83647",
+    ".arc-verify/module-conformance/baseline/inventory.json": "b4515eeff7534973c43a84e10aa5e37dcf5631ee0e2d90b411fd7e65ed55c3d1",
+    ".arc-verify/module-conformance/baseline/ipc-baseline.json": "07ef039e1422a66267a9dc3a975e37baaee51fb93e7655aa26785a937edfbf14",
+    ".arc-verify/module-conformance/baseline/ipc-baseline.part-01.txt": "853af8ccf643e6a64af911bf8860df0a0801724f10e08809cce2d473c16922eb",
+    ".arc-verify/module-conformance/baseline/ipc-baseline.running.json": "6c857bd04d5f965b63e1b1b0b53006a0a5e8107bf2e2c736aed5ce5484af96e3",
+    ".arc-verify/module-conformance/baseline/ipc-discovery.json": "6d191fdc5dcd3606315e463f744983ce884089d49a2caf3250b4f140625202c7",
+    ".arc-verify/module-conformance/baseline/ipc-discovery.part-01.txt": "514ff3268c03f2d563840a8e03ad042257657edf2f0d4e9580323c32ed57a149",
+    ".arc-verify/module-conformance/baseline/mapping-contract.json": "8346d5ce65db7f9ddee5cbc90c8eb9b607d7271f990e98bffde061fc6bed988e",
+    ".arc-verify/module-conformance/baseline/resident-baseline.json": "a16dddb857c88e01211202a99df438e5c7cbd401abec7c02102b16562750f867",
+    ".arc-verify/module-conformance/baseline/resident-baseline.part-01.txt": "305df6e24aac5babf975180cea7db17a786162b05623a8a40b8870ab07a8dc2e",
+    ".arc-verify/module-conformance/baseline/resident-baseline.running.json": "0c2c4d78dbd6d22815ee47127bef26f20bbd0634b821a79f2f41c84014149b08",
+    ".arc-verify/module-conformance/baseline/resident-discovery.json": "cd7ac1891d1240fa3d8b2d534244da5f25708257c7701b104060e67497d0ebf9",
+    ".arc-verify/module-conformance/baseline/resident-discovery.part-01.txt": "3d47833bad15851676652ca805bdc1c5842d0ed0ef78951305b5862f11adec3f",
+    ".arc-verify/module-conformance/baseline/resident-discovery.running.json": "12500f5fcba16446dace28b5eed2a7075999ee4283ceabc20d35d69098877323",
+    ".arc-verify/module-conformance/baseline/scoped-staged-diff.json": "0651fa28111cdfa5b70b63ebfcdc4e26753f248bd3d3b1d8b01f77d044addf46",
+    ".arc-verify/module-conformance/baseline/scoped-untracked.json": "3aaea323b94060f28ad64a427e78cca836fc87eea8fbbaddda421ed4ca6047a3",
+    ".arc-verify/module-conformance/baseline/scoped-worktree-diff.json": "46008ac3c3a3ea54ee075ccd6bd867288d7bc14c22ce97d5b5dea2c260754ed8",
+    ".arc-verify/module-conformance/baseline/source-files.json": "76a98e98fadaff1202a2a7bd53e5497720635e599c231cc4a42d1ca7b1f9d127",
+    ".arc-verify/module-conformance/baseline/toolchain.json": "54a424fe5925bf5410d38621515e17737586fc187be93a7510bd8655a00576f5",
+    ".arc-verify/module-conformance/baseline/toolchain.part-01.txt": "e61cba8ded8c60e985f759f74a221c4773649021477d00b44c7af411eb8c218c",
+    ".arc-verify/module-conformance/design-review.md": "2e490b6e518fbf75964ef72e747a565c44194f87de0cd3b0efba2a0f7021b1d6",
+    ".arc-verify/module-conformance/evidence-scope.md": "0e2ce18fb87ac2193e7419c1fc6d7ecce9fb2be8a8ef6fe6459b8b3bfcaf1122",
+    ".arc-verify/module-conformance/final.md": "efa5490e1a9244c3592213ec8eea296eb442d92b2af63eb832eb9c6489d90695",
+    ".arc-verify/module-conformance/implementation/artifacts.json": "387c4cc208642b749c2012d319b8b3b8c8c34c163e120252fa25bcee02e2d5f4",
+    ".arc-verify/module-conformance/implementation/audit.json": "2bd2284a24eca3ae8257085c533ff847a1b94799d317256301e8cba4b9d0c6fe",
+    ".arc-verify/module-conformance/implementation/audit.part-01.txt": "983032521e79f01df552d6a894d70c09d7898af1c7b6017826d8c43e12f66da9",
+    ".arc-verify/module-conformance/implementation/audit.running.json": "4028c592f5dd89336f0ff946681056afc266a9b906f4dfd437402455f817b134",
+    ".arc-verify/module-conformance/implementation/audit_delivery.py": "73355e21b8d8314623cc3055cb00e83647b72b397a61e6691e82d07413a47b78",
+    ".arc-verify/module-conformance/implementation/cargo-version.json": "b53d08357fbeb2cf0f0543e37f263622f8d3c4dcda60c3ca68ad7003445d7286",
+    ".arc-verify/module-conformance/implementation/cargo-version.part-01.txt": "0bf5c01577bf60796a6768a5685bac6ea4aba01954f7e1e319f9a125f5502ab8",
+    ".arc-verify/module-conformance/implementation/cargo-version.running.json": "10206139bab269a60b21894dda1db75af99a74a8474c471ffb12f1286d6c6652",
+    ".arc-verify/module-conformance/implementation/clippy.json": "5ba6626d2b354abf9120c441021e0543b705f5e6fb2bbc00b71792b58de35fcd",
+    ".arc-verify/module-conformance/implementation/clippy.part-01.txt": "a19b38674d9d1720965859f8b8aca220b371284860430dac934f75b1478d4173",
+    ".arc-verify/module-conformance/implementation/clippy.running.json": "79feaa6001bd04bb13baa09bb77e342abcff61da6b38223f99e95f24dd1eb445",
+    ".arc-verify/module-conformance/implementation/commands.json": "53502d5d81815c45c73ab931ccaf06dd217672b36cd159044462012cb08b30d1",
+    ".arc-verify/module-conformance/implementation/coordination-handoff.json": "d8a1390017bd4bee7b6dc8da4edf8ce1ce5cc03607d6f7a65441113cd21e2734",
+    ".arc-verify/module-conformance/implementation/coordination-handoff.part-01.txt": "cc0487771365ac0f7e50b9e1b57457e95e4e68c2baef5d792960e4e9d11436b4",
+    ".arc-verify/module-conformance/implementation/coordination-handoff.running.json": "d1587ca0ac69df073b7d977e21fd6e11ecb991e5ece7a3ad246985117646ce04",
+    ".arc-verify/module-conformance/implementation/discovery.json": "a231dd6d4947905097acf9913f1c0becde6e7d1d22a2d1fca839515d11f2d594",
+    ".arc-verify/module-conformance/implementation/entries.json": "94e487b19a6d44662a66e6fcd4314995a6c5e35df0b82479c7a0d946cfb68466",
+    ".arc-verify/module-conformance/implementation/execution-context.md": "af78046dc4f8cc767a7b223702d986318614157fc7fc36afe037a33c8229ce4c",
+    ".arc-verify/module-conformance/implementation/fingerprint-files.json": "3944dcbb0f4477680b0c559c0b5db35c3a15683f259c62595545b59b204b535a",
+    ".arc-verify/module-conformance/implementation/fmt-final.json": "05a27dfa27d4f83c4498a709dfa023bb5743013622639d7821b0df609f5bbb7c",
+    ".arc-verify/module-conformance/implementation/fmt-final.running.json": "6359c9a41682a36992e0fd7b7d7c62ddddee63030e74f3174b99d9831b71e7d7",
+    ".arc-verify/module-conformance/implementation/fmt.json": "c07fd975266d492108e2e698e539a86302e219c7ea4f24d5f402e0db87111b60",
+    ".arc-verify/module-conformance/implementation/fmt.part-01.txt": "8e9a6d2b7c43d7355d3dda62f6ba377be8747a52bb61d87af357ce58c87835c0",
+    ".arc-verify/module-conformance/implementation/fmt.running.json": "474cfc1ee46d529f1631de189f761b06c59ae81a59cfaae9ba1f1202c4c0671d",
+    ".arc-verify/module-conformance/implementation/global-status.json": "b3d898d3346ccc4ddf81fa0a21ad03113e941d95075b83617ed585804649ed7d",
+    ".arc-verify/module-conformance/implementation/global-status.part-01.txt": "d5cdebfd7b695fb72352ea7b5c7d4fbf5c5e21082b2fc6ce9f0593ae4225b7ad",
+    ".arc-verify/module-conformance/implementation/global-status.running.json": "1351526503bc0b8358be37f45d178c75c38c9e0c841afb997093b95e5a72a14d",
+    ".arc-verify/module-conformance/implementation/handoff.md": "b3c574776bec14de2e246b641c67b16a31e3586b074578dc515ebfe2378a52e5",
+    ".arc-verify/module-conformance/implementation/harness.json": "fb8be3f7e21264a24d78853522ed44d84506f450011b92361167eee08ea6f452",
+    ".arc-verify/module-conformance/implementation/harness.part-01.txt": "8049b82826700b637f5816ba661d684a54ce3357d9f086d9dce23df73de44c0a",
+    ".arc-verify/module-conformance/implementation/harness.running.json": "c71203c1f06651231dfb39ef29c7170dd2ec93c735d06f44bd078ef3c028f037",
+    ".arc-verify/module-conformance/implementation/ipc-discovery.json": "433276ebdb6c7b969002e71b49047365ec1dfeed1c0aa35823a20631638d5019",
+    ".arc-verify/module-conformance/implementation/ipc-discovery.part-01.txt": "d6d0b5820debb6ea319723ccf4598b82beaa27d122ddf9819c11dba219877dbb",
+    ".arc-verify/module-conformance/implementation/ipc-discovery.running.json": "7f93148b8c69be6a44050ae0d1bdeecd3a750523fcecfbc4eb00db3256b46c1f",
+    ".arc-verify/module-conformance/implementation/ipc-focused.json": "fd866419db253763e59cfc47eddf3406e6657da11ceb1821b726745d18e550cc",
+    ".arc-verify/module-conformance/implementation/ipc-focused.part-01.txt": "0a37f171568b851ecfb75dd6112201e5f45d734cd899af35ffc1aebe8dc1a9ef",
+    ".arc-verify/module-conformance/implementation/ipc-focused.running.json": "f677f24ee0715616eee3ec4108fcf19d15eff3cb14d2327d62012696e0193e62",
+    ".arc-verify/module-conformance/implementation/map_preservation.py": "1729425d6a6e1a753ef791742e8c40c498b6a3681d1ab3c540f243e1b50a53b5",
+    ".arc-verify/module-conformance/implementation/mapping.json": "d78bf55b5527df4eaa36ae1d493734faa16bb2ab400f201f2c746354afeecfdf",
+    ".arc-verify/module-conformance/implementation/move_tests.py": "361993a79c83ea298bf4a0919f225598d0feb3bdeec80cf8554ea62167ba1fd2",
+    ".arc-verify/module-conformance/implementation/preservation-result.json": "7bc7f2345962d94fcfebdcc734ac7772e89de01b62a0f65f16282125fbda7dc3",
+    ".arc-verify/module-conformance/implementation/preservation.md": "9527ca2f5b33cb40c3057fbe6a5b3d7b7610ded39efbe189b6cee2bf86b99e28",
+    ".arc-verify/module-conformance/implementation/protected-paths.json": "a323528160f2176479bfdcc8c6081240e983a4afbb6de61643a3b4cffb879551",
+    ".arc-verify/module-conformance/implementation/record.py": "3bc4b4cc796400db86267d1005d928ae3929a2c0becaae41cd5a9e93d6ff18a7",
+    ".arc-verify/module-conformance/implementation/resident-discovery.json": "223eedb43c3e71932a0fe6c8c34e5dc5f604aab3e1f7e1a6d22cc40025d1761d",
+    ".arc-verify/module-conformance/implementation/resident-discovery.part-01.txt": "c4de198ba9d25666293cec62bcc62207fd4cb4e7e7afc29e659a5510840547aa",
+    ".arc-verify/module-conformance/implementation/resident-discovery.running.json": "d9c09ded1607f683565167ab5d6fef3d0145cd99c125a99fab64c9661201db84",
+    ".arc-verify/module-conformance/implementation/resident-focused.json": "b585e21dc44866c6a82b2e23ba7bc7d0b55f014954dee89724fbd8e4c4d270f1",
+    ".arc-verify/module-conformance/implementation/resident-focused.part-01.txt": "c38c858ac86af27f30badfa1430d3ed3656afa6453de13a614cb2d64ba4a60ba",
+    ".arc-verify/module-conformance/implementation/resident-focused.running.json": "ebbe6f204e0a2c16b20e20c6d828c847b79e25f74fdc5e92064d494a10961779",
+    ".arc-verify/module-conformance/implementation/result.json": "983032521e79f01df552d6a894d70c09d7898af1c7b6017826d8c43e12f66da9",
+    ".arc-verify/module-conformance/implementation/source-lengths.json": "64d6060f40f231605d3d963d0334d831b2c7bd9b949a92268bb174bb9361a9c8",
+    ".arc-verify/module-conformance/implementation/stage-owned.json": "e1d3391480c2e46c9ec2fdfcca4ef97e5773a7e82fe5a804bba541ac5e737b86",
+    ".arc-verify/module-conformance/implementation/stage-owned.running.json": "c65e50554b640d79fd7034fd00532d43c89617db462d240a6b0439d1bc5cef6e",
+    ".arc-verify/module-conformance/implementation/staged-diff.json": "2125b40daa9be7832f604af8bcd2d2ec913e290fd2422faf6ad74677ba7bd760",
+    ".arc-verify/module-conformance/implementation/staged-diff.part-01.txt": "840e9d18d53b23f45aa8116a1a23859f93461bb5003d8257c143472933f98933",
+    ".arc-verify/module-conformance/implementation/staged-diff.part-02.txt": "6fafaf01369b7a57ece3ff6721f290b0b723e7f5e6ff0edb35b7f23e1e80ea42",
+    ".arc-verify/module-conformance/implementation/staged-diff.part-03.txt": "453faeb5d759dacc2e0ee3c43be71c7cfcc1876d6d0c2c0de6c2d6b97facad9e",
+    ".arc-verify/module-conformance/implementation/staged-diff.part-04.txt": "f8a503bbb29f9d7d5b2020ef5c2668b047b28b74cdf838cb43e9194af9aa681c",
+    ".arc-verify/module-conformance/implementation/staged-diff.running.json": "2c59bce242e10671366e4136f0353bda7d9295573fd02ea3ef9d62c15da7021a",
+    ".arc-verify/module-conformance/implementation/toolchain.json": "19cff32b8113588b62d2fbd8dde8814932e985e2d68910819146f7d1f78b7914",
+    ".arc-verify/module-conformance/implementation/toolchain.part-01.txt": "e61cba8ded8c60e985f759f74a221c4773649021477d00b44c7af411eb8c218c",
+    ".arc-verify/module-conformance/implementation/toolchain.running.json": "a8531c855196e9f5d71dd68821493ea71c3b560628a02a7df241e92f39781e27",
+    ".arc-verify/module-conformance/implementation/tracked-modules.json": "f6909ed2f0a811d88e19ce4aef354f589ee5314820697992893fc69f9a3a3c06",
+    ".arc-verify/module-conformance/implementation/tracked-modules.part-01.txt": "90ea85fc5d38a4ab9c387684c71258ec55a618367e7ea49739f7dafc371cc910",
+    ".arc-verify/module-conformance/implementation/tracked-modules.running.json": "f01a61dcc7578ada762baea603cf8f19b13fc9eaffcd00b50f7048390e1540fc",
+    ".arc-verify/module-conformance/implementation/workspace-test.json": "95bb50e4f42ada3ba219efdb883fca740d564d43f2a0ed8fd0ee1d17aa478482",
+    ".arc-verify/module-conformance/implementation/workspace-test.part-01.txt": "6f7ea4823af474661ce1edcf8a6d94044a1b9b161faec1689472a78255a070dd",
+    ".arc-verify/module-conformance/implementation/workspace-test.running.json": "29b4cd9d9bb6335aa834dab491d462b4d9222064a73f838f7751ead13787dfda",
+    ".arc-verify/module-conformance/qa/audit-lib.mjs": "178cb38ba11838d8e3a7d7ff95585bce2e1573902f2710ce23c2e929984b7d51",
+    ".arc-verify/module-conformance/qa/finalize.mjs": "fb3f132f8bfad5990eb61176fbb441a455ba2f19281fc86ed97701fbfb5b5472",
+    ".arc-verify/module-conformance/qa/independent-mapping.json": "743b12375dd571a7ee66345536394d84cfd962f6ef43f7e97d3fae4ffc032267",
+    ".arc-verify/module-conformance/qa/lengths.json": "2f75fccb04cd8c1e46da3ce447f4fa7e93146f491ff31fc20adaac6537d83c1d",
+    ".arc-verify/module-conformance/qa/preservation-and-receipts.test.mjs": "98e2e21071f6b960bc2c707fd3771d61e5bd9fb1819cc5f9f9b9bad6c321382f",
+    ".arc-verify/module-conformance/qa/preservation.json": "b8fdceda7ad38e79e280bbc4849b2e8c5da758d0a8ca191c71818dd89a9bda1a",
+    ".arc-verify/module-conformance/qa/preservation.part-01.txt": "a22c0948d305fa7d6e201ce73908bf13adaadf620745793a399d6c96534990d3",
+    ".arc-verify/module-conformance/qa/record-audits.mjs": "4e4d7a48403a4332dd03e20ab6f44c23914f75e35d242ff70c667f3a2d1a6ac0",
+    ".arc-verify/module-conformance/qa/result.json": "9c27353e83b818f57b16ceda8cebcca5525f4b8e365e0f7897c195a3f3a46de6",
+    ".arc-verify/module-conformance/qa/review.md": "62e8b5e751452824229478ed8ec56a7a21ed3fbd95a3cb0e890af85208113cb9",
+    ".arc-verify/module-conformance/qa/source-evidence.json": "3e4ef5127632d1bf945eeddfed9c43ec4653f4e93069ba3f4c8e0080201ee867",
+    ".arc-verify/module-conformance/qa/structure-and-mapping.test.mjs": "31cceeebfd7a69114be52679be6c68481216632f855a8c2388b879129642546a",
+    ".arc-verify/module-conformance/qa/structure.json": "c34482aadc1525975b0bcdb2ea24bb4647ad04f8ac5813aa6e41500e552f69c9",
+    ".arc-verify/module-conformance/qa/structure.part-01.txt": "596a2af2c4bbe813a4a3cb8d072506178938185948e5b792b36bb1f2c9fe0d28",
+    ".arc-verify/module-conformance/qa/validated-receipts.json": "cb90c2a597496e2fa2ef1f95e116d53e3ad104e006c0ac8605b009d706c92a5f"
+  }
+}

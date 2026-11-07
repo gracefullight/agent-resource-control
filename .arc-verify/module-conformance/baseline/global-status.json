@@ -1,0 +1,25 @@
+{
+  "command": [
+    "git",
+    "status",
+    "--short"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "environmentOverrides": {
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_AUTO_INSTALL": "0"
+  },
+  "startedAt": "2026-11-07T18:17:46.122718+00:00",
+  "elapsedSeconds": 0.063402,
+  "exitCode": 0,
+  "timedOut": false,
+  "outputSha256": "0028e3a33554c0373226c3a2af68053fbe33a28255a89cd5d8487134d3b83647",
+  "outputBytes": 68,
+  "outputParts": [
+    {
+      "path": "global-status.part-01.txt",
+      "sha256": "0028e3a33554c0373226c3a2af68053fbe33a28255a89cd5d8487134d3b83647",
+      "lines": 2
+    }
+  ]
+}

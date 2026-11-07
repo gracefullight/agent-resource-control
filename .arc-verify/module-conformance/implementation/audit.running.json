@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    ".arc-verify/module-conformance/implementation/audit_delivery.py"
+  ],
+  "pid": 93062,
+  "ownedProcessGroup": 93062,
+  "startedAt": "2026-11-07T18:31:04.884800+00:00",
+  "sourceFingerprintBefore": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "timeoutSeconds": 120
+}

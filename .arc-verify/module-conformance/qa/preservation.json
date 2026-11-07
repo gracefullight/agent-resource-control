@@ -1,0 +1,44 @@
+{
+  "command": [
+    "node",
+    "--test",
+    ".arc-verify/module-conformance/qa/preservation-and-receipts.test.mjs"
+  ],
+  "executable": "/Users/gracefullight/.local/share/mise/installs/node/26.13.0/bin/node",
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace/.agent-valley/parallel/workspaces/9dd58b3e81e0c07c-e7c08de777760acd-1",
+  "startedAt": "2026-11-07T18:38:54.556Z",
+  "finishedAt": "2026-11-07T18:38:59.960Z",
+  "exitCode": 0,
+  "signal": null,
+  "timedOut": false,
+  "pid": 31730,
+  "processReaped": true,
+  "sourceFingerprintBefore": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "sourceFingerprintAfter": "0b82e06fc1588151af7ae61620539025e5e00038935e4f0fcd54fcda43b8e64a",
+  "inspectedHead": "5d0f5c5b93edc214bff099f73ca8422f0c669565",
+  "inputs": [
+    {
+      "path": ".arc-verify/module-conformance/qa/audit-lib.mjs",
+      "sha256": "178cb38ba11838d8e3a7d7ff95585bce2e1573902f2710ce23c2e929984b7d51"
+    },
+    {
+      "path": ".arc-verify/module-conformance/qa/preservation-and-receipts.test.mjs",
+      "sha256": "98e2e21071f6b960bc2c707fd3771d61e5bd9fb1819cc5f9f9b9bad6c321382f"
+    },
+    {
+      "path": ".arc-verify/module-conformance/qa/record-audits.mjs",
+      "sha256": "4e4d7a48403a4332dd03e20ab6f44c23914f75e35d242ff70c667f3a2d1a6ac0"
+    }
+  ],
+  "outputBytes": 836,
+  "outputSha256": "a22c0948d305fa7d6e201ce73908bf13adaadf620745793a399d6c96534990d3",
+  "outputParts": [
+    {
+      "path": ".arc-verify/module-conformance/qa/preservation.part-01.txt",
+      "sha256": "a22c0948d305fa7d6e201ce73908bf13adaadf620745793a399d6c96534990d3",
+      "newlines": 15,
+      "logical": 15
+    }
+  ],
+  "outputStreams": "stdout/stderr retained in observed stream-event order"
+}

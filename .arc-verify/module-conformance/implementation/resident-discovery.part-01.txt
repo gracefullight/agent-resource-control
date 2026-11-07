@@ -1,0 +1,15 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running tests/resident.rs (target/debug/deps/resident-df0d654374c71b39)
+coordination::fixture_coordination_is_shared_across_processes: test
+fixture_serialization_probe: test
+identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death: test
+identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir: test
+lifecycle::commands_report_daemon_unavailable_when_absent: test
+lifecycle::resident_contract_holds_until_sigterm: test
+provisioning::nondirectory_parent_is_rejected_before_lock_or_database_initialization: test
+provisioning::overlong_socket_paths_and_existing_socket_entries_reject_without_mutation: test
+provisioning::permissive_directories_and_their_contents_survive_daemon_and_cli_rejection: test
+provisioning::private_existing_and_new_nested_directories_support_override_startup: test
+provisioning::symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection: test
+
+11 tests, 0 benchmarks

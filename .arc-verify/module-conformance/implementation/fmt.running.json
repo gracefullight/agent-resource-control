@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "cargo",
+    "fmt",
+    "--all",
+    "--",
+    "--check"
+  ],
+  "pid": 71498,
+  "ownedProcessGroup": 71498,
+  "startedAt": "2026-11-07T18:27:55.265495+00:00",
+  "sourceFingerprintBefore": "5ab8a0d8fd9a81e9efc56a3ba33e8eec2466e6c7fa0ccf9aa09f1e93a7faad14",
+  "timeoutSeconds": 120
+}

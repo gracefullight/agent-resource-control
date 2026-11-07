@@ -1,0 +1,24 @@
+{
+  "command": [
+    "cargo",
+    "--version"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/904e38b9-fa2e-4313-aec9-19e903479c6a/workspace",
+  "environmentOverrides": {
+    "CARGO_NET_OFFLINE": "true",
+    "RUSTUP_AUTO_INSTALL": "0"
+  },
+  "startedAt": "2026-11-07T18:17:46.916184+00:00",
+  "elapsedSeconds": 0.0525,
+  "exitCode": 0,
+  "timedOut": false,
+  "outputSha256": "c10ec31b8c6e6e2693cf65fc1971b41edbc3da1ae7db6f9f3f36c4823f8dcab5",
+  "outputBytes": 36,
+  "outputParts": [
+    {
+      "path": "cargo-version.part-01.txt",
+      "sha256": "c10ec31b8c6e6e2693cf65fc1971b41edbc3da1ae7db6f9f3f36c4823f8dcab5",
+      "lines": 1
+    }
+  ]
+}

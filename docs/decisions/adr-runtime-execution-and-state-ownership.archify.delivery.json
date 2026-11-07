@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "eff9ff6a-ae14-430e-aab3-96d6fd1f3bd8",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "/Users/gracefullight/workspace/agent-valley/docs/decisions/adr-runtime-execution-and-state-ownership.archify.json",
+  "output": "/Users/gracefullight/workspace/agent-valley/docs/decisions/adr-runtime-execution-and-state-ownership.archify.html",
+  "specification": {
+    "sha256": "6c059e24ed960a460e5484ebeae1788d39cb4fd29273c2804067440ec516cd15",
+    "bytes": 2800
+  },
+  "artifact": {
+    "sha256": "927014c8f52cb19efe42869c72b55788056302591fde8ee8e11cc22d63fb0400",
+    "bytes": 822326
+  }
+}

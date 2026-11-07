@@ -1,0 +1,234 @@
+# av.yaml — Agent Valley project configuration
+#
+# This file defines project-specific settings for the Symphony orchestrator.
+# User-scoped settings (API key, defaults) go in ~/.config/agent-valley/settings.yaml
+#
+# Run `av setup` for local orders, or `av setup --mode tracker` for this tracker configuration.
+
+# ── Tracker Selector (v0.2+) ──────────────────────────────────────────
+# Picks which IssueTracker + WebhookReceiver adapter to use.
+# Omit to default to "linear" (matches v0.1 behavior).
+# tracker:
+#   kind: linear                    # linear | github
+
+# ── Linear Issue Tracker ──────────────────────────────────────────────
+linear:
+  # team_id: ACR                    # Linear team short code
+  # team_uuid: uuid-xxx             # Linear team UUID
+  # webhook_secret: whsec_xxx       # Linear webhook signing secret
+  workflow_states:
+    # todo: state-uuid              # "Todo" workflow state ID
+    # in_progress: state-uuid       # "In Progress" workflow state ID
+    # done: state-uuid              # "Done" workflow state ID
+    # cancelled: state-uuid         # "Cancelled" workflow state ID
+  # comment_relay:                # Relay workspace users' comments on a running issue into its actor (off by default)
+  #   enabled: false              # The webhook must include Comment events
+  #   ignore_authors: []          # Emails, user ids or names never relayed
+# ── GitHub Issues Tracker (v0.2+, optional) ───────────────────────────
+# Used when tracker.kind = github. Labels are used instead of workflow
+# states — see packages/core/src/tracker/adapters/github-adapter.ts for
+# the label ↔ state mapping.
+# github:
+#   token_env: GITHUB_TOKEN         # Export this variable with a GitHub token; never put the token here
+#   owner: my-org
+#   repo: my-repo
+#   webhook_secret: whsec_xxx       # HMAC-SHA256 signing secret (X-Hub-Signature-256)
+#   labels:
+#     todo: valley:todo
+#     in_progress: valley:wip
+#     done: valley:done
+#     cancelled: valley:cancelled
+#   comment_relay:                  # Relay maintainer comments on a running issue into its actor (off by default)
+#     enabled: false                # Subscribe the webhook to "Issue comments" too; stateless actors restart with the comment
+#     ignore_authors: []            # Logins never relayed, e.g. the account behind GITHUB_TOKEN
+
+# ── Workspace ─────────────────────────────────────────────────────────
+workspace:
+  # root: /absolute/path/to/target-repo # Existing Git repository; worktrees are created inside it
+# ── Actor ─────────────────────────────────────────────────────────────
+# actor:
+#   type: claude                    # claude | codex | antigravity | cursor | grok | kimi | opencode
+#   model: your-model               # Optional Chief Director model for av order; actors use CLI defaults
+#   max_parallel: 3                 # Max concurrent actor runs. Default: hardware-detected
+#                                    # recommendation. An explicit value above the recommendation
+#                                    # is honored (never silently clamped) but logged as a WARN.
+
+# ── Delivery ──────────────────────────────────────────────────────────
+delivery:
+  mode: merge # merge (auto merge+push) | pr (create PR for review)
+  # pull_request_reviews:           # Reviews of Agent Valley PRs become follow-up work (off by default)
+  #   enabled: false                # GitHub webhook on each code repo -> /api/webhook/github, "Pull request reviews"
+  #   webhook_secret: whsec_xxx     # That webhook's secret; Linear tracker only (GitHub tracker uses github.webhook_secret)
+  #   ignore_authors: []            # GitHub logins never followed up
+# ── Prompt Template ───────────────────────────────────────────────────
+# Template variables: {{issue.identifier}}, {{issue.title}}, {{issue.description}},
+# {{workspace_path}}, {{attempt.id}}, {{retry_count}}, {{retry_reason}}
+prompt: |
+  You are working on {{issue.identifier}}: {{issue.title}}.
+
+  ## Description
+  {{issue.description}}
+
+  ## Workspace
+  Path: {{workspace_path}}
+
+  ## Instructions
+  1. Read AGENTS.md if present and follow the target repository's conventions.
+  2. Implement the requested changes in this worktree.
+  3. Run the project's relevant tests and report their results.
+  4. Leave the changes in this worktree for Agent Valley to verify and deliver.
+
+# ── Multi-Repo Routing (optional) ────────────────────────────────────
+# routing:
+#   rules:
+#     - label: "scope:backend"
+#       workspace_root: /path/to/backend-repo
+#       actor_type: codex
+#       delivery_mode: pr
+#       verify_command: "pytest && mypy ."   # overrides verify.command below for this route
+#     - label: "scope:frontend"
+#       workspace_root: /path/to/frontend-repo
+
+# ── Verification Gate (required for tracker code tasks) ────────────────
+# Set this to the target project's deterministic test/lint/typecheck command.
+# Code tasks cannot transition to Done without a configured passing check.
+# On failure, the actor gets another attempt through the retry queue; once
+# retries are exhausted, the issue is cancelled rather than delivered.
+# Replace this example with commands that exist in the target repository.
+# For local av order, --verify or this saved command is an immutable override.
+# Omit both to let the Chief Director design executable checks for the goal.
+verify:
+  command: "bun run typecheck && bun run test" # use commands from the target repository
+  timeout_sec: 600 # kill the command after N seconds (default 600)
+
+# For report-only work, choose analysis instead of the default code task.
+# The report path must be inside the worktree and include {{attempt.id}}.
+# task:
+#   kind: analysis
+#   report_path: .agents/results/analysis-{{attempt.id}}.md
+
+# ── Score-Based Routing (optional) ───────────────────────────────────
+# scoring:
+#   model: haiku
+#   routes:
+#     easy:
+#       min: 1
+#       max: 3
+#       actor: antigravity
+#     medium:
+#       min: 4
+#       max: 7
+#       actor: codex
+#     hard:
+#       min: 8
+#       max: 10
+#       actor: claude
+
+# ── Actor Budget Caps (v0.2+, optional) ───────────────────────────────
+# Per-issue and per-day token / USD limits. Budget is evaluated before
+# each spawn — exceeding a cap cancels the issue with an actionable
+# comment instead of spawning. Omit the whole block to disable.
+# budget:
+#   per_issue:
+#     tokens: 2000000               # Max tokens (input + output) per issue
+#     usd: 5.00                     # Max estimated cost (USD) per issue
+#   per_day:
+#     tokens: 20000000              # Team-wide daily token ceiling
+#     usd: 50.00                    # Team-wide daily USD ceiling
+
+# ── Tunnel (v0.3+, optional) ──────────────────────────────────────────
+# Public URL tunnel used to receive webhooks on localhost. Omit the
+# block to keep the v0.2 default (ngrok).
+#   provider: cloudflare | ngrok | none
+#     cloudflare — spawn `cloudflared`; see cloudflare.mode below.
+#     ngrok      — default; requires `brew install ngrok` on PATH.
+#     none       — no tunnel; use an external reverse proxy or a
+#                  pre-configured cloudflared sidecar.
+# Cloudflare modes:
+#   quick — spawns `cloudflared tunnel --url http://localhost:{port}`.
+#           Cloudflare mints a random *.trycloudflare.com URL. No account
+#           or DNS setup required.
+#   named — runs a pre-registered tunnel (`cloudflared tunnel create <name>`).
+#           Requires `name`; `hostname` is optional and only used to
+#           display the webhook URL to the operator.
+# tunnel:
+#   provider: cloudflare
+#   cloudflare:
+#     mode: quick
+#     # name: av-webhook          # required when mode: named
+#     # hostname: webhook.example.com  # UI-only, used when mode: named
+
+# ── Observability (v0.2+, optional) ───────────────────────────────────
+# OpenTelemetry OTLP HTTP tracing + Prometheus metrics. Both default to
+# off — enable per deployment. Exporter errors are swallowed inside the
+# hooks and never affect orchestrator flow. When otel.enabled is true but
+# otel.endpoint / otel.service_name are omitted, they fall back to the
+# standard OTEL_EXPORTER_OTLP_ENDPOINT / OTEL_SERVICE_NAME env vars (then
+# to "agent-valley"), so a collector configured purely via env vars works
+# without editing this file. Emitted spans/metrics follow GenAI semantic
+# conventions v1.43 (gen_ai.* span attributes + a gen_ai.client.token.usage
+# histogram) — see docs/harness/SAFETY.md.
+# observability:
+#   otel:
+#     enabled: false
+#     endpoint: http://localhost:4318   # OTLP HTTP collector
+#     service_name: agent-valley
+#   prometheus:
+#     enabled: false
+#     path: /api/metrics                # Served by apps/dashboard
+
+# Chief orders: see docs/guides/chief-integrations.md for routing,
+# organization memory, metric targets, channels and Aside capture.
+# chief:
+#   execution:
+#     max_parallel: 3             # Separate task worktrees; 1 uses serial execution
+#     max_duration_sec: 86400      # Elapsed mission time, including waits and restarts
+#     max_runs: 200                # Chief, Director, Actor and reviewer calls combined
+#     max_retries: 3               # Bounded provider retry and worker crash recovery
+#     retry_delay_ms: 1000
+#     auto_resume: true            # Foreground supervisor resumes scheduled retries
+#     # max_estimated_cost_usd: 10 # Configured-price estimate; unknown usage pauses calls
+#   review_vendor: prefer
+#   # Optional extra checks; each gate reviews every task before verification.
+#   # review_gates:
+#   #   - id: security
+#   #     instructions: Inspect changed code for authorization flaws and secret exposure.
+#   memory: true
+#   # metric_sources and metric_targets require real configured observations.
+#   # See the guide for stripe-revenue, http-json and json-file adapter settings.
+#   # Enabled targets require a fresh healthy observation before mission completion.
+#   # See docs/guides/chief-containers.md for Kubernetes and resource thresholds.
+#   container_observation:
+#     enabled: true
+#     poll_interval_sec: 30
+#     targets:
+#       - id: api
+#         kind: docker
+#         container: app-api
+#         context: orbstack
+#   reporting:
+#     destinations:
+#       - id: team
+#         channel: slack
+#         token_env: AV_SLACK_TOKEN
+#         channel_id_env: AV_SLACK_CHANNEL
+#   capture:
+#     enabled: true
+#     target_url: http://localhost:3000
+#     video: true
+
+# ── Team Dashboard / Ledger Relay (optional) ──────────────────────────
+# Sends orchestrator events through an AV gateway to its Turso ledger.
+# Workers receive an AV user token through `av login`, never a DB token.
+# Same shape as
+# team: in ~/.config/agent-valley/settings.yaml; project values win.
+# Publishing requires relay_url + id and a valid endpoint-bound AV login.
+# Missing configuration or login leaves the local orchestrator usable.
+# See docs/guides/team-ledger.md for setup, Drizzle migrations and data import.
+# team:
+#   relay_url: https://av.example.com
+#   id: 11111111-1111-4111-8111-111111111111
+#   display_name: my-node             # This node's display name on the dashboard
+#   # Central server / explicit administration machine only:
+#   turso_url: libsql://your-team-region.turso.io
+#   turso_auth_token_env: TURSO_AUTH_TOKEN # Environment variable name, never its secret value

@@ -1,0 +1,238 @@
+# Chief Director orders
+
+See [operations, organization evidence and report attachments](./chief-integrations.md) for measured routing, cross-vendor review, business targets, replaceable channels and Aside capture.
+
+`av order` starts continuous improvement by default; `--once` completes one goal and exits. This guide describes each mission, including single-goal execution and the child missions of a continuous order. `av order --once` gives a local Chief Director responsibility for one goal. The Chief Director interprets the request, records assumptions and observable success criteria, creates executable verification checks, and supervises its team. It reviews evidence and chooses repairs, reassignment, or a revised plan when work fails. The application preserves those decisions and enforces independent reviews and the saved acceptance contract.
+
+The default interaction is to provide intent and receive an executive report. The Chief interprets abstract goals and the actual customer, product and business context, seeks opportunities, compares strategies and synthesizes its Directors' conflicting advice. It decides what to pursue, mobilizes Actors and installed skills, tests assumptions and adjusts its strategy from real outcomes. The user receives decisions, reasons, results, lessons and next actions. Judgment stays with the Chief throughout the work within the original goal, permissions and saved limits. Actors return blockers and evidence to the Chief. The user's selected Chief Director vendor/model, Actor roster and acceptance criteria remain saved. If a provider reports usage exhaustion, execution can move to another installed, authenticated provider without changing that saved selection. Missing authorization, access, authentication or external-effect proof cannot be invented or treated as completion.
+
+Service improvement, refactoring, usability, and revenue experiments use the installed OMA skills and Director personas relevant to the goal. The Chief Director repeats work, review, repair, and measurement within the order's saved limits. Once a mission passes verification, its report and accepted changes feed the next improvement in the default [continuous operation](./chief-continuous.md). With `--once`, the order finishes after that mission.
+
+> **Token usage:** Planning, consultation, execution, reviews and repairs consume model usage and may incur API charges. AV cannot read a common subscription balance. It detects explicit provider usage-limit errors and checks which supported CLIs are installed and authenticated before handing execution to another available provider. This also applies to the Chief Director. Chief orders have no token-count ceiling; reported usage supports routing and reporting. `--cost` is an optional configured-price estimate limit. Call, duration and recovery limits still apply across handoffs.
+
+The Chief Director prioritizes the user's benefit and profit, chooses its own methods, and explores unconventional opportunities and gray areas rather than discarding them by default. It owns execution decisions, supervision, and the account of what happened. The user retains operational responsibility for the goal and the resulting actions. Available environment permissions and the user's goal define the scope of execution. Profit or ROI claims still need evidence; unknown outcomes remain assumptions.
+
+## Start an order
+
+Run the installer from your target repository, or use `bun av setup` from a source checkout. The default wizard checks the repository, prepares the chosen Chief Director CLI and the latest OMA skills, and saves its vendor/model and any configured acceptance command. OMA preparation runs in the selected repository and can be deferred. The repository must have a commit. After setup, run from the directory containing `av.yaml`:
+
+```bash
+av order --once "Fix the login failure and add a regression test"
+```
+
+You can also supply the repository and acceptance check directly:
+
+```bash
+bun av order --once "Fix the login failure and add a regression test" \
+  --workspace /absolute/path/to/repo \
+  --verify 'bun run test'
+```
+
+`--verify` is optional. Without it or a saved `verify.command`, the Chief Director creates executable checks for every success criterion. They inspect actual regular files, literal contents, JSON values, or explicit test files with fixed argv. Supported commands are read-only Git checks, `node --test`, `bun test`, and the installed Vitest launcher in run mode. An authorized Rust workspace build/test goal can also use exactly `cargo fmt --all -- --check`, `cargo clippy --workspace --all-targets -- -D warnings`, and `cargo test --workspace`. Cargo checks run offline after workers prepare the toolchain and dependencies; their evidence binds manifests, Rust source, lockfiles and local Cargo/toolchain configuration before and after execution. Other commands, extra Cargo flags, shells, package scripts, installation and publishing are excluded. The contract is hashed and retained across repairs and resume; a text claim cannot substitute for the observations.
+
+An explicit `--verify` or saved `verify.command` uses your trusted acceptance command and remains immutable. Replace `bun run test` with commands that exist in the target repository. Prepare dependencies before execution, or include preparation in a trusted command when you intend it. `workspace.root` provides the repository default. A tracker, webhook tunnel, dashboard, or running daemon is not required. `av setup` defaults to local orders; use `av setup --mode tracker` for Linear/GitHub automation. There is no `av init` command.
+
+Without `--actors`, the Chief Director creates 4–8 actors suited to the goal and repository, including its permanent Technical Director, Design Director, and Marketing Director counterparts. Agent Valley discovers installed, authenticated supported CLIs. The saved Chief Director choice is retained, and actors can use the Chief Director CLI or other ready CLIs, each with its native default model.
+
+Before planning, the Technical Director advises on the lowest adequate total cost, execution efficiency, stack standardization, dependency management, reuse, and maintainability. The Design Director advises on usability, divergence and convergence, user personas and field tests, short journeys, intuition, and visibility. She enjoys using dark patterns for retention and evaluates them with conversion, churn, and usability data. The Marketing Director is a maniacal profit fanatic who cannot sleep when ROI drops. He treats wasted money and lost conversions as personal failures, relentlessly pressures contributors for measurable gains, and hunts revenue through known channels, unknown indirect routes, and gray opportunities. When one route stalls, he pushes another experiment until measurable profit improves. Actual observations, simulations, and untested hypotheses are reported separately. These are advisory roles: the Chief Director makes the business tradeoffs, including higher costs when justified by the goal or expected profit. A negative advisory review does not veto execution or determine completion.
+
+Supported CLIs are `claude`, `codex`, `qwen`, `antigravity`, `cursor`, `grok`, `kimi`, and `opencode`. `--actor` and `--model` override only the Chief Director for one order. Omit them to use saved `actor.type` and its matching `actor.model`; without a saved model, the CLI default is used. A model from one vendor is not reused when you choose another vendor. Worker discovery still runs. A saved or explicit Chief Director is kept even when local readiness checks cannot confirm it; missing installation or authentication is reported when the CLI starts.
+
+`--actors` uses your custom team; readiness discovery still establishes available review CLIs. The default director IDs are `chief-director`, `technical-director`, `design-director`, and `marketing-director`. Existing legacy `chief`, `cto`, `cdo`, and `cmo` IDs are retained where supplied, so renaming does not duplicate directors or reset a saved order. Missing advisory roles are added using the Chief Director's CLI and its native default model. `--actor` and `--model` can override that team's Chief Director without changing configured actors. Use a custom team to specify actor models or skill assignments. Automatic teams select relevant installed skills from the target repository's verified OMA catalog.
+
+A single-goal order prints its mission ID, worktree, and resume command; a continuous order prints an operation ID. By default, a foreground supervisor starts a child worker, restarts it after a crash within the saved retry budget, and resumes scheduled provider retries or metric observations. `--once --no-supervise` runs one mission directly without that restart and polling loop. If the supervisor or machine stops, `av missions --watch` can continue eligible orders from their saved checkpoints.
+
+Foreground `av order --once` exits with `0` for a verified completed order, `1` for a failed order or process/report error, and `2` for an unresolved order, including pause, waiting, and operator interruption. Its output includes the state, reason, and resume command. A scheduled waiting order remains inside the supervisor's polling loop; a direct run returns `2`. The Chief chooses recovery for actionable failures; an unmet prerequisite, user stop or exhausted limit remains unresolved. Advanced manual resume controls are described below. Queue submission acknowledges acceptance separately from completion.
+
+`--timeout <seconds>` bounds each Actor or check; the default is `actor.timeout` from configuration, otherwise 600 seconds. `--repairs <count>` controls local task and final-review repairs; the default is 2. Exhausting those repairs returns the problem to the Chief Director. `--rounds <count>` bounds Chief Director recovery decisions, with a default of 8 and a maximum of 50. Three recovery rounds without changed worktree, metric, or external-effect evidence stop the order as incomplete. Bounds and decisions survive resume.
+
+A native timeout whose runtime termination is confirmed is retried through the saved provider retry policy. It retains the configured timeout and spent calls, elapsed time and cost. A timeout that returned no structured response does not consume a JSON correction attempt. Uncertain runtime termination remains blocked until reconciled.
+
+Each mission and continuous decision checkpoint defaults to 200 Actor calls, 86,400 seconds of elapsed mission time, and three concurrent Actors. Set `--runs`, `--duration`, and `--parallel` or configure `chief.execution` in `av.yaml`. Time includes waiting and restarts. `--cost <usd>` limits the total estimate using configured model prices and reported usage; unknown cost pauses further calls. These estimates do not impose an exact billing cap on in-flight calls or subscription plans. The report retains spent calls, time, known cost, and unknown observations.
+
+## Plan, review, and completion
+
+LangGraph runs the mission's `resume → planning → tasks → verification → approval → report` stage graph. Verification or approval failures return to task execution; saved waiting states end the current invocation. Each invocation starts with resume checks, including completed missions. MissionStore remains the durable checkpoint authority. Graph nodes use the existing native Actor runner, required OMA inputs, saved budgets, independent reviews, and external-effect protections. LangGraph does not add automatic node retries or a second persistent checkpoint store.
+
+Graph execution is local. If `LANGSMITH_TRACING`, `LANGSMITH_TRACING_V2`, `LANGCHAIN_TRACING`, or `LANGCHAIN_TRACING_V2` enables remote tracing, AV pauses before entering the graph. Unset the enabled variables in AV's process environment and resume the saved mission. This avoids automatic SDK tracing outside AV's configured observability adapters.
+
+```mermaid
+flowchart LR
+  resume --> planning --> tasks --> verification --> approval --> report
+  verification --> tasks
+  approval --> tasks
+  report --> tasks
+  resume -->|waiting| endNode[End invocation]
+  approval -->|waiting| endNode
+  report -->|completed| endNode
+```
+
+The Chief Director consults its Technical Director, Design Director, and Marketing Director concurrently, then turns even a broad request, such as “make onboarding easier,” into a concrete interpretation, assumptions, success criteria, and verification checks. It plans at most 12 tasks with acceptance criteria and acyclic dependencies. Up to three independent Actors run in separate task worktrees by default; dependencies wait for reviewed and integrated prerequisites. The Chief Director integrates accepted changes, and conflicting changes return to repair. `--parallel 1` preserves serial execution in the mission worktree. A different Actor reviews each task. Advisory, planning, supervision, review, and reporting stages must leave product files unchanged.
+
+For independent work, planning and Chief-selected replanning divide tasks along the repository's existing module, service, domain or layer boundaries. Stable interfaces can be reused immediately. When an interface must change, a contract task first defines the shared API, data shape or schema; its consumers can then run in parallel. For example, daemon and CLI implementations can share a completed IPC contract, with their combined behavior checked after both implementations are integrated. A small goal can remain one task, and layer names alone do not create dependencies.
+
+Each task records its owned files, input/output interfaces and local acceptance checks in the existing `instructions` and `acceptance` fields. Shared manifests, lockfiles, registries and exports have one writer. Dependencies represent actual consumed artifacts or shared-file ordering. Actors use the agreed interfaces and report changes needed in another owner's files. File ownership is planning guidance; isolated worktrees and content checks enforce integration consistency. Concurrent edits to the same file can conflict even when they change different lines.
+
+Combined behavior is covered by an integration task when needed and by the mission's existing reviews and immutable verification checks. These planning instructions apply when creating or explicitly replanning a mission. Resuming a saved plan retains its task graph, goal, acceptance criteria and spent limits.
+
+### Additional review gates
+
+Configure `chief.review_gates` in `av.yaml` to add checks such as a security review between task execution and verification:
+
+```yaml
+chief:
+  review_gates:
+    - id: security
+      instructions: >-
+        Inspect the changed files for authentication and authorization failures,
+        exposed secrets, injection risks, and unsafe handling of external input.
+        Cite the affected files and evidence for each finding.
+```
+
+Each configured gate reviews every task after ordinary task reviews and integration. The graph routes `tasks → review-gates → verification`; gate reviewers inspect the integrated mission worktree and must leave product files unchanged. These checks add to the original acceptance criteria and verification command. Without configured gates, new orders and legacy saved missions keep the existing flow shown above.
+
+Gate reviews use the saved `chief.review_vendor` policy and each task's actual worker vendor. A required cross-vendor review needs another ready CLI; a preferred cross-vendor review can use an independent Actor on the same vendor when no other vendor is ready. Gate findings are recorded separately from ordinary task reviews.
+
+A rejected gate saves its findings before returning work to the existing repair and Chief Director recovery flow. The Chief can repair, reassign, replan, wait, or stop within the saved limits. Provider failures follow the existing retry policy. A Chief-selected wait retains its timestamp and spent allowances on the same mission. A completed external action remains protected from replay during repair.
+
+Gate results are bound to the reviewed worktree fingerprint. Repairs, recovery, or changed files invalidate those results, and resume runs configured gates again. If verification changes the reviewed files, the graph returns to the gates before completion. These refreshes have a saved allowance of `maxRepairs + 1`; exhausting it returns repeated verification drift to bounded Chief recovery. Final approval, reporting, continuous-operation completion, and organization outcome recording require current passing gate evidence.
+
+Each gate review consumes the ordinary Actor call, elapsed-time, and estimated-cost budgets. A full pass over three tasks with two gates adds six reviewer calls; repairs and resume can add further calls. The saved gate policy and spent budgets survive resume.
+
+The Chief Director can repair a failed task, assign it to another configured Actor, revise the task plan, schedule a bounded wait, or stop with an explained unmet prerequisite. Worker authentication and environment failures and unavailable required observations return to the Chief to choose feasible authorized recovery. Ordinary rate limits and provider outages receive bounded delayed retries. Explicit subscription, credit or usage exhaustion triggers a fresh installation and authentication check and an automatic handoff to another ready provider. AV excludes providers that already reported exhaustion for this mission. The original Chief selection and roster remain saved; run records show the effective provider and model. If no eligible provider remains, the mission pauses with `handoff-unavailable`.
+
+When a worker or reviewer reports an unavailable OpenCode model, AV checks the native model catalog and tries another active free text model that supports tool calls. Failed model selections are saved and excluded from later attempts. Saved free-model routes are checked against current prices and capabilities before reuse. AV does not select a paid OpenCode model as a fallback. If no eligible free model remains, execution can move to another installed, authenticated provider. An unavailable worker or reviewer model does not change the selected Chief's model.
+
+A reviewer execution failure supplies no work verdict. Successful work stays pending review, and retry does not consume a worker repair round or rerun the worker. A parsed negative review still requires repair. Chief recovery reuses completed work only when the task's instructions, assigned Actor, acceptance criteria and dependencies are unchanged; the result receives a fresh review.
+
+An explicit context-limit error allows one continuation in a fresh session for the same Actor stage and task, using the saved mission checkpoint and current workspace. AV does not transfer an arbitrary conversational transcript. The continuation allowance is saved before dispatch and survives automatic resume. Handoffs preserve spent budgets, success criteria and verification commands. They never replay an external action whose outcome is uncertain. Replanning must retain the original acceptance obligations. Recovery cannot replace the user's goal, weaken its checks or change a supplied verification command. Recovery rounds are recorded before dispatch, so restarting does not reset them.
+
+A Chief-selected wait records the reason and `nextRunAt` on the same mission. Its `retryAfterSec` is an integer from 1 to 86,400. The supervisor resumes when due; an early resume leaves the waiting checkpoint unchanged. Waiting consumes elapsed time and preserves spent calls and recovery rounds. The Chief reports the expected condition and next check rather than asking the user to choose a repair method.
+
+After task reviews and integration pass, the saved executable checks or trusted acceptance command run in the mission worktree. File and test inputs and command output receive SHA-256 evidence bindings. The Chief Director then assesses the complete result against the saved success criteria. Completion requires passing task reviews, passing verification, final approval, and a changed code or report artifact. A successful CLI exit or a text promise alone is insufficient. Hitting a limit or encountering a blocker leaves the goal incomplete.
+
+Configured business targets can collect actual observations from Stripe captured-charge revenue less refunds, an HTTP JSON endpoint, or a repository JSON file. Sources and credentials must be configured by the user; missing or invalid observations are not fabricated. Orders wait during the observation window and poll saved sources, then return unmet outcomes to the Chief Director. A waiting order is incomplete. See [business metric sources](./chief-integrations.md) for source configuration and measurement limits.
+
+Configured enabled [container observation targets](./chief-containers.md) add a fresh runtime health check before final review and mission completion. The Chief receives real state and bounded log evidence, returns unhealthy or unavailable targets to recovery, and chooses an authorized repair, bounded wait or explained stop. Unavailable checks remain unresolved. The saved target policy survives resume; passing product tests alone does not satisfy that health requirement.
+
+Every new mission saves a Markdown report at `.agent-valley/reports/ORDER_ID.md` in the directory where it was started. It includes an ELI5 explanation, the goal and assumptions, Chief Director decisions, Technical Director/Design Director/Marketing Director advice, assigned CLIs/models/skills, deliverables, recorded checks, and remaining issues. Failed orders also receive a report. If the Chief Director cannot generate one, the application writes a report from saved evidence. An explanation does not bypass completion gates. This execution report is stored outside the product worktree and does not satisfy the material-deliverable requirement.
+
+The order leaves its branch and worktree for inspection. The scheduler does not automatically publish, push, merge, or create a PR. A worker may perform delivery when the operator explicitly includes it in the goal and the environment permits it; the plan must include its verification and record actual delivery evidence. Tracker-driven `av up`/`av dev` delivery settings do not enable delivery for local orders.
+
+## Named actors
+
+To supply your own names, roles, CLIs, models, and selected skills, create a YAML file:
+
+```yaml
+director: nora
+actors:
+  - id: nora
+    name: Nora
+    role: Own the goal, plan tasks, review evidence, and request repairs.
+    actorType: codex
+    skills: []
+  - id: mina
+    name: Mina
+    role: Research primary sources and write a cited report.
+    actorType: claude
+    skills: [oma-search]
+  - id: jun
+    name: Jun
+    role: Implement changes and regression tests using the project's conventions.
+    actorType: codex
+    skills: [oma-backend]
+```
+
+```bash
+bun av order --once "Investigate and fix intermittent sign-in failures" \
+  --workspace /absolute/path/to/repo \
+  --verify 'bun run test' \
+  --actors ./actors.yaml
+```
+
+Every actor needs a unique `id`, a `name`, a `role`, an `actorType`, and a `skills` array. `model` is optional and must name a model accepted by that actor's CLI. The roster needs at least two actors so execution has an independent reviewer. `director` names an existing actor; `--director <id>` overrides that selection.
+
+Legacy `chief`, `personas`, and `agentType` profile fields and the `--chief`, `--personas`, and `--agent` flags remain readable aliases. New examples and CLI help use Director and Actor names. Mission storage preserves existing identifiers so previously saved orders can resume.
+
+Skill names refer to `.agents/skills/<name>/SKILL.md` inside the target worktree. When an OMA catalog is installed, every task's Actor needs a relevant installed OMA skill and a matching installed agent definition. Planning rejects empty task skill assignments. Read-only Director and reviewer roles may keep `skills: []`. Explicitly listed skills are loaded whether or not receipt enforcement is enabled.
+
+## OMA integration
+
+`av setup` prepares the latest OMA CLI and skills by default. The Chief Director can select installed skills without enabling receipt enforcement. To require receipts with `--oma`, install the separately supported OMA CLI version and ensure the target repository's trigger table, workflow files, and selected skills are present in its worktree. Then run:
+
+```bash
+bun av order --once "Fix the login failure and add a regression test" \
+  --workspace /absolute/path/to/repo \
+  --verify 'bun run test' \
+  --actor codex \
+  --oma
+```
+
+Installed `.agents/skills/oma-*/SKILL.md` files are discovered for every new order. Missing installed skill resources and `.agents/agents` definitions are copied into the isolated worktree without overwriting its existing files, so a freshly installed harness does not require a commit before an order. The Chief Director receives skill names, descriptions, and verified paths and selects only relevant skills for its team. The catalog includes new skills as they are installed, without a fixed allowlist of skill names. For example, market, search, architecture, or design can be selected when present. Video and explainer can be selected if installed; missing skills are not invented. ELI5 reporting remains available without an explainer skill. Resume checks saved skill paths and metadata again. Skills that need external tools, credentials, or services still require those dependencies.
+
+For work stages with an installed OMA catalog, AV requires an assigned skill, selects a matching `.agents/agents/<name>.md` definition, and loads its full instructions and every declared or assigned skill before starting the native Actor. Missing, invalid, or unreadable definitions block execution before an Actor call is reserved or an external action is marked started. The prepared instructions are bound to the attempt with an `oma-dispatch` history entry containing the agent, skills, input SHA-256, and actual native CLI/model. This requirement also applies without `--oma`; that flag controls receipt verification. An order without an installed OMA catalog or `--oma` retains standalone execution. The assigned Actor runs as the OMA agent through the existing native runner; additional nested subagent calls are not required by this check.
+
+`--oma` additionally requires current OMA completion receipts for worker stages, bound to the selected installed OMA agent ID. Each receipt uses `git diff --check <task-start-HEAD> --` for patch whitespace and conflict markers, with the starting commit fixed by the runtime. This checks the worker's changes even after committing. Workers also run checks relevant to their assignment and report the results for independent review. They commit changes before OMA verification and finish the exact run they started.
+
+The receipt gate does not check language syntax or prove that the feature works. Final executable checks or the operator's `--verify` command run after reviewed task changes have been integrated, so intermediate tasks can finish before the whole goal is implemented. Completion still requires final verification and the Chief Director's approval. The flag is explicit for each new order; `oma.mode` in tracker configuration does not enable it automatically.
+
+See [OMA completion evidence](./oma-integration.md) for the supported CLI version, `--project-root` contract, and receipt validation. Missing tools, skills, checks, or stale evidence fail the order with a recorded error.
+
+## Research output
+
+A research order needs a file deliverable and checks that match its intended contents. The Chief Director can design those checks, or you can provide a trusted command. For example:
+
+```bash
+bun av order --once "Compare the repository's queue design with two alternatives. Write reports/queue-review.md with sources, tradeoffs, and a recommendation." \
+  --workspace /absolute/path/to/repo \
+  --verify 'test -s reports/queue-review.md'
+```
+
+The check confirms that the report exists and is nonempty. The reviewer and Chief Director must assess its content and sources. Use an ordinary product path as in this example; order fingerprints exclude `.agents/results`, `.agents/state`, and `.agent-valley`. Tracker analysis tasks have a separate attempt-specific report contract described in the [setup guide](./environment-setup.md#completion-checks).
+
+## Inspect and resume
+
+```bash
+bun av missions
+bun av order --resume ORDER_ID
+bun av missions --watch
+```
+
+Use the mission ID printed by `av order --once`, or a child mission ID from `av operations --report OPERATION_ID`, and run these commands from the same directory where you started it. Mission records live under `.agent-valley/missions/` there. They contain the goal, success criteria, assumptions, roster, plan, task attempts, review findings, verification output, recovery decisions, report, and history. Automatic orders also save the available CLI list and skill catalog. Worktrees remain available after completion or failure.
+
+Ctrl-C or SIGTERM interrupts the current order and retains its state. Resume uses the saved goal, criteria, Actors, original Chief selection, effective handoff routes, workspace, verification contract and spent repair/recovery budgets without resetting the plan. Provider readiness is checked again when an exhaustion error requires a handoff. A pending Chief Director decision is retried before workers restart. A new goal or verification contract requires a new order. A live order is locked against a second resume process. If files changed since the checkpoint, previous approvals are invalidated and tasks are reviewed again. Older saved orders retain their original command and serial repair behavior.
+
+### Advanced manual controls
+
+The normal flow lets the Chief diagnose failures, choose recovery and resume scheduled waits within saved limits. These commands are optional operator controls for a stopped supervisor, an externally repaired prerequisite or an explicitly authorized limit increase. `--resume ORDER_ID --retry` retries a paused or failed mission and clears its unavailable-model and exhausted-provider lists, effective handoff routes and used context-continuation allowances, allowing the original selection to be tried after access recovers. This clears only handoff availability and continuation state; it retains spent calls, time, cost, repairs, recovery limits and external-effect evidence. Ordinary resume and automatic supervisor restarts preserve handoff state. Resume may increase `--runs`, `--duration`, `--cost`, and `--rounds`, but cannot reduce limits or reset prior spending. For example:
+
+```bash
+av order --resume ORDER_ID --retry --runs 400 --duration 172800 --rounds 12
+```
+
+When a runtime execution has an unknown outcome, first confirm that it has stopped at the runtime or remote destination. Use the run ID printed in the saved mission's unknown-outcome error to record the termination evidence:
+
+```bash
+av missions reconcile ORDER_ID --run RUN_ID \
+  --evidence 'Task status is terminated; inspected its final process log.'
+```
+
+The command requires 1–2,000 characters of operator-provided evidence. It checks recorded local process guards, records the execution as settled and failed, and leaves the mission paused. Live or uncertain local process guards still block reconciliation. The evidence is an operator statement; AV does not independently verify a remote termination claim. A lost response or missing remote task alone does not establish termination.
+
+Reconciliation preserves the saved goal, Actors, checks, task reviews and spent budgets. External effect outcomes use the controls below; unknown costs use [run cost reconciliation](./chief-integrations.md#reconciling-unknown-run-costs). After inspecting those records, explicitly resume with `av order --resume ORDER_ID --retry`. Additional unknown executions continue to block dispatch. This command reads mission records under `.agent-valley/missions/`, including operation children; use the child mission ID rather than its parent operation ID.
+
+External tasks record that execution started before dispatch. A completed external action is preserved even if its review fails; the Chief plans a separate corrective task when authorized. If a crash or interruption leaves an outcome uncertain, the original effect stays unresolved and cannot be repeated. The Chief may wait for trustworthy evidence or stop with the missing prerequisite in its report. AV has no generic automatic destination observer and does not ask the user to guess `completed` or `not-applied` as the default recovery flow.
+
+An operator who has independently checked the actual destination can explicitly record the result with these advanced overrides:
+
+```bash
+av order --resume ORDER_ID --resolve-effect TASK_ID --effect-result completed --retry
+# Or, only after confirming that the destination was unchanged:
+av order --resume ORDER_ID --resolve-effect TASK_ID --effect-result not-applied --retry
+```
+
+`completed` preserves the external action and proceeds to evidence review; `not-applied` permits another attempt. This checkpoint applies to tasks identified as external effects. Native Actor CLIs can use their own tools, so AV cannot guarantee exactly-once execution for every external tool call.
+
+After a hard crash, resume checks recorded Actor and verification process groups. A proven orphan owned by a dead coordinator is stopped before execution resumes. An uncertain PID, live owner, or incomplete cleanup remains blocked for inspection. If the crash occurred before a PID could be saved, the error names the process marker to inspect after stopping any remaining worker. A changed branch or broken Git workspace must be restored before continuing.
+
+The Chief's report retains the failure, attempted recovery, evidence and remaining prerequisite. Missing credentials, unavailable selected Chief access, broken process ownership or exhausted limits can prevent further authorized work. Manual repairs to selected skill files must use the retained worktree; changing the original repository or actor profile does not update a saved order. Resume does not promise that an exhausted or unfixable order will complete.

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Runtime execution and state ownership",
+    "output": "docs/decisions/adr-runtime-execution-and-state-ownership.archify.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "stage-routing",
+      "type": "backend",
+      "label": "LangGraph stage routing",
+      "pos": [40, 240],
+      "size": [250, 80]
+    },
+    { "id": "av-coordinator", "type": "backend", "label": "AV coordinator", "pos": [360, 240], "size": [230, 80] },
+    { "id": "mission-store", "type": "database", "label": "MissionStore", "pos": [360, 60], "size": [230, 80] },
+    { "id": "chief-runtime", "type": "backend", "label": "ChiefRuntime", "pos": [660, 240], "size": [230, 80] },
+    { "id": "runner-port", "type": "backend", "label": "AgentRunnerPort", "pos": [960, 240], "size": [230, 80] },
+    { "id": "local-adapter", "type": "backend", "label": "Local spawn adapter", "pos": [1260, 240], "size": [250, 80] },
+    {
+      "id": "local-process",
+      "type": "security",
+      "label": "Local process guard and service",
+      "pos": [1580, 240],
+      "size": [300, 80]
+    },
+    {
+      "id": "a2a-execution",
+      "type": "backend",
+      "label": "A2A execution service",
+      "pos": [660, 510],
+      "size": [250, 80]
+    },
+    { "id": "a2a-store", "type": "database", "label": "A2aJobStore", "pos": [660, 780], "size": [250, 80] },
+    { "id": "a2a-adapter", "type": "backend", "label": "A2A adapter", "pos": [1260, 510], "size": [250, 80] },
+    { "id": "remote-endpoint", "type": "backend", "label": "Remote endpoint", "pos": [1580, 510], "size": [250, 80] },
+    {
+      "id": "artifact-gate",
+      "type": "security",
+      "label": "Artifact and verification gate",
+      "pos": [960, 780],
+      "size": [300, 80]
+    }
+  ],
+  "connections": [
+    { "id": "routing-coordinator", "from": "stage-routing", "to": "av-coordinator" },
+    { "id": "coordinator-store", "from": "av-coordinator", "to": "mission-store" },
+    { "id": "coordinator-runtime", "from": "av-coordinator", "to": "chief-runtime" },
+    { "id": "runtime-port", "from": "chief-runtime", "to": "runner-port" },
+    { "id": "port-local", "from": "runner-port", "to": "local-adapter" },
+    { "id": "local-process", "from": "local-adapter", "to": "local-process" },
+    { "id": "execution-port", "from": "a2a-execution", "to": "runner-port" },
+    { "id": "execution-store", "from": "a2a-execution", "to": "a2a-store" },
+    { "id": "port-a2a", "from": "runner-port", "to": "a2a-adapter" },
+    { "id": "a2a-endpoint", "from": "a2a-adapter", "to": "remote-endpoint" },
+    { "id": "execution-gate", "from": "a2a-execution", "to": "artifact-gate" },
+    { "id": "gate-store", "from": "artifact-gate", "to": "a2a-store" }
+  ]
+}

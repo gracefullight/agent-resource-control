@@ -59,3 +59,11 @@ Read the relevant file from `.agents/rules/` when working on matching code.
 | quality | `.agents/rules/quality.md` | on request |
 
 <!-- OMA:END -->
+
+---
+
+## Symphony Harness
+
+This project uses the [Agent Valley harness](https://github.com/first-fluke/agent-valley).
+See `av.example.yaml` and `docs/specs/` for configuration and component specifications.
+Run `./scripts/harness/validate.sh` to check architecture conformance.

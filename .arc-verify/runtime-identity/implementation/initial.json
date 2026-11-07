@@ -1,0 +1,111 @@
+{
+  "acceptedBaseline": "073802555b639aa2fec183d93f748d9437cbbcad",
+  "collectedAt": "2026-11-07T09:40:13.177752+00:00",
+  "skills": [
+    "oma-debug"
+  ],
+  "codeIntelligence": {
+    "provider": "serena",
+    "mode": "unavailable",
+    "fallback": "scoped reads of assignment-located paths only"
+  },
+  "deadline": "2026-11-08T09:39:05Z",
+  "maxParallel": 3,
+  "maxAttempts": 3,
+  "checksTimeoutSeconds": 120,
+  "hostLimits": "ulimit CPU/RAM unlimited; open files 1048576; processes 2666",
+  "dispatch": "AV-managed task-1 attempt 1; no injected OMA run/claim environment; no secondary dispatch or mission state mutation",
+  "failedAttempt": "zsh here document denied creating temporary file; using noninteractive Python -c and apply_patch",
+  "localHead": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "exitCode": 0,
+    "stdout": "7e46a56f0df04a0c0c4716e1cbb494e56d4ef4c5\n",
+    "stderr": ""
+  },
+  "localTree": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD^{tree}"
+    ],
+    "exitCode": 0,
+    "stdout": "ce009646036415990a815170955421e1ab8d5c2f\n",
+    "stderr": ""
+  },
+  "baselineTree": {
+    "argv": [
+      "git",
+      "rev-parse",
+      "073802555b639aa2fec183d93f748d9437cbbcad^{tree}"
+    ],
+    "exitCode": 0,
+    "stdout": "ce009646036415990a815170955421e1ab8d5c2f\n",
+    "stderr": ""
+  },
+  "initialScopedStatus": {
+    "argv": [
+      "git",
+      "status",
+      "--short",
+      "--",
+      "crates",
+      "Cargo.toml",
+      "Cargo.lock",
+      "docs"
+    ],
+    "exitCode": 0,
+    "stdout": "?? crates/arc-core/tests/\n",
+    "stderr": ""
+  },
+  "platform": {
+    "argv": [
+      "uname",
+      "-a"
+    ],
+    "exitCode": 0,
+    "stdout": "Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64\n",
+    "stderr": ""
+  },
+  "rustc": {
+    "argv": [
+      "rustc",
+      "--version"
+    ],
+    "exitCode": 0,
+    "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\n",
+    "stderr": ""
+  },
+  "cargo": {
+    "argv": [
+      "cargo",
+      "--version"
+    ],
+    "exitCode": 0,
+    "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+    "stderr": ""
+  },
+  "migration": {
+    "argv": [
+      "shasum",
+      "-a",
+      "256",
+      "crates/arc-storage/migrations/0001_phase0.sql"
+    ],
+    "exitCode": 0,
+    "stdout": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384  crates/arc-storage/migrations/0001_phase0.sql\n",
+    "stderr": ""
+  },
+  "nativeRoot": {
+    "argv": [
+      "getconf",
+      "DARWIN_USER_TEMP_DIR"
+    ],
+    "exitCode": 0,
+    "stdout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/\n",
+    "stderr": ""
+  }
+}

@@ -1,0 +1,21 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/fbc5a217fa32005c: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9dd87dbfa7eacfb0: Operation not permitted (os error 1)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.07s
+     Running unittests src/main.rs (target/debug/deps/arc_daemon-93cc377b01a22b5c)
+
+running 1 test
+
+thread 'instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes' (14218885) panicked at crates/arc-daemon/src/instance.rs:397:13:
+requested mode 4600, actual mode 600
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes ... FAILED
+
+failures:
+
+failures:
+    instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p arc-daemon --bin arc-daemon`

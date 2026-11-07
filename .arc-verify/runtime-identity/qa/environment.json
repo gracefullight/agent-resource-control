@@ -1,0 +1,188 @@
+{
+  "collectedAt": "2026-11-07T10:21:09.078590+00:00",
+  "baseline": "073802555b639aa2fec183d93f748d9437cbbcad",
+  "deadline": "2026-11-08T09:39:05Z",
+  "maxParallel": 3,
+  "thisActorConcurrency": 1,
+  "commandTimeoutSeconds": 120,
+  "attemptLimit": 3,
+  "noInjectedOmaClaim": true,
+  "resources": {
+    "cpu": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "addressSpace": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "processes": [
+      2666,
+      4000
+    ],
+    "files": [
+      1048576,
+      9223372036854775807
+    ]
+  },
+  "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "system": "Darwin",
+  "environment": {
+    "CARGO_HOME": "/Users/gracefullight/.cargo",
+    "CARGO_TARGET_DIR": null,
+    "CARGO_NET_OFFLINE": null,
+    "RUSTUP_TOOLCHAIN": "1.95.0"
+  },
+  "commands": {
+    "head": {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exitCode": 0,
+      "stdout": "073802555b639aa2fec183d93f748d9437cbbcad\n",
+      "stderr": ""
+    },
+    "baselineTree": {
+      "argv": [
+        "git",
+        "rev-parse",
+        "073802555b639aa2fec183d93f748d9437cbbcad^{tree}"
+      ],
+      "exitCode": 0,
+      "stdout": "ce009646036415990a815170955421e1ab8d5c2f\n",
+      "stderr": ""
+    },
+    "platform": {
+      "argv": [
+        "uname",
+        "-srm"
+      ],
+      "exitCode": 0,
+      "stdout": "Darwin 27.2.0 arm64\n",
+      "stderr": ""
+    },
+    "rustc": {
+      "argv": [
+        "rustc",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\n",
+      "stderr": ""
+    },
+    "cargo": {
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": ""
+    },
+    "clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "clippy 0.1.95 (59807616e1 2026-04-14)\n",
+      "stderr": ""
+    },
+    "rustfmt": {
+      "argv": [
+        "rustfmt",
+        "--version"
+      ],
+      "exitCode": 0,
+      "stdout": "rustfmt 1.9.0-stable (59807616e1 2026-04-14)\n",
+      "stderr": ""
+    },
+    "root": {
+      "argv": [
+        "getconf",
+        "DARWIN_USER_TEMP_DIR"
+      ],
+      "exitCode": 0,
+      "stdout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/\n",
+      "stderr": ""
+    },
+    "status": {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--untracked-files=normal",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "exitCode": 0,
+      "stdout": " M Cargo.lock\n M crates/arc-core/Cargo.toml\n M crates/arc-core/src/lib.rs\n M crates/arc-daemon/src/instance.rs\n M crates/arc-daemon/src/main.rs\n M crates/arc-daemon/src/server.rs\n M crates/arc-daemon/tests/resident.rs\n M crates/arc-daemon/tests/startup.rs\n M crates/arc-storage/tests/nfr010.rs\n?? .arc-verify/\n?? crates/arc-core/tests/\n?? crates/arc-daemon/tests/support/\n?? docs/runtime-identity-implementation.md\n?? docs/runtime-identity-technical-review.md\n?? docs/runtime-identity-usage.md\n?? docs/runtime-identity-value-scope.md\n",
+      "stderr": ""
+    }
+  },
+  "confstr": {
+    "selector": 65537,
+    "length": 50,
+    "returned": 50,
+    "root": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+    "agreesWithGetconf": true
+  },
+  "rootMetadataBefore": {
+    "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T",
+    "uid": 501,
+    "mode": "0o700",
+    "inode": 33425,
+    "typeBits": "0o40000"
+  },
+  "fixtureWriteProbe": {
+    "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/qa-thi6vk2m",
+    "writeSucceeded": true,
+    "metadata": {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/qa-thi6vk2m",
+      "uid": 501,
+      "mode": "0o700",
+      "inode": 570051410,
+      "typeBits": "0o40000"
+    },
+    "ownedProbeRemoved": true
+  },
+  "runtimeBefore": [
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc",
+      "uid": 501,
+      "mode": "0o700",
+      "inode": 570003921,
+      "typeBits": "0o40000"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501",
+      "uid": 501,
+      "mode": "0o700",
+      "inode": 570003903,
+      "typeBits": "0o40000"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501/daemon.lock",
+      "uid": 501,
+      "mode": "0o600",
+      "inode": 570003904,
+      "typeBits": "0o100000"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-fixtures-501.lock",
+      "uid": 501,
+      "mode": "0o600",
+      "inode": 570003881,
+      "typeBits": "0o100000"
+    }
+  ],
+  "migration": {
+    "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "finalSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "byteEqual": true
+  }
+}

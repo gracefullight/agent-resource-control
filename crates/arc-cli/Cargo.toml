@@ -1,0 +1,13 @@
+[package]
+name = "arc-cli"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "arcctl"
+path = "src/main.rs"
+
+[dependencies]
+arc-core.workspace = true
+arc-ipc.workspace = true
+clap.workspace = true

@@ -1,0 +1,26 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/fbc5a217fa32005c: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9dd87dbfa7eacfb0: Operation not permitted (os error 1)
+   Compiling arc-core v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/crates/arc-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.57s
+     Running tests/runtime.rs (target/debug/deps/runtime-bcc1ba9738a21135)
+
+running 1 test
+test native_default_is_independent_of_child_tmpdir ... FAILED
+
+failures:
+
+---- native_default_is_independent_of_child_tmpdir stdout ----
+
+thread 'native_default_is_independent_of_child_tmpdir' (14191378) panicked at crates/arc-core/tests/runtime.rs:31:5:
+assertion `left == right` failed
+  left: "socket=/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc/arc.sock\ndatabase=/Users/gracefullight/Library/Application Support/arc/arc.sqlite3"
+ right: "socket=/changed/runtime/root/arc/arc.sock\ndatabase=/Users/gracefullight/Library/Application Support/arc/arc.sqlite3"
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    native_default_is_independent_of_child_tmpdir
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.03s
+
+error: test failed, to rerun pass `-p arc-core --test runtime`

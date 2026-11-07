@@ -1,0 +1,41 @@
+{
+  "fmt": {
+    "argv": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "exitCode": 0,
+    "startedAt": "2026-11-07T09:46:32.906686+00:00",
+    "elapsedSeconds": 0.182,
+    "output": ".arc-verify/runtime-identity/implementation/fmt.txt"
+  },
+  "clippy": {
+    "argv": [
+      "cargo",
+      "clippy",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exitCode": 0,
+    "startedAt": "2026-11-07T09:46:33.089012+00:00",
+    "elapsedSeconds": 1.0,
+    "output": ".arc-verify/runtime-identity/implementation/clippy.txt"
+  },
+  "test": {
+    "argv": [
+      "cargo",
+      "test",
+      "--workspace"
+    ],
+    "exitCode": 0,
+    "startedAt": "2026-11-07T09:46:34.089493+00:00",
+    "elapsedSeconds": 8.912,
+    "output": ".arc-verify/runtime-identity/implementation/test.txt"
+  }
+}

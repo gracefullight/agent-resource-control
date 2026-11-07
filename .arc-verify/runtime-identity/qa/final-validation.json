@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "report": "docs/runtime-identity-qa.md",
+  "requiredCaseGroups": 12,
+  "reportLinksResolved": 14,
+  "sourceUnchangedAtDelivery": true,
+  "sourceFingerprint": "84110f4f1a4da327a8fabec09bb0cf642b1e4ea4ececbf173d2d8c40f00088f9",
+  "generatedTargetIgnored": true,
+  "requiredFindings": [],
+  "additionalHarnessExitCode": 1
+}

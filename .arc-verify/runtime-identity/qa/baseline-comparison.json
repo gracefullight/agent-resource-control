@@ -1,0 +1,19 @@
+{
+  "crates/arc-daemon/src/server.rs": {
+    "baselineLines": 690,
+    "finalLines": 762
+  },
+  "crates/arc-daemon/tests/resident.rs": {
+    "baselineLines": 655,
+    "finalLines": 901
+  },
+  "crates/arc-ipc/src/lib.rs": {
+    "baselineLines": 549,
+    "finalLines": 549
+  },
+  "coverageInputs": {
+    "package.json": false,
+    "vitest.config.ts": false,
+    "CONSTRAINTS.md": false
+  }
+}

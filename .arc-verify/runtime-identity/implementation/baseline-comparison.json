@@ -1,0 +1,16 @@
+{
+  "crates/arc-daemon/src/server.rs": {
+    "baselineLines": 690,
+    "workingLines": 762
+  },
+  "crates/arc-daemon/tests/resident.rs": {
+    "baselineLines": 655,
+    "workingLines": 901
+  },
+  "crates/arc-ipc/src/lib.rs": {
+    "baselineLines": 549,
+    "workingLines": 549
+  },
+  "migrationUnchanged": true,
+  "migrationSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+}

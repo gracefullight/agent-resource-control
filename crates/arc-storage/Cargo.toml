@@ -1,0 +1,9 @@
+[package]
+name = "arc-storage"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+arc-core.workspace = true
+rusqlite = { workspace = true, features = ["bundled"] }
+sha2.workspace = true

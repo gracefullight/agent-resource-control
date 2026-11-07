@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T",
+    "uid": 501,
+    "mode": "0o700",
+    "inode": 33425,
+    "typeBits": "0o40000"
+  },
+  {
+    "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc",
+    "uid": 501,
+    "mode": "0o700",
+    "inode": 570003921,
+    "typeBits": "0o40000"
+  },
+  {
+    "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501",
+    "uid": 501,
+    "mode": "0o700",
+    "inode": 570003903,
+    "typeBits": "0o40000"
+  },
+  {
+    "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501/daemon.lock",
+    "uid": 501,
+    "mode": "0o600",
+    "inode": 570003904,
+    "typeBits": "0o100000"
+  },
+  {
+    "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-fixtures-501.lock",
+    "uid": 501,
+    "mode": "0o600",
+    "inode": 570003881,
+    "typeBits": "0o100000"
+  }
+]

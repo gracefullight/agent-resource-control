@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "./scripts/harness/validate.sh"
+  ],
+  "exitCode": 1,
+  "elapsedSeconds": 43.775,
+  "environment": {
+    "WORKSPACE_ROOT": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.arc-verify/runtime-identity/qa/harness-workspaces"
+  },
+  "output": ".arc-verify/runtime-identity/qa/harness.txt"
+}

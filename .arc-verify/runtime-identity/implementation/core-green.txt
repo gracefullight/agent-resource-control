@@ -1,0 +1,14 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/fbc5a217fa32005c: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9dd87dbfa7eacfb0: Operation not permitted (os error 1)
+   Compiling libc v0.2.191
+   Compiling arc-core v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/crates/arc-core)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.19s
+     Running tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)
+
+running 3 tests
+test configuration_probe ... ok
+test nonempty_socket_override_and_empty_override_policy_are_preserved ... ok
+test native_default_is_independent_of_child_tmpdir ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

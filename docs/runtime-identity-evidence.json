@@ -1,0 +1,400 @@
+{
+  "baseline": "073802555b639aa2fec183d93f748d9437cbbcad",
+  "baselineTree": "ce009646036415990a815170955421e1ab8d5c2f",
+  "localHead": "073802555b639aa2fec183d93f748d9437cbbcad",
+  "platform": "macos",
+  "platformDetails": "Darwin 27.2.0 arm64",
+  "collectedAt": "2026-11-07T10:25:30.157296+00:00",
+  "sourceScope": "Integrated uncommitted working files; all tracked crates plus root Cargo files/toolchain and the two new Rust fixtures",
+  "sourceFingerprint": "84110f4f1a4da327a8fabec09bb0cf642b1e4ea4ececbf173d2d8c40f00088f9",
+  "sourceManifest": ".arc-verify/runtime-identity/qa/source.json",
+  "sourceEntryCount": 23,
+  "unchangedDuringChecks": true,
+  "matchesImplementationManifest": true,
+  "migrationSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+  "migrationBaselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+  "migrationByteEqual": true,
+  "fixtureRoots": [
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+      "resolution": "confstr(_CS_DARWIN_USER_TEMP_DIR), independently checked against getconf",
+      "confstrAgreesWithGetconf": true,
+      "metadata": {
+        "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T",
+        "uid": 501,
+        "mode": "0o700",
+        "inode": 33425,
+        "typeBits": "0o40000"
+      },
+      "writability": {
+        "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/qa-thi6vk2m",
+        "writeSucceeded": true,
+        "metadata": {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/qa-thi6vk2m",
+          "uid": 501,
+          "mode": "0o700",
+          "inode": 570051410,
+          "typeBits": "0o40000"
+        },
+        "ownedProbeRemoved": true
+      }
+    }
+  ],
+  "runtimeAfterTests": [
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T",
+      "uid": 501,
+      "mode": "0o700",
+      "inode": 33425,
+      "typeBits": "0o40000"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc",
+      "uid": 501,
+      "mode": "0o700",
+      "inode": 570003921,
+      "typeBits": "0o40000"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501",
+      "uid": 501,
+      "mode": "0o700",
+      "inode": 570003903,
+      "typeBits": "0o40000"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501/daemon.lock",
+      "uid": 501,
+      "mode": "0o600",
+      "inode": 570003904,
+      "typeBits": "0o100000"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-fixtures-501.lock",
+      "uid": 501,
+      "mode": "0o600",
+      "inode": 570003881,
+      "typeBits": "0o100000"
+    }
+  ],
+  "commands": {
+    "fmt": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T10:21:09.845346+00:00",
+      "elapsedSeconds": 0.174,
+      "output": ".arc-verify/runtime-identity/qa/fmt.txt",
+      "environment": {
+        "CARGO_NET_OFFLINE": "true",
+        "CARGO_TARGET_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.arc-verify/runtime-identity/qa/target"
+      }
+    },
+    "clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T10:21:10.020556+00:00",
+      "elapsedSeconds": 17.186,
+      "output": ".arc-verify/runtime-identity/qa/clippy.txt",
+      "environment": {
+        "CARGO_NET_OFFLINE": "true",
+        "CARGO_TARGET_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.arc-verify/runtime-identity/qa/target"
+      }
+    },
+    "test": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T10:21:27.207689+00:00",
+      "elapsedSeconds": 22.38,
+      "output": ".arc-verify/runtime-identity/qa/test.txt",
+      "environment": {
+        "CARGO_NET_OFFLINE": "true",
+        "CARGO_TARGET_DIR": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.arc-verify/runtime-identity/qa/target"
+      }
+    }
+  },
+  "requiredCases": [
+    {
+      "requirement": "Native confstr sizing, growth, byte preservation and failure handling",
+      "tests": [
+        "tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+        "tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "TMPDIR-independent defaults and persistent database policy",
+      "tests": [
+        "native_default_is_independent_of_child_tmpdir"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Socket override and empty-override policies, stable anchor",
+      "tests": [
+        "nonempty_socket_override_and_empty_override_policy_are_preserved"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Actual default endpoint, proven-unwritable TMPDIR, 18 successful status/doctor combinations, 0700/0600 modes",
+      "tests": [
+        "native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Gated distinct socket/database/TMPDIR contenders; exactly one winner; no losing initialization; graceful and forced-death recovery",
+      "tests": [
+        "concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Unsafe directories, symlinks and nondirectories preserve contents and metadata",
+      "tests": [
+        "permissive_directories_and_their_contents_survive_daemon_and_cli_rejection",
+        "symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection",
+        "nondirectory_parent_is_rejected_before_lock_or_database_initialization"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Overlong and unsafe socket entries reject before anchor/DB/socket mutation",
+      "tests": [
+        "overlong_socket_paths_and_existing_socket_entries_reject_without_mutation",
+        "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Unsafe lock entries and exact owner/mode policies",
+      "tests": [
+        "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+        "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Private new/existing directories and child umasks retain preservation",
+      "tests": [
+        "private_existing_and_new_nested_directories_support_override_startup",
+        "server::tests::already_exists_is_validated_without_repair_or_following_links",
+        "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+        "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Separate cross-process daemon-fixture serialization",
+      "tests": [
+        "fixture_coordination_is_shared_across_processes"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Live duplicate rejection, dead PID and PID reuse recovery, successor inode preservation",
+      "tests": [
+        "instance::tests::a_live_duplicate_is_rejected",
+        "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+        "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+        "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+        "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+        "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    },
+    {
+      "requirement": "Existing resident/CLI and storage failure contracts; frozen migration",
+      "tests": [
+        "resident_contract_holds_until_sigterm",
+        "commands_report_daemon_unavailable_when_absent",
+        "migration_failure_exits_nonzero_with_one_stderr_sentence",
+        "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+        "mismatched_checksum_is_rejected_without_reapplying_migration",
+        "migration_failure_rolls_back_all_new_tables"
+      ],
+      "executed": true,
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/qa/test.txt"
+    }
+  ],
+  "tests": {
+    "passed": 53,
+    "failed": 0,
+    "ignored": 0,
+    "filteredOut": 0,
+    "names": [
+      "arcctl_binary_is_built_next_to_the_test_harness",
+      "no_arguments_names_both_commands_and_exits_nonzero",
+      "tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+      "tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths",
+      "configuration_probe",
+      "native_default_is_independent_of_child_tmpdir",
+      "nonempty_socket_override_and_empty_override_policy_are_preserved",
+      "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+      "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+      "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+      "instance::tests::a_live_duplicate_is_rejected",
+      "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+      "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+      "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+      "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+      "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+      "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+      "server::tests::already_exists_is_validated_without_repair_or_following_links",
+      "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+      "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+      "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+      "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+      "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+      "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+      "fixture_serialization_probe",
+      "permissive_directories_and_their_contents_survive_daemon_and_cli_rejection",
+      "native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+      "concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+      "nondirectory_parent_is_rejected_before_lock_or_database_initialization",
+      "overlong_socket_paths_and_existing_socket_entries_reject_without_mutation",
+      "commands_report_daemon_unavailable_when_absent",
+      "private_existing_and_new_nested_directories_support_override_startup",
+      "resident_contract_holds_until_sigterm",
+      "symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection",
+      "fixture_coordination_is_shared_across_processes",
+      "migration_failure_exits_nonzero_with_one_stderr_sentence",
+      "tests::non_object_roots_are_rejected",
+      "tests::an_object_request_still_decodes_after_a_rejected_array",
+      "tests::multiple_json_values_are_rejected",
+      "tests::oversize_declared_length_is_rejected_without_reading_the_body",
+      "tests::a_framed_array_is_rejected_without_reaching_a_handler",
+      "tests::frame_round_trips_one_json_object",
+      "tests::doctor_requires_ok_integrity_and_one_migration",
+      "tests::hello_and_health_do_not_require_the_database",
+      "tests::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds",
+      "tests::unknown_operation_is_unsupported",
+      "tests::responses_are_objects_too",
+      "tests::writing_non_object_messages_is_rejected_before_emitting_a_frame",
+      "tests::zero_length_is_rejected_without_reading_a_body",
+      "migration_failure_rolls_back_all_new_tables",
+      "foreign_keys_and_unique_resource_identity_are_enforced",
+      "mismatched_checksum_is_rejected_without_reapplying_migration",
+      "nfr010_wal_migration_survives_close_and_reopen_without_cleanup"
+    ],
+    "includesProbeEntrypoints": true,
+    "macosOnlyRequiredTestsObserved": [
+      "tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+      "tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths",
+      "native_default_is_independent_of_child_tmpdir",
+      "native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir"
+    ]
+  },
+  "additionalHarness": {
+    "argv": [
+      "./scripts/harness/validate.sh"
+    ],
+    "exitCode": 1,
+    "elapsedSeconds": 43.775,
+    "environment": {
+      "WORKSPACE_ROOT": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.arc-verify/runtime-identity/qa/harness-workspaces"
+    },
+    "output": ".arc-verify/runtime-identity/qa/harness.txt"
+  },
+  "harnessBaselineComparison": {
+    "crates/arc-daemon/src/server.rs": {
+      "baselineLines": 690,
+      "finalLines": 762
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "baselineLines": 655,
+      "finalLines": 901
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "baselineLines": 549,
+      "finalLines": 549
+    },
+    "coverageInputs": {
+      "package.json": false,
+      "vitest.config.ts": false,
+      "CONSTRAINTS.md": false
+    }
+  },
+  "requiredFindings": [],
+  "chiefFollowup": [
+    "Additional repository validator failed: three oversized files and missing test:coverage. All three files exceeded 500 lines at baseline; two grew. This QA does not waive architecture conformance."
+  ],
+  "containerTargets": {
+    "suppliedInAssignment": [],
+    "observations": [],
+    "scope": "No target supplied by the saved assignment; av.example.yaml contains only a commented example. No container health claim is made."
+  },
+  "limits": [
+    "Serena tools unavailable; read assignment-located files directly, without native repository code search.",
+    "Mise tracking-symlink creation emitted Operation not permitted; all Cargo gates nevertheless exited 0. No permission bypass or GUI fallback.",
+    "Actual foreign-UID ownership changes, real setuid file preservation and non-UTF-8 filesystem creation were not exercised by this QA; attribute/native-byte policy tests ran. Prior engineer reports sandbox restrictions for the latter two.",
+    "Tests exercise owned disposable daemon children and isolated database overrides; no user production database or unrelated daemon was modified.",
+    "Non-macOS execution and adversarial same-UID namespace replacement are outside the demonstrated evidence.",
+    "Architecture conformance remains failed in the additional repository validator; Chief coordination is required outside this fixed runtime gate contract.",
+    "No injected OMA claim/run/session identity was present; no secondary mission/OMA run or state mutation was created."
+  ],
+  "skillsUsed": [
+    "oma-qa"
+  ],
+  "report": "docs/runtime-identity-qa.md",
+  "artifactSha256": {
+    ".arc-verify/runtime-identity/qa/.gitignore": "306fd52e74fca6746e12acc750f232de15e71da917756a1270d74c91f5eb7368",
+    ".arc-verify/runtime-identity/qa/assemble_evidence.py": "2492dc5eea8d3a6ffe386392ab8228901976a39b0cade5e5f060de9abb765f43",
+    ".arc-verify/runtime-identity/qa/baseline-comparison.json": "716c300df7615f2ddbcdaf86d9381ee9a360309983ddba2998c470ae4aa2bd0c",
+    ".arc-verify/runtime-identity/qa/clippy.txt": "bb8d9c7355e7d87f8f09c70210e4c299d114d66cb53f0d08ba5d34d484bfaabd",
+    ".arc-verify/runtime-identity/qa/commands.json": "77fea7f7049621cc605940ea897e9338c1a598b9310b0650bc10a20099bf04ce",
+    ".arc-verify/runtime-identity/qa/diff-check.json": "82d30bb06c4f112c5b12838d62c6d2ee0a4978c0b27d4e728ea3b306e3a866b8",
+    ".arc-verify/runtime-identity/qa/environment.json": "fffe57cc8d33787127bf4ab5ea8f9b38ad13b6f25acb6704d02a3b05256226a0",
+    ".arc-verify/runtime-identity/qa/final-validation.json": "7019b7ecc31818ede4b52deb52f58867729a7ae1716905323f6ad012aa6ffed7",
+    ".arc-verify/runtime-identity/qa/fmt.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    ".arc-verify/runtime-identity/qa/harness.json": "5be91a811ab202664556416bffde7d3098457dc2ab9c16a54f3c88b669f759b2",
+    ".arc-verify/runtime-identity/qa/harness.txt": "3cd884d8df64a636cb4d495357e51e99c9ed2f4fcfcfb01655b41dbdf4d71eff",
+    ".arc-verify/runtime-identity/qa/run_checks.py": "55b13e732eeffdc4a1130172f00c41a962ae375748dd1eb499e9829202fd1a53",
+    ".arc-verify/runtime-identity/qa/runtime-after.json": "4fa4d7aead7cfcdadb787ea36e0c4184c8cbabd71f8278c601cbcddeadb3c9d8",
+    ".arc-verify/runtime-identity/qa/source-before.json": "47052bda5775df28a2ade9535ec4502cf7479b94505963bcf405f120b7ab0737",
+    ".arc-verify/runtime-identity/qa/source.json": "01a835b743e0a04748cba3171865a7870263f928ccbaadd974b6c6437f1fc3ea",
+    ".arc-verify/runtime-identity/qa/test.txt": "0cd4ee8545d5e314aa0a3b4d9e825a85078a7aa97880db2d978d5aeca1ec262a",
+    ".arc-verify/runtime-identity/qa/validate_artifacts.py": "53226a610df0db00f3cc19fc393639d119e181a0c81949c2ccda5a9b72e59037"
+  }
+}

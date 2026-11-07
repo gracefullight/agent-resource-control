@@ -1,0 +1,12 @@
+[package]
+name = "arc-daemon"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+arc-core.workspace = true
+arc-ipc.workspace = true
+arc-storage.workspace = true
+libc.workspace = true
+rusqlite.workspace = true
+tokio.workspace = true

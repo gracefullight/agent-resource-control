@@ -1,0 +1,151 @@
+{
+  "baseline": "073802555b639aa2fec183d93f748d9437cbbcad",
+  "baselineTree": "ce009646036415990a815170955421e1ab8d5c2f",
+  "snapshotCommit": "7e46a56f0df04a0c0c4716e1cbb494e56d4ef4c5",
+  "snapshotTree": "ce009646036415990a815170955421e1ab8d5c2f",
+  "localHead": "7e46a56f0df04a0c0c4716e1cbb494e56d4ef4c5",
+  "sourceScope": "Actor uncommitted working files, not committed baseline or review workspace",
+  "platform": "macos",
+  "platformDetails": "Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64",
+  "sourceFingerprint": "84110f4f1a4da327a8fabec09bb0cf642b1e4ea4ececbf173d2d8c40f00088f9",
+  "sourceManifest": ".arc-verify/runtime-identity/implementation/source.json",
+  "unchangedSinceRequiredGates": true,
+  "fixtureRoots": [
+    "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T"
+  ],
+  "runtimePathMetadataAfterTests": [
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T",
+      "uid": 501,
+      "mode": "0o700"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc",
+      "uid": 501,
+      "mode": "0o700"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501",
+      "uid": 501,
+      "mode": "0o700"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-instance-501/daemon.lock",
+      "uid": 501,
+      "mode": "0o600"
+    },
+    {
+      "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-fixtures-501.lock",
+      "uid": 501,
+      "mode": "0o600"
+    }
+  ],
+  "migrationSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+  "commands": {
+    "fmt": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T09:47:31.170308+00:00",
+      "elapsedSeconds": 0.179,
+      "output": ".arc-verify/runtime-identity/implementation/fmt.txt"
+    },
+    "clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T09:47:31.351178+00:00",
+      "elapsedSeconds": 1.037,
+      "output": ".arc-verify/runtime-identity/implementation/clippy.txt"
+    },
+    "test": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-11-07T09:47:32.389127+00:00",
+      "elapsedSeconds": 5.44,
+      "output": ".arc-verify/runtime-identity/implementation/test.txt"
+    }
+  },
+  "additionalHarness": {
+    "argv": [
+      "./scripts/harness/validate.sh"
+    ],
+    "exitCode": 1,
+    "elapsedSeconds": 46.201
+  },
+  "requiredCases": [
+    {
+      "test": "native_default_is_independent_of_child_tmpdir",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "overlong_socket_paths_and_existing_socket_entries_reject_without_mutation",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "fixture_coordination_is_shared_across_processes",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "migration_failure_exits_nonzero_with_one_stderr_sentence",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    },
+    {
+      "test": "socket_length_validation_counts_native_bytes_and_preserves_entries",
+      "passed": true,
+      "evidence": ".arc-verify/runtime-identity/implementation/test.txt"
+    }
+  ],
+  "testCount": 53,
+  "skillsUsed": [
+    "oma-debug"
+  ],
+  "limits": [
+    "Serena unavailable; scoped known-path reads",
+    "zsh temporary here-document, ps, ignored av.yaml and mise tracking operations denied",
+    "Sandbox strips real setuid and denies non-UTF-8 filename creation; direct policy/native-byte tests retained",
+    "Non-macOS runtime execution not performed",
+    "Additional harness exits 1 for baseline file-length violations and missing test:coverage; two owned files grew; Chief coordination needed"
+  ],
+  "report": "docs/runtime-identity-implementation.md"
+}

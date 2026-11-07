@@ -1,0 +1,19 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/fbc5a217fa32005c: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9dd87dbfa7eacfb0: Operation not permitted (os error 1)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/9864c840-d090-4d75-9e41-d1ac1611f5a5/workspace/.agent-valley/parallel/workspaces/627ad11aaa5f7b8c-7afaa346b4bf92bf-1/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.04s
+     Running tests/resident.rs (target/debug/deps/resident-6d4f40431e6fe16e)
+
+running 9 tests
+test permissive_directories_and_their_contents_survive_daemon_and_cli_rejection ... ok
+test commands_report_daemon_unavailable_when_absent ... ok
+test concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death ... ok
+test native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir ... ok
+test nondirectory_parent_is_rejected_before_lock_or_database_initialization ... ok
+test overlong_socket_paths_and_existing_socket_entries_reject_without_mutation ... ok
+test private_existing_and_new_nested_directories_support_default_and_override_startup ... ok
+test resident_contract_holds_until_sigterm ... ok
+test symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.35s
+

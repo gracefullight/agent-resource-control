@@ -1,0 +1,236 @@
+{
+  "status": "partial",
+  "taskId": "task-4",
+  "attempt": 5,
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "baselineHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "head": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "sourceInputsMatch": true,
+  "reconciledSpecificationsAgree": true,
+  "productOrSpecificationChangesThisAttempt": [],
+  "interfaceCompatibilityPreserved": true,
+  "freshTestsPassed": 31,
+  "checks": {
+    "unit-ipc-cli": {
+      "receipt": "repair-5-unit-ipc-cli.json",
+      "log": "repair-5-unit-ipc-cli.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-detector",
+        "-p",
+        "arc-ipc",
+        "-p",
+        "arc-cli"
+      ],
+      "exitCode": 0,
+      "sourcesMatchCurrent": true,
+      "testsPassed": 30,
+      "logSha256": "903bcb5cdff699c2b5ea0764f99dc2cbf5b47cac61bc1d773526493926169259"
+    },
+    "daemon-matrix": {
+      "receipt": "repair-5-daemon-matrix.json",
+      "log": "repair-5-daemon-matrix.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "classification",
+        "actual_daemon_and_cli_delivered_contract_matrix",
+        "--",
+        "--exact"
+      ],
+      "exitCode": 0,
+      "sourcesMatchCurrent": true,
+      "testsPassed": 1,
+      "logSha256": "1bae1c84aecb87593fc75a37a8313879c5aefc8714332e0db2326fb4dc7b4d5f"
+    },
+    "fmt": {
+      "receipt": "repair-5-fmt.json",
+      "log": "repair-5-fmt.txt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "sourcesMatchCurrent": true,
+      "testsPassed": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "clippy": {
+      "receipt": "repair-5-clippy.json",
+      "log": "repair-5-clippy.txt",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "sourcesMatchCurrent": true,
+      "testsPassed": 0,
+      "logSha256": "2b34696728dc82b03cbf6311d7e3a6a41658bbde097834c3010a78bc82842c1a"
+    },
+    "harness": {
+      "receipt": "repair-5-harness.json",
+      "log": "repair-5-harness.txt",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "sourcesMatchCurrent": true,
+      "testsPassed": 0,
+      "logSha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0"
+    }
+  },
+  "retainedChecks": [
+    {
+      "name": "reconciled-unit-ipc-cli",
+      "receipt": "repair-4-reconciled-unit-ipc-cli.json",
+      "log": "repair-4-reconciled-unit-ipc-cli.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-daemon-matrix",
+      "receipt": "repair-4-reconciled-daemon-matrix.json",
+      "log": "repair-4-reconciled-daemon-matrix.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-daemon-malformed",
+      "receipt": "repair-4-reconciled-daemon-malformed.json",
+      "log": "repair-4-reconciled-daemon-malformed.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-daemon-ssh",
+      "receipt": "repair-4-reconciled-daemon-ssh.json",
+      "log": "repair-4-reconciled-daemon-ssh.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-daemon-bounds",
+      "receipt": "repair-4-reconciled-daemon-bounds.json",
+      "log": "repair-4-reconciled-daemon-bounds.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-daemon-unix-privacy",
+      "receipt": "repair-4-reconciled-daemon-unix-privacy.json",
+      "log": "repair-4-reconciled-daemon-unix-privacy.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-daemon-saturation",
+      "receipt": "repair-4-reconciled-daemon-saturation.json",
+      "log": "repair-4-reconciled-daemon-saturation.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-compatibility",
+      "receipt": "repair-4-reconciled-compatibility.json",
+      "log": "repair-4-reconciled-compatibility.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-fmt",
+      "receipt": "repair-4-reconciled-fmt.json",
+      "log": "repair-4-reconciled-fmt.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "reconciled-clippy",
+      "receipt": "repair-4-reconciled-clippy.json",
+      "log": "repair-4-reconciled-clippy.txt",
+      "exitCode": 0,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    },
+    {
+      "name": "harness",
+      "receipt": "repair-4-harness.json",
+      "log": "repair-4-harness.txt",
+      "exitCode": 1,
+      "logHashMatches": true,
+      "inputsMatchCurrent": true,
+      "evidenceScope": "retained; not rerun in attempt 5"
+    }
+  ],
+  "fmtPassed": true,
+  "clippyPassed": true,
+  "workspaceTestsPassed": false,
+  "tcpPrivacyVerified": false,
+  "requiredCargoGatesPassed": false,
+  "independentReviewComplete": false,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "sourceLineLimitPassed": true,
+  "priorArtifactsUnchanged": true,
+  "harnessCoverageStatus": "unresolved",
+  "workspaceGate": {
+    "command": "cargo test --workspace",
+    "status": "not_run_no_established_tcp_listen_context",
+    "latestHistoricalReceipt": "repair-3-final-workspace.json",
+    "latestHistoricalExitCode": 101,
+    "historicalFailureIsNotPassingEvidence": true
+  },
+  "tcpPrerequisite": {
+    "freshProbeOrTcpTestRun": false,
+    "historicalReceipt": "repair-4-tcp-prerequisite.json",
+    "historicalErrno": 1,
+    "currentNetworkDisabledFlag": true,
+    "effectiveTcpListeningContextEstablished": false
+  },
+  "chiefAction": "Stop identical retries. Resume missing gates only after a supported noninteractive context establishes effective local TCP listening.",
+  "remainingObligations": [
+    "TCP privacy assertions",
+    "exact workspace gate",
+    "independent oma-qa",
+    "final mission verification",
+    "harness coverage",
+    "remaining detector coverage",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows"
+  ]
+}

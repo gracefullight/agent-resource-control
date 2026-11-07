@@ -1,0 +1,10 @@
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-detector)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.29s
+     Running unittests src/lib.rs (target/debug/deps/arc_detector-d94ead05b83a4077)
+
+running 1 test
+work-exhaustion: bytes=12033 stats=AnalysisStats { work: 60203, tokens: 6, invocations: 2, max_depth: 1 }
+test tests::production_work_exhaustion_trace ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+

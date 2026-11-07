@@ -1,6 +1,8 @@
-//! `arcctl`: a two-command client for the resident ARC daemon.
+//! `arcctl`: diagnostics and literal command classification over owner-only IPC.
 //!
 //! It dials the owner-only Unix socket and never opens SQLite itself.
+
+mod classify;
 
 use arc_ipc::{
     self, Request, Response, OPERATION_DOCTOR, OPERATION_HELLO, PROTOCOL_VERSION, STATUS_OK,
@@ -38,14 +40,69 @@ enum Command {
     Status,
     /// Run local daemon diagnostics
     Doctor,
+    /// Analyze literal command text without executing it
+    #[command(
+        after_help = "Pass the entire command as one quoted argument. In POSIX shells, single quotes preserve literal text. Your shell processes quoting and substitutions before ARC receives input. Command text is analyzed, not executed.
+
+Examples:
+  arcctl classify 'cargo test'
+  arcctl classify --json 'gh workflow run ci.yml'
+  arcctl classify 'cargo test && gh workflow run ci.yml'
+  arcctl classify 'cargo test -- \"gh workflow run ci.yml\"'
+  arcctl classify --shell bash -- 'cargo test'
+  arcctl classify -- ''
+  arcctl classify --shell powershell -- 'cargo test'"
+    )]
+    Classify {
+        /// Shell syntax subset (sh, bash, zsh); other values return UNKNOWN
+        #[arg(long)]
+        shell: Option<String>,
+        /// Emit only the typed four-field JSON result
+        #[arg(long)]
+        json: bool,
+        /// Entire command as one literal UTF-8 argument
+        command: String,
+    },
 }
 
 fn main() -> ExitCode {
-    let cli = Cli::parse();
+    let cli = match Cli::try_parse() {
+        Ok(cli) => cli,
+        Err(error) => {
+            use clap::error::ErrorKind;
+            if matches!(
+                error.kind(),
+                ErrorKind::DisplayHelp
+                    | ErrorKind::DisplayVersion
+                    | ErrorKind::DisplayHelpOnMissingArgumentOrSubcommand
+            ) {
+                let success = !error.use_stderr();
+                let _ = error.print();
+                return if success {
+                    ExitCode::SUCCESS
+                } else {
+                    ExitCode::FAILURE
+                };
+            }
+            // Preserve legacy usage errors outside the new classification command.
+            if std::env::args_os().nth(1).as_deref() != Some(std::ffi::OsStr::new("classify")) {
+                error.exit();
+            }
+            // Clap's default unknown-argument errors echo the supplied value.
+            eprintln!(
+                "INVALID_REQUEST\nPass exactly one command string. Use arcctl classify --help."
+            );
+            return ExitCode::from(2);
+        }
+    };
+    let classification = matches!(&cli.command, Command::Classify { .. });
     match run(cli.command) {
         Ok(()) => ExitCode::SUCCESS,
         Err(code) => {
             eprintln!("{code}");
+            if classification {
+                eprintln!("{}", classify::recovery(code));
+            }
             ExitCode::FAILURE
         }
     }
@@ -56,6 +113,11 @@ fn run(command: Command) -> Result<(), &'static str> {
     match command {
         Command::Status => status(&socket),
         Command::Doctor => doctor(&socket),
+        Command::Classify {
+            command,
+            shell,
+            json,
+        } => classify::run(&socket, command, shell, json),
     }
 }
 

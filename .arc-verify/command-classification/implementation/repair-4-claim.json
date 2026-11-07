@@ -1,0 +1,23 @@
+{
+  "status": "partial",
+  "changedFiles": [
+    "crates/arc-cli/src/main.rs",
+    "crates/arc-cli/tests/classification.rs",
+    "crates/arc-daemon/tests/classification.rs",
+    "crates/arc-detector/src/tests.rs",
+    "crates/arc-detector/tests/support/contract.rs",
+    "crates/arc-ipc/tests/classification.rs"
+  ],
+  "unresolved": [
+    "No effective local TCP-listen permission; errno 1 at 127.0.0.1:0. Required TCP assertions and exact workspace gate remain unexecuted this attempt.",
+    "Harness test:coverage remains unresolved; independent QA remains assigned separately."
+  ],
+  "artifacts": [
+    ".arc-verify/command-classification/implementation/repair-4-report.md",
+    ".arc-verify/command-classification/implementation/repair-4-test-matrix.md",
+    ".arc-verify/command-classification/implementation/repair-4-static-inspection.md",
+    ".arc-verify/command-classification/implementation/repair-4-source-inventory.json",
+    ".arc-verify/command-classification/implementation/repair-4-summary.json"
+  ],
+  "chiefAction": "Stop identical retries. Resume the retained TCP test and exact workspace gate only in a supported noninteractive context with effective local TCP-listen permission."
+}

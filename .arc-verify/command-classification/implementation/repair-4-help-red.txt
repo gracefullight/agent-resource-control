@@ -1,0 +1,22 @@
+   Compiling arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.20s
+     Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)
+
+running 1 test
+test help_usage_privacy_and_absent_daemon ... FAILED
+
+failures:
+
+---- help_usage_privacy_and_absent_daemon stdout ----
+
+thread 'help_usage_privacy_and_absent_daemon' (17416751) panicked at crates/arc-cli/tests/classification.rs:115:17:
+missing help term
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    help_usage_privacy_and_absent_daemon
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.58s
+
+error: test failed, to rerun pass `-p arc-cli --test classification`

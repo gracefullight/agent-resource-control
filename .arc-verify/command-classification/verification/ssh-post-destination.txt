@@ -1,0 +1,17 @@
+{"id": "post-n", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-g", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-n-with-command", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-g-with-command", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-l", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-r", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-d", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-w", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "post-quoted-n", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "compound-n", "actual": {"classification": "MIXED", "locality": "MIXED", "reason": "COMPOUND_MIXED", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "compound-g", "actual": {"classification": "MIXED", "locality": "MIXED", "reason": "COMPOUND_MIXED", "uncertainty": "NONE"}, "expectedMatched": false}
+{"id": "pre-n-control", "actual": {"classification": "UNKNOWN", "locality": "UNKNOWN", "reason": "SSH_FORWARDING", "uncertainty": "OBSERVE"}, "expectedMatched": true}
+{"id": "opaque-word-control", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": true}
+{"id": "opaque-quoted-command-control", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": true}
+{"id": "terminated-before-destination-control", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": true}
+{"id": "terminated-after-destination-control", "actual": {"classification": "REMOTE_EXEC", "locality": "REMOTE", "reason": "SSH_REMOTE_COMMAND", "uncertainty": "NONE"}, "expectedMatched": true}
+{"id": "quoted-local-argument-control", "actual": {"classification": "TEST", "locality": "HOST_LOCAL", "reason": "CARGO_TEST", "uncertainty": "NONE"}, "expectedMatched": true}

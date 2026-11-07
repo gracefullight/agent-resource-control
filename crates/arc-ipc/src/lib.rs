@@ -2,7 +2,9 @@
 //!
 //! A frame is a u32 big-endian length prefix followed by exactly one UTF-8
 //! JSON object. The protocol version is 1 and a frame may not exceed 1 MiB.
-//! Messages never carry credentials, chat text, or cookies.
+//! Classification command text is transient and never sent to storage or logs.
+
+pub use arc_detector::{Classification, ClassifyRequest, JobClass, Locality, Reason, Uncertainty};
 
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -19,6 +21,7 @@ pub const MAX_FRAME_BYTES: u32 = 1024 * 1024;
 
 pub const OPERATION_HELLO: &str = "daemon.hello";
 pub const OPERATION_HEALTH: &str = "daemon.health";
+pub const OPERATION_JOB_CLASSIFY: &str = "job.classify";
 pub const OPERATION_DOCTOR: &str = "diagnostics.doctor";
 
 pub const STATUS_OK: &str = "ok";
@@ -313,6 +316,7 @@ where
     }
 
     match request.operation.as_str() {
+        OPERATION_JOB_CLASSIFY => classify_response(request),
         OPERATION_HELLO => Response::ok(
             &request.request_id,
             json!({
@@ -350,6 +354,18 @@ where
         },
         _ => Response::error(&request.request_id, ERROR_UNSUPPORTED_CAPABILITY),
     }
+}
+
+fn classify_response(request: &Request) -> Response {
+    if !request.payload.is_object() {
+        return Response::error(&request.request_id, ERROR_INVALID_REQUEST);
+    }
+    // Borrow the payload while decoding; never clone its raw command tree.
+    let Ok(input) = ClassifyRequest::deserialize(&request.payload) else {
+        return Response::error(&request.request_id, ERROR_INVALID_REQUEST);
+    };
+    let result = arc_detector::classify(&input);
+    Response::ok(&request.request_id, json!(result))
 }
 
 #[cfg(test)]

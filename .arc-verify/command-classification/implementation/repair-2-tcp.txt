@@ -1,0 +1,21 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.14s
+     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)
+
+running 1 test
+test privacy::required_loopback_endpoint_nonexecution_and_privacy ... FAILED
+
+failures:
+
+---- privacy::required_loopback_endpoint_nonexecution_and_privacy stdout ----
+
+thread 'privacy::required_loopback_endpoint_nonexecution_and_privacy' (17198903) panicked at crates/arc-daemon/tests/classification/privacy.rs:95:14:
+required loopback monitor prerequisite: TCP bind must be permitted: Os { code: 1, kind: PermissionDenied, message: "Operation not permitted" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    privacy::required_loopback_endpoint_nonexecution_and_privacy
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 5 filtered out; finished in 1.04s
+
+error: test failed, to rerun pass `-p arc-daemon --test classification`

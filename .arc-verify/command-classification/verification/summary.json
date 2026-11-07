@@ -1,0 +1,132 @@
+{
+  "baselineHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "currentHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "status": "completed",
+  "fmtPassed": true,
+  "clippyPassed": true,
+  "workspaceTestsPassed": true,
+  "behaviorVerified": true,
+  "compatibilityVerified": true,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "sourceLineLimitPassed": true,
+  "finalSourcesMatch": true,
+  "independent": true,
+  "passingWorkspaceTests": 209,
+  "harnessPassed": false,
+  "harnessExitCode": 1,
+  "coverageStatus": "unresolved",
+  "sourceInputCount": 80,
+  "sourceInventory": "source-inventory.json",
+  "testMatrix": "test-matrix.md",
+  "checks": {
+    "privacy": {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "classification",
+        "privacy::required_loopback_endpoint_nonexecution_and_privacy",
+        "--",
+        "--exact"
+      ],
+      "exitCode": 0,
+      "logSha256": "ee6b8eeaa7f3eb24826ea67da385e37a6640c44852f3030586a5d464b13bbdd1",
+      "elapsedSeconds": 2.14286125000217
+    },
+    "fmt": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsedSeconds": 0.5311051250027958
+    },
+    "clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "logSha256": "9d892c5778d0c975f64a671e66ea5a753502353da3addd1dfdf3825225e406a2",
+      "elapsedSeconds": 0.4778999170230236
+    },
+    "workspace-tests": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "logSha256": "294ee5dcd286fb431c48b2e903b6027b5036a3a5e3547ae92ff6083bbfc44452",
+      "elapsedSeconds": 38.08586175000528
+    },
+    "harness": {
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "logSha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0",
+      "elapsedSeconds": 87.4795352499932
+    },
+    "work-trace": {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-detector",
+        "tests::production_work_exhaustion_trace",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exitCode": 0,
+      "logSha256": "698d658bd9804c0dcb57324358207059f13e2ba23d3c08f38a11ab274cd1bd79",
+      "elapsedSeconds": 0.2654557920177467
+    },
+    "ssh-repair": {
+      "argv": [
+        "python3",
+        ".arc-verify/command-classification/verification/ssh-repair.py"
+      ],
+      "exitCode": 0,
+      "logSha256": "920aba5a0f67b46805ed4712acd4166eae9b4699add897c57a11dc8906c9ead1",
+      "elapsedSeconds": 0.48457499998039566
+    }
+  },
+  "classificationRuntime": {
+    "classificationLoadContinued": true,
+    "classificationsAtRecovery": 27,
+    "classificationsBeforeRecovery": 16,
+    "completed": 84,
+    "malformedRecoveryUs": 9029,
+    "maximumHealthUs": 7421,
+    "sameConnectionRecovery": true,
+    "signalToExitUs": 15096
+  },
+  "blockingFindings": [],
+  "sshProbeCases": 32,
+  "sshMismatches": 0,
+  "permanentSshCases": 99,
+  "remainingObligations": [
+    "harness test:coverage",
+    "wider detector coverage and actual locality resolution",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows",
+    "Chief final mission verification and independent framework reviews"
+  ],
+  "recordedAt": "2026-11-07T21:14:17.279235+00:00"
+}

@@ -1,0 +1,24 @@
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-detector)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.21s
+     Running unittests src/lib.rs (target/debug/deps/arc_detector-d94ead05b83a4077)
+
+running 1 test
+test tests::syntax_quotes_aggregation_and_ssh_negative_matrix ... FAILED
+
+failures:
+
+---- tests::syntax_quotes_aggregation_and_ssh_negative_matrix stdout ----
+
+thread 'tests::syntax_quotes_aggregation_and_ssh_negative_matrix' (17258434) panicked at crates/arc-detector/src/tests.rs:185:9:
+assertion `left == right` failed: negative-33
+  left: SshForwarding
+ right: SshAmbiguous
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    tests::syntax_quotes_aggregation_and_ssh_negative_matrix
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p arc-detector --lib`

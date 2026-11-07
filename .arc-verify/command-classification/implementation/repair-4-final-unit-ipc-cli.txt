@@ -1,0 +1,79 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running unittests src/main.rs (target/debug/deps/arcctl-7bac95b2d513d7e6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/binary.rs (target/debug/deps/binary-c4318fd78e2e57e4)
+
+running 2 tests
+test arcctl_binary_is_built_next_to_the_test_harness ... ok
+test no_arguments_names_both_commands_and_exits_nonzero ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.42s
+
+     Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)
+
+running 4 tests
+test help_usage_privacy_and_absent_daemon ... ok
+test literal_payloads_and_options_are_preserved_in_one_request ... ok
+test peer_failures_are_typed_correlated_and_never_reflected ... ok
+test timeout_is_bounded_with_no_retry_or_partial_result ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.52s
+
+     Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)
+
+running 8 tests
+test tests::work_counter_refuses_before_operations_and_never_wraps ... ok
+test tests::ipv6_destination_numeric_validation_and_loopback_conservatism ... ok
+test tests::syntax_quotes_aggregation_and_ssh_negative_matrix ... ok
+test tests::malformed_payloads_are_not_analysis_requests ... ok
+test tests::delivered_contract_matrix ... ok
+test tests::production_work_exhaustion_trace ... ok
+test tests::input_unicode_tokens_invocations_and_depth_boundaries ... ok
+test tests::bounded_deterministic_arbitrary_unicode_inputs_never_panic ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)
+
+running 13 tests
+test tests::dispatch::hello_and_health_do_not_require_the_database ... ok
+test tests::dispatch::doctor_requires_ok_integrity_and_one_migration ... ok
+test tests::dispatch::unknown_operation_is_unsupported ... ok
+test tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds ... ok
+test tests::framing::a_framed_array_is_rejected_without_reaching_a_handler ... ok
+test tests::framing::an_object_request_still_decodes_after_a_rejected_array ... ok
+test tests::framing::multiple_json_values_are_rejected ... ok
+test tests::framing::frame_round_trips_one_json_object ... ok
+test tests::framing::non_object_roots_are_rejected ... ok
+test tests::framing::oversize_declared_length_is_rejected_without_reading_the_body ... ok
+test tests::framing::responses_are_objects_too ... ok
+test tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame ... ok
+test tests::framing::zero_length_is_rejected_without_reading_a_body ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)
+
+running 3 tests
+test ssh_option_values_are_not_forwarding_flags ... ok
+test malformed_payload_version_priority_and_legacy_envelopes ... ok
+test classification_contract_dispatch_never_calls_doctor ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arc_detector
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arc_ipc
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

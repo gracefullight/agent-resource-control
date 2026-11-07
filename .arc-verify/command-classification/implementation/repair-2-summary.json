@@ -1,0 +1,279 @@
+{
+  "status": "partial",
+  "taskId": "task-4",
+  "attempt": 2,
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "baselineHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "head": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "sourceInputsMatch": true,
+  "sourceChangesSincePreviousAttempt": [
+    "crates/arc-daemon/tests/classification/saturation.rs"
+  ],
+  "fmtPassed": true,
+  "clippyPassed": true,
+  "workspaceTestsPassed": false,
+  "requiredCargoGatesPassed": false,
+  "fullSuite": {
+    "passed": 202,
+    "failed": 1,
+    "ignored": 0
+  },
+  "saturationRepairVerified": true,
+  "interfaceChanged": false,
+  "inputArtifactsChanged": false,
+  "independentReviewComplete": false,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "sourceLineLimitPassed": true,
+  "rustSourceFiles": 63,
+  "maximumRustLines": 474,
+  "harness": {
+    "command": "./scripts/harness/validate.sh",
+    "exitCode": 1,
+    "coverageStatus": "unresolved"
+  },
+  "checks": {
+    "repair-2-final-fmt": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.273470374988392,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt": "repair-2-final-fmt.json",
+      "log": "repair-2-final-fmt.txt",
+      "sourcesMatchCurrent": true
+    },
+    "repair-2-final-clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.5362093329895288,
+      "outputSha256": "43c2a55abade68ee4cf9a6447054c850a166efe14a48f9c50ee3b9b1765fbe6e",
+      "receipt": "repair-2-final-clippy.json",
+      "log": "repair-2-final-clippy.txt",
+      "sourcesMatchCurrent": true
+    },
+    "repair-2-final-workspace": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 101,
+      "elapsedSeconds": 30.800291124993237,
+      "outputSha256": "c229001cadc4c0dcdeafb18b78082d8d3e7482d38e9585c7981c48daeb5de148",
+      "receipt": "repair-2-final-workspace.json",
+      "log": "repair-2-final-workspace.txt",
+      "sourcesMatchCurrent": true
+    },
+    "repair-2-all-tests": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--no-fail-fast"
+      ],
+      "exitCode": 101,
+      "elapsedSeconds": 34.71470704200328,
+      "outputSha256": "58a19f708fe3726f28c23c91ad661fde257f670b041b752ad9ffe05f1b7a1575",
+      "receipt": "repair-2-all-tests.json",
+      "log": "repair-2-all-tests.txt",
+      "sourcesMatchCurrent": true
+    },
+    "repair-2-harness": {
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "elapsedSeconds": 85.9981392500049,
+      "outputSha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0",
+      "receipt": "repair-2-harness.json",
+      "log": "repair-2-harness.txt",
+      "sourcesMatchCurrent": true
+    }
+  },
+  "observations": {
+    "classification-saturation": {
+      "path": "repair-2-observations/classification-saturation.json",
+      "sha256": "10b3a04e56541884773934fbec85eefe0357c5fa81506f1636543e74957a801f",
+      "value": {
+        "classificationLoadContinued": true,
+        "classificationsAtRecovery": 29,
+        "classificationsBeforeRecovery": 16,
+        "completed": 85,
+        "malformedRecoveryUs": 9404,
+        "maximumHealthUs": 5455,
+        "sameConnectionRecovery": true,
+        "signalToExitUs": 11887
+      }
+    },
+    "classification-accounting": {
+      "path": "repair-2-observations/classification-accounting.json",
+      "sha256": "0403bd8734b81a6d026345fb95e6c900fbbcd9374356f55e24e108e1fad317f7",
+      "value": {
+        "accept_error_os_code": null,
+        "accounted": true,
+        "connection_closed": true,
+        "deadline_met": true,
+        "event": "ipc_shutdown",
+        "gauges_zero": true,
+        "handlers_reaped": true,
+        "handlers_remaining": 0,
+        "limits": {
+          "connections": 64,
+          "db_busy_timeout_ms": 100,
+          "db_executing": 1,
+          "db_execution_timeout_ms": 1000,
+          "db_queue": 8,
+          "db_response_timeout_ms": 1500,
+          "frame_timeout_ms": 2000,
+          "header_timeout_ms": 1000,
+          "max_frame_bytes": 1048576,
+          "requests": 16,
+          "shutdown_timeout_ms": 3500,
+          "write_timeout_ms": 500
+        },
+        "metrics": {
+          "accepted": 105,
+          "caps": {
+            "connections": 64,
+            "db_executing": 1,
+            "db_queue": 8,
+            "requests": 16,
+            "supervisor": 1
+          },
+          "connection_rejected": 0,
+          "connections": {
+            "current": 0,
+            "high_water": 25
+          },
+          "db_executing": {
+            "current": 0,
+            "high_water": 0
+          },
+          "db_outstanding": {
+            "current": 0,
+            "high_water": 0
+          },
+          "db_queued": {
+            "current": 0,
+            "high_water": 0
+          },
+          "db_rejected": 0,
+          "db_timeouts": 0,
+          "frame_timeouts": 0,
+          "frames_completed": 97,
+          "handlers_reaped": 105,
+          "handlers_spawned": 105,
+          "header_timeouts": 0,
+          "rejection_work": {
+            "current": 0,
+            "high_water": 0
+          },
+          "request_body_bytes": {
+            "current": 0,
+            "high_water": 209227
+          },
+          "request_rejected": 0,
+          "requests": {
+            "current": 0,
+            "high_water": 16
+          },
+          "response_bytes": {
+            "current": 0,
+            "high_water": 2097152
+          },
+          "tracked_tasks": {
+            "current": 0,
+            "high_water": 25
+          },
+          "worker_joined": 1,
+          "worker_started": 1,
+          "write_timeouts": 0
+        },
+        "profiles": {
+          "ipc": "default"
+        },
+        "reason": "SIGTERM",
+        "shutdown_elapsed_ms": 4,
+        "socket_removed": true,
+        "supervisor": {
+          "accept_errors": 0,
+          "accept_retries": 0,
+          "backoff_high_water_ms": 0,
+          "consecutive_errors": 0,
+          "consecutive_errors_high_water": 0,
+          "fatal_errors": 0,
+          "other_errors": 0,
+          "resource_pressure_errors": 0,
+          "retry_tasks": 0,
+          "shutdown_during_backoff": false,
+          "supervisors": {
+            "current": 1,
+            "high_water": 1
+          },
+          "transient_errors": 0
+        },
+        "worker_joined": true
+      }
+    },
+    "classification-privacy": {
+      "path": "repair-2-observations/classification-privacy.json",
+      "sha256": "799368ca9314eabad2359fc9fd10a053555090f109314ec7605ec66c23c4d746",
+      "value": {
+        "canariesPersisted": 0,
+        "cases": 12,
+        "endpointContacts": 0,
+        "liveSqliteAndWalChecked": true,
+        "substitutionMarkers": 0,
+        "toolTrapsStarted": 0
+      }
+    }
+  },
+  "blockers": [
+    {
+      "path": "crates/arc-daemon/tests/classification/privacy.rs:95",
+      "description": "Mandatory loopback TCP bind is still denied with errno 1; no permitted escalation route is available in this session."
+    },
+    {
+      "paths": [
+        ".arc-verify/command-classification/contract.md:115",
+        ".arc-verify/command-classification/contract.md:117",
+        ".arc-verify/command-classification/cli-requirements.md:46",
+        ".arc-verify/command-classification/cli-requirements.md:49",
+        ".arc-verify/command-classification/cli-requirements.md:69",
+        ".arc-verify/command-classification/cli-requirements.md:80"
+      ],
+      "description": "Chief disposition and owner synchronization remain required for empty/oversized input and human output conflicts; no disposition was supplied."
+    }
+  ],
+  "remainingObligations": [
+    "permitted TCP privacy execution",
+    "Chief interface disposition and owner synchronization",
+    "independent oma-qa review",
+    "harness coverage",
+    "broader detector catalog",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows"
+  ],
+  "reports": [
+    "repair-2-report.md",
+    "repair-2-source-inventory.json"
+  ]
+}

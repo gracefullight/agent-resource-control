@@ -1,0 +1,74 @@
+   Compiling typenum v1.20.1
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.15
+   Compiling pkg-config v0.3.34
+   Compiling vcpkg v0.2.15
+   Compiling foldhash v0.2.0
+   Compiling const-oid v0.10.2
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-detector)
+   Compiling cc v1.11.0
+   Compiling hashbrown v0.17.1
+   Compiling errno v0.3.14
+   Compiling cpufeatures v0.3.1
+   Compiling cfg-if v1.0.5
+   Compiling fallible-streaming-iterator v0.1.9
+   Compiling bitflags v2.13.2
+   Compiling smallvec v1.16.4
+   Compiling fallible-iterator v0.3.0
+   Compiling signal-hook-registry v1.4.8
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-ipc)
+   Compiling tokio-macros v2.7.2
+   Compiling socket2 v0.6.5
+   Compiling hybrid-array v0.4.15
+   Compiling mio v1.2.4
+   Compiling pin-project-lite v0.2.17
+   Compiling hashlink v0.12.2
+   Compiling block-buffer v0.12.1
+   Compiling crypto-common v0.2.2
+   Compiling tokio v1.54.1
+   Compiling libsqlite3-sys v0.39.1
+   Compiling digest v0.11.3
+   Compiling sha2 v0.11.1
+   Compiling rusqlite v0.41.1
+   Compiling arc-storage v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-storage)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.11s
+     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)
+
+running 4 tests
+bounded-runtime-classification-saturation: {"completed":81,"maximumHealthUs":7473,"signalToExitUs":7581}
+
+thread 'saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown' (17040579) panicked at crates/arc-daemon/tests/classification/saturation.rs:72:5:
+assertion `left == right` failed
+  left: Null
+ right: 0
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown ... FAILED
+
+thread 'actual_daemon_and_cli_delivered_contract_matrix' (17040576) panicked at crates/arc-daemon/tests/classification.rs:64:5:
+assertion `left == right` failed
+  left: Null
+ right: 1
+test actual_daemon_and_cli_delivered_contract_matrix ... FAILED
+
+thread 'invalid_payloads_version_priority_and_same_connection_recovery' (17040577) panicked at crates/arc-daemon/tests/classification.rs:89:5:
+assertion `left == right` failed
+  left: Null
+ right: 0
+test invalid_payloads_version_priority_and_same_connection_recovery ... FAILED
+
+thread 'privacy::traps_substitutions_endpoints_and_live_wal_never_receive_input' (17040578) panicked at crates/arc-daemon/tests/classification/privacy.rs:37:53:
+called `Result::unwrap()` on an `Err` value: Os { code: 1, kind: PermissionDenied, message: "Operation not permitted" }
+test privacy::traps_substitutions_endpoints_and_live_wal_never_receive_input ... FAILED
+
+failures:
+
+failures:
+    actual_daemon_and_cli_delivered_contract_matrix
+    invalid_payloads_version_priority_and_same_connection_recovery
+    privacy::traps_substitutions_endpoints_and_live_wal_never_receive_input
+    saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown
+
+test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.18s
+
+error: test failed, to rerun pass `-p arc-daemon --test classification`

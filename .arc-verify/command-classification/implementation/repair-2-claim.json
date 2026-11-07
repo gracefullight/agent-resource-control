@@ -1,0 +1,17 @@
+{
+  "status": "partial",
+  "changedFiles": [
+    "crates/arc-daemon/tests/classification/saturation.rs",
+    ".arc-verify/command-classification/implementation/"
+  ],
+  "unresolved": [
+    "Mandatory loopback TCP bind is still denied with errno 1; no permitted escalation route is available in this session.",
+    "Chief disposition and owner synchronization remain required for empty/oversized input and human output conflicts; no disposition was supplied.",
+    "Unchanged harness lacks test:coverage; independent review remains separately assigned."
+  ],
+  "artifacts": [
+    ".arc-verify/command-classification/implementation/repair-2-report.md",
+    ".arc-verify/command-classification/implementation/repair-2-summary.json",
+    ".arc-verify/command-classification/implementation/repair-2-source-inventory.json"
+  ]
+}

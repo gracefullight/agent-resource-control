@@ -1,0 +1,57 @@
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-detector)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.76s
+     Running unittests src/lib.rs (target/debug/deps/arc_detector-d94ead05b83a4077)
+
+running 1 test
+
+thread 'tests::ssh_post_destination_matrix' (17940343) panicked at crates/arc-detector/src/tests.rs:42:5:
+"post-n": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-g": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-n-with-command": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-g-with-command": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-l": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-r": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-d": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-w": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"post-quoted-n": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"compound-n": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"compound-g": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"empty-or-ambiguous-6": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-7": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-8": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-9": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-10": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-11": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"empty-or-ambiguous-12": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-13": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-14": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"empty-or-ambiguous-15": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"quoted--N": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"compound--N": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted-compound--N": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted--G": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"compound--G": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted-compound--G": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted--L": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"compound--L": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted-compound--L": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted--R": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"compound--R": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted-compound--R": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted--D": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"compound--D": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted-compound--D": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted--W": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: RemoteExec, locality: Remote, reason: SshRemoteCommand, uncertainty: None }
+"compound--W": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+"quoted-compound--W": expected Classification { classification: Unknown, locality: Unknown, reason: SshAmbiguous, uncertainty: Observe }, got Classification { classification: Mixed, locality: Mixed, reason: CompoundMixed, uncertainty: None }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test tests::ssh_post_destination_matrix ... FAILED
+
+failures:
+
+failures:
+    tests::ssh_post_destination_matrix
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 8 filtered out; finished in 0.00s
+
+error: test failed, to rerun pass `-p arc-detector --lib`

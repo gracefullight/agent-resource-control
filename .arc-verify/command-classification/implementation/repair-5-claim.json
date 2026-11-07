@@ -1,0 +1,38 @@
+{
+  "status": "partial",
+  "changedFiles": [
+    ".arc-verify/command-classification/implementation/repair-5-clippy.json",
+    ".arc-verify/command-classification/implementation/repair-5-clippy.txt",
+    ".arc-verify/command-classification/implementation/repair-5-daemon-matrix.json",
+    ".arc-verify/command-classification/implementation/repair-5-daemon-matrix.txt",
+    ".arc-verify/command-classification/implementation/repair-5-finalize.py",
+    ".arc-verify/command-classification/implementation/repair-5-fmt.json",
+    ".arc-verify/command-classification/implementation/repair-5-fmt.txt",
+    ".arc-verify/command-classification/implementation/repair-5-harness.json",
+    ".arc-verify/command-classification/implementation/repair-5-harness.txt",
+    ".arc-verify/command-classification/implementation/repair-5-preparation.json",
+    ".arc-verify/command-classification/implementation/repair-5-record.py",
+    ".arc-verify/command-classification/implementation/repair-5-report.md",
+    ".arc-verify/command-classification/implementation/repair-5-source-inventory.json",
+    ".arc-verify/command-classification/implementation/repair-5-static-inspection.md",
+    ".arc-verify/command-classification/implementation/repair-5-summary.json",
+    ".arc-verify/command-classification/implementation/repair-5-test-matrix.md",
+    ".arc-verify/command-classification/implementation/repair-5-unit-ipc-cli.json",
+    ".arc-verify/command-classification/implementation/repair-5-unit-ipc-cli.txt",
+    ".arc-verify/command-classification/implementation/repair-5-claim.json",
+    ".arc-verify/command-classification/implementation/repair-5-artifact-inventory.json"
+  ],
+  "unresolved": [
+    "Effective local TCP-listen context not established; required TCP assertions and exact cargo test --workspace remain incomplete. Do not repeat identical attempts.",
+    "Unchanged harness exits 1 for missing test:coverage.",
+    "Independent oma-qa and final mission verification remain assigned separately."
+  ],
+  "artifacts": [
+    ".arc-verify/command-classification/implementation/repair-5-report.md",
+    ".arc-verify/command-classification/implementation/repair-5-test-matrix.md",
+    ".arc-verify/command-classification/implementation/repair-5-static-inspection.md",
+    ".arc-verify/command-classification/implementation/repair-5-source-inventory.json",
+    ".arc-verify/command-classification/implementation/repair-5-summary.json"
+  ],
+  "chiefAction": "Stop identical retries; establish supported noninteractive effective TCP-listen context before missing gates resume."
+}

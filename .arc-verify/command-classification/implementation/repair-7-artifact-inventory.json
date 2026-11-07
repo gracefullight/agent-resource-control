@@ -1,0 +1,204 @@
+{
+  "at": "2026-11-07T21:07:40.094926+00:00",
+  "artifacts": [
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-claim.json",
+      "sha256": "158d5de18bb5078004b7515855656a6f811dcf66956522214742d483b1a2674e",
+      "bytes": 1371
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-clippy.json",
+      "sha256": "e0d9689e5cb3f5f84d6b32028fec9cb597995ed33ce179b5a0c4f3923c6c5ab0",
+      "bytes": 18988
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-clippy.txt",
+      "sha256": "ad69ba6cc2b4de4ca23415bff3cb89a10097bebcccd93e174d79377e154a4010",
+      "bytes": 888
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-diff-check.json",
+      "sha256": "3845dd4829f46cd76475218fe5658cfae81731275382bb61817445a240f7f193",
+      "bytes": 19019
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-diff-check.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-finalize.py",
+      "sha256": "32d1fc43cb5ad6ea9dbc755d37179c2add77f4fb05e9ff83e328d362f112c317",
+      "bytes": 9534
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-fmt.json",
+      "sha256": "68160bb6967b56a69bec8092b4cfb1f7efffaa6482e44a645dde9d02856c32a1",
+      "bytes": 18920
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-daemon.json",
+      "sha256": "aa382c3ca91c58b6ad3d3646fd74ee6d1906c3d939412eade5dd8d1285b0c071",
+      "bytes": 19001
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-daemon.txt",
+      "sha256": "61d8135c667415871e1b9e5e508a8a5dab56baec786edc948db1668eb8279b15",
+      "bytes": 2329
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-detector-final.json",
+      "sha256": "f9e0f3a083210db9481edcbdb96b1d2c2854fe11aaa774a2b57dc31fdbf4a69e",
+      "bytes": 19006
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-detector-final.txt",
+      "sha256": "96f8faf07c11fef06b4ffe951735893e4cace24f92146537b9fc234cb2f7e72d",
+      "bytes": 33262
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-detector.json",
+      "sha256": "a84cb8c5164dc677be8d2f6d8019c2ccfe2ed2ec4a2ebd00a2631c263c0442ef",
+      "bytes": 19006
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-detector.txt",
+      "sha256": "6e2d02822058c879721163ed0a673a6821a1b7b5d845a8d24081fb887c0336ae",
+      "bytes": 526
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-ipc.json",
+      "sha256": "0ada0ea57e722185ddfb928746c9ae6bbefc23b377fb7ddcb3240ce535fe7c70",
+      "bytes": 18995
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-green-ipc.txt",
+      "sha256": "4395bc3b5aba6b2212161325ea829fd9520b23bd1e85c5eac52dd8f87df38010",
+      "bytes": 925
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-harness.json",
+      "sha256": "de956721fa725348697b6e309fbde21a780333b6a041ce617406ac2985b25131",
+      "bytes": 18963
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-harness.txt",
+      "sha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0",
+      "bytes": 1547
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-preparation.json",
+      "sha256": "3dea7167a0bb8da7a80fc9175826a4deaed17dee36ec3ca38c252b649ff000ed",
+      "bytes": 98143
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-record.py",
+      "sha256": "a86d7f10a39fc30929825adcb2c5e77a4f8ebd97dee8973df6758946eda3ffc0",
+      "bytes": 3247
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-red-daemon.json",
+      "sha256": "3d91607b72cb091c442114d0fea1a8badc289378a493dcfa8373a0d30113b5b5",
+      "bytes": 19003
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-red-daemon.txt",
+      "sha256": "72304e7a5aba57f55d4029de96afed94c1d051cb61e916cfc67f6109f61a2dc3",
+      "bytes": 1670
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-red-detector.json",
+      "sha256": "b34aec502f0a25177543ed3387004fe9393c7a9be26503b3d4229a84cde8596b",
+      "bytes": 19007
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-red-detector.txt",
+      "sha256": "a6af4e267016277e0a51359313f872e7b29be1c446e412aa4d52f25e6873d111",
+      "bytes": 10331
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-red-ipc.json",
+      "sha256": "131f48be8c8d1b81921df60f601eceac0abeca2133f37bf26c26435febae16c0",
+      "bytes": 18997
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-red-ipc.txt",
+      "sha256": "5f822322011756bb2fd60b537ab11603cc330bb4e3d8efd5b70b601991ecda82",
+      "bytes": 1530
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-regression-mapping.json",
+      "sha256": "6d5c54a69e6cc9e6f79ead16f90739ee43647a6fb74718efa9b82fc9332ae5b7",
+      "bytes": 56243
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-report.md",
+      "sha256": "4d4dc779e5559133f06411869e5f1801e777068c023d9e186af696a1f6107573",
+      "bytes": 11143
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-source-inventory.json",
+      "sha256": "27c2d32904183ef0058c654e8dd29c5184a62cd44d95870c8f92d33ea19c7270",
+      "bytes": 18563
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-static-inspection.json",
+      "sha256": "f3c19716f2244336da08ad7a0b4de51217965f21d950484c35cea71804237e58",
+      "bytes": 2393
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-summary.json",
+      "sha256": "e43a2afb4da7e09a3301f382777ccb9ec8c641fcf85a90086211e87be84b759e",
+      "bytes": 6913
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-tcp.json",
+      "sha256": "a8ceb40e99308f7e263bbe307ee7d26fb12d02ceab41238d170221b55d07d93f",
+      "bytes": 19132
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-tcp.txt",
+      "sha256": "9bc77325b7147b1cac7a3fd6c7f87ead4d69ae821246b5f0a0dfe54cd3555307",
+      "bytes": 347
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-work-trace-final.json",
+      "sha256": "9c832c39eabfa14bd7958ae4d7bf65c0411862c3c231c0956d3b17f51146818a",
+      "bytes": 19067
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-work-trace-final.txt",
+      "sha256": "af62f4681470700d1f04fef5a1cbbc3f5a3d47656d01592daff84e9520ef7262",
+      "bytes": 427
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-work-trace.json",
+      "sha256": "803e9e3de324c421302e7bb2f856e80c5ae0c4692d2466f4fdec06abd8a02dd8",
+      "bytes": 19068
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-work-trace.txt",
+      "sha256": "d70c4c3056022392d46196b55abd0390d617efdcddde6a9bc006c2dcb84d7cc4",
+      "bytes": 427
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-workspace.json",
+      "sha256": "aea243820e715beae9968b5629b55c11936e1e3297684c78534268b7e236e7a2",
+      "bytes": 18897
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-workspace.txt",
+      "sha256": "eaf4189e2a37ef4474c6eab836cd7f33cb3c1375b8ae731ab3284d1723848941",
+      "bytes": 21955
+    }
+  ],
+  "resultReport": {
+    "path": ".agents/results/result-backend-task-4-attempt-7-01a1b7d0-3c39-7e02-b83c-eeafc7dc02c4.md",
+    "sha256": "4d4dc779e5559133f06411869e5f1801e777068c023d9e186af696a1f6107573"
+  }
+}

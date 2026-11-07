@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "crates/arc-core",
+    "crates/arc-detector",
     "crates/arc-storage",
     "crates/arc-ipc",
     "crates/arc-daemon",
@@ -14,6 +15,7 @@ edition = "2021"
 
 [workspace.dependencies]
 arc-core = { path = "crates/arc-core" }
+arc-detector = { path = "crates/arc-detector" }
 arc-ipc = { path = "crates/arc-ipc" }
 arc-storage = { path = "crates/arc-storage" }
 clap = { version = "4.6", features = ["derive"] }

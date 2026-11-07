@@ -59,6 +59,7 @@ dependencies = [
  "arc-core",
  "arc-ipc",
  "clap",
+ "serde_json",
 ]
 
 [[package]]
@@ -82,9 +83,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "arc-detector"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "arc-ipc"
 version = "0.1.0"
 dependencies = [
+ "arc-detector",
  "serde",
  "serde_json",
 ]

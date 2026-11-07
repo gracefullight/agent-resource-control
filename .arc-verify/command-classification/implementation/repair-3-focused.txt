@@ -1,0 +1,30 @@
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-detector)
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-ipc)
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.22s
+     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)
+
+running 7 tests
+test saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown ... ok
+test boundaries::detector_budgets_are_preserved_through_daemon_and_cli ... ok
+test privacy::unix_endpoint_traps_substitutions_and_live_wal_never_receive_input ... ok
+test invalid_payloads_version_priority_and_same_connection_recovery ... ok
+test privacy::required_loopback_endpoint_nonexecution_and_privacy ... FAILED
+test actual_daemon_and_cli_delivered_contract_matrix ... ok
+test ssh_option_values_preserve_typed_daemon_and_cli_observations ... ok
+
+failures:
+
+---- privacy::required_loopback_endpoint_nonexecution_and_privacy stdout ----
+
+thread 'privacy::required_loopback_endpoint_nonexecution_and_privacy' (17260266) panicked at crates/arc-daemon/tests/classification/privacy.rs:95:14:
+required loopback monitor prerequisite: TCP bind must be permitted: Os { code: 1, kind: PermissionDenied, message: "Operation not permitted" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+
+failures:
+    privacy::required_loopback_endpoint_nonexecution_and_privacy
+
+test result: FAILED. 6 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.25s
+
+error: test failed, to rerun pass `-p arc-daemon --test classification`

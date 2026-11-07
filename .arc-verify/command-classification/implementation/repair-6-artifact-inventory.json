@@ -1,0 +1,143 @@
+{
+  "scope": "attempt 6 generated artifacts; inventory excludes itself",
+  "artifacts": [
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-claim.json",
+      "sha256": "25a72aaa5f6d4fd43c3583e8d5fbca0f1cc0bfb30b27aec6edc7ad80ea3b469c",
+      "bytes": 2804,
+      "lines": 45
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-clippy.json",
+      "sha256": "0afbf9ca3b4aa32fdf9a607987ad199dbb4039bd8e6a83b5a60073ada05869ef",
+      "bytes": 18314,
+      "lines": 180
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-clippy.txt",
+      "sha256": "f0788aa36d1c86b6ccdfb7f4042a5574102d82061c046422a2d42e008a1e4710",
+      "bytes": 72,
+      "lines": 1
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-finalize.py",
+      "sha256": "a78eed29a006d0541ca3323cc09815e290b7a70f47cbbd7da938451030ed37e6",
+      "bytes": 6131,
+      "lines": 107
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-fmt.json",
+      "sha256": "5e33f24a986c73b33b3bc19563262144cafb036d9faed05e6062adb1a0f2cfea",
+      "bytes": 18245,
+      "lines": 178
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "lines": 0
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-harness.json",
+      "sha256": "947fd089e3772d851aff425b77bd3a004d6ff9ed43bc37e88e49a35cdf8245eb",
+      "bytes": 18287,
+      "lines": 176
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-harness.txt",
+      "sha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0",
+      "bytes": 1547,
+      "lines": 21
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-preparation.json",
+      "sha256": "c099612cb8ffa1618da765acfe68f028ffcd9bf5b403fe84ac07996e43ac594f",
+      "bytes": 68609,
+      "lines": 1600
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-record.py",
+      "sha256": "96a58d3b0bfe49db969a8a416ec6f36d957466fdc612dfde1100a2c453bc188b",
+      "bytes": 2754,
+      "lines": 65
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-report.md",
+      "sha256": "45290fe1315aca8974d3c1997ebd2eed0d5a166fad782d55165c09701860d30d",
+      "bytes": 7123,
+      "lines": 104
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-source-inventory.json",
+      "sha256": "732cd05ffa1d0ab4fccfad92a686c88decdc0fdfc3adbb65cc2d3ec836a2f53c",
+      "bytes": 16355,
+      "lines": 506
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-static-inspection.md",
+      "sha256": "2806ffe6446d8db8d4fe2e63d06dc80851849f386871db8d47126dc84be3ed23",
+      "bytes": 5445,
+      "lines": 85
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-summary.json",
+      "sha256": "c2057fc1057ead55530f8913a2d2eb4f2f612b9cd86c59dc330ecb1cbeb84ff7",
+      "bytes": 4124,
+      "lines": 146
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-tcp-prerequisite.json",
+      "sha256": "36f1c4414de6155760ace20a572bc1afac796442b87e2a7078fc8bac59d61bc0",
+      "bytes": 233,
+      "lines": 10
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-tcp.json",
+      "sha256": "b4c5c72497ca0b94270a4b5b014063dddb9314db32d84be282b801f2eed1977d",
+      "bytes": 18457,
+      "lines": 182
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-tcp.txt",
+      "sha256": "d2b4523abd73e3b1dd574f3de3ab849d82f0ed2455e750707eb511e0ac62de48",
+      "bytes": 347,
+      "lines": 8
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-test-matrix.md",
+      "sha256": "db717dfcc5a42412e4f39792d855b2b8c96b51221fa22ca7dab11e1e519c9185",
+      "bytes": 6942,
+      "lines": 88
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-trace-record.py",
+      "sha256": "a8349f88ad5c7601503a9f937e032eafc6e451b73114cedfc8178afe04d61462",
+      "bytes": 2818,
+      "lines": 65
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-work-trace.json",
+      "sha256": "5263c2747db05d492730c948e6bd346810137b06e33774e99a4f2c22a135801a",
+      "bytes": 18392,
+      "lines": 181
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-work-trace.txt",
+      "sha256": "765fdaf219bca8a1af18c0c73a1dbee186e2a7b831696252943402dcf98adcb0",
+      "bytes": 637,
+      "lines": 10
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-workspace.json",
+      "sha256": "d05e46c5827913af81e35fd6b3f31af310403514cb515cb93263b7dbef99faf9",
+      "bytes": 18222,
+      "lines": 176
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-6-workspace.txt",
+      "sha256": "52248f823b8cd96b0dbe76fedef3b116777ceec4875006f38774efac46a52465",
+      "bytes": 21108,
+      "lines": 338
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-daemon)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.72s
+     Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 57 filtered out; finished in 0.00s
+
+     Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+
+     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)
+
+running 1 test
+
+thread 'ssh_post_destination_daemon_human_and_json_cli_matrix' (17941360) panicked at crates/arc-daemon/tests/classification.rs:75:9:
+assertion `left == right` failed: "post-n"
+  left: Some(Object {"classification": String("REMOTE_EXEC"), "locality": String("REMOTE"), "reason": String("SSH_REMOTE_COMMAND"), "uncertainty": String("NONE")})
+ right: Some(Object {"classification": String("UNKNOWN"), "locality": String("UNKNOWN"), "reason": String("SSH_AMBIGUOUS"), "uncertainty": String("OBSERVE")})
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test ssh_post_destination_daemon_human_and_json_cli_matrix ... FAILED
+
+failures:
+
+failures:
+    ssh_post_destination_daemon_human_and_json_cli_matrix
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.73s
+
+error: test failed, to rerun pass `-p arc-daemon --test classification`

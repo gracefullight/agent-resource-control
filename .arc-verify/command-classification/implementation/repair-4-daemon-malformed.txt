@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)
+
+running 1 test
+test invalid_payloads_version_priority_and_same_connection_recovery ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.45s
+

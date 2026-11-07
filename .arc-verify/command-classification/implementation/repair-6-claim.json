@@ -1,0 +1,45 @@
+{
+  "status": "completed",
+  "scope": "task-4 implementation-owner handoff",
+  "changedFiles": [
+    ".arc-verify/command-classification/implementation/repair-6-clippy.json",
+    ".arc-verify/command-classification/implementation/repair-6-clippy.txt",
+    ".arc-verify/command-classification/implementation/repair-6-finalize.py",
+    ".arc-verify/command-classification/implementation/repair-6-fmt.json",
+    ".arc-verify/command-classification/implementation/repair-6-fmt.txt",
+    ".arc-verify/command-classification/implementation/repair-6-harness.json",
+    ".arc-verify/command-classification/implementation/repair-6-harness.txt",
+    ".arc-verify/command-classification/implementation/repair-6-preparation.json",
+    ".arc-verify/command-classification/implementation/repair-6-record.py",
+    ".arc-verify/command-classification/implementation/repair-6-report.md",
+    ".arc-verify/command-classification/implementation/repair-6-source-inventory.json",
+    ".arc-verify/command-classification/implementation/repair-6-static-inspection.md",
+    ".arc-verify/command-classification/implementation/repair-6-summary.json",
+    ".arc-verify/command-classification/implementation/repair-6-tcp-prerequisite.json",
+    ".arc-verify/command-classification/implementation/repair-6-tcp.json",
+    ".arc-verify/command-classification/implementation/repair-6-tcp.txt",
+    ".arc-verify/command-classification/implementation/repair-6-test-matrix.md",
+    ".arc-verify/command-classification/implementation/repair-6-trace-record.py",
+    ".arc-verify/command-classification/implementation/repair-6-work-trace.json",
+    ".arc-verify/command-classification/implementation/repair-6-work-trace.txt",
+    ".arc-verify/command-classification/implementation/repair-6-workspace.json",
+    ".arc-verify/command-classification/implementation/repair-6-workspace.txt",
+    ".arc-verify/command-classification/implementation/repair-6-claim.json",
+    ".arc-verify/command-classification/implementation/repair-6-artifact-inventory.json"
+  ],
+  "unresolved": [
+    "Harness coverage: missing test:coverage (actual exit 1 retained)",
+    "Independent oma-qa and final mission verification remain Chief-coordinated next stages",
+    "Broader detector, scheduling, managed-execution, desktop and native Windows acceptance remain open"
+  ],
+  "artifacts": [
+    ".arc-verify/command-classification/implementation/repair-6-report.md",
+    ".arc-verify/command-classification/implementation/repair-6-summary.json",
+    ".arc-verify/command-classification/implementation/repair-6-source-inventory.json",
+    ".arc-verify/command-classification/implementation/repair-6-test-matrix.md"
+  ],
+  "productFilesChangedThisAttempt": [],
+  "requiredCargoGatesPassed": true,
+  "tcpPrivacyVerified": true,
+  "independentReviewComplete": false
+}

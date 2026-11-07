@@ -1,0 +1,23 @@
+{
+  "scope": "Implementation-owner source inspection; independent QA remains task-5.",
+  "inspectedInputs": {
+    "crates/arc-detector/Cargo.toml": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab",
+    "crates/arc-detector/src/budget.rs": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+    "crates/arc-detector/src/lexer.rs": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+    "crates/arc-detector/src/lib.rs": "b7a913d6be3eb2ca600a0234cd0977e4eb14da7777e6c33433208c5cfc206a74",
+    "crates/arc-detector/src/parser.rs": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+    "crates/arc-detector/src/rules.rs": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+    "crates/arc-detector/src/tests.rs": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+    "crates/arc-detector/src/types.rs": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+    "crates/arc-detector/tests/support/contract.rs": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+    "crates/arc-detector/tests/support/ssh.rs": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7"
+  },
+  "dependency": "Production arc-detector uses existing Serde only; no manifest or lockfile change this attempt.",
+  "path": "classify/analyze -> bounded lexer/parser -> recognize/ssh -> fixed enums -> aggregation",
+  "newOperations": "Bounded slice advancement, token/empty checks, charged -- equality, charged leading-byte check; existing opaque-argument scan.",
+  "work": "Every added token/empty visit is precharged 2; -- comparison uses Budget.eq; prefix length/byte check is precharged 2; no work after refused charge.",
+  "forbiddenEffects": "No new process, shell, filesystem, environment, resolver, network, endpoint, logging, cache or storage calls in the detector.",
+  "privacy": "Existing unmodified executable traps, substitution markers, Unix/TCP monitors and live SQLite/WAL/log canary scans pass on final sources.",
+  "compatibility": "Protocol 1, request/result types, dispatch(request, doctor), version-first validation and payload disposal unchanged from preparation; admission/authentication/lifecycle/limits equal baseline.",
+  "interpretation": "Recognizes command syntax only; UNKNOWN/OBSERVE conveys uncertainty without admission or execution decisions."
+}

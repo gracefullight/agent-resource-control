@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.04s
+     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)
+
+running 1 test
+test boundaries::detector_budgets_are_preserved_through_daemon_and_cli ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.53s
+

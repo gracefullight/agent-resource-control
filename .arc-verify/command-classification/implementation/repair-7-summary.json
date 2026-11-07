@@ -1,0 +1,239 @@
+{
+  "status": "completed",
+  "scope": "task-4 implementation repair and handoff",
+  "taskId": "task-4",
+  "attempt": 7,
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "baselineHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "head": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "changedPaths": [
+    "crates/arc-daemon/tests/classification.rs",
+    "crates/arc-detector/src/rules.rs",
+    "crates/arc-detector/src/tests.rs",
+    "crates/arc-detector/tests/support/contract.rs",
+    "crates/arc-detector/tests/support/ssh.rs",
+    "crates/arc-ipc/tests/classification.rs"
+  ],
+  "sourceInputsMatch": true,
+  "priorArtifactsPreserved": 357,
+  "acceptedSpecificationsUnchanged": true,
+  "interfaceCompatibilityPreserved": true,
+  "sshPostDestinationRepairedByImplementationOwner": true,
+  "retainedProbeCasesCovered": 17,
+  "permanentSshCases": 99,
+  "redEvidence": {
+    "detector": {
+      "receipt": "repair-7-red-detector.json",
+      "log": "repair-7-red-detector.txt",
+      "exitCode": 101,
+      "preRepairClassifierSha256": "0605a59023ff319b98f3e2791a7dccda7d5779c1fcd54f1c13b4a44f70c3f565"
+    },
+    "ipc": {
+      "receipt": "repair-7-red-ipc.json",
+      "log": "repair-7-red-ipc.txt",
+      "exitCode": 101,
+      "preRepairClassifierSha256": "0605a59023ff319b98f3e2791a7dccda7d5779c1fcd54f1c13b4a44f70c3f565"
+    },
+    "daemon": {
+      "receipt": "repair-7-red-daemon.json",
+      "log": "repair-7-red-daemon.txt",
+      "exitCode": 101,
+      "preRepairClassifierSha256": "0605a59023ff319b98f3e2791a7dccda7d5779c1fcd54f1c13b4a44f70c3f565"
+    }
+  },
+  "checks": {
+    "green-detector-final": {
+      "receipt": "repair-7-green-detector-final.json",
+      "log": "repair-7-green-detector-final.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-detector",
+        "ssh_post_destination",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 0,
+      "testsPassed": 2,
+      "elapsedSeconds": 1.1892294590070378,
+      "sourcesMatchCurrent": true,
+      "logSha256": "96f8faf07c11fef06b4ffe951735893e4cace24f92146537b9fc234cb2f7e72d"
+    },
+    "green-ipc": {
+      "receipt": "repair-7-green-ipc.json",
+      "log": "repair-7-green-ipc.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-ipc",
+        "ssh_post_destination",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 0,
+      "testsPassed": 1,
+      "elapsedSeconds": 1.981486832984956,
+      "sourcesMatchCurrent": true,
+      "logSha256": "4395bc3b5aba6b2212161325ea829fd9520b23bd1e85c5eac52dd8f87df38010"
+    },
+    "green-daemon": {
+      "receipt": "repair-7-green-daemon.json",
+      "log": "repair-7-green-daemon.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "ssh_post_destination",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 0,
+      "testsPassed": 1,
+      "elapsedSeconds": 8.885252999985823,
+      "sourcesMatchCurrent": true,
+      "logSha256": "61d8135c667415871e1b9e5e508a8a5dab56baec786edc948db1668eb8279b15"
+    },
+    "tcp": {
+      "receipt": "repair-7-tcp.json",
+      "log": "repair-7-tcp.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "classification",
+        "privacy::required_loopback_endpoint_nonexecution_and_privacy",
+        "--",
+        "--exact"
+      ],
+      "exitCode": 0,
+      "testsPassed": 1,
+      "elapsedSeconds": 1.4920030419889372,
+      "sourcesMatchCurrent": true,
+      "logSha256": "9bc77325b7147b1cac7a3fd6c7f87ead4d69ae821246b5f0a0dfe54cd3555307"
+    },
+    "fmt": {
+      "receipt": "repair-7-fmt.json",
+      "log": "repair-7-fmt.txt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "testsPassed": 0,
+      "elapsedSeconds": 0.3226348329917528,
+      "sourcesMatchCurrent": true,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "clippy": {
+      "receipt": "repair-7-clippy.json",
+      "log": "repair-7-clippy.txt",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "testsPassed": 0,
+      "elapsedSeconds": 1.6084979159932118,
+      "sourcesMatchCurrent": true,
+      "logSha256": "ad69ba6cc2b4de4ca23415bff3cb89a10097bebcccd93e174d79377e154a4010"
+    },
+    "workspace": {
+      "receipt": "repair-7-workspace.json",
+      "log": "repair-7-workspace.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 0,
+      "testsPassed": 209,
+      "elapsedSeconds": 42.35053745802725,
+      "sourcesMatchCurrent": true,
+      "logSha256": "eaf4189e2a37ef4474c6eab836cd7f33cb3c1375b8ae731ab3284d1723848941"
+    },
+    "harness": {
+      "receipt": "repair-7-harness.json",
+      "log": "repair-7-harness.txt",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "testsPassed": 0,
+      "elapsedSeconds": 86.27113574999385,
+      "sourcesMatchCurrent": true,
+      "logSha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0"
+    },
+    "work-trace-final": {
+      "receipt": "repair-7-work-trace-final.json",
+      "log": "repair-7-work-trace-final.txt",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-detector",
+        "tests::production_work_exhaustion_trace",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exitCode": 0,
+      "testsPassed": 1,
+      "elapsedSeconds": 0.2067220000026282,
+      "sourcesMatchCurrent": true,
+      "logSha256": "af62f4681470700d1f04fef5a1cbbc3f5a3d47656d01592daff84e9520ef7262"
+    },
+    "diff-check": {
+      "receipt": "repair-7-diff-check.json",
+      "log": "repair-7-diff-check.txt",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "Cargo.toml",
+        "Cargo.lock",
+        "crates",
+        "scripts/harness"
+      ],
+      "exitCode": 0,
+      "testsPassed": 0,
+      "elapsedSeconds": 0.048750791989732534,
+      "sourcesMatchCurrent": true,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "workspaceTestsCount": 209,
+  "requiredCargoGatesPassed": true,
+  "tcpPrivacyVerified": true,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "sourceLineLimitPassed": true,
+  "harnessCoverageStatus": "unresolved",
+  "independentReviewComplete": false,
+  "chiefAction": "Deliver repaired sources and receipts to task-5 for fresh independent oma-qa.",
+  "remainingObligations": [
+    "independent QA on repaired sources",
+    "final mission verification",
+    "harness coverage",
+    "remaining detector coverage",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows"
+  ]
+}

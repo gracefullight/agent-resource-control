@@ -1,0 +1,22 @@
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-daemon/tests/classification/saturation.rs:42:
+                     stream
+                         .set_write_timeout(Some(Duration::from_secs(2)))
+                         .unwrap();
+-                    let payload =
+-                        json!({"command":if round%2 == 0 { max } else { exhausted }});
++                    let payload = json!({"command":if round%2 == 0 { max } else { exhausted }});
+                     if let Ok(response) = arc_ipc::exchange(&mut stream, &request(payload)) {
+                         assert_eq!(response.status, "ok");
+                         let result = response.result.unwrap();
+Diff in /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-daemon/tests/classification/saturation.rs:75:
+                     .unwrap();
+                 if arc_ipc::write_frame(&mut stream, b"{").is_ok() {
+                     if let Ok(response) = arc_ipc::read_response(&mut stream) {
+-                        assert_eq!(response, Response::error("", arc_ipc::ERROR_INVALID_REQUEST));
++                        assert_eq!(
++                            response,
++                            Response::error("", arc_ipc::ERROR_INVALID_REQUEST)
++                        );
+                         if let Ok(response) = arc_ipc::exchange(
+                             &mut stream,
+                             &request(json!({"command":"cargo test"})),

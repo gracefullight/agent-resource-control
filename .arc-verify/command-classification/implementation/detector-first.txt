@@ -1,0 +1,43 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling unicode-ident v1.0.27
+   Compiling quote v1.0.47
+   Compiling serde_core v1.0.229
+   Compiling serde v1.0.229
+   Compiling zmij v1.0.23
+   Compiling serde_json v1.0.154
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling syn v3.0.9
+   Compiling serde_derive v1.0.229
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-detector)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.98s
+     Running unittests src/lib.rs (target/debug/deps/arc_detector-d94ead05b83a4077)
+
+running 6 tests
+test tests::work_counter_refuses_before_operations_and_never_wraps ... ok
+test tests::syntax_quotes_aggregation_and_ssh_negative_matrix ... ok
+test tests::malformed_payloads_are_not_analysis_requests ... ok
+
+thread 'tests::production_work_exhaustion_trace' (17032653) panicked at crates/arc-detector/src/tests.rs:76:5:
+assertion `left == right` failed
+  left: 60163
+ right: 65536
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+test tests::production_work_exhaustion_trace ... FAILED
+test tests::delivered_contract_matrix ... ok
+
+thread 'tests::input_unicode_tokens_invocations_and_depth_boundaries' (17032651) panicked at crates/arc-detector/src/tests.rs:48:9:
+assertion `left == right` failed
+  left: InputLimit
+ right: NestingLimit
+test tests::input_unicode_tokens_invocations_and_depth_boundaries ... FAILED
+
+failures:
+
+failures:
+    tests::input_unicode_tokens_invocations_and_depth_boundaries
+    tests::production_work_exhaustion_trace
+
+test result: FAILED. 4 passed; 2 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+error: test failed, to rerun pass `-p arc-detector --lib`

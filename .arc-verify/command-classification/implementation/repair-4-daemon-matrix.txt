@@ -1,0 +1,15 @@
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-daemon)
+error[E0425]: cannot find value `output` in this scope
+  --> crates/arc-daemon/tests/classification.rs:77:28
+   |
+77 |                 assert_eq!(output.stdout.last(), Some(&b'\n'), "{}", case["id"]);
+   |                            ^^^^^^ not found in this scope
+
+error[E0425]: cannot find value `output` in this scope
+  --> crates/arc-daemon/tests/classification.rs:78:28
+   |
+78 |                 assert_eq!(output.stdout.iter().filter(|b| **b == b'\n').count(), 1);
+   |                            ^^^^^^ not found in this scope
+
+For more information about this error, try `rustc --explain E0425`.
+error: could not compile `arc-daemon` (test "classification") due to 2 previous errors

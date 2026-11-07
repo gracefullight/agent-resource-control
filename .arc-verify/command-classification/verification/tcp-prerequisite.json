@@ -1,0 +1,39 @@
+{
+  "at": "2026-11-07T21:10:09.154635+00:00",
+  "context": {
+    "uid": 501,
+    "euid": 501,
+    "gid": 20,
+    "pid": 80059,
+    "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "transport": "supported noninteractive exec_command; no GUI or permission bypass",
+    "environmentOverrides": {
+      "CARGO_NET_OFFLINE": "true"
+    },
+    "resources": {
+      "cpu": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "addressSpace": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "openFiles": [
+        1048576,
+        9223372036854775807
+      ]
+    },
+    "parallelChecks": 1,
+    "perCommandTimeoutSeconds": 120,
+    "missionBudget": "supplied maxDurationSec=86400; maxRuns=200; no dispatch or retry performed"
+  },
+  "operation": "socket.bind/listen 127.0.0.1:0; close owned socket",
+  "operatorNote": "2026-11-07T20:28:55.793Z supersedes prior TCP denial",
+  "permitted": true,
+  "address": [
+    "127.0.0.1",
+    57442
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "independent": true,
+  "actorId": "reviewer",
+  "taskId": "task-5",
+  "attempt": 4,
+  "skill": "oma-qa",
+  "status": "completed",
+  "verdict": "PASS",
+  "verdictScope": "repaired Phase 0 classification slice; actual expected harness coverage failure remains unresolved",
+  "completeness": "completed",
+  "blockersResolved": true,
+  "findings": [],
+  "implementationDefects": [],
+  "resolvedFindings": [
+    {
+      "id": "SSH-POST-DESTINATION",
+      "formerSeverity": "HIGH",
+      "resolution": "Repaired boundary independently inspected; all 17 original and 15 additional controls pass actual IPC and both CLI modes; 99 permanent cases and recognition-budget regressions pass",
+      "evidence": "../verification/ssh-repair.json"
+    }
+  ],
+  "sourceInputsMatch": true,
+  "verificationSummary": "../verification/summary.json",
+  "report": "report.md",
+  "harnessPassed": false,
+  "coverageStatus": "unresolved",
+  "currentExecutionPrerequisite": "required TCP monitor test passed freshly after operator environment change",
+  "codeIntelligence": {
+    "provider": "Serena",
+    "mode": "unavailable",
+    "tools": [],
+    "fallback": "direct known-path reads and Git diff; no native project code-content search"
+  },
+  "remainingObligations": [
+    "harness test:coverage",
+    "wider detector coverage and actual locality resolution",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows",
+    "Chief final mission verification and independent framework reviews"
+  ],
+  "inspectionLimitations": [
+    "global av.yaml access denied; scoped source and checks available",
+    "mise tracking-link warning did not fail checks",
+    "same-user native authentication exercised; no live foreign-account impersonation",
+    "macOS execution; no native Windows verification"
+  ],
+  "changedPaths": [
+    ".arc-verify/command-classification/review/",
+    ".arc-verify/command-classification/verification/"
+  ],
+  "interfaceCompatibility": "protocol 1, dispatch(request, doctor), status/doctor, native peer policy, admission and shutdown preserved",
+  "productOrTestEdits": []
+}

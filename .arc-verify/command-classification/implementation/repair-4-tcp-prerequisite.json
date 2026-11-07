@@ -1,0 +1,16 @@
+{
+  "at": "2026-11-07T20:01:03.187378+00:00",
+  "argv": [
+    "python3",
+    "-"
+  ],
+  "endpoint": "127.0.0.1:0",
+  "purpose": "Establish effective local TCP-listen permission before retained test; no command classification or endpoint connection performed.",
+  "permitted": false,
+  "exitCode": 1,
+  "errno": 1,
+  "errorType": "PermissionError",
+  "error": "[Errno 1] Operation not permitted",
+  "stdinMethod": "inline heredoc; normal functions.exec -> exec_command",
+  "probeCode": "with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as listener: listener.bind((\"127.0.0.1\", 0)); listener.listen(1)"
+}

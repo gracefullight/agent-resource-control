@@ -1,0 +1,42 @@
+   Compiling arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.39s
+     Running unittests src/main.rs (target/debug/deps/arcctl-7bac95b2d513d7e6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/binary.rs (target/debug/deps/binary-c4318fd78e2e57e4)
+
+running 2 tests
+test arcctl_binary_is_built_next_to_the_test_harness ... ok
+test no_arguments_names_both_commands_and_exits_nonzero ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s
+
+     Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)
+
+running 4 tests
+test help_usage_privacy_and_absent_daemon ... ok
+test literal_payloads_and_options_are_preserved_in_one_request ... FAILED
+test peer_failures_are_typed_correlated_and_never_reflected ... ok
+test timeout_is_bounded_with_no_retry_or_partial_result ... ok
+
+failures:
+
+---- literal_payloads_and_options_are_preserved_in_one_request stdout ----
+
+thread '<unnamed>' (17131881) panicked at crates/arc-cli/tests/classification.rs:57:75:
+called `Result::unwrap()` on an `Err` value: Frame(Io(Os { code: 35, kind: WouldBlock, message: "Resource temporarily unavailable" }))
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+thread 'literal_payloads_and_options_are_preserved_in_one_request' (17131820) panicked at crates/arc-cli/tests/classification.rs:65:25:
+called `Result::unwrap()` on an `Err` value: Any { .. }
+
+
+failures:
+    literal_payloads_and_options_are_preserved_in_one_request
+
+test result: FAILED. 3 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.51s
+
+error: test failed, to rerun pass `-p arc-cli --test classification`

@@ -1,0 +1,39 @@
+{
+  "status": "partial",
+  "changedFiles": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/arc-cli/Cargo.toml",
+    "crates/arc-cli/src/classify.rs",
+    "crates/arc-cli/src/main.rs",
+    "crates/arc-cli/tests/classification.rs",
+    "crates/arc-daemon/src/connection.rs",
+    "crates/arc-daemon/tests/classification.rs",
+    "crates/arc-daemon/tests/classification/boundaries.rs",
+    "crates/arc-daemon/tests/classification/privacy.rs",
+    "crates/arc-daemon/tests/classification/saturation.rs",
+    "crates/arc-detector/Cargo.toml",
+    "crates/arc-detector/src/budget.rs",
+    "crates/arc-detector/src/lexer.rs",
+    "crates/arc-detector/src/lib.rs",
+    "crates/arc-detector/src/parser.rs",
+    "crates/arc-detector/src/rules.rs",
+    "crates/arc-detector/src/tests.rs",
+    "crates/arc-detector/src/types.rs",
+    "crates/arc-ipc/Cargo.toml",
+    "crates/arc-ipc/src/lib.rs",
+    "crates/arc-ipc/tests/classification.rs",
+    ".arc-verify/command-classification/implementation/"
+  ],
+  "unresolved": [
+    "Required loopback TCP monitor bind denied with errno 1 Operation not permitted; test remains mandatory and failing.",
+    "Human label/UNKNOWN explanation and empty/whitespace/input-limit outcome requirements conflict. Concrete task-1 contract implemented; Chief reconciliation remains.",
+    "Unchanged harness coverage failure remains unresolved; independent QA is assigned separately."
+  ],
+  "artifacts": [
+    ".arc-verify/command-classification/implementation/report.md",
+    ".arc-verify/command-classification/implementation/summary.json",
+    ".arc-verify/command-classification/implementation/test-matrix.md",
+    ".arc-verify/command-classification/implementation/source-inventory.json"
+  ]
+}

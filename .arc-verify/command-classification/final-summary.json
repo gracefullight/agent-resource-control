@@ -1,0 +1,255 @@
+{
+  "status": "completed task-6 assessment; final framework review and executable verification pending",
+  "actorId": "chief-director",
+  "taskId": "task-6",
+  "attempt": 1,
+  "skillsUsed": [
+    "oma-pm",
+    "oma-coordination"
+  ],
+  "baselineHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "currentHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "recordedAt": "2026-11-07T21:18:34.539074+00:00",
+  "sourceInputsMatch": true,
+  "independentReviewComplete": true,
+  "requiredCargoGatesPassed": true,
+  "remainingObligationsRecorded": true,
+  "scalarScope": "Current source-bound implementation and independent task-5 QA receipts. These fields do not certify final framework or executable verification.",
+  "independentReviewScope": "task-5 oma-qa repaired classification slice; reviewer changed only review/ and verification/",
+  "independentFrameworkFinalReviewComplete": false,
+  "finalExecutableVerificationComplete": false,
+  "fullArcAcceptance": false,
+  "sourceInputCount": 80,
+  "sourceInventory": {
+    "path": ".arc-verify/command-classification/verification/source-inventory.json",
+    "sha256": "9840f20cc8377db4a9a70eca80465ba1554589902a07d5d635bcd7f1760903b7"
+  },
+  "sourceSetSha256": "ce33322993076aa1cdeb10766f13ef28346744143aa8553fdf727fd0dc21c48f",
+  "specificationInputs": [
+    {
+      "path": ".arc-verify/command-classification/contract.md",
+      "sha256": "42cafc2b0e7424b50179a7ebc59bdc4f18df29d7657e449b729ad290366a8fe9"
+    },
+    {
+      "path": ".arc-verify/command-classification/contract.json",
+      "sha256": "f7402e685399af7715716969d011c9e9113d6910aa9c4b6c8e9f277449385573"
+    },
+    {
+      "path": ".arc-verify/command-classification/cli-requirements.md",
+      "sha256": "b8e656e373c9eb6eb1d14a55a476732c20d04ada283f719cb080e49c002ec927"
+    },
+    {
+      "path": ".arc-verify/command-classification/value-scope.md",
+      "sha256": "95b2c1f659abe595093274c8045ac9f4d4b12f5940fea5cc508bc7be2d13d5ba"
+    }
+  ],
+  "independentArtifactHashesChecked": 55,
+  "evidenceBindings": [
+    {
+      "path": ".arc-verify/command-classification/review/summary.json",
+      "sha256": "2af384ecf3be8c74afd0c7e1a91159b359d281cb32c3f83dfaef31dfaae721a4"
+    },
+    {
+      "path": ".arc-verify/command-classification/review/report.md",
+      "sha256": "90ca6a46f7e15d4fef7dddc23dc54b358542f57f276c2043cfef22a3cd93b72f"
+    },
+    {
+      "path": ".arc-verify/command-classification/review/artifact-inventory.json",
+      "sha256": "64d5be5fe4e38d87e3e7135e16b6d97b948c8b62f59a23de6fa55a5197708aa1"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/summary.json",
+      "sha256": "6fa628ad65c0457776d7b4841fe90112d949a5bd3766f16edf9e967ad00abd76"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/test-matrix.md",
+      "sha256": "0a3654ae2afca55eb42dc0423f0c92905a4f10bcc43caaa0ea0af19d2369e3b8"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-summary.json",
+      "sha256": "e43a2afb4da7e09a3301f382777ccb9ec8c641fcf85a90086211e87be84b759e"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-7-report.md",
+      "sha256": "4d4dc779e5559133f06411869e5f1801e777068c023d9e186af696a1f6107573"
+    }
+  ],
+  "checks": [
+    {
+      "path": ".arc-verify/command-classification/verification/privacy.json",
+      "sha256": "69b46b05eb9b4f163e80e47bcf8eb75a497d09186e09615ce487781c97fdd3c2",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "classification",
+        "privacy::required_loopback_endpoint_nonexecution_and_privacy",
+        "--",
+        "--exact"
+      ],
+      "startedAt": "2026-11-07T21:10:09.210157+00:00",
+      "finishedAt": "2026-11-07T21:10:11.353059+00:00",
+      "exitCode": 0,
+      "log": ".arc-verify/command-classification/verification/privacy.txt",
+      "logSha256": "ee6b8eeaa7f3eb24826ea67da385e37a6640c44852f3030586a5d464b13bbdd1"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/fmt.json",
+      "sha256": "3ae8a3b8cf7875066441e756daaccb97be0b20d5ca53eb3a8d93edca9ac7cd0a",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "startedAt": "2026-11-07T21:10:11.401001+00:00",
+      "finishedAt": "2026-11-07T21:10:11.932107+00:00",
+      "exitCode": 0,
+      "log": ".arc-verify/command-classification/verification/fmt.txt",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/clippy.json",
+      "sha256": "b834eb7d412aaaba69b403920a3c10a6e301bebcca2ffba43cd25d078a96566a",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "startedAt": "2026-11-07T21:10:11.970356+00:00",
+      "finishedAt": "2026-11-07T21:10:12.448275+00:00",
+      "exitCode": 0,
+      "log": ".arc-verify/command-classification/verification/clippy.txt",
+      "logSha256": "9d892c5778d0c975f64a671e66ea5a753502353da3addd1dfdf3825225e406a2"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/workspace-tests.json",
+      "sha256": "cd064c13ca34ac1a5a4214cd7b94a5882ed2957719d2518d1030912f90796aff",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "startedAt": "2026-11-07T21:10:12.483492+00:00",
+      "finishedAt": "2026-11-07T21:10:50.569427+00:00",
+      "exitCode": 0,
+      "log": ".arc-verify/command-classification/verification/workspace-tests.txt",
+      "logSha256": "294ee5dcd286fb431c48b2e903b6027b5036a3a5e3547ae92ff6083bbfc44452"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/harness.json",
+      "sha256": "611625ff9ed5b3039fdb894091b93a2d57167763260fe91282f2b7d3df9b8d15",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "startedAt": "2026-11-07T21:10:50.605389+00:00",
+      "finishedAt": "2026-11-07T21:12:18.085047+00:00",
+      "exitCode": 1,
+      "log": ".arc-verify/command-classification/verification/harness.txt",
+      "logSha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/work-trace.json",
+      "sha256": "f8b7ce8e8f7c5bf2f32d86877da5446462d8d03ff7626350fe0cee393c058dec",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-detector",
+        "tests::production_work_exhaustion_trace",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "startedAt": "2026-11-07T21:12:45.999978+00:00",
+      "finishedAt": "2026-11-07T21:12:46.265637+00:00",
+      "exitCode": 0,
+      "log": ".arc-verify/command-classification/verification/work-trace.txt",
+      "logSha256": "698d658bd9804c0dcb57324358207059f13e2ba23d3c08f38a11ab274cd1bd79"
+    },
+    {
+      "path": ".arc-verify/command-classification/verification/ssh-repair.json",
+      "sha256": "ecf22be5c9b04cdedaee0413be9dc9e9f258ee068d227fe36390e2322963af35",
+      "argv": [
+        "python3",
+        ".arc-verify/command-classification/verification/ssh-repair.py"
+      ],
+      "startedAt": "2026-11-07T21:12:41.396284+00:00",
+      "finishedAt": "2026-11-07T21:12:41.881234+00:00",
+      "exitCode": 0,
+      "log": ".arc-verify/command-classification/verification/ssh-repair.txt",
+      "logSha256": "920aba5a0f67b46805ed4712acd4166eae9b4699add897c57a11dc8906c9ead1"
+    }
+  ],
+  "workspaceTestsPassed": 209,
+  "tcpPrivacyVerified": true,
+  "harnessPassed": false,
+  "harnessExitCode": 1,
+  "coverageStatus": "unresolved",
+  "sshPostDestinationResolved": true,
+  "originalSshProbes": 17,
+  "independentSshControls": 15,
+  "independentSshInterfaceResults": 96,
+  "sshMismatches": 0,
+  "permanentSshCases": 99,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "sourceLineLimitPassed": true,
+  "rustSourceFiles": 65,
+  "maximumRustLines": 474,
+  "interfaceCompatibility": "Protocol 1; dispatch(request, doctor); status/doctor; same-user native authentication; existing admission, deadlines, health and shutdown preserved.",
+  "unresolvedImplementationBlockers": [],
+  "remainingObligations": [
+    "Unchanged harness coverage: missing test:coverage; exit 1 remains unresolved.",
+    "Broader detector catalog, shell dialects, scripts, wrappers and actual host/Docker locality resolution.",
+    "Scheduling and resource admission policy beyond existing transport admission.",
+    "Managed-execution, permits, cancellation and runtime enforcement.",
+    "Desktop integration and acceptance.",
+    "Native Windows implementation and acceptance.",
+    "Independent final framework review and immutable final executable verification."
+  ],
+  "frameworkDependencyReviews": {
+    "source": "Supplied task-1 through task-5 dependency review payloads; all passed. Final task-6/mission review remains downstream.",
+    "taskIds": [
+      "task-1",
+      "task-2",
+      "task-3",
+      "task-4",
+      "task-5"
+    ]
+  },
+  "checksExecutedThisTask": [
+    "git rev-parse HEAD",
+    "git diff --stat -- Cargo.toml Cargo.lock crates .arc-verify/command-classification",
+    "git status --short -- .arc-verify/command-classification/final-report.md .arc-verify/command-classification/final-summary.json",
+    "python3 inline read/hash/receipt/probe validation",
+    "git show HEAD:crates/arc-storage/migrations/0001_phase0.sql",
+    "git show HEAD:scripts/harness/validate.sh"
+  ],
+  "validationAttempts": [
+    "Initial raw implementation/QA inventory equality assertion failed because QA adds mode/tracked fields; normalized common path/hash/byte/line comparison passed.",
+    "Second original/repaired expected-object equality assertion failed because repaired probes add reason assertions; all original expected fields and synthetic inputs match, and all new four-field assertions pass.",
+    "Two final case-sensitive content checks failed on capitalized obligation names; managed-execution and desktop report wording corrected and rechecked successfully."
+  ],
+  "cargoAndHarnessRerunThisTask": false,
+  "checkReuseReason": "No source/specification changed; current final inputs match fresh independent post-repair receipts. Immutable final executable verification remains downstream.",
+  "codeIntelligence": {
+    "provider": "Serena",
+    "mode": "unavailable",
+    "tools": [],
+    "fallback": "Known-path reads, artifact-provided inventory and scoped Git diff; no native project source-content search."
+  },
+  "changedPaths": [
+    ".arc-verify/command-classification/final-report.md",
+    ".arc-verify/command-classification/final-summary.json"
+  ],
+  "report": "final-report.md",
+  "finalReportSha256": "78914cd645d81fdeed1fe4104a787df423ea8ade40a1c51fe0c4eb464fc75691"
+}

@@ -1,0 +1,9 @@
+   Compiling arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.47s
+     Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)
+
+running 1 test
+test help_usage_privacy_and_absent_daemon ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.61s
+

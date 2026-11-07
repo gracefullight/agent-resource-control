@@ -1,0 +1,21 @@
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-detector)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.08s
+     Running unittests src/lib.rs (target/debug/deps/arc_detector-d94ead05b83a4077)
+
+running 6 tests
+test tests::work_counter_refuses_before_operations_and_never_wraps ... ok
+test tests::syntax_quotes_aggregation_and_ssh_negative_matrix ... ok
+work-exhaustion: bytes=12033 stats=AnalysisStats { work: 60163, tokens: 6, invocations: 2, max_depth: 1 }
+test tests::production_work_exhaustion_trace ... ok
+test tests::malformed_payloads_are_not_analysis_requests ... ok
+test tests::delivered_contract_matrix ... ok
+test tests::input_unicode_tokens_invocations_and_depth_boundaries ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arc_detector
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

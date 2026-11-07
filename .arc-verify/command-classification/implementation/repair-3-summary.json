@@ -1,0 +1,321 @@
+{
+  "status": "partial",
+  "taskId": "task-4",
+  "attempt": 3,
+  "skillsUsed": [
+    "oma-backend"
+  ],
+  "baselineHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "head": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "sourceInputsMatch": true,
+  "sourceChangesSincePreviousAttempt": [
+    "crates/arc-daemon/tests/classification.rs",
+    "crates/arc-detector/src/rules.rs",
+    "crates/arc-detector/src/tests.rs",
+    "crates/arc-ipc/tests/classification.rs"
+  ],
+  "fmtPassed": true,
+  "clippyPassed": true,
+  "workspaceTestsPassed": false,
+  "requiredCargoGatesPassed": false,
+  "fullSuite": {
+    "passed": 204,
+    "failed": 1,
+    "ignored": 0
+  },
+  "sshRepairVerified": true,
+  "interfaceChanged": false,
+  "inputArtifactsChanged": false,
+  "independentReviewComplete": false,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "sourceLineLimitPassed": true,
+  "rustSourceFiles": 63,
+  "maximumRustLines": 474,
+  "harness": {
+    "command": "./scripts/harness/validate.sh",
+    "exitCode": 1,
+    "coverageStatus": "unresolved"
+  },
+  "checks": {
+    "ssh-green": {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-detector",
+        "syntax_quotes_aggregation_and_ssh_negative_matrix",
+        "--",
+        "--exact",
+        "tests::syntax_quotes_aggregation_and_ssh_negative_matrix"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.9973619160009548,
+      "outputSha256": "1998afbf261977180d1450cd5ad3a641ad5384d297d3b55e7eafa2d79757e554",
+      "receipt": "repair-3-ssh-green.json",
+      "log": "repair-3-ssh-green.txt",
+      "sourcesMatchCurrent": true
+    },
+    "focused": {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-detector",
+        "-p",
+        "arc-ipc",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "classification"
+      ],
+      "exitCode": 101,
+      "elapsedSeconds": 5.208076000009896,
+      "outputSha256": "b7137c49cc136949b3c1af8868f8fdb040af2c9c3d20662b7403c6989e5bc0bc",
+      "receipt": "repair-3-focused.json",
+      "log": "repair-3-focused.txt",
+      "sourcesMatchCurrent": true
+    },
+    "final-fmt": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.2659846250026021,
+      "outputSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "receipt": "repair-3-final-fmt.json",
+      "log": "repair-3-final-fmt.txt",
+      "sourcesMatchCurrent": true
+    },
+    "final-clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 1.481012832984561,
+      "outputSha256": "97ec78b4c8de2a9f46160c5b9d25678dce4ecde51510d55f972a9b629707863b",
+      "receipt": "repair-3-final-clippy.json",
+      "log": "repair-3-final-clippy.txt",
+      "sourcesMatchCurrent": true
+    },
+    "final-workspace": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 101,
+      "elapsedSeconds": 34.876072917017154,
+      "outputSha256": "b0b41aaa2459ac78ac6faadebc15086c37e69181405416e8f74263740c20c393",
+      "receipt": "repair-3-final-workspace.json",
+      "log": "repair-3-final-workspace.txt",
+      "sourcesMatchCurrent": true
+    },
+    "all-tests": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--no-fail-fast"
+      ],
+      "exitCode": 101,
+      "elapsedSeconds": 39.63190083298832,
+      "outputSha256": "43e087cbc8525b79cb66f2da173864821fddc8ce8c7e3794da25ef8ad7e6cb01",
+      "receipt": "repair-3-all-tests.json",
+      "log": "repair-3-all-tests.txt",
+      "sourcesMatchCurrent": true
+    },
+    "harness": {
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "elapsedSeconds": 86.22750083298888,
+      "outputSha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0",
+      "receipt": "repair-3-harness.json",
+      "log": "repair-3-harness.txt",
+      "sourcesMatchCurrent": true
+    }
+  },
+  "observations": {
+    "classification-accounting": {
+      "path": "repair-3-observations/classification-accounting.json",
+      "sha256": "b12568a67cfcc98a2465b55e5baa6a5ff5c78cf2604a23eaf1d5d3f84ddfe499",
+      "value": {
+        "accept_error_os_code": null,
+        "accounted": true,
+        "connection_closed": true,
+        "deadline_met": true,
+        "event": "ipc_shutdown",
+        "gauges_zero": true,
+        "handlers_reaped": true,
+        "handlers_remaining": 0,
+        "limits": {
+          "connections": 64,
+          "db_busy_timeout_ms": 100,
+          "db_executing": 1,
+          "db_execution_timeout_ms": 1000,
+          "db_queue": 8,
+          "db_response_timeout_ms": 1500,
+          "frame_timeout_ms": 2000,
+          "header_timeout_ms": 1000,
+          "max_frame_bytes": 1048576,
+          "requests": 16,
+          "shutdown_timeout_ms": 3500,
+          "write_timeout_ms": 500
+        },
+        "metrics": {
+          "accepted": 116,
+          "caps": {
+            "connections": 64,
+            "db_executing": 1,
+            "db_queue": 8,
+            "requests": 16,
+            "supervisor": 1
+          },
+          "connection_rejected": 0,
+          "connections": {
+            "current": 0,
+            "high_water": 28
+          },
+          "db_executing": {
+            "current": 0,
+            "high_water": 0
+          },
+          "db_outstanding": {
+            "current": 0,
+            "high_water": 0
+          },
+          "db_queued": {
+            "current": 0,
+            "high_water": 0
+          },
+          "db_rejected": 0,
+          "db_timeouts": 0,
+          "frame_timeouts": 0,
+          "frames_completed": 108,
+          "handlers_reaped": 116,
+          "handlers_spawned": 116,
+          "header_timeouts": 0,
+          "rejection_work": {
+            "current": 0,
+            "high_water": 0
+          },
+          "request_body_bytes": {
+            "current": 0,
+            "high_water": 213484
+          },
+          "request_rejected": 0,
+          "requests": {
+            "current": 0,
+            "high_water": 15
+          },
+          "response_bytes": {
+            "current": 0,
+            "high_water": 2097152
+          },
+          "tracked_tasks": {
+            "current": 0,
+            "high_water": 28
+          },
+          "worker_joined": 1,
+          "worker_started": 1,
+          "write_timeouts": 0
+        },
+        "profiles": {
+          "ipc": "default"
+        },
+        "reason": "SIGTERM",
+        "shutdown_elapsed_ms": 2,
+        "socket_removed": true,
+        "supervisor": {
+          "accept_errors": 0,
+          "accept_retries": 0,
+          "backoff_high_water_ms": 0,
+          "consecutive_errors": 0,
+          "consecutive_errors_high_water": 0,
+          "fatal_errors": 0,
+          "other_errors": 0,
+          "resource_pressure_errors": 0,
+          "retry_tasks": 0,
+          "shutdown_during_backoff": false,
+          "supervisors": {
+            "current": 1,
+            "high_water": 1
+          },
+          "transient_errors": 0
+        },
+        "worker_joined": true
+      }
+    },
+    "classification-privacy": {
+      "path": "repair-3-observations/classification-privacy.json",
+      "sha256": "799368ca9314eabad2359fc9fd10a053555090f109314ec7605ec66c23c4d746",
+      "value": {
+        "canariesPersisted": 0,
+        "cases": 12,
+        "endpointContacts": 0,
+        "liveSqliteAndWalChecked": true,
+        "substitutionMarkers": 0,
+        "toolTrapsStarted": 0
+      }
+    },
+    "classification-saturation": {
+      "path": "repair-3-observations/classification-saturation.json",
+      "sha256": "a8d47c5886936ac989dcae7dd9af2f559b1ab9787c2f44f420e3a96ffd3a8caa",
+      "value": {
+        "classificationLoadContinued": true,
+        "classificationsAtRecovery": 31,
+        "classificationsBeforeRecovery": 16,
+        "completed": 96,
+        "malformedRecoveryUs": 10998,
+        "maximumHealthUs": 7598,
+        "sameConnectionRecovery": true,
+        "signalToExitUs": 14438
+      }
+    }
+  },
+  "blockers": [
+    {
+      "path": "crates/arc-daemon/tests/classification/privacy.rs:95",
+      "description": "Required TCP loopback monitor bind is denied with errno 1; no permitted escalation or alternate execution environment is supplied."
+    },
+    {
+      "paths": [
+        ".arc-verify/command-classification/contract.md:115",
+        ".arc-verify/command-classification/contract.md:117",
+        ".arc-verify/command-classification/cli-requirements.md:46",
+        ".arc-verify/command-classification/cli-requirements.md:49",
+        ".arc-verify/command-classification/cli-requirements.md:69",
+        ".arc-verify/command-classification/cli-requirements.md:80"
+      ],
+      "description": "Chief disposition and input-owner synchronization remain required for contradictory empty/oversized input and human output requirements; no disposition was supplied."
+    }
+  ],
+  "remainingObligations": [
+    "permitted TCP privacy execution",
+    "Chief interface disposition and input-owner synchronization",
+    "independent oma-qa review",
+    "harness coverage",
+    "broader detector catalog",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows"
+  ],
+  "reports": [
+    "repair-3-report.md",
+    "repair-3-static-inspection.md",
+    "repair-3-source-inventory.json"
+  ]
+}

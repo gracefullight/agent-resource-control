@@ -1,0 +1,346 @@
+{
+  "status": "partial",
+  "sourceInputsMatch": true,
+  "artifacts": [
+    {
+      "path": ".arc-verify/command-classification/implementation/__pycache__/repair-4-record.cpython-314.pyc",
+      "bytes": 5528,
+      "sha256": "1ae37056cf0f42d0b13ee612ec55bd24738c938f42fcb5a6e2c65847203096a4"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-claim.json",
+      "bytes": 1204,
+      "sha256": "c8b6496a0138818539cdec329956e1a8c9134a9fb53b9ce06987a3d27547200e"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-compatibility.json",
+      "bytes": 18090,
+      "sha256": "451baa3bd4875602382b1f6c919ddc871812f31858256d2b93e595146e2a377a"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-compatibility.txt",
+      "bytes": 6906,
+      "sha256": "0334c91269bccd496613922dd7b16143f1337bda72589af0bd8792498c115b07"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-bounds.json",
+      "bytes": 18133,
+      "sha256": "daf25f12417a0c1e4d94a8490b2c3247ff23d60b5ad9986af2aebe4d25d83582"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-bounds.txt",
+      "bytes": 352,
+      "sha256": "89003b008eef4c28f2a04d43934250ec5dd864f644692cff64b6f49c9b083cda"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-malformed.json",
+      "bytes": 18131,
+      "sha256": "adfa057e6c8350dcd3b0c1f637b62fb0676800c445fd3c78f8f2c32431e1ea57"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-malformed.txt",
+      "bytes": 349,
+      "sha256": "04f221b25c48ebc68c0634a7c0f8d3a2d227f25620b8bc6baa2be17ab8c55928"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-matrix-corrected.json",
+      "bytes": 18116,
+      "sha256": "9ac7e38c693f70994d6b770c55bb55c446ea8cac79f594ac1662ef6242dd5c2f"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-matrix-corrected.txt",
+      "bytes": 540,
+      "sha256": "dfab07b89b7fe48e6cd0bbf1be03aa7877600750cd88741291e853813055a9dd"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-matrix.json",
+      "bytes": 18118,
+      "sha256": "a68a86ce4ee0f70e6e3428eb91ab9a66966fa8f873b8457aac9d2986d9c8f92e"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-matrix.txt",
+      "bytes": 895,
+      "sha256": "59fb2d094a62aef8b615ed8385986c3e8307b77a3a2ca0366aa7e83887ee38f1"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-saturation.json",
+      "bytes": 18153,
+      "sha256": "ca5d0bd55fd9da5fee1cf6ef6cf9c2ec61c318b9257c23507d0bd18e930184c7"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-saturation.txt",
+      "bytes": 371,
+      "sha256": "7eb9eb11866031874d7896c3c7248bea3bffe40544643defc7ceb767a3a511f9"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-ssh.json",
+      "bytes": 18129,
+      "sha256": "d969c0be9c6794a4cfc29b1183588d6f25e63ade962e9fac44efc45dd8da5f31"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-ssh.txt",
+      "bytes": 347,
+      "sha256": "d3d23568b70cea35d7b8ed69def90b260765eca1cc8bf9e64d06009ae8d92327"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-unix-privacy.json",
+      "bytes": 18144,
+      "sha256": "a836ee9bd7cda393a798b05f5e44dc289ee8fc8696030d3d5a3808997b265268"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-daemon-unix-privacy.txt",
+      "bytes": 362,
+      "sha256": "e4806980a069ddbc669fde734d46f4288181e3dd319b0e8815c210cdd10cd793"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-diff-check.json",
+      "bytes": 17987,
+      "sha256": "e36aad1aff690317a823a277ed1c6ebc9b4d9556db48272171e5a1728ac580c2"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-diff-check.txt",
+      "bytes": 33,
+      "sha256": "c8d82f077d9ef7dc8a1bfd79fff5e463a1c515ef70b83e67bb84255abdcac546"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-final-clippy.json",
+      "bytes": 18050,
+      "sha256": "ef7a6d522daf6c7899c507929e87712c944210fdf00d864adbc1c1130a6a0efb"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-final-clippy.txt",
+      "bytes": 888,
+      "sha256": "3aefeeb66ff5465304d4f93837fbbda814895dbe0be39883a425f83cec9a020e"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-final-fmt.json",
+      "bytes": 18009,
+      "sha256": "e01c11f7733e8e1793a51813314327938b669d443f57e23699205fc5e98b75db"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-final-fmt.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-final-unit-ipc-cli.json",
+      "bytes": 18051,
+      "sha256": "a270a737fb466e8acd87abab22f57424c1319b5c96ce1c0832681d9eaf741079"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-final-unit-ipc-cli.txt",
+      "bytes": 3581,
+      "sha256": "64a5fc42e5e2e84954589565cf94b0dfb72f0721c965edc812f3ae4949b0a91c"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-finalize.py",
+      "bytes": 7561,
+      "sha256": "9a232934d931d82c58554ecb6d91b54601819eddd5f7ce81ad3c4101389ce3f4"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-format-matrix.json",
+      "bytes": 17985,
+      "sha256": "3007f93cd626e22b65409128fcbaa5a20b306e53c63440d0df3699f53fc83a65"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-format-matrix.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-format.json",
+      "bytes": 17985,
+      "sha256": "ea038889f540246b23d3b6fa18f1a92740af5fb67cb31e37e8761df4d6676e35"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-format.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-harness.json",
+      "bytes": 17981,
+      "sha256": "33d4daea291184ae91254d4e2df69201fe44f4a1eda1d9f5959a3e65d952793d"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-harness.txt",
+      "bytes": 1547,
+      "sha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-help-green.json",
+      "bytes": 18101,
+      "sha256": "e74d8ffc185e3792013343aed1765965dd601b9a128e033c04b70433d7831761"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-help-green.txt",
+      "bytes": 523,
+      "sha256": "638a74464d34f5fcc4a2f6a52399a51c4de80dfaeb95cfa0670733f95b097063"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-help-red.json",
+      "bytes": 18103,
+      "sha256": "296a95c8729219a83e9c082ac309c8cc6c64dd433e62393f4ecd0ec5a5f0f55a"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-help-red.txt",
+      "bytes": 932,
+      "sha256": "8b88baa585f67c2d6b7c9106b476858068a937472d126d8440bec26cbd445733"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-inventory.py",
+      "bytes": 4611,
+      "sha256": "ab0359b8556097a8ea5a58586a5fa312f08cb770220d3bc494269e10f52a9fce"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-preparation.json",
+      "bytes": 36809,
+      "sha256": "37718ef3bcf6bc12fbf06af7200f1be9b373972de059d964eb3dd143025b7b33"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-clippy.json",
+      "bytes": 18050,
+      "sha256": "f0709db5c3a073268a608933713fd1cb52ec4b99d7c8f77b011f11dde7ed250a"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-clippy.txt",
+      "bytes": 688,
+      "sha256": "ae35d6ff5effb016ba418232963cf5a335dab6617cda2ac4596fec3ab1b985f4"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-compatibility.json",
+      "bytes": 18088,
+      "sha256": "71598eef6033a21cf4d614719e5b212c7f827f818b48eecd9d803303c749de99"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-compatibility.txt",
+      "bytes": 6906,
+      "sha256": "03ebb13b3971892cbe9ec3dadd5466af388ecc5b0a2ac055f924ea626f21ca1f"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-bounds.json",
+      "bytes": 18134,
+      "sha256": "97a6eb30a7dd051d8df75c181e5dbbc34d16ca818cef96397f539ee7700fe8e2"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-bounds.txt",
+      "bytes": 352,
+      "sha256": "32239e59499f48b2f8d4db15c5e2f34e3e356e5fa6a201bf9421ae34070dd657"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-malformed.json",
+      "bytes": 18131,
+      "sha256": "2e976eb1ce945889b3a483211b945b23b11521ff46ade9f3bd590cfae675349e"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-malformed.txt",
+      "bytes": 349,
+      "sha256": "d6d1070a537447f59fa988285ddfc20199e3f16d1712eb23ffad18cc32228d3d"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-matrix.json",
+      "bytes": 18116,
+      "sha256": "6296d037ec1f1483d3d09a32c177f7a4e6c2e08d1334f2892262525f09aa6887"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-matrix.txt",
+      "bytes": 540,
+      "sha256": "da925af052426c8c086ad730968d46e2502c0bc9b25fe25675c314f68b11264c"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-saturation.json",
+      "bytes": 18153,
+      "sha256": "9168a533e9d3fef152fba8b0ed45ae158baec76559098e05b69036be4e680c91"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-saturation.txt",
+      "bytes": 371,
+      "sha256": "1e5602395fd64c5ef83945a7f03163ac286246a36887ee2d105331fa47f60c1e"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-ssh.json",
+      "bytes": 18129,
+      "sha256": "67945ea3267631f928405efc1265b1ea6ca27d5a45ffee4ccb9d5c7dba9d414e"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-ssh.txt",
+      "bytes": 347,
+      "sha256": "731650261aa2cf6bcf34699e30aaff883443bcfbd995febb0f8d8d4a3e5f7176"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-unix-privacy.json",
+      "bytes": 18144,
+      "sha256": "f8e882d0d73c138432bab0ab2a5b86b7367db3937b02d13a6d13e17201b53807"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-daemon-unix-privacy.txt",
+      "bytes": 362,
+      "sha256": "70c493f439b989e8342cbaa4838a0b8b3a47cae9c76feef43bb0ae0fbb7a7a6d"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-fmt.json",
+      "bytes": 18010,
+      "sha256": "c7088eb1af827013bc7d7b52866560d3b047d9d3db26de03871fa8f1911b2767"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-fmt.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-unit-ipc-cli.json",
+      "bytes": 18051,
+      "sha256": "817e4c9dfa4917668c2a9ccc449b6d7b122778faee889994e999da55d97d6055"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-reconciled-unit-ipc-cli.txt",
+      "bytes": 3991,
+      "sha256": "f6826013853c097d840f915e7eaa75c795148a92aba7fa8b777bdcefd39eae2d"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-record.py",
+      "bytes": 2712,
+      "sha256": "be356183367e2476445b1b687c369dcedd5aadbc73c7b0fec24345427ce564ef"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-report.md",
+      "bytes": 10640,
+      "sha256": "a51c10481bda7696a8dc1e4d33eb56598522314955adc3310009b07bc6e57030"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-source-inventory.json",
+      "bytes": 16553,
+      "sha256": "03c5a5394c8e47eea6748fac80bc72f5911d23d4557268df5e7b5c908746ca06"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-static-inspection.md",
+      "bytes": 6916,
+      "sha256": "592b6058fe36f8a77f041df9c0a2f4c9518382e2b93d09809d4c8223636dcca6"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-summary.json",
+      "bytes": 233367,
+      "sha256": "88bf0b3a65aa6b61ae4ae9390e774bc25cc3d71f1c7f58a99111dac15978a750"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-tcp-prerequisite.json",
+      "bytes": 611,
+      "sha256": "e33abe864de70f062d19c3ab903634f6d9116e3cfcd4e4760705b2f9fe067a7a"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-test-matrix.md",
+      "bytes": 8325,
+      "sha256": "982bc938f89463349e9730e3d95ef8dc287eaa674f9f65e6e0cc6d04154718a4"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-unit-ipc-cli.json",
+      "bytes": 18051,
+      "sha256": "7987dd1fd858baca542137fa7767296b946144e2e815bc4f6462b7c7269fc068"
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-4-unit-ipc-cli.txt",
+      "bytes": 4191,
+      "sha256": "7c13700f72f33988dc63860491ae4aeb290de2e7ce1bc3cf5945182ea24cfe6c"
+    }
+  ]
+}

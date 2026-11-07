@@ -92,9 +92,20 @@ pub(crate) async fn handle_connection<D, F>(
                 continue;
             }
         };
-        // Neither the body nor payload enters the worker or survives a DB await.
+        // Classification consumes the payload synchronously under request admission.
+        // Version rejection in dispatch precedes all typed payload decoding.
+        let classified = if request.operation == arc_ipc::OPERATION_JOB_CLASSIFY {
+            Some(arc_ipc::dispatch(&request, || {
+                unreachable!("classification never uses SQLite")
+            }))
+        } else {
+            None
+        };
+        // Neither the body nor payload enters the worker or survives an await.
         request.payload = serde_json::Value::Null;
-        let response = if request.protocol_version == PROTOCOL_VERSION
+        let response = if let Some(response) = classified {
+            response
+        } else if request.protocol_version == PROTOCOL_VERSION
             && request.operation == OPERATION_DOCTOR
         {
             let deadline = std::time::Instant::now() + limits.db_response_timeout;

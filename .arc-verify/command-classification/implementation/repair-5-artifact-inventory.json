@@ -1,0 +1,119 @@
+{
+  "artifacts": [
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-claim.json",
+      "sha256": "b2e5bc41833ea0acfcea4376d6c1d8e77f31ff6d3e225dd3d9746a77839663be",
+      "bytes": 2567,
+      "lines": 38
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-clippy.json",
+      "sha256": "8933578e4256a3c86a6a86452e9db5f24d435d0a75013dca45150d2811f86173",
+      "bytes": 18051,
+      "lines": 179
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-clippy.txt",
+      "sha256": "2b34696728dc82b03cbf6311d7e3a6a41658bbde097834c3010a78bc82842c1a",
+      "bytes": 72,
+      "lines": 1
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-daemon-matrix.json",
+      "sha256": "aa2d254ab2d034b6caf41c1dae7128aa108829f8a393d8b0ae5139b59c015f30",
+      "bytes": 18169,
+      "lines": 181
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-daemon-matrix.txt",
+      "sha256": "1bae1c84aecb87593fc75a37a8313879c5aefc8714332e0db2326fb4dc7b4d5f",
+      "bytes": 334,
+      "lines": 8
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-finalize.py",
+      "sha256": "7b6425ee63e4f19b37974db6158fa62d956a24c1b518bd5b7d3b15058145196f",
+      "bytes": 7568,
+      "lines": 132
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-fmt.json",
+      "sha256": "4074a3066779d9dfbda0ff059f2bd592ba116b543467c5405c0ce6d47fa18f4d",
+      "bytes": 17983,
+      "lines": 177
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-fmt.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "lines": 0
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-harness.json",
+      "sha256": "27bc93ec53c914c4f100527d6f5c9e92d9fb332647a8ac398613fc70380f7c9e",
+      "bytes": 18026,
+      "lines": 175
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-harness.txt",
+      "sha256": "0a18adb0eb4b1c17864cc5a675943e7c5271038a97f6116b4ee50bfc63a559a0",
+      "bytes": 1547,
+      "lines": 21
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-preparation.json",
+      "sha256": "bf97ed94376cf8ece4aed42ef5fea572d4dfe308c3ce1da293dfab632746faf2",
+      "bytes": 65285,
+      "lines": 1530
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-record.py",
+      "sha256": "436af43ce6c5c574e22cd76b68f9527ac80b29558d12b1e701eb002531e9950c",
+      "bytes": 2851,
+      "lines": 66
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-report.md",
+      "sha256": "88f587139107a63f781898eaaa9da96e7d01a5b972d0a8b52ba010fd217c5f41",
+      "bytes": 8265,
+      "lines": 126
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-source-inventory.json",
+      "sha256": "9b58840855cf891954ab8a73f3bb971e590a499f5212234a5026443d4dba96e6",
+      "bytes": 19763,
+      "lines": 607
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-static-inspection.md",
+      "sha256": "eda493eaa0b65ae67b821e312f8ea34d69fb52af4366c99f1db9e9635d964822",
+      "bytes": 6057,
+      "lines": 82
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-summary.json",
+      "sha256": "85c4b386d07e2e828f3d3aa52c0a9911bb6c897ac32f60efd641c93a4717c8b7",
+      "bytes": 7194,
+      "lines": 236
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-test-matrix.md",
+      "sha256": "66a177c7caa8fc3d7a93135b4a361c0c84586eb17edd144497e802a94ce17142",
+      "bytes": 8393,
+      "lines": 102
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-unit-ipc-cli.json",
+      "sha256": "8f163a77c7495a1cf4716706ee8dd5b890af45dcffae32f81e79f52b8f6eac91",
+      "bytes": 18047,
+      "lines": 180
+    },
+    {
+      "path": ".arc-verify/command-classification/implementation/repair-5-unit-ipc-cli.txt",
+      "sha256": "903bcb5cdff699c2b5ea0764f99dc2cbf5b47cac61bc1d773526493926169259",
+      "bytes": 3581,
+      "lines": 79
+    }
+  ],
+  "excludesSelf": true
+}

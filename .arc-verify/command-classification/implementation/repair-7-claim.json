@@ -1,0 +1,39 @@
+{
+  "status": "completed",
+  "taskId": "task-4",
+  "attempt": 7,
+  "changedFiles": [
+    "crates/arc-daemon/tests/classification.rs",
+    "crates/arc-detector/src/rules.rs",
+    "crates/arc-detector/src/tests.rs",
+    "crates/arc-detector/tests/support/contract.rs",
+    "crates/arc-detector/tests/support/ssh.rs",
+    "crates/arc-ipc/tests/classification.rs"
+  ],
+  "unresolved": [
+    "independent QA on repaired sources",
+    "final mission verification",
+    "harness coverage",
+    "remaining detector coverage",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows"
+  ],
+  "artifacts": [
+    ".arc-verify/command-classification/implementation/repair-7-report.md",
+    ".arc-verify/command-classification/implementation/repair-7-summary.json",
+    ".arc-verify/command-classification/implementation/repair-7-source-inventory.json",
+    ".arc-verify/command-classification/implementation/repair-7-regression-mapping.json",
+    ".agents/results/result-backend-task-4-attempt-7-01a1b7d0-3c39-7e02-b83c-eeafc7dc02c4.md"
+  ],
+  "independentReviewComplete": false,
+  "requiredCargoGatesPassed": true,
+  "harnessExitCode": 1,
+  "harnessCoverageStatus": "unresolved",
+  "identity": {
+    "sessionId": "01a1b7d0-3c39-7e02-b83c-eeafc7dc02c4",
+    "runId": null,
+    "note": "No injected run ID or claim path supplied; no mission state mutated."
+  }
+}

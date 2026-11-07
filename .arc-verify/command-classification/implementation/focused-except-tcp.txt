@@ -1,0 +1,35 @@
+   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-daemon)
+   Compiling arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/210bd1e4-14ea-4741-ad52-42b6dc1ebe58/workspace/crates/arc-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.62s
+     Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)
+
+running 4 tests
+test help_usage_privacy_and_absent_daemon ... ok
+test literal_payloads_and_options_are_preserved_in_one_request ... ok
+test peer_failures_are_typed_correlated_and_never_reflected ... ok
+test timeout_is_bounded_with_no_retry_or_partial_result ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.09s
+
+     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)
+
+running 5 tests
+bounded-runtime-classification-privacy: {"canariesPersisted":0,"cases":12,"endpointContacts":0,"liveSqliteAndWalChecked":true,"substitutionMarkers":0,"toolTrapsStarted":0}
+test privacy::unix_endpoint_traps_substitutions_and_live_wal_never_receive_input ... ok
+test invalid_payloads_version_priority_and_same_connection_recovery ... ok
+bounded-runtime-classification-saturation: {"completed":66,"maximumHealthUs":6014,"signalToExitUs":6091}
+bounded-runtime-classification-accounting: {"accept_error_os_code":null,"accounted":true,"connection_closed":true,"deadline_met":true,"event":"ipc_shutdown","gauges_zero":true,"handlers_reaped":true,"handlers_remaining":0,"limits":{"connections":64,"db_busy_timeout_ms":100,"db_executing":1,"db_execution_timeout_ms":1000,"db_queue":8,"db_response_timeout_ms":1500,"frame_timeout_ms":2000,"header_timeout_ms":1000,"max_frame_bytes":1048576,"requests":16,"shutdown_timeout_ms":3500,"write_timeout_ms":500},"metrics":{"accepted":87,"caps":{"connections":64,"db_executing":1,"db_queue":8,"requests":16,"supervisor":1},"connection_rejected":0,"connections":{"current":0,"high_water":28},"db_executing":{"current":0,"high_water":0},"db_outstanding":{"current":0,"high_water":0},"db_queued":{"current":0,"high_water":0},"db_rejected":0,"db_timeouts":0,"frame_timeouts":0,"frames_completed":76,"handlers_reaped":87,"handlers_spawned":87,"header_timeouts":0,"rejection_work":{"current":0,"high_water":0},"request_body_bytes":{"current":0,"high_water":222214},"request_rejected":0,"requests":{"current":0,"high_water":16},"response_bytes":{"current":0,"high_water":1048576},"tracked_tasks":{"current":0,"high_water":28},"worker_joined":1,"worker_started":1,"write_timeouts":0},"profiles":{"ipc":"default"},"reason":"SIGTERM","shutdown_elapsed_ms":0,"socket_removed":true,"supervisor":{"accept_errors":0,"accept_retries":0,"backoff_high_water_ms":0,"consecutive_errors":0,"consecutive_errors_high_water":0,"fatal_errors":0,"other_errors":0,"resource_pressure_errors":0,"retry_tasks":0,"shutdown_during_backoff":false,"supervisors":{"current":1,"high_water":1},"transient_errors":0},"worker_joined":true}
+test saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown ... ok
+test boundaries::detector_budgets_are_preserved_through_daemon_and_cli ... ok
+test actual_daemon_and_cli_delivered_contract_matrix ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 1.98s
+
+     Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)
+
+running 2 tests
+test classification_contract_dispatch_never_calls_doctor ... ok
+test malformed_payload_version_priority_and_legacy_envelopes ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

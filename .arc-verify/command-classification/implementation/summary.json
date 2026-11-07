@@ -1,0 +1,170 @@
+{
+  "status": "partial",
+  "taskId": "task-4",
+  "actor": "backend",
+  "skillUsed": [
+    "oma-backend"
+  ],
+  "baselineHead": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "head": "05f0812d0841485bbe07b3f1f8f6fde3861a1d55",
+  "implementationPresent": true,
+  "finalSourceInputsMatch": true,
+  "fmtPassed": true,
+  "clippyPassed": true,
+  "workspaceTestsPassed": false,
+  "requiredCargoGatesPassed": false,
+  "fullSuite": {
+    "passed": 202,
+    "failed": 1,
+    "ignored": 0
+  },
+  "compatibilityRegressionSuitesPassed": true,
+  "allNonexecutionEvidenceComplete": false,
+  "migrationUnchanged": true,
+  "harnessUnchanged": true,
+  "sourceLineLimitPassed": true,
+  "rustSourceFiles": 63,
+  "maximumRustLines": 474,
+  "harness": {
+    "command": "./scripts/harness/validate.sh",
+    "exitCode": 1,
+    "coverageStatus": "unresolved"
+  },
+  "checks": {
+    "verified-fmt": {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.3081984580203425,
+      "sourceInputsMatch": true,
+      "receipt": "verified-fmt.json",
+      "log": "verified-fmt.txt"
+    },
+    "verified-clippy": {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.42816316700191237,
+      "sourceInputsMatch": true,
+      "receipt": "verified-clippy.json",
+      "log": "verified-clippy.txt"
+    },
+    "verified-all-tests": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace",
+        "--no-fail-fast"
+      ],
+      "exitCode": 101,
+      "elapsedSeconds": 34.171221500000684,
+      "sourceInputsMatch": true,
+      "receipt": "verified-all-tests.json",
+      "log": "verified-all-tests.txt"
+    },
+    "verified-workspace-tests": {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exitCode": 101,
+      "elapsedSeconds": 29.431396875006612,
+      "sourceInputsMatch": true,
+      "receipt": "verified-workspace-tests.json",
+      "log": "verified-workspace-tests.txt"
+    },
+    "final-harness": {
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exitCode": 1,
+      "elapsedSeconds": 85.54159229199286,
+      "sourceInputsMatch": true,
+      "receipt": "final-harness.json",
+      "log": "final-harness.txt"
+    }
+  },
+  "changedProductPaths": [
+    "Cargo.lock",
+    "Cargo.toml",
+    "crates/arc-cli/Cargo.toml",
+    "crates/arc-cli/src/classify.rs",
+    "crates/arc-cli/src/main.rs",
+    "crates/arc-cli/tests/classification.rs",
+    "crates/arc-daemon/src/connection.rs",
+    "crates/arc-daemon/tests/classification.rs",
+    "crates/arc-daemon/tests/classification/boundaries.rs",
+    "crates/arc-daemon/tests/classification/privacy.rs",
+    "crates/arc-daemon/tests/classification/saturation.rs",
+    "crates/arc-detector/Cargo.toml",
+    "crates/arc-detector/src/budget.rs",
+    "crates/arc-detector/src/lexer.rs",
+    "crates/arc-detector/src/lib.rs",
+    "crates/arc-detector/src/parser.rs",
+    "crates/arc-detector/src/rules.rs",
+    "crates/arc-detector/src/tests.rs",
+    "crates/arc-detector/src/types.rs",
+    "crates/arc-ipc/Cargo.toml",
+    "crates/arc-ipc/src/lib.rs",
+    "crates/arc-ipc/tests/classification.rs"
+  ],
+  "preservedInputs": {
+    ".arc-verify/command-classification/cli-requirements.md": "bb5e24df257d28f1e003d5817bab61a8e447b4db79b02f73c332d125de1428bd",
+    ".arc-verify/command-classification/contract.json": "b31bba98ecd35f30fa9cc1ed5526cb12a44bd862c297d93a1acfc920f7ad5996",
+    ".arc-verify/command-classification/contract.md": "56793ed3453ded17f1bb5681c8da5d4bb2ac7201edfbf17b6c2944781a8241e2"
+  },
+  "workTrace": {
+    "generator": "crates/arc-detector/src/tests.rs::production_work_exhaustion_trace",
+    "commandBytes": 12033,
+    "work": 60203,
+    "tokens": 6,
+    "invocations": 2,
+    "maxDepth": 1,
+    "reason": "WORK_LIMIT",
+    "detectorSourceInputsMatch": true
+  },
+  "blockers": [
+    {
+      "path": "crates/arc-daemon/tests/classification/privacy.rs:95",
+      "description": "Required loopback TCP monitor bind denied with errno 1 Operation not permitted; test remains mandatory and failing."
+    },
+    {
+      "paths": [
+        ".arc-verify/command-classification/contract.md",
+        ".arc-verify/command-classification/cli-requirements.md"
+      ],
+      "description": "Human label/UNKNOWN explanation and empty/whitespace/input-limit outcome requirements conflict. Concrete task-1 contract implemented; Chief reconciliation remains."
+    }
+  ],
+  "independentReviewComplete": false,
+  "remainingObligations": [
+    "required TCP endpoint evidence",
+    "Chief interface-conflict resolution",
+    "independent oma-qa review",
+    "harness coverage repair outside this slice",
+    "broader detector catalog",
+    "scheduling",
+    "managed-execution",
+    "desktop",
+    "native Windows"
+  ],
+  "reports": [
+    "report.md",
+    "test-matrix.md",
+    "static-inspection.md",
+    "preparation.md"
+  ]
+}

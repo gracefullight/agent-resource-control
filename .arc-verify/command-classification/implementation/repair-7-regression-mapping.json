@@ -1,0 +1,2283 @@
+{
+  "retainedProbeSha256": "23e3e4b7622a3e7c6fbbb7b0617ed47864b02c2c7b604cbba52ee6d82eb310de",
+  "fixturePath": "crates/arc-detector/tests/support/ssh.rs",
+  "fixtureSha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+  "tests": {
+    "detector": "tests::ssh_post_destination_matrix",
+    "work": "tests::ssh_post_destination_work_checks_refuse_before_overrun",
+    "ipc": "ssh_post_destination_typed_dispatch",
+    "daemonAndActualHumanJsonCli": "ssh_post_destination_daemon_human_and_json_cli_matrix"
+  },
+  "retainedProbeCases": [
+    {
+      "id": "post-n",
+      "command": "ssh build01 -N",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-g",
+      "command": "ssh build01 -G",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-n-with-command",
+      "command": "ssh build01 -N 'make test'",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-g-with-command",
+      "command": "ssh build01 -G 'make test'",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-l",
+      "command": "ssh build01 -L8080:localhost:80",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-r",
+      "command": "ssh build01 -R8080:localhost:80",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-d",
+      "command": "ssh build01 -D8080",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-w",
+      "command": "ssh build01 -W target:80",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "post-quoted-n",
+      "command": "ssh build01 '-N'",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "compound-n",
+      "command": "cargo test && ssh build01 -N",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "compound-g",
+      "command": "cargo test && ssh build01 -G",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "pre-n-control",
+      "command": "ssh -N build01",
+      "expected": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "opaque-word-control",
+      "command": "ssh build01 make -N",
+      "expected": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "opaque-quoted-command-control",
+      "command": "ssh build01 'make -N'",
+      "expected": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "terminated-before-destination-control",
+      "command": "ssh -- build01 -N",
+      "expected": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "terminated-after-destination-control",
+      "command": "ssh build01 -- -N",
+      "expected": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "allFourLayers": true
+    },
+    {
+      "id": "quoted-local-argument-control",
+      "command": "cargo test 'ssh build01 -N'",
+      "expected": {
+        "classification": "TEST",
+        "locality": "HOST_LOCAL",
+        "reason": "CARGO_TEST",
+        "uncertainty": "NONE"
+      },
+      "allFourLayers": true
+    }
+  ],
+  "permanentCaseCount": 99,
+  "cases": [
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-n",
+        "payload": {
+          "command": "ssh build01 -N"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 162
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-g",
+        "payload": {
+          "command": "ssh build01 -G"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 162
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-n-with-command",
+        "payload": {
+          "command": "ssh build01 -N 'make test'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 198
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-g-with-command",
+        "payload": {
+          "command": "ssh build01 -G 'make test'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 198
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-l",
+        "payload": {
+          "command": "ssh build01 -L8080:localhost:80"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 211
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-r",
+        "payload": {
+          "command": "ssh build01 -R8080:localhost:80"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 211
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-d",
+        "payload": {
+          "command": "ssh build01 -D8080"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 172
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-w",
+        "payload": {
+          "command": "ssh build01 -W target:80"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 196
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "post-quoted-n",
+        "payload": {
+          "command": "ssh build01 '-N'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 164
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound-n",
+        "payload": {
+          "command": "cargo test && ssh build01 -N"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound-g",
+        "payload": {
+          "command": "cargo test && ssh build01 -G"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "pre-n-control",
+        "payload": {
+          "command": "ssh -N build01"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_FORWARDING",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 104
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-word-control",
+        "payload": {
+          "command": "ssh build01 make -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-quoted-command-control",
+        "payload": {
+          "command": "ssh build01 'make -N'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 179
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-before-destination-control",
+        "payload": {
+          "command": "ssh -- build01 -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-after-destination-control",
+        "payload": {
+          "command": "ssh build01 -- -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "TEST",
+        "locality": "HOST_LOCAL",
+        "reason": "CARGO_TEST",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "quoted-local-argument-control",
+        "payload": {
+          "command": "cargo test 'ssh build01 -N'"
+        },
+        "result": {
+          "classification": "TEST",
+          "locality": "HOST_LOCAL",
+          "reason": "CARGO_TEST",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 135
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-0",
+        "payload": {
+          "command": "ssh"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 53
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-1",
+        "payload": {
+          "command": "ssh --"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 69
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-2",
+        "payload": {
+          "command": "ssh build01"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 142
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-3",
+        "payload": {
+          "command": "ssh -- build01"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 147
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-4",
+        "payload": {
+          "command": "ssh build01 ''"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 153
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-5",
+        "payload": {
+          "command": "ssh -- build01 ''"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 158
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-6",
+        "payload": {
+          "command": "ssh build01 --"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 160
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-7",
+        "payload": {
+          "command": "ssh build01 '--'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 162
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-8",
+        "payload": {
+          "command": "ssh build01 -- ''"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 171
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-9",
+        "payload": {
+          "command": "ssh -- build01 --"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 165
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-10",
+        "payload": {
+          "command": "ssh -- build01 -- ''"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 176
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-11",
+        "payload": {
+          "command": "ssh build01 '' -N"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 173
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-12",
+        "payload": {
+          "command": "ssh build01 '' --"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 171
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-13",
+        "payload": {
+          "command": "ssh build01 '' -- ''"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 182
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-14",
+        "payload": {
+          "command": "cargo test && ssh build01 --"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 242
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-15",
+        "payload": {
+          "command": "ssh build01 -"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 157
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-16",
+        "payload": {
+          "command": "ssh build01 -z"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 162
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-17",
+        "payload": {
+          "command": "ssh build01 -p 22 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 194
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-18",
+        "payload": {
+          "command": "ssh build01 -oLogLevel=INFO make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 218
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-19",
+        "payload": {
+          "command": "ssh -lDora build01 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 190
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-20",
+        "payload": {
+          "command": "ssh -o '--N' build01 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-21",
+        "payload": {
+          "command": "ssh localhost make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 169
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-22",
+        "payload": {
+          "command": "ssh user@127.0.0.2 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 196
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-23",
+        "payload": {
+          "command": "ssh '[::1]' make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 142
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-24",
+        "payload": {
+          "command": "ssh -- -host make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 151
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "empty-or-ambiguous-25",
+        "payload": {
+          "command": "ssh bad@@host make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 168
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "forwarding-control-0",
+        "payload": {
+          "command": "ssh -L8080:host:80 build01 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_FORWARDING",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "forwarding-control-1",
+        "payload": {
+          "command": "ssh -R 8080:host:80 build01 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_FORWARDING",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 166
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "forwarding-control-2",
+        "payload": {
+          "command": "ssh -D8080 build01 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_FORWARDING",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 135
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "forwarding-control-3",
+        "payload": {
+          "command": "ssh -W host:80 build01 make"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_FORWARDING",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 151
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "forwarding-control-4",
+        "payload": {
+          "command": "ssh -nNT build01"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_FORWARDING",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 108
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_FORWARDING",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "forwarding-control-5",
+        "payload": {
+          "command": "ssh -lDora -N build01"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_FORWARDING",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 136
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted--N",
+        "payload": {
+          "command": "ssh build01 '-N'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 164
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound--N",
+        "payload": {
+          "command": "cargo test && ssh build01 -N"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted-compound--N",
+        "payload": {
+          "command": "cargo test && ssh build01 \"-N\""
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 246
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-before--N",
+        "payload": {
+          "command": "ssh -- build01 -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-after--N",
+        "payload": {
+          "command": "ssh build01 -- -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-opaque--N",
+        "payload": {
+          "command": "ssh build01 make -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-quoted-opaque--N",
+        "payload": {
+          "command": "ssh build01 'make -N'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 179
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted--G",
+        "payload": {
+          "command": "ssh build01 '-G'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 164
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound--G",
+        "payload": {
+          "command": "cargo test && ssh build01 -G"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted-compound--G",
+        "payload": {
+          "command": "cargo test && ssh build01 \"-G\""
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 246
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-before--G",
+        "payload": {
+          "command": "ssh -- build01 -G"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-after--G",
+        "payload": {
+          "command": "ssh build01 -- -G"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-opaque--G",
+        "payload": {
+          "command": "ssh build01 make -G"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-quoted-opaque--G",
+        "payload": {
+          "command": "ssh build01 'make -G'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 179
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted--L",
+        "payload": {
+          "command": "ssh build01 '-L'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 164
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound--L",
+        "payload": {
+          "command": "cargo test && ssh build01 -L"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted-compound--L",
+        "payload": {
+          "command": "cargo test && ssh build01 \"-L\""
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 246
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-before--L",
+        "payload": {
+          "command": "ssh -- build01 -L"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-after--L",
+        "payload": {
+          "command": "ssh build01 -- -L"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-opaque--L",
+        "payload": {
+          "command": "ssh build01 make -L"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-quoted-opaque--L",
+        "payload": {
+          "command": "ssh build01 'make -L'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 179
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted--R",
+        "payload": {
+          "command": "ssh build01 '-R'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 164
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound--R",
+        "payload": {
+          "command": "cargo test && ssh build01 -R"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted-compound--R",
+        "payload": {
+          "command": "cargo test && ssh build01 \"-R\""
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 246
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-before--R",
+        "payload": {
+          "command": "ssh -- build01 -R"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-after--R",
+        "payload": {
+          "command": "ssh build01 -- -R"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-opaque--R",
+        "payload": {
+          "command": "ssh build01 make -R"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-quoted-opaque--R",
+        "payload": {
+          "command": "ssh build01 'make -R'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 179
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted--D",
+        "payload": {
+          "command": "ssh build01 '-D'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 164
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound--D",
+        "payload": {
+          "command": "cargo test && ssh build01 -D"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted-compound--D",
+        "payload": {
+          "command": "cargo test && ssh build01 \"-D\""
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 246
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-before--D",
+        "payload": {
+          "command": "ssh -- build01 -D"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-after--D",
+        "payload": {
+          "command": "ssh build01 -- -D"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-opaque--D",
+        "payload": {
+          "command": "ssh build01 make -D"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-quoted-opaque--D",
+        "payload": {
+          "command": "ssh build01 'make -D'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 179
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted--W",
+        "payload": {
+          "command": "ssh build01 '-W'"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 164
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "compound--W",
+        "payload": {
+          "command": "cargo test && ssh build01 -W"
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 244
+    },
+    {
+      "actual": {
+        "classification": "UNKNOWN",
+        "locality": "UNKNOWN",
+        "reason": "SSH_AMBIGUOUS",
+        "uncertainty": "OBSERVE"
+      },
+      "case": {
+        "id": "quoted-compound--W",
+        "payload": {
+          "command": "cargo test && ssh build01 \"-W\""
+        },
+        "result": {
+          "classification": "UNKNOWN",
+          "locality": "UNKNOWN",
+          "reason": "SSH_AMBIGUOUS",
+          "uncertainty": "OBSERVE"
+        }
+      },
+      "work": 246
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-before--W",
+        "payload": {
+          "command": "ssh -- build01 -W"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 167
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-after--W",
+        "payload": {
+          "command": "ssh build01 -- -W"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 175
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-opaque--W",
+        "payload": {
+          "command": "ssh build01 make -W"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-or-opaque-quoted-opaque--W",
+        "payload": {
+          "command": "ssh build01 'make -W'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 179
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-control-0",
+        "payload": {
+          "command": "ssh build01 '--' make -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 198
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-control-1",
+        "payload": {
+          "command": "ssh -- build01 -- make -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 201
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-control-2",
+        "payload": {
+          "command": "ssh build01 make --"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 183
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-control-3",
+        "payload": {
+          "command": "ssh build01 make '' -G"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 194
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-control-4",
+        "payload": {
+          "command": "ssh build01 'make -L8080:host:80'"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 215
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-control-5",
+        "payload": {
+          "command": "ssh build01 '' -- -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 186
+    },
+    {
+      "actual": {
+        "classification": "REMOTE_EXEC",
+        "locality": "REMOTE",
+        "reason": "SSH_REMOTE_COMMAND",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "opaque-control-6",
+        "payload": {
+          "command": "ssh -- build01 '' -N"
+        },
+        "result": {
+          "classification": "REMOTE_EXEC",
+          "locality": "REMOTE",
+          "reason": "SSH_REMOTE_COMMAND",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 178
+    },
+    {
+      "actual": {
+        "classification": "MIXED",
+        "locality": "MIXED",
+        "reason": "COMPOUND_MIXED",
+        "uncertainty": "NONE"
+      },
+      "case": {
+        "id": "terminated-compound",
+        "payload": {
+          "command": "cargo test && ssh build01 -- -N"
+        },
+        "result": {
+          "classification": "MIXED",
+          "locality": "MIXED",
+          "reason": "COMPOUND_MIXED",
+          "uncertainty": "NONE"
+        }
+      },
+      "work": 257
+    }
+  ],
+  "coverage": "Every case: deterministic typed detector, typed protocol-1 dispatch, actual daemon IPC, actual arcctl human and JSON; no synthetic SSH input executed."
+}

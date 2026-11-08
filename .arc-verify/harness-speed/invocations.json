@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "evidenceKind": "invocation-scaling",
-  "runId": "507e5759-ef16-4c66-870d-4db5148695d7",
+  "runId": "b4784ac8-3f46-4997-a2a8-54f20b0481f4",
   "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
   "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
   "oracleSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
   "candidateScriptPath": "scripts/harness/validate.sh",
-  "candidateScriptSha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8",
+  "candidateScriptSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
   "integratedSourceIdentity": {
-    "head": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
-    "sha256": "fe4f4139d049e430b6a53a4d18cebacfbd5d22c7f7c4d74c0db92f5816764ffc",
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "sha256": "d19e6601e51da06559fb425b11f485112de500629e674add388d90580ef108d4",
     "entries": [
       {
         "path": "scripts/coverage/acceptance.ts",
         "mode": 420,
-        "sha256": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d"
+        "sha256": "64d745b2a59e5dfcebab1fb2dc5adc3d777a7fd53a0f6c185f099790b1bd8d68"
       },
       {
         "path": "scripts/coverage/accounting.test.ts",
@@ -29,12 +29,12 @@
       {
         "path": "scripts/coverage/clean-checkout.test.ts",
         "mode": 420,
-        "sha256": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760"
+        "sha256": "0a991995293be5f2ff4dac9c653ecace05cc2f962c7ec108e3e1eaa4ad45f579"
       },
       {
         "path": "scripts/coverage/commands.ts",
         "mode": 420,
-        "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea"
+        "sha256": "c37ef4a710a8b8280c6a67b90deba9f81447234b77164c2efb823d2e9481f40a"
       },
       {
         "path": "scripts/coverage/config.ts",
@@ -44,7 +44,12 @@
       {
         "path": "scripts/coverage/coverage-cli.test.ts",
         "mode": 420,
-        "sha256": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041"
+        "sha256": "4ee19897c0ee5882a88d0a47752e3013e04085ccdbae1e268a5dac3c15eee463"
+      },
+      {
+        "path": "scripts/coverage/current-preservation.ts",
+        "mode": 420,
+        "sha256": "2ec0a7cf1b48bb565492286c7856c728e3e3f3fc24f1fbd8c2e08d4f3bb47f72"
       },
       {
         "path": "scripts/coverage/evidence.test.ts",
@@ -74,12 +79,17 @@
       {
         "path": "scripts/coverage/harness.test.ts",
         "mode": 420,
-        "sha256": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747"
+        "sha256": "13d763c0cf4820043e07e4360ae813d3666c099801958bd473d53726b73f5c7f"
+      },
+      {
+        "path": "scripts/coverage/historical.ts",
+        "mode": 420,
+        "sha256": "2625971b6fc5e0dc3f8892e485c61180a15ac16b8e43f71a1a69940d3075cedf"
       },
       {
         "path": "scripts/coverage/hygiene-preservation.test.ts",
         "mode": 420,
-        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+        "sha256": "0bef64f36a7198ebd402cf9d4e86290a0a1e23120cffa7b92ec19232f17a1f53"
       },
       {
         "path": "scripts/coverage/hygiene.test.ts",
@@ -89,17 +99,17 @@
       {
         "path": "scripts/coverage/hygiene.ts",
         "mode": 420,
-        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+        "sha256": "19a40f1a88691ad425531378acb609885552b22e6add55474a189c536aa03ceb"
       },
       {
         "path": "scripts/coverage/preservation.test.ts",
         "mode": 420,
-        "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445"
+        "sha256": "9a353997b7734fe2f06861b29fc8c8e3bd83a37fa4a26140ba5f4b3b283f5df3"
       },
       {
         "path": "scripts/coverage/preservation.ts",
         "mode": 420,
-        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+        "sha256": "68a9bb1856541af2e2043047e5cc528671961fbb70110b93a68706ea5726c2bb"
       },
       {
         "path": "scripts/coverage/provision.sh",
@@ -109,7 +119,12 @@
       {
         "path": "scripts/coverage/run.ts",
         "mode": 420,
-        "sha256": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+        "sha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da"
+      },
+      {
+        "path": "scripts/coverage/schema-adaptations.ts",
+        "mode": 420,
+        "sha256": "50d0907d63848f4fa05ff0f0fb8bc6548829c2edd17ee048929eb5577e1c4b9a"
       },
       {
         "path": "scripts/coverage/source.ts",
@@ -147,6 +162,41 @@
         "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73"
       },
       {
+        "path": "scripts/harness/managed-exec-coverage-fixture.ts",
+        "mode": 420,
+        "sha256": "ae98744754f2783b92360828121ebe6fd5176a29868f0cc1df8d879654e8523a"
+      },
+      {
+        "path": "scripts/harness/managed-exec-coverage-identity.test.ts",
+        "mode": 420,
+        "sha256": "cb039d12dd70e2e38da3df5c9f8da8371c1951d32b4e14011745ee57d48ad986"
+      },
+      {
+        "path": "scripts/harness/managed-exec-evidence.test.ts",
+        "mode": 420,
+        "sha256": "eec3076e8bd7bd27e7c7e79780b45f367adb4e09363efb76100affd9fbd9faec"
+      },
+      {
+        "path": "scripts/harness/managed-exec-evidence.ts",
+        "mode": 420,
+        "sha256": "26fc4bc8ac8010036cdc781bf52b3d1c3cd37f3281f9be6faaf4b49e15e152c8"
+      },
+      {
+        "path": "scripts/harness/managed-exec-immutability.test.ts",
+        "mode": 420,
+        "sha256": "0065d0bdcbc96900c42168b14a0ae0e9b8802bd4944dfe2b1b424d14a8b94aca"
+      },
+      {
+        "path": "scripts/harness/managed-exec-test-output.ts",
+        "mode": 420,
+        "sha256": "1c67e7c1f094b40c58bd2f93c0d48d18e1050075457a5562ebcc077f8f54e9c3"
+      },
+      {
+        "path": "scripts/harness/managed-exec.test.ts",
+        "mode": 420,
+        "sha256": "1119fbf513db7076f17a32ac6d83664c0b51c7833a626602a225fe09659711a1"
+      },
+      {
         "path": "scripts/harness/performance.test.ts",
         "mode": 420,
         "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242"
@@ -159,12 +209,12 @@
       {
         "path": "scripts/harness/validate.sh",
         "mode": 493,
-        "sha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8"
+        "sha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1"
       }
     ]
   },
   "sourceScope": "current working harness and coverage sources",
-  "sourceRevision": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "sourceRevision": "19d7a507044cbf83918f58cd41056905c275c8d4",
   "host": {
     "platform": "darwin",
     "release": "27.2.0",
@@ -222,15 +272,15 @@
       "count": 2,
       "original": 38,
       "candidate": 20,
-      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Euwn2e",
-      "traceSha256": "e11ee6c886536d33adb0bc1e984f77365191476cf1d5fde09775fe194f1ab6f1"
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-91yQjb",
+      "traceSha256": "dabe9f837af888ab253ebe33785f00458b50c90d7147de35a8f5ffb9025d0aac"
     },
     {
       "count": 80,
       "original": 1520,
       "candidate": 20,
-      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-AzpH72",
-      "traceSha256": "0de74ff16a2e75dbf1143e67e795fc731d0409a81fae78a57961af9ad1b1ea13"
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-FSa55O",
+      "traceSha256": "9e35365725cc53e65f6fafeea2cab869b329a9cf2aa3f88110965e1f29c5a46e"
     }
   ]
 }

@@ -62,18 +62,42 @@ fn fixture_initialization_additive_upgrade_reopen_and_idempotency() {
 #[test]
 fn production_legacy_history_is_read_only_then_stamped_atomically() {
     let database = Database::new();
-    let mut connection = crate::open_and_migrate(&database.0).unwrap();
+    let mut connection = database.connect();
+    migrate(&mut connection, &MIGRATIONS[..1]).unwrap();
+    connection
+        .execute(
+            "INSERT INTO vendors VALUES ('kept', 'original', NULL, 17)",
+            [],
+        )
+        .unwrap();
+    let original_history = history(&connection);
     connection.pragma_update(None, "user_version", 0).unwrap();
     let legacy = snapshot(&connection);
     let report = assess_schema(&connection).unwrap();
-    assert_eq!(report.status, SchemaStatus::Compatible);
+    assert_eq!(report.status, SchemaStatus::UpgradeRequired);
+    assert_eq!(report.applied_version, Some(1));
+    assert_eq!(report.supported_version, 2);
+    assert_eq!(report.schema_migrations, 1);
     assert!(report.history_verified);
     assert_eq!(snapshot(&connection), legacy);
     migrate(&mut connection, MIGRATIONS).unwrap();
     let stamped = snapshot(&connection);
-    assert_eq!(stamped.tables, legacy.tables);
-    assert_eq!(stamped.schema, legacy.schema);
-    assert_eq!(stamped.witness, 1);
+    assert_eq!(stamped.tables.len(), legacy.tables.len() + 1);
+    for (name, rows) in &legacy.tables {
+        let updated = &stamped.tables.iter().find(|(n, _)| n == name).unwrap().1;
+        if name == "schema_migrations" {
+            assert_eq!(updated.len(), 2);
+            assert_eq!(updated.first(), rows.first());
+        } else {
+            assert_eq!(updated, rows);
+        }
+    }
+    assert_eq!(stamped.schema.len(), legacy.schema.len() + 3);
+    for object in &legacy.schema {
+        assert!(stamped.schema.contains(object));
+    }
+    assert_eq!(history(&connection)[0], original_history[0]);
+    assert_eq!(stamped.witness, 2);
     connection.close().unwrap();
     assert_eq!(
         snapshot(&crate::open_and_migrate(&database.0).unwrap()),
@@ -188,4 +212,35 @@ fn later_failure_rolls_back_prior_migration_history_in_same_batch() {
     assert_eq!(snapshot(&connection), before);
     migrate(&mut connection, FIXTURES).unwrap();
     assert_eq!(history(&connection).len(), 2);
+}
+
+#[test]
+fn fixed_schema1_registry_stamps_legacy_witness_without_upgrading() {
+    let database = Database::new();
+    let mut connection = database.connect();
+    migrate(&mut connection, &MIGRATIONS[..1]).unwrap();
+    connection
+        .execute(
+            "INSERT INTO vendors VALUES ('kept', 'original', NULL, 17)",
+            [],
+        )
+        .unwrap();
+    connection.pragma_update(None, "user_version", 0).unwrap();
+    let legacy = snapshot(&connection);
+    let report = assess_with_registry(&connection, &MIGRATIONS[..1]).unwrap();
+    assert_eq!(report.status, SchemaStatus::Compatible);
+    assert_eq!(report.applied_version, Some(1));
+    assert_eq!(report.supported_version, 1);
+    assert_eq!(report.schema_migrations, 1);
+    assert!(report.history_verified);
+    assert_eq!(snapshot(&connection), legacy);
+    migrate(&mut connection, &MIGRATIONS[..1]).unwrap();
+    let stamped = snapshot(&connection);
+    assert_eq!(stamped.tables, legacy.tables);
+    assert_eq!(stamped.schema, legacy.schema);
+    assert_eq!(stamped.witness, 1);
+    connection.close().unwrap();
+    let mut connection = database.connect();
+    migrate(&mut connection, &MIGRATIONS[..1]).unwrap();
+    assert_eq!(snapshot(&connection), stamped);
 }

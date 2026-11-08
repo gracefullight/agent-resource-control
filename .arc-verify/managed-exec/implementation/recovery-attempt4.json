@@ -1,0 +1,464 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "taskId": "task-7",
+  "runId": "8631fb86-2f63-44bb-9311-abae48d2637f",
+  "skill": "oma-backend",
+  "status": "blocked",
+  "observedAt": "2026-11-08T12:59:00.837364+00:00",
+  "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+  "inputCount": 175,
+  "inputHashesAndModesMatch": true,
+  "sourceVerification": "Fresh managedInputs computation and complete files/modes comparison; both match retained inputs.json.",
+  "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "diskBytes": {
+    "total": 494384795648,
+    "used": 473904795648,
+    "free": 20480000000
+  },
+  "framework": {
+    "missionStatus": "executing",
+    "missionCreatedAt": "2026-11-08T08:59:34.353Z",
+    "missionDeadlineUtc": "2026-11-09T08:59:34.353000+00:00",
+    "policy": {
+      "maxParallel": 3,
+      "maxDurationSec": 86400,
+      "maxRuns": 200,
+      "maxRetries": 3,
+      "retryDelayMs": 1000,
+      "autoResume": true
+    },
+    "runsRecorded": 40,
+    "currentWorkerStartedAt": "2026-11-08T12:57:28.324Z",
+    "checkAllowanceMs": 3600000,
+    "cancellationObserved": false,
+    "cancellationScope": "No cancellation in received instructions; current framework mission is executing.",
+    "priorParent": {
+      "runId": "51d0a78e-18ec-408c-aa11-416cfe321bf4",
+      "startedAt": "2026-11-08T11:36:15.328Z",
+      "finishedAt": "2026-11-08T12:36:16.168Z",
+      "outcome": "failed",
+      "executionState": "settled",
+      "evidence": "Agent timed out after 3600s"
+    },
+    "ownershipObservation": "Only this current run has an active marker. That marker describes the current Actor, not the old collector. No supported old child ownership/liveness or terminal result is exposed by the inspected framework records."
+  },
+  "interruptedRun": {
+    "outerDirectory": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-35-36-730Z-clean-checkout",
+    "outerFiles": [],
+    "localState": {
+      "path": "target/evidence-hygiene/clean-checkout/runs/14213b3c-fbfb-48c3-867d-4602607bdd05/result.json",
+      "sha256": "dde1f0c25692a6504902592a7e973b42a6a57baf52e4ceea84e3d8e8dcebfb96",
+      "bytes": 645
+    },
+    "stateCommands": 0,
+    "stateEnded": null,
+    "statePass": false,
+    "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO",
+    "nativeDirectory": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO/.arc-verify/rust-coverage/baseline/runs/2026-11-08T12-35-42-028Z-5a9c56c1-fa71-4dc2-922c-4540af846857",
+    "completedCommands": [
+      {
+        "artifact": {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO/.arc-verify/rust-coverage/baseline/runs/2026-11-08T12-35-42-028Z-5a9c56c1-fa71-4dc2-922c-4540af846857/00-command.json",
+          "sha256": "6f7bd29c396fa25b291eea8c6112f6d4df4699e57cfbdf2954cf3ba7b9acfe29",
+          "bytes": 517
+        },
+        "argv": [
+          "rustup",
+          "run",
+          "1.95.0",
+          "rustc",
+          "-Vv"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO",
+        "started": "2026-11-08T12:35:42.116Z",
+        "ended": "2026-11-08T12:35:42.324Z",
+        "exit": 0,
+        "pid": 90986
+      },
+      {
+        "artifact": {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO/.arc-verify/rust-coverage/baseline/runs/2026-11-08T12-35-42-028Z-5a9c56c1-fa71-4dc2-922c-4540af846857/01-command.json",
+          "sha256": "7c46a514fe8b7fb4e62afa58fc939e2d20ad37a2df697c3b44176f71cfc40193",
+          "bytes": 363
+        },
+        "argv": [
+          "rustup",
+          "run",
+          "1.95.0",
+          "cargo",
+          "llvm-cov",
+          "--version"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO",
+        "started": "2026-11-08T12:35:42.325Z",
+        "ended": "2026-11-08T12:35:42.413Z",
+        "exit": 0,
+        "pid": 90987
+      },
+      {
+        "artifact": {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO/.arc-verify/rust-coverage/baseline/runs/2026-11-08T12-35-42-028Z-5a9c56c1-fa71-4dc2-922c-4540af846857/02-command.json",
+          "sha256": "f1544fa62e2f66579783f5d9642468a9d925428b86fa681f4cd00bfad464b939",
+          "bytes": 406
+        },
+        "argv": [
+          "rustup",
+          "run",
+          "1.95.0",
+          "rustc",
+          "--print",
+          "sysroot"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO",
+        "started": "2026-11-08T12:35:42.414Z",
+        "ended": "2026-11-08T12:35:42.540Z",
+        "exit": 0,
+        "pid": 90988
+      },
+      {
+        "artifact": {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO/.arc-verify/rust-coverage/baseline/runs/2026-11-08T12-35-42-028Z-5a9c56c1-fa71-4dc2-922c-4540af846857/03-command.json",
+          "sha256": "9bd6a7a4d3a5f8c55e7249fe1d0386cab68a15829688bc8437d1c462e24527ac",
+          "bytes": 481
+        },
+        "argv": [
+          "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+          "--version"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO",
+        "started": "2026-11-08T12:35:42.543Z",
+        "ended": "2026-11-08T12:35:42.579Z",
+        "exit": 0,
+        "pid": 90989
+      },
+      {
+        "artifact": {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO/.arc-verify/rust-coverage/baseline/runs/2026-11-08T12-35-42-028Z-5a9c56c1-fa71-4dc2-922c-4540af846857/04-command.json",
+          "sha256": "c4dbb8b5fe415d550eca7f2c1e272de95621f97aa7c1276f153374582e817472",
+          "bytes": 486
+        },
+        "argv": [
+          "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+          "--version"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO",
+        "started": "2026-11-08T12:35:42.580Z",
+        "ended": "2026-11-08T12:35:42.611Z",
+        "exit": 0,
+        "pid": 90990
+      },
+      {
+        "artifact": {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO/.arc-verify/rust-coverage/baseline/runs/2026-11-08T12-35-42-028Z-5a9c56c1-fa71-4dc2-922c-4540af846857/05-command.json",
+          "sha256": "25a8c3d67a8f7e343ceec65b073cf5aaacb72fd1184c79ec86ddd236bb9e97e3",
+          "bytes": 373894
+        },
+        "argv": [
+          "rustup",
+          "run",
+          "1.95.0",
+          "cargo",
+          "metadata",
+          "--format-version",
+          "1",
+          "--locked",
+          "--offline"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-QrDiqO",
+        "started": "2026-11-08T12:35:42.612Z",
+        "ended": "2026-11-08T12:35:42.902Z",
+        "exit": 0,
+        "pid": 90991
+      }
+    ],
+    "terminalArtifactsPresent": {
+      "receipt.json": false,
+      "summary.json": false,
+      "profiles.json": false,
+      "raw.lcov": false,
+      "raw.json": false
+    },
+    "collectorLiveness": "unknown",
+    "collectorTermination": "unproven"
+  },
+  "verifiedRetainedChecks": [
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/fmt.json",
+        "sha256": "5be1372a2778c8c53f73378f7ed76ca5d3ddfb2d24ba126d057686383d0318f8",
+        "bytes": 948
+      },
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-29-44-402Z-fmt/stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-29-44-402Z-fmt/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "matchesRecordedDigest": true
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/clippy.json",
+        "sha256": "166cb77b7c25fedc51af21e19cca2963bc549569525d7ddcd6e5281c5f949c9a",
+        "bytes": 995
+      },
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-29-45-272Z-clippy/stdout.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-29-45-272Z-clippy/stderr.txt",
+          "sha256": "c72694cf3f12375ce0dcb6a520cd189625b46209e70eacbe38d3fc3001946ff4",
+          "bytes": 478,
+          "matchesRecordedDigest": true
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/workspace.json",
+        "sha256": "f10622f46cb30226e6e2d5b3c6c0c0e95622a9fd4d27c08affacc9c0d785a184",
+        "bytes": 51977
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-29-46-849Z-workspace/stdout.txt",
+          "sha256": "17c8b247a7bb6f18234775f2393ab5ca3df0209aff1286da8e3265817d8034a4",
+          "bytes": 31592,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-29-46-849Z-workspace/stderr.txt",
+          "sha256": "f9071d3250b540a2f3b1bba1b00838cb20f716acf13b152bb8d5e6e0a9a32617",
+          "bytes": 2853,
+          "matchesRecordedDigest": true
+        }
+      ],
+      "executionCounts": {
+        "executed": 329,
+        "passed": 329,
+        "failed": 0,
+        "ignored": 0
+      }
+    },
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/preservation.json",
+        "sha256": "d344fc1b80d74fea2f7796ac29aa43785332e95982ae2a53daa8166214483a8f",
+        "bytes": 971
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-30-37-412Z-preservation/stdout.txt",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-30-37-412Z-preservation/stderr.txt",
+          "sha256": "db12ec452eac712964e2616fdf8482659ff7f77cd6c472a8e2000a866cb1c068",
+          "bytes": 1344,
+          "matchesRecordedDigest": true
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+        "sha256": "8a995a9c3277c5f602ae367c07beba623fd81ede3fcd2c45542477797671b07b",
+        "bytes": 968
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-31-48-676Z-equivalence/stdout.txt",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-31-48-676Z-equivalence/stderr.txt",
+          "sha256": "5d6121e45b3cf8f82aea48e4013b13b1100ab283016291f094b71622e84437f7",
+          "bytes": 313,
+          "matchesRecordedDigest": true
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+        "sha256": "a8909c7c06430c2f6f2a2ac8e666bfa0b8796465ec241e5c6f17e17334e6d64c",
+        "bytes": 998
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/coverage-verification.test.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-34-00-372Z-coverage-verification/stdout.txt",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-34-00-372Z-coverage-verification/stderr.txt",
+          "sha256": "65d36b198e15755027aeab35b318772a77c5019afb3d20ddf643b6eaa390df1d",
+          "bytes": 231,
+          "matchesRecordedDigest": true
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/canonical-root.json",
+        "sha256": "d3e464e1c16aab9b1f51034139d0685e9d7d70f9ac290e399d9d47967c10f1d3",
+        "bytes": 1003
+      },
+      "argv": [
+        "bun",
+        "test",
+        "./.arc-verify/managed-exec/implementation/canonical-root.test.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-30-34-364Z-canonical-root/stdout.txt",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-30-34-364Z-canonical-root/stderr.txt",
+          "sha256": "3862d9fe4bc7060ca774d723f6b84bde20e083b93d4da8f496b8ccaab8f6fa6e",
+          "bytes": 222,
+          "matchesRecordedDigest": true
+        }
+      ]
+    },
+    {
+      "receipt": {
+        "path": ".arc-verify/managed-exec/implementation/privacy.json",
+        "sha256": "55629a0caa561e69b517c860c1c2f25ba15a2a09f19368c980dd700982fd63d5",
+        "bytes": 967
+      },
+      "argv": [
+        "python3",
+        ".arc-verify/managed-exec/implementation/privacy.py"
+      ],
+      "exit": 0,
+      "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+      "outputDigestsMatch": true,
+      "outputs": [
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-34-20-478Z-privacy/stdout.txt",
+          "sha256": "9d462476c9371383b5129e17e6e1fec0c0474e63b1c716059a7fa7aaa3a45af0",
+          "bytes": 434,
+          "matchesRecordedDigest": true
+        },
+        {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-34-20-478Z-privacy/stderr.txt",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "matchesRecordedDigest": true
+        }
+      ]
+    }
+  ],
+  "commandsExecutedThisAttempt": [
+    "Scoped git status excluding av.yaml; known-path policy, manifest and receipt reads",
+    "bun -e: managedInputs current source hash and all 175 file hashes/modes comparison (passed)",
+    "python3: retained receipt output digest checks (all eight passed)",
+    "Read-only framework mission and active-marker inspection; no state mutation",
+    "bun .arc-verify/managed-exec/implementation/audit.ts (separate command retained in report)"
+  ],
+  "deniedRead": {
+    "path": "/Users/gracefullight/.agent-valley",
+    "operation": "ls -la",
+    "outcome": "Operation not permitted; no retry or bypass"
+  },
+  "newAcceptanceCommandsExecuted": [],
+  "notStarted": [
+    "bun test scripts/coverage/clean-checkout.test.ts",
+    "bun test scripts/coverage/coverage-cli.test.ts",
+    "bun test scripts/coverage/harness.test.ts",
+    "bun test scripts/coverage/evidence.test.ts"
+  ],
+  "requiredChiefRecovery": "Obtain supported framework child ownership/liveness and terminal exit evidence for the interrupted collector, or supported identity-verified termination confirmation for that owned process tree. A parent timeout or missing receipt is insufficient. Then continue the exact required serialized gates within original budgets. No new collector admitted here.",
+  "remainingRisks": [
+    "Old collector ownership/liveness unresolved; parent timeout is not descendant termination proof.",
+    "Current-source coverage, clean-checkout, coverage CLI, full harness and final live-evidence gates incomplete.",
+    "Per-crate 80% coverage has no current completed measurement.",
+    "Task-8 independent final QA and task-9 synthesis remain downstream."
+  ],
+  "changedFiles": [
+    ".arc-verify/managed-exec/implementation/recovery-attempt4.json",
+    ".arc-verify/managed-exec/implementation/report.md",
+    ".arc-verify/managed-exec/implementation/audit.json"
+  ],
+  "productSourceChanged": false,
+  "interfaceCompatibility": "No interfaces changed in this attempt; protocol-1 and task-6 interfaces preserved.",
+  "acceptance": "Incomplete; lifecycle implementation retained. Desktop, native Windows and Phase 1 scheduling remain outstanding."
+}

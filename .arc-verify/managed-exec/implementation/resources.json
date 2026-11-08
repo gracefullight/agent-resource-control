@@ -1,0 +1,19 @@
+{
+  "actor": "backend",
+  "task": "task-7",
+  "skill": "oma-backend",
+  "parallelism": "One implementation owner, one independent read-only oma-qa review; collectors serialized",
+  "limits": {
+    "missionMaxDurationSec": 86400,
+    "missionMaxRuns": 200,
+    "missionMaxRetries": 3,
+    "missionDeadlineAuthority": "Supervising framework; no mission state or budget changed",
+    "checkTimeoutAllowanceMs": 3600000,
+    "collectorConcurrency": 1
+  },
+  "provisioning": "Existing Rust 1.95.0, Bun 1.4.4, cargo-llvm-cov 0.6.21 and llvm-tools verified; no install or download performed",
+  "host": "native Darwin arm64",
+  "availableDiskAtEntry": "21 GiB; local native coverage artifacts retained under existing ignored paths",
+  "serena": "Unavailable in active tool inventory; known-path reads and Git inventory/diffs used",
+  "scope": "Local source edits and owned native fixture processes; no deployment, publication, outreach or mission-state mutation"
+}

@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "c1728da557260d92269fa306ed5cb79392530d2865917b04244256f4cb76676f",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "./scripts/harness/validate.sh"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:59:04.190Z",
+  "ended": "2026-11-08T20:00:45.226Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 75040,
+  "stdoutSha256": "fbc96b71ce279229c86d3f3200efa6071e819676b3e398a903c3403ff7bba00c",
+  "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/harness-root-64d12b0e-2878-42fe-bf0a-8f1f92f59be4/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/harness-root-64d12b0e-2878-42fe-bf0a-8f1f92f59be4/stderr.txt"
+  },
+  "extractedFrom": {
+    "command": {
+      "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/harness-0d8232d9-a4e3-46d9-8cc2-59d0bebb0114/00-command.json",
+      "sha256": "83fb8af26636e92e7b0c8f3e4f2b37eb385b9c502e07a5d66b5b40179877657c"
+    },
+    "binding": {
+      "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/harness-0d8232d9-a4e3-46d9-8cc2-59d0bebb0114/binding.json",
+      "sha256": "16d63b847a7ccdb6e4f353b3ec954f5f1f1e0b7d92ffb1ce3cd26916b1564ca9"
+    },
+    "outer": {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "sha256": "5bcb39c78e01552360c5d5183b27caf4e40018ac7700c06d4a482817c815a31c"
+    },
+    "nativeInputHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8"
+  }
+}

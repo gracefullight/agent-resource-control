@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "e3df693429e2f7dd43f7a1b5fb1835265c9931a31cbe4686073ac6309a3f9d29",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-cli"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T16:58:36.076Z",
+  "ended": "2026-11-08T16:58:44.042Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 35027,
+  "stdoutSha256": "d37026c747ff43e6e2b4ad77e56bdb5fabb5c7a9c246a1392615164b6094c7b8",
+  "stderrSha256": "f182e764ff57f95e5c88cd48c03f6cf3072336a3cf0fc65491d5f21389fe0506",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T16-58-36-011Z-cli-prerequisite/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T16-58-36-011Z-cli-prerequisite/stderr.txt"
+  },
+  "execution": {
+    "executed": 22,
+    "passed": 22,
+    "failed": 0,
+    "ignored": 0,
+    "harnesses": 5,
+    "tests": [
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::native_receiver",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::sigchld_guard_restores_ignored_action_flags_after_spawn_failure_and_early_return",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::shared_job_terminal_signals_are_not_forwarded_and_reap_disables_ownership",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::distinct_preattachment_signals_ignored_disposition_and_detachment",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::inherited_ignored_blocked_sigchld_preserves_target_state_and_observes_exit17",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::inherited_blocked_sigchld_wakes_after_exit_and_preserves_native_child_mask",
+        "status": "ok"
+      },
+      {
+        "harness": 2,
+        "name": "arcctl_binary_is_built_next_to_the_test_harness",
+        "status": "ok"
+      },
+      {
+        "harness": 2,
+        "name": "no_arguments_names_both_commands_and_exits_nonzero",
+        "status": "ok"
+      },
+      {
+        "harness": 2,
+        "name": "legacy_usage_errors_and_version_keep_their_exit_contract",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "error_with_success_payload_is_rejected_before_error_mapping",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "help_usage_privacy_and_absent_daemon",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "literal_payloads_and_options_are_preserved_in_one_request",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "peer_failures_are_typed_correlated_and_never_reflected",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "timeout_is_bounded_with_no_retry_or_partial_result",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "doctor_help_explains_schema_scope_and_prestartup_stderr",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "schema_error_without_details_never_claims_verified_compatibility",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "actual_cli_reports_verified_production_and_two_version_fixture_success",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "new_client_old_daemon_labels_unavailable_details_without_claiming_verification",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "unavailable_and_malformed_present_details_fail_without_legacy_fallback",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "every_schema_failure_survives_error_envelope_with_actionable_reason",
+        "status": "ok"
+      }
+    ]
+  }
+}

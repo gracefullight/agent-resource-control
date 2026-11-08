@@ -1,0 +1,2585 @@
+{
+  "contract_version": 1,
+  "status": "execution_contract_refreshed_final_rebinding_required",
+  "owner": "chief-director",
+  "task_id": "task-4",
+  "attempt": 3,
+  "baseline": "19d7a507044cbf83918f58cd41056905c275c8d4",
+  "baseline_tree": "d2f8ace96256a7e073ab9d1bfb10fdc5cae3bf38",
+  "authority": "Task-4 decision artifacts only. Saved goalBrief, verificationContract, task instructions, graph, Actor assignments and empty verifyCommand remain unchanged. Named task outputs override generic skill output paths. No new dispatch, architecture exception or external effect is authorized.",
+  "inputs": [
+    {
+      "task": "task-1",
+      "path": ".arc-verify/managed-exec/technical-contract.md",
+      "bytes": 38667,
+      "sha256": "02191308c6341da453a31383cefaf0ab3b94a65c166d89e6b1a1e3b7bf936801",
+      "supplied_framework_review_passed": true,
+      "current_verification": "Attempt-3 integrated bytes read and hashed; supplied framework review passed. Documentation delivery does not establish fresh runtime acceptance."
+    },
+    {
+      "task": "task-2",
+      "path": ".arc-verify/managed-exec/cli-contract.md",
+      "bytes": 32582,
+      "sha256": "ce9c5b1bd27e9bcc3127d4b4d5ce9070ac647e5aa21a373f24a158d9e4f555fd",
+      "supplied_framework_review_passed": true,
+      "current_verification": "Attempt-3 integrated bytes read and hashed; supplied framework review passed. Documentation delivery does not establish fresh runtime acceptance."
+    },
+    {
+      "task": "task-3",
+      "path": ".arc-verify/managed-exec/value-scope.md",
+      "bytes": 14668,
+      "sha256": "1d4511e447ac12ba1df484268b83e1b74c4ad2c682ba9f0179e0b8b76cc87166",
+      "supplied_framework_review_passed": true,
+      "current_verification": "Attempt-3 integrated bytes read and hashed; supplied framework review passed. Documentation delivery does not establish fresh runtime acceptance."
+    }
+  ],
+  "scope": {
+    "slice": "Phase 0 direct command execution and persistent lifecycle management",
+    "platform_acceptance": "native macOS",
+    "outstanding": [
+      "desktop",
+      "native Windows",
+      "Phase 1 scheduling"
+    ],
+    "external_effects": "None beyond owned local native test processes and requested workspace edits; no deployment/publication/outreach/spending",
+    "scheduler": false,
+    "resource_reservations": "None for any class, including REMOTE_CI/REMOTE_EXEC/UNKNOWN; retain existing finite IPC/DB admission"
+  },
+  "transport": {
+    "protocol_version": 1,
+    "frame_max_bytes": 1048576,
+    "envelopes": "Reuse arc_ipc::Request/Response and version-first validation; request_id is per exchange only; existing operations/errors remain compatible",
+    "authentication": "Existing owner-only local socket and native same-user peer check before handler admission; no JWT or parallel transport",
+    "lifecycle_payload_max_bytes": 8192,
+    "unknown_fields": "reject in every new request/variant; never echo input",
+    "raw_payload": "decode validated compact type and clear raw JSON before worker await",
+    "validation": "Check native pid_t/signal ranges, canonical u64 token <=18446744073709551615, supported platform, Classification::is_consistent, timestamp/storage bounds and phase/outcome/identity cross-field constraints in addition to schemas. JSON schema alone is insufficient. RUNNING requires child tuple and a CHILD/VERIFIED_MATCH observation; terminal phases require the matching outcome tag and completion time; nonterminal phases have null outcome/completion time. A past verified_at is not current evidence."
+  },
+  "wire_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$defs": {
+      "JobId": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{32}$"
+      },
+      "ProcessIdentity": {
+        "type": "object",
+        "properties": {
+          "pid": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "start_token": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{0,19}$"
+          },
+          "boot_id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          }
+        },
+        "required": [
+          "pid",
+          "start_token",
+          "boot_id"
+        ],
+        "additionalProperties": false
+      },
+      "Classification": {
+        "type": "object",
+        "properties": {
+          "classification": {
+            "type": "string",
+            "enum": [
+              "BUILD",
+              "TEST",
+              "LINT",
+              "REMOTE_CI",
+              "REMOTE_EXEC",
+              "MIXED",
+              "UNKNOWN"
+            ]
+          },
+          "locality": {
+            "type": "string",
+            "enum": [
+              "HOST_LOCAL",
+              "REMOTE",
+              "MIXED",
+              "UNKNOWN"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "CARGO_BUILD",
+              "CARGO_TEST",
+              "CARGO_CLIPPY",
+              "CARGO_FMT",
+              "GH_WORKFLOW_RUN",
+              "GH_RUN_WATCH",
+              "GH_RUN_VIEW",
+              "SSH_REMOTE_COMMAND",
+              "COMPOUND_LOCAL",
+              "COMPOUND_REMOTE",
+              "COMPOUND_MIXED",
+              "EMPTY_COMMAND",
+              "UNSUPPORTED_SHELL",
+              "UNSUPPORTED_SYNTAX",
+              "UNRESOLVED_COMMAND",
+              "UNRESOLVED_SCRIPT",
+              "UNRESOLVED_EXPANSION",
+              "UNRESOLVED_COMPOUND",
+              "SSH_FORWARDING",
+              "SSH_AMBIGUOUS",
+              "DOCKER_ENDPOINT_UNKNOWN",
+              "INPUT_LIMIT",
+              "TOKEN_LIMIT",
+              "INVOCATION_LIMIT",
+              "NESTING_LIMIT",
+              "WORK_LIMIT"
+            ]
+          },
+          "uncertainty": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "OBSERVE"
+            ]
+          }
+        },
+        "required": [
+          "classification",
+          "locality",
+          "reason",
+          "uncertainty"
+        ],
+        "additionalProperties": false
+      },
+      "Outcome": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "EXITED"
+              },
+              "code": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            },
+            "required": [
+              "kind",
+              "code"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "SIGNALED"
+              },
+              "signal": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 127
+              },
+              "core_dumped": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "kind",
+              "signal",
+              "core_dumped"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "SPAWN_FAILED"
+              },
+              "reason": {
+                "type": "string",
+                "enum": [
+                  "NOT_FOUND",
+                  "PERMISSION_DENIED",
+                  "INVALID_INPUT",
+                  "RESOURCE_UNAVAILABLE",
+                  "OTHER"
+                ]
+              },
+              "os_code": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "kind",
+              "reason",
+              "os_code"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "IdentityObservation": {
+        "type": "object",
+        "properties": {
+          "target": {
+            "type": "string",
+            "enum": [
+              "OBSERVER",
+              "CHILD",
+              "NONE"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "VERIFIED_MATCH",
+              "MISSING",
+              "MISMATCH",
+              "INDETERMINATE",
+              "NOT_ATTACHED"
+            ]
+          },
+          "observed_at_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "REGISTERED_NOT_CLAIMED",
+              "CLAIMED_NOT_ATTACHED",
+              "OBSERVER_MISSING_NOT_CLAIMED",
+              "OBSERVER_MISSING",
+              "PROCESS_MISSING",
+              "IDENTITY_MISMATCH",
+              "IDENTITY_UNAVAILABLE",
+              "CHILD_VERIFIED",
+              "OBSERVED_EXIT",
+              "OBSERVED_SIGNAL",
+              "OBSERVED_SPAWN_FAILURE"
+            ]
+          }
+        },
+        "required": [
+          "target",
+          "status",
+          "observed_at_ms",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "JobSnapshot": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "$ref": "#/$defs/JobId"
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "LAUNCHING",
+              "RUNNING",
+              "COMPLETED",
+              "SIGNALED",
+              "SPAWN_FAILED",
+              "OUTCOME_UNKNOWN"
+            ]
+          },
+          "classification": {
+            "$ref": "#/$defs/Classification"
+          },
+          "observer": {
+            "$ref": "#/$defs/ProcessIdentity"
+          },
+          "observer_verified_at_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "child": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/ProcessIdentity"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "child_verified_at_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "observation": {
+            "$ref": "#/$defs/IdentityObservation"
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "REGISTERED_NOT_CLAIMED",
+              "CLAIMED_NOT_ATTACHED",
+              "OBSERVER_MISSING_NOT_CLAIMED",
+              "OBSERVER_MISSING",
+              "PROCESS_MISSING",
+              "IDENTITY_MISMATCH",
+              "IDENTITY_UNAVAILABLE",
+              "CHILD_VERIFIED",
+              "OBSERVED_EXIT",
+              "OBSERVED_SIGNAL",
+              "OBSERVED_SPAWN_FAILURE"
+            ]
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/Outcome"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "registered_at_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "launch_claimed_at_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "completed_at_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "updated_at_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "job_id",
+          "phase",
+          "classification",
+          "observer",
+          "observer_verified_at_ms",
+          "child",
+          "child_verified_at_ms",
+          "observation",
+          "reason",
+          "outcome",
+          "registered_at_ms",
+          "launch_claimed_at_ms",
+          "completed_at_ms",
+          "updated_at_ms",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "JobSummary": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "$ref": "#/$defs/JobId"
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "REGISTERED",
+              "LAUNCHING",
+              "RUNNING",
+              "COMPLETED",
+              "SIGNALED",
+              "SPAWN_FAILED",
+              "OUTCOME_UNKNOWN"
+            ]
+          },
+          "registered_at_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "updated_at_ms": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "REGISTERED_NOT_CLAIMED",
+              "CLAIMED_NOT_ATTACHED",
+              "OBSERVER_MISSING_NOT_CLAIMED",
+              "OBSERVER_MISSING",
+              "PROCESS_MISSING",
+              "IDENTITY_MISMATCH",
+              "IDENTITY_UNAVAILABLE",
+              "CHILD_VERIFIED",
+              "OBSERVED_EXIT",
+              "OBSERVED_SIGNAL",
+              "OBSERVED_SPAWN_FAILURE"
+            ]
+          }
+        },
+        "required": [
+          "job_id",
+          "phase",
+          "registered_at_ms",
+          "updated_at_ms",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "StartRequest": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "action": {
+                "const": "REGISTER"
+              },
+              "job_id": {
+                "$ref": "#/$defs/JobId"
+              },
+              "observer": {
+                "$ref": "#/$defs/ProcessIdentity"
+              },
+              "classification": {
+                "$ref": "#/$defs/Classification"
+              }
+            },
+            "required": [
+              "action",
+              "job_id",
+              "observer",
+              "classification"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "action": {
+                "const": "CLAIM"
+              },
+              "job_id": {
+                "$ref": "#/$defs/JobId"
+              },
+              "observer": {
+                "$ref": "#/$defs/ProcessIdentity"
+              }
+            },
+            "required": [
+              "action",
+              "job_id",
+              "observer"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "action": {
+                "const": "ATTACH"
+              },
+              "job_id": {
+                "$ref": "#/$defs/JobId"
+              },
+              "observer": {
+                "$ref": "#/$defs/ProcessIdentity"
+              },
+              "child": {
+                "$ref": "#/$defs/ProcessIdentity"
+              }
+            },
+            "required": [
+              "action",
+              "job_id",
+              "observer",
+              "child"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "StartResult": {
+        "type": "object",
+        "properties": {
+          "disposition": {
+            "type": "string",
+            "enum": [
+              "CREATED",
+              "APPLIED",
+              "UNCHANGED"
+            ]
+          },
+          "job": {
+            "$ref": "#/$defs/JobSnapshot"
+          }
+        },
+        "required": [
+          "disposition",
+          "job"
+        ],
+        "additionalProperties": false
+      },
+      "CompleteRequest": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "$ref": "#/$defs/JobId"
+          },
+          "observer": {
+            "$ref": "#/$defs/ProcessIdentity"
+          },
+          "outcome": {
+            "$ref": "#/$defs/Outcome"
+          }
+        },
+        "required": [
+          "job_id",
+          "observer",
+          "outcome"
+        ],
+        "additionalProperties": false
+      },
+      "CompleteResult": {
+        "type": "object",
+        "properties": {
+          "disposition": {
+            "type": "string",
+            "enum": [
+              "APPLIED",
+              "UNCHANGED"
+            ]
+          },
+          "job": {
+            "$ref": "#/$defs/JobSnapshot"
+          }
+        },
+        "required": [
+          "disposition",
+          "job"
+        ],
+        "additionalProperties": false
+      },
+      "StatusRequest": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "query": {
+                "const": "BY_ID"
+              },
+              "job_id": {
+                "$ref": "#/$defs/JobId"
+              }
+            },
+            "required": [
+              "query",
+              "job_id"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "query": {
+                "const": "RECENT"
+              }
+            },
+            "required": [
+              "query"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "StatusResult": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "FOUND"
+              },
+              "job": {
+                "$ref": "#/$defs/JobSnapshot"
+              }
+            },
+            "required": [
+              "kind",
+              "job"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "NOT_FOUND"
+              }
+            },
+            "required": [
+              "kind"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "RECENT"
+              },
+              "jobs": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/JobSummary"
+                },
+                "maxItems": 50
+              },
+              "truncated": {
+                "type": "boolean"
+              },
+              "observed_at_ms": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "liveness_fresh": {
+                "const": false
+              }
+            },
+            "required": [
+              "kind",
+              "jobs",
+              "truncated",
+              "observed_at_ms",
+              "liveness_fresh"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "scope": "Payload/result definitions for existing envelope; not a new HTTP API",
+    "$id": "urn:arc:managed-exec:payloads:1"
+  },
+  "operations": {
+    "job.start": {
+      "request": {
+        "$ref": "#/$defs/StartRequest"
+      },
+      "result": {
+        "$ref": "#/$defs/StartResult"
+      },
+      "errors": [
+        "INVALID_REQUEST",
+        "JOB_CONFLICT",
+        "INVALID_JOB_TRANSITION",
+        "PROCESS_IDENTITY_UNAVAILABLE",
+        "DB_BUSY"
+      ],
+      "semantics": {
+        "REGISTER": "Verify native observer and classification consistency, then atomically insert one jobs/detail pair or return same-owner/classification snapshot unchanged. CREATED only for new row.",
+        "CLAIM": "Only matching owner with verified live identity and REGISTERED/no prior claim may atomically commit LAUNCHING. Identical already-claimed retry returns current matching snapshot UNCHANGED; it is never a new launch permission.",
+        "ATTACH": "Matching owner binds one original child tuple after a launch claim. Exact repeat unchanged even after completion; different tuple conflicts. A first attach after terminal completion is invalid. Native probe evidence, not the assertion alone, determines verification. Missing/indeterminate attachment is retained unverified in OUTCOME_UNKNOWN; a later matching probe can verify it."
+      }
+    },
+    "job.complete": {
+      "request": {
+        "$ref": "#/$defs/CompleteRequest"
+      },
+      "result": {
+        "$ref": "#/$defs/CompleteResult"
+      },
+      "errors": [
+        "INVALID_REQUEST",
+        "JOB_CONFLICT",
+        "INVALID_JOB_TRANSITION",
+        "DB_BUSY"
+      ],
+      "semantics": "Accept actual same-owner observation only after launch claim. Bind immutable tagged outcome atomically; exact repeat UNCHANGED without timestamp/revision rewrite; conflicting owner/outcome JOB_CONFLICT. Unknown can refine to observed outcome. No reaping/launch by daemon. Owner equality uses stored tuple; an ended original observer does not invalidate previously committed same-value completion."
+    },
+    "job.status": {
+      "request": {
+        "$ref": "#/$defs/StatusRequest"
+      },
+      "result": {
+        "$ref": "#/$defs/StatusResult"
+      },
+      "errors": [
+        "INVALID_REQUEST",
+        "DB_BUSY"
+      ],
+      "semantics": "BY_ID returns NOT_FOUND or one reconciled snapshot through the bounded worker. RECENT reads 51 summaries using an index ordered by created_at DESC,id DESC, returns first 50 and truncated; no cursor/unbounded scan and no per-row native probes. Summaries are explicitly last-known state, liveness_fresh=false; select an ID for current reconciliation. Status never claims, launches or reserves work."
+    }
+  },
+  "launch_protocol": {
+    "owner": "one live CLI invocation; std::process::Command with original Vec<OsString>",
+    "job_key": "16 OS-random bytes encoded as 32 lowercase hex, generated once; no argv/env/cwd hashes, clock/PID fallback or user-supplied reuse option",
+    "sequence": [
+      "Capture argv as native OsString without joining; bounded classifier adapter calls existing recognize rules.",
+      "Verify native observer identity and allocate key; register durable owner/classification. Resolve possible commit using same key and operation. No durable confirmation means no spawn.",
+      "Confirm atomic CLAIM. Only this still-live invocation with local launch guard not entered may proceed on a matching durable LAUNCHING snapshot. No restarted client acquires that privilege.",
+      "Enter irreversible local one-shot guard before exactly one Command::new(argv[0]).args(argv[1..]).spawn call outside IPC retry closures. Spawn error also consumes the guard.",
+      "Capture native child start identity while retaining unreaped handle, then ATTACH. Continue supervising regardless of bookkeeping failure.",
+      "Wait for actual result with native signal/job-control handling; submit same tagged COMPLETE within budget; return actual code or native signal even if recording fails."
+    ],
+    "inheritance": "Native PATH/cwd/environment/descriptors inherited unchanged; no child ARC variables, captured output or shell wrapper; ARC metadata descriptors CLOEXEC. Close sockets/release worker/admission before child wait. No daemon child waiter, parent-death signal, kill-on-drop or session detachment.",
+    "retry_policy": {
+      "max_mutation_attempts_per_action": 3,
+      "max_status_attempts_per_action": 0,
+      "initial_delay_ms": 0,
+      "second_delay_ms": 0,
+      "per_exchange_deadline_ms": 600,
+      "absolute_budget_per_action_ms": 2000,
+      "prelaunch_register_and_claim_combined_budget_ms": 4000,
+      "attach_budget_ms": 2000,
+      "completion_budget_ms": 2000,
+      "status_cli_total_budget_ms": 2000,
+      "details": "Adopt the bounded policy documented by task-1 and implemented in exec/transport.rs: at most three identical metadata exchanges under one monotonic 2000 ms deadline, each capped at 600 ms and remaining time; no sleeps or automatic interleaved status requests. Retry ambiguous transport loss/DB_BUSY with the same key, payload and request correlation; validate acknowledgements. Identical mutation replies can resolve possible commits without an intervening status. Definitive protocol/conflict/transition failures stop the action. Optional BY_ID status uses the same bound but never authorizes launch. Unconfirmed REGISTER/CLAIM means this invocation never reaches its sole spawn site. After spawn, tracking/completion failures never kill, relaunch or replace the observed child outcome. Native wait has no runtime timeout.",
+      "decision": "The earlier 12000 ms/backoff/interleaved-status policy was a task-4 design detail, not an immutable mission gate. Prefer the existing smaller bounded implementation; retain durable confirmation, no replay and all deterministic loss/timeout tests. No saved assignment or verification command changes."
+    },
+    "classification": {
+      "api": "arc_detector::classify_argv(&[OsString]) -> Classification; preserve existing shell-text classify/analyze",
+      "budgets": {
+        "input_bytes": 16384,
+        "tokens": 1024,
+        "invocations": 128,
+        "depth": 8,
+        "work": 65536
+      },
+      "unsupported": "Non-UTF-8 becomes UNKNOWN/UNSUPPORTED_SYNTAX; unsupported executable unresolved; budget exhaustion uses existing limit reason. Execution keeps original bytes even if classification refuses analysis. No executable lookup/evaluation by detector."
+    }
+  },
+  "state_machine": [
+    {
+      "from": "ABSENT",
+      "event": "REGISTER verified observer",
+      "to": "REGISTERED",
+      "guards": "unique job_id, native observer match, consistent classification",
+      "outcome": null
+    },
+    {
+      "from": "REGISTERED",
+      "event": "CLAIM",
+      "to": "LAUNCHING",
+      "guards": "same verified live observer, atomic no-prior-claim update",
+      "outcome": null
+    },
+    {
+      "from": "LAUNCHING|OUTCOME_UNKNOWN",
+      "event": "ATTACH or reconcile attached child MATCH",
+      "to": "RUNNING",
+      "guards": "original child tuple bound once; native start/boot match; no terminal outcome",
+      "outcome": null
+    },
+    {
+      "from": "LAUNCHING|RUNNING|OUTCOME_UNKNOWN",
+      "event": "original observer COMPLETE EXITED",
+      "to": "COMPLETED",
+      "guards": "same owner and launch_claimed_at present; actual parent observation",
+      "outcome": "EXITED"
+    },
+    {
+      "from": "LAUNCHING|RUNNING|OUTCOME_UNKNOWN",
+      "event": "original observer COMPLETE SIGNALED",
+      "to": "SIGNALED",
+      "guards": "same owner and launch_claimed_at present; actual native wait observation",
+      "outcome": "SIGNALED"
+    },
+    {
+      "from": "LAUNCHING|OUTCOME_UNKNOWN",
+      "event": "original observer COMPLETE SPAWN_FAILED",
+      "to": "SPAWN_FAILED",
+      "guards": "same owner, claim present, no child tuple ever attached, one-shot spawn failed",
+      "outcome": "SPAWN_FAILED"
+    },
+    {
+      "from": "LAUNCHING",
+      "event": "observer missing/mismatch/indeterminate, no child attached",
+      "to": "OUTCOME_UNKNOWN",
+      "guards": "no observed outcome; no launch inference or replay",
+      "outcome": null
+    },
+    {
+      "from": "RUNNING|OUTCOME_UNKNOWN|LAUNCHING",
+      "event": "attached child MISSING/MISMATCH/INDETERMINATE",
+      "to": "OUTCOME_UNKNOWN",
+      "guards": "revision and original tuple still match; no observed terminal outcome",
+      "outcome": null
+    },
+    {
+      "from": "REGISTERED",
+      "event": "observer missing/mismatch/indeterminate without claim",
+      "to": "REGISTERED",
+      "guards": "retain no-claim fact and observation reason; never background launch",
+      "outcome": null
+    },
+    {
+      "from": "COMPLETED|SIGNALED|SPAWN_FAILED",
+      "event": "identical COMPLETE",
+      "to": "same",
+      "guards": "same observer and all tagged outcome fields identical; no timestamp/revision rewrite",
+      "outcome": "preserved"
+    },
+    {
+      "from": "ANY_EXISTING",
+      "event": "identical REGISTER/CLAIM/previous ATTACH retry",
+      "to": "same",
+      "guards": "immutable metadata matches; never returns a new spawn authorization",
+      "outcome": "preserved"
+    },
+    {
+      "from": "ANY_EXISTING",
+      "event": "conflicting owner/classification/child/outcome or illegal phase",
+      "to": "same",
+      "guards": "static conflict/transition error; rollback",
+      "outcome": "preserved"
+    }
+  ],
+  "identity_policy": {
+    "shared_module": "arc-core::process_identity",
+    "macos": "proc_pidinfo native start microseconds plus kern.bootsessionuuid, normalized UUID; probe length/error validated",
+    "linux": "existing /proc stat start ticks plus /proc/sys/kernel/random/boot_id; no Linux result substitutes for native macOS acceptance",
+    "registration": "OS probe must verify observer before creation; absence/unavailable is static prelaunch failure",
+    "attach": "Capture before reap, verify natively, retain exact tuple once. Missing/mismatch/indeterminate never VERIFIED_MATCH. Terminal outcome is distinct from verification evidence.",
+    "fast_exit": "Required native immediate-exit fixture must establish real identity capture. If existing probe cannot read unreaped macOS child, backend supplies native capture repair and evidence or reports acceptance blocker; never invent token, sleep every launch, omit test or relaunch.",
+    "lock_compatibility": "Move/reuse existing helpers, preserving daemon lock conservative permission-error handling. A boolean alive is not verified job identity.",
+    "trust_boundary": "Same-user observer supplies actual completion; this is not protection against a malicious same-user client or evidence of an unobserved exit."
+  },
+  "reconciliation": {
+    "strategy": "Lazy BY_ID reconciliation through finite existing worker; no unbounded startup history sweep or task-per-row. Restart reads durable rows as needed, never replays work.",
+    "procedure": "Read snapshot/revision under the existing bounded worker, release ticket; probe native metadata; submit conditional update matching revision+child tuple+nonterminal state through the same queue. At most three read/probe/update attempts total within the unchanged request deadline (initial plus at most two stale-revision retries). Observed terminal snapshot wins immediately; after exhaustion return static DB_BUSY, never stale verification as current. No probe overwrites terminal outcome.",
+    "finite_bounds": {
+      "max_probe_reads_per_by_id": 3,
+      "max_conditional_updates_per_by_id": 3,
+      "recent_result_rows": 50,
+      "recent_sql_rows": 51
+    },
+    "terminal": "Recorded observed outcome wins; status never fabricates exit/signal. No first attach to terminal record; matching prior attachment retry remains idempotent.",
+    "observation": "Snapshot is as-of observed_at_ms, not a continuing liveness guarantee. Indeterminate is not missing/dead. Recent summaries are last-known, not freshly probed.",
+    "decision": "Use the maintained db_worker/jobs.rs three-attempt bound documented by updated task-1; replaces task-4 attempt-1 two-attempt choice without changing protocol, admission, request deadline or shutdown."
+  },
+  "failure_semantics": [
+    {
+      "case": "parse/RNG/observer identity/unconfirmed register or claim before local spawn guard",
+      "effect": "zero child launches, static NOT_STARTED/INVALID_REQUEST; any possible commit resolved only with stable key"
+    },
+    {
+      "case": "handler cancellation/DB timeout after possible COMMIT/response loss",
+      "effect": "ambiguous, not rollback proof; status and same-key mutation retry. No daemon or retry loop invokes child."
+    },
+    {
+      "case": "definitive spawn error",
+      "effect": "SPAWN_FAILED with bounded enum and numeric errno; no fake child exit, no second spawn; wrapper exit 1"
+    },
+    {
+      "case": "attach or complete bookkeeping unavailable",
+      "effect": "child continues, exact observed child result wins; bounded static diagnostic plus validated opaque key; never advise execute-again"
+    },
+    {
+      "case": "observer dies between claim and spawn or loses unrecorded wait outcome",
+      "effect": "unknown without replay; no eventual-launch or recovered-exit guarantee"
+    },
+    {
+      "case": "daemon graceful/forced death",
+      "effect": "no managed child signaling/reaping; live CLI retains handle and result, retries record after restart only within action budget; later job.status reports persisted truth"
+    },
+    {
+      "case": "native wait genuinely unavailable",
+      "effect": "OUTCOME_UNKNOWN static diagnostic and wrapper failure, without invented child exit. Does not satisfy any missing native acceptance evidence"
+    }
+  ],
+  "storage": {
+    "migration": "crates/arc-storage/migrations/0002_managed_exec.sql",
+    "immutable_0001_sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "registry": "Append through existing compiled/checksummed registry, same immediate transaction/history/newer-schema validation/WAL configuration",
+    "tables": "Existing jobs summary plus job_lifecycle detail keyed by jobs.id; no second DB/worker or raw payload JSON",
+    "jobs_mapping": {
+      "id": "job_id",
+      "job_class": "classification.classification",
+      "locality": "classification.locality",
+      "enforcement": "OBSERVE",
+      "state": "phase",
+      "created_at": "registered_at_ms",
+      "started_at": "first native verified child observation time, not guessed exact process start",
+      "finished_at": "observed terminal record time only",
+      "exit_code": "EXITED code only; null for signal/spawn/unknown",
+      "session_id/project_id/worktree_id/workload_signature/queue_at/reserved_at": "null for new lifecycle records; no fabricated associations or reservations"
+    },
+    "detail_fields": [
+      "observer_pid/start_token/boot_id",
+      "observer_verified_at_ms",
+      "child_pid/start_token/boot_id nullable full tuple",
+      "child_verified_at_ms nullable",
+      "classification_reason",
+      "classification_uncertainty",
+      "launch_claimed_at_ms",
+      "observation_target/status/at/reason",
+      "outcome_kind",
+      "signal/core_dumped nullable",
+      "spawn_reason/os_code nullable",
+      "revision",
+      "updated_at_ms",
+      "reason"
+    ],
+    "invariants": [
+      "one unique lifecycle key; no REPLACE overwrite",
+      "summary/detail changes atomic parameterized transactions",
+      "full-or-absent identity CHECKs and exclusive terminal CHECKs",
+      "canonical decimal u64 tokens lossless; nullable values consistent with phase/outcome",
+      "duplicate mutation preserves original terminal fields/timestamps/revision; real observation changes revision",
+      "recent index created_at DESC,id DESC limits read to 51 rows; only lifecycle detail-joined jobs enumerated",
+      "no permits inserts; no policy/resource/lease side effects; existing old rows remain compatible"
+    ],
+    "privacy": "Persist only allowlisted identity/classification/static state/time/outcome fields; no raw argv/env/cwd/executable/output, free-form OS/SQL errors or secret-bearing digests in any ARC row/log/evidence. Child output remains untouched."
+  },
+  "cli": {
+    "exec": "arcctl exec -- <PROGRAM> [ARG...]",
+    "status": "arcctl job status [<JOB_ID>]",
+    "help_source": ".arc-verify/managed-exec/cli-contract.md",
+    "status_queries": {
+      "with_id": {
+        "query": "BY_ID",
+        "job_id": "32 lowercase hex"
+      },
+      "without_id": {
+        "query": "RECENT"
+      }
+    },
+    "no_id_display": "At most 50 most recent lifecycle IDs, registered/updated Unix-ms times, last-known phase and static reason; descending registration then ID order, Last known: true, explicit truncation and empty history. Current job.rs prints both timestamps and reason; backend and independent QA must bind populated-history execution to the final sources.",
+    "by_id_labels": {
+      "REGISTERED/LAUNCHING": "starting, with claim/verification reason",
+      "RUNNING with current VERIFIED_MATCH": "running; identity verified at observation timestamp",
+      "COMPLETED": "completed; actual exit code and completed timestamp",
+      "SIGNALED": "terminated by signal; numeric signal/core flag; no normal exit code",
+      "SPAWN_FAILED": "spawn failed; static reason",
+      "OUTCOME_UNKNOWN": "outcome unknown; distinct missing/mismatch/unavailable reason"
+    },
+    "normal_output": "No ARC stdout/stderr additions during successfully tracked execution; no banners or normal job IDs; optional status supplies discovery",
+    "status_exits": {
+      "query_succeeded": 0,
+      "missing_or_unavailable": 1,
+      "invalid_syntax": 2
+    },
+    "exec_exits": {
+      "parse": 2,
+      "prelaunch_or_spawn_failure": 1,
+      "observed_exit": "exact native code, including 17",
+      "observed_signal": "preserve native parent-visible signaled wait outcome after local cleanup; do not merely return 128+signal",
+      "bookkeeping_failure": "never replaces actual child result"
+    },
+    "diagnostics": {
+      "parse": "INVALID_REQUEST\nUse arcctl exec -- <PROGRAM> [ARG...]. No child was started.\n",
+      "not_started": "NOT_STARTED\nNo child was started. Check the ARC daemon connection.\n",
+      "spawn": "SPAWN_FAILED\nNo child was started. Check the executable and execution permissions.\n",
+      "tracking": "TRACKING_UNCERTAIN plus validated opaque ID and static status guidance; no execute-again advice",
+      "completion": "COMPLETION_UNCONFIRMED plus actual numeric observed result, validated ID and static status guidance",
+      "not_found": "JOB_NOT_FOUND\nNo lifecycle record was found for this ID.\n",
+      "unavailable": "STATUS_UNAVAILABLE\nJob status is unavailable. No work was launched by this status request.\n",
+      "policy": "LF only, no ANSI, empty stdout for errors; never echo malformed ID/argv/path/env/OS error or untrusted daemon error text"
+    },
+    "compatibility": "Existing status exact line, doctor grammar/schema details/errors, classify five-line/four-field JSON/errors and version remain; 0002 may truthfully change supported schema version only. Exec static parser handling must not change legacy command diagnostics.",
+    "terminal": "Follow operator note 2026-11-08T15:24:49.402Z. With a controlling terminal, retain the caller job process group, including background jobs: no process_group(0), setpgid or tcsetpgrp; no terminal INT/QUIT group or PID forwarding. OS job control delivers terminal INT/QUIT/TSTP to eligible peers. Forward received TERM/HUP/USR1/USR2 only to the owned child PID. Wait with WUNTRACED|WCONTINUED, mirror a still-outstanding child stop via wrapper SIGSTOP and resume on SIGCONT without taking foreground. Use private child group only without a controlling terminal or in detached/managed execution without caller peers. Retain inherited dispositions/masks, preattach protection, stop/continue ordering, terminal modes, closed descriptors and native parent-visible signaled status (shell convention 128+signal). Never infer PID-versus-group provenance from sender metadata or broadcast wrapper-only signals to peers. Deterministic direct/wrapped native PTY/pipeline checks remain required.",
+    "source_observations": {
+      "fresh_runtime_check": false,
+      "terminal": "exec.rs gates process_group(0) on !shared_job; terminal.rs probes stdio then /dev/tty; signals.rs uses quiet terminal handlers for shared jobs and native wait/stop supervision.",
+      "recent": "job.rs prints registered and updated Unix milliseconds, static reason and Last known: true.",
+      "by_id_signal": "job.rs prints signal and core_dumped; retained QA-001 closure is not rerun by task-4."
+    }
+  },
+  "bounds": {
+    "default_connections": 64,
+    "default_requests": 16,
+    "default_db_queue": 8,
+    "default_shutdown_ms": 3500,
+    "existing_profiles": "Keep limits.rs validation and test profile; no cap increase/bypass/new unbounded channel",
+    "worker": "One finite SQLite worker typed operation/result enums; cancellation/deadline/progress/interrupt/ticket-drop ownership retained. Mutations may be ambiguous after commit. No child lifetime holds ticket, connection or request semaphore."
+  },
+  "module_ownership": {
+    "writer": "backend",
+    "tasks": "Saved tasks 5-7, sequential dependency checkpoints; not a new graph or reassignment",
+    "new_modules": [
+      {
+        "path": "crates/arc-core/src/process_identity.rs",
+        "purpose": "Shared native identity, OS-random keys and conservative lock compatibility"
+      },
+      {
+        "path": "crates/arc-detector/src/argv.rs",
+        "purpose": "Bounded native argv classification using maintained rules"
+      },
+      {
+        "path": "crates/arc-ipc/src/jobs.rs",
+        "purpose": "Protocol-1 operations, typed requests/results and finite decode"
+      },
+      {
+        "path": "crates/arc-ipc/src/jobs/types.rs",
+        "purpose": "Allowlisted snapshots/identities/outcomes"
+      },
+      {
+        "path": "crates/arc-ipc/src/jobs/validation.rs",
+        "purpose": "Semantic lifecycle consistency validation"
+      },
+      {
+        "path": "crates/arc-storage/migrations/0002_managed_exec.sql",
+        "purpose": "Additive lifecycle schema"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs.rs",
+        "purpose": "Transactional lifecycle API"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/codec.rs",
+        "purpose": "Allowlisted SQL decoding"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/transitions.rs",
+        "purpose": "Owner-bound idempotent transitions"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/reconcile.rs",
+        "purpose": "Conditional reconciliation and bounded recent query"
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/jobs.rs",
+        "purpose": "Typed operations through existing worker and bounded identity reconciliation"
+      },
+      {
+        "path": "crates/arc-cli/src/exec.rs",
+        "purpose": "One direct native child outside all metadata retries"
+      },
+      {
+        "path": "crates/arc-cli/src/exec/transport.rs",
+        "purpose": "Bounded same-key exchanges"
+      },
+      {
+        "path": "crates/arc-cli/src/exec/descriptors.rs",
+        "purpose": "Preserve inherited closed descriptors and CLOEXEC metadata"
+      },
+      {
+        "path": "crates/arc-cli/src/exec/signals.rs",
+        "purpose": "Owned-PID nonterminal forwarding, shared-job terminal handling and native wait/stop/continue supervision"
+      },
+      {
+        "path": "crates/arc-cli/src/exec/terminal.rs",
+        "purpose": "Detect caller controlling terminal without changing job/foreground ownership"
+      },
+      {
+        "path": "crates/arc-cli/src/job.rs",
+        "purpose": "Read-only bounded discovery and by-ID lifecycle status with timestamp/reason/outcome labels"
+      }
+    ],
+    "existing_adapters": [
+      "crates/arc-core/src/lib.rs",
+      "crates/arc-detector/src/lib.rs",
+      "crates/arc-ipc/src/lib.rs",
+      "crates/arc-storage/src/lib.rs",
+      "crates/arc-storage/src/migration.rs",
+      "crates/arc-daemon/src/platform.rs",
+      "crates/arc-daemon/src/connection.rs",
+      "crates/arc-daemon/src/db_worker.rs",
+      "crates/arc-daemon/src/db_worker/execution.rs",
+      "crates/arc-cli/src/main.rs"
+    ],
+    "shared_writer_only": [
+      "Cargo.toml",
+      "Cargo.lock",
+      "crates/*/Cargo.toml",
+      "scripts/coverage/",
+      "scripts/harness/"
+    ],
+    "source_line_max": 500,
+    "split_rule": "Use the listed integrated module paths; do not duplicate earlier proposed job_operations.rs/reconciliation.rs/job_status.rs/exec/lifecycle.rs modules. Split further under the same backend ownership before 500 source lines, recording exact paths in receipts and preserving wire/behavior contracts.",
+    "other_actors": "Named reports only; reviewer never edits product/tooling/tests; ownership/interface changes require an actual artifact dependency and Chief coordination, not implicit handoff."
+  },
+  "test_ownership": {
+    "writer": "backend",
+    "independent_execution_and_audit": "reviewer",
+    "paths": {
+      "unit_contracts": "crates/arc-ipc/tests/jobs.rs",
+      "unit_identity": "crates/arc-core/tests/identity.rs",
+      "unit_argv": "crates/arc-detector/tests/argv.rs",
+      "unit_storage": "crates/arc-storage/src/jobs/tests.rs",
+      "migration": "crates/arc-storage/tests/managed_exec_migration.rs",
+      "daemon": "crates/arc-daemon/tests/managed_exec.rs",
+      "daemon_recovery": "crates/arc-daemon/tests/managed_exec/protocol.rs",
+      "daemon_bounds": "crates/arc-daemon/src/db_worker/jobs_tests.rs",
+      "cli": "crates/arc-daemon/tests/managed_exec/cli.rs",
+      "cli_transparency": "crates/arc-daemon/tests/managed_exec/cli.rs",
+      "cli_recovery": "crates/arc-daemon/tests/managed_exec/retries.rs",
+      "cli_terminal": "crates/arc-daemon/tests/managed_exec/terminal.rs",
+      "fixture": "crates/arc-cli/tests/fixtures/child.rs",
+      "pipeline": "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+      "pipeline_controller": "crates/arc-daemon/tests/managed_exec/pipeline.py",
+      "pipeline_fixture": "crates/arc-cli/tests/fixtures/pipeline.rs",
+      "preservation": "scripts/harness/managed-exec.test.ts",
+      "evidence": "scripts/harness/managed-exec-evidence.test.ts"
+    },
+    "case_names": "Matrix planned_case values are requirement labels. retained_test_names and test_paths identify available tests from the delivered QA matrix and located sources; they do not claim this attempt executed them. Backend maintains deterministic unit/integration/CLI cases; independent oma-qa reproduces and binds outcomes on final integrated inputs.",
+    "fixtures": "Small native Rust child fixture and libc PTYs; explicit child/commit/readiness barriers, bounded deadlines, owned-process cleanup; local fake peers only. No real remote command service, browser/E2E/Playwright or new test framework.",
+    "approach": "Deterministic unit, daemon integration and CLI acceptance as saved. This document adds no RED/GREEN or participant-study gate.",
+    "additional_regressions": [
+      "crates/arc-storage/src/migration/tests/acceptance.rs",
+      "crates/arc-storage/tests/nfr010.rs",
+      "crates/arc-daemon/src/db_worker/tests.rs",
+      "crates/arc-daemon/src/server_tests.rs",
+      "crates/arc-daemon/src/database_failure_tests.rs",
+      "crates/arc-daemon/tests/resident/lifecycle.rs",
+      "crates/arc-daemon/tests/resident/schema.rs",
+      "crates/arc-cli/tests/binary.rs",
+      "crates/arc-cli/tests/classification.rs"
+    ],
+    "additional_protection_commands": [
+      [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec-immutability.test.ts"
+      ]
+    ]
+  },
+  "requirement_to_test_matrix": [
+    {
+      "id": "M01",
+      "obligation": "Typed job.start/job.complete/job.status shapes; malformed, null, unknown, invalid range/enum combinations fail without echo; version-first protocol-1 envelope",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_contracts",
+        "daemon"
+      ],
+      "test_paths": [
+        "crates/arc-ipc/tests/jobs.rs",
+        "crates/arc-daemon/tests/managed_exec.rs"
+      ],
+      "planned_case": "typed_decode_ranges_and_protocol_1",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "lifecycle_wire_shapes_are_protocol_one_and_deny_secret_fields",
+        "lifecycle_decoders_enforce_object_shape_size_semantics_and_required_nulls",
+        "snapshot_validation_rejects_phase_identity_outcome_and_time_contradictions",
+        "protocol::version_first_typed_payload_validation_recent_bound_and_secret_absence"
+      ]
+    },
+    {
+      "id": "M02",
+      "obligation": "One child marker and one row despite concurrent duplicate operations, changed request IDs and lost replies before/after every register/claim/attach/complete commit",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_storage",
+        "daemon_recovery",
+        "cli_recovery"
+      ],
+      "test_paths": [
+        "crates/arc-storage/src/jobs/tests.rs",
+        "crates/arc-daemon/tests/managed_exec/protocol.rs",
+        "crates/arc-daemon/tests/managed_exec/retries.rs"
+      ],
+      "planned_case": "one_invocation_across_commit_response_loss",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "retries::cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17",
+        "protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent",
+        "jobs::tests::recovery::concurrent_stable_key_registration_claim_and_completion_have_one_winner"
+      ]
+    },
+    {
+      "id": "M03",
+      "obligation": "Stable random key, same-owner retry, conflict on owner/classification/child changes, no daemon or retry path launches work",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_identity",
+        "unit_storage",
+        "cli_recovery"
+      ],
+      "test_paths": [
+        "crates/arc-core/tests/identity.rs",
+        "crates/arc-storage/src/jobs/tests.rs",
+        "crates/arc-daemon/tests/managed_exec/retries.rs"
+      ],
+      "planned_case": "owner_binding_and_one_shot_spawn",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "random_keys_are_native_and_not_reused",
+        "jobs::tests::transitions::conflicts_and_illegal_transitions_rollback_both_tables"
+      ]
+    },
+    {
+      "id": "M04",
+      "obligation": "Byte-exact argv including empty, spaces, executable path with spaces, Unicode, native non-UTF-8, leading dashes and literal shell metacharacters; no shell reconstruction",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_argv",
+        "cli_transparency"
+      ],
+      "test_paths": [
+        "crates/arc-detector/tests/argv.rs",
+        "crates/arc-daemon/tests/managed_exec/cli.rs"
+      ],
+      "planned_case": "direct_native_argv_and_unknown_fallback",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "direct_boundaries_are_not_shell_syntax",
+        "native_bytes_remain_unmodified_and_unknown",
+        "cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution"
+      ]
+    },
+    {
+      "id": "M05",
+      "obligation": "Cwd, full inherited environment/PATH, stdin/stdout/stderr, pipes, closed descriptors and redirected files match direct invocation; no ARC normal output or leaked ARC descriptors",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "cli_transparency"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec/cli.rs"
+      ],
+      "planned_case": "transparent_cwd_environment_descriptors",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "scenarios::executable_with_spaces_closed_descriptors_and_redirected_streams_match_direct",
+        "scenarios::native_non_rust_child_observes_literal_closed_standard_descriptors"
+      ]
+    },
+    {
+      "id": "M06",
+      "obligation": "Observed normal exit 17 remains 17 through completion-commit response loss and exhausted recording budget; immediate exit identity captured before reap",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "cli",
+        "cli_recovery",
+        "unit_identity"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec/cli.rs",
+        "crates/arc-daemon/tests/managed_exec/retries.rs",
+        "crates/arc-core/tests/identity.rs"
+      ],
+      "planned_case": "fast_exit_17_identity_and_recording_loss",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "immediate_exit_identity_is_captured_after_exit_before_reap",
+        "protocol::unreaped_quick_exit_keeps_identity_but_is_not_reported_running",
+        "retries::cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17"
+      ]
+    },
+    {
+      "id": "M07",
+      "obligation": "Real spawn missing/non-executable failure produces zero invocation markers, static failure and persistent SPAWN_FAILED; no raw path or OS message",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "cli",
+        "unit_storage"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec/cli.rs",
+        "crates/arc-storage/src/jobs/tests.rs"
+      ],
+      "planned_case": "spawn_failure_is_not_child_exit",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "cli::spawn_failure_quick_exit_help_and_status_have_static_diagnostics",
+        "jobs::tests::transitions::fast_exit_without_attachment_and_spawn_failures_are_real_outcome_types"
+      ]
+    },
+    {
+      "id": "M08",
+      "obligation": "Native PTY direct/wrapped comparison: isatty, controlling tty, foreground group, interactive input/echo/modes and restoration on success/spawn failure/interruption",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "cli_terminal"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec/terminal.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py",
+        "crates/arc-cli/tests/fixtures/pipeline.rs"
+      ],
+      "planned_case": "pty_transparency_and_restoration",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "terminal::native_pty_foreground_input_modes_and_terminal_signals_match_direct_child",
+        "terminal::native_pty_spawn_failure_restores_foreground_without_child_output",
+        "terminal::native_background_terminal_read_can_be_foregrounded_and_resumed"
+      ]
+    },
+    {
+      "id": "M09",
+      "obligation": "Terminal SIGINT/SIGQUIT, child-directed SIGTERM, wrapper-only SIGTERM, SIGTSTP/SIGCONT stop/resume, no duplicate delivery; actual parent-visible signaled wait status",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "cli_terminal",
+        "cli_recovery"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec/terminal.rs",
+        "crates/arc-daemon/tests/managed_exec/retries.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py",
+        "crates/arc-cli/tests/fixtures/pipeline.rs"
+      ],
+      "planned_case": "native_signals_and_job_control",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "pipeline::native_inherited_ignored_sigchld_preserves_target_state_and_completion",
+        "exec::signals::tests::shared_job_terminal_signals_are_not_forwarded_and_reap_disables_ownership"
+      ]
+    },
+    {
+      "id": "M10",
+      "obligation": "Owned daemon graceful SIGTERM and forced SIGKILL leave verified blocked child alive and its I/O usable; restart then complete once with no replay",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "daemon_recovery",
+        "cli_recovery"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec/protocol.rs",
+        "crates/arc-daemon/tests/managed_exec/retries.rs"
+      ],
+      "planned_case": "daemon_loss_survival_and_restart",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay"
+      ]
+    },
+    {
+      "id": "M11",
+      "obligation": "Reconcile match/missing/PID reuse/start mismatch/boot change/EPERM/short probe/unsupported; never infer exit status; last verification not current guarantee",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_identity",
+        "unit_storage",
+        "daemon_recovery"
+      ],
+      "test_paths": [
+        "crates/arc-core/tests/identity.rs",
+        "crates/arc-storage/src/jobs/tests.rs",
+        "crates/arc-daemon/tests/managed_exec/protocol.rs"
+      ],
+      "planned_case": "identity_reconciliation_without_guessed_exit",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "native_identity_matches_current_process_and_rejects_reuse_and_other_boot",
+        "protocol::identity_mismatch_missing_and_restart_never_invent_an_exit",
+        "jobs::tests::transitions::native_zombie_identity_is_not_accepted_as_a_live_observer"
+      ]
+    },
+    {
+      "id": "M12",
+      "obligation": "Pause status probe, commit completion then release stale probe; terminal value wins; original observer can refine unknown with actual result; no replay",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_storage",
+        "daemon_recovery"
+      ],
+      "test_paths": [
+        "crates/arc-storage/src/jobs/tests.rs",
+        "crates/arc-daemon/tests/managed_exec/protocol.rs"
+      ],
+      "planned_case": "revision_race_and_late_observed_completion",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "jobs::tests::recovery::reconciliation_never_replays_or_invents_exit_and_terminal_outcome_wins_races",
+        "jobs::tests::recovery::attached_identity_uncertainty_can_refine_without_rebinding_and_stale_updates_lose"
+      ]
+    },
+    {
+      "id": "M13",
+      "obligation": "Same terminal outcome idempotent under concurrent requests; different code/signal/core/spawn reason/owner conflicts; first outcome/time unchanged",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_storage",
+        "daemon"
+      ],
+      "test_paths": [
+        "crates/arc-storage/src/jobs/tests.rs",
+        "crates/arc-daemon/tests/managed_exec.rs"
+      ],
+      "planned_case": "immutable_completion",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "jobs::tests::transitions::register_claim_attach_complete_and_identical_retries_preserve_revision_and_times",
+        "jobs::tests::recovery::concurrent_stable_key_registration_claim_and_completion_have_one_winner",
+        "protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent"
+      ]
+    },
+    {
+      "id": "M14",
+      "obligation": "REMOTE_CI, REMOTE_EXEC and UNKNOWN native local fixtures pass through once; permits/reservation fields untouched for all classes; no remote service",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_argv",
+        "daemon",
+        "cli"
+      ],
+      "test_paths": [
+        "crates/arc-detector/tests/argv.rs",
+        "crates/arc-daemon/tests/managed_exec.rs",
+        "crates/arc-daemon/tests/managed_exec/cli.rs"
+      ],
+      "planned_case": "pass_through_without_reservations",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "retries::path_lookup_remote_and_unknown_commands_execute_without_resource_reservations"
+      ]
+    },
+    {
+      "id": "M15",
+      "obligation": "Synthetic argv/env/path/output sentinels absent from all ARC rows/raw DB/WAL/journal/diagnostics and retained receipts; child-owned bytes preserved",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "daemon",
+        "cli_transparency",
+        "evidence"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec.rs",
+        "crates/arc-daemon/tests/managed_exec/cli.rs",
+        "scripts/harness/managed-exec-evidence.test.ts"
+      ],
+      "planned_case": "secret_free_arc_persistence_and_diagnostics",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution",
+        "protocol::version_first_typed_payload_validation_recent_bound_and_secret_absence",
+        "jobs::tests::recovery::rollback_and_redacted_storage_errors_preserve_atomicity_and_secret_absence"
+      ]
+    },
+    {
+      "id": "M16",
+      "obligation": "Help no IPC, static parse errors, bounded recent list <=50 with truncation, empty/missing/unavailable by-ID status, no status launch or guessed latest owner; RECENT prints registered/updated Unix-ms times, phase, static reason and Last known: true without ARC output in child streams",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "unit_contracts",
+        "daemon",
+        "cli"
+      ],
+      "test_paths": [
+        "crates/arc-ipc/tests/jobs.rs",
+        "crates/arc-daemon/tests/managed_exec.rs",
+        "crates/arc-daemon/tests/managed_exec/cli.rs"
+      ],
+      "planned_case": "help_id_discovery_and_read_only_status",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "protocol::version_first_typed_payload_validation_recent_bound_and_secret_absence",
+        "cli::spawn_failure_quick_exit_help_and_status_have_static_diagnostics"
+      ]
+    },
+    {
+      "id": "M17",
+      "obligation": "Existing status/doctor/classify strings/exits/JSON and no-execution behavior; schema version grammar preserved; old protocol-1 clients work before/after restart",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "daemon",
+        "cli"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec.rs",
+        "crates/arc-daemon/tests/managed_exec/cli.rs"
+      ],
+      "planned_case": "diagnostic_and_protocol_regressions",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "schema::baseline_client_adapter_accepts_actual_new_daemon_production_report",
+        "legacy_usage_errors_and_version_keep_their_exit_contract"
+      ]
+    },
+    {
+      "id": "M18",
+      "obligation": "Existing admission/worker finite capacities, payload release, no ticket while child waits, cancellation and shared <=3500 ms shutdown/gauge guarantees unchanged",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "daemon_bounds"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/src/db_worker/jobs_tests.rs",
+        "crates/arc-daemon/src/db_worker/tests.rs",
+        "crates/arc-daemon/src/server_tests.rs",
+        "crates/arc-daemon/tests/resident/lifecycle.rs"
+      ],
+      "planned_case": "bounded_worker_admission_and_shutdown",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+        "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+        "deadline_recovery::full_request_and_connection_saturation_recovers_without_restart",
+        "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown"
+      ]
+    },
+    {
+      "id": "M19",
+      "obligation": "Append checksummed 0002: fresh/0001 upgrade with old rows/repeated migration/history mismatch/newer schema/rollback; atomic summary/detail and CHECK constraints; operator-authorized schema-2 literals updated while schema-1 legacy-witness scenarios retain semantics",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "migration",
+        "unit_storage"
+      ],
+      "test_paths": [
+        "crates/arc-storage/tests/managed_exec_migration.rs",
+        "crates/arc-storage/src/jobs/tests.rs"
+      ],
+      "planned_case": "additive_migration_and_transaction_integrity",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "jobs::tests::migration::upgrade_from_original_registry_preserves_rows_checksums_and_reopen",
+        "migration::tests::acceptance::fixed_schema1_registry_stamps_legacy_witness_without_upgrading",
+        "jobs::tests::regression::exclusive_outcome_constraint_rejects_every_invalid_nullable_combination",
+        "jobs::tests::regression::decoder_rejects_invalid_outcome_fields_even_when_sql_checks_are_bypassed"
+      ]
+    },
+    {
+      "id": "M20",
+      "obligation": "Historical exact-source assertions run at original contract fixtures with original negative cases; authorized live source changes pass; 0001 hash unchanged; fixed schema-2 literal adaptations do not move historical revision constants",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "preservation"
+      ],
+      "test_paths": [
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "planned_case": "historical_scope_and_live_migration_protection",
+      "gate_ids": [
+        "managed-exec"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": []
+    },
+    {
+      "id": "M21",
+      "obligation": "Reject regression removal/weakening, early return, ignore/cfg bypass, redirected helpers, harness path/mode/type/behavior changes and coverage accounting manipulation",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "preservation"
+      ],
+      "test_paths": [
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "planned_case": "negative_regression_harness_and_coverage_fixtures",
+      "gate_ids": [
+        "managed-exec"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": []
+    },
+    {
+      "id": "M22",
+      "obligation": "Every production/test source file <=500 lines; existing maintained stack; any added crate counted with >=80% floor; no scheduler or extra execution service",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "preservation",
+        "evidence"
+      ],
+      "test_paths": [
+        "scripts/harness/managed-exec.test.ts",
+        "scripts/harness/managed-exec-evidence.test.ts"
+      ],
+      "planned_case": "source_line_inventory_and_crate_accounting",
+      "gate_ids": [
+        "managed-exec"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": []
+    },
+    {
+      "id": "M23",
+      "obligation": "cargo fmt and warning-denying clippy exact commands succeed",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "evidence"
+      ],
+      "test_paths": [
+        "scripts/harness/managed-exec-evidence.test.ts"
+      ],
+      "planned_case": "format_and_clippy_receipts",
+      "gate_ids": [
+        "cargo-fmt",
+        "cargo-clippy"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": []
+    },
+    {
+      "id": "M24",
+      "obligation": "Full coverage inventory, isolated current-index clean checkout, real collection, full harness without skips, native LCOV/LLVM/profiles/child PID merge evidence and >=80% each crate",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "evidence"
+      ],
+      "test_paths": [
+        "scripts/harness/managed-exec-evidence.test.ts"
+      ],
+      "planned_case": "coverage_and_full_harness_receipts",
+      "gate_ids": [
+        "coverage-verification",
+        "clean-checkout",
+        "coverage-cli",
+        "harness",
+        "live-evidence"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": []
+    },
+    {
+      "id": "M25",
+      "obligation": "Final native macOS host/source-bound checks and independent QA; <150 tracked evidence files; summary flags require actual gates; platforms/scheduling distinguished",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "evidence"
+      ],
+      "test_paths": [
+        "scripts/harness/managed-exec-evidence.test.ts"
+      ],
+      "planned_case": "final_source_and_independent_review_receipts",
+      "gate_ids": [
+        "managed-exec-evidence"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "acceptance_report_owner": "chief-director; backend owns evidence tooling, reviewer owns independent QA",
+      "retained_test_names": []
+    },
+    {
+      "id": "M26",
+      "obligation": "No saved task/goalBrief/verification command/mission graph/Actor assignments changed; only named writers; framework reviews and final verification retained",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "evidence"
+      ],
+      "test_paths": [
+        "scripts/harness/managed-exec-evidence.test.ts"
+      ],
+      "planned_case": "ownership_and_contract_integrity",
+      "gate_ids": [
+        "managed-exec-evidence"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": []
+    },
+    {
+      "id": "M27",
+      "obligation": "Real foreground pipeline keeps peers able to read the terminal; terminal and external group INT/QUIT reach eligible members once; wrapper-PID-only TERM reaches child once without affecting peers; whole job stops, background-continues without foreground theft, foreground-resumes and exits 17. Same-sender PID/group metadata is not target proof; preserve preattach/ignored/stale-stop/native-wait behavior.",
+      "owner": "backend",
+      "independent_reviewer": "reviewer",
+      "layers": [
+        "cli_terminal",
+        "pipeline"
+      ],
+      "test_paths": [
+        "crates/arc-daemon/tests/managed_exec/terminal.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py",
+        "crates/arc-cli/tests/fixtures/pipeline.rs"
+      ],
+      "planned_case": "foreground_pipeline_and_exact_signal_delivery",
+      "gate_ids": [
+        "cargo-workspace"
+      ],
+      "status": "required_final_integrated_binding_not_certified_by_task4",
+      "retained_test_names": [
+        "native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "native_inherited_ignored_sigchld_preserves_target_state_and_completion",
+        "shared_job_terminal_signals_are_not_forwarded_and_reap_disables_ownership"
+      ],
+      "operator_note": "2026-11-08T15:24:49.402Z caller-job POSIX model; shared-job terminal signals are not forwarded, wrapper-only nonterminal signals target child PID, no foreground transfer."
+    }
+  ],
+  "preservation": {
+    "historical_revisions": [
+      "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+      "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e"
+    ],
+    "historical_contract": "Original whole-Rust-source checks apply to fixtures at their original revision/mission, preserving original rejection cases and receipt meaning. Never move baseline or blanket-exempt live Rust.",
+    "live_contract": "Keep immutable 0001 hash, regression assertions/helpers/reachability, harness structure/path/mode/type/equivalence and full coverage accounting. Authorized lifecycle source change must pass live protection while negative weakening fixtures fail.",
+    "negative_fixtures": [
+      "original historical token/byte/file/mode/symlink/migration violations",
+      "0001 edited",
+      "assertion removed or weakened",
+      "early return, ignored/cfg-disabled case or helper redirected around assertion",
+      "harness altered stdout/stderr/exit/coverage call/scaling",
+      "coverage denominator/exclusion/config/profile/PID merge/report manipulation"
+    ],
+    "positive_fixture": "Authorized lifecycle module addition/change passes current-checkout guard while all original historical rejection tests still run.",
+    "forbidden": [
+      "unconditional success",
+      "moving historical baseline",
+      "wildcard exclusions",
+      "skip flags",
+      "coverage-only cfg",
+      "test/helper input weakening",
+      "copied passing evidence pointers"
+    ],
+    "operator_authorized_schema_literals": {
+      "note_at": "2026-11-08T11:19:22.283Z",
+      "paths": [
+        "crates/arc-storage/src/migration/tests/acceptance.rs",
+        "crates/arc-storage/tests/nfr010.rs",
+        "crates/arc-daemon/src/db_worker/tests.rs",
+        "crates/arc-daemon/src/server_tests.rs",
+        "crates/arc-daemon/src/database_failure_tests.rs"
+      ],
+      "decision": "Update schema count/version/table inventory/witness literals for two migrations. Preserve schema-1 witness semantics in legacy database cases and immutable 0001 bytes. Refresh fixed literal-adaptation expectations, never historical revision constants or regression behavior. Backend is sole writer."
+    }
+  },
+  "verification_contract": {
+    "version": 1,
+    "criteria": [
+      {
+        "criterion": "Native macOS tests prove one direct child across IPC retries; transparent argv/cwd/environment/streams/terminal and exit 17; spawn/signal handling; daemon-loss survival; identity-verified reconciliation without replay; idempotent completion; reservation-free remote/UNKNOWN execution; secret-free records/diagnostics; protocol-1 compatibility and bounded-runtime regressions.",
+        "checks": [
+          {
+            "kind": "command",
+            "program": "cargo",
+            "args": [
+              "test",
+              "--workspace"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "json",
+            "path": ".arc-verify/managed-exec/final-summary.json",
+            "pointer": "/nativeMacos",
+            "equals": true
+          },
+          {
+            "kind": "file",
+            "path": ".arc-verify/managed-exec/contract.json",
+            "minBytes": 1000,
+            "contains": [
+              "job.start",
+              "job.complete",
+              "job.status"
+            ]
+          }
+        ]
+      },
+      {
+        "criterion": "Historical preservation stays scoped to its original contract; 0001_phase0.sql is unchanged; source files stay within 500 lines; regression, harness and coverage-accounting protections reject weakening.",
+        "checks": [
+          {
+            "kind": "command",
+            "program": "bun",
+            "args": [
+              "test",
+              "scripts/harness/managed-exec.test.ts"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "file",
+            "path": ".arc-verify/managed-exec/preservation.md",
+            "minBytes": 500,
+            "contains": [
+              "0001_phase0.sql",
+              "historical",
+              "regression",
+              "coverage"
+            ]
+          }
+        ]
+      },
+      {
+        "criterion": "Required Cargo formatting and warning-denying lint gates pass.",
+        "checks": [
+          {
+            "kind": "command",
+            "program": "cargo",
+            "args": [
+              "fmt",
+              "--all",
+              "--",
+              "--check"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "command",
+            "program": "cargo",
+            "args": [
+              "clippy",
+              "--workspace",
+              "--all-targets",
+              "--",
+              "-D",
+              "warnings"
+            ],
+            "timeoutMs": 120000
+          }
+        ]
+      },
+      {
+        "criterion": "Full coverage verification and the harness pass without skips, with at least 80% production-line coverage per existing or added crate and a passing final live-evidence check.",
+        "checks": [
+          {
+            "kind": "command",
+            "program": "bun",
+            "args": [
+              "test",
+              "scripts/harness/coverage-verification.test.ts"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "command",
+            "program": "bun",
+            "args": [
+              "test",
+              "scripts/coverage/clean-checkout.test.ts"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "command",
+            "program": "bun",
+            "args": [
+              "test",
+              "scripts/coverage/coverage-cli.test.ts"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "command",
+            "program": "bun",
+            "args": [
+              "test",
+              "scripts/coverage/harness.test.ts"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "command",
+            "program": "bun",
+            "args": [
+              "test",
+              "scripts/coverage/evidence.test.ts"
+            ],
+            "timeoutMs": 120000
+          }
+        ]
+      },
+      {
+        "criterion": "Fewer than 150 tracked managed-exec evidence files contain final-source-bound receipts, independent QA and a macOS lifecycle acceptance report distinguishing scheduling, desktop and native Windows.",
+        "checks": [
+          {
+            "kind": "command",
+            "program": "bun",
+            "args": [
+              "test",
+              "scripts/harness/managed-exec-evidence.test.ts"
+            ],
+            "timeoutMs": 120000
+          },
+          {
+            "kind": "json",
+            "path": ".arc-verify/managed-exec/final-summary.json",
+            "pointer": "/independentReviewPassed",
+            "equals": true
+          },
+          {
+            "kind": "json",
+            "path": ".arc-verify/managed-exec/final-summary.json",
+            "pointer": "/sourceBound",
+            "equals": true
+          },
+          {
+            "kind": "file",
+            "path": ".arc-verify/managed-exec/qa.md",
+            "minBytes": 1000,
+            "contains": [
+              "macOS",
+              "protocol",
+              "coverage",
+              "reconciliation"
+            ]
+          },
+          {
+            "kind": "file",
+            "path": ".arc-verify/managed-exec/final.md",
+            "minBytes": 800,
+            "contains": [
+              "lifecycle",
+              "desktop",
+              "native Windows",
+              "Phase 1 scheduling"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "verification_execution": {
+    "cwd": ".",
+    "per_check_timeout_ms": 3600000,
+    "planning_timeout_ms": "All verification_contract timeoutMs=120000 values remain unchanged planning estimates. mission.verificationCheckTimeoutMs=3600000 governs each actual check; wrappers/replays allow at least 3600000 and retain any longer inner allowance. Mission deadline and cancellation still govern admission.",
+    "mandatory_underlying_commands": [
+      [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      [
+        "./scripts/harness/validate.sh"
+      ]
+    ],
+    "collector_sequence": [
+      "Inspect preserved implementation and affected input bindings; confirm current deterministic native checkpoints after operator notes; repair only concrete failures under backend ownership; freeze implementation/tooling inputs before serialized collection.",
+      "Cargo fmt, clippy and workspace gates; managed-exec preservation gate and harness equivalence",
+      "coverage-verification inventory of five noncollecting tests",
+      "Stage intended current-index inputs under saved task ownership, then clean-checkout isolated real collection",
+      "coverage-cli real collection",
+      "harness.test full no-skip harness with real collection",
+      "evidence.test live validation after last main-checkout collection",
+      "Independent focused QA on unchanged final inputs and audit source-bound gates; evidence gate after review/final artifacts exist"
+    ],
+    "deduplication": "Required wrappers may supply receipt for exact underlying coverage/harness commands actually run. Do not replace required wrappers, use stand-ins, or add redundant collection. Serialize all collectors, preserve latest.json provenance. Input change invalidates affected gates and requires appropriate rerun.",
+    "coverage_floor_percent": {
+      "arc-core": 80,
+      "arc-detector": 80,
+      "arc-storage": 80,
+      "arc-ipc": 80,
+      "arc-daemon": 80,
+      "arc-cli": 80
+    },
+    "added_crate_policy": "No new crate planned. Any authorized addition included in inventory/config/coverage with same >=80% production-line floor; no average substitution.",
+    "accounting": "Keep exact source reachability/denominator, fresh native LCOV/LLVM agreement, profiles hashes, child PIDs and exact merge-list equality; malformed/stale/missing evidence fails.",
+    "extra_existing_protection": [
+      "bun",
+      "test",
+      "scripts/harness/equivalence.test.ts"
+    ],
+    "coverage_test_inventory": {
+      "noncollecting": [
+        "accounting.test.ts",
+        "gate.test.ts",
+        "hygiene-preservation.test.ts",
+        "hygiene.test.ts",
+        "preservation.test.ts"
+      ],
+      "separately_required": [
+        "clean-checkout.test.ts",
+        "coverage-cli.test.ts",
+        "harness.test.ts",
+        "evidence.test.ts"
+      ]
+    },
+    "additional_existing_protection": [
+      [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec-immutability.test.ts"
+      ]
+    ]
+  },
+  "evidence": {
+    "directory": ".arc-verify/managed-exec",
+    "tracked_file_count_must_be_less_than": 150,
+    "required_artifacts": [
+      "contract.json",
+      "decision.md",
+      "preservation.md",
+      "qa.md",
+      "final.md",
+      "final-summary.json"
+    ],
+    "receipts": "Compact source/host-bound JSON with exact argv/cwd/start/end/exit/outcome and relevant test output digest plus actual final source manifests; retained local native reports follow existing hygiene. Include failed attempts and repair outcomes, do not hide failures.",
+    "binding": "HEAD/tree alone insufficient for uncommitted implementation: hash final source/tests/manifests/lockfile/migrations/coverage+harness inputs, record tracked diff and relevant nonignored untracked source. Bind dependency and final report hashes separately without recursive self-hash. Independent reviewer verifies integrated bytes/refs, not only Actor assertions. Updated task-4 contract/report dependency bindings do not refresh any retained implementation receipt; changed dependency or source hashes require owned rebinding and affected reruns before acceptance.",
+    "flags": "nativeMacos/independentReviewPassed/sourceBound become true only after corresponding current-source checks. No such flags are asserted by task-4.",
+    "final_scope": "Report lifecycle management separately from scheduling; desktop, native Windows and Phase 1 scheduling remain outstanding; no measured user/commercial benefit."
+  },
+  "actors": [
+    {
+      "id": "chief-director",
+      "profile": ".agents/agents/pm-planner.md",
+      "skill": "oma-pm",
+      "deliverables": [
+        "decision.md",
+        "contract.json",
+        "final.md and final-summary.json in saved final-acceptance task"
+      ],
+      "status": "Task-4 owns only decision.md/contract.json; final evidence/index reconciliation remains separate Chief-owned downstream work."
+    },
+    {
+      "id": "technical-director",
+      "profile": ".agents/agents/architecture-reviewer.md",
+      "skill": "oma-architecture",
+      "deliverables": [
+        "technical-contract.md"
+      ],
+      "status": "actual input read/hashed; supplied framework review passed"
+    },
+    {
+      "id": "design-director",
+      "profile": ".agents/agents/pm-planner.md",
+      "skill": "oma-pm",
+      "deliverables": [
+        "cli-contract.md"
+      ],
+      "status": "actual input read/hashed; supplied framework review passed"
+    },
+    {
+      "id": "marketing-director",
+      "profile": ".agents/agents/docs-curator.md",
+      "skill": "oma-docs",
+      "deliverables": [
+        "value-scope.md"
+      ],
+      "status": "actual input read/hashed; supplied framework review passed"
+    },
+    {
+      "id": "backend",
+      "profile": ".agents/agents/backend-engineer.md",
+      "skill": "oma-backend",
+      "deliverables": [
+        "preservation.md",
+        "implementation source and test changes",
+        "compact implementation receipts"
+      ],
+      "status": "Implementation, preservation, storage and compact receipts present. Sole product/manifest/lock/migration/tooling/test writer through saved tasks 5-7; source-bound reuse requires owner-controlled validation after integration."
+    },
+    {
+      "id": "reviewer",
+      "profile": ".agents/agents/qa-reviewer.md",
+      "skill": "oma-qa",
+      "deliverables": [
+        "qa.md",
+        "compact independent reproduction receipts"
+      ],
+      "status": "qa.md/qa.json and reproduction artifacts exist and report renewed independent PASS; task-4 does not rerun QA or certify final-source binding after this edit."
+    }
+  ],
+  "runtime": {
+    "observed_at_utc": "2026-11-08T18:18:55Z",
+    "host": "Darwin 27.2.0 arm64; macOS 27.2 build 26B123",
+    "cpus": 8,
+    "ram_bytes": 17179869184,
+    "disk_free_bytes_at_probe": 19005440000,
+    "tools": {
+      "rustc": "1.95.0 (59807616e 2026-04-14)",
+      "cargo": "1.95.0 (f2d3ce0bd 2026-03-21)",
+      "rustfmt": "1.9.0-stable",
+      "clippy": "0.1.95",
+      "cargo-llvm-cov": "0.6.21",
+      "bun": "1.4.4",
+      "llvm_tools": "installed aarch64-apple-darwin; no standalone llvm-cov found on PATH; cargo-llvm-cov is installed",
+      "python": "3.14.10",
+      "clang": "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang"
+    },
+    "availability_limit": "Fresh host/version/installed-component/SDK-location probes only. They do not establish linker execution, native process/PTY correctness, coverage or product acceptance. No install, compile or GUI fallback.",
+    "code_intelligence": {
+      "provider": "serena",
+      "mode": "unavailable",
+      "tools": [],
+      "limitation": "Tool inventory had no Serena methods; scoped reads of known paths only. No substitute recursive project search, installation or GUI bypass."
+    },
+    "max_parallel_tasks": 3,
+    "max_duration_sec": 86400,
+    "max_runs": 200,
+    "max_retries": 3,
+    "retry_delay_ms": 1000,
+    "auto_resume": true,
+    "supplied_snapshot_measured_runs": 100,
+    "remaining_run_ceiling_at_snapshot": 100,
+    "deadline_utc": null,
+    "remaining_deadline_seconds": null,
+    "deadline_evidence": "No authoritative mission start/deadline or exact remaining seconds is injected. Only AGENT_VALLEY_MANAGED_RUN=1 is exposed among AV/OMA identity/timing fields. The saved 86400-second total is not restarted. The preceding attempt recorded 2026-11-08T08:59:36.395Z as earlier activity, not mission-start authority; do not use its derived upper bound for admission. Supervising framework owns cancellation, absolute deadline and cumulative attempts. No agent/collector/verification batch is launched here.",
+    "route": "Supplied codex/native default retained. Installed .agents/oma-config.cue uses model_preset auto; explicit override is eval only, not a roster Actor. YAML and local CUE/YAML overlays absent; no dispatch or model/cost inference.",
+    "deadline_accounting_observed_at_utc": "2026-11-08T18:18:55Z",
+    "remaining_seconds_upper_bound_only": null,
+    "remaining_seconds_upper_bound_authoritative": false,
+    "file_descriptor_soft_limit": 1048576
+  },
+  "assumptions_and_risks": [
+    "Preserved final-summary.json reports accepted native macOS lifecycle and qa.json reports independent PASS. They are retained owner claims; task-4 performs no fresh runtime or collector acceptance.",
+    "Current source reflects caller-job POSIX control, complete RECENT labels and by-ID signal/core display. Deterministic post-note final-source behavior remains required; no obsolete failure is reported as a current reproduced defect.",
+    "Updating decision/contract invalidates their two entries in each retained 177-file product binding set; the three revised reports also invalidate their receipt-index artifact hashes. Reconcile under saved ownership before final reuse; never rewrite another Actor verdict or invent a pass.",
+    "Authoritative remaining deadline and spent retries are unavailable here. Preserve three concurrent tasks, 86400 seconds, 200 runs, three retries and 1000 ms retry delay; supplied 100-run remainder is a snapshot ceiling only.",
+    "Reconciliation cannot recreate an unobserved exit after observer death, guarantee eventual launch in the claim/spawn window or launch recovery. No daemon-child wait coupling, kill-on-drop or scheduler is added.",
+    "Customer value, demand, revenue, retention and ROI are unmeasured. Native macOS lifecycle acceptance remains separate from desktop, native Windows and Phase 1 scheduling."
+  ],
+  "task4_validation": "Attempt-3 document/schema-reference/hash/path/profile/ownership/whitespace checks only. Embedded wire schema, operations, transitions, copied goalBrief and verificationContract remain equal to entry bytes. No product test, full JSON Schema validator or acceptance claim.",
+  "operation_schema_reference_base": "wire_schema (urn:arc:managed-exec:payloads:1); resolve all operation request/result $refs against its $defs",
+  "gate_catalog": [
+    {
+      "id": "cargo-workspace",
+      "command": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "managed-exec",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "cargo-fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "cargo-clippy",
+      "command": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "coverage-verification",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/coverage-verification.test.ts"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "clean-checkout",
+      "command": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "coverage-cli",
+      "command": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "harness",
+      "command": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "live-evidence",
+      "command": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    },
+    {
+      "id": "managed-exec-evidence",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec-evidence.test.ts"
+      ],
+      "cwd": ".",
+      "success_exit": 0,
+      "wrapper_allowance_ms": 3600000,
+      "status": "required_not_run_by_task4_final_source_result_pending"
+    }
+  ],
+  "goal_brief_preservation": {
+    "reference": "Supplied mission.goalBrief, unchanged; this artifact resolves its routine implementation details only.",
+    "interpretation": "Native macOS Phase 0 transparent CLI-owned direct OsString child, stable lifecycle identity and existing classifier/authenticated IPC/bounded worker/additive registry. One product writer followed by independent QA; historical preservation scoped without weakening checks. Commercial outreach/paid-assessment proposals deferred.",
+    "assumptions": "All original assumptions remain, including evidence-versus-acceptance boundaries, native macOS requirement, no external delivery, provider restrictions, maximum three concurrent tasks and existing deadline/run/retry limits. No baseline or acceptance target replaced.",
+    "success_criteria": "All five original success criteria are retained verbatim in verification_contract.criteria, with their exact supplied command/file/JSON checks. This is not a new saved plan."
+  },
+  "task4_checks": {
+    "status": "PASS for task-4 specification validation only",
+    "commands": [
+      {
+        "argv": [
+          "git",
+          "status",
+          "--short",
+          "--untracked-files=no",
+          "--",
+          ".",
+          ":!av.yaml"
+        ],
+        "exit": 0,
+        "outcome": "Existing staged/unstaged changes inspected and preserved; av.yaml excluded."
+      },
+      {
+        "argv": [
+          "git",
+          "rev-parse",
+          "HEAD",
+          "HEAD^{tree}"
+        ],
+        "exit": 0,
+        "outcome": "19d7a507044cbf83918f58cd41056905c275c8d4; d2f8ace96256a7e073ab9d1bfb10fdc5cae3bf38"
+      },
+      {
+        "argv": [
+          "python3",
+          "-B",
+          "-"
+        ],
+        "purpose": "Document/hash/reference/profile/path/protected-contract/ownership validation",
+        "exit": 0,
+        "outcome": "Three delivered report hashes, 27 matrix obligations, 10 exact gate identities, schema references, six installed profile bindings, migration 0001 byte equality and unchanged nonowned file/index inventory checked."
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "--",
+          ".arc-verify/managed-exec/decision.md",
+          ".arc-verify/managed-exec/contract.json"
+        ],
+        "exit": 0,
+        "outcome": "No whitespace diagnostics; both files end in newline and have no trailing whitespace."
+      }
+    ],
+    "host_probe_outcomes": {
+      "versions_components_host_resources": "uname/sw_vers/rustc/cargo/Bun/Python/rustfmt/Clippy/cargo-llvm-cov/rustup/xcrun/sysctl/df/ulimit probes returned exit 0; available tools recorded under runtime.",
+      "missing_yaml": "cat .agents/oma-config.yaml reported No such file or directory; authoritative .agents/oma-config.cue was read. No local overlays exist.",
+      "jsonschema": "Python package absent; no installation. Schema structure/references checked, full conformance not claimed.",
+      "code_intelligence": "Serena unavailable in tool inventory; direct reads of known paths and Git inventories only."
+    },
+    "validation_counts": {
+      "local_schema_refs": 29,
+      "matrix_rows": 27,
+      "exact_gate_commands": 10,
+      "actor_bindings": 6,
+      "dependency_hashes": 3,
+      "located_module_test_paths": 53,
+      "other_files_preserved_at_write": 3356,
+      "tracked_managed_exec_files": 127
+    },
+    "test_approach": "not_applicable: two specification artifacts only; alternative verification is explicit document/contract/hash/path/ownership validation. Implementation, coverage and review obligations remain unchanged.",
+    "product_gates_run": false,
+    "remaining_product_work": [
+      "Chief-owned affected artifact/index/input-binding reconciliation after integration",
+      "Required final-source gates, affected owner checks and framework reviews; retained receipts may be reused only if their declared inputs and scope remain valid",
+      "Final independent review/acceptance on integrated sources; retain historical attempts unchanged"
+    ],
+    "runtime_claim": "AV managed task; no injected OMA claim/run/session path or authoritative mission deadline. No new identity, task plan, mission-state mutation, dispatch or reset."
+  },
+  "resume_evidence": {
+    "observed_at_utc": "2026-11-08T18:18:55Z",
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "baseline_is_worktree_head": true,
+    "worktree_scope": "Extensive staged implementation/evidence plus unstaged preceding reports and harness-speed outputs; preserved. av.yaml excluded and unread. HEAD does not bind current overlay bytes.",
+    "prior_task4_contract_sha256": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+    "prior_task4_decision_sha256": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+    "retained_checkpoints": [
+      {
+        "path": ".arc-verify/managed-exec/final-summary.json",
+        "sha256": "37ef4eba0ae7ba589f632cb465d88b682d401b015334eae35b9e0826f82d23c2",
+        "fresh_run_by_this_task": false,
+        "reported_result": "accepted; nativeMacos/independentReviewPassed/sourceBound true in retained record"
+      },
+      {
+        "path": ".arc-verify/managed-exec/qa.json",
+        "sha256": "afb3a04ea15a4b0f569ca35080120435014f83f13a0552ca2cb1fc0a10664c8d",
+        "fresh_run_by_this_task": false,
+        "reported_result": "independent PASS, sourceBound true in retained record"
+      },
+      {
+        "path": ".arc-verify/managed-exec/implementation/pipeline-workspace.json",
+        "sha256": "0862e71c27c5f7392b1b809965cc938db607811b9b772b4e38aa83ea38c15219",
+        "fresh_run_by_this_task": false,
+        "reported_result": "Historical pre-repair failure, retained without reclassification"
+      },
+      {
+        "path": ".arc-verify/managed-exec/implementation/pipeline-independent-review.md",
+        "sha256": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+        "fresh_run_by_this_task": false,
+        "reported_result": "Historical pre-repair failure, retained without reclassification"
+      }
+    ],
+    "product_acceptance": "Retained owners report later acceptance/PASS; this report refresh makes relevant bindings stale and does not itself recertify the product.",
+    "rebinding": "Task-4 updates only its owned artifacts/dependency hashes. Final Chief evidence owner must refresh receipt-index report digests and affected input bindings and validate required final-source gates; backend/QA own any needed execution/report renewal.",
+    "retained_input_binding_probe": {
+      "final-summary.json": {
+        "files": 177,
+        "mismatches_before_task4_edit": []
+      },
+      "qa.json": {
+        "files": 177,
+        "mismatches_before_task4_edit": []
+      }
+    },
+    "retained_input_binding_after_edit": {
+      "final-summary.json": {
+        "mismatches_after_task4_edit": [
+          ".arc-verify/managed-exec/contract.json",
+          ".arc-verify/managed-exec/decision.md"
+        ],
+        "owner_action": "Reconcile these authorized specification changes under saved final-evidence ownership before reuse; do not alter independent verdicts."
+      },
+      "qa.json": {
+        "mismatches_after_task4_edit": [
+          ".arc-verify/managed-exec/contract.json",
+          ".arc-verify/managed-exec/decision.md"
+        ],
+        "owner_action": "Reconcile these authorized specification changes under saved final-evidence ownership before reuse; do not alter independent verdicts."
+      }
+    }
+  },
+  "interface_conflicts": [
+    {
+      "id": "terminal-topology-and-forwarding",
+      "owner": "backend",
+      "paths": [
+        "crates/arc-cli/src/exec.rs",
+        "crates/arc-cli/src/exec/terminal.rs",
+        "crates/arc-cli/src/exec/signals.rs",
+        "crates/arc-daemon/tests/managed_exec/terminal.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py",
+        "crates/arc-cli/tests/fixtures/pipeline.rs"
+      ],
+      "evidence": "Current located-source inspection agrees with revised task-1/task-2: conditional private group, no tcsetpgrp, quiet shared-job terminal handlers and native stop/continue wait. Earlier pipeline FAIL is historical; later retained QA reports passing native pipeline cases. Neither receipt was replayed in task-4.",
+      "decision": "Adopt operator caller-job model stated in cli.terminal. Preserve original pipeline/native-wait assertions and run deterministic tests against final integrated inputs. Do not reinstate the stale unconditional pgid==pid requirement for a terminal job.",
+      "status": "Prior source-level conflict is no longer observed; final integrated runtime evidence remains an acceptance responsibility."
+    },
+    {
+      "id": "recent-discovery-fields",
+      "owner": "backend",
+      "paths": [
+        "crates/arc-cli/src/job.rs",
+        "crates/arc-ipc/src/jobs/types.rs",
+        "crates/arc-daemon/tests/managed_exec/cli.rs",
+        "crates/arc-daemon/tests/managed_exec/scenarios.rs"
+      ],
+      "evidence": "Current job.rs prints registered/updated Unix milliseconds, reason and Last known: true; revised CLI report observes the same. Populated-history regression is named in retained QA.",
+      "decision": "Keep wire shape and labels. Bind populated-history timestamp/reason/ID associations to final source evidence; status remains optional/read-only.",
+      "status": "Prior omission is no longer present in inspected source; no new formatter implementation is assigned by this specification."
+    }
+  ],
+  "operator_note_actions": [
+    {
+      "at": "2026-11-08T11:19:22.283Z",
+      "owner": "backend",
+      "action": "Schema-2 literal updates are authorized and required; re-run affected current migration/daemon/preservation checks. No further approval or debate is required.",
+      "task4_effect": "Recorded in contract; no product/baseline edits here."
+    },
+    {
+      "at": "2026-11-08T13:15:55.730Z",
+      "owner": "backend within saved task-7 ownership",
+      "action": "Treat collector 14213b3c-fbfb-48c3-867d-4602607bdd05 as abandoned; mark failed/interrupted with commands:[], pass:false and interruptedAt in owned run records. Do not wait for a terminal result. After product repair and source freeze, use fresh serialized acceptance collection in bounded steps. Re-run affected checks in current environment.",
+      "task4_effect": "No collection, collector waiting, mission-state or run-record mutation performed; completion of that action is not asserted by this task."
+    },
+    {
+      "at": "2026-11-08T15:24:49.402Z",
+      "owner": "backend",
+      "action": "Follow operator note 2026-11-08T15:24:49.402Z. With a controlling terminal, retain the caller job process group, including background jobs: no process_group(0), setpgid or tcsetpgrp; no terminal INT/QUIT group or PID forwarding. OS job control delivers terminal INT/QUIT/TSTP to eligible peers. Forward received TERM/HUP/USR1/USR2 only to the owned child PID. Wait with WUNTRACED|WCONTINUED, mirror a still-outstanding child stop via wrapper SIGSTOP and resume on SIGCONT without taking foreground. Use private child group only without a controlling terminal or in detached/managed execution without caller peers. Retain inherited dispositions/masks, preattach protection, stop/continue ordering, terminal modes, closed descriptors and native parent-visible signaled status (shell convention 128+signal). Never infer PID-versus-group provenance from sender metadata or broadcast wrapper-only signals to peers. Deterministic direct/wrapped native PTY/pipeline checks remain required.",
+      "task4_effect": "Selected model is explicit; affected tests must be current and post-note. Source matches inspected structure, not fresh native acceptance. No product or test edits by task-4."
+    }
+  ]
+}

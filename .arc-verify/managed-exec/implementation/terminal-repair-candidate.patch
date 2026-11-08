@@ -1,0 +1,509 @@
+--- a/crates/arc-cli/src/exec.rs
++++ b/crates/arc-cli/src/exec.rs
+@@ -1,5 +1,6 @@
+ //! One CLI-owned native child, independent of every metadata retry.
+ mod descriptors;
++mod relay;
+ mod signals;
+ mod terminal;
+ pub(crate) mod transport;
+@@ -92,20 +93,19 @@
+     if !matches!(claimed, Ok(ref r) if r.job.phase == Phase::Launching) || signals.interrupted() {
+         return not_started();
+     }
+-    let terminal = terminal::Terminal::open();
++    let Ok(terminal) = terminal::Terminal::open() else {
++        return not_started();
++    };
++    if signals.interrupted() {
++        return not_started();
++    }
+     let mut command = Command::new(&argv[0]);
+-    use std::os::unix::process::CommandExt;
+-    command.args(&argv[1..]).process_group(0);
+-    if let Some(terminal) = &terminal {
+-        terminal.configure(&mut command);
+-    }
++    command.args(&argv[1..]);
++    terminal.configure(&mut command);
+     descriptors::restore_in_child(&mut command);
+     let mut child = match command.spawn() {
+         Ok(child) => child,
+         Err(error) => {
+-            if let Some(terminal) = &terminal {
+-                let _ = terminal.restore();
+-            }
+             let reason = match error.kind() {
+                 io::ErrorKind::NotFound => SpawnReason::NotFound,
+                 io::ErrorKind::PermissionDenied => SpawnReason::PermissionDenied,
+@@ -149,7 +149,7 @@
+         eprintln!("TRACKING_UNCERTAIN\nJob: {}\nLifecycle tracking is uncertain. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str());
+     }
+     let status = loop {
+-        match signals.wait(&mut child, terminal.as_ref()) {
++        match signals.wait(&mut child, &terminal) {
+             Ok(status) => break status,
+             Err(e) if e.kind() == io::ErrorKind::Interrupted => (),
+             Err(_) => {
+@@ -160,9 +160,6 @@
+         }
+     };
+     signals.reaped();
+-    if let Some(terminal) = &terminal {
+-        let _ = terminal.restore();
+-    }
+     let outcome = match status.code() {
+         Some(code) => Outcome::Exited { code: code as u8 },
+         None => Outcome::Signaled {
+--- a/crates/arc-cli/src/exec/signals.rs
++++ b/crates/arc-cli/src/exec/signals.rs
+@@ -1,13 +1,22 @@
+ //! Wrapper-directed signals are forwarded to the one unreaped child.
+-//! A separate foreground group keeps terminal signals from reaching us twice.
++//! The observer-only group receives no caller-job broadcasts.
+ use std::{
+     io,
+     sync::atomic::{AtomicI32, Ordering},
+ };
+ static CHILD: AtomicI32 = AtomicI32::new(0);
+ static PENDING: AtomicI32 = AtomicI32::new(0);
+-const SIGNALS: [i32; 4] = [libc::SIGINT, libc::SIGQUIT, libc::SIGTERM, libc::SIGHUP];
++const SIGNALS: [i32; 5] = [
++    libc::SIGINT,
++    libc::SIGQUIT,
++    libc::SIGTERM,
++    libc::SIGHUP,
++    libc::SIGCONT,
++];
+ extern "C" fn receive(signal: i32, _: *mut libc::siginfo_t, _: *mut libc::c_void) {
++    if signal == libc::SIGCONT {
++        return;
++    }
+     #[cfg(target_os = "macos")]
+     let errno = unsafe { libc::__error() };
+     #[cfg(target_os = "linux")]
+@@ -74,7 +83,7 @@
+     pub(crate) fn wait(
+         &self,
+         child: &mut std::process::Child,
+-        terminal: Option<&super::terminal::Terminal>,
++        terminal: &super::terminal::Terminal,
+     ) -> io::Result<std::process::ExitStatus> {
+         loop {
+             // Observe without reaping, so a handler cannot target a recycled PID
+@@ -90,7 +99,10 @@
+             };
+             if result == 0 {
+                 if info.si_code == libc::CLD_STOPPED {
+-                    // Consume the stop notification; retain only exit identity.
++                    let observed = terminal.epoch();
++                    // Consume stop and continuation notifications separately.
++                    // A continuation racing with suspend is acknowledged by the
++                    // caller-group anchor until the observer resumes.
+                     unsafe {
+                         libc::waitid(
+                             libc::P_PID,
+@@ -99,20 +111,18 @@
+                             libc::WSTOPPED | libc::WNOHANG,
+                         );
+                     }
+-
+-                    if let Some(terminal) = terminal {
+-                        let _ = terminal.restore();
++                    let mut resumed: libc::siginfo_t = unsafe { std::mem::zeroed() };
++                    unsafe {
++                        libc::waitid(
++                            libc::P_PID,
++                            child.id(),
++                            &mut resumed,
++                            libc::WCONTINUED | libc::WNOHANG,
++                        );
+                     }
+-                    // Suspend the wrapper too; its caller can regain control.
+-                    // SIGSTOP also works for an orphaned foreground session.
++                    terminal.suspend(observed, resumed.si_code == libc::CLD_CONTINUED);
+                     unsafe {
+-                        libc::raise(libc::SIGSTOP);
+-                    }
+-                    if let Some(terminal) = terminal {
+-                        let _ = terminal.resume(child.id());
+-                    }
+-                    unsafe {
+-                        libc::kill(-(child.id() as i32), libc::SIGCONT);
++                        libc::kill(child.id() as i32, libc::SIGCONT);
+                     }
+                     continue;
+                 }
+--- a/crates/arc-cli/src/exec/terminal.rs
++++ b/crates/arc-cli/src/exec/terminal.rs
+@@ -1,103 +1,2 @@
+-//! A foreground child group separates terminal delivery from wrapper-only
+-//! signals. No new session or terminal modes are created by ARC.
+-use std::{
+-    cell::Cell,
+-    fs::File,
+-    io,
+-    os::{
+-        fd::{AsRawFd, FromRawFd},
+-        unix::process::CommandExt,
+-    },
+-    process::Command,
+-};
+-pub(crate) struct Terminal {
+-    file: File,
+-    original: i32,
+-    started_foreground: bool,
+-    owns_foreground: Cell<bool>,
+-}
+-impl Terminal {
+-    pub(crate) fn open() -> Option<Self> {
+-        // Keep control descriptors above standard I/O, including when the
+-        // caller has closed one of those descriptors. All are close-on-exec.
+-        for source in [0, 1, 2] {
+-            let foreground = unsafe { libc::tcgetpgrp(source) };
+-            if foreground > 0 {
+-                let fd = unsafe { libc::fcntl(source, libc::F_DUPFD_CLOEXEC, 3) };
+-                if fd >= 0 {
+-                    return Some(Self::new(unsafe { File::from_raw_fd(fd) }, foreground));
+-                }
+-            }
+-        }
+-        let fd = unsafe { libc::open(c"/dev/tty".as_ptr(), libc::O_RDWR | libc::O_CLOEXEC) };
+-        if fd < 0 {
+-            return None;
+-        }
+-        let duplicate = unsafe { libc::fcntl(fd, libc::F_DUPFD_CLOEXEC, 3) };
+-        unsafe {
+-            libc::close(fd);
+-        }
+-        if duplicate < 0 {
+-            return None;
+-        }
+-        let file = unsafe { File::from_raw_fd(duplicate) };
+-        let original = unsafe { libc::tcgetpgrp(duplicate) };
+-
+-        (original > 0).then(|| Self::new(file, original))
+-    }
+-    fn new(file: File, foreground: i32) -> Self {
+-        let original = unsafe { libc::getpgrp() };
+-        Self {
+-            file,
+-            original,
+-            started_foreground: foreground == original,
+-            owns_foreground: Cell::new(false),
+-        }
+-    }
+-    pub(crate) fn configure(&self, command: &mut Command) {
+-        let fd = self.file.as_raw_fd();
+-        command.process_group(0);
+-        // A background invocation must not steal its caller's foreground.
+-        if !self.started_foreground {
+-            return;
+-        }
+-        self.owns_foreground.set(true);
+-        // SAFETY: only async-signal-safe native calls run between fork and exec.
+-        unsafe {
+-            command.pre_exec(move || set_foreground(fd, libc::getpgrp()));
+-        }
+-    }
+-    pub(crate) fn restore(&self) -> io::Result<()> {
+-        if self.owns_foreground.get() {
+-            set_foreground(self.file.as_raw_fd(), self.original)?;
+-            self.owns_foreground.set(false);
+-        }
+-        Ok(())
+-    }
+-    pub(crate) fn resume(&self, pid: u32) -> io::Result<()> {
+-        // A caller may foreground a previously background/stopped wrapper.
+-        if unsafe { libc::tcgetpgrp(self.file.as_raw_fd()) } == self.original {
+-            set_foreground(self.file.as_raw_fd(), pid as i32)?;
+-            self.owns_foreground.set(true);
+-        }
+-        Ok(())
+-    }
+-}
+-fn set_foreground(fd: i32, group: i32) -> io::Result<()> {
+-    unsafe {
+-        let prior = libc::signal(libc::SIGTTOU, libc::SIG_IGN);
+-        let result = libc::tcsetpgrp(fd, group);
+-        let error = io::Error::last_os_error();
+-        libc::signal(libc::SIGTTOU, prior);
+-        if result < 0 {
+-            Err(error)
+-        } else {
+-            Ok(())
+-        }
+-    }
+-}
+-impl Drop for Terminal {
+-    fn drop(&mut self) {
+-        let _ = self.restore();
+-    }
+-}
++//! Native caller-job topology and acknowledged stop/continue handling.
++pub(crate) use super::relay::Relay as Terminal;
+--- a/crates/arc-daemon/tests/managed_exec/terminal.rs
++++ b/crates/arc-daemon/tests/managed_exec/terminal.rs
+@@ -143,8 +143,9 @@
+ 
+             if managed {
+                 assert_eq!(
+-                    msg["pgid"], msg["pid"],
+-                    "child must own the foreground group"
++                    msg["pgid"],
++                    serde_json::json!(child.child.id()),
++                    "child must retain the caller job group"
+                 );
+             }
+             assert_eq!(pty.modes(), before);
+--- a/crates/arc-daemon/tests/managed_exec/pipeline.py
++++ b/crates/arc-daemon/tests/managed_exec/pipeline.py
+@@ -211,6 +211,19 @@
+         peer, peer_info = accept(listeners[2])
+         streams.append(peer)
+         result.update(job=job, producer=producer_info, peer=peer_info)
++        if managed:
++            # Enumerate only this fixture-owned observer's direct children.
++            # The bootstrap has already been reaped before target exec.
++            children = (ctypes.c_int * 16)()
++            count = LIBC.proc_listchildpids(job['identities'][0]['pid'], children, ctypes.sizeof(children))
++            assert 0 < count <= ctypes.sizeof(children), ('child identity inventory unavailable', count)
++            helpers = [native(pid) for pid in children if pid and pid != producer_info['identity']['pid']]
++            assert len(helpers) == 1, ('expected one live continuation anchor', helpers)
++            identities.extend(helpers)
++            result['helpers'] = helpers
++            assert producer_info['pgid'] == job['group'], 'target left caller job'
++            assert os.getpgid(job['identities'][0]['pid']) != job['group'], 'observer still in broadcast group'
++
+ 
+         def request(value):
+             send(control, value)
+--- /dev/null
++++ b/crates/arc-cli/src/exec/relay.rs
+@@ -0,0 +1,226 @@
++//! Keep the target in the caller job and the observer outside signal broadcasts.
++//! The anchor relays continuation only; it never forwards termination to peers.
++use std::{
++    io::{self, Read},
++    os::{
++        fd::AsRawFd,
++        unix::{net::UnixStream, process::CommandExt},
++    },
++    process::Command,
++    sync::atomic::{AtomicU32, Ordering},
++};
++
++#[repr(C)]
++struct Shared {
++    continued: AtomicU32,
++    suspending: AtomicU32,
++    acknowledged: AtomicU32,
++}
++static mut STATE: *mut Shared = std::ptr::null_mut();
++static mut OBSERVER: libc::pid_t = 0;
++
++extern "C" fn continued(_: i32) {
++    // Runs only in the single-threaded forked anchor. All operations are native
++    // async-signal-safe calls or lock-free shared atomics. No target is signaled.
++    unsafe {
++        let state = &*STATE;
++        let epoch = state
++            .continued
++            .fetch_add(1, Ordering::SeqCst)
++            .wrapping_add(1);
++        loop {
++            if libc::getppid() != OBSERVER {
++                libc::_exit(0);
++            }
++            libc::kill(OBSERVER, libc::SIGCONT);
++            if state.suspending.load(Ordering::SeqCst) == 0
++                || state.acknowledged.load(Ordering::SeqCst) == epoch
++            {
++                break;
++            }
++            // This is an acknowledged continuation protocol, not a delay or
++            // inference from pending signals. Reissue until suspend returns.
++            libc::sched_yield();
++        }
++    }
++}
++
++pub(crate) struct Relay {
++    anchor: libc::pid_t,
++    group: libc::pid_t,
++    stream: Option<UnixStream>,
++    state: *mut Shared,
++}
++impl Relay {
++    pub(crate) fn open() -> io::Result<Self> {
++        let group = unsafe { libc::getpgrp() };
++        let state = unsafe {
++            libc::mmap(
++                std::ptr::null_mut(),
++                std::mem::size_of::<Shared>(),
++                libc::PROT_READ | libc::PROT_WRITE,
++                libc::MAP_SHARED | libc::MAP_ANON,
++                -1,
++                0,
++            )
++        };
++        if state == libc::MAP_FAILED {
++            return Err(io::Error::last_os_error());
++        }
++        let state = state.cast::<Shared>();
++        unsafe {
++            state.write(Shared {
++                continued: AtomicU32::new(0),
++                suspending: AtomicU32::new(0),
++                acknowledged: AtomicU32::new(0),
++            });
++        }
++        let (stream, peer) = match UnixStream::pair() {
++            Ok(pair) => pair,
++            Err(error) => {
++                unsafe {
++                    libc::munmap(state.cast(), std::mem::size_of::<Shared>());
++                }
++                return Err(error);
++            }
++        };
++        let observer = unsafe { libc::getpid() };
++        let anchor = unsafe { libc::fork() };
++        if anchor == 0 {
++            unsafe {
++                anchor_main(peer.as_raw_fd(), state, observer);
++            }
++        }
++        drop(peer);
++        if anchor < 0 {
++            let error = io::Error::last_os_error();
++            unsafe {
++                libc::munmap(state.cast(), std::mem::size_of::<Shared>());
++            }
++            return Err(error);
++        }
++        let mut relay = Self {
++            anchor,
++            group,
++            stream: Some(stream),
++            state,
++        };
++        let mut ready = [0];
++        relay.stream.as_mut().unwrap().read_exact(&mut ready)?;
++        // A separate transient child creates an observer-only group. The
++        // anchor never leaves the original group, even when it has no peers.
++        let (mut control, other) = UnixStream::pair()?;
++        let bootstrap = unsafe { libc::fork() };
++        if bootstrap == 0 {
++            unsafe {
++                libc::close(control.as_raw_fd());
++                if libc::setpgid(0, 0) != 0 {
++                    libc::_exit(1);
++                }
++                let fd = other.as_raw_fd();
++                libc::write(fd, b"r".as_ptr().cast(), 1);
++                let mut byte = 0u8;
++                libc::read(fd, (&mut byte as *mut u8).cast(), 1);
++                libc::_exit(0);
++            }
++        }
++        drop(other);
++        if bootstrap < 0 {
++            return Err(io::Error::last_os_error());
++        }
++        let prepared = control.read_exact(&mut ready).and_then(|_| {
++            if unsafe { libc::setpgid(0, bootstrap) } == 0 {
++                Ok(())
++            } else {
++                Err(io::Error::last_os_error())
++            }
++        });
++        drop(control);
++        reap(bootstrap);
++        prepared?;
++        Ok(relay)
++    }
++    pub(crate) fn configure(&self, command: &mut Command) {
++        command.process_group(self.group);
++    }
++    pub(crate) fn epoch(&self) -> u32 {
++        unsafe { &*self.state }.continued.load(Ordering::SeqCst)
++    }
++    pub(crate) fn suspend(&self, observed: u32, already_continued: bool) {
++        let state = unsafe { &*self.state };
++        state.suspending.store(1, Ordering::SeqCst);
++        if !already_continued && self.epoch() == observed {
++            unsafe {
++                libc::raise(libc::SIGSTOP);
++            }
++        }
++        state.acknowledged.store(self.epoch(), Ordering::SeqCst);
++        state.suspending.store(0, Ordering::SeqCst);
++    }
++}
++unsafe fn anchor_main(fd: i32, state: *mut Shared, observer: i32) -> ! {
++    STATE = state;
++    OBSERVER = observer;
++    // Do not retain caller pipes, terminal descriptors or unrelated resources.
++    for descriptor in 0..libc::getdtablesize() {
++        if descriptor != fd {
++            libc::close(descriptor);
++        }
++    }
++    for signal in [
++        libc::SIGINT,
++        libc::SIGQUIT,
++        libc::SIGTERM,
++        libc::SIGHUP,
++        libc::SIGTSTP,
++        libc::SIGTTIN,
++        libc::SIGTTOU,
++    ] {
++        libc::signal(signal, libc::SIG_IGN);
++    }
++    let mut action: libc::sigaction = std::mem::zeroed();
++    action.sa_sigaction = continued as *const () as usize;
++    action.sa_flags = libc::SA_RESTART;
++    libc::sigemptyset(&mut action.sa_mask);
++    libc::sigaction(libc::SIGCONT, &action, std::ptr::null_mut());
++    if libc::write(fd, b"r".as_ptr().cast(), 1) != 1 {
++        libc::_exit(1);
++    }
++    let mut byte = 0u8;
++    loop {
++        let n = libc::read(fd, (&mut byte as *mut u8).cast(), 1);
++        if n == 0 {
++            libc::_exit(0);
++        }
++        if n < 0 && io::Error::last_os_error().kind() != io::ErrorKind::Interrupted {
++            libc::_exit(1);
++        }
++    }
++}
++fn reap(pid: i32) {
++    loop {
++        if unsafe { libc::waitpid(pid, std::ptr::null_mut(), 0) } >= 0 {
++            break;
++        }
++        if io::Error::last_os_error().kind() != io::ErrorKind::Interrupted {
++            break;
++        }
++    }
++}
++impl Drop for Relay {
++    fn drop(&mut self) {
++        // The direct child remains unreaped until after the last anchor signal.
++        // Rejoin before releasing the anchor so the original group still exists.
++        unsafe {
++            libc::setpgid(0, self.group);
++        }
++        self.stream.take();
++        unsafe {
++            libc::kill(self.anchor, libc::SIGCONT);
++        }
++        reap(self.anchor);
++        unsafe {
++            libc::munmap(self.state.cast(), std::mem::size_of::<Shared>());
++        }
++    }
++}

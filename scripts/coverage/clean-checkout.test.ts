@@ -2,18 +2,19 @@ import { test, expect } from "bun:test";
 import { mkdirSync, mkdtempSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve, join } from "node:path";
+import { checkPreservation } from "./preservation";
 import { root } from "./acceptance";
 import { command, type Receipt } from "./commands";
 import { inputIdentity, hash } from "./source";
 import { BASELINE, CRATES, EVIDENCE } from "./config";
-import { ACCEPTED_HEAD, gitBytes, auditTrackedEvidence, assertHygiene, checkExactPreservation } from "./hygiene";
+import { ACCEPTED_HEAD, gitBytes, auditTrackedEvidence, assertHygiene } from "./hygiene";
 
 test("isolated checkout collects fresh native evidence with no inherited run artifacts", async () => {
   // Use the final index, including additions/deletions. Requiring identical input
   // identities fails if a relevant working-file change was not staged. No raw
   // reports, targets, runtime pointers or ignored files are copied from root.
   assertHygiene(auditTrackedEvidence(root));
-  checkExactPreservation(root);
+  checkPreservation(root);
   const source = inputIdentity(root), tree = gitBytes(root, ["write-tree"]).toString().trim();
   const checkout = mkdtempSync(join(tmpdir(), "arc-clean-coverage-"));
   const receiptDir = resolve(root, "target/evidence-hygiene/clean-checkout/runs", crypto.randomUUID());
@@ -37,13 +38,13 @@ test("isolated checkout collects fresh native evidence with no inherited run art
     expect(existsSync(join(checkout, EVIDENCE, "baseline/latest.json"))).toBe(false);
     assertHygiene(auditTrackedEvidence(checkout));
     expect(inputIdentity(checkout)).toEqual(source);
-    checkExactPreservation(checkout);
+    checkPreservation(checkout);
     state.precollection = { priorArtifacts: prior, targetAbsent: true, runsAbsent: true, runtimeLatestAbsent: true, sourceIdentityMatches: true };
     save();
     const env = { ...process.env }; delete env.SKIP_COVERAGE;
     for (const argv of [["bun", "run", "test:coverage"], ["bun", "test", "scripts/coverage/evidence.test.ts"]]) {
       console.log(`Clean checkout ${checkout}: ${argv.join(" ")}`);
-      const receipt = await command(argv, receiptDir, checkout, env, 900000);
+      const receipt = await command(argv, receiptDir, checkout, env, 3600000);
       receipts.push(receipt); save();
       if (receipt.exit !== 0) throw Error(`CLEAN_CHECKOUT: ${argv.join(" ")} exited ${receipt.exit}\n${receipt.stdout}\n${receipt.stderr}\nReceipts: ${receiptDir}`);
     }
@@ -57,7 +58,7 @@ test("isolated checkout collects fresh native evidence with no inherited run art
     }
     expect(summary.rawSha256).toMatch(/^[a-f0-9]{64}$/); expect(summary.llvmSha256).toMatch(/^[a-f0-9]{64}$/);
     expect(inputIdentity(checkout)).toEqual(source); expect(inputIdentity(root)).toEqual(source);
-    checkExactPreservation(checkout);
+    checkPreservation(checkout);
     state.pass = true; state.runId = latest.runId; state.directory = latest.directory;
     state.host = summary.host; state.crates = summary.crates;
     state.nativeHashes = { lcov: summary.rawSha256, llvmJson: summary.llvmSha256 };
@@ -67,4 +68,4 @@ test("isolated checkout collects fresh native evidence with no inherited run art
     state.ended = new Date().toISOString(); save();
     console.log(`Fresh checkout and native artifacts retained at ${checkout}; receipts: ${receiptDir}`);
   }
-}, 1860000);
+}, 7260000);

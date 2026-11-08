@@ -4,6 +4,8 @@
 
 mod classify;
 mod doctor;
+mod exec;
+mod job;
 
 use arc_ipc::{
     self, Request, Response, OPERATION_DOCTOR, OPERATION_HELLO, PROTOCOL_VERSION, STATUS_OK,
@@ -37,6 +39,29 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
+    /// Run a program and its arguments directly.
+    #[command(override_usage = "arcctl exec -- <PROGRAM> [ARG...]")]
+    #[command(after_help = "Examples:
+  arcctl exec -- cargo test
+  arcctl exec -- printf '%s\\n' 'two words'
+  arcctl exec -- '/path/with spaces/tool' '' '--help' '|'
+
+Your shell handles quoting before ARC receives arguments.
+ARC does not interpret pipes, redirections, substitutions or shell operators.
+Start arc-daemon before managed execution.
+Stopping the daemon does not stop the running child.
+Use arcctl job status to find lifecycle IDs.
+Use arcctl job status <JOB_ID> to inspect an existing job without launching it.
+Lifecycle tracking is available; Phase 1 scheduling is not implemented.")]
+    Exec {
+        #[arg(required = true, num_args = 1.., last = true, value_name = "PROGRAM")]
+        argv: Vec<std::ffi::OsString>,
+    },
+    /// Inspect persistent lifecycle records without launching work
+    Job {
+        #[command(subcommand)]
+        command: JobCommand,
+    },
     /// Report daemon liveness and protocol
     Status,
     /// Check database integrity and schema compatibility through the daemon
@@ -69,6 +94,12 @@ Examples:
     },
 }
 
+#[derive(Debug, Subcommand)]
+enum JobCommand {
+    /// Show one job or the 50 most recent last-known records
+    Status { job_id: Option<String> },
+}
+
 fn main() -> ExitCode {
     let cli = match Cli::try_parse() {
         Ok(cli) => cli,
@@ -88,6 +119,12 @@ fn main() -> ExitCode {
                     ExitCode::FAILURE
                 };
             }
+            if std::env::args_os().nth(1).as_deref() == Some(std::ffi::OsStr::new("exec")) {
+                return exec::invalid();
+            }
+            if std::env::args_os().nth(1).as_deref() == Some(std::ffi::OsStr::new("job")) {
+                return job::invalid();
+            }
             // Preserve legacy usage errors outside the new classification command.
             if std::env::args_os().nth(1).as_deref() != Some(std::ffi::OsStr::new("classify")) {
                 error.exit();
@@ -99,8 +136,15 @@ fn main() -> ExitCode {
             return ExitCode::from(2);
         }
     };
-    let classification = matches!(&cli.command, Command::Classify { .. });
-    match run(cli.command) {
+    let command = match cli.command {
+        Command::Exec { argv } => return exec::run(argv),
+        Command::Job {
+            command: JobCommand::Status { job_id },
+        } => return job::run(job_id),
+        command => command,
+    };
+    let classification = matches!(&command, Command::Classify { .. });
+    match run(command) {
         Ok(()) => ExitCode::SUCCESS,
         Err(code) => {
             eprintln!("{code}");
@@ -115,6 +159,7 @@ fn main() -> ExitCode {
 fn run(command: Command) -> Result<(), String> {
     let socket = arc_core::socket_path().map_err(|_| DAEMON_UNAVAILABLE)?;
     match command {
+        Command::Exec { .. } | Command::Job { .. } => unreachable!("handled before diagnostics"),
         Command::Status => status(&socket).map_err(str::to_owned),
         Command::Doctor => doctor::run(&socket),
         Command::Classify {

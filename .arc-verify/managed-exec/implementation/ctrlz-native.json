@@ -1,0 +1,64 @@
+{
+  "probe": "native terminal VSUSP/Ctrl-Z",
+  "started": 1794139812.681071,
+  "scriptSha256": "1e17ecd41cbefe7e4d4d67cd1566ed7644497928c9cd038aeb6f6fa1f3a3b1bc",
+  "identities": {
+    "daemon": {
+      "pid": 19653,
+      "start_token": "1794139812690425",
+      "kind": "live",
+      "pgid": 19630
+    },
+    "supervisor": {
+      "pid": 19654,
+      "start_token": "1794139812731302",
+      "kind": "live",
+      "pgid": 19630
+    },
+    "child": {
+      "pid": 19656,
+      "start_token": "1794139812763804",
+      "kind": "live",
+      "pgid": 19656
+    },
+    "wrapper": {
+      "pid": 19655,
+      "start_token": "1794139812742550",
+      "kind": "live",
+      "pgid": 19654
+    }
+  },
+  "events": [
+    "isolated daemon ready",
+    "native tuples persisted before VSUSP",
+    "terminal VSUSP byte sent",
+    "supervisor stop observed",
+    "supervisor SIGCONT sent",
+    "terminal input sent",
+    "supervisor exited",
+    "exit17 input and foreground restoration verified"
+  ],
+  "pass": true,
+  "prior_probe_fixture_inventory": {
+    "enumerated": 768,
+    "exact_workspace_fixture_matches": [],
+    "unreadable_paths": 2
+  },
+  "isolatedRoot": "/tmp/az-review-o5m4yso9",
+  "supervisorExit": 17,
+  "daemonExit": 0,
+  "finalIdentityObservations": {
+    "daemon": null,
+    "supervisor": null,
+    "child": null,
+    "wrapper": null
+  },
+  "allRecordedIdentitiesAbsent": true,
+  "outputSha256": "3f7ff327118d09a5eb8e66f593d2280bdcabb23b65f6dfcfad2024d86e787ed3",
+  "ended": 1794139812.8096142,
+  "finalFixtureInventory": {
+    "enumerated": 768,
+    "exact_workspace_fixture_matches": [],
+    "unreadable_paths": 2
+  }
+}

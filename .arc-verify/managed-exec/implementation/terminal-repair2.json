@@ -1,0 +1,2069 @@
+{
+  "version": 1,
+  "task": "task-6-terminal",
+  "attempt": 2,
+  "status": "failed",
+  "skill": "oma-backend",
+  "nativeMacos": true,
+  "acceptedHead": "19d7a507044cbf83918f58cd41056905c275c8d4",
+  "createdAt": "2026-11-08T15:12:24.922383+00:00",
+  "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+  "sourceInputs": {
+    ".arc-verify/managed-exec/contract.json": {
+      "sha256": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+      "mode": 420
+    },
+    ".arc-verify/managed-exec/decision.md": {
+      "sha256": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+      "mode": 420
+    },
+    ".arc-verify/rust-coverage/contract/accounting.json": {
+      "sha256": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb",
+      "mode": 420
+    },
+    ".gitignore": {
+      "sha256": "c38ed4c5d6f44c8efb96edfbcd33ec8464423c56598d148c4bec90366e78aa88",
+      "mode": 420
+    },
+    "Cargo.lock": {
+      "sha256": "cf2c459f1af04632d571d21c16961c328c43424939b7b3c5176695de6881fa7f",
+      "mode": 420
+    },
+    "Cargo.toml": {
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "mode": 420
+    },
+    "crates/arc-cli/Cargo.toml": {
+      "sha256": "6f195995dbbdc42e85628ee09763cdb268d14e3d98d15579b68bb558b581cb33",
+      "mode": 420
+    },
+    "crates/arc-cli/src/classify.rs": {
+      "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+      "mode": 420
+    },
+    "crates/arc-cli/src/doctor.rs": {
+      "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec.rs": {
+      "sha256": "4fa2f5a2ebd8be69f76af2347d727de53913317a0466d4d7b6344cd0362fbfed",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/descriptors.rs": {
+      "sha256": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/signals.rs": {
+      "sha256": "af1ad552fd30ee98dbdacf1517d65757e7c098cca00d65ccb55b82da9b77a6c9",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/terminal.rs": {
+      "sha256": "20ab64860571badd26f522ac2174f37b563cab7e6112c1f2c5023f68221bb4fd",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/transport.rs": {
+      "sha256": "e127b2c16eb3a9f1ae02593252ecc6d12ce5934cafe92417a96945dad8e5e9df",
+      "mode": 420
+    },
+    "crates/arc-cli/src/job.rs": {
+      "sha256": "47bfb5fb337928ced9bb933b99912567e0d33204e3f197e06f028dae8105e033",
+      "mode": 420
+    },
+    "crates/arc-cli/src/main.rs": {
+      "sha256": "22c10fbcb888a29930d9ff3dcc37bebb8e02ff45c7ced4447fdd6cadcb1107ed",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/binary.rs": {
+      "sha256": "fcdf17704312c735e33af4b8cc9947abbecc06ef1205f3a81c551fe0c9fe8da3",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/classification.rs": {
+      "sha256": "0ba8a5ffcb0cdd54d5299941d61926e8bf4f5b358764219a25c4a205efbd6515",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/fixtures/child.rs": {
+      "sha256": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/fixtures/pipeline.rs": {
+      "sha256": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/schema.rs": {
+      "sha256": "d63b9f3ec80835ede61caf740c5a632a54df91d600a35b019fcff7270eb29a5a",
+      "mode": 420
+    },
+    "crates/arc-core/Cargo.toml": {
+      "sha256": "2f28861717fe5aefb8f1124157aa9d8b1ba1cdbabc9593bde7749a03cb3822fd",
+      "mode": 420
+    },
+    "crates/arc-core/src/lib.rs": {
+      "sha256": "9a1d25ac424d2a9d19edf296f7eb0b276de9550392b2eaa107c89f09cb29f95c",
+      "mode": 420
+    },
+    "crates/arc-core/src/process_identity.rs": {
+      "sha256": "1c7c7a5e9dce3941541ca0646a22aaab1713f3047334eebc7e533d0110ad8f56",
+      "mode": 420
+    },
+    "crates/arc-core/tests/coverage.rs": {
+      "sha256": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+      "mode": 420
+    },
+    "crates/arc-core/tests/identity.rs": {
+      "sha256": "449db78dbdcd3dcda98ea8af3fe2ea7b54d40a571496b5c832e2707093a18f07",
+      "mode": 420
+    },
+    "crates/arc-core/tests/runtime.rs": {
+      "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+      "mode": 420
+    },
+    "crates/arc-daemon/Cargo.toml": {
+      "sha256": "13c2ae685dcc69ffa1465f42095b64457a21ee3ce4418506eb259ddf41cac29e",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/accept_recovery.rs": {
+      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/accept_recovery_tests.rs": {
+      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/admission.rs": {
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/connection.rs": {
+      "sha256": "0a3cedf6b9b1103e2aa2d79d02302a1c2eee754c8b44c37169431ce82d330289",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/database_failure_tests.rs": {
+      "sha256": "37e68da1595953b59a7eed778bbfb0930a5299eef6edd89747299c572d7ac0cf",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker.rs": {
+      "sha256": "9956e9b3b28f8ea1d58f9a08b42c2df0ada9b7dfc8d61710b06cf0cb7aaa2b69",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/execution.rs": {
+      "sha256": "aa2d4c01fbb7b2b1a5ca9220eca4315fefab5a1ea0817a6af6cb2fd79500861b",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/jobs.rs": {
+      "sha256": "37423dee5cd9827f79e69d505e4f7f50745c39d571f6421fa8051f702e36cc6d",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/jobs_tests.rs": {
+      "sha256": "023ca7117c76443d568d324acc7c2a86e57099620f5e87373a638de5feb1cfcd",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/schema_tests.rs": {
+      "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/tests.rs": {
+      "sha256": "b7971fc13ca4aeb8793bbd48a811b1630be5c508dbb105b2396e39f4d164b203",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/lifecycle.rs": {
+      "sha256": "70692d247d8245e075e961dd20fe72485eed4eda1b0884f088a3ad688c2c4bb2",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/lifecycle_tests.rs": {
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/limits.rs": {
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/main.rs": {
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/platform.rs": {
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": {
+      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_metrics.rs": {
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_report.rs": {
+      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_report_tests.rs": {
+      "sha256": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/server.rs": {
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/server_tests.rs": {
+      "sha256": "8b80eea5299aa13380524705726c3ffc249bc1878ed89b82fd7fdad4ada9ccf3",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport.rs": {
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport_test_support.rs": {
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport_tests.rs": {
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/bounded.rs": {
+      "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification.rs": {
+      "sha256": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/boundaries.rs": {
+      "sha256": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/privacy.rs": {
+      "sha256": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/saturation.rs": {
+      "sha256": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/db_worker_unit.rs": {
+      "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec.rs": {
+      "sha256": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/cli.rs": {
+      "sha256": "de832f22bac5c5fa8a99ea4fa933a87a3f543999871e914323dad5f1e57756fe",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/pipeline.py": {
+      "sha256": "cb79d632e630fe4ac49ba5de077201d771444038abad26a09193c49e209c515c",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/pipeline.rs": {
+      "sha256": "ca6a9637046a24e327797499409fab2ddd4fb87516e5a3c7003f102e1b7f9754",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/protocol.rs": {
+      "sha256": "957693d38491c0842f6a6ab6731ef15d089ad6a998d94e9cbbcb3488289064d7",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/retries.rs": {
+      "sha256": "de8f6e37059c94dd479c3b6be357e4a4954abc50f260a26f2686edeb715a29ae",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/scenarios.rs": {
+      "sha256": "6aef15458e4745372b58652cc09ec47f0db7c5cd8268fb532f7d673c0c708801",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/terminal.rs": {
+      "sha256": "0a886ab35d8e167da16527176c8781e184edbf4197735ecf1ee2d8b99c74ad58",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "sha256": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/coordination.rs": {
+      "sha256": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/coverage.rs": {
+      "sha256": "27502ce76b66ede028c87af92c6f398a8e359478da0eacce03e841526e97ea07",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/identity.rs": {
+      "sha256": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/lifecycle.rs": {
+      "sha256": "117b2f20381392c8235f91d4a8a802ca0782ec589c75d8727482b440758efb0a",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/provisioning.rs": {
+      "sha256": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/schema.rs": {
+      "sha256": "d26766b77f79df97987f3fa91ed10128eccbfc936ece9492574f71b3c8d35522",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/startup.rs": {
+      "sha256": "e1f88c56c83c7fa5371eccfb7d50accd6a6126d6336a0a8b05b6be6d06171792",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/admission_load.rs": {
+      "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": {
+      "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/measurements.rs": {
+      "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/mod.rs": {
+      "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/native.rs": {
+      "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/runtime.rs": {
+      "sha256": "3e8dfc30ba02774c8c35ed448fb9c5b9756466924fa60da82076edaad02f8ba8",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/transport_unit.rs": {
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/worker_runtime.rs": {
+      "sha256": "8e9dcd0f00ffa0ffce506f12f5effbaa346571647a03022b5d54a423360a27b8",
+      "mode": 420
+    },
+    "crates/arc-detector/Cargo.toml": {
+      "sha256": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab",
+      "mode": 420
+    },
+    "crates/arc-detector/src/argv.rs": {
+      "sha256": "202d315b3e649883c68dbcba609e5e46568fa87368a074922107e486030cbe0e",
+      "mode": 420
+    },
+    "crates/arc-detector/src/budget.rs": {
+      "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+      "mode": 420
+    },
+    "crates/arc-detector/src/coverage_tests.rs": {
+      "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+      "mode": 420
+    },
+    "crates/arc-detector/src/lexer.rs": {
+      "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+      "mode": 420
+    },
+    "crates/arc-detector/src/lib.rs": {
+      "sha256": "09b1158588d228d699517374002d66b1bfeda82b94b90ad8b17212b6b8a3d6c9",
+      "mode": 420
+    },
+    "crates/arc-detector/src/parser.rs": {
+      "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+      "mode": 420
+    },
+    "crates/arc-detector/src/rules.rs": {
+      "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+      "mode": 420
+    },
+    "crates/arc-detector/src/tests.rs": {
+      "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+      "mode": 420
+    },
+    "crates/arc-detector/src/types.rs": {
+      "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/argv.rs": {
+      "sha256": "84b2856f8fa4e381637799b7a93887cd1256b43ebe773b96d0b60251039fc741",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/support/contract.rs": {
+      "sha256": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/support/ssh.rs": {
+      "sha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+      "mode": 420
+    },
+    "crates/arc-ipc/Cargo.toml": {
+      "sha256": "46b6a44cdec04ac4de97acfd9b856091d125c0a37e7bc1145cc3d27fb6c08816",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs.rs": {
+      "sha256": "c75464c6cd8239c862ba100a501975b2189ae37aa6202a0931f7875432619a3e",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs/types.rs": {
+      "sha256": "9459b9a22f0e3cd2ca2c921e5039117007adc928354587612759ad840380ff7b",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs/validation.rs": {
+      "sha256": "ac9eda72ed28c82d28f646e00b0b66327f516e39769160b297b787eab4ebc11a",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "sha256": "5b667c7e97df90007ed8f273358e09b8541e5fdebc9da6e020f87ba0144e1c43",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/schema.rs": {
+      "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/dispatch.rs": {
+      "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/framing.rs": {
+      "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/mod.rs": {
+      "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/schema.rs": {
+      "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/classification.rs": {
+      "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/coverage.rs": {
+      "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/jobs.rs": {
+      "sha256": "f2e3334034e79234afbdf6f0a7b6566609ab6b52c3ca4a3ddfd582a00debc754",
+      "mode": 420
+    },
+    "crates/arc-storage/Cargo.toml": {
+      "sha256": "a39d67610202aa6798357bb640cfb97847bcf6e7ceb78b9cf3abe17f02845747",
+      "mode": 420
+    },
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "mode": 420
+    },
+    "crates/arc-storage/migrations/0002_managed_exec.sql": {
+      "sha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+      "mode": 420
+    },
+    "crates/arc-storage/src/history.rs": {
+      "sha256": "6b9739f7b354724a1793c3ba58581a90ebe1de9ef294ee50e5cd1e0ccb73bb23",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs.rs": {
+      "sha256": "198dbe9897b9ab270f46930467ef3ed48600307a57174a1dd62536b8496e4368",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/codec.rs": {
+      "sha256": "cab00f289829e63019d1d8c86e2cdd986060317cc3b1050b08c6a22955c2796f",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/reconcile.rs": {
+      "sha256": "2232fc199f0e1dac573017d4e92ef7fcde02689268111bfcd218a47a38186d00",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests.rs": {
+      "sha256": "b5711683f20897812b86a0d0b37f1198ecb8f3379fa59119b56ebc3e83d83098",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/migration.rs": {
+      "sha256": "7a7222f07c8d19e0003764056cb75ad1e88a5d4f6b65c292720b165d34b4624b",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/recovery.rs": {
+      "sha256": "3d6dd5dd75ed704df242ecc232a94b38d65ced376233306e75b965a67f582e47",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/regression.rs": {
+      "sha256": "7ea3f59e27a5f08da6a34bc01af1345a1475420f555303e39b7fa138713939c7",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/transitions.rs": {
+      "sha256": "525be0baaab7ec0d0a9499676d26a24a91af31d2fa2129fe35917deabb98e3bd",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/transitions.rs": {
+      "sha256": "e746d99e944903392a688aedf7ab9efd6621d879f169c1fa8065abb7477e8193",
+      "mode": 420
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "sha256": "5796cabfc0608d5a4fc8d54d608a024aabda8f053576763469f5c72010a369bd",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration.rs": {
+      "sha256": "e33a0ec9b3e1c9afab08e1bfa69b1988588729a4b3fe9942477a9cf34bb6551b",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests.rs": {
+      "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/acceptance.rs": {
+      "sha256": "e763fd6cbf586e1eda83d8207d20765d986304d432cdb4d3a8ab4104b4e25404",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/concurrency.rs": {
+      "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/rejection.rs": {
+      "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/coverage.rs": {
+      "sha256": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/fixtures/0001_fixture.sql": {
+      "sha256": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/fixtures/0002_additive.sql": {
+      "sha256": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/managed_exec_migration.rs": {
+      "sha256": "ef48c032591ad3bceadf546ae75d3f2954a552a1e628da3052a2f246ccfa8b71",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "sha256": "b7db33dab1d8d0d1a503f2cb40f92f345840d0a454d0f1dc29a02d6c7356cf56",
+      "mode": 420
+    },
+    "docs/rust-coverage.md": {
+      "sha256": "55d2cabc9f3431330e6f98e48ef912b4f8da89b4c80fdd016a4305efdd531486",
+      "mode": 420
+    },
+    "mise.toml": {
+      "sha256": "5af71f4d3bb6e8da776de80f1252a0601ecde35114b18a0cc87946c74c1e7600",
+      "mode": 420
+    },
+    "package.json": {
+      "sha256": "d9f600d7586838dc24ca522ecb30a93f3da6b430712cc911a1de4145706eb9c0",
+      "mode": 420
+    },
+    "rust-toolchain.toml": {
+      "sha256": "f6d2a8e736e4a30b034416cc5c00fcac466d708e385e61b07285949f7074d823",
+      "mode": 420
+    },
+    "scripts/coverage/acceptance.ts": {
+      "sha256": "64d745b2a59e5dfcebab1fb2dc5adc3d777a7fd53a0f6c185f099790b1bd8d68",
+      "mode": 420
+    },
+    "scripts/coverage/accounting.test.ts": {
+      "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882",
+      "mode": 420
+    },
+    "scripts/coverage/accounting.ts": {
+      "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+      "mode": 420
+    },
+    "scripts/coverage/clean-checkout.test.ts": {
+      "sha256": "0a991995293be5f2ff4dac9c653ecace05cc2f962c7ec108e3e1eaa4ad45f579",
+      "mode": 420
+    },
+    "scripts/coverage/commands.ts": {
+      "sha256": "c37ef4a710a8b8280c6a67b90deba9f81447234b77164c2efb823d2e9481f40a",
+      "mode": 420
+    },
+    "scripts/coverage/config.ts": {
+      "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a",
+      "mode": 420
+    },
+    "scripts/coverage/coverage-cli.test.ts": {
+      "sha256": "4ee19897c0ee5882a88d0a47752e3013e04085ccdbae1e268a5dac3c15eee463",
+      "mode": 420
+    },
+    "scripts/coverage/current-preservation.ts": {
+      "sha256": "2ec0a7cf1b48bb565492286c7856c728e3e3f3fc24f1fbd8c2e08d4f3bb47f72",
+      "mode": 420
+    },
+    "scripts/coverage/evidence.test.ts": {
+      "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8",
+      "mode": 420
+    },
+    "scripts/coverage/fixture-runner.ts": {
+      "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "mode": 420
+    },
+    "scripts/coverage/fixtures.ts": {
+      "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "mode": 420
+    },
+    "scripts/coverage/gate.test.ts": {
+      "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "mode": 420
+    },
+    "scripts/coverage/gate.ts": {
+      "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+      "mode": 420
+    },
+    "scripts/coverage/harness.test.ts": {
+      "sha256": "13d763c0cf4820043e07e4360ae813d3666c099801958bd473d53726b73f5c7f",
+      "mode": 420
+    },
+    "scripts/coverage/historical.ts": {
+      "sha256": "2625971b6fc5e0dc3f8892e485c61180a15ac16b8e43f71a1a69940d3075cedf",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene-preservation.test.ts": {
+      "sha256": "0bef64f36a7198ebd402cf9d4e86290a0a1e23120cffa7b92ec19232f17a1f53",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene.test.ts": {
+      "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene.ts": {
+      "sha256": "19a40f1a88691ad425531378acb609885552b22e6add55474a189c536aa03ceb",
+      "mode": 420
+    },
+    "scripts/coverage/preservation.test.ts": {
+      "sha256": "9a353997b7734fe2f06861b29fc8c8e3bd83a37fa4a26140ba5f4b3b283f5df3",
+      "mode": 420
+    },
+    "scripts/coverage/preservation.ts": {
+      "sha256": "68a9bb1856541af2e2043047e5cc528671961fbb70110b93a68706ea5726c2bb",
+      "mode": 420
+    },
+    "scripts/coverage/provision.sh": {
+      "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "mode": 420
+    },
+    "scripts/coverage/run.ts": {
+      "sha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da",
+      "mode": 420
+    },
+    "scripts/coverage/schema-adaptations.ts": {
+      "sha256": "50d0907d63848f4fa05ff0f0fb8bc6548829c2edd17ee048929eb5577e1c4b9a",
+      "mode": 420
+    },
+    "scripts/coverage/source.ts": {
+      "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "mode": 420
+    },
+    "scripts/harness/benchmark.ts": {
+      "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e",
+      "mode": 420
+    },
+    "scripts/harness/coverage-verification.test.ts": {
+      "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb",
+      "mode": 420
+    },
+    "scripts/harness/equivalence.test.ts": {
+      "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25",
+      "mode": 420
+    },
+    "scripts/harness/evidence-budget.test.ts": {
+      "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4",
+      "mode": 420
+    },
+    "scripts/harness/fixtures.ts": {
+      "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a",
+      "mode": 420
+    },
+    "scripts/harness/gc.sh": {
+      "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73",
+      "mode": 493
+    },
+    "scripts/harness/managed-exec-evidence.test.ts": {
+      "sha256": "2383e9d487d17a3fbdee65e9f70e8f2525143df50dd65216a8cf952e30580cb5",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-evidence.ts": {
+      "sha256": "a83d1d80f6e4a9b794e8a0f0aa89f3c49d1094554b0294ca3c80ceef7212d6d3",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-immutability.test.ts": {
+      "sha256": "0065d0bdcbc96900c42168b14a0ae0e9b8802bd4944dfe2b1b424d14a8b94aca",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-test-output.ts": {
+      "sha256": "1c67e7c1f094b40c58bd2f93c0d48d18e1050075457a5562ebcc077f8f54e9c3",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec.test.ts": {
+      "sha256": "1119fbf513db7076f17a32ac6d83664c0b51c7833a626602a225fe09659711a1",
+      "mode": 420
+    },
+    "scripts/harness/performance.test.ts": {
+      "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242",
+      "mode": 420
+    },
+    "scripts/harness/test-support.ts": {
+      "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a",
+      "mode": 420
+    },
+    "scripts/harness/validate.sh": {
+      "sha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+      "mode": 493
+    }
+  },
+  "inputCount": 176,
+  "currentWorkspacePassed": false,
+  "independentReviewPassed": false,
+  "finalLifecycleAcceptance": false,
+  "productEditsDelivered": [],
+  "changedTestPaths": [
+    "crates/arc-daemon/tests/managed_exec/pipeline.rs"
+  ],
+  "removedGeneratedPath": "crates/arc-daemon/tests/managed_exec/__pycache__/pipeline.cpython-314.pyc",
+  "restoration": {
+    "at": "2026-11-08T15:07:06.913909+00:00",
+    "restoredOwnedFiles": [
+      "crates/arc-cli/src/exec.rs",
+      "crates/arc-cli/src/exec/signals.rs",
+      "crates/arc-cli/src/exec/terminal.rs",
+      "crates/arc-daemon/tests/managed_exec/terminal.rs",
+      "crates/arc-daemon/tests/managed_exec/pipeline.py"
+    ],
+    "removedOnlyNewExperimentalModule": true,
+    "retainedNewRegression": "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+    "mismatches": [
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/__pycache__/pipeline.cpython-314.pyc",
+        "reason": "missing"
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+        "reason": "changed"
+      }
+    ],
+    "patch": {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair2-candidate.patch",
+      "sha256": "dbae7bbefd16a74095f36718ebc5c831d28990d4ea179b6f49dc7c7abc0e0bcc"
+    },
+    "method": "Verified saved bytes for five owned paths; unlinked only new experimental relay module; no Git reset/staging/index mutation."
+  },
+  "audit": {
+    "at": "2026-11-08T15:10:27.703177+00:00",
+    "storageBindingsBeforeEdit": {
+      "count": 168,
+      "mismatches": []
+    },
+    "deliveredStorageDifferences": [
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs"
+    ],
+    "requiredInputs": {
+      ".arc-verify/managed-exec/decision.md": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+      ".arc-verify/managed-exec/contract.json": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+      ".arc-verify/managed-exec/technical-contract.md": "8d88f11c2d057b167f16a0d2d4c19db9571849dd61d12ee7438ffa51abbcd604",
+      ".arc-verify/managed-exec/cli-contract.md": "0666901675d70dd7397fd113542f26a658f336724eed4776103a6bb70694c073",
+      ".arc-verify/managed-exec/storage.json": "345045a03b3201f6713b63300a287697a6efb1d298e65d74694b4ccaa12abbee",
+      ".arc-verify/managed-exec/storage-resume-review.json": "8876417b87f1d0091c2077cf23f2b518ac36c27512bbba605315ead769d85c62",
+      ".arc-verify/managed-exec/storage-resume-review.md": "20a2219e7116e5319f895008ea1f0ab9f9df8c604122c4ec2a356a537d85a8f2",
+      ".arc-verify/managed-exec/implementation/pipeline-independent-review.md": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+      ".arc-verify/managed-exec/implementation/pipeline-independent-review.json": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58",
+      ".arc-verify/managed-exec/implementation/terminal-repair-independent-review.md": "07f509c868f1870dfe312ec57698dbdf98489717280e87bf89fd3ec4476fea68",
+      ".arc-verify/managed-exec/implementation/terminal-repair-independent-review.json": "805362a95b1ca5c7b9d51c5c15a36c4db30b39d833494c1e3b96453990e31c60"
+    },
+    "initialProductMismatches": [
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs"
+    ],
+    "migration0001MatchesAcceptedHead": true,
+    "trackedEvidenceCount": 64,
+    "retainedEvidenceCount": 86
+  },
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:00:07.044617+00:00",
+      "ended": "2026-11-08T15:00:22.125871+00:00",
+      "exit": 101,
+      "pid": 25520,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/red.stdout",
+        "sha256": "27f6973a14c083acf42c40eec79445bb769e75a23d7194df29d372c01f08359c"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/red.stderr",
+        "sha256": "460de0e3ee7752a7fe0e20ab1e12bdb0c733146cb525de80eb462f6f0b19a8ca"
+      },
+      "testSummaries": [
+        "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 14.77s"
+      ],
+      "testIdentities": [
+        [
+          "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+          "FAILED"
+        ]
+      ],
+      "label": "red",
+      "scope": "pre-repair RED",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/red.json",
+        "sha256": "d5df5b5bc71ac3b1a892b7f8176c100910a4bd353e8c2265414207420addc77e"
+      },
+      "bunCounts": {}
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:02:44.700726+00:00",
+      "ended": "2026-11-08T15:02:49.386719+00:00",
+      "exit": 101,
+      "pid": 26125,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-pipeline.stdout",
+        "sha256": "71a9b42dcd0b58f7363d370efdee901f8c1ede1e3713017acb333cbd1b841f1f"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-pipeline.stderr",
+        "sha256": "4e820ae0efe431bfd398a74570544cd812f91f07c0c194e8591d5f6b5022053e"
+      },
+      "testSummaries": [
+        "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 16 filtered out; finished in 1.42s"
+      ],
+      "testIdentities": [
+        [
+          "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+          "FAILED"
+        ]
+      ],
+      "label": "candidate-pipeline",
+      "scope": "rejected experiment",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-pipeline.json",
+        "sha256": "9bf65925338969aedd9704874a92b6f1016f06687a7321c114e5779504015566"
+      },
+      "bunCounts": {},
+      "qualification": "Stale original CLI binary: cargo -p arc-daemon does not rebuild arc-cli. Not a valid candidate result; retained as failed attempt."
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli",
+        "--test",
+        "binary"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:03:17.949318+00:00",
+      "ended": "2026-11-08T15:03:20.412944+00:00",
+      "exit": 0,
+      "pid": 26246,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-cli.stdout",
+        "sha256": "0321bde07af479636ddf5d4534f9623f788c7e07a4b061f0bb1c5718e78ea8f6"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-cli.stderr",
+        "sha256": "f7b2e3a3ff3700f7f2a53f867e481882a3f1ccb7fe88ccd6ab86df4a57d1f6fe"
+      },
+      "testSummaries": [
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.73s"
+      ],
+      "testIdentities": [
+        [
+          "arcctl_binary_is_built_next_to_the_test_harness",
+          "ok"
+        ],
+        [
+          "no_arguments_names_both_commands_and_exits_nonzero",
+          "ok"
+        ],
+        [
+          "legacy_usage_errors_and_version_keep_their_exit_contract",
+          "ok"
+        ]
+      ],
+      "label": "candidate-cli",
+      "scope": "rejected experiment",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-cli.json",
+        "sha256": "d1a4ce6e917637be56675190decf3780423f5377c21821020dc396fc7e633614"
+      },
+      "bunCounts": {}
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:03:43.879497+00:00",
+      "ended": "2026-11-08T15:03:46.164616+00:00",
+      "exit": 0,
+      "pid": 26331,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-pipeline-fresh.stdout",
+        "sha256": "3edd9e47240943f7cf84bb82c86e3094db4e5f57190f3c31b915215afdd09a36"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-pipeline-fresh.stderr",
+        "sha256": "84422fd7238ad6b7a493c37dd2a7b13bf626402b0242f2d1e7f737ac836167d2"
+      },
+      "testSummaries": [
+        "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 16 filtered out; finished in 2.11s"
+      ],
+      "testIdentities": [
+        [
+          "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+          "ok"
+        ]
+      ],
+      "label": "candidate-pipeline-fresh",
+      "scope": "rejected experiment",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-pipeline-fresh.json",
+        "sha256": "648e1f95746a856fcd7134e5d6b1013a18a1624a683e75a02c6ef4d9bc51653f"
+      },
+      "bunCounts": {},
+      "qualification": "Candidate CLI was rebuilt first. Source test registration changed during this run; independent frozen-source replay supplies the accepted experimental pass."
+    },
+    {
+      "sourceHash": "0eb6bf77e30abb2232877cdd0ad5bd49d58e6b396c5a80925dadf453505c7131",
+      "sourceUnchanged": false,
+      "argv": [
+        "python3",
+        "target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/session-probe.py",
+        "target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:04:04.163923+00:00",
+      "ended": "2026-11-08T15:04:12.509759+00:00",
+      "exit": 1,
+      "pid": 26444,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session.stdout",
+        "sha256": "c827ba63bff8249c6f950ec092db4d2cfe36c7d959854c3a33e857ab2fd9f82b"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "candidate-session",
+      "scope": "rejected experiment",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session.json",
+        "sha256": "a2fdd4bd5a338236b203c3fe4c96033ba4e404791ef3034e4ddfde0c6bf3b56c"
+      },
+      "bunCounts": {},
+      "qualification": "Probe/bytecache inventory defect: sourceUnchanged false; both tty direct and managed failed; superseded by corrected source-stable probe and independent execution."
+    },
+    {
+      "sourceHash": "6bef1e3b89e1bdaaa504795d42f12e78b81b86c3b1427da9b32b8dc1413d14b5",
+      "sourceUnchanged": true,
+      "argv": [
+        "python3",
+        "target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/session-probe.py",
+        "target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:04:32.361207+00:00",
+      "ended": "2026-11-08T15:04:40.691567+00:00",
+      "exit": 1,
+      "pid": 26508,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session-fixed.stdout",
+        "sha256": "cf919db507237059af4149c1d17283a43348b817fc030955ba1787b2bd1d0a52"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session-fixed.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "candidate-session-fixed",
+      "scope": "rejected experiment",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session-fixed.json",
+        "sha256": "3ed96883360493325c88c9ab33993814e4f1f5897dd5997fdc6feff9c2fc44e4"
+      },
+      "bunCounts": {},
+      "qualification": "Direct post-session terminal ioctl error in probe; superseded by candidate-session-final. Native managed spawn failure retained."
+    },
+    {
+      "sourceHash": "6bef1e3b89e1bdaaa504795d42f12e78b81b86c3b1427da9b32b8dc1413d14b5",
+      "sourceUnchanged": true,
+      "argv": [
+        "python3",
+        "target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/session-probe.py",
+        "target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:05:07.938671+00:00",
+      "ended": "2026-11-08T15:05:16.264291+00:00",
+      "exit": 1,
+      "pid": 26560,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session-final.stdout",
+        "sha256": "27474ac083f1485accbf0ec3f8b55b1cb0d70edb8e0889543aefb7ba600937e1"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session-final.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "candidate-session-final",
+      "scope": "rejected experiment",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/candidate-session-final.json",
+        "sha256": "e4e8f0f39a90fb7dc369cbc4e1ef08309bd74add0b3454ec250c50188f7e56d6"
+      },
+      "bunCounts": {}
+    },
+    {
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceUnchanged": true,
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:07:14.109617+00:00",
+      "ended": "2026-11-08T15:07:14.781586+00:00",
+      "exit": 0,
+      "pid": 27201,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-fmt.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-fmt.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "restored-fmt",
+      "scope": "delivered sources",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-fmt.json",
+        "sha256": "4d3a30d6395d18286539879dd8ff3fb51f5a46ddfca43076ac5a9b64e495edc3"
+      },
+      "bunCounts": {}
+    },
+    {
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceUnchanged": true,
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:07:35.529417+00:00",
+      "ended": "2026-11-08T15:07:36.962564+00:00",
+      "exit": 0,
+      "pid": 27304,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-clippy.stdout",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-clippy.stderr",
+        "sha256": "776906dc5a4503eb34496a463f79fb1e6bdb649215da7613cd3a19c2c57edc5f"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "restored-clippy",
+      "scope": "delivered sources",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-clippy.json",
+        "sha256": "573750ea92592984f8983b6eda2694f438f15bd4e25a87d3943a6b53d51eb62c"
+      },
+      "bunCounts": {}
+    },
+    {
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceUnchanged": true,
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:08:01.402729+00:00",
+      "ended": "2026-11-08T15:08:52.979722+00:00",
+      "exit": 101,
+      "pid": 27431,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-workspace.stdout",
+        "sha256": "15e07201972a896b0b1f5e9e74e3f24aa609ea90b7f123f35aaa2934afdca541"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-workspace.stderr",
+        "sha256": "8d3a54d3e7f51d3388263554167b1fd9d2bdcae85a69ddf124ed753ef9b31e1c"
+      },
+      "testSummaries": [
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.01s",
+        "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.52s",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+        "test result: ok. 61 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.57s",
+        "test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.13s",
+        "test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.72s",
+        "test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s",
+        "test result: FAILED. 17 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 15.10s"
+      ],
+      "testIdentities": [
+        [
+          "arcctl_binary_is_built_next_to_the_test_harness",
+          "ok"
+        ],
+        [
+          "no_arguments_names_both_commands_and_exits_nonzero",
+          "ok"
+        ],
+        [
+          "legacy_usage_errors_and_version_keep_their_exit_contract",
+          "ok"
+        ],
+        [
+          "error_with_success_payload_is_rejected_before_error_mapping",
+          "ok"
+        ],
+        [
+          "help_usage_privacy_and_absent_daemon",
+          "ok"
+        ],
+        [
+          "literal_payloads_and_options_are_preserved_in_one_request",
+          "ok"
+        ],
+        [
+          "peer_failures_are_typed_correlated_and_never_reflected",
+          "ok"
+        ],
+        [
+          "timeout_is_bounded_with_no_retry_or_partial_result",
+          "ok"
+        ],
+        [
+          "doctor_help_explains_schema_scope_and_prestartup_stderr",
+          "ok"
+        ],
+        [
+          "schema_error_without_details_never_claims_verified_compatibility",
+          "ok"
+        ],
+        [
+          "new_client_old_daemon_labels_unavailable_details_without_claiming_verification",
+          "ok"
+        ],
+        [
+          "actual_cli_reports_verified_production_and_two_version_fixture_success",
+          "ok"
+        ],
+        [
+          "unavailable_and_malformed_present_details_fail_without_legacy_fallback",
+          "ok"
+        ],
+        [
+          "inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility",
+          "ok"
+        ],
+        [
+          "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+          "ok"
+        ],
+        [
+          "every_schema_failure_survives_error_envelope_with_actionable_reason",
+          "ok"
+        ],
+        [
+          "tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+          "ok"
+        ],
+        [
+          "tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths",
+          "ok"
+        ],
+        [
+          "database_path_probe",
+          "ok"
+        ],
+        [
+          "database_override_preserves_non_utf8_path_bytes",
+          "ok"
+        ],
+        [
+          "database_override_precedes_missing_platform_directory",
+          "ok"
+        ],
+        [
+          "absent_and_empty_home_fail_after_empty_database_override",
+          "ok"
+        ],
+        [
+          "native_identity_matches_current_process_and_rejects_reuse_and_other_boot",
+          "ok"
+        ],
+        [
+          "random_keys_are_native_and_not_reused",
+          "ok"
+        ],
+        [
+          "live_and_zombie_native_tokens_use_the_same_namespace",
+          "ok"
+        ],
+        [
+          "immediate_exit_identity_is_captured_after_exit_before_reap",
+          "ok"
+        ],
+        [
+          "configuration_probe",
+          "ok"
+        ],
+        [
+          "native_default_is_independent_of_child_tmpdir",
+          "ok"
+        ],
+        [
+          "nonempty_socket_override_and_empty_override_policy_are_preserved",
+          "ok"
+        ],
+        [
+          "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+          "ok"
+        ],
+        [
+          "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+          "ok"
+        ],
+        [
+          "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+          "ok"
+        ],
+        [
+          "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+          "ok"
+        ],
+        [
+          "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+          "ok"
+        ],
+        [
+          "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+          "ok"
+        ],
+        [
+          "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+          "ok"
+        ],
+        [
+          "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+          "ok"
+        ],
+        [
+          "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+          "ok"
+        ],
+        [
+          "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+          "ok"
+        ],
+        [
+          "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+          "ok"
+        ],
+        [
+          "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+          "ok"
+        ],
+        [
+          "instance::tests::a_live_duplicate_is_rejected",
+          "ok"
+        ],
+        [
+          "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+          "ok"
+        ],
+        [
+          "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+          "ok"
+        ],
+        [
+          "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+          "ok"
+        ],
+        [
+          "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+          "ok"
+        ],
+        [
+          "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+          "ok"
+        ],
+        [
+          "lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation",
+          "ok"
+        ],
+        [
+          "lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable",
+          "ok"
+        ],
+        [
+          "lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure",
+          "ok"
+        ],
+        [
+          "lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable",
+          "ok"
+        ],
+        [
+          "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+          "ok"
+        ],
+        [
+          "lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures",
+          "ok"
+        ],
+        [
+          "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::accept_recovery_tests::accept_child",
+          "ok"
+        ],
+        [
+          "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+          "ok"
+        ],
+        [
+          "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::accept_recovery_tests::isolated_transient_accept_error_recovers_cli",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::controlled_worker_child",
+          "ok"
+        ],
+        [
+          "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+          "ok"
+        ],
+        [
+          "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::report_lifecycle_tests::report_child",
+          "ok"
+        ],
+        [
+          "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::accept_recovery_tests::repeated_resource_pressure_recovers_cli",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::accept_recovery_tests::signal_while_backing_off_is_accounted",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::accept_recovery_tests::unusable_listener_cause_survives_accounted_shutdown",
+          "ok"
+        ],
+        [
+          "limits::tests::limits_reject_invalid_config_and_profiles",
+          "ok"
+        ],
+        [
+          "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+          "ok"
+        ],
+        [
+          "runtime_report::tests::complete_serialization_is_capped_before_any_file_write",
+          "ok"
+        ],
+        [
+          "runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures",
+          "ok"
+        ],
+        [
+          "runtime_report::tests::invalid_report_names_fail_before_creating_a_file",
+          "ok"
+        ],
+        [
+          "runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+          "ok"
+        ],
+        [
+          "runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement",
+          "ok"
+        ],
+        [
+          "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+          "ok"
+        ],
+        [
+          "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+          "ok"
+        ],
+        [
+          "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::report_lifecycle_tests::disabled_export_creates_no_report_or_runtime_stdout_record",
+          "ok"
+        ],
+        [
+          "server::tests::already_exists_is_validated_without_repair_or_following_links",
+          "ok"
+        ],
+        [
+          "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+          "ok"
+        ],
+        [
+          "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+          "ok"
+        ],
+        [
+          "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+          "ok"
+        ],
+        [
+          "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+          "ok"
+        ],
+        [
+          "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+          "ok"
+        ],
+        [
+          "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::report_lifecycle_tests::invalid_exports_refuse_startup_preserve_entries_and_join_worker",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::report_lifecycle_tests::report_write_failure_preserves_cleanup_and_actual_worker_accounting",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::report_lifecycle_tests::requested_export_is_open_before_readiness_and_contains_complete_schema",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::sigint_reaps_stalled_handlers_and_joins_worker",
+          "ok"
+        ],
+        [
+          "lifecycle_tests::sigterm_reaps_stalled_handlers_and_joins_worker",
+          "ok"
+        ],
+        [
+          "accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold",
+          "ok"
+        ],
+        [
+          "malformed_and_stalled_frames_recover_actual_cli",
+          "ok"
+        ],
+        [
+          "nonreading_peer_releases_real_daemon_capacity",
+          "ok"
+        ],
+        [
+          "native_probe_then_full_100000_attempt_workload",
+          "ok"
+        ],
+        [
+          "boundaries::detector_budgets_are_preserved_through_daemon_and_cli",
+          "ok"
+        ],
+        [
+          "ssh_post_destination_daemon_human_and_json_cli_matrix",
+          "ok"
+        ],
+        [
+          "privacy::unix_endpoint_traps_substitutions_and_live_wal_never_receive_input",
+          "ok"
+        ],
+        [
+          "privacy::required_loopback_endpoint_nonexecution_and_privacy",
+          "ok"
+        ],
+        [
+          "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown",
+          "ok"
+        ],
+        [
+          "ssh_option_values_preserve_typed_daemon_and_cli_observations",
+          "ok"
+        ],
+        [
+          "invalid_payloads_version_priority_and_same_connection_recovery",
+          "ok"
+        ],
+        [
+          "actual_daemon_and_cli_delivered_contract_matrix",
+          "ok"
+        ],
+        [
+          "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+          "ok"
+        ],
+        [
+          "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+          "ok"
+        ],
+        [
+          "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+          "ok"
+        ],
+        [
+          "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+          "ok"
+        ],
+        [
+          "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+          "ok"
+        ],
+        [
+          "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+          "ok"
+        ],
+        [
+          "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+          "ok"
+        ],
+        [
+          "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+          "ok"
+        ],
+        [
+          "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+          "ok"
+        ],
+        [
+          "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+          "ok"
+        ],
+        [
+          "limits::tests::limits_reject_invalid_config_and_profiles",
+          "ok"
+        ],
+        [
+          "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+          "ok"
+        ],
+        [
+          "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+          "ok"
+        ],
+        [
+          "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+          "ok"
+        ],
+        [
+          "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+          "ok"
+        ],
+        [
+          "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+          "ok"
+        ],
+        [
+          "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+          "ok"
+        ],
+        [
+          "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+          "ok"
+        ],
+        [
+          "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+          "ok"
+        ],
+        [
+          "cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child",
+          "ok"
+        ],
+        [
+          "protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent",
+          "ok"
+        ],
+        [
+          "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+          "FAILED"
+        ],
+        [
+          "pipeline::native_session_leader_without_terminal_preserves_execution_and_exit17",
+          "ok"
+        ],
+        [
+          "cli::spawn_failure_quick_exit_help_and_status_have_static_diagnostics",
+          "ok"
+        ],
+        [
+          "cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay",
+          "ok"
+        ],
+        [
+          "cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution",
+          "ok"
+        ],
+        [
+          "protocol::identity_mismatch_missing_and_restart_never_invent_an_exit",
+          "ok"
+        ],
+        [
+          "protocol::unreaped_quick_exit_keeps_identity_but_is_not_reported_running",
+          "ok"
+        ],
+        [
+          "protocol::version_first_typed_payload_validation_recent_bound_and_secret_absence",
+          "ok"
+        ],
+        [
+          "retries::cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17",
+          "ok"
+        ],
+        [
+          "retries::path_lookup_remote_and_unknown_commands_execute_without_resource_reservations",
+          "ok"
+        ],
+        [
+          "scenarios::executable_with_spaces_closed_descriptors_and_redirected_streams_match_direct",
+          "ok"
+        ],
+        [
+          "scenarios::native_non_rust_child_observes_literal_closed_standard_descriptors",
+          "ok"
+        ],
+        [
+          "scenarios::status_discovery_labels_and_missing_id_never_launch",
+          "ok"
+        ],
+        [
+          "terminal::native_background_terminal_read_can_be_foregrounded_and_resumed",
+          "ok"
+        ],
+        [
+          "terminal::native_pty_foreground_input_modes_and_terminal_signals_match_direct_child",
+          "ok"
+        ],
+        [
+          "terminal::native_pty_spawn_failure_restores_foreground_without_child_output",
+          "ok"
+        ]
+      ],
+      "label": "restored-workspace",
+      "scope": "delivered sources",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-workspace.json",
+        "sha256": "5020c02a77240badf700bc4a3fc501cf7469675acde602ce266e4154f86b40cc"
+      },
+      "bunCounts": {}
+    },
+    {
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceUnchanged": true,
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:09:21.210553+00:00",
+      "ended": "2026-11-08T15:10:25.302398+00:00",
+      "exit": 0,
+      "pid": 28619,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-protections.stdout",
+        "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-protections.stderr",
+        "sha256": "b4987720c9f6ed066e595702aebf2fde80e2bceea0c3b37ff8a87261ac47c072"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "restored-protections",
+      "scope": "delivered sources",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-protections.json",
+        "sha256": "ec612e71bcb1c4890b6a308e5e13948c49d44bf3fd544bd2de0173a3e9cf0680"
+      },
+      "bunCounts": {
+        "pass": 12,
+        "fail": 0
+      }
+    },
+    {
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceUnchanged": true,
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/hygiene-preservation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:10:06.814527+00:00",
+      "ended": "2026-11-08T15:10:35.970226+00:00",
+      "exit": 0,
+      "pid": 34826,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-preservation.stdout",
+        "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-preservation.stderr",
+        "sha256": "546834842cc8e8151372b7f15f9a630c3f7123071b5c37e9cf037da3f61058d2"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "restored-preservation",
+      "scope": "delivered sources",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-preservation.json",
+        "sha256": "68d5e9deb1130d4ca6a3d0bce53ac20db9a42aa3634f12b43e8024fc49197885"
+      },
+      "bunCounts": {
+        "pass": 8,
+        "fail": 0
+      },
+      "qualification": "8 tests includes4 from an identical owned nested snapshot. Snapshot moved outside worktree; final root-only rerun recorded separately."
+    },
+    {
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceUnchanged": true,
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/equivalence-checkout",
+      "started": "2026-11-08T15:09:39.154824+00:00",
+      "ended": "2026-11-08T15:11:32.485142+00:00",
+      "exit": 0,
+      "pid": 29772,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-equivalence.stdout",
+        "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-equivalence.stderr",
+        "sha256": "dcaab7561b5e2abea058a0b13b4f486a6d3cfc9330e5a2753a7c5a5d440678f7"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "restored-equivalence",
+      "scope": "delivered sources",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-equivalence.json",
+        "sha256": "2c4d07f2c48d3b403e88ee315fac5a096a57e2c224cb30b1cb1fd97fdb4329b5"
+      },
+      "bunCounts": {
+        "pass": 2,
+        "fail": 0
+      }
+    },
+    {
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceUnchanged": true,
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/hygiene-preservation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "started": "2026-11-08T15:11:47.224963+00:00",
+      "ended": "2026-11-08T15:12:02.061494+00:00",
+      "exit": 0,
+      "pid": 50683,
+      "timeoutAllowanceMs": 3600000,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "stdout": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-preservation-final.stdout",
+        "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+      },
+      "stderr": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-preservation-final.stderr",
+        "sha256": "fb4d6ec130ac7efe4fef374bcb322e2e7015f302aee254604d293a28dda6e20d"
+      },
+      "testSummaries": [],
+      "testIdentities": [],
+      "label": "restored-preservation-final",
+      "scope": "delivered sources, root-only after snapshot relocation",
+      "rawReceipt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/restored-preservation-final.json",
+        "sha256": "21dd9c2b765592a1e36090aa32f25e2aac94b85be9c981749be0470f9c124215"
+      },
+      "bunCounts": {
+        "pass": 4,
+        "fail": 0
+      }
+    }
+  ],
+  "review": {
+    "verdict": "FAIL",
+    "report": {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair2-independent-review.md",
+      "sha256": "d9049f06d614600ba22563b218ee8cef2b3ee5c29686f064fa842fa33b2acffe"
+    },
+    "receipt": {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair2-independent-review.json",
+      "sha256": "b5bbb9037537d109f5fdcd8726f6bd84977463a5e69026abeac44e47293c03f8"
+    },
+    "repairCheckpointOnly": true
+  },
+  "candidate": {
+    "promoted": false,
+    "sourceHash": "6bef1e3b89e1bdaaa504795d42f12e78b81b86c3b1427da9b32b8dc1413d14b5",
+    "reasonRejected": "Private-target sessionleader fallback returns SPAWN_FAILED/os_code1 with controlling terminal and caller peer. Direct baseline reads terminal and exits17; nonterminal sessionleaders alone do not establish complete compatibility. Independent native private-foreground experiment also excludes peer terminal reads.",
+    "patch": {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair2-candidate.patch",
+      "sha256": "dbae7bbefd16a74095f36718ebc5c831d28990d4ea179b6f49dc7c7abc0e0bcc"
+    }
+  },
+  "budget": {
+    "attempt": 2,
+    "maxAttempts": 3,
+    "perCheckAllowanceMs": 3600000,
+    "maxParallel": 3,
+    "cancellationRequestedInInput": false,
+    "injectedDeadline": null,
+    "remainingCumulativeAllowance": "not exposed by runtime; no reset or mission mutation performed"
+  },
+  "dispatchFailure": "Initial full-history native reviewer dispatch failed: no rollout found for parent thread. Native reviewer dispatch with explicit task context and no history succeeded; no AV re-dispatch or mission mutation.",
+  "abandonedCollector": "14213b3c-fbfb-48c3-867d-4602607bdd05 left abandoned; no collector invoked or record changed.",
+  "remaining": [
+    "Original private-child-group pipeline defect and exact signal/stop/continue repair remain unresolved; no conforming sessionleader mechanism demonstrated under fixed direct Command-child ownership.",
+    "No passing exact delivered cargo test --workspace or independent repair acceptance.",
+    "Pre-existing generated bytecache mistakenly removed; original digest retained but exact bytes unrecovered. This prevents a claim of full original input restoration.",
+    "Full collecting coverage, full harness, final live evidence and task-8 final QA remain downstream.",
+    "Lifecycle tracking is separate from Phase1 scheduling; desktop and native Windows remain outstanding."
+  ],
+  "report": ".arc-verify/managed-exec/implementation/terminal-repair2.md",
+  "rawDirectory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04",
+  "verificationSkipped": {
+    "collectorAndFullHarness": "Focused repair remains red; assignment explicitly defers collectors until focused repair succeeds."
+  },
+  "equivalenceSnapshot": {
+    "root": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+    "checkout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/equivalence-checkout",
+    "inputsEqual": true,
+    "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+    "files": 176,
+    "method": "shared no-checkout clone into owned ignored target directory plus exact mode/content copy of all declared managed inputs; no checkout/reset/staging in mission worktree"
+  },
+  "equivalenceRelocation": {
+    "at": "2026-11-08T15:11:47.004716+00:00",
+    "executedCwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/equivalence-checkout",
+    "retainedSnapshot": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-r2-equivalence-n8fvds76/checkout",
+    "reason": "Retain the owned snapshot outside the mission tree so future Bun path selectors do not discover its duplicate test files. No files deleted and actual original command cwd remains recorded."
+  },
+  "reportArtifact": {
+    "path": ".arc-verify/managed-exec/implementation/terminal-repair2.md",
+    "sha256": "48bae2bdfcbf50432de3da772ae38d2b7ed78b93df699ac9bfb941ffcc429848"
+  },
+  "probeArtifact": {
+    "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair2-8cee663f-d445-43c4-a34a-4539e40d1d04/session-probe.py",
+    "sha256": "252bcd7e50d7d871c7492361be6acfeac2239d8f06b08c1b0d805e1efb917680"
+  },
+  "evidenceCountsAtWrite": {
+    "tracked": 64,
+    "retainedExcludingLocalRuns": 88
+  },
+  "changedPaths": [
+    "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+    "crates/arc-daemon/tests/managed_exec/__pycache__/pipeline.cpython-314.pyc",
+    ".arc-verify/managed-exec/implementation/terminal-repair2.md",
+    ".arc-verify/managed-exec/implementation/terminal-repair2.json",
+    ".arc-verify/managed-exec/implementation/terminal-repair2-candidate.patch",
+    ".arc-verify/managed-exec/implementation/terminal-repair2-independent-review.md",
+    ".arc-verify/managed-exec/implementation/terminal-repair2-independent-review.json"
+  ],
+  "finishedAt": "2026-11-08T15:13:31.380485+00:00"
+}

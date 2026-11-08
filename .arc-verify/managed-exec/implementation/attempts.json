@@ -1,0 +1,139 @@
+{
+  "status": "retained failures and superseded source snapshots",
+  "outputs": [
+    {
+      "path": "target/task7-first-test.txt",
+      "sha256": "b69711ef3c381899cfb7a13f24ebf397473b5daf1e68f46deb037f23989547b5",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-second-test.txt",
+      "sha256": "7da08b9b0b2b4a01b6507dc10553760f41b06cb9e13d08be8a823d34b0abe0f2",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-native-first.txt",
+      "sha256": "1fd55feafc9648cad9bc3e3e5ba8cad65c603c23fe6e0d951621561dff9256ff",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-native-second.txt",
+      "sha256": "5c1a05b8e04d68d0676ee6d575de0689b80ddd5bb350b912f0d544dbec2e921f",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-native-third.txt",
+      "sha256": "c483ef62af5d668d509a65d879bc53c66aa1309573d4bcafc2327de55cf10085",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-native-fourth.txt",
+      "sha256": "02f9aba15e68b8bf493c89bbc82054bc826113c5d891986ab35cd0282c680b47",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-clippy-first.txt",
+      "sha256": "154d70cbda365bbc9b96d8afd188671e33cfccfb3617314da06ec2fff84f74e9",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-preservation-first.txt",
+      "sha256": "cd89df188c488a52bfbf97ec526b26454d2f798b03c1da178b96213562cf23d1",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-native-focused.txt",
+      "sha256": "f6a175510a77fe1d163a73cd57114c030ce5f1d1ac4b0ff66800982d8132f52d",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-native-fixed.txt",
+      "sha256": "4b6892afe4eb4ef6513ffb49c35b16c72b441374ea3e2a0eb8bffd8ba5a313f2",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-pty-drain.txt",
+      "sha256": "ca3c5d7df62229c39b8c7b339b81dfc95f887ce87db1c9470223690e4e5263af",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-pty-second.txt",
+      "sha256": "4129d3e049247a33ab67e2e894b17e92d0461bc3088b36b8416b7be6f4ee8196",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-pty-third.txt",
+      "sha256": "efa1f03c286e6616fdd6e557d80b64c2881bd571cd4ba28f8f803f998983443c",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-pty-code.txt",
+      "sha256": "74adfa94e73622d3e35ea25c2acf3dfa2a577e445e637983efd4f34dc138fc0c",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-workspace-stable.txt",
+      "sha256": "9a5c83d3d749ae3972d56f3ea2062c106361d32e12f615ffeeae5fa0709dad9c",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-pg-debug.txt",
+      "sha256": "fd7740223dc9fc4fba0abc456d83abfe769ea71040568acf1eaa5c479681d6a6",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-pg-reason.txt",
+      "sha256": "2d9eb6a57c938e58665ab447a3822aa528fccb1514ccbe7c9b81a4ff7438e82d",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-pg2.txt",
+      "sha256": "35324dea0418803247ec641f8554dbadfbb3a12f3a5ab1f5ea808e5976d877dd",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-restoration.txt",
+      "sha256": "570b43a8708eacafcdd9f706cb9d9dbb71d1e24ff3cdc16cd838aafc3811b7e5",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": "target/task7-restoration-compile.txt",
+      "sha256": "7bd5de6e03f6c94ce12c21490384e05efe2483c478b11913485c9f64779865e7",
+      "scope": "historical attempt; not current-source acceptance"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-01-00-162Z-workspace/stdout.txt",
+      "sha256": "c966679f2ffb012012c8e7bf4725bd3c4f52bc23b8aae1e73b5834cebb8d7b65",
+      "scope": "failed existing classification privacy regression; 7 passed / 1 failed; wrapper parser exit 1; underlying Cargo exit not separately retained"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-01-00-162Z-workspace/stderr.txt",
+      "sha256": "fda69c97903a32671e0b93a4df6dcbe4cb149c6f4e2dfa2027abc27ffc08e6b2",
+      "scope": "failed existing classification privacy regression; 7 passed / 1 failed; wrapper parser exit 1; underlying Cargo exit not separately retained"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-11-56-249Z-clean-checkout/receipt.json",
+      "sha256": "af7c27dfba3d51703ac12d978ddc0af584a89a3df07185e8ddf1b24163e370ec",
+      "scope": "retained failed check; only current-source passing receipt counts"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T12-14-09-564Z-canonical-root/receipt.json",
+      "sha256": "1d1dc0fb9254eee964dbd85ac69c15b4de7fe7e0ccfb8f88a68f2309d9005871",
+      "scope": "retained failed check; only current-source passing receipt counts"
+    }
+  ],
+  "failedAttempts": [
+    "Initial compilation: module path, capture method and macOS pointer types corrected",
+    "First guard: unsupported wildcard imports / diverging return mistaken for item expansion; source rewritten without guard exemption",
+    "First Clippy: unused-unit warnings fixed",
+    "Native fixtures: bounded profile saturation, create-new report reuse and inherited nonblocking accepted sockets fixed",
+    "PTY fixture: output drain and retained session supervisor required; first stopped pre-exec probe was interrupted and owned identities later verified absent",
+    "Native signal origin heuristic failed; explicit foreground child process group replaced it",
+    "Native completion observation timestamp and zombie liveness findings corrected; fast exit retains verified tuple separately from current liveness",
+    "First final workspace failed existing classification privacy BrokenPipe on reused idle stream; unmodified source rerun passed",
+    "Independent initial Ctrl-Z probe was inconclusive without drain; recorded retry passed with all identities absent",
+    "First isolated checkout stopped before collection at SOURCE: production module outside inventoried src because /var and /private/var root aliases differed. Task-6 guard root identity is now canonicalized; no accounting exclusions changed.",
+    "First custom canonical-root test invocation lacked ./ prefix and Bun matched no files; exact-path invocation is the actual regression check."
+  ],
+  "acceptancePolicy": "Only current-source passing receipts count. No test assertions, timeouts, thresholds or verification commands were weakened."
+}

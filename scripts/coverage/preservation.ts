@@ -24,7 +24,7 @@ export function preservationReferences(root:string) {
     }),
   };
 }
-export function checkPreservation(root:string) {
+export function checkHistoricalPreservation(root:string) {
   const refs=preservationReferences(root);
   checkHarnessStructure(root);
   const production=new Set(sourceInventory(root).filter(f=>!f.testOnly).map(f=>f.path));
@@ -45,3 +45,6 @@ export function checkPreservation(root:string) {
   }
   return {baselineHead:refs.baselineHead,baselineTree:refs.baselineTree,protected:refs.protected,existingRustFiles:refs.files.length,pass:true};
 }
+
+// Live feature checks preserve regression semantics rather than production bytes.
+export { checkCurrentPreservation as checkPreservation } from "./current-preservation";

@@ -1,0 +1,1844 @@
+{
+  "version": 1,
+  "task": "task-6-terminal",
+  "attempt": 4,
+  "actorId": "technical-director",
+  "implementationRole": "sole implementation owner reassigned from backend",
+  "skill": "oma-backend",
+  "status": "implementation and assigned execution gates passed; independent reviewer reports preliminary PASS; final verdict in separately owned artifacts",
+  "nativeMacosExecution": true,
+  "finalLifecycleAcceptance": false,
+  "sourceHash": "2132331368d21281806b33bc265a2183fb1bd1702a09144c9c3b95386ec08864",
+  "sourceInputs": {
+    ".arc-verify/managed-exec/contract.json": {
+      "sha256": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+      "mode": 420
+    },
+    ".arc-verify/managed-exec/decision.md": {
+      "sha256": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+      "mode": 420
+    },
+    ".arc-verify/rust-coverage/contract/accounting.json": {
+      "sha256": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb",
+      "mode": 420
+    },
+    ".gitignore": {
+      "sha256": "c38ed4c5d6f44c8efb96edfbcd33ec8464423c56598d148c4bec90366e78aa88",
+      "mode": 420
+    },
+    "Cargo.lock": {
+      "sha256": "cf2c459f1af04632d571d21c16961c328c43424939b7b3c5176695de6881fa7f",
+      "mode": 420
+    },
+    "Cargo.toml": {
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "mode": 420
+    },
+    "crates/arc-cli/Cargo.toml": {
+      "sha256": "6f195995dbbdc42e85628ee09763cdb268d14e3d98d15579b68bb558b581cb33",
+      "mode": 420
+    },
+    "crates/arc-cli/src/classify.rs": {
+      "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+      "mode": 420
+    },
+    "crates/arc-cli/src/doctor.rs": {
+      "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec.rs": {
+      "sha256": "196ebc61b23887d05257744d5ecedf8e410c625ee377bfeb69a72e71eada5696",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/descriptors.rs": {
+      "sha256": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/signals.rs": {
+      "sha256": "7a395ec8909a1a5b01d267eaf3438cb0cb1be02b0114df48f9ad8c84837b961d",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/signals/tests.rs": {
+      "sha256": "3d27e26224d2e801d172089b786d61325eca8023b95985dac81b63a4d688a7eb",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/terminal.rs": {
+      "sha256": "c3a5c74713d36c1fde3a332563d5cdb4260aa341a86e50573587f9eb95a882df",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/transport.rs": {
+      "sha256": "e127b2c16eb3a9f1ae02593252ecc6d12ce5934cafe92417a96945dad8e5e9df",
+      "mode": 420
+    },
+    "crates/arc-cli/src/job.rs": {
+      "sha256": "47bfb5fb337928ced9bb933b99912567e0d33204e3f197e06f028dae8105e033",
+      "mode": 420
+    },
+    "crates/arc-cli/src/main.rs": {
+      "sha256": "22c10fbcb888a29930d9ff3dcc37bebb8e02ff45c7ced4447fdd6cadcb1107ed",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/binary.rs": {
+      "sha256": "fcdf17704312c735e33af4b8cc9947abbecc06ef1205f3a81c551fe0c9fe8da3",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/classification.rs": {
+      "sha256": "0ba8a5ffcb0cdd54d5299941d61926e8bf4f5b358764219a25c4a205efbd6515",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/fixtures/child.rs": {
+      "sha256": "d22be8915575d84b2226e2b6af82d019370b01a65edeec0f6e4693dc873c45cc",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/fixtures/pipeline.rs": {
+      "sha256": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/schema.rs": {
+      "sha256": "d63b9f3ec80835ede61caf740c5a632a54df91d600a35b019fcff7270eb29a5a",
+      "mode": 420
+    },
+    "crates/arc-core/Cargo.toml": {
+      "sha256": "2f28861717fe5aefb8f1124157aa9d8b1ba1cdbabc9593bde7749a03cb3822fd",
+      "mode": 420
+    },
+    "crates/arc-core/src/lib.rs": {
+      "sha256": "9a1d25ac424d2a9d19edf296f7eb0b276de9550392b2eaa107c89f09cb29f95c",
+      "mode": 420
+    },
+    "crates/arc-core/src/process_identity.rs": {
+      "sha256": "1c7c7a5e9dce3941541ca0646a22aaab1713f3047334eebc7e533d0110ad8f56",
+      "mode": 420
+    },
+    "crates/arc-core/tests/coverage.rs": {
+      "sha256": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+      "mode": 420
+    },
+    "crates/arc-core/tests/identity.rs": {
+      "sha256": "449db78dbdcd3dcda98ea8af3fe2ea7b54d40a571496b5c832e2707093a18f07",
+      "mode": 420
+    },
+    "crates/arc-core/tests/runtime.rs": {
+      "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+      "mode": 420
+    },
+    "crates/arc-daemon/Cargo.toml": {
+      "sha256": "13c2ae685dcc69ffa1465f42095b64457a21ee3ce4418506eb259ddf41cac29e",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/accept_recovery.rs": {
+      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/accept_recovery_tests.rs": {
+      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/admission.rs": {
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/connection.rs": {
+      "sha256": "0a3cedf6b9b1103e2aa2d79d02302a1c2eee754c8b44c37169431ce82d330289",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/database_failure_tests.rs": {
+      "sha256": "37e68da1595953b59a7eed778bbfb0930a5299eef6edd89747299c572d7ac0cf",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker.rs": {
+      "sha256": "9956e9b3b28f8ea1d58f9a08b42c2df0ada9b7dfc8d61710b06cf0cb7aaa2b69",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/execution.rs": {
+      "sha256": "aa2d4c01fbb7b2b1a5ca9220eca4315fefab5a1ea0817a6af6cb2fd79500861b",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/jobs.rs": {
+      "sha256": "37423dee5cd9827f79e69d505e4f7f50745c39d571f6421fa8051f702e36cc6d",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/jobs_tests.rs": {
+      "sha256": "023ca7117c76443d568d324acc7c2a86e57099620f5e87373a638de5feb1cfcd",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/schema_tests.rs": {
+      "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/tests.rs": {
+      "sha256": "b7971fc13ca4aeb8793bbd48a811b1630be5c508dbb105b2396e39f4d164b203",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/lifecycle.rs": {
+      "sha256": "70692d247d8245e075e961dd20fe72485eed4eda1b0884f088a3ad688c2c4bb2",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/lifecycle_tests.rs": {
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/limits.rs": {
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/main.rs": {
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/platform.rs": {
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": {
+      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_metrics.rs": {
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_report.rs": {
+      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_report_tests.rs": {
+      "sha256": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/server.rs": {
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/server_tests.rs": {
+      "sha256": "8b80eea5299aa13380524705726c3ffc249bc1878ed89b82fd7fdad4ada9ccf3",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport.rs": {
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport_test_support.rs": {
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport_tests.rs": {
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/bounded.rs": {
+      "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification.rs": {
+      "sha256": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/boundaries.rs": {
+      "sha256": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/privacy.rs": {
+      "sha256": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/saturation.rs": {
+      "sha256": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/db_worker_unit.rs": {
+      "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec.rs": {
+      "sha256": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/cli.rs": {
+      "sha256": "de832f22bac5c5fa8a99ea4fa933a87a3f543999871e914323dad5f1e57756fe",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/pipeline.py": {
+      "sha256": "448d6ead9397ed50ff0b9198bd19975026ff96b9d4460ce1a5c017aa7ebd2074",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/pipeline.rs": {
+      "sha256": "8dce65a5e4d1172cd2592c63c865208ea81605e2c2af41ebe4b8da5951f0e017",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/protocol.rs": {
+      "sha256": "957693d38491c0842f6a6ab6731ef15d089ad6a998d94e9cbbcb3488289064d7",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/retries.rs": {
+      "sha256": "de8f6e37059c94dd479c3b6be357e4a4954abc50f260a26f2686edeb715a29ae",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/scenarios.rs": {
+      "sha256": "6aef15458e4745372b58652cc09ec47f0db7c5cd8268fb532f7d673c0c708801",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/terminal.rs": {
+      "sha256": "7be8b6c5c1eb5570abb0e2d788851ff8dffb980c5b04dd359c77c838ccf8ab6f",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "sha256": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/coordination.rs": {
+      "sha256": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/coverage.rs": {
+      "sha256": "27502ce76b66ede028c87af92c6f398a8e359478da0eacce03e841526e97ea07",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/identity.rs": {
+      "sha256": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/lifecycle.rs": {
+      "sha256": "117b2f20381392c8235f91d4a8a802ca0782ec589c75d8727482b440758efb0a",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/provisioning.rs": {
+      "sha256": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/schema.rs": {
+      "sha256": "d26766b77f79df97987f3fa91ed10128eccbfc936ece9492574f71b3c8d35522",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/startup.rs": {
+      "sha256": "e1f88c56c83c7fa5371eccfb7d50accd6a6126d6336a0a8b05b6be6d06171792",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/admission_load.rs": {
+      "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": {
+      "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/measurements.rs": {
+      "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/mod.rs": {
+      "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/native.rs": {
+      "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/runtime.rs": {
+      "sha256": "3e8dfc30ba02774c8c35ed448fb9c5b9756466924fa60da82076edaad02f8ba8",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/transport_unit.rs": {
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/worker_runtime.rs": {
+      "sha256": "8e9dcd0f00ffa0ffce506f12f5effbaa346571647a03022b5d54a423360a27b8",
+      "mode": 420
+    },
+    "crates/arc-detector/Cargo.toml": {
+      "sha256": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab",
+      "mode": 420
+    },
+    "crates/arc-detector/src/argv.rs": {
+      "sha256": "202d315b3e649883c68dbcba609e5e46568fa87368a074922107e486030cbe0e",
+      "mode": 420
+    },
+    "crates/arc-detector/src/budget.rs": {
+      "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+      "mode": 420
+    },
+    "crates/arc-detector/src/coverage_tests.rs": {
+      "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+      "mode": 420
+    },
+    "crates/arc-detector/src/lexer.rs": {
+      "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+      "mode": 420
+    },
+    "crates/arc-detector/src/lib.rs": {
+      "sha256": "09b1158588d228d699517374002d66b1bfeda82b94b90ad8b17212b6b8a3d6c9",
+      "mode": 420
+    },
+    "crates/arc-detector/src/parser.rs": {
+      "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+      "mode": 420
+    },
+    "crates/arc-detector/src/rules.rs": {
+      "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+      "mode": 420
+    },
+    "crates/arc-detector/src/tests.rs": {
+      "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+      "mode": 420
+    },
+    "crates/arc-detector/src/types.rs": {
+      "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/argv.rs": {
+      "sha256": "84b2856f8fa4e381637799b7a93887cd1256b43ebe773b96d0b60251039fc741",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/support/contract.rs": {
+      "sha256": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/support/ssh.rs": {
+      "sha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+      "mode": 420
+    },
+    "crates/arc-ipc/Cargo.toml": {
+      "sha256": "46b6a44cdec04ac4de97acfd9b856091d125c0a37e7bc1145cc3d27fb6c08816",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs.rs": {
+      "sha256": "c75464c6cd8239c862ba100a501975b2189ae37aa6202a0931f7875432619a3e",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs/types.rs": {
+      "sha256": "9459b9a22f0e3cd2ca2c921e5039117007adc928354587612759ad840380ff7b",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs/validation.rs": {
+      "sha256": "ac9eda72ed28c82d28f646e00b0b66327f516e39769160b297b787eab4ebc11a",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "sha256": "5b667c7e97df90007ed8f273358e09b8541e5fdebc9da6e020f87ba0144e1c43",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/schema.rs": {
+      "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/dispatch.rs": {
+      "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/framing.rs": {
+      "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/mod.rs": {
+      "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/schema.rs": {
+      "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/classification.rs": {
+      "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/coverage.rs": {
+      "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/jobs.rs": {
+      "sha256": "f2e3334034e79234afbdf6f0a7b6566609ab6b52c3ca4a3ddfd582a00debc754",
+      "mode": 420
+    },
+    "crates/arc-storage/Cargo.toml": {
+      "sha256": "a39d67610202aa6798357bb640cfb97847bcf6e7ceb78b9cf3abe17f02845747",
+      "mode": 420
+    },
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "mode": 420
+    },
+    "crates/arc-storage/migrations/0002_managed_exec.sql": {
+      "sha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+      "mode": 420
+    },
+    "crates/arc-storage/src/history.rs": {
+      "sha256": "6b9739f7b354724a1793c3ba58581a90ebe1de9ef294ee50e5cd1e0ccb73bb23",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs.rs": {
+      "sha256": "198dbe9897b9ab270f46930467ef3ed48600307a57174a1dd62536b8496e4368",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/codec.rs": {
+      "sha256": "cab00f289829e63019d1d8c86e2cdd986060317cc3b1050b08c6a22955c2796f",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/reconcile.rs": {
+      "sha256": "2232fc199f0e1dac573017d4e92ef7fcde02689268111bfcd218a47a38186d00",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests.rs": {
+      "sha256": "b5711683f20897812b86a0d0b37f1198ecb8f3379fa59119b56ebc3e83d83098",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/migration.rs": {
+      "sha256": "7a7222f07c8d19e0003764056cb75ad1e88a5d4f6b65c292720b165d34b4624b",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/recovery.rs": {
+      "sha256": "3d6dd5dd75ed704df242ecc232a94b38d65ced376233306e75b965a67f582e47",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/regression.rs": {
+      "sha256": "7ea3f59e27a5f08da6a34bc01af1345a1475420f555303e39b7fa138713939c7",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/transitions.rs": {
+      "sha256": "525be0baaab7ec0d0a9499676d26a24a91af31d2fa2129fe35917deabb98e3bd",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/transitions.rs": {
+      "sha256": "e746d99e944903392a688aedf7ab9efd6621d879f169c1fa8065abb7477e8193",
+      "mode": 420
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "sha256": "5796cabfc0608d5a4fc8d54d608a024aabda8f053576763469f5c72010a369bd",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration.rs": {
+      "sha256": "e33a0ec9b3e1c9afab08e1bfa69b1988588729a4b3fe9942477a9cf34bb6551b",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests.rs": {
+      "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/acceptance.rs": {
+      "sha256": "e763fd6cbf586e1eda83d8207d20765d986304d432cdb4d3a8ab4104b4e25404",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/concurrency.rs": {
+      "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/rejection.rs": {
+      "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/coverage.rs": {
+      "sha256": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/fixtures/0001_fixture.sql": {
+      "sha256": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/fixtures/0002_additive.sql": {
+      "sha256": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/managed_exec_migration.rs": {
+      "sha256": "ef48c032591ad3bceadf546ae75d3f2954a552a1e628da3052a2f246ccfa8b71",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "sha256": "b7db33dab1d8d0d1a503f2cb40f92f345840d0a454d0f1dc29a02d6c7356cf56",
+      "mode": 420
+    },
+    "docs/rust-coverage.md": {
+      "sha256": "55d2cabc9f3431330e6f98e48ef912b4f8da89b4c80fdd016a4305efdd531486",
+      "mode": 420
+    },
+    "mise.toml": {
+      "sha256": "5af71f4d3bb6e8da776de80f1252a0601ecde35114b18a0cc87946c74c1e7600",
+      "mode": 420
+    },
+    "package.json": {
+      "sha256": "d9f600d7586838dc24ca522ecb30a93f3da6b430712cc911a1de4145706eb9c0",
+      "mode": 420
+    },
+    "rust-toolchain.toml": {
+      "sha256": "f6d2a8e736e4a30b034416cc5c00fcac466d708e385e61b07285949f7074d823",
+      "mode": 420
+    },
+    "scripts/coverage/acceptance.ts": {
+      "sha256": "64d745b2a59e5dfcebab1fb2dc5adc3d777a7fd53a0f6c185f099790b1bd8d68",
+      "mode": 420
+    },
+    "scripts/coverage/accounting.test.ts": {
+      "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882",
+      "mode": 420
+    },
+    "scripts/coverage/accounting.ts": {
+      "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+      "mode": 420
+    },
+    "scripts/coverage/clean-checkout.test.ts": {
+      "sha256": "0a991995293be5f2ff4dac9c653ecace05cc2f962c7ec108e3e1eaa4ad45f579",
+      "mode": 420
+    },
+    "scripts/coverage/commands.ts": {
+      "sha256": "c37ef4a710a8b8280c6a67b90deba9f81447234b77164c2efb823d2e9481f40a",
+      "mode": 420
+    },
+    "scripts/coverage/config.ts": {
+      "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a",
+      "mode": 420
+    },
+    "scripts/coverage/coverage-cli.test.ts": {
+      "sha256": "4ee19897c0ee5882a88d0a47752e3013e04085ccdbae1e268a5dac3c15eee463",
+      "mode": 420
+    },
+    "scripts/coverage/current-preservation.ts": {
+      "sha256": "2ec0a7cf1b48bb565492286c7856c728e3e3f3fc24f1fbd8c2e08d4f3bb47f72",
+      "mode": 420
+    },
+    "scripts/coverage/evidence.test.ts": {
+      "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8",
+      "mode": 420
+    },
+    "scripts/coverage/fixture-runner.ts": {
+      "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "mode": 420
+    },
+    "scripts/coverage/fixtures.ts": {
+      "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "mode": 420
+    },
+    "scripts/coverage/gate.test.ts": {
+      "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "mode": 420
+    },
+    "scripts/coverage/gate.ts": {
+      "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+      "mode": 420
+    },
+    "scripts/coverage/harness.test.ts": {
+      "sha256": "13d763c0cf4820043e07e4360ae813d3666c099801958bd473d53726b73f5c7f",
+      "mode": 420
+    },
+    "scripts/coverage/historical.ts": {
+      "sha256": "2625971b6fc5e0dc3f8892e485c61180a15ac16b8e43f71a1a69940d3075cedf",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene-preservation.test.ts": {
+      "sha256": "0bef64f36a7198ebd402cf9d4e86290a0a1e23120cffa7b92ec19232f17a1f53",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene.test.ts": {
+      "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene.ts": {
+      "sha256": "19a40f1a88691ad425531378acb609885552b22e6add55474a189c536aa03ceb",
+      "mode": 420
+    },
+    "scripts/coverage/preservation.test.ts": {
+      "sha256": "9a353997b7734fe2f06861b29fc8c8e3bd83a37fa4a26140ba5f4b3b283f5df3",
+      "mode": 420
+    },
+    "scripts/coverage/preservation.ts": {
+      "sha256": "68a9bb1856541af2e2043047e5cc528671961fbb70110b93a68706ea5726c2bb",
+      "mode": 420
+    },
+    "scripts/coverage/provision.sh": {
+      "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "mode": 420
+    },
+    "scripts/coverage/run.ts": {
+      "sha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da",
+      "mode": 420
+    },
+    "scripts/coverage/schema-adaptations.ts": {
+      "sha256": "50d0907d63848f4fa05ff0f0fb8bc6548829c2edd17ee048929eb5577e1c4b9a",
+      "mode": 420
+    },
+    "scripts/coverage/source.ts": {
+      "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "mode": 420
+    },
+    "scripts/harness/benchmark.ts": {
+      "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e",
+      "mode": 420
+    },
+    "scripts/harness/coverage-verification.test.ts": {
+      "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb",
+      "mode": 420
+    },
+    "scripts/harness/equivalence.test.ts": {
+      "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25",
+      "mode": 420
+    },
+    "scripts/harness/evidence-budget.test.ts": {
+      "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4",
+      "mode": 420
+    },
+    "scripts/harness/fixtures.ts": {
+      "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a",
+      "mode": 420
+    },
+    "scripts/harness/gc.sh": {
+      "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73",
+      "mode": 493
+    },
+    "scripts/harness/managed-exec-evidence.test.ts": {
+      "sha256": "2383e9d487d17a3fbdee65e9f70e8f2525143df50dd65216a8cf952e30580cb5",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-evidence.ts": {
+      "sha256": "a83d1d80f6e4a9b794e8a0f0aa89f3c49d1094554b0294ca3c80ceef7212d6d3",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-immutability.test.ts": {
+      "sha256": "0065d0bdcbc96900c42168b14a0ae0e9b8802bd4944dfe2b1b424d14a8b94aca",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-test-output.ts": {
+      "sha256": "1c67e7c1f094b40c58bd2f93c0d48d18e1050075457a5562ebcc077f8f54e9c3",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec.test.ts": {
+      "sha256": "1119fbf513db7076f17a32ac6d83664c0b51c7833a626602a225fe09659711a1",
+      "mode": 420
+    },
+    "scripts/harness/performance.test.ts": {
+      "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242",
+      "mode": 420
+    },
+    "scripts/harness/test-support.ts": {
+      "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a",
+      "mode": 420
+    },
+    "scripts/harness/validate.sh": {
+      "sha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+      "mode": 493
+    }
+  },
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "80440c1fa6dc50afc705f4b5742cde63f89236025959bcf53df46987b10b7d6c",
+    "untrackedSource": [
+      "crates/arc-cli/src/exec/signals/tests.rs",
+      "crates/arc-cli/tests/fixtures/pipeline.rs",
+      "crates/arc-daemon/tests/managed_exec/pipeline.py",
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs"
+    ]
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "productEditsDelivered": [
+    "crates/arc-cli/src/exec.rs",
+    "crates/arc-cli/src/exec/signals.rs",
+    "crates/arc-cli/src/exec/terminal.rs",
+    "crates/arc-cli/tests/fixtures/child.rs",
+    "crates/arc-daemon/tests/managed_exec/pipeline.py",
+    "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+    "crates/arc-daemon/tests/managed_exec/terminal.rs",
+    "crates/arc-cli/src/exec/signals/tests.rs"
+  ],
+  "inputArtifacts": [
+    {
+      "path": ".arc-verify/managed-exec/decision.md",
+      "sha256": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+      "bytes": 27377
+    },
+    {
+      "path": ".arc-verify/managed-exec/contract.json",
+      "sha256": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+      "bytes": 97034
+    },
+    {
+      "path": ".arc-verify/managed-exec/technical-contract.md",
+      "sha256": "8d88f11c2d057b167f16a0d2d4c19db9571849dd61d12ee7438ffa51abbcd604",
+      "bytes": 47085
+    },
+    {
+      "path": ".arc-verify/managed-exec/cli-contract.md",
+      "sha256": "0666901675d70dd7397fd113542f26a658f336724eed4776103a6bb70694c073",
+      "bytes": 29131
+    },
+    {
+      "path": ".arc-verify/managed-exec/storage.json",
+      "sha256": "345045a03b3201f6713b63300a287697a6efb1d298e65d74694b4ccaa12abbee",
+      "bytes": 41033
+    },
+    {
+      "path": ".arc-verify/managed-exec/storage-resume-review.md",
+      "sha256": "20a2219e7116e5319f895008ea1f0ab9f9df8c604122c4ec2a356a537d85a8f2",
+      "bytes": 8309
+    },
+    {
+      "path": ".arc-verify/managed-exec/storage-resume-review.json",
+      "sha256": "8876417b87f1d0091c2077cf23f2b518ac36c27512bbba605315ead769d85c62",
+      "bytes": 42335
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-independent-review.md",
+      "sha256": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+      "bytes": 8311
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-independent-review.json",
+      "sha256": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58",
+      "bytes": 15919
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair3.md",
+      "sha256": "d7035221ed8e82a6089dc66fc4ad26c30ace26fe204fb46bb3749fb5aaebea38",
+      "bytes": 9710
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair3.json",
+      "sha256": "5f1118189936feb0e31139e2500b704c68234ae450fcce86e01bff7481acde38",
+      "bytes": 114488
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair3-independent-review.md",
+      "sha256": "3cf31e0ed0dd118d4200e9f1a7d9869cf5f6812cb873e839a7fb713b01f2d4c7",
+      "bytes": 9887
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/terminal-repair3-independent-review.json",
+      "sha256": "e3a15631f8049e1c2ae39f0ed61c193a3435b6d27b662efe5d25747cc7f67130",
+      "bytes": 16824
+    }
+  ],
+  "sourceAudit": {
+    "changedOwnedPaths": [
+      "crates/arc-cli/src/exec.rs",
+      "crates/arc-cli/src/exec/signals.rs",
+      "crates/arc-cli/src/exec/terminal.rs",
+      "crates/arc-cli/tests/fixtures/child.rs",
+      "crates/arc-daemon/tests/managed_exec/pipeline.py",
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+      "crates/arc-daemon/tests/managed_exec/terminal.rs"
+    ],
+    "addedOwnedPaths": [
+      "crates/arc-cli/src/exec/signals/tests.rs"
+    ],
+    "sourceInputCount": 177,
+    "storageRecordedInputs": 168,
+    "storageInputMismatches": [
+      "crates/arc-cli/src/exec.rs",
+      "crates/arc-cli/src/exec/signals.rs",
+      "crates/arc-cli/src/exec/terminal.rs",
+      "crates/arc-cli/tests/fixtures/child.rs",
+      "crates/arc-daemon/tests/managed_exec/pipeline.py",
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs",
+      "crates/arc-daemon/tests/managed_exec/terminal.rs"
+    ],
+    "allStorageMismatchesOwned": true,
+    "migration0001Unchanged": true,
+    "migrationSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "maximumRustSqlLines": [
+      474,
+      "crates/arc-daemon/src/transport_tests.rs"
+    ],
+    "trackedEvidenceFiles": 64,
+    "retainedEvidenceFiles": 93
+  },
+  "sourceAuditArtifact": {
+    "path": "target/terminal-repair4-01a1bbc4/source-audit.json",
+    "sha256": "d3b1926116ae12e5300b0fe530b3f344b1fb61a403e8688b122ff214e0684273",
+    "bytes": 1175
+  },
+  "workspaceExecution": {
+    "executed": 336,
+    "passed": 336,
+    "failed": 0,
+    "ignored": 0,
+    "harnesses": 32
+  },
+  "workspaceIdentities": {
+    "path": "target/terminal-repair4-01a1bbc4/workspace-execution.json",
+    "sha256": "b5a52660966e78326ad853e97a0856f6ebeae01898be7e7e7d3f64350ec82365",
+    "bytes": 48767
+  },
+  "commands": [
+    {
+      "label": "red",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/red.json",
+        "sha256": "62d6dcde5cf753d06ba073bac47affe8f76d8afc2afbf1946bf3ce87770a8982",
+        "bytes": 28559
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:27:29.056137+00:00",
+      "finishedAt": "2026-11-08T15:27:43.556395+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 63000,
+      "sourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "sourceInputCount": 176,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/red.stdout": {
+          "sha256": "6245bfa78003caa1ef008de1f8d6c1ce32ba7c3c316640ea2b80ab2b2edd6130",
+          "bytes": 308
+        },
+        "target/terminal-repair4-01a1bbc4/red.stderr": {
+          "sha256": "0dff42ba6669f1d527f4fa818e219228f20a2183c20f95643b89b91c5a39199b",
+          "bytes": 13897
+        }
+      }
+    },
+    {
+      "label": "candidate",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/candidate.json",
+        "sha256": "204c6ead0c2403bf6888b5d005b910e85d3d183a5f307a54b500ce6668b771b2",
+        "bytes": 28571
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:28:44.108686+00:00",
+      "finishedAt": "2026-11-08T15:29:00.727905+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 63174,
+      "sourceHash": "0d57c895c58d3f984c32112594125c15bf3c0b753b286747c382243b82a71ea1",
+      "sourceInputCount": 176,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/candidate.stdout": {
+          "sha256": "8934af1f51a163a9404b6aebc9046d7599dbbe7eee440c6a9cd85b70cf206be7",
+          "bytes": 308
+        },
+        "target/terminal-repair4-01a1bbc4/candidate.stderr": {
+          "sha256": "ffebaa64bc69e61c9f88f4a02d48097d40ec77073286d9bb00257afc039869eb",
+          "bytes": 14103
+        }
+      }
+    },
+    {
+      "label": "cli-prerequisite",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/cli-prerequisite.json",
+        "sha256": "31c2c6aae8aa28f55e217b5d184c0bccd8332c799481f9ab3cc4a02942bed849",
+        "bytes": 28420
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:29:06.868040+00:00",
+      "finishedAt": "2026-11-08T15:29:15.607301+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 63348,
+      "sourceHash": "0d57c895c58d3f984c32112594125c15bf3c0b753b286747c382243b82a71ea1",
+      "sourceInputCount": 176,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/cli-prerequisite.stdout": {
+          "sha256": "59da1a021f9d8a5cc1c1816fe7c4f9365fd7f1cd61de979d9e8909a6bba1dc95",
+          "bytes": 1735
+        },
+        "target/terminal-repair4-01a1bbc4/cli-prerequisite.stderr": {
+          "sha256": "262fd1f87553323ccb8de18e2bc22dac9d4c986af8ffe04cdd31da8b1c591afe",
+          "bytes": 688
+        }
+      }
+    },
+    {
+      "label": "green-pipeline",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/green-pipeline.json",
+        "sha256": "c826ec126909add4cbf63eac2da2ba918cf97d6213e019d23ba621a030bbb564",
+        "bytes": 28579
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:29:30.910956+00:00",
+      "finishedAt": "2026-11-08T15:29:33.180120+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 63527,
+      "sourceHash": "0d57c895c58d3f984c32112594125c15bf3c0b753b286747c382243b82a71ea1",
+      "sourceInputCount": 176,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/green-pipeline.stdout": {
+          "sha256": "473d83d1e4456eb062d2f99408d8586aa24269481def1336278895ff3480b94e",
+          "bytes": 199
+        },
+        "target/terminal-repair4-01a1bbc4/green-pipeline.stderr": {
+          "sha256": "b1b215055f7137a84be3df5380d7a91fb19fb172c879dffa833ab6e94f506626",
+          "bytes": 13866
+        }
+      }
+    },
+    {
+      "label": "cli-prerequisite2",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/cli-prerequisite2.json",
+        "sha256": "591b2fa6f9bbc55bc1012b1ebcf6c50504a4e0a2f39b7690efacc83583252d5e",
+        "bytes": 28422
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:30:12.306847+00:00",
+      "finishedAt": "2026-11-08T15:30:20.695718+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 63662,
+      "sourceHash": "e1d13a850a907f06227bbdc148539baf7481ed371de30bafe864139a6bda8b6d",
+      "sourceInputCount": 176,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/cli-prerequisite2.stdout": {
+          "sha256": "a6e0bc9e677434a509424b254c24e5e4b27497d8ee082b8941825a5404768569",
+          "bytes": 1735
+        },
+        "target/terminal-repair4-01a1bbc4/cli-prerequisite2.stderr": {
+          "sha256": "4eeac78e18e8829319dbf704ae8f39c94c301b84d8ce8890c9a7f62b519d8004",
+          "bytes": 688
+        }
+      }
+    },
+    {
+      "label": "signal-unit",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/signal-unit.json",
+        "sha256": "8a8d76159198d509f00742187b516bb025a40870946154939e296dfbc26dee5d",
+        "bytes": 28495
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli",
+        "--bin",
+        "arcctl",
+        "exec::signals::tests",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:30:47.824212+00:00",
+      "finishedAt": "2026-11-08T15:31:04.721100+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 63878,
+      "sourceHash": "d73c47969489dfaf87faf5ba02579f00245880a7f851da8ed1e9157f7acdf75f",
+      "sourceInputCount": 176,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/signal-unit.stdout": {
+          "sha256": "6777501236e077324bf028d79a5733422fe3ecb48ba46aee01c6d748fee21d33",
+          "bytes": 762
+        },
+        "target/terminal-repair4-01a1bbc4/signal-unit.stderr": {
+          "sha256": "5895363db9dc95fcfe53279ac31270109e50639468b2e61844cbf87f867055e7",
+          "bytes": 696
+        }
+      }
+    },
+    {
+      "label": "signal-unit2",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/signal-unit2.json",
+        "sha256": "893c48278b163b8c6a4f2280759b7994824b4767b5d5b7e33838894705c0765f",
+        "bytes": 28654
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli",
+        "--bin",
+        "arcctl",
+        "exec::signals::tests",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:31:10.541194+00:00",
+      "finishedAt": "2026-11-08T15:31:12.527819+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 63995,
+      "sourceHash": "ebb352677703e766f39116f70cc09efbe4d9ad85f1ac33bf815430ceff0dd635",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/signal-unit2.stdout": {
+          "sha256": "7c129f479eaa533dea01af41be55703ad19c1116f81b0739d893c6f4ac909286",
+          "bytes": 835
+        },
+        "target/terminal-repair4-01a1bbc4/signal-unit2.stderr": {
+          "sha256": "6c0fa824483cdaae79f26e62da2ec33dd52809b7fcc31e30dc12fe40b934da4b",
+          "bytes": 352
+        }
+      }
+    },
+    {
+      "label": "caller-group",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/caller-group.json",
+        "sha256": "c7815a858dbecb3cef1231f11df3f85b55dd18268d4a3af65f9e29953c142e4c",
+        "bytes": 28734
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:31:18.776245+00:00",
+      "finishedAt": "2026-11-08T15:31:20.902541+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 64119,
+      "sourceHash": "ebb352677703e766f39116f70cc09efbe4d9ad85f1ac33bf815430ceff0dd635",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/caller-group.stdout": {
+          "sha256": "8686e3678ce3179ed06ed0224117b0947662fdf268756edbe26fc33b14ff64e3",
+          "bytes": 199
+        },
+        "target/terminal-repair4-01a1bbc4/caller-group.stderr": {
+          "sha256": "3a05360fd89ae5c463c0dd063287ee87991273249c6400659e37617667dd443a",
+          "bytes": 13866
+        }
+      }
+    },
+    {
+      "label": "focused-terminal",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/focused-terminal.json",
+        "sha256": "79ba1fa11e1296a0a5bd6ca514d842fa8bdd105636e2d4bef46255f0b1865dfe",
+        "bytes": 28665
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "terminal::",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:31:41.083741+00:00",
+      "finishedAt": "2026-11-08T15:31:57.336171+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 64186,
+      "sourceHash": "ebb352677703e766f39116f70cc09efbe4d9ad85f1ac33bf815430ceff0dd635",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/focused-terminal.stdout": {
+          "sha256": "b19040303229043c6df9ac92e1e2d378721c4bd3a7e2587d1c487486535ef6d5",
+          "bytes": 493
+        },
+        "target/terminal-repair4-01a1bbc4/focused-terminal.stderr": {
+          "sha256": "26eb36c97f69c5859b165288d05e5fbfd790e6cc599dda207f3f1d65be7f3f02",
+          "bytes": 4731
+        }
+      }
+    },
+    {
+      "label": "cli-prerequisite3",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/cli-prerequisite3.json",
+        "sha256": "ef94f278dadd2ed65a4a3425fadcb4915d98ea3a3140ce30e214c88bdf6080df",
+        "bytes": 28581
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:32:38.856722+00:00",
+      "finishedAt": "2026-11-08T15:32:47.301909+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 64400,
+      "sourceHash": "0b24db1d4cf8bc9f403f23933f8aae3a5a90a0a875c3c0201b59c7bb7166a116",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/cli-prerequisite3.stdout": {
+          "sha256": "89f522d67c9265bd54a8c056672056df056fe44cd3f637aefdc0aab9f31e7352",
+          "bytes": 2457
+        },
+        "target/terminal-repair4-01a1bbc4/cli-prerequisite3.stderr": {
+          "sha256": "3b4abdbbfca8ddb79a6234a9d81dd8553399f090a4115b2ddd7fbe168524b6cc",
+          "bytes": 688
+        }
+      }
+    },
+    {
+      "label": "workspace-initial",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/workspace-initial.json",
+        "sha256": "fc73d97c37a115b3de61c78d3527c906b91917eea8a753735aa5b45b2b2f72ee",
+        "bytes": 28577
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:33:08.780729+00:00",
+      "finishedAt": "2026-11-08T15:33:15.852165+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 64682,
+      "sourceHash": "23b575144c5facf21a4c2dede1a3194ef0bfdb13f0488ebee1dde9bae853e79a",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/workspace-initial.stdout": {
+          "sha256": "59576aa80f9caf4dfe6aeff003b0e493064eba8f3da2d82ddc604d1a030cdb85",
+          "bytes": 2101
+        },
+        "target/terminal-repair4-01a1bbc4/workspace-initial.stderr": {
+          "sha256": "57a4377d03c18355c32f45579bf7c460fbb0efa5ef3c18f36de55ef21c1af124",
+          "bytes": 719
+        }
+      }
+    },
+    {
+      "label": "workspace-green",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/workspace-green.json",
+        "sha256": "d63b45acc96242fa813e56698249ebebc0a031d0e50e6d17ee9b266fad5b71e7",
+        "bytes": 28573
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:33:33.364891+00:00",
+      "finishedAt": "2026-11-08T15:34:18.622341+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 64831,
+      "sourceHash": "3949154e9ef4aaaf6d13ae40b9e2e05b9accb5109d37eea8630c9a3e9917ccf5",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/workspace-green.stdout": {
+          "sha256": "3aa1e867bc7e4c8aaa4cbdbc88f906db165a242357d7f9992960b120fa4ff76a",
+          "bytes": 32028
+        },
+        "target/terminal-repair4-01a1bbc4/workspace-green.stderr": {
+          "sha256": "6a8f2ab581207485f7b421c547e9cc80e4e02290015ac77da8a74bd3f5545d93",
+          "bytes": 2647
+        }
+      }
+    },
+    {
+      "label": "fmt",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/fmt.json",
+        "sha256": "fb5e5893ffc672650d8e40ac56ff11aed04117228a9b648384a03e54f0a398a2",
+        "bytes": 28560
+      },
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:34:18.294442+00:00",
+      "finishedAt": "2026-11-08T15:34:18.687620+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 66230,
+      "sourceHash": "3949154e9ef4aaaf6d13ae40b9e2e05b9accb5109d37eea8630c9a3e9917ccf5",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/fmt.stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "target/terminal-repair4-01a1bbc4/fmt.stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      }
+    },
+    {
+      "label": "clippy",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/clippy.json",
+        "sha256": "75ee4035924ee0d6bcb0c5751a69ffb72de0f2d71c68f56bd1dae6e48ef38831",
+        "bytes": 28609
+      },
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:34:22.077007+00:00",
+      "finishedAt": "2026-11-08T15:34:23.136943+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 66237,
+      "sourceHash": "3949154e9ef4aaaf6d13ae40b9e2e05b9accb5109d37eea8630c9a3e9917ccf5",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/clippy.stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "target/terminal-repair4-01a1bbc4/clippy.stderr": {
+          "sha256": "b1be1cc273423a35224a57061bb9ab870da88350d0f6094057ecd308981155a5",
+          "bytes": 478
+        }
+      }
+    },
+    {
+      "label": "preservation",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/preservation.json",
+        "sha256": "8d989e3f9c8b8e45bd8e2124a27bfefd2a810a8aed1852550137dcff4761f8c7",
+        "bytes": 28587
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:34:33.113627+00:00",
+      "finishedAt": "2026-11-08T15:35:36.111325+00:00",
+      "exitCode": 1,
+      "timeoutMs": 3600000,
+      "pid": 66262,
+      "sourceHash": "3949154e9ef4aaaf6d13ae40b9e2e05b9accb5109d37eea8630c9a3e9917ccf5",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/preservation.stdout": {
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28
+        },
+        "target/terminal-repair4-01a1bbc4/preservation.stderr": {
+          "sha256": "b1c40af37989c672f777521ff4644ee34aa9e9e11d67def1248c2dd373bf10a4",
+          "bytes": 2419
+        }
+      }
+    },
+    {
+      "label": "historical-preservation",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/historical-preservation.json",
+        "sha256": "81b917fa3a0012ee8b7e10cf1d686e23f54c337c0c55dfd0e38238d34477ab92",
+        "bytes": 28662
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/hygiene-preservation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:34:41.360352+00:00",
+      "finishedAt": "2026-11-08T15:34:56.042091+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 66735,
+      "sourceHash": "3949154e9ef4aaaf6d13ae40b9e2e05b9accb5109d37eea8630c9a3e9917ccf5",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/historical-preservation.stdout": {
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28
+        },
+        "target/terminal-repair4-01a1bbc4/historical-preservation.stderr": {
+          "sha256": "b3d16cc5fc140392cd2741d544397ef717d44687d5c3fa47f6675409c5b85b3d",
+          "bytes": 568
+        }
+      }
+    },
+    {
+      "label": "equivalence",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/equivalence.json",
+        "sha256": "783c962de9f5ce5654151eb1a23727cea66bd8c2a74b604c6dbdc8f723ac5429",
+        "bytes": 28588
+      },
+      "argv": [
+        "python3",
+        "target/terminal-repair4-01a1bbc4/equivalence.py"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:35:08.367934+00:00",
+      "finishedAt": "2026-11-08T15:37:02.752056+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 69812,
+      "sourceHash": "3949154e9ef4aaaf6d13ae40b9e2e05b9accb5109d37eea8630c9a3e9917ccf5",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/equivalence.stdout": {
+          "sha256": "00789bcaf93307ec387e84aedec98e5979cd4e7b1f6a9af7ca7045b9f929d718",
+          "bytes": 145
+        },
+        "target/terminal-repair4-01a1bbc4/equivalence.stderr": {
+          "sha256": "04eb6a4e04f5d80b68577e0d2efa2cc309a2ee3af26a3105f5b5e98d6a09da96",
+          "bytes": 313
+        }
+      }
+    },
+    {
+      "label": "signal-unit-final",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/signal-unit-final.json",
+        "sha256": "6be628b4b493a2f22ae34299ee4122f8ad972fc2b5ed231ffd3320aed0818376",
+        "bytes": 28666
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli",
+        "--bin",
+        "arcctl",
+        "exec::signals::tests",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:37:54.433807+00:00",
+      "finishedAt": "2026-11-08T15:38:11.565787+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 88869,
+      "sourceHash": "57058a46d20073e7a52a617407b67a726903e739e3569eee11642d79ab20e7bb",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/signal-unit-final.stdout": {
+          "sha256": "a51f67d7ff54b4713a5e307dfae24121f8dc56b4d1582272c77d868b811e167f",
+          "bytes": 612
+        },
+        "target/terminal-repair4-01a1bbc4/signal-unit-final.stderr": {
+          "sha256": "7f16291a5b5f8d065f567842c67ba344ae17e90199d44ee3208d0b948677b902",
+          "bytes": 698
+        }
+      }
+    },
+    {
+      "label": "signal-unit-mask-fixed",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/signal-unit-mask-fixed.json",
+        "sha256": "d8b25aeb55aaa80cd0c675966ef2bf2b16998e5f7e21da4a13d0a84b7390b5de",
+        "bytes": 28676
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli",
+        "--bin",
+        "arcctl",
+        "exec::signals::tests",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:38:33.304320+00:00",
+      "finishedAt": "2026-11-08T15:38:50.395774+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 88964,
+      "sourceHash": "04c403dddb82b44d00d631ddf287fac12b723a5ea9b50ab4b131dbd1bc7693c8",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/signal-unit-mask-fixed.stdout": {
+          "sha256": "80952d83103f2426e161dfefd59b8ed876fe56882abe3196a881e9e7a5626739",
+          "bytes": 612
+        },
+        "target/terminal-repair4-01a1bbc4/signal-unit-mask-fixed.stderr": {
+          "sha256": "726dcf4f9d56d97be95629c5cbccbb604b650de3c32153c8bb090211a5edcd88",
+          "bytes": 698
+        }
+      }
+    },
+    {
+      "label": "cli-session-fixture",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/cli-session-fixture.json",
+        "sha256": "e082b51095cc81cabeb886cbd1c30ecce28ee2756d9202c01d29122c5d1a0f91",
+        "bytes": 28587
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:39:17.641046+00:00",
+      "finishedAt": "2026-11-08T15:39:34.759348+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 89073,
+      "sourceHash": "8a73cb0bd173254f8b6c49ba36fbb789ce257908899109ec9b612e843013384a",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/cli-session-fixture.stdout": {
+          "sha256": "e7a3623d2efc05df36f1de1b50a08c6a9f63433246c1166b4bacf6d01c0e59f9",
+          "bytes": 1127
+        },
+        "target/terminal-repair4-01a1bbc4/cli-session-fixture.stderr": {
+          "sha256": "224c5faaade8fcc6346fc8972b654dd5d2833542764bb263e0fd250cf66a4d12",
+          "bytes": 513
+        }
+      }
+    },
+    {
+      "label": "signal-unit-notification",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/signal-unit-notification.json",
+        "sha256": "a8304e1e98a3da2ac33c7a43b85cc7ad467525ab878817492555693fa14322f9",
+        "bytes": 28678
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli",
+        "--bin",
+        "arcctl",
+        "exec::signals::tests",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:39:44.922424+00:00",
+      "finishedAt": "2026-11-08T15:39:46.449497+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 89275,
+      "sourceHash": "26fa2da54e21b71bc379f1e69821bc14e0bb820835f5de497a1b1e6c42e5230a",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/signal-unit-notification.stdout": {
+          "sha256": "aebeeadac46688b238d8730b40b1835f2dc41dcbd3b9b64a33b583c0e5384279",
+          "bytes": 480
+        },
+        "target/terminal-repair4-01a1bbc4/signal-unit-notification.stderr": {
+          "sha256": "9279dd1d5dc718e5cb8b8a6daa9f98b911829263ae26115d00fa2df229d24e82",
+          "bytes": 352
+        }
+      }
+    },
+    {
+      "label": "session-tty-red",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/session-tty-red.json",
+        "sha256": "73d7e7ee2a53a356c944961ec2fb22ac206ff455c384a2d4b78465048bf1a227",
+        "bytes": 28747
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "terminal::native_session_leader_with_controlling_terminal_keeps_foreground_input",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:39:54.809151+00:00",
+      "finishedAt": "2026-11-08T15:39:58.986420+00:00",
+      "exitCode": 101,
+      "timeoutMs": 3600000,
+      "pid": 89319,
+      "sourceHash": "26fa2da54e21b71bc379f1e69821bc14e0bb820835f5de497a1b1e6c42e5230a",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/session-tty-red.stdout": {
+          "sha256": "3112e81963e8a6db3f2de86348bcafe62345abed9b9ee43e7ba7b6ea68c98bdf",
+          "bytes": 321
+        },
+        "target/terminal-repair4-01a1bbc4/session-tty-red.stderr": {
+          "sha256": "b36424b1288178c6eedcedfb4e55d210629bdb7ccb768847ad98919debaab56d",
+          "bytes": 737
+        }
+      }
+    },
+    {
+      "label": "workspace-delivered",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/workspace-delivered.json",
+        "sha256": "b8377ba99f7aafc28e94b318b0fb25a2bee1a374a4e4c4d22e927ef1081964fd",
+        "bytes": 28581
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:40:28.312025+00:00",
+      "finishedAt": "2026-11-08T15:41:12.435469+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 89404,
+      "sourceHash": "2132331368d21281806b33bc265a2183fb1bd1702a09144c9c3b95386ec08864",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/workspace-delivered.stdout": {
+          "sha256": "a7d85cd24d9882017d5566f7fcba177b03d1108a90ecbed2c6a49868594cfc4f",
+          "bytes": 32230
+        },
+        "target/terminal-repair4-01a1bbc4/workspace-delivered.stderr": {
+          "sha256": "a3bb592f0ea3476a542a49e2d155254c91477ef27a76ea1a9da33d8892fcbb5f",
+          "bytes": 2647
+        }
+      }
+    },
+    {
+      "label": "fmt-delivered",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/fmt-delivered.json",
+        "sha256": "2e60a4f6c9e8e009355a150c34184b507e664e01f6bfbe260fceb1aac6a6f134",
+        "bytes": 28580
+      },
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:40:48.165735+00:00",
+      "finishedAt": "2026-11-08T15:40:48.664816+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 89666,
+      "sourceHash": "2132331368d21281806b33bc265a2183fb1bd1702a09144c9c3b95386ec08864",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/fmt-delivered.stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "target/terminal-repair4-01a1bbc4/fmt-delivered.stderr": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      }
+    },
+    {
+      "label": "clippy-delivered",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/clippy-delivered.json",
+        "sha256": "8fb3f0c4480f3fd82b14a953b563a63f8e478dcd9c526acb36977924276f7d28",
+        "bytes": 28629
+      },
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:40:49.252799+00:00",
+      "finishedAt": "2026-11-08T15:40:50.410637+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 89718,
+      "sourceHash": "2132331368d21281806b33bc265a2183fb1bd1702a09144c9c3b95386ec08864",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/clippy-delivered.stdout": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "target/terminal-repair4-01a1bbc4/clippy-delivered.stderr": {
+          "sha256": "74685db6111e53565fa247f0b481545cec433fddcb62afc1885cb3f049e11554",
+          "bytes": 478
+        }
+      }
+    },
+    {
+      "label": "preservation-delivered",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/preservation-delivered.json",
+        "sha256": "109dfde2b1bfb059907c33b2adadd3c18650c5bdfe7af0631205fb72b66eccb0",
+        "bytes": 28607
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:40:48.165746+00:00",
+      "finishedAt": "2026-11-08T15:41:52.151063+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 89667,
+      "sourceHash": "2132331368d21281806b33bc265a2183fb1bd1702a09144c9c3b95386ec08864",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/preservation-delivered.stdout": {
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28
+        },
+        "target/terminal-repair4-01a1bbc4/preservation-delivered.stderr": {
+          "sha256": "f6909a66405acb9c06b772229887a764e9e0bb1800502db8ece2c7ffcb77f039",
+          "bytes": 1342
+        }
+      }
+    },
+    {
+      "label": "equivalence-delivered",
+      "receipt": {
+        "path": "target/terminal-repair4-01a1bbc4/equivalence-delivered.json",
+        "sha256": "845542035c4d855b9398aeda594a49c8aefdc40dbc77d8fa3af3818a9594956b",
+        "bytes": 28618
+      },
+      "argv": [
+        "python3",
+        "target/terminal-repair4-01a1bbc4/equivalence-delivered.py"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:42:12.610386+00:00",
+      "finishedAt": "2026-11-08T15:44:07.868242+00:00",
+      "exitCode": 0,
+      "timeoutMs": 3600000,
+      "pid": 95380,
+      "sourceHash": "2132331368d21281806b33bc265a2183fb1bd1702a09144c9c3b95386ec08864",
+      "sourceInputCount": 177,
+      "sourcesUnchanged": true,
+      "outputs": {
+        "target/terminal-repair4-01a1bbc4/equivalence-delivered.stdout": {
+          "sha256": "4010c937d51e21d9422467aaf4b1f26991c97922386c42bca047982e2f0e9873",
+          "bytes": 145
+        },
+        "target/terminal-repair4-01a1bbc4/equivalence-delivered.stderr": {
+          "sha256": "eb407a97d74d84d3bda7e4801f15c3636399a31918ece60cf8e6f5f38d5c70b5",
+          "bytes": 313
+        }
+      }
+    }
+  ],
+  "equivalenceExecution": {
+    "path": "target/terminal-repair4-01a1bbc4/equivalence-isolation-delivered.json",
+    "sha256": "b7ed6d138289057d019e6615a9080cc996a86f3468b41bc8df2513096b99eab6",
+    "bytes": 29542
+  },
+  "independentReview": {
+    "actorId": "reviewer",
+    "skill": "oma-qa",
+    "preliminaryResult": "PASS as reported by assigned reviewer",
+    "report": ".arc-verify/managed-exec/implementation/terminal-repair4-independent-review.md",
+    "receipt": ".arc-verify/managed-exec/implementation/terminal-repair4-independent-review.json",
+    "hashesOmittedToAvoidCycle": true
+  },
+  "report": {
+    "path": ".arc-verify/managed-exec/implementation/terminal-repair4.md",
+    "sha256": "b5c1c21eb931e1750b6a641c09d944909d1dc684c134a48d82fcdfeb50c9d989",
+    "bytes": 9613
+  },
+  "rawDirectory": "target/terminal-repair4-01a1bbc4",
+  "remaining": [
+    "task-7 current-source coverage, every crate 80% floor, complete verification inventory, full harness and final live evidence",
+    "task-8 final QA and Chief acceptance",
+    "desktop, native Windows, Phase 1 scheduling"
+  ],
+  "noBudgetReset": true,
+  "budgetObservability": "No cancellation API, injected absolute deadline or current cumulative allowance exposed. Supplied attempt4 and round11/16 not reset. Per-check allowance3600000ms."
+}

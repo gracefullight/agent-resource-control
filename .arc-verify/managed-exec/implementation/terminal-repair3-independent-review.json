@@ -1,0 +1,344 @@
+{
+  "version": 1,
+  "task": "task-6-terminal",
+  "attempt": 3,
+  "status": "failed",
+  "reviewResult": "FAIL",
+  "verificationCompleteness": "completed for assigned reproduction and mechanism assessment; final repair acceptance incomplete",
+  "summary": "Independent delivered-source test exit101, direct6/6 managed0/5; native NOTE_SIGNAL probe exit0 confirms unnumbered, uncounted, coalesced child events. No conforming repair validated.",
+  "sourceBinding": {
+    "reference": ".arc-verify/managed-exec/implementation/terminal-repair2.json",
+    "referenceSha256": "0afd1a7bdef2e97ab891856fc15492f1782ba35d1594d2ff94a49cace26da8d3",
+    "retainedSourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+    "inputCount": 176,
+    "allBeforeAfterInputsMatched": true,
+    "combinedHashRecomputed": false
+  },
+  "commands": [
+    {
+      "label": "focused",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:18:21.927228+00:00",
+      "endedAt": "2026-11-08T15:18:36.063140+00:00",
+      "durationSeconds": 14.135656583006494,
+      "exitCode": 101,
+      "pid": 53778,
+      "timeoutAllowanceMs": 3600000,
+      "timedOut": false,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "python": "3.14.10 (main, Oct 26 2026, 13:59:48) [Clang 23.1.3 ]",
+      "inputReference": {
+        "path": ".arc-verify/managed-exec/implementation/terminal-repair2.json",
+        "sha256": "0afd1a7bdef2e97ab891856fc15492f1782ba35d1594d2ff94a49cace26da8d3"
+      },
+      "beforeMatches": true,
+      "afterMatches": true,
+      "sourceInputsUnchanged": true,
+      "retainedSourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "artifacts": {
+        "stdout": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.stdout",
+          "sha256": "6e145f14ddb21d03bd4720030b49f56811d85100bc3ad0c37bb7bb5e401482fe"
+        },
+        "stderr": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.stderr",
+          "sha256": "e87efd0f7d24538579167303d8df4aaeaa8764be0dc18fe94bb1592fc3485f71"
+        },
+        "inputs-before.json": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.inputs-before.json",
+          "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076"
+        },
+        "inputs-after.json": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.inputs-after.json",
+          "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076"
+        }
+      }
+    },
+    {
+      "label": "signal-receipts",
+      "argv": [
+        "python3",
+        "target/terminal-repair3-8e0645a0-1776-4bfd-9e04-09b9925e9ac2/signal-receipts.py",
+        "/tmp/arc-sig3-review-e482dee1",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/debug/arc-exec-fixture",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/debug/arcctl"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "startedAt": "2026-11-08T15:19:14.341400+00:00",
+      "endedAt": "2026-11-08T15:19:14.668085+00:00",
+      "durationSeconds": 0.32647879200521857,
+      "exitCode": 0,
+      "pid": 53922,
+      "timeoutAllowanceMs": 3600000,
+      "timedOut": false,
+      "host": {
+        "system": "Darwin",
+        "node": "Eunkwangui-MacBookPro.local",
+        "release": "27.2.0",
+        "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "processor": "arm"
+      },
+      "python": "3.14.10 (main, Oct 26 2026, 13:59:48) [Clang 23.1.3 ]",
+      "inputReference": {
+        "path": ".arc-verify/managed-exec/implementation/terminal-repair2.json",
+        "sha256": "0afd1a7bdef2e97ab891856fc15492f1782ba35d1594d2ff94a49cace26da8d3"
+      },
+      "beforeMatches": true,
+      "afterMatches": true,
+      "sourceInputsUnchanged": true,
+      "retainedSourceHash": "51b7a5a6ba911d26e58d00e40f74485e54a935097f0f9207b6964b1ec6027411",
+      "artifacts": {
+        "stdout": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.stdout",
+          "sha256": "50ee6736fab8b0ec0d8020ecacfe7d9abc91e1ccda88c0e4eb985f8fed3d8273"
+        },
+        "stderr": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "inputs-before.json": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.inputs-before.json",
+          "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076"
+        },
+        "inputs-after.json": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.inputs-after.json",
+          "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076"
+        }
+      }
+    }
+  ],
+  "nativeResults": {
+    "verifiedAt": "2026-11-08T15:20:02.109334+00:00",
+    "focused": {
+      "scenarioCount": 11,
+      "directPassed": 6,
+      "managedPassed": 0,
+      "allRecordedIdentitiesAbsent": true,
+      "allControllerExitCodes": 0
+    },
+    "probe": {
+      "directScenarioCount": 4,
+      "allPassed": true,
+      "allRecordedIdentitiesAbsent": true,
+      "allControllerExitCodes": 0,
+      "provenanceAcknowledgedCounts": [
+        1,
+        2
+      ],
+      "eventsAfterTwoAcknowledgedDeliveries": [
+        {
+          "data": 0,
+          "fflags": 134217728,
+          "filter": -5,
+          "flags": 101,
+          "ident": 53934,
+          "udata": 0
+        }
+      ],
+      "firstEmptyListWasIntentionallyNotDrained": true,
+      "probeAndBinaryInputsStable": {
+        "target/terminal-repair3-8e0645a0-1776-4bfd-9e04-09b9925e9ac2/signal-receipts.py": true,
+        "target/debug/arc-exec-fixture": true,
+        "target/debug/arcctl": true,
+        "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sys/event.h": true
+      }
+    },
+    "retainedReferences": {
+      ".arc-verify/managed-exec/implementation/terminal-repair2-independent-review.md": "d9049f06d614600ba22563b218ee8cef2b3ee5c29686f064fa842fa33b2acffe",
+      ".arc-verify/managed-exec/implementation/terminal-repair2-independent-review.json": "b5bbb9037537d109f5fdcd8726f6bd84977463a5e69026abeac44e47293c03f8",
+      ".arc-verify/managed-exec/implementation/terminal-repair2.json": "0afd1a7bdef2e97ab891856fc15492f1782ba35d1594d2ff94a49cace26da8d3",
+      ".arc-verify/managed-exec/contract.json": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+      ".arc-verify/managed-exec/decision.md": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123"
+    }
+  },
+  "findings": [
+    {
+      "severity": "HIGH",
+      "file": "crates/arc-cli/src/exec.rs",
+      "line": 98,
+      "relatedLocations": [
+        {
+          "file": "crates/arc-cli/src/exec/terminal.rs",
+          "line": 59
+        },
+        {
+          "file": "crates/arc-cli/src/exec/terminal.rs",
+          "line": 67
+        }
+      ],
+      "description": "Private child group/foreground handoff breaks caller-pipeline input, terminal INT and whole-job stop.",
+      "fix": "Preserve inherited caller-job group together with a verified exact wrapper-only forwarding mechanism; report includes necessary topology code and regression requirements, not a claimed complete repair."
+    }
+  ],
+  "probeAssessment": {
+    "losslessChildReceiptValidated": false,
+    "observedSignalNumbers": false,
+    "observedSignalCounts": false,
+    "twoAcknowledgedDeliveriesReturnedEvents": 1,
+    "firstEmptyListIsDeliberateNoDrain": true,
+    "directCasesOnly": true,
+    "noUniversalImpossibilityClaim": true,
+    "publicXnuNotExactRunningKernelSource": true
+  },
+  "acceptanceCriteria": [
+    {
+      "id": "exact_independent_source_bound_reproduction",
+      "passed": true
+    },
+    {
+      "id": "independent_probe_replay_and_assessment",
+      "passed": true
+    },
+    {
+      "id": "host_argv_cwd_times_exit_hashes",
+      "passed": true
+    },
+    {
+      "id": "preserve_source_and_prior_artifacts",
+      "passed": true
+    },
+    {
+      "id": "conforming_repair",
+      "passed": false
+    },
+    {
+      "id": "final_lifecycle_acceptance",
+      "passed": false,
+      "scope": "downstream"
+    }
+  ],
+  "unresolved": [
+    "Caller-pipeline compatibility fails on unchanged delivered source.",
+    "No lossless child receipt/provenance mechanism validated within fixed direct Command-child ownership.",
+    "Final lifecycle acceptance and task-8 QA are not established."
+  ],
+  "currentWorkspacePassed": false,
+  "independentReviewPassed": false,
+  "finalLifecycleAcceptance": false,
+  "injectedOmaIdentity": null,
+  "changedFiles": [
+    ".arc-verify/managed-exec/implementation/terminal-repair3-independent-review.md",
+    ".arc-verify/managed-exec/implementation/terminal-repair3-independent-review.json"
+  ],
+  "rawDirectory": "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca",
+  "temporarySocketRoot": "/tmp/arc-sig3-review-e482dee1",
+  "reportArtifact": {
+    "path": ".arc-verify/managed-exec/implementation/terminal-repair3-independent-review.md",
+    "sha256": "3cf31e0ed0dd118d4200e9f1a7d9869cf5f6812cb873e839a7fb713b01f2d4c7"
+  },
+  "rawArtifacts": {
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/analysis-verification.json": {
+      "sha256": "2dc83c747e2838171853411616a5de001b2b850f2df164264f8acd87170af653",
+      "bytes": 1695
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/backend-probe-frozen.py": {
+      "sha256": "66575a9265ba6e3622e7708d15b48ebb988b56d178263841c9e4ea47e8e715b0",
+      "bytes": 2616
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.inputs-after.json": {
+      "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076",
+      "bytes": 27420
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.inputs-before.json": {
+      "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076",
+      "bytes": 27420
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.parsed.json": {
+      "sha256": "3b762afc0387e953e70c54a2edd87da9c5b32520058cc83ce65e12b9ff176b0e",
+      "bytes": 20297
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.receipt.json": {
+      "sha256": "ef427c67550e99c03cfc1cd2f3083923ab129138e5cc65b7379ce59b18cfda1b",
+      "bytes": 2866
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.stderr": {
+      "sha256": "e87efd0f7d24538579167303d8df4aaeaa8764be0dc18fe94bb1592fc3485f71",
+      "bytes": 13897
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/focused.stdout": {
+      "sha256": "6e145f14ddb21d03bd4720030b49f56811d85100bc3ad0c37bb7bb5e401482fe",
+      "bytes": 308
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/initial-binding.json": {
+      "sha256": "7ad74ed1a3885c60d3b895c072cc07048925d61dd74f095e43f17230398dba6c",
+      "bytes": 48
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/probe-inputs.json": {
+      "sha256": "4e4edd5ebb7a395898b27be7f5fbd8f880e4ba3b3454adcf9b3629504d237d1a",
+      "bytes": 660
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.inputs-after.json": {
+      "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076",
+      "bytes": 27420
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.inputs-before.json": {
+      "sha256": "35a5d289ff4f71f6ce3175fe0c6de6350cb380bbdc1627ae22bf36b60a483076",
+      "bytes": 27420
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.parsed.json": {
+      "sha256": "ddb4dd01f44340b13cc752da5cca02bcfb3dc5ecd81fdfa042f300415c386569",
+      "bytes": 12389
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.receipt.json": {
+      "sha256": "03c86acb625e7fcb463b95c3355f32aeea5904a25cf63eeac3141927e18f7b56",
+      "bytes": 3206
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/signal-receipts.stdout": {
+      "sha256": "50ee6736fab8b0ec0d8020ecacfe7d9abc91e1ccda88c0e4eb985f8fed3d8273",
+      "bytes": 7007
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/source/crates/arc-cli/src/exec/signals.rs": {
+      "sha256": "af1ad552fd30ee98dbdacf1517d65757e7c098cca00d65ccb55b82da9b77a6c9",
+      "bytes": 5716
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/source/crates/arc-cli/src/exec/terminal.rs": {
+      "sha256": "20ab64860571badd26f522ac2174f37b563cab7e6112c1f2c5023f68221bb4fd",
+      "bytes": 3394
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/source/crates/arc-cli/src/exec.rs": {
+      "sha256": "4fa2f5a2ebd8be69f76af2347d727de53913317a0466d4d7b6344cd0362fbfed",
+      "bytes": 7560
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/source/crates/arc-cli/tests/fixtures/pipeline.rs": {
+      "sha256": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+      "bytes": 3482
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/source/crates/arc-daemon/tests/managed_exec/pipeline.py": {
+      "sha256": "cb79d632e630fe4ac49ba5de077201d771444038abad26a09193c49e209c515c",
+      "bytes": 15353
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/source/crates/arc-daemon/tests/managed_exec/pipeline.rs": {
+      "sha256": "ca6a9637046a24e327797499409fab2ddd4fb87516e5a3c7003f102e1b7f9754",
+      "bytes": 2489
+    },
+    "target/terminal-repair3-review-e482dee1-7b1a-4771-89c8-998a48bdb7ca/supervise.py": {
+      "sha256": "914735d389bae18d6a40116483dc86812f456df4189b12c4b0d38c01cedfddee",
+      "bytes": 2231
+    }
+  },
+  "writtenAt": "2026-11-08T15:20:51.524923+00:00"
+}

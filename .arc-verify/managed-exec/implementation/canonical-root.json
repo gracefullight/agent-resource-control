@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "22f8a6c578dd3abb584fb83ff8c89b7e303cb332c0de83d3db72419ca5a68ab3",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "bun",
+    "test",
+    "./.arc-verify/managed-exec/implementation/canonical-root.test.ts"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T13:24:08.212Z",
+  "ended": "2026-11-08T13:24:10.821Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 79894,
+  "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+  "stderrSha256": "c60574b014ce4a39516eb99ec095ff2bc8a496d262e82d2e65e6c84b344a55ea",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-24-08-149Z-canonical-root/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-24-08-149Z-canonical-root/stderr.txt"
+  }
+}

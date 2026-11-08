@@ -1,0 +1,1755 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "c1728da557260d92269fa306ed5cb79392530d2865917b04244256f4cb76676f",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:50:50.723Z",
+  "ended": "2026-11-08T19:51:33.626Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 44140,
+  "stdoutSha256": "200b9591185c42d6b7c0cb36b34264acdf485307ff23230a2211e024c48d118f",
+  "stderrSha256": "30cc627df4333bf2158e6721a02442f96e2bbd723d13928e539ed8679d9ac7b6",
+  "output": {
+    "stdoutPath": "target/managed-exec/backend-task9-attempt6/workspace-stable/stdout.txt",
+    "stderrPath": "target/managed-exec/backend-task9-attempt6/workspace-stable/stderr.txt"
+  },
+  "execution": {
+    "executed": 342,
+    "passed": 342,
+    "failed": 0,
+    "ignored": 0,
+    "harnesses": 32,
+    "tests": [
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::native_receiver",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::sigchld_guard_restores_ignored_action_flags_after_spawn_failure_and_early_return",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::shared_job_terminal_signals_are_not_forwarded_and_reap_disables_ownership",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::inherited_blocked_sigchld_wakes_after_exit_and_preserves_native_child_mask",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::inherited_ignored_blocked_sigchld_preserves_target_state_and_observes_exit17",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::distinct_preattachment_signals_ignored_disposition_and_detachment",
+        "status": "ok"
+      },
+      {
+        "harness": 1,
+        "name": "exec::signals::tests::private_sigcont_preserves_target_disposition_mask_and_restores_guard_on_every_exit",
+        "status": "ok"
+      },
+      {
+        "harness": 2,
+        "name": "arcctl_binary_is_built_next_to_the_test_harness",
+        "status": "ok"
+      },
+      {
+        "harness": 2,
+        "name": "no_arguments_names_both_commands_and_exits_nonzero",
+        "status": "ok"
+      },
+      {
+        "harness": 2,
+        "name": "legacy_usage_errors_and_version_keep_their_exit_contract",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "error_with_success_payload_is_rejected_before_error_mapping",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "help_usage_privacy_and_absent_daemon",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "literal_payloads_and_options_are_preserved_in_one_request",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "peer_failures_are_typed_correlated_and_never_reflected",
+        "status": "ok"
+      },
+      {
+        "harness": 3,
+        "name": "timeout_is_bounded_with_no_retry_or_partial_result",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "doctor_help_explains_schema_scope_and_prestartup_stderr",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "schema_error_without_details_never_claims_verified_compatibility",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "new_client_old_daemon_labels_unavailable_details_without_claiming_verification",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "actual_cli_reports_verified_production_and_two_version_fixture_success",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "unavailable_and_malformed_present_details_fail_without_legacy_fallback",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+        "status": "ok"
+      },
+      {
+        "harness": 4,
+        "name": "every_schema_failure_survives_error_envelope_with_actionable_reason",
+        "status": "ok"
+      },
+      {
+        "harness": 5,
+        "name": "tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+        "status": "ok"
+      },
+      {
+        "harness": 5,
+        "name": "tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths",
+        "status": "ok"
+      },
+      {
+        "harness": 6,
+        "name": "database_path_probe",
+        "status": "ok"
+      },
+      {
+        "harness": 6,
+        "name": "database_override_precedes_missing_platform_directory",
+        "status": "ok"
+      },
+      {
+        "harness": 6,
+        "name": "database_override_preserves_non_utf8_path_bytes",
+        "status": "ok"
+      },
+      {
+        "harness": 6,
+        "name": "absent_and_empty_home_fail_after_empty_database_override",
+        "status": "ok"
+      },
+      {
+        "harness": 7,
+        "name": "native_identity_matches_current_process_and_rejects_reuse_and_other_boot",
+        "status": "ok"
+      },
+      {
+        "harness": 7,
+        "name": "random_keys_are_native_and_not_reused",
+        "status": "ok"
+      },
+      {
+        "harness": 7,
+        "name": "immediate_exit_identity_is_captured_after_exit_before_reap",
+        "status": "ok"
+      },
+      {
+        "harness": 7,
+        "name": "live_and_zombie_native_tokens_use_the_same_namespace",
+        "status": "ok"
+      },
+      {
+        "harness": 8,
+        "name": "configuration_probe",
+        "status": "ok"
+      },
+      {
+        "harness": 8,
+        "name": "native_default_is_independent_of_child_tmpdir",
+        "status": "ok"
+      },
+      {
+        "harness": 8,
+        "name": "nonempty_socket_override_and_empty_override_policy_are_preserved",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "instance::tests::a_live_duplicate_is_rejected",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::accept_recovery_tests::accept_child",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::accept_recovery_tests::isolated_transient_accept_error_recovers_cli",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::controlled_worker_child",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::report_lifecycle_tests::report_child",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::accept_recovery_tests::repeated_resource_pressure_recovers_cli",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::accept_recovery_tests::signal_while_backing_off_is_accounted",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::accept_recovery_tests::unusable_listener_cause_survives_accounted_shutdown",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "runtime_report::tests::complete_serialization_is_capped_before_any_file_write",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "runtime_report::tests::invalid_report_names_fail_before_creating_a_file",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::report_lifecycle_tests::disabled_export_creates_no_report_or_runtime_stdout_record",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::already_exists_is_validated_without_repair_or_following_links",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::report_lifecycle_tests::invalid_exports_refuse_startup_preserve_entries_and_join_worker",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::report_lifecycle_tests::report_write_failure_preserves_cleanup_and_actual_worker_accounting",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::report_lifecycle_tests::requested_export_is_open_before_readiness_and_contains_complete_schema",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::sigint_reaps_stalled_handlers_and_joins_worker",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "lifecycle_tests::sigterm_reaps_stalled_handlers_and_joins_worker",
+        "status": "ok"
+      },
+      {
+        "harness": 9,
+        "name": "accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold",
+        "status": "ok"
+      },
+      {
+        "harness": 10,
+        "name": "nonreading_peer_releases_real_daemon_capacity",
+        "status": "ok"
+      },
+      {
+        "harness": 10,
+        "name": "native_probe_then_full_100000_attempt_workload",
+        "status": "ok"
+      },
+      {
+        "harness": 10,
+        "name": "malformed_and_stalled_frames_recover_actual_cli",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "privacy::unix_endpoint_traps_substitutions_and_live_wal_never_receive_input",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "invalid_payloads_version_priority_and_same_connection_recovery",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "privacy::required_loopback_endpoint_nonexecution_and_privacy",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "ssh_option_values_preserve_typed_daemon_and_cli_observations",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "boundaries::detector_budgets_are_preserved_through_daemon_and_cli",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "ssh_post_destination_daemon_human_and_json_cli_matrix",
+        "status": "ok"
+      },
+      {
+        "harness": 11,
+        "name": "actual_daemon_and_cli_delivered_contract_matrix",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+        "status": "ok"
+      },
+      {
+        "harness": 12,
+        "name": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "pipeline::native_nonterminal_inherited_sigcont_target_stop_wrapper_continue_and_completion",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "pipeline::native_inherited_sigcont_target_stop_wrapper_continue_and_completion",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "cli::spawn_failure_quick_exit_help_and_status_have_static_diagnostics",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "pipeline::native_inherited_ignored_sigchld_preserves_target_state_and_completion",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "pipeline::native_session_leader_without_terminal_preserves_execution_and_exit17",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "protocol::identity_mismatch_missing_and_restart_never_invent_an_exit",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "protocol::unreaped_quick_exit_keeps_identity_but_is_not_reported_running",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "protocol::version_first_typed_payload_validation_recent_bound_and_secret_absence",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "retries::cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "retries::path_lookup_remote_and_unknown_commands_execute_without_resource_reservations",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "scenarios::executable_with_spaces_closed_descriptors_and_redirected_streams_match_direct",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "scenarios::native_non_rust_child_observes_literal_closed_standard_descriptors",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "terminal::native_background_terminal_read_can_be_foregrounded_and_resumed",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "terminal::native_pty_foreground_input_modes_and_terminal_signals_match_direct_child",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "terminal::native_pty_spawn_failure_restores_foreground_without_child_output",
+        "status": "ok"
+      },
+      {
+        "harness": 13,
+        "name": "terminal::native_session_leader_with_controlling_terminal_keeps_foreground_input",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "fixture_serialization_probe",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "coordination::fixture_coordination_is_shared_across_processes",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "lifecycle::resident_contract_holds_until_sigterm",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "lifecycle::commands_report_daemon_unavailable_when_absent",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "coverage::startup_failures_release_admission_then_sigint_reaps_instrumented_children",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "provisioning::nondirectory_parent_is_rejected_before_lock_or_database_initialization",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "provisioning::overlong_socket_paths_and_existing_socket_entries_reject_without_mutation",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "provisioning::permissive_directories_and_their_contents_survive_daemon_and_cli_rejection",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "provisioning::private_existing_and_new_nested_directories_support_override_startup",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "provisioning::symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "schema::baseline_client_adapter_accepts_actual_new_daemon_production_report",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "schema::live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_history",
+        "status": "ok"
+      },
+      {
+        "harness": 15,
+        "name": "checksum_rejection_exits_nonzero_with_recovery_guidance",
+        "status": "ok"
+      },
+      {
+        "harness": 15,
+        "name": "missing_invalid_and_newer_schema_startup_reject_without_data_or_history_changes",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::cancellation_reaps_unpolled_handlers_and_drops_all_guards",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::headers_and_trickled_bodies_have_absolute_deadlines",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::metrics_are_fixed_size_and_preserve_high_waters",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::header_progress_does_not_renew_the_body_budget",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::same_user_authentication_supports_async_sockets_and_rejects_non_sockets",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::malformed_json_and_version_errors_continue_without_database",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::retained_tasks_reap_and_rejections_do_not_call_factory",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::saturated_requests_close_before_allocating_even_for_invalid_prefixes",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::zero_and_oversized_frames_reject_without_body_allocation",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::typed_worker_outcomes_keep_busy_distinct_from_integrity",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::stalled_header_and_partial_body_release_request_capacity",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::request_admission_races_and_unwind_never_exceed_cap",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::nonreading_peer_expires_under_write_backpressure",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::blocked_handler_write_releases_request_and_response_reservations",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::response_serialization_is_capped_before_any_prefix_is_written",
+        "status": "ok"
+      },
+      {
+        "harness": 16,
+        "name": "tests::oversized_echo_uses_one_small_fallback_then_closes",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "controlled_daemon_child",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "admission_load::hundred_thousand_request_attempts_have_no_waiting_admission",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "controlled_slow_database_does_not_block_health_and_cli_recovers",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "admission_load::hundred_thousand_database_attempts_bound_retained_cancelled_work",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "instance::tests::a_live_duplicate_is_rejected",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "runtime_report::tests::complete_serialization_is_capped_before_any_file_write",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "runtime_report::tests::invalid_report_names_fail_before_creating_a_file",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::already_exists_is_validated_without_repair_or_following_links",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "deadline_recovery::full_request_and_connection_saturation_recovers_without_restart",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "health_completes_while_schema_assessment_is_deliberately_stalled",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "saturated_sigint_finishes_within_five_seconds",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "saturated_sigterm_finishes_within_five_seconds",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "admission_load::hundred_thousand_connection_attempts_never_spawn_rejection_tasks",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "coverage_tests::unquoted_control_words_cannot_be_mistaken_for_executable_names",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "coverage_tests::empty_nested_shell_retains_unknown_in_compound_commands",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "coverage_tests::ssh_ambiguous_destination_and_option_boundaries_stay_conservative",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::ipv6_destination_numeric_validation_and_loopback_conservatism",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::ssh_post_destination_work_checks_refuse_before_overrun",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::malformed_payloads_are_not_analysis_requests",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::syntax_quotes_aggregation_and_ssh_negative_matrix",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::work_counter_refuses_before_operations_and_never_wraps",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::production_work_exhaustion_trace",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::delivered_contract_matrix",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::input_unicode_tokens_invocations_and_depth_boundaries",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::ssh_post_destination_matrix",
+        "status": "ok"
+      },
+      {
+        "harness": 18,
+        "name": "tests::bounded_deterministic_arbitrary_unicode_inputs_never_panic",
+        "status": "ok"
+      },
+      {
+        "harness": 19,
+        "name": "native_bytes_remain_unmodified_and_unknown",
+        "status": "ok"
+      },
+      {
+        "harness": 19,
+        "name": "direct_boundaries_are_not_shell_syntax",
+        "status": "ok"
+      },
+      {
+        "harness": 19,
+        "name": "argv_budgets_bound_allocations_and_work",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::dispatch::unknown_operation_is_unsupported",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::a_framed_array_is_rejected_without_reaching_a_handler",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::multiple_json_values_are_rejected",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::dispatch::hello_and_health_do_not_require_the_database",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::frame_round_trips_one_json_object",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::an_object_request_still_decodes_after_a_rejected_array",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::dispatch::legacy_doctor_requires_ok_integrity_and_one_migration",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::non_object_roots_are_rejected",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::oversize_declared_length_is_rejected_without_reading_the_body",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::responses_are_objects_too",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::framing::zero_length_is_rejected_without_reading_a_body",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::schema::legacy_absence_and_null_decode_but_missing_present_fields_are_invalid",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::schema::every_incompatibility_keeps_diagnostic_result_and_prevents_legacy_success",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::schema::modern_version_two_succeeds_but_legacy_count_check_rejects_without_falsifying_count",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::schema::present_but_inconsistent_details_never_fall_back_to_legacy_success",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema",
+        "status": "ok"
+      },
+      {
+        "harness": 20,
+        "name": "tests::schema::legacy_request_and_decoder_accept_new_production_report_with_truthful_count",
+        "status": "ok"
+      },
+      {
+        "harness": 21,
+        "name": "ssh_option_values_are_not_forwarding_flags",
+        "status": "ok"
+      },
+      {
+        "harness": 21,
+        "name": "malformed_payload_version_priority_and_legacy_envelopes",
+        "status": "ok"
+      },
+      {
+        "harness": 21,
+        "name": "ssh_post_destination_typed_dispatch",
+        "status": "ok"
+      },
+      {
+        "harness": 21,
+        "name": "classification_contract_dispatch_never_calls_doctor",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "header_body_and_flush_failures_preserve_the_original_io_error",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "ipc_errors_keep_display_and_source_chains",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "fragmented_and_interrupted_reads_recover_without_consuming_the_next_frame",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "frame_error_messages_and_sources_describe_each_failure",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "closed_truncated_and_io_failures_remain_distinct",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "failed_serialization_emits_nothing_and_framed_decode_keeps_type_errors",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "failing_doctor_returns_only_integrity_error_with_request_correlation",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "exchange_writes_one_request_and_reads_one_correlated_response",
+        "status": "ok"
+      },
+      {
+        "harness": 22,
+        "name": "outbound_frame_boundaries_reject_before_writing_and_accept_the_exact_limit",
+        "status": "ok"
+      },
+      {
+        "harness": 23,
+        "name": "identity_keys_and_outcomes_reject_invalid_native_ranges",
+        "status": "ok"
+      },
+      {
+        "harness": 23,
+        "name": "native_signal_limit_rejects_impossible_completion_without_exposing_input",
+        "status": "ok"
+      },
+      {
+        "harness": 23,
+        "name": "snapshot_validation_rejects_phase_identity_outcome_and_time_contradictions",
+        "status": "ok"
+      },
+      {
+        "harness": 23,
+        "name": "lifecycle_wire_shapes_are_protocol_one_and_deny_secret_fields",
+        "status": "ok"
+      },
+      {
+        "harness": 23,
+        "name": "lifecycle_decoders_enforce_object_shape_size_semantics_and_required_nulls",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::migration::existing_legacy_job_key_cannot_be_overwritten_or_attached",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::migration::additive_schema_checks_reject_partial_identity_and_exclusive_outcome_violation",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::migration::upgrade_from_original_registry_preserves_rows_checksums_and_reopen",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::recovery::rollback_and_redacted_storage_errors_preserve_atomicity_and_secret_absence",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::recovery::attached_identity_uncertainty_can_refine_without_rebinding_and_stale_updates_lose",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::regression::exclusive_outcome_constraint_rejects_every_invalid_nullable_combination",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::recovery::reconciliation_never_replays_or_invents_exit_and_terminal_outcome_wins_races",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::transitions::conflicts_and_illegal_transitions_rollback_both_tables",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::transitions::evidence_validation_and_time_validation_fail_without_writes",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::regression::decoder_rejects_invalid_outcome_fields_even_when_sql_checks_are_bypassed",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::transitions::native_zombie_identity_is_not_accepted_as_a_live_observer",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::acceptance::initial_sql_failure_rolls_back_every_pending_object",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::acceptance::fixed_schema1_registry_stamps_legacy_witness_without_upgrading",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::acceptance::fixture_initialization_additive_upgrade_reopen_and_idempotency",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::acceptance::malformed_registry_is_rejected_before_any_sql",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::acceptance::later_failure_rolls_back_prior_migration_history_in_same_batch",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::recovery::concurrent_stable_key_registration_claim_and_completion_have_one_winner",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::concurrency::interrupted_child",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::acceptance::sql_failure_rolls_back_schema_application_data_history_and_witness",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::assessment_reuses_existing_transaction_without_committing_it",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::concurrency::concurrent_upgraders_serialize_and_reread_after_lock_acquisition",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::concurrency::process_interruption_before_commit_rolls_back_and_recovers",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::transitions::fast_exit_without_attachment_and_spawn_failures_are_real_outcome_types",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::transitions::register_claim_attach_complete_and_identical_retries_preserve_revision_and_times",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::checksum_defects_in_every_known_entry_leave_all_state_unchanged",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::known_prefix_defect_takes_precedence_over_future_history",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::acceptance::production_legacy_history_is_read_only_then_stamped_atomically",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::unreadable_layout_stays_a_typed_sql_error",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::empty_arc_objects_or_history_and_nonzero_witness_are_never_fresh",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::numeric_version_order_ignores_history_insertion_and_timestamp_order",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::unsupported_newer_history_and_witness_and_downgrade_are_rejected",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::missing_history_table_rows_gaps_and_trailing_entry_are_rejected",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "migration::tests::rejection::invalid_history_ids_types_duplicates_and_witness_are_rejected",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::recovery::bounded_recent_only_returns_lifecycle_rows_in_stable_order_without_probes",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "jobs::tests::regression::recent_work_is_bounded_before_summary_join_despite_newer_legacy_jobs",
+        "status": "ok"
+      },
+      {
+        "harness": 25,
+        "name": "incompatible_schema_messages_preserve_recovery_guidance_and_versions",
+        "status": "ok"
+      },
+      {
+        "harness": 25,
+        "name": "migration_errors_keep_diagnostics_and_sources",
+        "status": "ok"
+      },
+      {
+        "harness": 25,
+        "name": "invalid_database_locations_preserve_caller_files",
+        "status": "ok"
+      },
+      {
+        "harness": 25,
+        "name": "a_memory_uri_cannot_satisfy_the_required_wal_mode",
+        "status": "ok"
+      },
+      {
+        "harness": 25,
+        "name": "view_named_history_is_invalid_and_assessment_is_read_only",
+        "status": "ok"
+      },
+      {
+        "harness": 25,
+        "name": "invalid_utf8_history_is_rejected_without_rewriting_bytes",
+        "status": "ok"
+      },
+      {
+        "harness": 26,
+        "name": "current_registry_default_open_preserves_wal_inventory_history_and_reopen",
+        "status": "ok"
+      },
+      {
+        "harness": 26,
+        "name": "legacy_v1_without_witness_is_read_only_then_upgrades_without_rewriting_history",
+        "status": "ok"
+      },
+      {
+        "harness": 26,
+        "name": "current_schema_rejects_invalid_history_and_witness_without_mutation",
+        "status": "ok"
+      },
+      {
+        "harness": 27,
+        "name": "migration_failure_rolls_back_all_new_tables",
+        "status": "ok"
+      },
+      {
+        "harness": 27,
+        "name": "foreign_keys_and_unique_resource_identity_are_enforced",
+        "status": "ok"
+      },
+      {
+        "harness": 27,
+        "name": "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+        "status": "ok"
+      },
+      {
+        "harness": 27,
+        "name": "mismatched_checksum_is_rejected_without_reapplying_migration",
+        "status": "ok"
+      }
+    ]
+  },
+  "sourceUnchanged": true,
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "9232b69df4f76ee0e86ed5a512813b0877d66c857cc6645506e97eb2114813f9",
+    "untrackedSource": []
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "e828477b00cd7b02b40fa0deea1425321e8b0b5b63b081dfaa7b31b48485ca05",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "classification",
+    "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown",
+    "--",
+    "--exact",
+    "--nocapture"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T16:15:26.289Z",
+  "ended": "2026-11-08T16:15:27.247Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 54815,
+  "stdoutSha256": "8194a638ee2ab2a53df1f9aaafe2b0133ab7a20c1a7d69df8e5fc0e8f31de148",
+  "stderrSha256": "bb25704dc891cf9ba967e1fe0e624c9f558fec1d7bbdd2d7e41861556e97e9ad",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T16-15-26-199Z-saturation-check/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T16-15-26-199Z-saturation-check/stderr.txt"
+  },
+  "execution": {
+    "executed": 1,
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "harnesses": 1,
+    "tests": [
+      {
+        "harness": 0,
+        "name": "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown",
+        "status": "ok"
+      }
+    ]
+  }
+}

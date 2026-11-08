@@ -1,0 +1,355 @@
+{
+  "schemaVersion": 1,
+  "actorId": "reviewer",
+  "skill": "oma-qa",
+  "status": "passed",
+  "workStatus": "completed",
+  "verdict": "PASS",
+  "verificationCompleteness": "completed",
+  "scope": "task-7 recent-status correction and final backend evidence inspection; not task-8/9 final acceptance",
+  "sourceHash": "fe50564e0eab61e3a11c5d70a0342c5f217afb72fbbe133caba57fd2f901d178",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "inputCount": 177,
+  "inputManifest": {
+    "path": ".arc-verify/managed-exec/implementation/inputs.json",
+    "sha256": "459ca392673787743f9c4f4133df70984f7e2248d7e9aa5ea5d6f4360a6ff67a"
+  },
+  "commands": [
+    {
+      "schemaVersion": 1,
+      "actorId": "reviewer",
+      "sourceHash": "fe50564e0eab61e3a11c5d70a0342c5f217afb72fbbe133caba57fd2f901d178",
+      "host": {
+        "platform": "darwin",
+        "release": "27.2.0",
+        "arch": "arm64",
+        "hostname": "Eunkwangui-MacBookPro.local"
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": ".",
+      "started": "2026-11-08T16:35:28.686046+00:00",
+      "ended": "2026-11-08T16:35:29.687046+00:00",
+      "exit": 0,
+      "status": "passed",
+      "timeoutAllowanceMs": 3600000,
+      "skipFlags": false,
+      "pid": 15547,
+      "stdoutSha256": "f5edf9c3d5cbfbb1719b80cf1dc6e806d8209623c1271dd5008f03d8380fd3d4",
+      "stderrSha256": "0ec47043dd6c8a04bed0909a244d632058f372a64394ceb2cc744cb3c0d0404d",
+      "output": {
+        "stdoutPath": "target/managed-exec/reviewer-recent-20261108T163528615263Z/stdout.txt",
+        "stderrPath": "target/managed-exec/reviewer-recent-20261108T163528615263Z/stderr.txt"
+      },
+      "sourceStable": true,
+      "inputFileCount": 177,
+      "execution": {
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "harnesses": 1,
+        "tests": [
+          {
+            "harness": 0,
+            "name": "scenarios::status_discovery_labels_and_missing_id_never_launch",
+            "status": "ok"
+          }
+        ]
+      }
+    }
+  ],
+  "findings": [],
+  "verificationGaps": [],
+  "acceptanceCriteria": [
+    {
+      "id": "recent-fields",
+      "description": "Every populated no-ID summary binds its opaque ID, state, Registered (Unix ms), Updated (Unix ms), typed static Reason, and Last known: true.",
+      "passed": true
+    },
+    {
+      "id": "real-regression",
+      "description": "Existing real daemon/CLI scenario checks distinct valid controlled timestamps, typed response/order, complete exact CLI output, row count/no launch, and retained empty/by-ID/missing/parse/spawn assertions.",
+      "passed": true
+    },
+    {
+      "id": "red-green",
+      "description": "Actual RED omission and GREEN success receipts/raw output digests verified.",
+      "passed": true
+    },
+    {
+      "id": "independent-reproduction",
+      "description": "Exact requested focused scenario independently executed with 3600000-ms allowance: one passed, zero failed.",
+      "passed": true
+    },
+    {
+      "id": "source-host-binding",
+      "description": "Complete 177-file managedInputs manifest, hashes/modes and nativeHost verified against final receipts with unchanged source throughout reproduction/review.",
+      "passed": true
+    },
+    {
+      "id": "mandatory-gates",
+      "description": "All 12 mandatory commands and all 19 announced artifact references independently inspected against actual final source and raw output digests.",
+      "passed": true
+    },
+    {
+      "id": "coverage-chronology",
+      "description": "Recomputed native LCOV/LLVM production accounting, complete six-crate >=80% floors, 1038 profile hashes/exact merge/child PID proof and final live evidence chronology verified.",
+      "passed": true
+    },
+    {
+      "id": "preservation-limits",
+      "description": "Migration 0001 baseline/index/working bytes unchanged; protected accounting files unchanged; source maximum 474/500 lines and 113<150 nonignored evidence paths.",
+      "passed": true
+    }
+  ],
+  "reviewedReceipts": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/fmt.json",
+      "sha256": "04c808e197e60781e4d53fe210a8d471eb06cabaa7fb6e6201047d9229df7853"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clippy.json",
+      "sha256": "8c3a0f05bf674e1bbe8fb79aa14d69da5e9b1b6206b089522597388894a431cc"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/workspace.json",
+      "sha256": "b3ab3034c51a7fd992dd16a809463f08eaf5c8522a1a99b88d88eaf0b6323f8e"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/preservation.json",
+      "sha256": "807ac287003a5057b34e776ff1a696cb2936cd07ec434423bf731505a2102ffd"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+      "sha256": "909454118355ca6d1ecfa2e48a2d2805fb3d462a3743847bb8f38babbad3bb3a"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+      "sha256": "5c2f8013e38b28d9a88a010df146aea6ede28fd0512c96405d28d3dbc6cbe432"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "sha256": "15d91506c3f7b5c9df361ea042045f427b791b03367e227c5dfc6d3f5e8b76e2"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "sha256": "df11b126f33a9d9b9f8804c2092f4c1748a593423a66be567091dd99dea77bad"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "sha256": "7c2e880a26c1fb5579739a4b939243d8bcf429603591a0a35a52979abe74d4cb"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "sha256": "ef98f55e9b214aba815cf14d4365fab6c4427dc5860af7c6987761baacb78f1b"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "sha256": "6f5f33c7a31fb0fc7ee368e67665a063bd45cf895d61168e5e815b0c4ac95215"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/evidence.json",
+      "sha256": "64aa2ae3e39bab8d0975a6d1134b06c8835a2a0793b1c1fc9e30ed113d6f3f96"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/privacy.json",
+      "sha256": "4a881ae14514dda06a82de5083ad8abd782058158209774bfbf09aa066e77db3"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+      "sha256": "2dc45d6f0ad7a47e9052e3f8e724fb1ad106198ad16ea3aebac5e578c214dda1"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "1e3c07ea48383bfee370ad0deef9cc512a0d0a8dc06078ead680dd9e48495d83"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/cli-prerequisite.json",
+      "sha256": "ee3c3d1d2a59514c2e485ff7cf2abc090f95146a48004743ce8722b2d64d7990"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/inputs.json",
+      "sha256": "459ca392673787743f9c4f4133df70984f7e2248d7e9aa5ea5d6f4360a6ff67a"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/audit.json",
+      "sha256": "b6e93993de9adfd3a7efbeca55bde4d49a895e1ff481ec4f64b987c402f05f83"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution.json",
+      "sha256": "e56ecd5d16f67079c422e989a5e308677469b2dbb8c2ba63ef97540ea5c80e4d"
+    }
+  ],
+  "redGreenEvidence": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-red.json",
+      "sha256": "55cfba246ff2f9c981a5f4ec8378d00df58014934584b6af053417eff2eeacd2",
+      "sourceHash": "2866cefe1575df2fd7dd2921d4054ffc99fadd58fa3ec03ccd4793aefa96f0fe",
+      "exit": 101,
+      "stdoutSha256": "92e8a7b33cdb5d6d16d902f1084698b3b85aff554c64d848a531c95401917b8e",
+      "stderrSha256": "545deaae0156d1742709b2c0576a636acba9d6d8ec5e1577e51f7c1eea29da89"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "1e3c07ea48383bfee370ad0deef9cc512a0d0a8dc06078ead680dd9e48495d83",
+      "sourceHash": "fe50564e0eab61e3a11c5d70a0342c5f217afb72fbbe133caba57fd2f901d178",
+      "exit": 0,
+      "stdoutSha256": "578ca4615b4ee2fa6f1cbeec13b288ccc7e52533ca4424b22a0514bd83d59e5e",
+      "stderrSha256": "e5f1f223bca375b17e3e9953675f394ae8376d471d317b9ff87a75db3fcf1e9b"
+    }
+  ],
+  "gateInspection": {
+    "path": "target/managed-exec/reviewer-recent-20261108T163528615263Z/final-inspection.json",
+    "sha256": "4f5fd981a37f94fb98e466ec9f036cc203618ff1e7d362efc0f8f74a6fd9f60c",
+    "marker": {
+      "path": "target/managed-exec/task7-attempt10-gates-ready.json",
+      "sha256": "9b9da3144d3ecec021c0b363bcbd2fdb91fb70b3b482d0c1613e67dbaf9e1c70",
+      "readyAt": "2026-11-08T16:39:28.133668+00:00"
+    },
+    "mandatoryCommandCount": 12,
+    "collectorChronologyVerified": true,
+    "validatedCommandRecords": 17
+  },
+  "coverage": {
+    "latest": {
+      "path": ".arc-verify/rust-coverage/baseline/latest.json",
+      "sha256": "16b29466197b77a76a904648940ebd29e5a2f9186cc98c69069d603d29fe9f97"
+    },
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T16-37-26-180Z-8fa6c5f1-19c1-4fa6-a5ce-53c7a7d9182a",
+    "sourceHash": "5f67447ac4fb5941462bbf98858005712025eb1cf64f5fb7d657b849423ad388",
+    "summarySha256": "d2d478a5284c58568092d6da815ea58a712c7ad6e860ec7774fadbab72ae5b1d",
+    "receiptSha256": "b63a67667e1d46411b6612904e3882289397586be33b3052c1fe4e480db0e043",
+    "profilesSha256": "fb453fa7fabd23b7c68ac6dc75ff35344d3b759c2cfbaa60054d81208614af5c",
+    "rawSha256": "601766cacc35fbe6c110d3766b3bfde75366821c0c945fca14d346c76b60f9d2",
+    "llvmSha256": "72888a8ef0b398e5222460455fffb7c70a175e026b4deea2f895287ffb1feca7",
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 609,
+        "total": 610,
+        "percent": 99.8360655737705,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 653,
+        "total": 674,
+        "percent": 96.88427299703264,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 387,
+        "total": 393,
+        "percent": 98.47328244274809,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1628,
+        "total": 1746,
+        "percent": 93.24169530355097,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 670,
+        "total": 768,
+        "percent": 87.23958333333333,
+        "pass": true
+      }
+    ],
+    "profileCount": 1038,
+    "childProof": [
+      {
+        "binary": "arcctl",
+        "pid": 24271,
+        "profiles": [
+          "arc-24271-16826845642990567972_0.profraw"
+        ],
+        "exit": 0
+      },
+      {
+        "binary": "arc-daemon",
+        "pid": 24272,
+        "profiles": [
+          "arc-24272-10115768598024021439_0.profraw"
+        ],
+        "exit": 1
+      }
+    ]
+  },
+  "preservation": {
+    "protectedHashes": {
+      "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "scripts/coverage/accounting.ts": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+      "scripts/coverage/config.ts": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a",
+      "scripts/coverage/source.ts": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "scripts/coverage/gate.ts": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+      ".arc-verify/rust-coverage/contract/accounting.json": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb"
+    },
+    "maxSource": {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "lines": 474
+    },
+    "sourceLimit": 500,
+    "evidenceFiles": 113,
+    "evidenceLimitExclusive": 150
+  },
+  "reviewedSourceFiles": [
+    {
+      "path": "crates/arc-cli/src/job.rs",
+      "sha256": "fcbff24fd81fbfbd436ec3059cf0cc25c9d9bed33a89c0a51b5a01370a397817"
+    },
+    {
+      "path": "crates/arc-daemon/tests/managed_exec/scenarios.rs",
+      "sha256": "53e410aa82c29cbddcf42d21fa03c89d968b3f29552246a9974ee72871d715eb"
+    }
+  ],
+  "scopedDiff": {
+    "path": "target/managed-exec/reviewer-recent-20261108T163528615263Z/scoped-staged.diff",
+    "sha256": "d1fa9ea25da8c1ab1a4adff8c4aa28f2ca641c7fc91bb8c85530f51f63677b44"
+  },
+  "maintainedReport": {
+    "path": ".arc-verify/managed-exec/implementation/report.md",
+    "inspected": true,
+    "binding": "content inspected; no frozen hash because maintained status updates after verdict"
+  },
+  "report": {
+    "path": ".arc-verify/managed-exec/implementation/recent-status-independent-review.md",
+    "sha256": "8bd4021cd48a17ad8d00241fb86f77d1b097766198c8f11e427fe54bd235d5c6"
+  },
+  "changedFiles": [
+    ".arc-verify/managed-exec/implementation/recent-status-independent-review.md",
+    ".arc-verify/managed-exec/implementation/recent-status-independent-review.json"
+  ],
+  "supersededScope": "Prior integration-independent-review PASS is historical for its prior source and did not clear the recent-status omission; only task-7 corrected scope superseded.",
+  "downstream": [
+    "task-8 final independent native workspace QA",
+    "task-9 Chief acceptance"
+  ],
+  "completedAt": "2026-11-08T16:41:58.250123+00:00"
+}

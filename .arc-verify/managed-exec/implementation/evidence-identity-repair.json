@@ -1,0 +1,427 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "taskId": "task-9",
+  "sessionId": "01a1bcb1-5f0f-7541-be7b-4584065a5d67",
+  "managedRunIdentity": "not injected; no begin or reset performed",
+  "missionBudget": {
+    "maxDurationSec": 86400,
+    "recoveryRound": "15/16",
+    "attempt": 6,
+    "absoluteDeadline": "not injected; inherited framework budget retained",
+    "cancellation": "none received",
+    "parallelism": 1,
+    "perCheckAllowanceMs": 3600000,
+    "resources": {
+      "cpu": 8,
+      "ramGiB": 16,
+      "availableDiskGiB": 10
+    }
+  },
+  "historicalOriginals": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/fmt.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/fmt.json",
+      "sha256": "f96824289149fb1bb84fb511123b8f46ee74558ff683141df8648f5ab180d058",
+      "bytes": 948
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clippy.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/clippy.json",
+      "sha256": "739c1a6594277e76bc48e445de6b63e5c8b9db9f5eaa0cf0a2d1c716226ab640",
+      "bytes": 995
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/workspace.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/workspace.json",
+      "sha256": "6ffdb402a0412d983b20a762fd3eec07c59aa6544269a86261c01ba7917c77c3",
+      "bytes": 54148
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/preservation.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/preservation.json",
+      "sha256": "5c81447931bbce929747480f9fc0d47607a804f7a1efcc5ee9845df62fa3d89b",
+      "bytes": 971
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/equivalence.json",
+      "sha256": "a10ce9793669bb667b646129abf9c054b145dc57c5f0a7244f4db3a3fecc1848",
+      "bytes": 32185
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/coverage-verification.json",
+      "sha256": "a5d23b65d6ecd976b3e8d826a97af728ce181846ee25b6933694ec23c46c53a0",
+      "bytes": 31968
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/clean-checkout-final.json",
+      "sha256": "d13546a0244e692e0d0d06978d4c392a60fe78d40e4c1dec9318770980ee5560",
+      "bytes": 990
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/coverage-cli.json",
+      "sha256": "42457fcd4ae8d8b32309a2ab2c85712fc3e126cba8a98a7d6d418f1bad9d7ee4",
+      "bytes": 972
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/coverage-root.json",
+      "sha256": "8d20874dde7ebeff07cbe655ca5056d4e81a8726ac5474fb9c61181f6ecab23f",
+      "bytes": 1746
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/harness.json",
+      "sha256": "50f89875f995b28b8382dcabc081b9f7b2251397a6db07334229b5e605c6d814",
+      "bytes": 957
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/harness-root.json",
+      "sha256": "73fe0bdf6d70b6970e98f64d254bd38b8778b2f2c3fc9f99e0aa17238fabf68e",
+      "bytes": 1723
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/evidence.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/evidence.json",
+      "sha256": "28adca862f220129088a60eac5ad48fd9d7517ac39263b627f9c0a5c3cf060ea",
+      "bytes": 959
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/inputs.json",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/inputs.json",
+      "sha256": "4fc91b90cf0534e05724843cbe1d239725443ef0109849364a3325d937a05dfd",
+      "bytes": 29348
+    },
+    {
+      "path": "scripts/harness/managed-exec-evidence.ts",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/managed-exec-evidence.ts",
+      "sha256": "a83d1d80f6e4a9b794e8a0f0aa89f3c49d1094554b0294ca3c80ceef7212d6d3",
+      "bytes": 13873
+    },
+    {
+      "path": "scripts/harness/managed-exec-evidence.test.ts",
+      "archive": ".arc-verify/managed-exec/implementation/runs/task9-recovery6-original/managed-exec-evidence.test.ts",
+      "sha256": "2383e9d487d17a3fbdee65e9f70e8f2525143df50dd65216a8cf952e30580cb5",
+      "bytes": 12689
+    }
+  ],
+  "status": "completed",
+  "scope": "Backend tooling identity repair and genuine required command refresh; Chief owns final acceptance and reviewer owns current QA",
+  "sourceHash": "c1728da557260d92269fa306ed5cb79392530d2865917b04244256f4cb76676f",
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "9232b69df4f76ee0e86ed5a512813b0877d66c857cc6645506e97eb2114813f9",
+    "untrackedSource": []
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "nativeCoverageSourceHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8",
+  "changedFiles": [
+    "scripts/harness/managed-exec-evidence.ts",
+    "scripts/harness/managed-exec-evidence.test.ts",
+    "scripts/harness/managed-exec-coverage-fixture.ts",
+    "scripts/harness/managed-exec-coverage-identity.test.ts"
+  ],
+  "requiredChecks": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/fmt.json",
+      "sha256": "6aaa8db29c7e18d5ef565d5ec5f4e4f3c2f2d487dc0b9ae345cb1e04d922ebc7"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clippy.json",
+      "sha256": "6f9a7b0b4f7cab44bab9fbead12085c0aa757888e69ab959c06a2f4e9bc31850"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/workspace.json",
+      "sha256": "063daa905eb3c9e4d473fd2fb69ea73902883ada3ee2a592410567a54d415f53"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/preservation.json",
+      "sha256": "210b406f771a868f10baba2b2e78db063f62469c7a91fddcd58181739b4b2e5f"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+      "sha256": "b73ef70f17973382fb124d4313f027a9b929a487bd7d983a3f7e3ee4ef158ba2"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+      "sha256": "4d749a4e229089c2745c20cf03606d0ba84c4a75f95cb025f3010caf0712d8ca"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "sha256": "2f2be31bede98eae3a3127bfda98055e3264775ed859355f6aa70bf54fa54dba"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "sha256": "ef6792df42fe4f086afde337650edce754a0a9aee2cf0ab5a58f54a5bb5cace3"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "sha256": "46fac473d028be10e88762902e00f739b1473ece10568389c04893d9a4198b02"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "sha256": "5bcb39c78e01552360c5d5183b27caf4e40018ac7700c06d4a482817c815a31c"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "sha256": "be19b5717d7787a9630257c081e5bce6d1fcefc9cdd6b44f8796a722f6b0318c"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/evidence.json",
+      "sha256": "09cf74ad670b9ed652f6852b3a905bce92da8af8495c9a42bb12082a411ee287"
+    }
+  ],
+  "additionalChecks": [
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/review-binding-green/receipt.json",
+      "sha256": "0057b041ce347d3a2cec9527c84d0aa6e522e685d26dac386698df4d57701ac7"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/immutability-stable/receipt.json",
+      "sha256": "7dfacd7d7993670fc74d30203e99a43744fe39a745f9fb8f5de1459ac780834c"
+    }
+  ],
+  "observedExecutions": [
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/observed-failure/receipt.json",
+      "sha256": "d9c3333b4c77be5d3008f21aa8805488925fcdea62b59686c6efc2055b9fa14d"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/deterministic-red/receipt.json",
+      "sha256": "e06ec0597adc5f76b869e92eb0b2c5cad52fa1bb90eeee8231c094a5ce27b527"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/deterministic-red-actual/receipt.json",
+      "sha256": "c2bd75e94dbfe7e3fdd437af890e6eaf5cf9c4e0bcc053a12f1fb6e67814f6e8"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/identity-green-initial/receipt.json",
+      "sha256": "4469c31dc046fb696c674025996906bf2e17daa1c046783078384fe33c02effc"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/identity-green/receipt.json",
+      "sha256": "3d7bc74041609aa09e25134f1a992d644497850c8a8aba69d4eca33dbe0108c6"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/review-binding-red/receipt.json",
+      "sha256": "3e2b450f2c08d19ff7051c9859b4452b115d72c61d2bafad8ebad04de47f00f8"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/fmt/receipt.json",
+      "sha256": "9b98f79da162f9868294da59f97a0dbe3b8234876134a838642996e187c24203"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/clippy/receipt.json",
+      "sha256": "a49355cb015028b8e372944319cb75d971649e51588c7996d8d67e3e801dc7e9"
+    },
+    {
+      "path": "target/managed-exec/backend-task9-attempt6/workspace/receipt.json",
+      "sha256": "d272ccdcb924e97b47dcbba0b196897893c2cf699b7b41838b8f871281686785"
+    }
+  ],
+  "supersededChecks": "fmt/clippy/workspace before review-binding repair passed but are retained only as historical; current checks genuinely reran",
+  "historicalExtraReceipts": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/privacy.json",
+      "sha256": "c48ce82ff7bada57abec709aaf57749539fc3176f97f67f51ec06e4c974c9afd"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+      "sha256": "e08f8d4922b22b890979d8555379c9c7138f95025270bffa70d54475c5006a4c"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "6f10db3ceaf655d6f9511a9a357153408162a919ed20277bcd7004331dc65bcc"
+    }
+  ],
+  "recordedCoverage": {
+    "latest": {
+      "path": ".arc-verify/rust-coverage/baseline/latest.json",
+      "sha256": "2dfda6f39341833d17b19a959e1afb8ca07360f318f92031ea3328f514f4cb9b"
+    },
+    "summary": {
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T19-15-44-425Z-27759437-90c6-4b49-bd86-e6e011e7f13c/summary.json",
+      "sha256": "19281d0cebf86cdc88f1398650aee55113932f1bfd96aa13bb336822a54318ac"
+    },
+    "runId": "2026-11-08T19-15-44-425Z-27759437-90c6-4b49-bd86-e6e011e7f13c",
+    "sourceHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8",
+    "profilesChecked": 1052,
+    "childProof": [
+      {
+        "binary": "arcctl",
+        "pid": 93701,
+        "profiles": [
+          "arc-93701-16826859938790261284_0.profraw"
+        ],
+        "exit": 0
+      },
+      {
+        "binary": "arc-daemon",
+        "pid": 93702,
+        "profiles": [
+          "arc-93702-10115768598024021439_0.profraw"
+        ],
+        "exit": 1
+      }
+    ],
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 609,
+        "total": 610,
+        "percent": 99.8360655737705,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 653,
+        "total": 674,
+        "percent": 96.88427299703264,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 387,
+        "total": 393,
+        "percent": 98.47328244274809,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1628,
+        "total": 1746,
+        "percent": 93.24169530355097,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 674,
+        "total": 774,
+        "percent": 87.08010335917312,
+        "pass": true
+      }
+    ],
+    "independentlyRecomputed": true
+  },
+  "latestCoverage": {
+    "pointer": {
+      "path": ".arc-verify/rust-coverage/baseline/latest.json",
+      "sha256": "b4a57f7cf4714ee4b1f1781ff07f425bd8d301340a43ab4d091ca08eda8e1d14"
+    },
+    "summary": {
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T19-59-10-665Z-b577e54e-0324-46d1-b979-7da9b2f3139b/summary.json",
+      "sha256": "16418f50dd21d7329ec526015fb1df0cef3ed9a060f704a270e33a24bda618fb"
+    },
+    "runId": "2026-11-08T19-59-10-665Z-b577e54e-0324-46d1-b979-7da9b2f3139b",
+    "sourceHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8",
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 609,
+        "total": 610,
+        "percent": 99.8360655737705,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 653,
+        "total": 674,
+        "percent": 96.88427299703264,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 387,
+        "total": 393,
+        "percent": 98.47328244274809,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1628,
+        "total": 1746,
+        "percent": 93.24169530355097,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 677,
+        "total": 774,
+        "percent": 87.46770025839793,
+        "pass": true
+      }
+    ]
+  },
+  "TDD_EVIDENCE": {
+    "command": [
+      "bun",
+      "test",
+      "scripts/harness/managed-exec-coverage-identity.test.ts"
+    ],
+    "RED": {
+      "path": "target/managed-exec/backend-task9-attempt6/deterministic-red-actual/receipt.json",
+      "sha256": "c2bd75e94dbfe7e3fdd437af890e6eaf5cf9c4e0bcc053a12f1fb6e67814f6e8"
+    },
+    "additionalRED": {
+      "path": "target/managed-exec/backend-task9-attempt6/review-binding-red/receipt.json",
+      "sha256": "3e2b450f2c08d19ff7051c9859b4452b115d72c61d2bafad8ebad04de47f00f8"
+    },
+    "GREEN": {
+      "path": "target/managed-exec/backend-task9-attempt6/review-binding-green/receipt.json",
+      "sha256": "0057b041ce347d3a2cec9527c84d0aa6e522e685d26dac386698df4d57701ac7"
+    },
+    "result": "4 pass, 66 assertions; 8/10 reviewed and 9/10 latest pass; genuine 7/10 latest rejected"
+  },
+  "acceptanceCriteria": [
+    {
+      "id": "identity",
+      "pass": true,
+      "description": "Recorded path/digest/run/source/exact measurements and whole independent review binding"
+    },
+    {
+      "id": "live",
+      "pass": true,
+      "description": "Separate current latest validates native receipt, exact accounting, complete inventory, profile hashes/merge/PID proof and every crate at least 80 percent"
+    },
+    {
+      "id": "regressions",
+      "pass": true,
+      "description": "Deterministic advance, tamper and independent review substitution negatives; original execution/index/immutability protections retained"
+    },
+    {
+      "id": "required-checks",
+      "pass": true,
+      "description": "All twelve required commands freshly executed serially; actual nested root coverage and harness receipts extracted"
+    }
+  ],
+  "generatedOutsideOwnership": [
+    ".arc-verify/harness-speed/equivalence.json",
+    ".arc-verify/harness-speed/invocations.json",
+    ".arc-verify/harness-speed/coverage-verification.json"
+  ],
+  "finalization": "No final.md/final-summary.json/receipt-index.json/QA/mission state modified; final replay remains Chief responsibility"
+}

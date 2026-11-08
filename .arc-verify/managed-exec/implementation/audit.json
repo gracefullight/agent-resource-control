@@ -1,0 +1,513 @@
+{
+  "schemaVersion": 1,
+  "baseline": "19d7a507044cbf83918f58cd41056905c275c8d4",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+  "inputCount": 177,
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "90b3ff7d62ea8eef49512a682d9b23020559a1ac2db8061d3f9edd94ca0a74aa",
+    "untrackedSource": []
+  },
+  "protectedSha256": {
+    "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "scripts/coverage/accounting.ts": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+    "scripts/coverage/config.ts": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a",
+    "scripts/coverage/source.ts": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+    "scripts/coverage/gate.ts": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+    ".arc-verify/rust-coverage/contract/accounting.json": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb"
+  },
+  "sourceLimit": 500,
+  "maxSource": {
+    "path": "crates/arc-daemon/src/transport_tests.rs",
+    "lines": 474
+  },
+  "managedEvidenceFiles": 141,
+  "coverage": {
+    "available": true,
+    "nativeInputHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8",
+    "latest": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/.arc-verify/rust-coverage/baseline/latest.json",
+    "summary": {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/.arc-verify/rust-coverage/baseline/runs/2026-11-08T19-15-44-425Z-27759437-90c6-4b49-bd86-e6e011e7f13c/summary.json",
+      "sha256": "19281d0cebf86cdc88f1398650aee55113932f1bfd96aa13bb336822a54318ac"
+    },
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 609,
+        "total": 610,
+        "percent": 99.8360655737705,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 653,
+        "total": 674,
+        "percent": 96.88427299703264,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 387,
+        "total": 393,
+        "percent": 98.47328244274809,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1628,
+        "total": 1746,
+        "percent": 93.24169530355097,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 674,
+        "total": 774,
+        "percent": 87.08010335917312,
+        "pass": true
+      }
+    ],
+    "childProof": [
+      {
+        "binary": "arcctl",
+        "pid": 93701,
+        "profiles": [
+          "arc-93701-16826859938790261284_0.profraw"
+        ],
+        "exit": 0
+      },
+      {
+        "binary": "arc-daemon",
+        "pid": 93702,
+        "profiles": [
+          "arc-93702-10115768598024021439_0.profraw"
+        ],
+        "exit": 1
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "sha256": "42457fcd4ae8d8b32309a2ab2c85712fc3e126cba8a98a7d6d418f1bad9d7ee4",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/evidence.json",
+      "sha256": "28adca862f220129088a60eac5ad48fd9d7517ac39263b627f9c0a5c3cf060ea",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/privacy.json",
+      "sha256": "c48ce82ff7bada57abec709aaf57749539fc3176f97f67f51ec06e4c974c9afd",
+      "argv": [
+        "python3",
+        ".arc-verify/managed-exec/implementation/privacy.py"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/workspace.json",
+      "sha256": "6ffdb402a0412d983b20a762fd3eec07c59aa6544269a86261c01ba7917c77c3",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "6f10db3ceaf655d6f9511a9a357153408162a919ed20277bcd7004331dc65bcc",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clippy.json",
+      "sha256": "739c1a6594277e76bc48e445de6b63e5c8b9db9f5eaa0cf0a2d1c716226ab640",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "sha256": "d13546a0244e692e0d0d06978d4c392a60fe78d40e4c1dec9318770980ee5560",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/repair-red.json",
+      "sha256": "d25cfdd6cd1777a68b3844c5e1c32a5a0b7982968a9556b914ba9d87433e81ed",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 101,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/fmt.json",
+      "sha256": "f96824289149fb1bb84fb511123b8f46ee74558ff683141df8648f5ab180d058",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/saturation-check.json",
+      "sha256": "2bfa7491e43f4dc18f145fc0fc26b7a1feaadc9033b6c5e07782cfe1ff42046a",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "classification",
+        "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/preservation.json",
+      "sha256": "5c81447931bbce929747480f9fc0d47607a804f7a1efcc5ee9845df62fa3d89b",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "sha256": "73fe0bdf6d70b6970e98f64d254bd38b8778b2f2c3fc9f99e0aa17238fabf68e",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/qa001-red.json",
+      "sha256": "44c16bfa93112afb5ceacf4124cdc8709c6412a7638077cd711f73179e8364e5",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 101,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/cli-prerequisite.json",
+      "sha256": "fdd1f7a164e50cf460a50cdfc27871c6d48ba570d5452dcbcfeb2646f2f7aae2",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli"
+      ],
+      "exit": 0,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "sha256": "50f89875f995b28b8382dcabc081b9f7b2251397a6db07334229b5e605c6d814",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+      "sha256": "a10ce9793669bb667b646129abf9c054b145dc57c5f0a7244f4db3a3fecc1848",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-fixture-initial.json",
+      "sha256": "a2495e976971c57926f50bc899596e246a5a9346d138cd6781d20a5441fc334c",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 101,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-workspace.json",
+      "sha256": "0862e71c27c5f7392b1b809965cc938db607811b9b772b4e38aa83ea38c15219",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exit": 101,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-resumed.json",
+      "sha256": "e009d769bfbf1438b5dd1129025ae3cd9756836e983185d454a4cbef0ec7eaa9",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "exit": 1,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-fmt.json",
+      "sha256": "60ee59f4ba484ffa1d71b9e385bfcd4ac5522ee055ee43c570aaa03277311364",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-preservation.json",
+      "sha256": "ce2e2fdd684fbcce9a25b2474bfda27dac5b90a697ae6da69cf7787e926a1ca9",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout.json",
+      "sha256": "af7c27dfba3d51703ac12d978ddc0af584a89a3df07185e8ddf1b24163e370ec",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "exit": 1,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/qa001-green.json",
+      "sha256": "b41b754cff18b8e7a00b07a99944a6f0616dc2a63b1354bc80df80b7ef1ac0eb",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-equivalence.json",
+      "sha256": "d891e80731fc83eb6cf21863d9ce0bf27097fa50c257566ff3db3049ab8f16cd",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-red.json",
+      "sha256": "3b9fc0863be03c44975c52ced2773cbfce3bafb6f2cb456504319f54451e6144",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 101,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "sha256": "8d20874dde7ebeff07cbe655ca5056d4e81a8726ac5474fb9c61181f6ecab23f",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+      "sha256": "e08f8d4922b22b890979d8555379c9c7138f95025270bffa70d54475c5006a4c",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec-evidence.test.ts",
+        "-t",
+        "real deterministic Cargo execution binds positive identity and actual output"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/pipeline-clippy.json",
+      "sha256": "ac9b2bbffca9941e9ab8e3d6bc51df647f027406ebb82f541bf09e377bcbd1a3",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+      "sha256": "a5d23b65d6ecd976b3e8d826a97af728ce181846ee25b6933694ec23c46c53a0",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/coverage-verification.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-red.json",
+      "sha256": "55cfba246ff2f9c981a5f4ec8378d00df58014934584b6af053417eff2eeacd2",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 101,
+      "currentSource": false
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/canonical-root.json",
+      "sha256": "c4514868252c784c048504f196af4d66c20d3fb0fce5a72276f6f80d704cda28",
+      "argv": [
+        "bun",
+        "test",
+        "./.arc-verify/managed-exec/implementation/canonical-root.test.ts"
+      ],
+      "exit": 0,
+      "currentSource": false
+    }
+  ]
+}

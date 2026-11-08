@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "cargo",
+    "fmt",
+    "--all",
+    "--",
+    "--check"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T13:46:34.332Z",
+  "ended": "2026-11-08T13:46:34.835Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 97208,
+  "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-46-34-212Z-pipeline-fmt/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-46-34-212Z-pipeline-fmt/stderr.txt"
+  }
+}

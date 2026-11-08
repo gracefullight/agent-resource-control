@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "status": "completed",
+  "scope": "task-5 preservation/evidence repair only",
+  "actorId": "technical-director",
+  "skill": "oma-backend",
+  "sourceHash": "28cb3fe62edafab60f04cd947fad274fa46633044729177bb5e363e379356616",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "changedFiles": [
+    "scripts/coverage/current-preservation.ts",
+    "scripts/harness/managed-exec.test.ts",
+    "scripts/harness/managed-exec-evidence.ts",
+    "scripts/harness/managed-exec-evidence.test.ts",
+    "scripts/harness/managed-exec-test-output.ts",
+    ".arc-verify/managed-exec/preservation.md"
+  ],
+  "artifacts": [
+    {
+      "path": ".arc-verify/managed-exec/preservation.md",
+      "sha256": "8f2bb19421757903a93915fa6c6eec2209b308e0bee5ef062d94b690cea01940"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-repair-red.json",
+      "sha256": "a9dc859be7fb5d81d2909caeee3a84cb7a571fe8a82ca667b41693ed4766614a"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-repair-qa-red.json",
+      "sha256": "0a1819660e6c7330b34d9932b0dd1aa0de6ae64c90d47143f0bf6ef295390150"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-repair-green.json",
+      "sha256": "36e78440936eeba5d92ed2d594fcf75982bc9a3788085ec06ce3054d219913d0"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-positive-execution.json",
+      "sha256": "3f2bc1f70c82707088f92eaf7f3d4cbe51888f276c62f546d7869cd519b1d807"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-independent-review.md",
+      "sha256": "6a8c32a3560613ace86581e2f07277239b3c65588dcd7a761ff8ba89c4f01632"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-independent-review.json",
+      "sha256": "d94acbdeb6ae7949c273a223dc1da2952a47873d9194e310b7b91c246b277741"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-repair-green-initial.json",
+      "sha256": "9f5bd67a850342673acec86cbc71eff586e011a5d580ec87401030bb7f42f926"
+    },
+    {
+      "path": ".arc-verify/managed-exec/preservation-positive-execution-initial.json",
+      "sha256": "0aeefaaf764f0b6b241e407e33686090ca7fbffebfeb859cebac2742e6f1bece"
+    }
+  ],
+  "independentReview": "PASS /root/reviewer oma-qa; task-5 only",
+  "remainingTask5Findings": [],
+  "downstreamRequired": [
+    "lifecycle implementation",
+    "native macOS lifecycle acceptance",
+    "full mandatory Cargo gates",
+    "coverage collection and full harness",
+    "unfiltered independent cargo test --workspace",
+    "final tracked source-bound evidence"
+  ],
+  "nativeLifecycleAcceptance": false,
+  "finalMissionAcceptance": false
+}

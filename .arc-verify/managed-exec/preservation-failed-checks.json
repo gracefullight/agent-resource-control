@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "classification": "Task5Focused",
+  "taskId": "task-5",
+  "attempt": 2,
+  "runId": "636a4c77-558a-4f0e-bcbb-553904378b20",
+  "frameworkRunId": null,
+  "baseline": "19d7a507044cbf83918f58cd41056905c275c8d4",
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "ec935c4297d5fde1aab096584cd29527546fe535416688a57746a31328717be0",
+    "untrackedSource": [
+      "scripts/coverage/current-preservation.ts",
+      "scripts/coverage/historical.ts",
+      "scripts/harness/managed-exec-evidence.test.ts",
+      "scripts/harness/managed-exec-evidence.ts",
+      "scripts/harness/managed-exec.test.ts"
+    ]
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "skill": "oma-backend",
+  "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/managed-exec/task5/636a4c77-558a-4f0e-bcbb-553904378b20",
+  "commands": [
+    {
+      "schemaVersion": 1,
+      "actorId": "backend",
+      "sourceHash": "8dd5a15468e7e3519c14e26bcfbc7981fb5673aecf473433097c4987ee98cfa3",
+      "host": {
+        "platform": "darwin",
+        "release": "27.2.0",
+        "arch": "arm64",
+        "hostname": "Eunkwangui-MacBookPro.local"
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "cwd": ".",
+      "started": "2026-11-08T09:34:01.347Z",
+      "ended": "2026-11-08T09:34:15.930Z",
+      "exit": 1,
+      "status": "failed",
+      "pid": 89009,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "ca501f6e642bb89d3048186860d9334fae0fe2fe7e78ecfd3f94cc6dc227bba0",
+      "timeoutAllowanceMs": 3600000,
+      "skipFlags": false,
+      "scope": "task-5 focused",
+      "counts": [
+        "4 pass",
+        "1 fail"
+      ]
+    }
+  ],
+  "generatedDiagnostics": [
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/managed-exec/task5/636a4c77-558a-4f0e-bcbb-553904378b20/coverage-verification.json",
+      "sha256": "bacbf6bdb7975cab1e64387ca2f101bd1c108e9830f1119eb695682ed9178b22",
+      "status": "passed",
+      "candidateScriptSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1"
+    },
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/managed-exec/task5/636a4c77-558a-4f0e-bcbb-553904378b20/equivalence.json",
+      "sha256": "a3c9c427d2dbbe3cb752065d918521d0b6264a68c94bdc0a14e733d0b168a4c9",
+      "status": "passed",
+      "cases": 79,
+      "candidateScriptSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1"
+    },
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/managed-exec/task5/636a4c77-558a-4f0e-bcbb-553904378b20/invocations.json",
+      "sha256": "6d31edd7068fad0a1f59a64d30260d923c05be45d00c568d4b58ec17f1e5e181",
+      "status": "passed",
+      "candidateScriptSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1"
+    }
+  ],
+  "status": "failed",
+  "scope": "preservation/accounting/validator unit and harness equivalence; no coverage collection or lifecycle acceptance",
+  "error": "Error: Focused check failed: bun test scripts/harness/managed-exec.test.ts",
+  "finished": "2026-11-08T09:34:16.009Z",
+  "sourceHash": "8dd5a15468e7e3519c14e26bcfbc7981fb5673aecf473433097c4987ee98cfa3"
+}

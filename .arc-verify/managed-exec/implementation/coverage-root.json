@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "c1728da557260d92269fa306ed5cb79392530d2865917b04244256f4cb76676f",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "bun",
+    "run",
+    "test:coverage"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:57:24.718Z",
+  "ended": "2026-11-08T19:58:59.696Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 71738,
+  "stdoutSha256": "ca31112b63adb56f6626dea51deba1b055030f75d4e0db736690dc77d240d01a",
+  "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/coverage-root-02a4ad95-de0c-407c-b9bd-0f1e1461cfb8/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/coverage-root-02a4ad95-de0c-407c-b9bd-0f1e1461cfb8/stderr.txt"
+  },
+  "extractedFrom": {
+    "command": {
+      "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/coverage-cli-924c7c9d-addb-43f6-802b-473dc1c8d53d/00-command.json",
+      "sha256": "0a6faf01e2381e3ce564fb4e85b1f21da9dc63870b411579ca0ea59068dd6529"
+    },
+    "binding": {
+      "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/coverage-cli-924c7c9d-addb-43f6-802b-473dc1c8d53d/binding.json",
+      "sha256": "b842ad0b1b895eb2bcf2338ed58441a6e21c70e06ac352b1c758df00e370f1f7"
+    },
+    "outer": {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "sha256": "ef6792df42fe4f086afde337650edce754a0a9aee2cf0ab5a58f54a5bb5cace3"
+    },
+    "nativeInputHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8"
+  }
+}

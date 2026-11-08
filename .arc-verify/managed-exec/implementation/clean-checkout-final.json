@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "c1728da557260d92269fa306ed5cb79392530d2865917b04244256f4cb76676f",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/clean-checkout.test.ts"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:55:35.156Z",
+  "ended": "2026-11-08T19:57:16.200Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 68542,
+  "stdoutSha256": "e1fb0d6fa38628b1decec53ac574cbb99bbb55dddc6482a0b300502e834e7f96",
+  "stderrSha256": "775888ec2b1f8700caa9d14ec0fb6da2d8b2ed8026a0a5b6d4973fa873d051ff",
+  "output": {
+    "stdoutPath": "target/managed-exec/backend-task9-attempt6/clean-checkout-stable/stdout.txt",
+    "stderrPath": "target/managed-exec/backend-task9-attempt6/clean-checkout-stable/stderr.txt"
+  },
+  "sourceUnchanged": true,
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "9232b69df4f76ee0e86ed5a512813b0877d66c857cc6645506e97eb2114813f9",
+    "untrackedSource": []
+  }
+}

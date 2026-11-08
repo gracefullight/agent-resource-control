@@ -1,0 +1,39 @@
+{
+  "status": "completed",
+  "taskId": "task-5",
+  "attempt": 2,
+  "skill": "oma-backend",
+  "changedFiles": [
+    ".arc-verify/managed-exec/preservation-checks.json",
+    ".arc-verify/managed-exec/preservation-failed-checks.json",
+    ".arc-verify/managed-exec/preservation.md",
+    "docs/rust-coverage.md",
+    "scripts/coverage/acceptance.ts",
+    "scripts/coverage/clean-checkout.test.ts",
+    "scripts/coverage/commands.ts",
+    "scripts/coverage/coverage-cli.test.ts",
+    "scripts/coverage/current-preservation.ts",
+    "scripts/coverage/harness.test.ts",
+    "scripts/coverage/historical.ts",
+    "scripts/coverage/hygiene-preservation.test.ts",
+    "scripts/coverage/hygiene.ts",
+    "scripts/coverage/preservation.test.ts",
+    "scripts/coverage/preservation.ts",
+    "scripts/coverage/run.ts",
+    "scripts/harness/managed-exec-evidence.test.ts",
+    "scripts/harness/managed-exec-evidence.ts",
+    "scripts/harness/managed-exec.test.ts",
+    "scripts/harness/validate.sh"
+  ],
+  "unresolved": [],
+  "artifacts": [
+    ".arc-verify/managed-exec/preservation.md",
+    ".arc-verify/managed-exec/preservation-checks.json",
+    ".arc-verify/managed-exec/preservation-failed-checks.json",
+    ".agents/results/result-backend-task-5-1759b728-3a68-4f3e-aa85-1e48b76892c4-01a1ba78-e2e9-7fe2-ae39-4d1b14a52da6.md"
+  ],
+  "scope": "Preservation tooling only; no lifecycle or final mission acceptance claimed",
+  "verificationSourceHash": "bc27d0baba04c26a4bcd001cef843e86bf9429fb8bc5df91af5f8b5e33035313",
+  "frameworkRunId": null,
+  "localVerificationRunId": "1759b728-3a68-4f3e-aa85-1e48b76892c4"
+}

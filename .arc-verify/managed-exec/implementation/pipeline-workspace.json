@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "cargo",
+    "test",
+    "--workspace"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T13:47:25.509Z",
+  "ended": "2026-11-08T13:48:14.528Z",
+  "exit": 101,
+  "status": "failed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 97553,
+  "stdoutSha256": "2e0819d4593765f856402972de838cdf4556f80f6d74911a4c16ce11a721a0af",
+  "stderrSha256": "cf3c367138ad7626265a81c2c256becae0568dc4e794aa7a6b1415eebd2ff37e",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-47-25-409Z-pipeline-workspace/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-47-25-409Z-pipeline-workspace/stderr.txt"
+  },
+  "execution": {
+    "validation": "failed; inspect actual local libtest output"
+  }
+}

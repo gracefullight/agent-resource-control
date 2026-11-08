@@ -120,10 +120,12 @@ pub(crate) async fn supervise_with_report(
                         let requests = requests.clone();
                         let metrics = Arc::clone(&metrics);
                         let client = client.clone();
+                        let jobs_client = client.clone();
                         handlers.try_spawn(stream, move |stream| {
-                            connection::handle_connection(
+                            connection::handle_with_jobs(
                                 stream, limits, requests, metrics,
                                 move |deadline| doctor(client.clone(), deadline),
+                                move |input, deadline| crate::db_worker::jobs::handle(jobs_client.clone(), input, deadline),
                             )
                         });
                     }

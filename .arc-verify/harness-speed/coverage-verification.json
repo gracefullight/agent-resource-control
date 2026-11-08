@@ -1,20 +1,20 @@
 {
   "schemaVersion": 1,
   "evidenceKind": "coverage-verification",
-  "runId": "dc464f6e-0915-4ab4-a79b-d310025c5e1b",
+  "runId": "2a41f47d-3487-4f6a-992e-7eda8f75e7ab",
   "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
   "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
   "oracleSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
   "candidateScriptPath": "scripts/harness/validate.sh",
-  "candidateScriptSha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8",
+  "candidateScriptSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
   "integratedSourceIdentity": {
-    "head": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
-    "sha256": "fe4f4139d049e430b6a53a4d18cebacfbd5d22c7f7c4d74c0db92f5816764ffc",
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "sha256": "d19e6601e51da06559fb425b11f485112de500629e674add388d90580ef108d4",
     "entries": [
       {
         "path": "scripts/coverage/acceptance.ts",
         "mode": 420,
-        "sha256": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d"
+        "sha256": "64d745b2a59e5dfcebab1fb2dc5adc3d777a7fd53a0f6c185f099790b1bd8d68"
       },
       {
         "path": "scripts/coverage/accounting.test.ts",
@@ -29,12 +29,12 @@
       {
         "path": "scripts/coverage/clean-checkout.test.ts",
         "mode": 420,
-        "sha256": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760"
+        "sha256": "0a991995293be5f2ff4dac9c653ecace05cc2f962c7ec108e3e1eaa4ad45f579"
       },
       {
         "path": "scripts/coverage/commands.ts",
         "mode": 420,
-        "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea"
+        "sha256": "c37ef4a710a8b8280c6a67b90deba9f81447234b77164c2efb823d2e9481f40a"
       },
       {
         "path": "scripts/coverage/config.ts",
@@ -44,7 +44,12 @@
       {
         "path": "scripts/coverage/coverage-cli.test.ts",
         "mode": 420,
-        "sha256": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041"
+        "sha256": "4ee19897c0ee5882a88d0a47752e3013e04085ccdbae1e268a5dac3c15eee463"
+      },
+      {
+        "path": "scripts/coverage/current-preservation.ts",
+        "mode": 420,
+        "sha256": "2ec0a7cf1b48bb565492286c7856c728e3e3f3fc24f1fbd8c2e08d4f3bb47f72"
       },
       {
         "path": "scripts/coverage/evidence.test.ts",
@@ -74,12 +79,17 @@
       {
         "path": "scripts/coverage/harness.test.ts",
         "mode": 420,
-        "sha256": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747"
+        "sha256": "13d763c0cf4820043e07e4360ae813d3666c099801958bd473d53726b73f5c7f"
+      },
+      {
+        "path": "scripts/coverage/historical.ts",
+        "mode": 420,
+        "sha256": "2625971b6fc5e0dc3f8892e485c61180a15ac16b8e43f71a1a69940d3075cedf"
       },
       {
         "path": "scripts/coverage/hygiene-preservation.test.ts",
         "mode": 420,
-        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+        "sha256": "0bef64f36a7198ebd402cf9d4e86290a0a1e23120cffa7b92ec19232f17a1f53"
       },
       {
         "path": "scripts/coverage/hygiene.test.ts",
@@ -89,17 +99,17 @@
       {
         "path": "scripts/coverage/hygiene.ts",
         "mode": 420,
-        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+        "sha256": "19a40f1a88691ad425531378acb609885552b22e6add55474a189c536aa03ceb"
       },
       {
         "path": "scripts/coverage/preservation.test.ts",
         "mode": 420,
-        "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445"
+        "sha256": "9a353997b7734fe2f06861b29fc8c8e3bd83a37fa4a26140ba5f4b3b283f5df3"
       },
       {
         "path": "scripts/coverage/preservation.ts",
         "mode": 420,
-        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+        "sha256": "68a9bb1856541af2e2043047e5cc528671961fbb70110b93a68706ea5726c2bb"
       },
       {
         "path": "scripts/coverage/provision.sh",
@@ -109,7 +119,12 @@
       {
         "path": "scripts/coverage/run.ts",
         "mode": 420,
-        "sha256": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+        "sha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da"
+      },
+      {
+        "path": "scripts/coverage/schema-adaptations.ts",
+        "mode": 420,
+        "sha256": "50d0907d63848f4fa05ff0f0fb8bc6548829c2edd17ee048929eb5577e1c4b9a"
       },
       {
         "path": "scripts/coverage/source.ts",
@@ -147,6 +162,41 @@
         "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73"
       },
       {
+        "path": "scripts/harness/managed-exec-coverage-fixture.ts",
+        "mode": 420,
+        "sha256": "ae98744754f2783b92360828121ebe6fd5176a29868f0cc1df8d879654e8523a"
+      },
+      {
+        "path": "scripts/harness/managed-exec-coverage-identity.test.ts",
+        "mode": 420,
+        "sha256": "cb039d12dd70e2e38da3df5c9f8da8371c1951d32b4e14011745ee57d48ad986"
+      },
+      {
+        "path": "scripts/harness/managed-exec-evidence.test.ts",
+        "mode": 420,
+        "sha256": "eec3076e8bd7bd27e7c7e79780b45f367adb4e09363efb76100affd9fbd9faec"
+      },
+      {
+        "path": "scripts/harness/managed-exec-evidence.ts",
+        "mode": 420,
+        "sha256": "26fc4bc8ac8010036cdc781bf52b3d1c3cd37f3281f9be6faaf4b49e15e152c8"
+      },
+      {
+        "path": "scripts/harness/managed-exec-immutability.test.ts",
+        "mode": 420,
+        "sha256": "0065d0bdcbc96900c42168b14a0ae0e9b8802bd4944dfe2b1b424d14a8b94aca"
+      },
+      {
+        "path": "scripts/harness/managed-exec-test-output.ts",
+        "mode": 420,
+        "sha256": "1c67e7c1f094b40c58bd2f93c0d48d18e1050075457a5562ebcc077f8f54e9c3"
+      },
+      {
+        "path": "scripts/harness/managed-exec.test.ts",
+        "mode": 420,
+        "sha256": "1119fbf513db7076f17a32ac6d83664c0b51c7833a626602a225fe09659711a1"
+      },
+      {
         "path": "scripts/harness/performance.test.ts",
         "mode": 420,
         "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242"
@@ -159,12 +209,12 @@
       {
         "path": "scripts/harness/validate.sh",
         "mode": 493,
-        "sha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8"
+        "sha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1"
       }
     ]
   },
   "sourceScope": "current working harness and coverage sources",
-  "sourceRevision": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "sourceRevision": "19d7a507044cbf83918f58cd41056905c275c8d4",
   "host": {
     "platform": "darwin",
     "release": "27.2.0",
@@ -216,7 +266,7 @@
     }
   },
   "clock": "performance.now() monotonic milliseconds",
-  "startedAtUtc": "2026-11-08T08:46:07.228Z",
+  "startedAtUtc": "2026-11-08T20:20:55.302Z",
   "discovered": [
     "accounting.test.ts",
     "clean-checkout.test.ts",
@@ -261,7 +311,7 @@
           "test",
           "scripts/coverage/accounting.test.ts"
         ],
-        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
         "environment": {
           "PATH": "/Applications/Orca.app/Contents/Resources/bin:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
           "LANG": "C.UTF-8",
@@ -278,15 +328,15 @@
           "RUSTC_WRAPPER": null
         }
       },
-      "startedAtUtc": "2026-11-08T08:46:07.230Z",
-      "endedAtUtc": "2026-11-08T08:46:07.414Z",
-      "pid": 39257,
+      "startedAtUtc": "2026-11-08T20:20:55.303Z",
+      "endedAtUtc": "2026-11-08T20:20:55.746Z",
+      "pid": 11232,
       "timeoutAllowanceMs": 3600000,
       "exit": 0,
-      "exitMs": 184.03312500000004,
+      "exitMs": 442.70625000000007,
       "clock": "performance.now()",
       "marks": {},
-      "totalMs": 184.04062499999998,
+      "totalMs": 442.719292,
       "durationsSeconds": {
         "startup": null,
         "checks1to4": null,
@@ -297,14 +347,14 @@
         "check3": null,
         "check4": null,
         "finalization": null,
-        "total": 0.18404062499999999
+        "total": 0.442719292
       },
       "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
-      "stderrSha256": "f9019744cf2ecb485ac9c18e406044c7fd8f6fcea6d6b9cb52ac68d5b3b70490",
+      "stderrSha256": "9be693cb326a4afcddcddc924456afd55a4a5e9b90f3326c999933809693d42c",
       "stdoutBytes": 28,
       "stderrBytes": 76,
       "diagnostics": {
-        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/dc464f6e-0915-4ab4-a79b-d310025c5e1b/accounting.test.ts",
+        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/2a41f47d-3487-4f6a-992e-7eda8f75e7ab/accounting.test.ts",
         "retention": "scratch retained locally; not durable evidence"
       }
     },
@@ -315,7 +365,7 @@
           "test",
           "scripts/coverage/gate.test.ts"
         ],
-        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
         "environment": {
           "PATH": "/Applications/Orca.app/Contents/Resources/bin:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
           "LANG": "C.UTF-8",
@@ -332,15 +382,15 @@
           "RUSTC_WRAPPER": null
         }
       },
-      "startedAtUtc": "2026-11-08T08:46:07.416Z",
-      "endedAtUtc": "2026-11-08T08:46:08.128Z",
-      "pid": 39258,
+      "startedAtUtc": "2026-11-08T20:20:55.748Z",
+      "endedAtUtc": "2026-11-08T20:20:56.725Z",
+      "pid": 11233,
       "timeoutAllowanceMs": 3600000,
       "exit": 0,
-      "exitMs": 712.4082080000001,
+      "exitMs": 976.854042,
       "clock": "performance.now()",
       "marks": {},
-      "totalMs": 712.4156249999999,
+      "totalMs": 976.8652089999999,
       "durationsSeconds": {
         "startup": null,
         "checks1to4": null,
@@ -351,14 +401,14 @@
         "check3": null,
         "check4": null,
         "finalization": null,
-        "total": 0.7124156249999999
+        "total": 0.976865209
       },
       "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
-      "stderrSha256": "19233ad6c97642f19f29692d9a5d8c78542d9c15c552d793480cf88e7e18af6b",
+      "stderrSha256": "d0f5b2c794b5d278d2a71f91df8ad44fe0f5f229d36cc82a1747492a22ba524c",
       "stdoutBytes": 28,
       "stderrBytes": 76,
       "diagnostics": {
-        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/dc464f6e-0915-4ab4-a79b-d310025c5e1b/gate.test.ts",
+        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/2a41f47d-3487-4f6a-992e-7eda8f75e7ab/gate.test.ts",
         "retention": "scratch retained locally; not durable evidence"
       }
     },
@@ -369,7 +419,7 @@
           "test",
           "scripts/coverage/hygiene-preservation.test.ts"
         ],
-        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
         "environment": {
           "PATH": "/Applications/Orca.app/Contents/Resources/bin:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
           "LANG": "C.UTF-8",
@@ -386,15 +436,15 @@
           "RUSTC_WRAPPER": null
         }
       },
-      "startedAtUtc": "2026-11-08T08:46:08.129Z",
-      "endedAtUtc": "2026-11-08T08:46:20.033Z",
-      "pid": 39275,
+      "startedAtUtc": "2026-11-08T20:20:56.726Z",
+      "endedAtUtc": "2026-11-08T20:21:09.389Z",
+      "pid": 11270,
       "timeoutAllowanceMs": 3600000,
       "exit": 0,
-      "exitMs": 11903.659333000001,
+      "exitMs": 12663.068375,
       "clock": "performance.now()",
       "marks": {},
-      "totalMs": 11903.66475,
+      "totalMs": 12663.072875,
       "durationsSeconds": {
         "startup": null,
         "checks1to4": null,
@@ -405,14 +455,14 @@
         "check3": null,
         "check4": null,
         "finalization": null,
-        "total": 11.90366475
+        "total": 12.663072875
       },
       "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
-      "stderrSha256": "4a5c40fcdeaa5fd4558069de12e740789e5aa457f9835420ca5f04d49d13fbd5",
+      "stderrSha256": "ac65a5bd69ade36b8464bfeeb707df48067b03530057b0962f2789bfdcdbf71c",
       "stdoutBytes": 28,
       "stderrBytes": 72,
       "diagnostics": {
-        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/dc464f6e-0915-4ab4-a79b-d310025c5e1b/hygiene-preservation.test.ts",
+        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/2a41f47d-3487-4f6a-992e-7eda8f75e7ab/hygiene-preservation.test.ts",
         "retention": "scratch retained locally; not durable evidence"
       }
     },
@@ -423,7 +473,7 @@
           "test",
           "scripts/coverage/hygiene.test.ts"
         ],
-        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
         "environment": {
           "PATH": "/Applications/Orca.app/Contents/Resources/bin:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
           "LANG": "C.UTF-8",
@@ -440,15 +490,15 @@
           "RUSTC_WRAPPER": null
         }
       },
-      "startedAtUtc": "2026-11-08T08:46:20.034Z",
-      "endedAtUtc": "2026-11-08T08:46:20.872Z",
-      "pid": 40402,
+      "startedAtUtc": "2026-11-08T20:21:09.390Z",
+      "endedAtUtc": "2026-11-08T20:21:10.572Z",
+      "pid": 12339,
       "timeoutAllowanceMs": 3600000,
       "exit": 0,
-      "exitMs": 837.7190420000006,
+      "exitMs": 1182.2163330000003,
       "clock": "performance.now()",
       "marks": {},
-      "totalMs": 837.724209,
+      "totalMs": 1182.2204999999994,
       "durationsSeconds": {
         "startup": null,
         "checks1to4": null,
@@ -459,14 +509,14 @@
         "check3": null,
         "check4": null,
         "finalization": null,
-        "total": 0.837724209
+        "total": 1.1822204999999995
       },
       "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
-      "stderrSha256": "0147556e9bfd849b16cd32d270c7d0a5faf6d79163ff837abf28bf55284468bc",
+      "stderrSha256": "9e6cfcd2103b4a950d575e684001aecc520628a719a84c3495198da4d55517d8",
       "stdoutBytes": 28,
-      "stderrBytes": 75,
+      "stderrBytes": 76,
       "diagnostics": {
-        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/dc464f6e-0915-4ab4-a79b-d310025c5e1b/hygiene.test.ts",
+        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/2a41f47d-3487-4f6a-992e-7eda8f75e7ab/hygiene.test.ts",
         "retention": "scratch retained locally; not durable evidence"
       }
     },
@@ -477,7 +527,7 @@
           "test",
           "scripts/coverage/preservation.test.ts"
         ],
-        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
         "environment": {
           "PATH": "/Applications/Orca.app/Contents/Resources/bin:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
           "LANG": "C.UTF-8",
@@ -494,15 +544,15 @@
           "RUSTC_WRAPPER": null
         }
       },
-      "startedAtUtc": "2026-11-08T08:46:20.872Z",
-      "endedAtUtc": "2026-11-08T08:46:22.028Z",
-      "pid": 40440,
+      "startedAtUtc": "2026-11-08T20:21:10.573Z",
+      "endedAtUtc": "2026-11-08T20:21:12.169Z",
+      "pid": 12402,
       "timeoutAllowanceMs": 3600000,
       "exit": 0,
-      "exitMs": 1155.0844580000012,
+      "exitMs": 1595.3004589999982,
       "clock": "performance.now()",
       "marks": {},
-      "totalMs": 1155.0889580000003,
+      "totalMs": 1595.3057499999995,
       "durationsSeconds": {
         "startup": null,
         "checks1to4": null,
@@ -513,19 +563,19 @@
         "check3": null,
         "check4": null,
         "finalization": null,
-        "total": 1.1550889580000003
+        "total": 1.5953057499999996
       },
       "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
-      "stderrSha256": "0ad48b2bd97f1aea7d8fd1fa9e0139765197fd6efdacbdff93fdf94f494ffe24",
+      "stderrSha256": "24d0aff6a941dd00285e0fef7db29482e744921b13f32fff6925a728d55a9a84",
       "stdoutBytes": 28,
-      "stderrBytes": 73,
+      "stderrBytes": 69,
       "diagnostics": {
-        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/dc464f6e-0915-4ab4-a79b-d310025c5e1b/preservation.test.ts",
+        "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/2a41f47d-3487-4f6a-992e-7eda8f75e7ab/preservation.test.ts",
         "retention": "scratch retained locally; not durable evidence"
       }
     }
   ],
   "status": "passed",
   "exit": 0,
-  "endedAtUtc": "2026-11-08T08:46:22.028Z"
+  "endedAtUtc": "2026-11-08T20:21:12.169Z"
 }

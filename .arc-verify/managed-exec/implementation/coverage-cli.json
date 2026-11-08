@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "c1728da557260d92269fa306ed5cb79392530d2865917b04244256f4cb76676f",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/coverage-cli.test.ts"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:57:24.130Z",
+  "ended": "2026-11-08T19:58:59.710Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 71737,
+  "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+  "stderrSha256": "e85debef9fbdbba78502ebbcf9d694a6b2aa13c696f46b5d761ba068f58bfaa1",
+  "output": {
+    "stdoutPath": "target/managed-exec/backend-task9-attempt6/coverage-cli-stable/stdout.txt",
+    "stderrPath": "target/managed-exec/backend-task9-attempt6/coverage-cli-stable/stderr.txt"
+  },
+  "sourceUnchanged": true,
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "9232b69df4f76ee0e86ed5a512813b0877d66c857cc6645506e97eb2114813f9",
+    "untrackedSource": []
+  }
+}

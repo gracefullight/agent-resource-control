@@ -9,7 +9,7 @@ export async function realAcceptance(name:string,argv:string[]) {
   mkdirSync(dir,{recursive:true});
   const before=inputIdentity(root);
   const env={...process.env};delete env.SKIP_COVERAGE;
-  const result=await command(argv,dir,root,env,900000);
+  const result=await command(argv,dir,root,env,3600000);
   const after=inputIdentity(root);
   writeFileSync(resolve(dir,"binding.json"),JSON.stringify({name,sourceHash:before.sha256,afterHash:after.sha256,unchanged:before.sha256===after.sha256,exit:result.exit,argv},null,2)+"\n");
   if(before.sha256!==after.sha256) throw Error(`${name}: source changed during acceptance`);

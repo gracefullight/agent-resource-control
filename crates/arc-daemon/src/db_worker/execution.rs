@@ -82,7 +82,7 @@ pub(super) fn install_busy(
 }
 
 pub(super) fn run(
-    connection: Connection,
+    mut connection: Connection,
     mut receiver: mpsc::Receiver<Job>,
     shared: Arc<Shared>,
     metrics: Arc<RuntimeMetrics>,
@@ -112,7 +112,19 @@ pub(super) fn run(
                     progress: hooks.expensive.clone(),
                 };
                 *shared.active.lock().unwrap_or_else(|e| e.into_inner()) = Some(active);
-                let result = execute(&connection, &shared, &mut hooks);
+                let result = if let Some(operation) = job.operation {
+                    check(&shared)
+                        .and_then(|()| hooks.before_sql(&shared))
+                        .and_then(|()| {
+                            check(&shared)?;
+                            let value = jobs::execute(&mut connection, operation);
+                            // A deadline here can follow COMMIT. The stable key resolves ambiguity.
+                            check(&shared)?;
+                            Ok(DbValue::Lifecycle(Box::new(value)))
+                        })
+                } else {
+                    execute(&connection, &shared, &mut hooks).map(DbValue::Doctor)
+                };
                 if matches!(result, Err(DbError::Deadline)) {
                     metrics.increment(Counter::DbTimeouts);
                 }

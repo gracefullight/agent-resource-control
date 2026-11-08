@@ -4,6 +4,8 @@ use crate::migration::{
 use rusqlite::{types::ValueRef, Connection};
 
 const ARC_OBJECTS: &[&str] = &[
+    "job_lifecycle",
+    "idx_jobs_lifecycle_recent",
     "vendors",
     "agent_instances",
     "projects",

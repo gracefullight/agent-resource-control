@@ -2,6 +2,8 @@
 
 #[path = "db_worker/execution.rs"]
 mod execution;
+#[path = "db_worker/jobs.rs"]
+pub(crate) mod jobs;
 #[cfg(test)]
 #[path = "db_worker/tests.rs"]
 mod tests;
@@ -85,7 +87,7 @@ pub(crate) struct DbClient {
 }
 
 pub(crate) struct DbTicket {
-    reply: oneshot::Receiver<Result<DoctorReport, DbError>>,
+    reply: oneshot::Receiver<Result<DbValue, DbError>>,
     cancelled: Arc<AtomicBool>,
     deadline: Instant,
     metrics: Arc<RuntimeMetrics>,
@@ -101,10 +103,16 @@ struct Shared {
     active: Mutex<Option<execution::Active>>,
 }
 
+pub(crate) enum DbValue {
+    Doctor(DoctorReport),
+    Lifecycle(Box<jobs::Value>),
+}
+
 struct Job {
+    operation: Option<jobs::Operation>,
     deadline: Instant,
     cancelled: Arc<AtomicBool>,
-    reply: oneshot::Sender<Result<DoctorReport, DbError>>,
+    reply: oneshot::Sender<Result<DbValue, DbError>>,
     queued: Option<GaugeGuard>,
     queue_slot: Option<OwnedSemaphorePermit>,
     _outstanding: GaugeGuard,
@@ -243,14 +251,30 @@ impl Drop for DbWorker {
 
 impl DbClient {
     pub(crate) fn try_doctor(&self, deadline: Instant) -> Result<DbTicket, DbError> {
-        let result = self.admit(deadline);
+        let result = self.admit(deadline, None);
         if result.is_err() {
             self.metrics.increment(Counter::DbRejected);
         }
         result
     }
 
-    fn admit(&self, deadline: Instant) -> Result<DbTicket, DbError> {
+    pub(crate) fn try_job(
+        &self,
+        deadline: Instant,
+        operation: jobs::Operation,
+    ) -> Result<DbTicket, DbError> {
+        let result = self.admit(deadline, Some(operation));
+        if result.is_err() {
+            self.metrics.increment(Counter::DbRejected);
+        }
+        result
+    }
+
+    fn admit(
+        &self,
+        deadline: Instant,
+        operation: Option<jobs::Operation>,
+    ) -> Result<DbTicket, DbError> {
         if self.shared.stopping.load(Ordering::Acquire) {
             return Err(DbError::Stopping);
         }
@@ -272,6 +296,7 @@ impl DbClient {
         let (reply, receiver) = oneshot::channel();
         let cancelled = Arc::new(AtomicBool::new(false));
         permit.send(Job {
+            operation,
             deadline,
             cancelled: Arc::clone(&cancelled),
             reply,
@@ -290,7 +315,14 @@ impl DbClient {
 }
 
 impl DbTicket {
-    pub(crate) async fn receive(mut self) -> Result<DoctorReport, DbError> {
+    pub(crate) async fn receive(self) -> Result<DoctorReport, DbError> {
+        match self.receive_value().await? {
+            DbValue::Doctor(report) => Ok(report),
+            _ => Err(DbError::WorkerLost),
+        }
+    }
+
+    pub(crate) async fn receive_value(mut self) -> Result<DbValue, DbError> {
         match tokio::time::timeout_at(
             tokio::time::Instant::from_std(self.deadline),
             &mut self.reply,

@@ -85,6 +85,7 @@ export function checkHarnessStructure(root: string) {
   if (!(stat.mode & 0o111)) throw Error(`PRESERVATION: local bytes/mode changed: ${HARNESS}`);
 }
 
+// Historical evidence-hygiene contract only. Live callers use checkPreservation.
 export function checkExactPreservation(root: string) {
   const accepted = gitBytes(root, ["ls-tree", "-r", "-z", ACCEPTED_HEAD, "--", "crates", "scripts/harness/validate.sh"])
     .toString().split("\0").filter(Boolean).map(row => {

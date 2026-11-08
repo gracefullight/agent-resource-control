@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "bfb2e8505a1ddf96e1b18bfc05f33cb888663f218cb95f6db720f9078aede374",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "managed_exec",
+    "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+    "--",
+    "--exact",
+    "--nocapture"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T13:43:14.866Z",
+  "ended": "2026-11-08T13:43:31.361Z",
+  "exit": 101,
+  "status": "failed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 95731,
+  "stdoutSha256": "071b4406e1391d0db6da7859b64ab689c3f9b0ff051039507f353e47b9fcb085",
+  "stderrSha256": "9e56cf1ebf336f0116cd21d66b0161a525d5c79bca6758a5ec5c3a2778c44522",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-43-14-730Z-pipeline-red/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-43-14-730Z-pipeline-red/stderr.txt"
+  },
+  "execution": {
+    "validation": "failed; inspect actual local libtest output"
+  }
+}

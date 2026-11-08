@@ -3,11 +3,18 @@ use sha2::{Digest, Sha256};
 use std::{error::Error, fmt};
 
 pub const MIGRATION_ID: &str = "0001_phase0";
-pub const MIGRATIONS: &[Migration] = &[Migration {
-    version: 1,
-    id: MIGRATION_ID,
-    sql: include_str!("../migrations/0001_phase0.sql"),
-}];
+pub const MIGRATIONS: &[Migration] = &[
+    Migration {
+        version: 1,
+        id: MIGRATION_ID,
+        sql: include_str!("../migrations/0001_phase0.sql"),
+    },
+    Migration {
+        version: 2,
+        id: "0002_managed_exec",
+        sql: include_str!("../migrations/0002_managed_exec.sql"),
+    },
+];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Migration {

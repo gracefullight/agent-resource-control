@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/clean-checkout.test.ts"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T13:16:37.563Z",
+  "ended": "2026-11-08T13:18:18.874Z",
+  "exit": 1,
+  "status": "failed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 50686,
+  "stdoutSha256": "2b2eb7b00a2d352ee8589396b8debc4c825e05301ffa8b8724226ac75d9d46b3",
+  "stderrSha256": "4043def8f1eb2a6917f7b02a815931ba113824ae4005a3d596280fa49b1ba824",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-16-37-483Z-clean-checkout-resumed/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T13-16-37-483Z-clean-checkout-resumed/stderr.txt"
+  }
+}

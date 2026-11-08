@@ -66,6 +66,7 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
         "projects",
         "agent_sessions",
         "jobs",
+        "job_lifecycle",
         "permits",
         "resource_objects",
         "resource_leases",
@@ -95,10 +96,10 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
             row.get(0)
         })
         .unwrap();
-    assert_eq!(count, 1);
+    assert_eq!(count, 2);
     let (id, applied_at, checksum): (String, i64, String) = connection
         .query_row(
-            "SELECT id, applied_at, checksum FROM schema_migrations",
+            "SELECT id, applied_at, checksum FROM schema_migrations WHERE id='0001_phase0'",
             [],
             |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
         )
@@ -108,6 +109,22 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
     assert_eq!(
         checksum,
         Sha256::digest(include_bytes!("../migrations/0001_phase0.sql"))
+            .iter()
+            .map(|byte| format!("{byte:02x}"))
+            .collect::<String>()
+    );
+    let second: (String, i64, String) = connection
+        .query_row(
+            "SELECT id, applied_at, checksum FROM schema_migrations WHERE id='0002_managed_exec'",
+            [],
+            |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+        )
+        .unwrap();
+    assert_eq!(second.0, "0002_managed_exec");
+    assert!(second.1 > 0);
+    assert_eq!(
+        second.2,
+        Sha256::digest(include_bytes!("../migrations/0002_managed_exec.sql"))
             .iter()
             .map(|byte| format!("{byte:02x}"))
             .collect::<String>()
@@ -151,16 +168,25 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
             .query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| row
                 .get::<_, i64>(0))
             .unwrap(),
-        1
+        2
     );
     let recorded: (String, i64, String) = reopened
         .query_row(
-            "SELECT id, applied_at, checksum FROM schema_migrations",
+            "SELECT id, applied_at, checksum FROM schema_migrations WHERE id='0001_phase0'",
             [],
             |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
         )
         .unwrap();
     assert_eq!(recorded, (id, applied_at, checksum));
+    let recorded_second: (String, i64, String) = reopened
+        .query_row(
+            "SELECT id, applied_at, checksum FROM schema_migrations WHERE id='0002_managed_exec'",
+            [],
+            |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?)),
+        )
+        .unwrap();
+    assert_eq!(recorded_second, second);
+
     assert_eq!(
         reopened
             .query_row(

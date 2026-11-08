@@ -1,0 +1,2796 @@
+{
+  "schemaVersion": 1,
+  "actorId": "reviewer",
+  "nativeAgentId": "/root/reviewer",
+  "skill": "oma-qa",
+  "taskId": "task-7",
+  "attempt": 11,
+  "runId": null,
+  "sessionId": null,
+  "claimPath": null,
+  "identityNote": "No injected OMA run/session/claim identity; no IDs invented or mission state changed. Explicit ownership limits retained reports to the new implementation pair.",
+  "status": "passed",
+  "workStatus": "completed",
+  "verdict": "PASS",
+  "verificationCompleteness": "completed",
+  "summary": "Independent exact recent-status scenario and refreshed task7 gate/evidence audit pass on current177-file native macOS source; no confirmed findings.",
+  "scope": "task7 integration attempt11 only; task8 execution and task9 Chief acceptance remain downstream",
+  "finalLifecycleAcceptance": false,
+  "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "inputCount": 177,
+  "inputManifest": {
+    "path": ".arc-verify/managed-exec/implementation/inputs.json",
+    "sha256": "4fc91b90cf0534e05724843cbe1d239725443ef0109849364a3325d937a05dfd"
+  },
+  "commands": [
+    {
+      "schemaVersion": 1,
+      "actorId": "reviewer",
+      "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+      "host": {
+        "platform": "darwin",
+        "release": "27.2.0",
+        "arch": "arm64",
+        "hostname": "Eunkwangui-MacBookPro.local"
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": ".",
+      "started": "2026-11-08T19:11:23.818Z",
+      "ended": "2026-11-08T19:11:24.798Z",
+      "exit": 0,
+      "status": "passed",
+      "timeoutAllowanceMs": 3600000,
+      "skipFlags": false,
+      "pid": 83601,
+      "stdoutSha256": "45132426b0f0ba01e074a27c771389d62e35de5cedc9d9e5cf28ec862abcc702",
+      "stderrSha256": "0d9de8a982212d2f86317c02339cd9381631d14e3d692f22b999c89176e02bcd",
+      "output": {
+        "stdoutPath": "target/reviewer-integration-resume11/stdout.txt",
+        "stderrPath": "target/reviewer-integration-resume11/stderr.txt"
+      },
+      "sourceStable": true,
+      "inputFileCount": 177,
+      "timedOut": false,
+      "execution": {
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "harnesses": 1,
+        "tests": [
+          {
+            "harness": 0,
+            "name": "scenarios::status_discovery_labels_and_missing_id_never_launch",
+            "status": "ok"
+          }
+        ]
+      }
+    }
+  ],
+  "findings": [],
+  "unresolved": [],
+  "verificationGaps": [],
+  "acceptanceCriteria": [
+    {
+      "id": "recent-fields",
+      "description": "Each recent entry binds its own opaque ID, state, distinct Registered and Updated Unix-ms values, static typed Reason and Last known: true.",
+      "passed": true
+    },
+    {
+      "id": "real-regression",
+      "description": "Controlled typed IPC order/IDs/timestamps/reasons and complete real CLI output pass, with row count/no-launch and prior empty/by-ID/missing/parser/spawn diagnostics retained.",
+      "passed": true
+    },
+    {
+      "id": "historical-red",
+      "description": "Historical RED receipt/output hashes and omitted Updated/Reason assertion verified; current-source GREEN verified without modifying code to replay RED.",
+      "passed": true
+    },
+    {
+      "id": "independent-reproduction",
+      "description": "Exact requested focused Cargo scenario independently executed on native macOS with 3600000-ms allowance, PID/times/raw digests and unchanged177 source/mode bindings.",
+      "passed": true
+    },
+    {
+      "id": "mandatory-gates",
+      "description": "All12 required argv identities,15 backend command receipts, promoted actual Cargo record and20 readiness artifact hashes match current sources, host and actual outputs.",
+      "passed": true
+    },
+    {
+      "id": "native-coverage",
+      "description": "Native LCOV/LLVM production accounting recomputed for all6 crates above80%;1052 profile hashes, exact merge membership and real CLI/daemon child PID receipts verified.",
+      "passed": true
+    },
+    {
+      "id": "collector-chronology",
+      "description": "Fresh checkout, coverage CLI and full harness run serially; nested realAcceptance command/binding/outer provenance verified; final live evidence follows every collector.",
+      "passed": true
+    },
+    {
+      "id": "isolation-preservation",
+      "description": "Both isolated checkouts match all177 actual hashes/modes; generated equivalence/inventory artifacts and5 child raw output hashes pass;71 immutable implementation artifacts match archived originals.",
+      "passed": true
+    },
+    {
+      "id": "protected-limits",
+      "description": "Migration0001 baseline/index/working bytes and protected accounting/config/source/gate files unchanged; maximum source474<=500 and retained evidence143<150 including review pair.",
+      "passed": true
+    },
+    {
+      "id": "review-boundary",
+      "description": "Task7 integration review only; accepted terminal-resume7 checkpoint retained; task8 independent native workspace execution and task9 Chief acceptance remain downstream.",
+      "passed": true
+    }
+  ],
+  "reviewedArtifacts": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/fmt.json",
+      "sha256": "f96824289149fb1bb84fb511123b8f46ee74558ff683141df8648f5ab180d058"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clippy.json",
+      "sha256": "739c1a6594277e76bc48e445de6b63e5c8b9db9f5eaa0cf0a2d1c716226ab640"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/workspace.json",
+      "sha256": "6ffdb402a0412d983b20a762fd3eec07c59aa6544269a86261c01ba7917c77c3"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/preservation.json",
+      "sha256": "5c81447931bbce929747480f9fc0d47607a804f7a1efcc5ee9845df62fa3d89b"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+      "sha256": "a10ce9793669bb667b646129abf9c054b145dc57c5f0a7244f4db3a3fecc1848"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+      "sha256": "a5d23b65d6ecd976b3e8d826a97af728ce181846ee25b6933694ec23c46c53a0"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "sha256": "d13546a0244e692e0d0d06978d4c392a60fe78d40e4c1dec9318770980ee5560"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "sha256": "42457fcd4ae8d8b32309a2ab2c85712fc3e126cba8a98a7d6d418f1bad9d7ee4"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "sha256": "8d20874dde7ebeff07cbe655ca5056d4e81a8726ac5474fb9c61181f6ecab23f"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "sha256": "50f89875f995b28b8382dcabc081b9f7b2251397a6db07334229b5e605c6d814"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "sha256": "73fe0bdf6d70b6970e98f64d254bd38b8778b2f2c3fc9f99e0aa17238fabf68e"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/evidence.json",
+      "sha256": "28adca862f220129088a60eac5ad48fd9d7517ac39263b627f9c0a5c3cf060ea"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/privacy.json",
+      "sha256": "c48ce82ff7bada57abec709aaf57749539fc3176f97f67f51ec06e4c974c9afd"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+      "sha256": "e08f8d4922b22b890979d8555379c9c7138f95025270bffa70d54475c5006a4c"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "6f10db3ceaf655d6f9511a9a357153408162a919ed20277bcd7004331dc65bcc"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/inputs.json",
+      "sha256": "4fc91b90cf0534e05724843cbe1d239725443ef0109849364a3325d937a05dfd"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/audit.json",
+      "sha256": "41acbe21c8624e0d2d64084adc439569c9ca7e6bf0ca0a67b80d0409ecff000b"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/report.md",
+      "sha256": "1bffd475d6f206f86481e61b0087f14ea37817a886172d6f2dff08d3533ed35f"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution.json",
+      "sha256": "872af40049dcbaf6248b104124131489f75a95bf18cf5bf9afb0b07c36bac19a"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/resume-attempt11.json",
+      "sha256": "7aae81bcbe799e794b13fbd23f7c8f6dd931941bd386b5ed3745e768ccf366fb"
+    }
+  ],
+  "reviewedReceipts": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/fmt.json",
+      "sha256": "f96824289149fb1bb84fb511123b8f46ee74558ff683141df8648f5ab180d058"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clippy.json",
+      "sha256": "739c1a6594277e76bc48e445de6b63e5c8b9db9f5eaa0cf0a2d1c716226ab640"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/workspace.json",
+      "sha256": "6ffdb402a0412d983b20a762fd3eec07c59aa6544269a86261c01ba7917c77c3"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/preservation.json",
+      "sha256": "5c81447931bbce929747480f9fc0d47607a804f7a1efcc5ee9845df62fa3d89b"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+      "sha256": "a10ce9793669bb667b646129abf9c054b145dc57c5f0a7244f4db3a3fecc1848"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+      "sha256": "a5d23b65d6ecd976b3e8d826a97af728ce181846ee25b6933694ec23c46c53a0"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "sha256": "d13546a0244e692e0d0d06978d4c392a60fe78d40e4c1dec9318770980ee5560"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "sha256": "42457fcd4ae8d8b32309a2ab2c85712fc3e126cba8a98a7d6d418f1bad9d7ee4"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "sha256": "8d20874dde7ebeff07cbe655ca5056d4e81a8726ac5474fb9c61181f6ecab23f"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "sha256": "50f89875f995b28b8382dcabc081b9f7b2251397a6db07334229b5e605c6d814"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "sha256": "73fe0bdf6d70b6970e98f64d254bd38b8778b2f2c3fc9f99e0aa17238fabf68e"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/evidence.json",
+      "sha256": "28adca862f220129088a60eac5ad48fd9d7517ac39263b627f9c0a5c3cf060ea"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/privacy.json",
+      "sha256": "c48ce82ff7bada57abec709aaf57749539fc3176f97f67f51ec06e4c974c9afd"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+      "sha256": "e08f8d4922b22b890979d8555379c9c7138f95025270bffa70d54475c5006a4c"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "6f10db3ceaf655d6f9511a9a357153408162a919ed20277bcd7004331dc65bcc"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution.json",
+      "sha256": "872af40049dcbaf6248b104124131489f75a95bf18cf5bf9afb0b07c36bac19a"
+    }
+  ],
+  "validatedCommands": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/fmt.json",
+      "sha256": "f96824289149fb1bb84fb511123b8f46ee74558ff683141df8648f5ab180d058",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "started": "2026-11-08T19:07:44.217Z",
+      "ended": "2026-11-08T19:07:44.776Z",
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutBytes": 0,
+      "stderrBytes": 0,
+      "stdoutTail": "",
+      "stderrTail": ""
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clippy.json",
+      "sha256": "739c1a6594277e76bc48e445de6b63e5c8b9db9f5eaa0cf0a2d1c716226ab640",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started": "2026-11-08T19:07:52.057Z",
+      "ended": "2026-11-08T19:07:52.446Z",
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "8a2933ae25e59188be988ea6218274cb341f13d8bc4b533f57b12ececd4be8b3",
+      "stdoutBytes": 0,
+      "stderrBytes": 72,
+      "stdoutTail": "",
+      "stderrTail": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/workspace.json",
+      "sha256": "6ffdb402a0412d983b20a762fd3eec07c59aa6544269a86261c01ba7917c77c3",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "started": "2026-11-08T19:07:57.955Z",
+      "ended": "2026-11-08T19:08:41.949Z",
+      "exit": 0,
+      "stdoutSha256": "d99be2f3c0d23fe5562bea2eb3d6761165351be3fab5d647a99e06b3925262bf",
+      "stderrSha256": "1fb4a2517cf507dd34dec4e7bdb3e8decaf2fdb6da79c0b56fed6359f112e99c",
+      "stdoutBytes": 32860,
+      "stderrBytes": 2447,
+      "execution": {
+        "executed": 342,
+        "passed": 342,
+        "failed": 0,
+        "ignored": 0,
+        "harnesses": 32,
+        "tests": [
+          {
+            "harness": 1,
+            "name": "exec::signals::tests::native_receiver",
+            "status": "ok"
+          },
+          {
+            "harness": 1,
+            "name": "exec::signals::tests::sigchld_guard_restores_ignored_action_flags_after_spawn_failure_and_early_return",
+            "status": "ok"
+          },
+          {
+            "harness": 1,
+            "name": "exec::signals::tests::shared_job_terminal_signals_are_not_forwarded_and_reap_disables_ownership",
+            "status": "ok"
+          },
+          {
+            "harness": 1,
+            "name": "exec::signals::tests::inherited_ignored_blocked_sigchld_preserves_target_state_and_observes_exit17",
+            "status": "ok"
+          },
+          {
+            "harness": 1,
+            "name": "exec::signals::tests::inherited_blocked_sigchld_wakes_after_exit_and_preserves_native_child_mask",
+            "status": "ok"
+          },
+          {
+            "harness": 1,
+            "name": "exec::signals::tests::distinct_preattachment_signals_ignored_disposition_and_detachment",
+            "status": "ok"
+          },
+          {
+            "harness": 1,
+            "name": "exec::signals::tests::private_sigcont_preserves_target_disposition_mask_and_restores_guard_on_every_exit",
+            "status": "ok"
+          },
+          {
+            "harness": 2,
+            "name": "arcctl_binary_is_built_next_to_the_test_harness",
+            "status": "ok"
+          },
+          {
+            "harness": 2,
+            "name": "no_arguments_names_both_commands_and_exits_nonzero",
+            "status": "ok"
+          },
+          {
+            "harness": 2,
+            "name": "legacy_usage_errors_and_version_keep_their_exit_contract",
+            "status": "ok"
+          },
+          {
+            "harness": 3,
+            "name": "error_with_success_payload_is_rejected_before_error_mapping",
+            "status": "ok"
+          },
+          {
+            "harness": 3,
+            "name": "help_usage_privacy_and_absent_daemon",
+            "status": "ok"
+          },
+          {
+            "harness": 3,
+            "name": "literal_payloads_and_options_are_preserved_in_one_request",
+            "status": "ok"
+          },
+          {
+            "harness": 3,
+            "name": "peer_failures_are_typed_correlated_and_never_reflected",
+            "status": "ok"
+          },
+          {
+            "harness": 3,
+            "name": "timeout_is_bounded_with_no_retry_or_partial_result",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "doctor_help_explains_schema_scope_and_prestartup_stderr",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "schema_error_without_details_never_claims_verified_compatibility",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "actual_cli_reports_verified_production_and_two_version_fixture_success",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "new_client_old_daemon_labels_unavailable_details_without_claiming_verification",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "unavailable_and_malformed_present_details_fail_without_legacy_fallback",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+            "status": "ok"
+          },
+          {
+            "harness": 4,
+            "name": "every_schema_failure_survives_error_envelope_with_actionable_reason",
+            "status": "ok"
+          },
+          {
+            "harness": 5,
+            "name": "tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer",
+            "status": "ok"
+          },
+          {
+            "harness": 5,
+            "name": "tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths",
+            "status": "ok"
+          },
+          {
+            "harness": 6,
+            "name": "database_path_probe",
+            "status": "ok"
+          },
+          {
+            "harness": 6,
+            "name": "database_override_precedes_missing_platform_directory",
+            "status": "ok"
+          },
+          {
+            "harness": 6,
+            "name": "database_override_preserves_non_utf8_path_bytes",
+            "status": "ok"
+          },
+          {
+            "harness": 6,
+            "name": "absent_and_empty_home_fail_after_empty_database_override",
+            "status": "ok"
+          },
+          {
+            "harness": 7,
+            "name": "native_identity_matches_current_process_and_rejects_reuse_and_other_boot",
+            "status": "ok"
+          },
+          {
+            "harness": 7,
+            "name": "random_keys_are_native_and_not_reused",
+            "status": "ok"
+          },
+          {
+            "harness": 7,
+            "name": "immediate_exit_identity_is_captured_after_exit_before_reap",
+            "status": "ok"
+          },
+          {
+            "harness": 7,
+            "name": "live_and_zombie_native_tokens_use_the_same_namespace",
+            "status": "ok"
+          },
+          {
+            "harness": 8,
+            "name": "configuration_probe",
+            "status": "ok"
+          },
+          {
+            "harness": 8,
+            "name": "native_default_is_independent_of_child_tmpdir",
+            "status": "ok"
+          },
+          {
+            "harness": 8,
+            "name": "nonempty_socket_override_and_empty_override_policy_are_preserved",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "instance::tests::a_live_duplicate_is_rejected",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::accept_recovery_tests::accept_child",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::accept_recovery_tests::isolated_transient_accept_error_recovers_cli",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::controlled_worker_child",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::report_lifecycle_tests::report_child",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::accept_recovery_tests::repeated_resource_pressure_recovers_cli",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::accept_recovery_tests::signal_while_backing_off_is_accounted",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::accept_recovery_tests::unusable_listener_cause_survives_accounted_shutdown",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "runtime_report::tests::complete_serialization_is_capped_before_any_file_write",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "runtime_report::tests::invalid_report_names_fail_before_creating_a_file",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::report_lifecycle_tests::disabled_export_creates_no_report_or_runtime_stdout_record",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::already_exists_is_validated_without_repair_or_following_links",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::report_lifecycle_tests::invalid_exports_refuse_startup_preserve_entries_and_join_worker",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::report_lifecycle_tests::report_write_failure_preserves_cleanup_and_actual_worker_accounting",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::report_lifecycle_tests::requested_export_is_open_before_readiness_and_contains_complete_schema",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::sigint_reaps_stalled_handlers_and_joins_worker",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "lifecycle_tests::sigterm_reaps_stalled_handlers_and_joins_worker",
+            "status": "ok"
+          },
+          {
+            "harness": 9,
+            "name": "accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold",
+            "status": "ok"
+          },
+          {
+            "harness": 10,
+            "name": "malformed_and_stalled_frames_recover_actual_cli",
+            "status": "ok"
+          },
+          {
+            "harness": 10,
+            "name": "nonreading_peer_releases_real_daemon_capacity",
+            "status": "ok"
+          },
+          {
+            "harness": 10,
+            "name": "native_probe_then_full_100000_attempt_workload",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "privacy::required_loopback_endpoint_nonexecution_and_privacy",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "invalid_payloads_version_priority_and_same_connection_recovery",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "privacy::unix_endpoint_traps_substitutions_and_live_wal_never_receive_input",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "ssh_option_values_preserve_typed_daemon_and_cli_observations",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "boundaries::detector_budgets_are_preserved_through_daemon_and_cli",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "ssh_post_destination_daemon_human_and_json_cli_matrix",
+            "status": "ok"
+          },
+          {
+            "harness": 11,
+            "name": "actual_daemon_and_cli_delivered_contract_matrix",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+            "status": "ok"
+          },
+          {
+            "harness": 12,
+            "name": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "pipeline::native_nonterminal_inherited_sigcont_target_stop_wrapper_continue_and_completion",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "pipeline::native_inherited_ignored_sigchld_preserves_target_state_and_completion",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "pipeline::native_inherited_sigcont_target_stop_wrapper_continue_and_completion",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "cli::spawn_failure_quick_exit_help_and_status_have_static_diagnostics",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "pipeline::native_session_leader_without_terminal_preserves_execution_and_exit17",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "protocol::identity_mismatch_missing_and_restart_never_invent_an_exit",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "protocol::unreaped_quick_exit_keeps_identity_but_is_not_reported_running",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "protocol::version_first_typed_payload_validation_recent_bound_and_secret_absence",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "retries::cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "retries::path_lookup_remote_and_unknown_commands_execute_without_resource_reservations",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "scenarios::executable_with_spaces_closed_descriptors_and_redirected_streams_match_direct",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "scenarios::native_non_rust_child_observes_literal_closed_standard_descriptors",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "scenarios::status_discovery_labels_and_missing_id_never_launch",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "terminal::native_background_terminal_read_can_be_foregrounded_and_resumed",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "terminal::native_pty_foreground_input_modes_and_terminal_signals_match_direct_child",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "terminal::native_pty_spawn_failure_restores_foreground_without_child_output",
+            "status": "ok"
+          },
+          {
+            "harness": 13,
+            "name": "terminal::native_session_leader_with_controlling_terminal_keeps_foreground_input",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "fixture_serialization_probe",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "coordination::fixture_coordination_is_shared_across_processes",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "lifecycle::resident_contract_holds_until_sigterm",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "coverage::startup_failures_release_admission_then_sigint_reaps_instrumented_children",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "provisioning::nondirectory_parent_is_rejected_before_lock_or_database_initialization",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "lifecycle::commands_report_daemon_unavailable_when_absent",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "provisioning::overlong_socket_paths_and_existing_socket_entries_reject_without_mutation",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "provisioning::permissive_directories_and_their_contents_survive_daemon_and_cli_rejection",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "provisioning::private_existing_and_new_nested_directories_support_override_startup",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "provisioning::symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "schema::baseline_client_adapter_accepts_actual_new_daemon_production_report",
+            "status": "ok"
+          },
+          {
+            "harness": 14,
+            "name": "schema::live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_history",
+            "status": "ok"
+          },
+          {
+            "harness": 15,
+            "name": "missing_invalid_and_newer_schema_startup_reject_without_data_or_history_changes",
+            "status": "ok"
+          },
+          {
+            "harness": 15,
+            "name": "checksum_rejection_exits_nonzero_with_recovery_guidance",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::cancellation_reaps_unpolled_handlers_and_drops_all_guards",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::header_progress_does_not_renew_the_body_budget",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::metrics_are_fixed_size_and_preserve_high_waters",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::headers_and_trickled_bodies_have_absolute_deadlines",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::retained_tasks_reap_and_rejections_do_not_call_factory",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::same_user_authentication_supports_async_sockets_and_rejects_non_sockets",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::malformed_json_and_version_errors_continue_without_database",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::saturated_requests_close_before_allocating_even_for_invalid_prefixes",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::typed_worker_outcomes_keep_busy_distinct_from_integrity",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::stalled_header_and_partial_body_release_request_capacity",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::zero_and_oversized_frames_reject_without_body_allocation",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::nonreading_peer_expires_under_write_backpressure",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::request_admission_races_and_unwind_never_exceed_cap",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::blocked_handler_write_releases_request_and_response_reservations",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::response_serialization_is_capped_before_any_prefix_is_written",
+            "status": "ok"
+          },
+          {
+            "harness": 16,
+            "name": "tests::oversized_echo_uses_one_small_fallback_then_closes",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "controlled_daemon_child",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::jobs::tests::worker_records_native_observation_time_instead_of_queue_execution_time",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::active_sql_is_interrupted_and_worker_joins",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::jobs::tests::lifecycle_cancellation_before_commit_releases_shared_capacity_and_never_launches",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "admission_load::hundred_thousand_request_attempts_have_no_waiting_admission",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "controlled_slow_database_does_not_block_health_and_cli_recovers",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "admission_load::hundred_thousand_database_attempts_bound_retained_cancelled_work",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::stop_between_empty_check_and_park_is_not_lost",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "instance::tests::a_dead_pid_is_recovered_without_killing_anyone",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "instance::tests::a_live_duplicate_is_rejected",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "instance::tests::dropping_a_stale_holder_preserves_its_successors_lock",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "limits::tests::limits_reject_invalid_config_and_profiles",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "runtime_report::tests::complete_serialization_is_capped_before_any_file_write",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "runtime_report::tests::invalid_report_names_fail_before_creating_a_file",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::a_shared_temporary_root_is_refused_instead_of_tightened",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::already_exists_is_validated_without_repair_or_following_links",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::final_intermediate_and_dangling_symlinks_are_not_followed",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::new_nested_and_existing_private_directories_are_usable_without_repair",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::permissive_existing_directories_are_rejected_without_mutation",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "deadline_recovery::full_request_and_connection_saturation_recovers_without_restart",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "health_completes_while_native_sql_preparation_is_deliberately_stalled",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "health_completes_while_schema_assessment_is_deliberately_stalled",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "saturated_sigint_finishes_within_five_seconds",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "saturated_sigterm_finishes_within_five_seconds",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "admission_load::hundred_thousand_connection_attempts_never_spawn_rejection_tasks",
+            "status": "ok"
+          },
+          {
+            "harness": 17,
+            "name": "accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "coverage_tests::unquoted_control_words_cannot_be_mistaken_for_executable_names",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "coverage_tests::empty_nested_shell_retains_unknown_in_compound_commands",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "coverage_tests::ssh_ambiguous_destination_and_option_boundaries_stay_conservative",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::ipv6_destination_numeric_validation_and_loopback_conservatism",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::ssh_post_destination_work_checks_refuse_before_overrun",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::syntax_quotes_aggregation_and_ssh_negative_matrix",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::work_counter_refuses_before_operations_and_never_wraps",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::malformed_payloads_are_not_analysis_requests",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::production_work_exhaustion_trace",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::input_unicode_tokens_invocations_and_depth_boundaries",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::delivered_contract_matrix",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::ssh_post_destination_matrix",
+            "status": "ok"
+          },
+          {
+            "harness": 18,
+            "name": "tests::bounded_deterministic_arbitrary_unicode_inputs_never_panic",
+            "status": "ok"
+          },
+          {
+            "harness": 19,
+            "name": "native_bytes_remain_unmodified_and_unknown",
+            "status": "ok"
+          },
+          {
+            "harness": 19,
+            "name": "direct_boundaries_are_not_shell_syntax",
+            "status": "ok"
+          },
+          {
+            "harness": 19,
+            "name": "argv_budgets_bound_allocations_and_work",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::dispatch::unknown_operation_is_unsupported",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::a_framed_array_is_rejected_without_reaching_a_handler",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::an_object_request_still_decodes_after_a_rejected_array",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::multiple_json_values_are_rejected",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::dispatch::legacy_doctor_requires_ok_integrity_and_one_migration",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::frame_round_trips_one_json_object",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::dispatch::hello_and_health_do_not_require_the_database",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::non_object_roots_are_rejected",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::oversize_declared_length_is_rejected_without_reading_the_body",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::responses_are_objects_too",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::framing::zero_length_is_rejected_without_reading_a_body",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::schema::legacy_absence_and_null_decode_but_missing_present_fields_are_invalid",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::schema::every_incompatibility_keeps_diagnostic_result_and_prevents_legacy_success",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::schema::modern_version_two_succeeds_but_legacy_count_check_rejects_without_falsifying_count",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::schema::present_but_inconsistent_details_never_fall_back_to_legacy_success",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema",
+            "status": "ok"
+          },
+          {
+            "harness": 20,
+            "name": "tests::schema::legacy_request_and_decoder_accept_new_production_report_with_truthful_count",
+            "status": "ok"
+          },
+          {
+            "harness": 21,
+            "name": "ssh_option_values_are_not_forwarding_flags",
+            "status": "ok"
+          },
+          {
+            "harness": 21,
+            "name": "malformed_payload_version_priority_and_legacy_envelopes",
+            "status": "ok"
+          },
+          {
+            "harness": 21,
+            "name": "ssh_post_destination_typed_dispatch",
+            "status": "ok"
+          },
+          {
+            "harness": 21,
+            "name": "classification_contract_dispatch_never_calls_doctor",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "fragmented_and_interrupted_reads_recover_without_consuming_the_next_frame",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "header_body_and_flush_failures_preserve_the_original_io_error",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "frame_error_messages_and_sources_describe_each_failure",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "ipc_errors_keep_display_and_source_chains",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "closed_truncated_and_io_failures_remain_distinct",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "failed_serialization_emits_nothing_and_framed_decode_keeps_type_errors",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "failing_doctor_returns_only_integrity_error_with_request_correlation",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "exchange_writes_one_request_and_reads_one_correlated_response",
+            "status": "ok"
+          },
+          {
+            "harness": 22,
+            "name": "outbound_frame_boundaries_reject_before_writing_and_accept_the_exact_limit",
+            "status": "ok"
+          },
+          {
+            "harness": 23,
+            "name": "identity_keys_and_outcomes_reject_invalid_native_ranges",
+            "status": "ok"
+          },
+          {
+            "harness": 23,
+            "name": "native_signal_limit_rejects_impossible_completion_without_exposing_input",
+            "status": "ok"
+          },
+          {
+            "harness": 23,
+            "name": "snapshot_validation_rejects_phase_identity_outcome_and_time_contradictions",
+            "status": "ok"
+          },
+          {
+            "harness": 23,
+            "name": "lifecycle_wire_shapes_are_protocol_one_and_deny_secret_fields",
+            "status": "ok"
+          },
+          {
+            "harness": 23,
+            "name": "lifecycle_decoders_enforce_object_shape_size_semantics_and_required_nulls",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::migration::existing_legacy_job_key_cannot_be_overwritten_or_attached",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::migration::additive_schema_checks_reject_partial_identity_and_exclusive_outcome_violation",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::migration::upgrade_from_original_registry_preserves_rows_checksums_and_reopen",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::recovery::rollback_and_redacted_storage_errors_preserve_atomicity_and_secret_absence",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::recovery::attached_identity_uncertainty_can_refine_without_rebinding_and_stale_updates_lose",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::regression::exclusive_outcome_constraint_rejects_every_invalid_nullable_combination",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::transitions::conflicts_and_illegal_transitions_rollback_both_tables",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::recovery::reconciliation_never_replays_or_invents_exit_and_terminal_outcome_wins_races",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::regression::decoder_rejects_invalid_outcome_fields_even_when_sql_checks_are_bypassed",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::transitions::evidence_validation_and_time_validation_fail_without_writes",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::transitions::native_zombie_identity_is_not_accepted_as_a_live_observer",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::acceptance::initial_sql_failure_rolls_back_every_pending_object",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::acceptance::fixture_initialization_additive_upgrade_reopen_and_idempotency",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::recovery::concurrent_stable_key_registration_claim_and_completion_have_one_winner",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::acceptance::later_failure_rolls_back_prior_migration_history_in_same_batch",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::acceptance::malformed_registry_is_rejected_before_any_sql",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::acceptance::fixed_schema1_registry_stamps_legacy_witness_without_upgrading",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::concurrency::interrupted_child",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::acceptance::sql_failure_rolls_back_schema_application_data_history_and_witness",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::concurrency::concurrent_upgraders_serialize_and_reread_after_lock_acquisition",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::assessment_reuses_existing_transaction_without_committing_it",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::transitions::fast_exit_without_attachment_and_spawn_failures_are_real_outcome_types",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::concurrency::process_interruption_before_commit_rolls_back_and_recovers",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::transitions::register_claim_attach_complete_and_identical_retries_preserve_revision_and_times",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::known_prefix_defect_takes_precedence_over_future_history",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::checksum_defects_in_every_known_entry_leave_all_state_unchanged",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::acceptance::production_legacy_history_is_read_only_then_stamped_atomically",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::empty_arc_objects_or_history_and_nonzero_witness_are_never_fresh",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::unreadable_layout_stays_a_typed_sql_error",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::numeric_version_order_ignores_history_insertion_and_timestamp_order",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::unsupported_newer_history_and_witness_and_downgrade_are_rejected",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::missing_history_table_rows_gaps_and_trailing_entry_are_rejected",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::recovery::bounded_recent_only_returns_lifecycle_rows_in_stable_order_without_probes",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "migration::tests::rejection::invalid_history_ids_types_duplicates_and_witness_are_rejected",
+            "status": "ok"
+          },
+          {
+            "harness": 24,
+            "name": "jobs::tests::regression::recent_work_is_bounded_before_summary_join_despite_newer_legacy_jobs",
+            "status": "ok"
+          },
+          {
+            "harness": 25,
+            "name": "incompatible_schema_messages_preserve_recovery_guidance_and_versions",
+            "status": "ok"
+          },
+          {
+            "harness": 25,
+            "name": "migration_errors_keep_diagnostics_and_sources",
+            "status": "ok"
+          },
+          {
+            "harness": 25,
+            "name": "invalid_database_locations_preserve_caller_files",
+            "status": "ok"
+          },
+          {
+            "harness": 25,
+            "name": "a_memory_uri_cannot_satisfy_the_required_wal_mode",
+            "status": "ok"
+          },
+          {
+            "harness": 25,
+            "name": "view_named_history_is_invalid_and_assessment_is_read_only",
+            "status": "ok"
+          },
+          {
+            "harness": 25,
+            "name": "invalid_utf8_history_is_rejected_without_rewriting_bytes",
+            "status": "ok"
+          },
+          {
+            "harness": 26,
+            "name": "current_registry_default_open_preserves_wal_inventory_history_and_reopen",
+            "status": "ok"
+          },
+          {
+            "harness": 26,
+            "name": "legacy_v1_without_witness_is_read_only_then_upgrades_without_rewriting_history",
+            "status": "ok"
+          },
+          {
+            "harness": 26,
+            "name": "current_schema_rejects_invalid_history_and_witness_without_mutation",
+            "status": "ok"
+          },
+          {
+            "harness": 27,
+            "name": "migration_failure_rolls_back_all_new_tables",
+            "status": "ok"
+          },
+          {
+            "harness": 27,
+            "name": "foreign_keys_and_unique_resource_identity_are_enforced",
+            "status": "ok"
+          },
+          {
+            "harness": 27,
+            "name": "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
+            "status": "ok"
+          },
+          {
+            "harness": 27,
+            "name": "mismatched_checksum_is_rejected_without_reapplying_migration",
+            "status": "ok"
+          }
+        ]
+      },
+      "stdoutTail": "\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+      "stderrTail": "     Running tests/classification.rs (target/debug/deps/classification-e0d0814d5dd55765)\n     Running tests/coverage.rs (target/debug/deps/coverage-72f39950c268a256)\n     Running tests/jobs.rs (target/debug/deps/jobs-84ad7863b2305908)\n     Running unittests src/lib.rs (target/debug/deps/arc_storage-90b71ae7a3d7b7ef)\n     Running tests/coverage.rs (target/debug/deps/coverage-8a7cdf7e7f7bd827)\n     Running tests/managed_exec_migration.rs (target/debug/deps/managed_exec_migration-a92cc500b39bea88)\n     Running tests/nfr010.rs (target/debug/deps/nfr010-991b5b221448f714)\n   Doc-tests arc_core\n   Doc-tests arc_detector\n   Doc-tests arc_ipc\n   Doc-tests arc_storage\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/preservation.json",
+      "sha256": "5c81447931bbce929747480f9fc0d47607a804f7a1efcc5ee9845df62fa3d89b",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "started": "2026-11-08T19:08:31.646Z",
+      "ended": "2026-11-08T19:09:38.011Z",
+      "exit": 0,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "0d507cf1c3ee8b8957a1af4c9b05f043be77cbe8686dc19351d81021ad1aaa24",
+      "stdoutBytes": 28,
+      "stderrBytes": 1342,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\n",
+      "stderrTail": "(pass) generated assertion factory and wildcard imports fail conservatively [4964.01ms]\n(pass) unresolved item macro expansions cannot introduce preserved-test bindings [2437.82ms]\n(pass) regression checks reject changed assertions, early returns, ignored/cfg-disabled tests and helper redirection [4817.49ms]\n(pass) production roots and enclosing modules cannot disable or hide existing tests [9588.06ms]\n(pass) migration byte, index, mode and symlink changes are rejected [889.77ms]\n(pass) coverage denominator, exclusions, profile/PID merge, reports and harness bypasses fail [5111.44ms]\n\n 12 pass\n 0 fail\n 234 expect() calls\nRan 12 tests across 1 file. [66.35s]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/equivalence.json",
+      "sha256": "a10ce9793669bb667b646129abf9c054b145dc57c5f0a7244f4db3a3fecc1848",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "started": "2026-11-08T19:08:58.122Z",
+      "ended": "2026-11-08T19:10:52.862Z",
+      "exit": 0,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "f878ae34a013e9f3c26b87bc8c6b44364a4131bcad65fc2be2e0c8e206cfef30",
+      "stdoutBytes": 28,
+      "stderrBytes": 313,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\n",
+      "stderrTail": "\nscripts/harness/equivalence.test.ts:\n(pass) accepted oracle and candidate have identical stdout, stderr, exits and coverage calls [101344.61ms]\n(pass) real grep invocation trace scales with patterns rather than eligible files [13323.97ms]\n\n 2 pass\n 0 fail\n 10 expect() calls\nRan 2 tests across 1 file. [114.69s]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-verification.json",
+      "sha256": "a5d23b65d6ecd976b3e8d826a97af728ce181846ee25b6933694ec23c46c53a0",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/coverage-verification.test.ts"
+      ],
+      "started": "2026-11-08T19:10:08.622Z",
+      "ended": "2026-11-08T19:10:25.087Z",
+      "exit": 0,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "e792f1960cbdbc2e32df95125c504690c3dbe5c41ff4e5ed8c2efe405e9710db",
+      "stdoutBytes": 28,
+      "stderrBytes": 231,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\n",
+      "stderrTail": "\nscripts/harness/coverage-verification.test.ts:\n(pass) explicit serial coverage checks plus separate live checks cover the complete existing suite [16416.00ms]\n\n 1 pass\n 0 fail\n 11 expect() calls\nRan 1 test across 1 file. [16.43s]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "sha256": "d13546a0244e692e0d0d06978d4c392a60fe78d40e4c1dec9318770980ee5560",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "started": "2026-11-08T19:11:02.067Z",
+      "ended": "2026-11-08T19:12:42.429Z",
+      "exit": 0,
+      "stdoutSha256": "34d039e37d10b247c38b5f8ab28821f9b9b380b7ed47ee290e06d97b6e6e1cba",
+      "stderrSha256": "9759b74e44e84eb962c4a2221017d3de6a9ea0d5c970edb92f7e0590671c8ed5",
+      "stdoutBytes": 645,
+      "stderrBytes": 216,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\nClean checkout /var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-Z8lbx7: bun run test:coverage\nClean checkout /var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-Z8lbx7: bun test scripts/coverage/evidence.test.ts\nFresh checkout and native artifacts retained at /var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-Z8lbx7; receipts: /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/evidence-hygiene/clean-checkout/runs/9a32f917-4888-47b1-bc11-3e1482884c60\n",
+      "stderrTail": "\nscripts/coverage/clean-checkout.test.ts:\n(pass) isolated checkout collects fresh native evidence with no inherited run artifacts [100065.07ms]\n\n 1 pass\n 0 fail\n 31 expect() calls\nRan 1 test across 1 file. [100.35s]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+      "sha256": "42457fcd4ae8d8b32309a2ab2c85712fc3e126cba8a98a7d6d418f1bad9d7ee4",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "started": "2026-11-08T19:13:26.033Z",
+      "ended": "2026-11-08T19:15:01.962Z",
+      "exit": 0,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "97dfeb59a0618c3615d0bc4c9e76b804cae4eaed76200db7aa4bf0ee581be591",
+      "stdoutBytes": 28,
+      "stderrBytes": 189,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\n",
+      "stderrTail": "\nscripts/coverage/coverage-cli.test.ts:\n(pass) root entry point executes the real six-crate coverage gate [95646.45ms]\n\n 1 pass\n 0 fail\n 9 expect() calls\nRan 1 test across 1 file. [95.92s]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "sha256": "8d20874dde7ebeff07cbe655ca5056d4e81a8726ac5474fb9c61181f6ecab23f",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "started": "2026-11-08T19:13:26.319Z",
+      "ended": "2026-11-08T19:15:01.949Z",
+      "exit": 0,
+      "stdoutSha256": "ba981dc0d74576941d1237a4cba2ac8d9eebd195d8ee37a836f797e6467cef4c",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "stdoutBytes": 711,
+      "stderrBytes": 30,
+      "stdoutTail": "Coverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\nCoverage: merging fresh execution profiles and validating reports\nPASS arc-core: 247/256 production lines (96.48%; requires 80%)\nPASS arc-detector: 609/610 production lines (99.84%; requires 80%)\nPASS arc-storage: 653/674 production lines (96.88%; requires 80%)\nPASS arc-ipc: 387/393 production lines (98.47%; requires 80%)\nPASS arc-daemon: 1628/1746 production lines (93.24%; requires 80%)\nPASS arc-cli: 677/774 production lines (87.47%; requires 80%)\nCoverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-08T19-13-26-349Z-3d6434d4-f73a-44f7-890d-4d840042b625\n",
+      "stderrTail": "$ bun scripts/coverage/run.ts\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness.json",
+      "sha256": "50f89875f995b28b8382dcabc081b9f7b2251397a6db07334229b5e605c6d814",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "started": "2026-11-08T19:15:36.574Z",
+      "ended": "2026-11-08T19:17:19.417Z",
+      "exit": 0,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "5540e9150cc94d46d5931d06dac67e82cc513797a4eb6aefb5897a7b8cf6560d",
+      "stdoutBytes": 28,
+      "stderrBytes": 197,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\n",
+      "stderrTail": "\nscripts/coverage/harness.test.ts:\n(pass) real unchanged harness passes with zero violations and no skip flags [102543.15ms]\n\n 1 pass\n 0 fail\n 10 expect() calls\nRan 1 test across 1 file. [102.83s]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "sha256": "73fe0bdf6d70b6970e98f64d254bd38b8778b2f2c3fc9f99e0aa17238fabf68e",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "started": "2026-11-08T19:15:38.044Z",
+      "ended": "2026-11-08T19:17:19.400Z",
+      "exit": 0,
+      "stdoutSha256": "23de17cd6471d2015b0bfb7b7095693c7a0a0c263aefdab1d96087c091f89c9f",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "stdoutBytes": 1456,
+      "stderrBytes": 30,
+      "stdoutTail": "Coverage: merging fresh execution profiles and validating reports\nPASS arc-core: 247/256 production lines (96.48%; requires 80%)\nPASS arc-detector: 609/610 production lines (99.84%; requires 80%)\nPASS arc-storage: 653/674 production lines (96.88%; requires 80%)\nPASS arc-ipc: 387/393 production lines (98.47%; requires 80%)\nPASS arc-daemon: 1628/1746 production lines (93.24%; requires 80%)\nPASS arc-cli: 674/774 production lines (87.08%; requires 80%)\nCoverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-08T19-15-44-425Z-27759437-90c6-4b49-bd86-e6e011e7f13c\n\u001b[0;32m[ok]\u001b[0m       Coverage thresholds met\n\n\u001b[0;32m[ok]\u001b[0m       All checks passed (0 violations).\n",
+      "stderrTail": "$ bun scripts/coverage/run.ts\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/evidence.json",
+      "sha256": "28adca862f220129088a60eac5ad48fd9d7517ac39263b627f9c0a5c3cf060ea",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "started": "2026-11-08T19:17:53.154Z",
+      "ended": "2026-11-08T19:17:54.299Z",
+      "exit": 0,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "51e26b0533debcbb1604ea89002231c2974db67da27984f35eb7eae55868d910",
+      "stdoutBytes": 28,
+      "stderrBytes": 217,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\n",
+      "stderrTail": "\nscripts/coverage/evidence.test.ts:\n(pass) current successful source-bound coverage contains all crates, files and child profiles [839.12ms]\n\n 1 pass\n 0 fail\n 3183 expect() calls\nRan 1 test across 1 file. [1131.00ms]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/privacy.json",
+      "sha256": "c48ce82ff7bada57abec709aaf57749539fc3176f97f67f51ec06e4c974c9afd",
+      "argv": [
+        "python3",
+        ".arc-verify/managed-exec/implementation/privacy.py"
+      ],
+      "started": "2026-11-08T19:09:45.805Z",
+      "ended": "2026-11-08T19:09:45.934Z",
+      "exit": 0,
+      "stdoutSha256": "9d462476c9371383b5129e17e6e1fec0c0474e63b1c716059a7fa7aaa3a45af0",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdoutBytes": 434,
+      "stderrBytes": 0,
+      "stdoutTail": "{\"allRecordedIdentitiesAbsent\": true, \"arcDiagnosticsSecretFree\": true, \"checkedFiles\": [\"daemon-err\", \"daemon-out\", \"db\", \"db-shm\", \"db-wal\"], \"daemonExit\": 0, \"databaseRowsSecretFree\": true, \"exitCode\": 17, \"finalIdentityObservations\": {\"daemon\": null, \"wrapper\": null}, \"liveWalChecked\": true, \"oneLifecycleRecord\": true, \"pass\": true, \"pass_\": true, \"permits\": 0, \"scope\": \"native CLI sentinel audit with pinned live SQLite WAL\"}\n",
+      "stderrTail": ""
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+      "sha256": "e08f8d4922b22b890979d8555379c9c7138f95025270bffa70d54475c5006a4c",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec-evidence.test.ts",
+        "-t",
+        "real deterministic Cargo execution binds positive identity and actual output"
+      ],
+      "started": "2026-11-08T19:09:37.828Z",
+      "ended": "2026-11-08T19:09:38.320Z",
+      "exit": 0,
+      "stdoutSha256": "476b72b3f7e4865285bcdb49d125c88b45417ce050946c03e94e947950f9e42c",
+      "stderrSha256": "f8f424a7bf499008e0c5106f81042e79017f151965352106a6500173a2dc3554",
+      "stdoutBytes": 277,
+      "stderrBytes": 231,
+      "stdoutTail": "bun test v1.4.4 (38afee6c8)\nValidated Cargo execution receipt: /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/managed-exec/positive-execution-GO264V/receipt.json\n",
+      "stderrTail": "\nscripts/harness/managed-exec-evidence.test.ts:\n(pass) real deterministic Cargo execution binds positive identity and actual output [201.71ms]\n\n 1 pass\n 9 filtered out\n 0 fail\n 3 expect() calls\nRan 1 test across 1 file. [484.00ms]\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "6f10db3ceaf655d6f9511a9a357153408162a919ed20277bcd7004331dc65bcc",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "started": "2026-11-08T19:09:19.523Z",
+      "ended": "2026-11-08T19:09:20.461Z",
+      "exit": 0,
+      "stdoutSha256": "4d4c4fe859f70b4d156829ecde53cf7f86baabfd2238b64222a9ba1a28b4fe2b",
+      "stderrSha256": "0ec47043dd6c8a04bed0909a244d632058f372a64394ceb2cc744cb3c0d0404d",
+      "stdoutBytes": 188,
+      "stderrBytes": 158,
+      "execution": {
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "harnesses": 1,
+        "tests": [
+          {
+            "harness": 0,
+            "name": "scenarios::status_discovery_labels_and_missing_id_never_launch",
+            "status": "ok"
+          }
+        ]
+      },
+      "stdoutTail": "\nrunning 1 test\ntest scenarios::status_discovery_labels_and_missing_id_never_launch ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 0.70s\n\n",
+      "stderrTail": "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.17s\n     Running tests/managed_exec.rs (target/debug/deps/managed_exec-4f76c78332cff03c)\n"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/positive-execution.json",
+      "sha256": "872af40049dcbaf6248b104124131489f75a95bf18cf5bf9afb0b07c36bac19a",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-core",
+        "--test",
+        "runtime",
+        "nonempty_socket_override_and_empty_override_policy_are_preserved",
+        "--",
+        "--exact"
+      ],
+      "started": "2026-11-08T19:09:38.125Z",
+      "ended": "2026-11-08T19:09:38.306Z",
+      "exit": 0,
+      "stdoutSha256": "2c737ece234b2ea4a4c98ddc6a70698f659805bfeb3bc5320623bdd504dc6d6a",
+      "stderrSha256": "5e58ac5b216c38b131c0ce068e519f690bd37ee0e83d624090c7d145246a1a45",
+      "stdoutBytes": 189,
+      "stderrBytes": 148,
+      "execution": {
+        "executed": 1,
+        "passed": 1,
+        "failed": 0,
+        "ignored": 0,
+        "harnesses": 1,
+        "tests": [
+          {
+            "harness": 0,
+            "name": "nonempty_socket_override_and_empty_override_policy_are_preserved",
+            "status": "ok"
+          }
+        ]
+      },
+      "stdoutTail": "\nrunning 1 test\ntest nonempty_socket_override_and_empty_override_policy_are_preserved ... ok\n\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 2 filtered out; finished in 0.03s\n\n",
+      "stderrTail": "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s\n     Running tests/runtime.rs (target/debug/deps/runtime-959ee5829748e1ab)\n"
+    }
+  ],
+  "mandatoryCommandCount": 12,
+  "historicalRegression": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-red.json",
+      "sha256": "55cfba246ff2f9c981a5f4ec8378d00df58014934584b6af053417eff2eeacd2",
+      "sourceHash": "2866cefe1575df2fd7dd2921d4054ffc99fadd58fa3ec03ccd4793aefa96f0fe",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 101,
+      "streams": {
+        "stdout": {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T16-30-33-617Z-recent-red/stdout.txt",
+          "sha256": "92e8a7b33cdb5d6d16d902f1084698b3b85aff554c64d848a531c95401917b8e",
+          "verified": true
+        },
+        "stderr": {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T16-30-33-617Z-recent-red/stderr.txt",
+          "sha256": "545deaae0156d1742709b2c0576a636acba9d6d8ec5e1577e51f7c1eea29da89",
+          "verified": true
+        }
+      }
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-green.json",
+      "sha256": "6f10db3ceaf655d6f9511a9a357153408162a919ed20277bcd7004331dc65bcc",
+      "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "streams": {
+        "stdout": {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-19-439Z-recent-green/stdout.txt",
+          "sha256": "4d4c4fe859f70b4d156829ecde53cf7f86baabfd2238b64222a9ba1a28b4fe2b",
+          "verified": true
+        },
+        "stderr": {
+          "path": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-19-439Z-recent-green/stderr.txt",
+          "sha256": "0ec47043dd6c8a04bed0909a244d632058f372a64394ceb2cc744cb3c0d0404d",
+          "verified": true
+        }
+      }
+    }
+  ],
+  "gateInspection": {
+    "path": "target/reviewer-integration-resume11/final-inspection.json",
+    "sha256": "68547bf1d9a485310470977c77fde41bbcab603dfc82d66905b7b16a8d149cbe"
+  },
+  "supplementalInspection": {
+    "path": "target/reviewer-integration-resume11/supplement.json",
+    "sha256": "b69e2fa25810ec4770e2e93bc0f0cf01d37d26fad89a4a18d3b283a99d7e1934"
+  },
+  "readiness": {
+    "path": "target/task7-attempt11/ready.json",
+    "sha256": "b58408c4df22c030ef53e075d1745a940e9a37f271e0b86605f2d9ace6b38495"
+  },
+  "coverage": {
+    "latest": {
+      "path": ".arc-verify/rust-coverage/baseline/latest.json",
+      "sha256": "2dfda6f39341833d17b19a959e1afb8ca07360f318f92031ea3328f514f4cb9b"
+    },
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T19-15-44-425Z-27759437-90c6-4b49-bd86-e6e011e7f13c",
+    "sourceHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8",
+    "summarySha256": "19281d0cebf86cdc88f1398650aee55113932f1bfd96aa13bb336822a54318ac",
+    "receiptSha256": "1164abec6f3fd3701c32988589921077cce07918af2495b1dccaa5d65cb09132",
+    "profilesSha256": "c306016520404f1ea634906b75e293a6ff1f8cd5678419db0b721ae80bf6985a",
+    "rawSha256": "72e076c8b8c147793723b32d37757c93fec71d598a3f1028d97f95e582c7fb15",
+    "llvmSha256": "2f1d3e398c2d8e31f5e0bc5fa00714ff11cca1d2590415c1d3028e74d7999920",
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 609,
+        "total": 610,
+        "percent": 99.8360655737705,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 653,
+        "total": 674,
+        "percent": 96.88427299703264,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 387,
+        "total": 393,
+        "percent": 98.47328244274809,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1628,
+        "total": 1746,
+        "percent": 93.24169530355097,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 674,
+        "total": 774,
+        "percent": 87.08010335917312,
+        "pass": true
+      }
+    ],
+    "profileCount": 1052,
+    "childProof": [
+      {
+        "binary": "arcctl",
+        "pid": 93701,
+        "profiles": [
+          "arc-93701-16826859938790261284_0.profraw"
+        ],
+        "exit": 0
+      },
+      {
+        "binary": "arc-daemon",
+        "pid": 93702,
+        "profiles": [
+          "arc-93702-10115768598024021439_0.profraw"
+        ],
+        "exit": 1
+      }
+    ]
+  },
+  "preservation": {
+    "protectedHashes": {
+      "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "scripts/coverage/accounting.ts": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+      "scripts/coverage/config.ts": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a",
+      "scripts/coverage/source.ts": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "scripts/coverage/gate.ts": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+      ".arc-verify/rust-coverage/contract/accounting.json": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb"
+    },
+    "maxSource": {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "lines": 474
+    },
+    "sourceLimit": 500,
+    "evidenceAtBackendAudit": 141,
+    "evidenceIncludingNewPair": 143,
+    "evidenceLimitExclusive": 150,
+    "archiveHashesVerified": 90,
+    "immutablePriorPathsVerified": 71
+  },
+  "nestedProof": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/coverage-root.json",
+      "extractedFrom": {
+        "command": {
+          "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/coverage-cli-33dbdc13-8b42-40d7-b996-2ad724b5ad9a/00-command.json",
+          "sha256": "f2093a4156f8d39a61f713c3e02ac2b8f5f8aacf0de87fd2a46c4f8d2749db03"
+        },
+        "binding": {
+          "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/coverage-cli-33dbdc13-8b42-40d7-b996-2ad724b5ad9a/binding.json",
+          "sha256": "b842ad0b1b895eb2bcf2338ed58441a6e21c70e06ac352b1c758df00e370f1f7"
+        },
+        "outer": {
+          "path": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+          "sha256": "42457fcd4ae8d8b32309a2ab2c85712fc3e126cba8a98a7d6d418f1bad9d7ee4"
+        },
+        "nativeInputHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8"
+      },
+      "pid": 85204,
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "verified": true
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/harness-root.json",
+      "extractedFrom": {
+        "command": {
+          "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/harness-7548d1c7-3314-47b9-8ef6-ee9f6b57c884/00-command.json",
+          "sha256": "a60b181b413cb085e407965d33e00b521eea882f6c3cf54b184dd1f9bf4c8dd0"
+        },
+        "binding": {
+          "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/harness-7548d1c7-3314-47b9-8ef6-ee9f6b57c884/binding.json",
+          "sha256": "16d63b847a7ccdb6e4f353b3ec954f5f1f1e0b7d92ffb1ce3cd26916b1564ca9"
+        },
+        "outer": {
+          "path": ".arc-verify/managed-exec/implementation/harness.json",
+          "sha256": "50f89875f995b28b8382dcabc081b9f7b2251397a6db07334229b5e605c6d814"
+        },
+        "nativeInputHash": "6f0fbcb95fb05bfc5133d5255ac9cfa1c9afb79a80c47b8cc8060392cdcb05d8"
+      },
+      "pid": 88584,
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "verified": true
+    }
+  ],
+  "isolatedProof": [
+    {
+      "name": "equivalence",
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-equivalence-mII3Jf/checkout",
+      "inputCount": 177,
+      "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+      "artifacts": [
+        {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-equivalence-mII3Jf/checkout/.arc-verify/harness-speed/equivalence.json",
+          "sha256": "e45ad918a397902848e107471336331ee930e39ec4adc2cc59683ffd177a96d5",
+          "keys": [
+            "schemaVersion",
+            "evidenceKind",
+            "runId",
+            "acceptedHead",
+            "acceptedTree",
+            "oracleSha256",
+            "candidateScriptPath",
+            "candidateScriptSha256",
+            "integratedSourceIdentity",
+            "sourceScope",
+            "sourceRevision",
+            "host",
+            "tools",
+            "clock",
+            "startedAtUtc",
+            "cases",
+            "status",
+            "endedAtUtc",
+            "exit",
+            "command"
+          ]
+        },
+        {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-equivalence-mII3Jf/checkout/.arc-verify/harness-speed/invocations.json",
+          "sha256": "ef254565737806ba1d3f34e515e0da7561b14b63eb3d67289b18863360d3ea6b",
+          "keys": [
+            "schemaVersion",
+            "evidenceKind",
+            "runId",
+            "acceptedHead",
+            "acceptedTree",
+            "oracleSha256",
+            "candidateScriptPath",
+            "candidateScriptSha256",
+            "integratedSourceIdentity",
+            "sourceScope",
+            "sourceRevision",
+            "host",
+            "tools",
+            "clock",
+            "status",
+            "runs"
+          ]
+        }
+      ],
+      "subcommands": []
+    },
+    {
+      "name": "coverage-verification",
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-isolated-VnlnwX/checkout",
+      "inputCount": 177,
+      "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+      "artifacts": [
+        {
+          "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-isolated-VnlnwX/checkout/.arc-verify/harness-speed/coverage-verification.json",
+          "sha256": "cbcda7036a443ae4626930df033219a1967829970e721671679598d754e13ff1",
+          "keys": [
+            "schemaVersion",
+            "evidenceKind",
+            "runId",
+            "acceptedHead",
+            "acceptedTree",
+            "oracleSha256",
+            "candidateScriptPath",
+            "candidateScriptSha256",
+            "integratedSourceIdentity",
+            "sourceScope",
+            "sourceRevision",
+            "host",
+            "tools",
+            "clock",
+            "startedAtUtc",
+            "discovered",
+            "accepted",
+            "executed",
+            "separatelyRequired",
+            "inventoryComplete",
+            "commands",
+            "status",
+            "exit",
+            "endedAtUtc"
+          ]
+        }
+      ],
+      "subcommands": [
+        {
+          "argv": [
+            "bun",
+            "test",
+            "scripts/coverage/accounting.test.ts"
+          ],
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-isolated-VnlnwX/checkout",
+          "pid": 74247,
+          "started": "2026-11-08T19:10:08.993Z",
+          "ended": "2026-11-08T19:10:09.118Z",
+          "exit": 0,
+          "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "stderrSha256": "01e5ebecb6a1ccd12a12860e85c416761badfcc0b17d6a5bda7954033adca9d8"
+        },
+        {
+          "argv": [
+            "bun",
+            "test",
+            "scripts/coverage/gate.test.ts"
+          ],
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-isolated-VnlnwX/checkout",
+          "pid": 74248,
+          "started": "2026-11-08T19:10:09.118Z",
+          "ended": "2026-11-08T19:10:09.865Z",
+          "exit": 0,
+          "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "stderrSha256": "04fbb5bfeff61ce619ee3d9ddb5cc0842aa60669458f5136cc30487275af9cb8"
+        },
+        {
+          "argv": [
+            "bun",
+            "test",
+            "scripts/coverage/hygiene-preservation.test.ts"
+          ],
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-isolated-VnlnwX/checkout",
+          "pid": 74422,
+          "started": "2026-11-08T19:10:09.865Z",
+          "ended": "2026-11-08T19:10:23.101Z",
+          "exit": 0,
+          "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "stderrSha256": "a7d3657c1042bf0a1426e6b186b1dde54df34955debf0600d3450fc531510447"
+        },
+        {
+          "argv": [
+            "bun",
+            "test",
+            "scripts/coverage/hygiene.test.ts"
+          ],
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-isolated-VnlnwX/checkout",
+          "pid": 77356,
+          "started": "2026-11-08T19:10:23.102Z",
+          "ended": "2026-11-08T19:10:23.704Z",
+          "exit": 0,
+          "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "stderrSha256": "5701b61eadaf8e40c6c8017367fe408ce80e7ca5e4ba87159d83d8d9bc4b09ae"
+        },
+        {
+          "argv": [
+            "bun",
+            "test",
+            "scripts/coverage/preservation.test.ts"
+          ],
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-task7-isolated-VnlnwX/checkout",
+          "pid": 77455,
+          "started": "2026-11-08T19:10:23.704Z",
+          "ended": "2026-11-08T19:10:25.062Z",
+          "exit": 0,
+          "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "stderrSha256": "c26641f331151b39799d8f420669f17638e4b9d393729838c824e277c2a0b4d3"
+        }
+      ]
+    }
+  ],
+  "priorReviews": [
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-status-independent-review.md",
+      "sha256": "8bd4021cd48a17ad8d00241fb86f77d1b097766198c8f11e427fe54bd235d5c6"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/recent-status-independent-review.json",
+      "sha256": "0d36544e63db05858a0ac44f5fdf67a1e697513ac6cc3f8d43b0c8625f35f414"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/terminal-resume7-independent-review.md",
+      "sha256": "3ed3336303aadcafab49d95b19c63cccfd464421fc5bd1de725bf28dd7ea84d4"
+    },
+    {
+      "path": ".arc-verify/managed-exec/implementation/terminal-resume7-independent-review.json",
+      "sha256": "81d40962da8806e2a2be32a08a03d404fa4ac83b430233d8df4abf62ccefd372"
+    }
+  ],
+  "reviewedSourceFiles": [
+    {
+      "path": "crates/arc-cli/src/job.rs",
+      "sha256": "d96ef24bf66f511ef5b1030a5a08d3197f96e9c083fbec6366671160cdcf689b"
+    },
+    {
+      "path": "crates/arc-daemon/tests/managed_exec/scenarios.rs",
+      "sha256": "53e410aa82c29cbddcf42d21fa03c89d968b3f29552246a9974ee72871d715eb"
+    },
+    {
+      "path": "crates/arc-ipc/src/jobs/types.rs",
+      "sha256": "9459b9a22f0e3cd2ca2c921e5039117007adc928354587612759ad840380ff7b"
+    },
+    {
+      "path": "crates/arc-ipc/src/jobs/validation.rs",
+      "sha256": "ac9eda72ed28c82d28f646e00b0b66327f516e39769160b297b787eab4ebc11a"
+    },
+    {
+      "path": "crates/arc-daemon/tests/managed_exec/cli.rs",
+      "sha256": "19a98cdc9919945664178289fd3e927e9b416dfc337558c2eb138b787a90a107"
+    },
+    {
+      "path": "crates/arc-daemon/tests/support/runtime.rs",
+      "sha256": "3e8dfc30ba02774c8c35ed448fb9c5b9756466924fa60da82076edaad02f8ba8"
+    }
+  ],
+  "report": {
+    "path": ".arc-verify/managed-exec/implementation/integration-resume11-independent-review.md",
+    "sha256": "e7012209c78fef487e95f28bfd784ed0eaf8cdfbc0a4d72ca7467a33189cf039"
+  },
+  "changedFiles": [
+    ".arc-verify/managed-exec/implementation/integration-resume11-independent-review.md",
+    ".arc-verify/managed-exec/implementation/integration-resume11-independent-review.json"
+  ],
+  "artifacts": [
+    ".arc-verify/managed-exec/implementation/integration-resume11-independent-review.md",
+    ".arc-verify/managed-exec/implementation/integration-resume11-independent-review.json"
+  ],
+  "downstream": [
+    "task-8 final independent native workspace execution",
+    "task-9 Chief final acceptance/rebinding"
+  ],
+  "completedAt": "2026-11-08T19:20:07.104892+00:00"
+}

@@ -1,0 +1,1629 @@
+{
+  "status": "failed",
+  "reviewResult": "FAIL",
+  "verificationCompleteness": "completed_checkpoint",
+  "summary": "Candidate passes pipeline and all managed checks but rejects session-leader execution; promotion rejected. This is not final task-8 QA or lifecycle acceptance.",
+  "task": "task-6-terminal",
+  "candidateAggregateHashProvidedByCoordinator": "10f3b6354c14f1b78c316d2e061f3c025403eda4f15a84bfc8bf8e6e5bd5c010",
+  "candidateAggregateIndependentlyRecomputed": false,
+  "candidateInputs": {
+    "at": "2026-11-08T14:52:27.598784+00:00",
+    "inputs": {
+      "crates/arc-cli/src/exec.rs": {
+        "sha256": "3c401e676cd843fa21e86e819e6c1bf2dabe6e4bc5c91e5448bcbb78840e8480",
+        "lines": 210
+      },
+      "crates/arc-cli/src/exec/signals.rs": {
+        "sha256": "161a3fae04aa286861ea082dba4a35d8375c603db5ea3eeb3a1262dcd627962e",
+        "lines": 165
+      },
+      "crates/arc-cli/src/exec/relay.rs": {
+        "sha256": "9fa061b0fa9dffe35e0c6eb75b001f9b81becec8ee4da9681ddbd0c81582b26f",
+        "lines": 226
+      },
+      "crates/arc-cli/src/exec/terminal.rs": {
+        "sha256": "476d65ca484d038bb2aad278d35e2820bd15558bda920330a60e4b6a00dedc2d",
+        "lines": 2
+      },
+      "crates/arc-cli/src/exec/descriptors.rs": {
+        "sha256": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+        "lines": 40
+      },
+      "crates/arc-cli/tests/fixtures/child.rs": {
+        "sha256": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+        "lines": 198
+      },
+      "crates/arc-cli/tests/fixtures/pipeline.rs": {
+        "sha256": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+        "lines": 89
+      },
+      "crates/arc-daemon/tests/managed_exec.rs": {
+        "sha256": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+        "lines": 18
+      },
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs": {
+        "sha256": "f9a2cd78301770b0269361c7a47c992261706e0cfffae7ef95c620b0d90a2135",
+        "lines": 24
+      },
+      "crates/arc-daemon/tests/managed_exec/pipeline.py": {
+        "sha256": "e1020c6d3424012afdc089e41aa1d091a3c8e5bbc74a17eb9cc7c1debbdaa74c",
+        "lines": 382
+      },
+      "crates/arc-daemon/tests/managed_exec/terminal.rs": {
+        "sha256": "b7a8e1fec55778675cf216f1252b33e35dbf30a0f47906ab6f624aee7313e0b9",
+        "lines": 356
+      },
+      "crates/arc-storage/migrations/0001_phase0.sql": {
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "lines": 154
+      },
+      ".arc-verify/managed-exec/decision.md": {
+        "sha256": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+        "lines": 427
+      },
+      ".arc-verify/managed-exec/contract.json": {
+        "sha256": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+        "lines": 2424
+      },
+      ".arc-verify/managed-exec/technical-contract.md": {
+        "sha256": "8d88f11c2d057b167f16a0d2d4c19db9571849dd61d12ee7438ffa51abbcd604",
+        "lines": 253
+      },
+      ".arc-verify/managed-exec/cli-contract.md": {
+        "sha256": "0666901675d70dd7397fd113542f26a658f336724eed4776103a6bb70694c073",
+        "lines": 221
+      },
+      ".arc-verify/managed-exec/implementation/pipeline-independent-review.md": {
+        "sha256": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+        "lines": 79
+      },
+      ".arc-verify/managed-exec/implementation/pipeline-independent-review.json": {
+        "sha256": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58",
+        "lines": 421
+      }
+    }
+  },
+  "host": {
+    "system": "Darwin",
+    "node": "Eunkwangui-MacBookPro.local",
+    "release": "27.2.0",
+    "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "changedFiles": [
+    ".arc-verify/managed-exec/implementation/terminal-repair-independent-review.md",
+    ".arc-verify/managed-exec/implementation/terminal-repair-independent-review.json"
+  ],
+  "artifacts": [
+    ".arc-verify/managed-exec/implementation/terminal-repair-independent-review.md",
+    ".arc-verify/managed-exec/implementation/terminal-repair-independent-review.json",
+    "target/terminal-repair-qa-143d377a-3df9-4b88-b9b9-d2b2e6fe75bb"
+  ],
+  "findings": [
+    {
+      "severity": "HIGH",
+      "file": "crates/arc-cli/src/exec/relay.rs",
+      "line": 132,
+      "appliesTo": "frozen candidate only",
+      "description": "Mandatory observer setpgid fails EPERM for session leaders, rejecting supported direct child execution after claim.",
+      "observed": {
+        "directSessionExit": 17,
+        "ordinaryManagedExit": 17,
+        "managedSessionExit": 1,
+        "nativeSetpgidErrno": 1
+      },
+      "remediation": "A session-leader-compatible native mechanism preserving original CLI-owned direct Command child, exact signal delivery and caller job is unresolved. Add session-leader regression from Markdown; a clearer rejection is not a fix. No validated drop-in patch is claimed."
+    }
+  ],
+  "independentChecks": [
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+        "--",
+        "--exact",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "timeout_allowance_ms": 3600000,
+      "startedAt": "2026-11-08T14:50:47.806331+00:00",
+      "inputsBefore": {
+        "crates/arc-cli/src/exec.rs": "3c401e676cd843fa21e86e819e6c1bf2dabe6e4bc5c91e5448bcbb78840e8480",
+        "crates/arc-cli/src/exec/signals.rs": "161a3fae04aa286861ea082dba4a35d8375c603db5ea3eeb3a1262dcd627962e",
+        "crates/arc-cli/src/exec/relay.rs": "9fa061b0fa9dffe35e0c6eb75b001f9b81becec8ee4da9681ddbd0c81582b26f",
+        "crates/arc-cli/src/exec/terminal.rs": "476d65ca484d038bb2aad278d35e2820bd15558bda920330a60e4b6a00dedc2d",
+        "crates/arc-cli/src/exec/descriptors.rs": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+        "crates/arc-cli/tests/fixtures/child.rs": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+        "crates/arc-cli/tests/fixtures/pipeline.rs": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+        "crates/arc-daemon/tests/managed_exec.rs": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs": "f9a2cd78301770b0269361c7a47c992261706e0cfffae7ef95c620b0d90a2135",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py": "e1020c6d3424012afdc089e41aa1d091a3c8e5bbc74a17eb9cc7c1debbdaa74c",
+        "crates/arc-daemon/tests/managed_exec/terminal.rs": "b7a8e1fec55778675cf216f1252b33e35dbf30a0f47906ab6f624aee7313e0b9",
+        "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        ".arc-verify/managed-exec/decision.md": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+        ".arc-verify/managed-exec/contract.json": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+        ".arc-verify/managed-exec/technical-contract.md": "8d88f11c2d057b167f16a0d2d4c19db9571849dd61d12ee7438ffa51abbcd604",
+        ".arc-verify/managed-exec/cli-contract.md": "0666901675d70dd7397fd113542f26a658f336724eed4776103a6bb70694c073",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.md": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.json": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58"
+      },
+      "pid": 96686,
+      "exitCode": 0,
+      "endedAt": "2026-11-08T14:50:50.013288+00:00",
+      "inputsAfter": {
+        "crates/arc-cli/src/exec.rs": "3c401e676cd843fa21e86e819e6c1bf2dabe6e4bc5c91e5448bcbb78840e8480",
+        "crates/arc-cli/src/exec/signals.rs": "161a3fae04aa286861ea082dba4a35d8375c603db5ea3eeb3a1262dcd627962e",
+        "crates/arc-cli/src/exec/relay.rs": "9fa061b0fa9dffe35e0c6eb75b001f9b81becec8ee4da9681ddbd0c81582b26f",
+        "crates/arc-cli/src/exec/terminal.rs": "476d65ca484d038bb2aad278d35e2820bd15558bda920330a60e4b6a00dedc2d",
+        "crates/arc-cli/src/exec/descriptors.rs": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+        "crates/arc-cli/tests/fixtures/child.rs": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+        "crates/arc-cli/tests/fixtures/pipeline.rs": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+        "crates/arc-daemon/tests/managed_exec.rs": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs": "f9a2cd78301770b0269361c7a47c992261706e0cfffae7ef95c620b0d90a2135",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py": "e1020c6d3424012afdc089e41aa1d091a3c8e5bbc74a17eb9cc7c1debbdaa74c",
+        "crates/arc-daemon/tests/managed_exec/terminal.rs": "b7a8e1fec55778675cf216f1252b33e35dbf30a0f47906ab6f624aee7313e0b9",
+        "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        ".arc-verify/managed-exec/decision.md": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+        ".arc-verify/managed-exec/contract.json": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+        ".arc-verify/managed-exec/technical-contract.md": "8d88f11c2d057b167f16a0d2d4c19db9571849dd61d12ee7438ffa51abbcd604",
+        ".arc-verify/managed-exec/cli-contract.md": "0666901675d70dd7397fd113542f26a658f336724eed4776103a6bb70694c073",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.md": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.json": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58"
+      },
+      "inputsStable": true,
+      "outputs": {
+        "stdout": "86b185453dc29d230ed6a54f8e649620110724ff882b857db9894a24e8f0f229",
+        "stderr": "c012b0ec3c192e19cc4bb24ee1377adc45c531aec40fbeb327b9f604b5246390"
+      }
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "managed_exec",
+        "--",
+        "--nocapture"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+      "timeout_allowance_ms": 3600000,
+      "startedAt": "2026-11-08T14:50:50.015129+00:00",
+      "inputsBefore": {
+        "crates/arc-cli/src/exec.rs": "3c401e676cd843fa21e86e819e6c1bf2dabe6e4bc5c91e5448bcbb78840e8480",
+        "crates/arc-cli/src/exec/signals.rs": "161a3fae04aa286861ea082dba4a35d8375c603db5ea3eeb3a1262dcd627962e",
+        "crates/arc-cli/src/exec/relay.rs": "9fa061b0fa9dffe35e0c6eb75b001f9b81becec8ee4da9681ddbd0c81582b26f",
+        "crates/arc-cli/src/exec/terminal.rs": "476d65ca484d038bb2aad278d35e2820bd15558bda920330a60e4b6a00dedc2d",
+        "crates/arc-cli/src/exec/descriptors.rs": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+        "crates/arc-cli/tests/fixtures/child.rs": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+        "crates/arc-cli/tests/fixtures/pipeline.rs": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+        "crates/arc-daemon/tests/managed_exec.rs": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs": "f9a2cd78301770b0269361c7a47c992261706e0cfffae7ef95c620b0d90a2135",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py": "e1020c6d3424012afdc089e41aa1d091a3c8e5bbc74a17eb9cc7c1debbdaa74c",
+        "crates/arc-daemon/tests/managed_exec/terminal.rs": "b7a8e1fec55778675cf216f1252b33e35dbf30a0f47906ab6f624aee7313e0b9",
+        "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        ".arc-verify/managed-exec/decision.md": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+        ".arc-verify/managed-exec/contract.json": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+        ".arc-verify/managed-exec/technical-contract.md": "8d88f11c2d057b167f16a0d2d4c19db9571849dd61d12ee7438ffa51abbcd604",
+        ".arc-verify/managed-exec/cli-contract.md": "0666901675d70dd7397fd113542f26a658f336724eed4776103a6bb70694c073",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.md": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.json": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58"
+      },
+      "pid": 96744,
+      "exitCode": 0,
+      "endedAt": "2026-11-08T14:50:53.852155+00:00",
+      "inputsAfter": {
+        "crates/arc-cli/src/exec.rs": "3c401e676cd843fa21e86e819e6c1bf2dabe6e4bc5c91e5448bcbb78840e8480",
+        "crates/arc-cli/src/exec/signals.rs": "161a3fae04aa286861ea082dba4a35d8375c603db5ea3eeb3a1262dcd627962e",
+        "crates/arc-cli/src/exec/relay.rs": "9fa061b0fa9dffe35e0c6eb75b001f9b81becec8ee4da9681ddbd0c81582b26f",
+        "crates/arc-cli/src/exec/terminal.rs": "476d65ca484d038bb2aad278d35e2820bd15558bda920330a60e4b6a00dedc2d",
+        "crates/arc-cli/src/exec/descriptors.rs": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+        "crates/arc-cli/tests/fixtures/child.rs": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+        "crates/arc-cli/tests/fixtures/pipeline.rs": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+        "crates/arc-daemon/tests/managed_exec.rs": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+        "crates/arc-daemon/tests/managed_exec/pipeline.rs": "f9a2cd78301770b0269361c7a47c992261706e0cfffae7ef95c620b0d90a2135",
+        "crates/arc-daemon/tests/managed_exec/pipeline.py": "e1020c6d3424012afdc089e41aa1d091a3c8e5bbc74a17eb9cc7c1debbdaa74c",
+        "crates/arc-daemon/tests/managed_exec/terminal.rs": "b7a8e1fec55778675cf216f1252b33e35dbf30a0f47906ab6f624aee7313e0b9",
+        "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        ".arc-verify/managed-exec/decision.md": "632d682ad0586eb8b7f091ae693f915228ed88384f27d420a43124ba32cc9123",
+        ".arc-verify/managed-exec/contract.json": "ef17b11f3318871537939d68da5e1f1b671aab86bd5a5051de1878e82dd7d4ec",
+        ".arc-verify/managed-exec/technical-contract.md": "8d88f11c2d057b167f16a0d2d4c19db9571849dd61d12ee7438ffa51abbcd604",
+        ".arc-verify/managed-exec/cli-contract.md": "0666901675d70dd7397fd113542f26a658f336724eed4776103a6bb70694c073",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.md": "6209636ee71672d758c33e2490ceb6db134db1b5c8b2a3d9d9105ec967f77857",
+        ".arc-verify/managed-exec/implementation/pipeline-independent-review.json": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58"
+      },
+      "inputsStable": true,
+      "outputs": {
+        "stdout": "9d16d03072fd1834b00c725804a66e1a4371d8fa51c1d4e5802a9192b858dc17",
+        "stderr": "b7537d3c4c1ec06227c15f846f9562f7e310c085bc7451476834b1f6a111973b"
+      }
+    }
+  ],
+  "pipelineScenarios": [
+    {
+      "managed": false,
+      "mode": "input",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96697,
+            "start_token": "1794149449229679"
+          },
+          {
+            "pid": 96698,
+            "start_token": "1794149449233404"
+          }
+        ],
+        "group": 96697,
+        "controller": {
+          "pid": 96696,
+          "start_token": "1794149449189820"
+        }
+      },
+      "producer": {
+        "foreground": 96697,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96697,
+          "start_token": "1794149449229679"
+        },
+        "pgid": 96697,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96697,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96698,
+          "start_token": "1794149449233404"
+        },
+        "pgid": 96697,
+        "role": "peer"
+      },
+      "input": [
+        {
+          "foreground": 96697,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96697
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96696
+      },
+      "events": [
+        {
+          "pid": 96697,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        },
+        {
+          "pid": 96698,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "pipeline-input\r\n"
+    },
+    {
+      "managed": false,
+      "mode": "terminal-int",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96700,
+            "start_token": "1794149449293537"
+          },
+          {
+            "pid": 96701,
+            "start_token": "1794149449297023"
+          }
+        ],
+        "group": 96700,
+        "controller": {
+          "pid": 96699,
+          "start_token": "1794149449255125"
+        }
+      },
+      "producer": {
+        "foreground": 96700,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96700,
+          "start_token": "1794149449293537"
+        },
+        "pgid": 96700,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96700,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96701,
+          "start_token": "1794149449297023"
+        },
+        "pgid": 96700,
+        "role": "peer"
+      },
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 96695,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 96695,
+          "signals": 1
+        }
+      ],
+      "input": [
+        {
+          "foreground": 96700,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96700
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96699
+      },
+      "events": [
+        {
+          "pid": 96700,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        },
+        {
+          "pid": 96701,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "^Cpipeline-input\r\n"
+    },
+    {
+      "managed": false,
+      "mode": "group-int",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96703,
+            "start_token": "1794149449356331"
+          },
+          {
+            "pid": 96704,
+            "start_token": "1794149449359537"
+          }
+        ],
+        "group": 96703,
+        "controller": {
+          "pid": 96702,
+          "start_token": "1794149449317111"
+        }
+      },
+      "producer": {
+        "foreground": 96703,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96703,
+          "start_token": "1794149449356331"
+        },
+        "pgid": 96703,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96703,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96704,
+          "start_token": "1794149449359537"
+        },
+        "pgid": 96703,
+        "role": "peer"
+      },
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 96702,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 96702,
+          "signals": 1
+        }
+      ],
+      "input": [
+        {
+          "foreground": 96703,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96703
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96702
+      },
+      "events": [
+        {
+          "pid": 96703,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        },
+        {
+          "pid": 96704,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "pipeline-input\r\n"
+    },
+    {
+      "managed": false,
+      "mode": "wrapper-term",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96706,
+            "start_token": "1794149449417484"
+          },
+          {
+            "pid": 96707,
+            "start_token": "1794149449420745"
+          }
+        ],
+        "group": 96706,
+        "controller": {
+          "pid": 96705,
+          "start_token": "1794149449380025"
+        }
+      },
+      "producer": {
+        "foreground": 96705,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96706,
+          "start_token": "1794149449417484"
+        },
+        "pgid": 96706,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96706,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96707,
+          "start_token": "1794149449420745"
+        },
+        "pgid": 96706,
+        "role": "peer"
+      },
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 96695,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 0,
+          "signals": 0
+        }
+      ],
+      "input": [
+        {
+          "foreground": 96706,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96706
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96705
+      },
+      "events": [
+        {
+          "pid": 96706,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        },
+        {
+          "pid": 96707,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "pipeline-input\r\n"
+    },
+    {
+      "managed": false,
+      "mode": "stop-resume",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96709,
+            "start_token": "1794149449479003"
+          },
+          {
+            "pid": 96710,
+            "start_token": "1794149449482133"
+          }
+        ],
+        "group": 96709,
+        "controller": {
+          "pid": 96708,
+          "start_token": "1794149449441056"
+        }
+      },
+      "producer": {
+        "foreground": 96709,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96709,
+          "start_token": "1794149449479003"
+        },
+        "pgid": 96709,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96709,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96710,
+          "start_token": "1794149449482133"
+        },
+        "pgid": 96709,
+        "role": "peer"
+      },
+      "resumedInput": {
+        "foreground": 96709,
+        "input": [
+          112,
+          105,
+          112,
+          101,
+          108,
+          105,
+          110,
+          101,
+          45,
+          105,
+          110,
+          112,
+          117,
+          116,
+          10
+        ],
+        "pgid": 96709
+      },
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96708
+      },
+      "events": [
+        {
+          "pid": 96709,
+          "raw": 4735,
+          "kind": "stopped",
+          "signal": 18
+        },
+        {
+          "pid": 96710,
+          "raw": 4735,
+          "kind": "stopped",
+          "signal": 18
+        },
+        {
+          "pid": 96709,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96710,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96709,
+          "raw": 5503,
+          "kind": "stopped",
+          "signal": 21
+        },
+        {
+          "pid": 96710,
+          "raw": 5503,
+          "kind": "stopped",
+          "signal": 21
+        },
+        {
+          "pid": 96709,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96710,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96709,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        },
+        {
+          "pid": 96710,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "^Zpipeline-input\r\n"
+    },
+    {
+      "managed": false,
+      "mode": "provenance",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96712,
+            "start_token": "1794149449543129"
+          },
+          {
+            "pid": 96713,
+            "start_token": "1794149449547309"
+          }
+        ],
+        "group": 96712,
+        "controller": {
+          "pid": 96711,
+          "start_token": "1794149449504859"
+        }
+      },
+      "producer": {
+        "foreground": 96712,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96712,
+          "start_token": "1794149449543129"
+        },
+        "pgid": 96712,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96712,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96713,
+          "start_token": "1794149449547309"
+        },
+        "pgid": 96712,
+        "role": "peer"
+      },
+      "pidVsGroup": [
+        [
+          {
+            "code": 0,
+            "sender": 96711,
+            "signals": 1
+          },
+          {
+            "code": 0,
+            "sender": 0,
+            "signals": 0
+          }
+        ],
+        [
+          {
+            "code": 0,
+            "sender": 96711,
+            "signals": 2
+          },
+          {
+            "code": 0,
+            "sender": 96711,
+            "signals": 1
+          }
+        ]
+      ],
+      "sameNativeProvenance": true,
+      "input": [
+        {
+          "foreground": 96712,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96712
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96711
+      },
+      "events": [
+        {
+          "pid": 96712,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        },
+        {
+          "pid": 96713,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "pipeline-input\r\n"
+    },
+    {
+      "managed": true,
+      "mode": "input",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96715,
+            "start_token": "1794149449606285"
+          },
+          {
+            "pid": 96716,
+            "start_token": "1794149449610204"
+          }
+        ],
+        "group": 96715,
+        "controller": {
+          "pid": 96714,
+          "start_token": "1794149449567399"
+        }
+      },
+      "producer": {
+        "foreground": 96715,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96719,
+          "start_token": "1794149449636676"
+        },
+        "pgid": 96715,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96715,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96716,
+          "start_token": "1794149449610204"
+        },
+        "pgid": 96715,
+        "role": "peer"
+      },
+      "helpers": [
+        {
+          "pid": 96717,
+          "start_token": "1794149449624586"
+        }
+      ],
+      "input": [
+        {
+          "foreground": 96715,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96715
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96714
+      },
+      "events": [
+        {
+          "pid": 96716,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        },
+        {
+          "pid": 96715,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "pipeline-input\r\n"
+    },
+    {
+      "managed": true,
+      "mode": "terminal-int",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96721,
+            "start_token": "1794149449696516"
+          },
+          {
+            "pid": 96722,
+            "start_token": "1794149449699869"
+          }
+        ],
+        "group": 96721,
+        "controller": {
+          "pid": 96720,
+          "start_token": "1794149449658317"
+        }
+      },
+      "producer": {
+        "foreground": 96721,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96725,
+          "start_token": "1794149449718114"
+        },
+        "pgid": 96721,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96721,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96722,
+          "start_token": "1794149449699869"
+        },
+        "pgid": 96721,
+        "role": "peer"
+      },
+      "helpers": [
+        {
+          "pid": 96723,
+          "start_token": "1794149449706160"
+        }
+      ],
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 96695,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 96695,
+          "signals": 1
+        }
+      ],
+      "input": [
+        {
+          "foreground": 96721,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96721
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96720
+      },
+      "events": [
+        {
+          "pid": 96721,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96722,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        },
+        {
+          "pid": 96721,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "^Cpipeline-input\r\n"
+    },
+    {
+      "managed": true,
+      "mode": "group-int",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96727,
+            "start_token": "1794149449776904"
+          },
+          {
+            "pid": 96728,
+            "start_token": "1794149449780053"
+          }
+        ],
+        "group": 96727,
+        "controller": {
+          "pid": 96726,
+          "start_token": "1794149449738722"
+        }
+      },
+      "producer": {
+        "foreground": 96727,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96731,
+          "start_token": "1794149449797913"
+        },
+        "pgid": 96727,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96727,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96728,
+          "start_token": "1794149449780053"
+        },
+        "pgid": 96727,
+        "role": "peer"
+      },
+      "helpers": [
+        {
+          "pid": 96729,
+          "start_token": "1794149449785875"
+        }
+      ],
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 96726,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 96726,
+          "signals": 1
+        }
+      ],
+      "input": [
+        {
+          "foreground": 96727,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96727
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96726
+      },
+      "events": [
+        {
+          "pid": 96728,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        },
+        {
+          "pid": 96727,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "pipeline-input\r\n"
+    },
+    {
+      "managed": true,
+      "mode": "wrapper-term",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96733,
+            "start_token": "1794149449856478"
+          },
+          {
+            "pid": 96734,
+            "start_token": "1794149449859887"
+          }
+        ],
+        "group": 96733,
+        "controller": {
+          "pid": 96732,
+          "start_token": "1794149449818890"
+        }
+      },
+      "producer": {
+        "foreground": 96733,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96737,
+          "start_token": "1794149449877915"
+        },
+        "pgid": 96733,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96733,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96734,
+          "start_token": "1794149449859887"
+        },
+        "pgid": 96733,
+        "role": "peer"
+      },
+      "helpers": [
+        {
+          "pid": 96735,
+          "start_token": "1794149449865919"
+        }
+      ],
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 96733,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 0,
+          "signals": 0
+        }
+      ],
+      "input": [
+        {
+          "foreground": 96733,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 96733
+        }
+      ],
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96732
+      },
+      "events": [
+        {
+          "pid": 96734,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        },
+        {
+          "pid": 96733,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "pipeline-input\r\n"
+    },
+    {
+      "managed": true,
+      "mode": "stop-resume",
+      "pass": true,
+      "job": {
+        "identities": [
+          {
+            "pid": 96739,
+            "start_token": "1794149449937061"
+          },
+          {
+            "pid": 96740,
+            "start_token": "1794149449940270"
+          }
+        ],
+        "group": 96739,
+        "controller": {
+          "pid": 96738,
+          "start_token": "1794149449898519"
+        }
+      },
+      "producer": {
+        "foreground": 96739,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96743,
+          "start_token": "1794149449958406"
+        },
+        "pgid": 96739,
+        "role": "producer"
+      },
+      "peer": {
+        "foreground": 96739,
+        "identity": {
+          "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+          "pid": 96740,
+          "start_token": "1794149449940270"
+        },
+        "pgid": 96739,
+        "role": "peer"
+      },
+      "helpers": [
+        {
+          "pid": 96741,
+          "start_token": "1794149449946328"
+        }
+      ],
+      "resumedInput": {
+        "foreground": 96739,
+        "input": [
+          112,
+          105,
+          112,
+          101,
+          108,
+          105,
+          110,
+          101,
+          45,
+          105,
+          110,
+          112,
+          117,
+          116,
+          10
+        ],
+        "pgid": 96739
+      },
+      "outcomes": [
+        17,
+        0
+      ],
+      "cleanup": {
+        "cleanup": true,
+        "foreground": 96738
+      },
+      "events": [
+        {
+          "pid": 96739,
+          "raw": 4479,
+          "kind": "stopped",
+          "signal": 17
+        },
+        {
+          "pid": 96740,
+          "raw": 4735,
+          "kind": "stopped",
+          "signal": 18
+        },
+        {
+          "pid": 96739,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96740,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96739,
+          "raw": 4479,
+          "kind": "stopped",
+          "signal": 17
+        },
+        {
+          "pid": 96740,
+          "raw": 5503,
+          "kind": "stopped",
+          "signal": 21
+        },
+        {
+          "pid": 96739,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96740,
+          "raw": 4991,
+          "kind": "continued"
+        },
+        {
+          "pid": 96740,
+          "raw": 0,
+          "kind": "exited",
+          "outcome": 0
+        },
+        {
+          "pid": 96739,
+          "raw": 4352,
+          "kind": "exited",
+          "outcome": 17
+        }
+      ],
+      "allRecordedIdentitiesAbsent": true,
+      "remainingIdentities": [],
+      "controllerOutcome": 0,
+      "ptyOutput": "^Zpipeline-input\r\n"
+    }
+  ],
+  "sessionLeaderProbe": {
+    "startedAt": "2026-11-08T14:51:34.947991+00:00",
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+    "runtimeRoot": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arcqa-pr3xya6u",
+    "binaries": {
+      "target/debug/arcctl": "113ca0014ab77954adc1b07513abaf96e29d026b582b19792e9279c9c9cb7665",
+      "target/debug/arc-daemon": "8def2088a3ec30e52a888d8f893f92eb1ef7d84eed66223e5aa9069bd167e4a4"
+    },
+    "cases": [
+      {
+        "label": "direct-session",
+        "argv": [
+          "/Users/gracefullight/.local/share/mise/installs/python/3.14/bin/python3",
+          "-c",
+          "import os,json;print(json.dumps(dict(pid=os.getpid(),pgid=os.getpgrp(),sid=os.getsid(0))));raise SystemExit(17)"
+        ],
+        "start_new_session": true,
+        "observer": {
+          "pid": 99805,
+          "start_token": "1794149494974336"
+        },
+        "exitCode": 17,
+        "stdout": "{\"pid\": 99805, \"pgid\": 99805, \"sid\": 99805}\n",
+        "stderr": ""
+      },
+      {
+        "label": "managed-ordinary",
+        "argv": [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/debug/arcctl",
+          "exec",
+          "--",
+          "/Users/gracefullight/.local/share/mise/installs/python/3.14/bin/python3",
+          "-c",
+          "import os,json;print(json.dumps(dict(pid=os.getpid(),pgid=os.getpgrp(),sid=os.getsid(0))));raise SystemExit(17)"
+        ],
+        "start_new_session": false,
+        "observer": {
+          "pid": 99808,
+          "start_token": "1794149495001741"
+        },
+        "exitCode": 17,
+        "stdout": "{\"pid\": 99813, \"pgid\": 99775, \"sid\": 99775}\n",
+        "stderr": ""
+      },
+      {
+        "label": "managed-session",
+        "argv": [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/debug/arcctl",
+          "exec",
+          "--",
+          "/Users/gracefullight/.local/share/mise/installs/python/3.14/bin/python3",
+          "-c",
+          "import os,json;print(json.dumps(dict(pid=os.getpid(),pgid=os.getpgrp(),sid=os.getsid(0))));raise SystemExit(17)"
+        ],
+        "start_new_session": true,
+        "observer": {
+          "pid": 99817,
+          "start_token": "1794149495055402"
+        },
+        "exitCode": 1,
+        "stdout": "",
+        "stderr": "NOT_STARTED\nNo child was started. Check the ARC daemon connection.\n"
+      }
+    ],
+    "daemon": {
+      "pid": 99803,
+      "start_token": "1794149494959263"
+    },
+    "recent": {
+      "exitCode": 0,
+      "stdout": "Job: 2b1c36691b57eeb239549c49c6891c4a\nState: starting\nRegistered (Unix ms): 1794149495060\nLast known: true\nJob: 05aea0ad2a7370ba1793dbeb27440280\nState: completed\nRegistered (Unix ms): 1794149495008\nLast known: true\nScheduling: not implemented\n",
+      "stderr": ""
+    },
+    "daemonExit": 0,
+    "endedAt": "2026-11-08T14:51:35.086818+00:00",
+    "socketAbsent": true,
+    "runtimeRemaining": []
+  },
+  "nativeSetpgidProbe": {
+    "argv": [
+      "/Users/gracefullight/.local/share/mise/installs/python/3.14/bin/python3",
+      "-c",
+      "import os,json\nready_r,ready_w=os.pipe();finish_r,finish_w=os.pipe()\npid=os.fork()\nif pid==0:\n os.close(ready_r);os.close(finish_w);os.setpgid(0,0);os.write(ready_w,b\"r\");os.read(finish_r,1);os._exit(0)\nos.close(ready_w);os.close(finish_r);os.read(ready_r,1)\ntry:\n os.setpgid(0,pid);result={\"ok\":True}\nexcept OSError as e:result={\"ok\":False,\"errno\":e.errno,\"error\":str(e)}\nresult.update(pid=os.getpid(),pgid=os.getpgrp(),sid=os.getsid(0),bootstrap=pid)\nos.close(finish_w);result[\"waited\"]=os.waitpid(pid,0);print(json.dumps(result))\n"
+    ],
+    "start_new_session": true,
+    "exitCode": 0,
+    "stdout": "{\"ok\": false, \"errno\": 1, \"error\": \"[Errno 1] Operation not permitted\", \"pid\": 5233, \"pgid\": 5233, \"sid\": 5233, \"bootstrap\": 5240, \"waited\": [5240, 0]}\n",
+    "stderr": ""
+  },
+  "acceptanceCriteria": [
+    {
+      "id": "read_only_scope",
+      "passed": true
+    },
+    {
+      "id": "focused_pipeline",
+      "passed": true
+    },
+    {
+      "id": "all_managed_exec",
+      "passed": true
+    },
+    {
+      "id": "recorded_helper_cleanup",
+      "passed": true
+    },
+    {
+      "id": "session_leader_transparency",
+      "passed": false
+    },
+    {
+      "id": "unchanged_ownership_compatible_repair",
+      "passed": false
+    },
+    {
+      "id": "distinct_preattach_and_arbitrary_continue_interleavings",
+      "passed": false,
+      "reason": "Not exhaustively verified; no additional confirmed finding."
+    }
+  ],
+  "unresolved": [
+    "Session-leader compatibility under unchanged ownership and exact signal/caller-job contract.",
+    "Final task-8 QA, coverage, full harness and final acceptance not established by this checkpoint.",
+    "Candidate rejected and original sources restored by coordinator; no fresh restored-product pass, current binaries still candidate."
+  ],
+  "priorPipelineReviewFrozen": true,
+  "restoredProductClaim": "No fresh executable pass claimed; original pipeline defect remains documented by prior failed review.",
+  "reviewReportSha256": "07f509c868f1870dfe312ec57698dbdf98489717280e87bf89fd3ec4476fea68",
+  "writtenAt": "2026-11-08T14:54:08.075648+00:00",
+  "restoration": {
+    "receipt": "target/terminal-repair-7a6b4419-388d-4ddc-a10f-dc456bb6eee5/restore.json",
+    "receiptSha256": "45c9cafa3867fecd7ac8594c6e7aeb390092585afe0f6c9351f5d2caa1834ab6",
+    "restoredAt": "2026-11-08T14:53:35.861650+00:00",
+    "ownerRecordedAllInitialBindingsRestored": true,
+    "initialCount": 175,
+    "initialMismatches": [],
+    "relayRemoved": true,
+    "method": "Wrote verified initial bytes for five owned paths and removed only the new owned relay.rs; no Git reset, staging or index mutation.",
+    "independentProductChecksAfterRestore": false,
+    "candidatePatch": ".arc-verify/managed-exec/implementation/terminal-repair-candidate.patch",
+    "candidatePatchBytes": 18399,
+    "candidatePatchSha256": "dadd2f2570ad22f86f91ebbcdb953106090af170b0964a986134df9b0972b1fd",
+    "candidatePatchHashIndependentlyVerified": true,
+    "binariesStillCandidatePendingRecompilation": true
+  },
+  "coordinatorReportedCandidateGates": {
+    "workspaceTests": "PASS",
+    "fmt": "PASS",
+    "clippy": "PASS",
+    "managedExecProtection": {
+      "passed": 11,
+      "failed": 1,
+      "reason": "conservative macro-binding scanner on relay.rs; suggested never-type lexing cause unverified by reviewer"
+    },
+    "historicalPreservation": {
+      "passed": 4
+    },
+    "equivalence": "still running at checkpoint finalization"
+  }
+}

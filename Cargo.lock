@@ -57,8 +57,10 @@ name = "arc-cli"
 version = "0.1.0"
 dependencies = [
  "arc-core",
+ "arc-detector",
  "arc-ipc",
  "clap",
+ "libc",
  "serde_json",
 ]
 
@@ -67,6 +69,7 @@ name = "arc-core"
 version = "0.1.0"
 dependencies = [
  "libc",
+ "serde",
 ]
 
 [[package]]
@@ -78,6 +81,7 @@ dependencies = [
  "arc-storage",
  "libc",
  "rusqlite",
+ "serde",
  "serde_json",
  "tokio",
 ]
@@ -94,6 +98,7 @@ dependencies = [
 name = "arc-ipc"
 version = "0.1.0"
 dependencies = [
+ "arc-core",
  "arc-detector",
  "serde",
  "serde_json",
@@ -104,7 +109,11 @@ name = "arc-storage"
 version = "0.1.0"
 dependencies = [
  "arc-core",
+ "arc-ipc",
+ "libc",
  "rusqlite",
+ "serde",
+ "serde_json",
  "sha2",
 ]
 

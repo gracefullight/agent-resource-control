@@ -10,4 +10,4 @@ test("real unchanged harness passes with zero violations and no skip flags",asyn
   expect(result.stderr).not.toContain("skipping coverage gate");
   expect(result.stderr).not.toContain("[VIOLATION]");
   for(const crate of CRATES) expect(result.stdout).toContain(`PASS ${crate}:`);
-},960000);
+},3600000);

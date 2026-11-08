@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-7",
+  "attempt": 9,
+  "started": "2026-11-08T16:15:09.509101+00:00",
+  "skill": "oma-backend",
+  "sourceHash": "e828477b00cd7b02b40fa0deea1425321e8b0b5b63b081dfaa7b31b48485ca05",
+  "inputCount": 177,
+  "preflight": {
+    "host": "Darwin 27.2.0 arm64",
+    "diskAvailableGiB": 14,
+    "collectorConcurrency": 1,
+    "checkTimeoutAllowanceMs": 3600000,
+    "cancellation": "No cancellation received",
+    "budgetObservability": "Framework owns cumulative deadline and spent attempts; no absolute deadline or remaining allowance injected. No budget reset.",
+    "collectorOwnership": "No collector admitted in this attempt before this record. Latest root collector records completed at 2026-11-08T13:30Z. Process listing denied (ps operation not permitted); no workaround used.",
+    "serena": "Unavailable; known-path reads and scoped Git inventories only"
+  },
+  "terminalHandoff": ".arc-verify/managed-exec/implementation/terminal-repair5.json",
+  "historicalEvidenceSnapshot": ".arc-verify/managed-exec/implementation/runs/task7-attempt9-20261108T161419Z",
+  "status": "completed-task7-checkpoint",
+  "activeCheck": null,
+  "workspaceRerun": {
+    "receipt": ".arc-verify/managed-exec/implementation/workspace.json",
+    "exit": 0
+  },
+  "retainedFailure": {
+    "receipt": ".arc-verify/managed-exec/implementation/runs/task7-attempt9-20261108T161419Z/workspace-first-attempt9.json",
+    "exit": 101,
+    "reason": "preexisting classification/saturation.rs:41 timeout setsockopt EINVAL in shutdown load",
+    "isolatedRerun": ".arc-verify/managed-exec/implementation/saturation-check.json",
+    "isolatedExit": 0,
+    "sourceChanges": false,
+    "sha256": "e06ba0bddc1c367c8cbb0685dd1622599b8299fb5ecbc1f73d5c7d1befa69b31"
+  },
+  "cleanCheckout": {
+    "receipt": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+    "exit": 0
+  },
+  "supplementalPrivacyFailure": {
+    "receipt": ".arc-verify/managed-exec/implementation/runs/task7-attempt9-20261108T161419Z/privacy-first-attempt9.json",
+    "exit": 1,
+    "observed": "readiness assertion failed while collector fixture daemons active; prior script omitted startup stderr, cause unproven",
+    "action": "strengthened startup assertion diagnostics, serial retry after collectors",
+    "sha256": "72eb07f501d9f2a191bae73f6941b725305175c186289a53afaca284e3284e07"
+  },
+  "positiveExecutionPromotion": {
+    "from": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/managed-exec/positive-execution-hpqexe/receipt.json",
+    "to": ".arc-verify/managed-exec/implementation/positive-execution.json",
+    "sha256": "d2c11b9143cf264051325eade62a6d90f0a00c2232269580cc0f826b6119607e",
+    "outerReceipt": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+    "actualExecutor": "backend",
+    "testEmittedActorLabel": "technical-director",
+    "scope": "Actual successful validator execution explicitly promoted without byte edits; not independent approval; task8 binding still required"
+  },
+  "updated": "2026-11-08T16:26:24.049463+00:00",
+  "completedGateReceipts": [
+    ".arc-verify/managed-exec/implementation/fmt.json",
+    ".arc-verify/managed-exec/implementation/clippy.json",
+    ".arc-verify/managed-exec/implementation/workspace.json",
+    ".arc-verify/managed-exec/implementation/preservation.json",
+    ".arc-verify/managed-exec/implementation/equivalence.json",
+    ".arc-verify/managed-exec/implementation/coverage-verification.json",
+    ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+    ".arc-verify/managed-exec/implementation/positive-execution-test.json"
+  ],
+  "resourceCheckBeforeHarness": {
+    "at": "2026-11-08T16:20:45.853770+00:00",
+    "availableDiskGiB": 11,
+    "collectorConcurrency": 1,
+    "cancellationReceived": false,
+    "allowanceMs": 3600000
+  },
+  "coverageCli": {
+    "outer": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+    "actualNested": ".arc-verify/managed-exec/implementation/coverage-root.json",
+    "exit": 0
+  },
+  "documentationCorrection": {
+    "path": "docs/managed-exec.md",
+    "sha256": "76a634416a406038e605ce9aa09f4f672a829b6a724444a47482c2c35b05e2f5",
+    "reason": "Independent reviewer found stale pre-repair process-group description; now documents actual inherited controlling-terminal job group and nonterminal forwarding",
+    "managedInputHashUnchanged": true
+  },
+  "finalEvidenceCheck": {
+    "receipt": ".arc-verify/managed-exec/implementation/evidence.json",
+    "exit": 0,
+    "afterLastCollection": true
+  },
+  "helperHashes": {
+    ".arc-verify/managed-exec/implementation/verify.ts": "f8e778e41ba3227adbb5a820c3d7712a2b5651b385ddaff59058b74427346b25",
+    ".arc-verify/managed-exec/implementation/audit.ts": "4a3d00ded979bbc926d4006a36092a582dc8b11a6aa8505910aa4e9930fe3500",
+    ".arc-verify/managed-exec/implementation/nested-receipts.ts": "74b0bbc78d48633fa48a53031961386d4ef847dbc8f71404ea33701619f1f363",
+    ".arc-verify/managed-exec/implementation/privacy.py": "15cf8b9f093bd4e9cec7aa91d7081a3270747aec96d191b680a6702f903b31bb"
+  },
+  "protectedSha256": {
+    "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "scripts/coverage/accounting.ts": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+    "scripts/coverage/config.ts": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a",
+    "scripts/coverage/source.ts": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+    "scripts/coverage/gate.ts": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+    ".arc-verify/rust-coverage/contract/accounting.json": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb"
+  },
+  "finalCoverage": {
+    "available": true,
+    "nativeInputHash": "d307816fd004d7a0470c8137c329ebbefaba552d07e508e89325c9281c3ea915",
+    "latest": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/.arc-verify/rust-coverage/baseline/latest.json",
+    "summary": {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/.arc-verify/rust-coverage/baseline/runs/2026-11-08T16-20-33-608Z-09b11aa9-029d-4129-b844-db98805ca06f/summary.json",
+      "sha256": "88f5d15b675263ebcae9313584142ca3dc0888d6f781ef88a9a220a187f7a0bc"
+    },
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 609,
+        "total": 610,
+        "percent": 99.8360655737705,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 653,
+        "total": 674,
+        "percent": 96.88427299703264,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 387,
+        "total": 393,
+        "percent": 98.47328244274809,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1628,
+        "total": 1746,
+        "percent": 93.24169530355097,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 661,
+        "total": 766,
+        "percent": 86.29242819843343,
+        "pass": true
+      }
+    ],
+    "childProof": [
+      {
+        "binary": "arcctl",
+        "pid": 85931,
+        "profiles": [
+          "arc-85931-16826845642990567972_0.profraw"
+        ],
+        "exit": 0
+      },
+      {
+        "binary": "arc-daemon",
+        "pid": 85932,
+        "profiles": [
+          "arc-85932-10115768598024021439_0.profraw"
+        ],
+        "exit": 1
+      }
+    ]
+  },
+  "managedSourceHash": "e828477b00cd7b02b40fa0deea1425321e8b0b5b63b081dfaa7b31b48485ca05",
+  "sourceInputCount": 177,
+  "maxSource": {
+    "path": "crates/arc-daemon/src/transport_tests.rs",
+    "lines": 474
+  },
+  "nativePythonSourceLines": 397,
+  "managedEvidenceFilesBeforeReview": 105,
+  "downstreamAbsent": [
+    "final-summary.json",
+    "final.md",
+    "receipt-index.json",
+    "qa.md"
+  ],
+  "noncollectingInventory": {
+    "receipt": ".arc-verify/harness-speed/coverage-verification.json",
+    "sha256": "995326008fcb7aaaf9147737c182daaa15d1db83fd0ea8e8e53ca0257b7773e9",
+    "commands": [
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/accounting.test.ts"
+        ],
+        "exit": 0,
+        "passedTests": 12,
+        "started": "2026-11-08T16:15:55.335Z",
+        "ended": "2026-11-08T16:15:55.563Z",
+        "timeoutAllowanceMs": 3600000,
+        "output": {
+          "stdout": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/accounting.test.ts/stdout.txt",
+            "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+          },
+          "stderr": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/accounting.test.ts/stderr.txt",
+            "sha256": "60ec461f86fa4bbf2f988bf369ba55cc062f85c4a1f1120eb78ea953832fb413"
+          }
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/gate.test.ts"
+        ],
+        "exit": 0,
+        "passedTests": 14,
+        "started": "2026-11-08T16:15:55.565Z",
+        "ended": "2026-11-08T16:15:56.332Z",
+        "timeoutAllowanceMs": 3600000,
+        "output": {
+          "stdout": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/gate.test.ts/stdout.txt",
+            "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+          },
+          "stderr": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/gate.test.ts/stderr.txt",
+            "sha256": "8f62e141ecead16df1025316721417b2a5e548c5ac0bd69b5133efc328dcbbae"
+          }
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/hygiene-preservation.test.ts"
+        ],
+        "exit": 0,
+        "passedTests": 3,
+        "started": "2026-11-08T16:15:56.333Z",
+        "ended": "2026-11-08T16:16:09.260Z",
+        "timeoutAllowanceMs": 3600000,
+        "output": {
+          "stdout": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/hygiene-preservation.test.ts/stdout.txt",
+            "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+          },
+          "stderr": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/hygiene-preservation.test.ts/stderr.txt",
+            "sha256": "d3a7bf3eb920e76d8721fd1fe14d825296922484d7ad65db67a71b6de71ff7f9"
+          }
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/hygiene.test.ts"
+        ],
+        "exit": 0,
+        "passedTests": 4,
+        "started": "2026-11-08T16:16:09.260Z",
+        "ended": "2026-11-08T16:16:10.191Z",
+        "timeoutAllowanceMs": 3600000,
+        "output": {
+          "stdout": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/hygiene.test.ts/stdout.txt",
+            "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+          },
+          "stderr": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/hygiene.test.ts/stderr.txt",
+            "sha256": "03de55edcb3e7e28f78d9b9c94cd74a743327207b64e990c006f56b322c57c4f"
+          }
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/preservation.test.ts"
+        ],
+        "exit": 0,
+        "passedTests": 1,
+        "started": "2026-11-08T16:16:10.192Z",
+        "ended": "2026-11-08T16:16:11.748Z",
+        "timeoutAllowanceMs": 3600000,
+        "output": {
+          "stdout": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/preservation.test.ts/stdout.txt",
+            "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+          },
+          "stderr": {
+            "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/harness-speed/coverage-verification/c34c94b7-aaa4-4ea2-81c9-d2385bbb1b4d/preservation.test.ts/stderr.txt",
+            "sha256": "3ad9dcc672f736cb67de3bc0baeba2090806d870223d5cbeda93c7814f1aeb4d"
+          }
+        }
+      }
+    ]
+  },
+  "independentIntegrationReview": {
+    "actorId": "reviewer",
+    "skill": "oma-qa",
+    "verdict": "PASS",
+    "focusedTestsPassed": 15,
+    "failed": 0,
+    "ignored": 0,
+    "report": ".arc-verify/managed-exec/implementation/integration-independent-review.md",
+    "receipt": ".arc-verify/managed-exec/implementation/integration-independent-review.json",
+    "scope": "Task7 focused integration; does not replace task8 unfiltered independent workspace or task9 acceptance",
+    "artifacts": {
+      "integration-independent-review.md": {
+        "path": ".arc-verify/managed-exec/implementation/integration-independent-review.md",
+        "sha256": "416072625ac0068f6f3cd73078ce98583c932b8734f801f6ab4009d3e34ca0a0"
+      },
+      "integration-independent-review.json": {
+        "path": ".arc-verify/managed-exec/implementation/integration-independent-review.json",
+        "sha256": "b8feeb41cf6bac4a5be07d578d7582d3afb3951eee63926d7092787ff172763f"
+      }
+    }
+  },
+  "maintainedReport": {
+    "path": ".arc-verify/managed-exec/implementation/report.md",
+    "sha256": "fd52317abb9cceffe66858569f12785de3747d82d4e74be2b973b9c1ef2eb336"
+  },
+  "managedEvidenceFilesFinal": 107
+}

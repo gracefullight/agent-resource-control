@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "c1728da557260d92269fa306ed5cb79392530d2865917b04244256f4cb76676f",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "bun",
+    "test",
+    "scripts/harness/managed-exec.test.ts"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:51:36.044Z",
+  "ended": "2026-11-08T19:52:40.644Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 45841,
+  "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+  "stderrSha256": "7e0e3011f7c380a95cf6a2634d5ca0706e12c79ee711436735e1ecf42b2e8ca6",
+  "output": {
+    "stdoutPath": "target/managed-exec/backend-task9-attempt6/preservation-stable/stdout.txt",
+    "stderrPath": "target/managed-exec/backend-task9-attempt6/preservation-stable/stderr.txt"
+  },
+  "sourceUnchanged": true,
+  "git": {
+    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
+    "trackedDiffSha256": "9232b69df4f76ee0e86ed5a512813b0877d66c857cc6645506e97eb2114813f9",
+    "untrackedSource": []
+  }
+}

@@ -44,10 +44,10 @@ fn snapshot(connection: &Connection) -> Snapshot {
 fn live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_history() {
     let _serial = support::serial();
     for (sql, expected, reason, count) in [
-        ("UPDATE schema_migrations SET checksum='altered'", SchemaStatus::ChecksumMismatch, "migration checksum mismatch", 1),
+        ("UPDATE schema_migrations SET checksum='altered'", SchemaStatus::ChecksumMismatch, "migration checksum mismatch", 2),
         ("DELETE FROM schema_migrations", SchemaStatus::MissingHistory, "missing migration history", 0),
-        ("UPDATE schema_migrations SET id='0001_other'", SchemaStatus::InvalidHistory, "invalid migration history", 1),
-        ("INSERT INTO schema_migrations VALUES ('0002_future',42,'unverified-future'); PRAGMA user_version=2", SchemaStatus::UnsupportedNewer, "unsupported newer schema", 2),
+        ("UPDATE schema_migrations SET id='0001_other' WHERE id='0001_phase0'", SchemaStatus::InvalidHistory, "invalid migration history", 2),
+        ("INSERT INTO schema_migrations VALUES ('0003_future',42,'unverified-future'); PRAGMA user_version=3", SchemaStatus::UnsupportedNewer, "unsupported newer schema", 3),
     ] {
         let fixture = Fixture::new();
         let connection = arc_storage::open_and_migrate(&fixture.database).unwrap();
@@ -73,8 +73,8 @@ fn live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_hi
         let schema = report.schema.unwrap();
         assert_eq!(schema.status, expected);
         assert!(!schema.history_verified);
-        assert_eq!(schema.supported_version, 1);
-        assert_eq!(schema.applied_version, if expected == SchemaStatus::UnsupportedNewer { Some(2) } else { None });
+        assert_eq!(schema.supported_version, 2);
+        assert_eq!(schema.applied_version, if expected == SchemaStatus::UnsupportedNewer { Some(3) } else { None });
         let output = arcctl(&fixture, "doctor");
         assert_eq!(output.status.code(), Some(1));
         assert!(output.stdout.is_empty());
@@ -119,7 +119,7 @@ fn baseline_client_adapter_accepts_actual_new_daemon_production_report() {
     assert_eq!(response.request_id, "baseline");
     let result = response.result.unwrap();
     assert_eq!(result["integrity_check"].as_str(), Some("ok"));
-    assert_eq!(result["schema_migrations"].as_i64(), Some(1));
+    assert_eq!(result["schema_migrations"].as_i64(), Some(2));
     assert_eq!(result["schema"]["status"], "compatible");
     assert_eq!(result["schema"]["history_verified"], true);
     drop(stream);

@@ -1,4 +1,6 @@
 //! Pure syntax classification. No tool lookup, evaluation, I/O or persistence.
+mod argv;
+pub use argv::{analyze_argv, classify_argv};
 mod budget;
 mod lexer;
 mod parser;

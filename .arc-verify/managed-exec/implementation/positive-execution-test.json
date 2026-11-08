@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "bun",
+    "test",
+    "scripts/harness/managed-exec-evidence.test.ts",
+    "-t",
+    "real deterministic Cargo execution binds positive identity and actual output"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:09:37.828Z",
+  "ended": "2026-11-08T19:09:38.320Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 69900,
+  "stdoutSha256": "476b72b3f7e4865285bcdb49d125c88b45417ce050946c03e94e947950f9e42c",
+  "stderrSha256": "f8f424a7bf499008e0c5106f81042e79017f151965352106a6500173a2dc3554",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-37-740Z-positive-execution-test/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-37-740Z-positive-execution-test/stderr.txt"
+  }
+}

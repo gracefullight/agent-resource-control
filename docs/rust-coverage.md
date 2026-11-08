@@ -69,7 +69,7 @@ Failures print `Coverage unavailable or failed:`, a diagnostic and an `Evidence:
 | `CHILD_PROFILE`, `REPORT_FAILURE` | Child execution or profile merging/export lacks required proof. | Inspect child PIDs, profile inventory and report command receipts; repair collection and rerun. |
 | `CONFIGURATION`, `PLATFORM`, `METADATA_FAILURE`, `SOURCE` | The environment, workspace layout or platform does not meet the measurement contract. | Resolve the stated configuration or prerequisite; retain the failed receipt. |
 
-The unchanged harness may append inherited Vitest guidance. This root command measures Rust coverage; use its diagnostic and receipts to identify the actual failure.
+The harness may append inherited Vitest guidance. This root command measures Rust coverage; use its diagnostic and receipts to identify the actual failure.
 
 ## Reports and source identity
 
@@ -109,7 +109,25 @@ Run them in order after finishing implementation edits. The second command requi
 
 If the pointer or reports are missing, collect coverage here. If the latest attempt failed, follow its diagnostic and rerun collection successfully. If inputs changed or reports are stale, finish edits and recollect; do not restore a passing pointer or copy historical exports. Native reports contain checkout-specific paths. Serialize coverage and harness collection in one checkout, then run the live evidence check after the last collection.
 
-The [clean-checkout check](../scripts/coverage/clean-checkout.test.ts), invoked with `bun test scripts/coverage/clean-checkout.test.ts`, separately creates an isolated checkout from the current Git index, verifies no prior run artifacts exist, collects coverage and checks native evidence there. Stage the intended implementation and retention changes first. Its local checkout and receipts stay available for inspection; a previous isolated pass does not verify later source changes. Hygiene checks separately enforce the retained set and exact amendment-baseline preservation.
+The [clean-checkout check](../scripts/coverage/clean-checkout.test.ts), invoked with `bun test scripts/coverage/clean-checkout.test.ts`, separately creates an isolated checkout from the current Git index, verifies no prior run artifacts exist, collects coverage and checks native evidence there. Stage the intended implementation and retention changes first. Its local checkout and receipts stay available for inspection; a previous isolated pass does not verify later source changes. Hygiene checks separately enforce the retained set. Historical preservation checks use isolated fixtures at their original revisions; current-checkout preservation uses the feature contract below.
+
+## Preservation during managed exec implementation
+
+Historical whole-Rust checks retain their original baselines: `fbe76a5f15101ad415f355ef06f1deeb1f97d568` for production tokens and `aacb3b4359f13c31c0705c0cffc5bf1ac00f387e` for exact files/bytes/modes. Their positive and rejection cases execute against isolated Git-object fixtures. Historical receipt meanings and accounting baselines stay unchanged.
+
+The live [preservation guard](../scripts/coverage/current-preservation.ts) compares existing regression items and helpers with accepted feature HEAD `19d7a507044cbf83918f58cd41056905c275c8d4`. Production edits and new modules are allowed. Existing test/helper items, attributes, module reachability and assertion macros remain protected; add new standalone test items/modules rather than rewriting old cases. The guard checks unchanged `0001_phase0.sql` bytes in the working tree and index, its mode/type, the harness path/mode/type and executable lines, and coverage accounting/collection/evidence protections. Fixed adaptation recipes permit only this task's historical-fixture routing and longer verification timeouts. They do not select a later baseline.
+
+Run the focused protections with:
+
+```sh
+bun test scripts/harness/managed-exec.test.ts
+bun test scripts/harness/coverage-verification.test.ts
+bun test scripts/harness/equivalence.test.ts
+```
+
+The nine existing coverage test files remain required. The inventory command runs the same five non-collecting files and identifies the same four separately required collecting/live checks. The clean-checkout check still snapshots the final index and rejects missing/stale inputs; it now applies live regression/migration protections instead of requiring historical production bytes. Coverage/harness command wrappers allow at least the framework's 3,600,000 ms per-check timeout; the clean-checkout test allows both of its sequential commands to finish.
+
+The managed-exec [evidence validator](../scripts/harness/managed-exec-evidence.ts) reads real sources, index entries, compact command receipts, independent review, final reports and current native LCOV/LLVM/profile files. Its [test](../scripts/harness/managed-exec-evidence.test.ts) runs without substitute Cargo commands. Run the full file after implementation, native macOS gates and independent QA exist. Validator unit fixtures are labeled and cannot establish lifecycle acceptance. See [preservation.md](../.arc-verify/managed-exec/preservation.md) for the receipt interface and focused results. Lifecycle acceptance does not certify desktop, native Windows or Phase 1 scheduling.
 
 ## Production accounting
 
@@ -137,7 +155,7 @@ Inactive cfg branches are inventoried production source, but the host compiler d
 
 On Linux, macOS-specific runtime, peer-identity and process-start paths are inactive instead. Host coverage does not certify the other platform. Stable Rust doctest coverage is outside this unit/integration/executable collection. No HTML explorer, interactive setup wizard or retention prompt is required.
 
-Required final checks remain separate: `bun run test:coverage`, `cargo fmt --all -- --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`, and the unchanged `./scripts/harness/validate.sh` with zero violations and no skip flags, followed by independent QA. Read their current receipts before claiming completion.
+Required final checks remain separate: `bun run test:coverage`, `cargo fmt --all -- --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`, and `./scripts/harness/validate.sh` with zero violations and no skip flags, followed by independent QA. Read their current receipts before claiming completion.
 
 - desktop: incomplete
 - native Windows: incomplete

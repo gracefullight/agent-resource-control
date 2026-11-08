@@ -7,3 +7,9 @@ edition.workspace = true
 arc-core.workspace = true
 rusqlite = { workspace = true, features = ["bundled"] }
 sha2.workspace = true
+arc-ipc.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+libc.workspace = true

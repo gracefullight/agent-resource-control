@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "python3",
+    ".arc-verify/managed-exec/implementation/privacy.py"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:09:45.805Z",
+  "ended": "2026-11-08T19:09:45.934Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 70938,
+  "stdoutSha256": "9d462476c9371383b5129e17e6e1fec0c0474e63b1c716059a7fa7aaa3a45af0",
+  "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-45-743Z-privacy/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-45-743Z-privacy/stderr.txt"
+  }
+}

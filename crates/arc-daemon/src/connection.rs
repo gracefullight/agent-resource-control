@@ -25,6 +25,7 @@ pub(crate) enum DoctorOutcome {
     IntegrityFailed,
 }
 
+#[cfg(test)]
 pub(crate) async fn handle_connection<D, F>(
     stream: UnixStream,
     limits: RuntimeLimits,
@@ -34,6 +35,25 @@ pub(crate) async fn handle_connection<D, F>(
 ) where
     D: Fn(std::time::Instant) -> F,
     F: Future<Output = DoctorOutcome>,
+{
+    handle_with_jobs(stream, limits, requests, metrics, doctor, |_, _| async {
+        Err(arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
+    })
+    .await;
+}
+
+pub(crate) async fn handle_with_jobs<D, F, J, G>(
+    stream: UnixStream,
+    limits: RuntimeLimits,
+    requests: Requests,
+    metrics: Arc<RuntimeMetrics>,
+    doctor: D,
+    jobs: J,
+) where
+    D: Fn(std::time::Instant) -> F,
+    F: Future<Output = DoctorOutcome>,
+    J: Fn(arc_ipc::jobs::LifecycleRequest, std::time::Instant) -> G,
+    G: Future<Output = Result<serde_json::Value, &'static str>>,
 {
     loop {
         let start = Instant::now();
@@ -101,9 +121,29 @@ pub(crate) async fn handle_connection<D, F>(
         } else {
             None
         };
+        let lifecycle = if request.protocol_version == PROTOCOL_VERSION {
+            arc_ipc::jobs::LifecycleRequest::decode(&request.operation, &request.payload)
+        } else {
+            None
+        };
         // Neither the body nor payload enters the worker or survives an await.
         request.payload = serde_json::Value::Null;
-        let response = if let Some(response) = classified {
+        let response = if let Some(input) = lifecycle {
+            match input {
+                Err(code) => Response::error(&request.request_id, code),
+                Ok(input) => {
+                    let deadline = std::time::Instant::now() + limits.db_response_timeout;
+                    match timeout_at(Instant::from_std(deadline), jobs(input, deadline)).await {
+                        Ok(Ok(value)) => Response::ok(&request.request_id, value),
+                        Ok(Err(code)) => Response::error(&request.request_id, code),
+                        Err(_) => {
+                            metrics.increment(Counter::DbTimeouts);
+                            Response::error(&request.request_id, ERROR_DB_BUSY)
+                        }
+                    }
+                }
+            }
+        } else if let Some(response) = classified {
             response
         } else if request.protocol_version == PROTOCOL_VERSION
             && request.operation == OPERATION_DOCTOR

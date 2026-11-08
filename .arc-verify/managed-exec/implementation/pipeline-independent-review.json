@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "actorId": "reviewer",
+  "taskId": "task-7",
+  "runId": null,
+  "sessionId": null,
+  "status": "failed",
+  "reviewExecution": "completed",
+  "reviewResult": "FAIL",
+  "scope": "Native macOS task-7 checkpoint; not task-8 final QA or final acceptance",
+  "finalAcceptance": false,
+  "summary": "Independent exact regression: direct 6/6 pass, managed 0/5 pass; native pid/group provenance indistinguishable; all 11 scenarios report recorded identity cleanup.",
+  "filesChanged": [
+    ".arc-verify/managed-exec/implementation/pipeline-independent-review.md",
+    ".arc-verify/managed-exec/implementation/pipeline-independent-review.json"
+  ],
+  "productFilesChangedByReviewer": [],
+  "sourceHead": "19d7a507044cbf83918f58cd41056905c275c8d4",
+  "host": {
+    "platform": "Darwin",
+    "release": "27.2.0",
+    "machine": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local",
+    "productVersion": "27.2",
+    "buildVersion": "26B123"
+  },
+  "check": {
+    "status": "failed",
+    "argv": [
+      "cargo",
+      "test",
+      "-p",
+      "arc-daemon",
+      "--test",
+      "managed_exec",
+      "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+    "started": "2026-11-08T13:46:59.440321+00:00",
+    "ended": "2026-11-08T13:47:15.907573+00:00",
+    "exitCode": 101,
+    "timeoutAllowanceMs": 3600000,
+    "pid": 97287,
+    "host": {
+      "platform": "Darwin",
+      "release": "27.2.0",
+      "machine": "arm64",
+      "hostname": "Eunkwangui-MacBookPro.local"
+    },
+    "inputSha256": {
+      "crates/arc-cli/src/exec.rs": "4fa2f5a2ebd8be69f76af2347d727de53913317a0466d4d7b6344cd0362fbfed",
+      "crates/arc-cli/src/exec/signals.rs": "af1ad552fd30ee98dbdacf1517d65757e7c098cca00d65ccb55b82da9b77a6c9",
+      "crates/arc-cli/src/exec/terminal.rs": "20ab64860571badd26f522ac2174f37b563cab7e6112c1f2c5023f68221bb4fd",
+      "crates/arc-cli/src/exec/descriptors.rs": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+      "crates/arc-cli/tests/fixtures/pipeline.rs": "c9abc64de69c0d2dd197a07f3f49437d33d23eff5a0a44e4f5d567fea1f3bda7",
+      "crates/arc-cli/tests/fixtures/child.rs": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+      "crates/arc-daemon/tests/managed_exec.rs": "c2e2f81831c90e6d513caa75700837a18771f3143a22106e047faeccf1d1e6cc",
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs": "f9a2cd78301770b0269361c7a47c992261706e0cfffae7ef95c620b0d90a2135",
+      "crates/arc-daemon/tests/managed_exec/pipeline.py": "cb79d632e630fe4ac49ba5de077201d771444038abad26a09193c49e209c515c",
+      "crates/arc-daemon/tests/managed_exec/terminal.rs": "0a886ab35d8e167da16527176c8781e184edbf4197735ecf1ee2d8b99c74ad58",
+      "Cargo.toml": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "Cargo.lock": "cf2c459f1af04632d571d21c16961c328c43424939b7b3c5176695de6881fa7f"
+    },
+    "inputsUnchanged": true,
+    "output": {
+      "stdout.txt": {
+        "path": "target/pipeline-independent-review-final/stdout.txt",
+        "sha256": "5dcde7f642de31d921ff0fd2a6f544950fdb3bcb464935a998486e929685d9a5"
+      },
+      "stderr.txt": {
+        "path": "target/pipeline-independent-review-final/stderr.txt",
+        "sha256": "597a5a6f5d17472fe23826fb1e873c09b5cea0eb3d3a6a2b76f2b04466d34bc3"
+      }
+    }
+  },
+  "earlierIndependentRun": {
+    "status": "failed",
+    "argv": [
+      "cargo",
+      "test",
+      "-p",
+      "arc-daemon",
+      "--test",
+      "managed_exec",
+      "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace",
+    "started": "2026-11-08T13:45:00.298533+00:00",
+    "ended": "2026-11-08T13:45:14.608176+00:00",
+    "exitCode": 101,
+    "timeoutAllowanceMs": 3600000,
+    "pid": 96358,
+    "host": {
+      "platform": "Darwin",
+      "release": "27.2.0",
+      "machine": "arm64",
+      "hostname": "Eunkwangui-MacBookPro.local"
+    },
+    "inputSha256": {
+      "crates/arc-cli/src/exec.rs": "4fa2f5a2ebd8be69f76af2347d727de53913317a0466d4d7b6344cd0362fbfed",
+      "crates/arc-cli/src/exec/signals.rs": "af1ad552fd30ee98dbdacf1517d65757e7c098cca00d65ccb55b82da9b77a6c9",
+      "crates/arc-cli/src/exec/terminal.rs": "20ab64860571badd26f522ac2174f37b563cab7e6112c1f2c5023f68221bb4fd",
+      "crates/arc-cli/tests/fixtures/pipeline.rs": "3e0c5846d9671a54fe78b099257fe379e8fd5e3122a3e3b1a3e3c94e81fe41aa",
+      "crates/arc-cli/tests/fixtures/child.rs": "1354f2fc48f6e0b9dd039d507d928d6c856d992b1811a3aef3b43d0b18d81d9c",
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs": "801e1abb0808fe560c2ff49910b251ef94cbbe764850fb87312b34321f805882",
+      "crates/arc-daemon/tests/managed_exec/pipeline.py": "27d2465d7ef970adff760398e7931a66481b9017c5870857034fbcfe5191309f",
+      "Cargo.lock": "cf2c459f1af04632d571d21c16961c328c43424939b7b3c5176695de6881fa7f"
+    },
+    "inputsUnchanged": true,
+    "output": {
+      "stdout.txt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/pipeline-independent-review/stdout.txt",
+        "sha256": "bc34299e40c4a66489efad04d58a5c0eb86f265fc8c54169b66cd4d7e213ee2f"
+      },
+      "stderr.txt": {
+        "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/pipeline-independent-review/stderr.txt",
+        "sha256": "4c235e679c226e10297139075fe2b98d9b4f9065de8c3c0dc7da1352a0a5c985"
+      }
+    }
+  },
+  "scenarios": [
+    {
+      "managed": false,
+      "mode": "input",
+      "pass": true,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "outcomes": [
+        17,
+        0
+      ]
+    },
+    {
+      "managed": false,
+      "mode": "terminal-int",
+      "pass": true,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "outcomes": [
+        17,
+        0
+      ],
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 97300,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 97300,
+          "signals": 1
+        }
+      ]
+    },
+    {
+      "managed": false,
+      "mode": "group-int",
+      "pass": true,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "outcomes": [
+        17,
+        0
+      ],
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 97307,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 97307,
+          "signals": 1
+        }
+      ]
+    },
+    {
+      "managed": false,
+      "mode": "wrapper-term",
+      "pass": true,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "outcomes": [
+        17,
+        0
+      ],
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 97300,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 0,
+          "signals": 0
+        }
+      ]
+    },
+    {
+      "managed": false,
+      "mode": "stop-resume",
+      "pass": true,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "outcomes": [
+        17,
+        0
+      ]
+    },
+    {
+      "managed": false,
+      "mode": "provenance",
+      "pass": true,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "outcomes": [
+        17,
+        0
+      ],
+      "sameNativeProvenance": true,
+      "pidVsGroup": [
+        [
+          {
+            "code": 0,
+            "sender": 97316,
+            "signals": 1
+          },
+          {
+            "code": 0,
+            "sender": 0,
+            "signals": 0
+          }
+        ],
+        [
+          {
+            "code": 0,
+            "sender": 97316,
+            "signals": 2
+          },
+          {
+            "code": 0,
+            "sender": 97316,
+            "signals": 1
+          }
+        ]
+      ]
+    },
+    {
+      "managed": true,
+      "mode": "input",
+      "pass": false,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "error": "AssertionError: ('pipeline peer lost terminal input', {'events': [{'pid': 97320, 'raw': 5503, 'kind': 'stopped', 'signal': 21}, {'pid': 97321, 'raw': 5503, 'kind': 'stopped', 'signal': 21}], 'foreground': 97322, 'outcomes': [None, None]}, [{'pid': 97321, 'raw': 5503, 'kind': 'stopped', 'signal': 21}])"
+    },
+    {
+      "managed": true,
+      "mode": "terminal-int",
+      "pass": false,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "error": "AssertionError: ('signal delivery timeout', [{'code': 0, 'sender': 97300, 'signals': 1}, {'code': 0, 'sender': 0, 'signals': 0}])"
+    },
+    {
+      "managed": true,
+      "mode": "group-int",
+      "pass": false,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "error": "AssertionError: ('pipeline peer lost terminal input', {'events': [{'pid': 97518, 'raw': 5503, 'kind': 'stopped', 'signal': 21}, {'pid': 97519, 'raw': 5503, 'kind': 'stopped', 'signal': 21}], 'foreground': 97520, 'outcomes': [None, None]}, [{'pid': 97519, 'raw': 5503, 'kind': 'stopped', 'signal': 21}])",
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 97518,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 97517,
+          "signals": 1
+        }
+      ]
+    },
+    {
+      "managed": true,
+      "mode": "wrapper-term",
+      "pass": false,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "error": "AssertionError: ('pipeline peer lost terminal input', {'events': [{'pid': 97522, 'raw': 5503, 'kind': 'stopped', 'signal': 21}, {'pid': 97523, 'raw': 5503, 'kind': 'stopped', 'signal': 21}], 'foreground': 97524, 'outcomes': [None, None]}, [{'pid': 97523, 'raw': 5503, 'kind': 'stopped', 'signal': 21}])",
+      "signalObservations": [
+        {
+          "code": 0,
+          "sender": 97522,
+          "signals": 1
+        },
+        {
+          "code": 0,
+          "sender": 0,
+          "signals": 0
+        }
+      ]
+    },
+    {
+      "managed": true,
+      "mode": "stop-resume",
+      "pass": false,
+      "allRecordedIdentitiesAbsent": true,
+      "controllerOutcome": 0,
+      "error": "AssertionError: ('whole pipeline did not stop', [{'pid': 97528, 'raw': 4479, 'kind': 'stopped', 'signal': 17}], '^Z')"
+    }
+  ],
+  "directPassed": 6,
+  "directTotal": 6,
+  "managedPassed": 0,
+  "managedTotal": 5,
+  "sameNativeProvenance": true,
+  "recordedIdentityCleanup": true,
+  "findings": [
+    {
+      "severity": "HIGH",
+      "file": "crates/arc-cli/src/exec.rs",
+      "line": 98,
+      "related": [
+        "crates/arc-cli/src/exec/terminal.rs:59",
+        "crates/arc-cli/src/exec/terminal.rs:67",
+        "crates/arc-cli/src/exec/signals.rs:109"
+      ],
+      "description": "Creating a private child process group and making it foreground splits the real caller pipeline: peer terminal reads stop the caller group with SIGTTIN, terminal SIGINT misses the peer, and Ctrl-Z fails to stop the whole pipeline.",
+      "fix": "Preserve inherited caller process group, remove private-group foreground transfer, and resolve the signal-origin interface conflict before accepting the change. Do not send wrapper-only signals to the entire caller group.",
+      "remediationCode": "command.args(&argv[1..]); // inherit caller process group; no process_group(0)\n// Remove child tcsetpgrp pre_exec handoff.\n// This is a necessary topology repair, not a complete forwarding solution."
+    }
+  ],
+  "interfaceAssessment": {
+    "status": "unresolved_current_interface_conflict",
+    "sameSender": 97316,
+    "signalCode": 0,
+    "explanation": "After inheriting the caller group, wrapper and child both receive external group signals. A wrapper-only kill requires forwarding; killpg from the same sender requires suppression. The wrapper receipt has no observed distinguishing provenance, and foreground membership does not establish signal origin. Current Command child model supplies no child-delivery acknowledgment.",
+    "viableDropInStrategyFound": false,
+    "alternativesNotAdopted": [
+      "exec-in-place with separate observer changes the selected child ownership/wait interface",
+      "moving wrapper into a helper group introduces another process and changes shell stop/continue routing; not a verified repair"
+    ],
+    "prohibitedHeuristics": [
+      "foreground implies terminal origin",
+      "sender process-group inference",
+      "short deduplication windows",
+      "child pending-signal polling as proof of delivery"
+    ]
+  },
+  "acceptanceCriteria": [
+    {
+      "id": "independent-native-reproduction",
+      "pass": true
+    },
+    {
+      "id": "inherited-caller-job-pg-and-peer-input",
+      "pass": false
+    },
+    {
+      "id": "terminal-int-delivered-once-to-whole-job",
+      "pass": false
+    },
+    {
+      "id": "external-group-int-delivered-once",
+      "pass": true,
+      "limit": "Current split topology counts only; ensuing peer input fails. Does not establish repaired same-group behavior."
+    },
+    {
+      "id": "wrapper-only-term-delivered-once-without-peer-forwarding",
+      "pass": true,
+      "limit": "Current split topology counts only; ensuing peer input fails."
+    },
+    {
+      "id": "stop-background-continue-foreground-resume",
+      "pass": false
+    },
+    {
+      "id": "managed-exit17-after-complete-scenarios",
+      "pass": false
+    },
+    {
+      "id": "retained-native-provenance",
+      "pass": true
+    },
+    {
+      "id": "recorded-identity-cleanup",
+      "pass": true
+    },
+    {
+      "id": "inspection-hashes-stable",
+      "pass": true
+    }
+  ],
+  "limits": [
+    "Scoped checkpoint, not final acceptance or full security/performance/accessibility audit.",
+    "Ignored dispositions, multiple pending preattach signals, stale-stop continuation races, native signaled exit and failure restoration were inspected only or remain outside this exact failing regression.",
+    "Existing terminal.rs:146 asserts managed child pgid equals child pid; a caller-group repair must reconcile this incorrect topology assumption without weakening behavioral checks.",
+    "No source, test, contract, baseline, prior Actor report, mission state, or verification collector was modified.",
+    "No browser, GUI, Playwright, download, build command, coverage collector, publication, or external communication used. Explicitly authorized cargo test may compile its test target; no separate build ran.",
+    "No Serena tool exposed: named paths read directly, no repository code discovery.",
+    "ps was denied; no alternate access attempted. Cleanup evidence is PID/start-token verification inside the native fixture, plus awaited cargo process and fixture daemon.stop call, not an independent whole-host process inventory.",
+    "No injected native run/claim identity; no OMA state mutation performed under named-artifact-only assignment.",
+    "No relevant memory hit used."
+  ],
+  "unresolved": [
+    "HIGH caller pipeline topology defect",
+    "No validated strategy for exact wrapper-only versus externally directed group forwarding under unchanged selected Command child interface",
+    "Managed stop/resume, complete exit17, and remaining native preservation acceptance still fail or are unverified"
+  ],
+  "createdAt": "2026-11-08T13:48:26.676032+00:00"
+}

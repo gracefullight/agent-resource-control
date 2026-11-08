@@ -1,0 +1,1082 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "taskId": "task-7",
+  "attempt": 7,
+  "status": "incomplete",
+  "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+  "inputCount": 176,
+  "nativeHost": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "skills": [
+    "oma-backend",
+    "independent oma-qa"
+  ],
+  "observedAt": "2026-11-08T13:50:19.855554+00:00",
+  "repairImplemented": false,
+  "productProof": {
+    "crates/arc-cli/src/exec.rs": {
+      "sha256": "4fa2f5a2ebd8be69f76af2347d727de53913317a0466d4d7b6344cd0362fbfed",
+      "matchesPreRepairIndexBytes": true
+    },
+    "crates/arc-cli/src/exec/signals.rs": {
+      "sha256": "af1ad552fd30ee98dbdacf1517d65757e7c098cca00d65ccb55b82da9b77a6c9",
+      "matchesPreRepairIndexBytes": true
+    },
+    "crates/arc-cli/src/exec/terminal.rs": {
+      "sha256": "20ab64860571badd26f522ac2174f37b563cab7e6112c1f2c5023f68221bb4fd",
+      "matchesPreRepairIndexBytes": true
+    }
+  },
+  "testName": "pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17",
+  "workspaceRun": {
+    "receipt": "pipeline-workspace.json",
+    "receiptSha256": "0862e71c27c5f7392b1b809965cc938db607811b9b772b4e38aa83ea38c15219",
+    "passedBeforeCargoStopped": 136,
+    "failed": 1,
+    "ignored": 0,
+    "completedHarnessSummaries": 14,
+    "limit": "Cargo stopped after the failing managed_exec target; remaining workspace targets did not execute."
+  },
+  "pipeline": {
+    "directPassed": 6,
+    "directTotal": 6,
+    "managedPassed": 0,
+    "managedTotal": 5,
+    "allRecordedIdentitiesAbsent": true,
+    "scenarios": [
+      {
+        "managed": false,
+        "mode": "input",
+        "pass": true,
+        "job": {
+          "identities": [
+            {
+              "pid": 98825,
+              "start_token": "1794145679685051"
+            },
+            {
+              "pid": 98828,
+              "start_token": "1794145679688782"
+            }
+          ],
+          "group": 98825,
+          "controller": {
+            "pid": 98820,
+            "start_token": "1794145679645380"
+          }
+        },
+        "producer": {
+          "foreground": 98825,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98825,
+            "start_token": "1794145679685051"
+          },
+          "pgid": 98825,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98825,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98828,
+            "start_token": "1794145679688782"
+          },
+          "pgid": 98825,
+          "role": "peer"
+        },
+        "events": [
+          {
+            "pid": 98825,
+            "raw": 4352,
+            "kind": "exited",
+            "outcome": 17
+          },
+          {
+            "pid": 98828,
+            "raw": 0,
+            "kind": "exited",
+            "outcome": 0
+          }
+        ],
+        "input": [
+          {
+            "foreground": 98825,
+            "input": [
+              112,
+              105,
+              112,
+              101,
+              108,
+              105,
+              110,
+              101,
+              45,
+              105,
+              110,
+              112,
+              117,
+              116,
+              10
+            ],
+            "pgid": 98825
+          }
+        ],
+        "outcomes": [
+          17,
+          0
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": false,
+        "mode": "terminal-int",
+        "pass": true,
+        "job": {
+          "identities": [
+            {
+              "pid": 98872,
+              "start_token": "1794145680221654"
+            },
+            {
+              "pid": 98873,
+              "start_token": "1794145680225180"
+            }
+          ],
+          "group": 98872,
+          "controller": {
+            "pid": 98871,
+            "start_token": "1794145680182449"
+          }
+        },
+        "producer": {
+          "foreground": 98872,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98872,
+            "start_token": "1794145680221654"
+          },
+          "pgid": 98872,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98872,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98873,
+            "start_token": "1794145680225180"
+          },
+          "pgid": 98872,
+          "role": "peer"
+        },
+        "events": [
+          {
+            "pid": 98872,
+            "raw": 4352,
+            "kind": "exited",
+            "outcome": 17
+          },
+          {
+            "pid": 98873,
+            "raw": 0,
+            "kind": "exited",
+            "outcome": 0
+          }
+        ],
+        "input": [
+          {
+            "foreground": 98872,
+            "input": [
+              112,
+              105,
+              112,
+              101,
+              108,
+              105,
+              110,
+              101,
+              45,
+              105,
+              110,
+              112,
+              117,
+              116,
+              10
+            ],
+            "pgid": 98872
+          }
+        ],
+        "outcomes": [
+          17,
+          0
+        ],
+        "signalObservations": [
+          {
+            "code": 0,
+            "sender": 98777,
+            "signals": 1
+          },
+          {
+            "code": 0,
+            "sender": 98777,
+            "signals": 1
+          }
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": false,
+        "mode": "group-int",
+        "pass": true,
+        "job": {
+          "identities": [
+            {
+              "pid": 98875,
+              "start_token": "1794145680284119"
+            },
+            {
+              "pid": 98876,
+              "start_token": "1794145680287265"
+            }
+          ],
+          "group": 98875,
+          "controller": {
+            "pid": 98874,
+            "start_token": "1794145680245800"
+          }
+        },
+        "producer": {
+          "foreground": 98875,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98875,
+            "start_token": "1794145680284119"
+          },
+          "pgid": 98875,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98875,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98876,
+            "start_token": "1794145680287265"
+          },
+          "pgid": 98875,
+          "role": "peer"
+        },
+        "events": [
+          {
+            "pid": 98875,
+            "raw": 4352,
+            "kind": "exited",
+            "outcome": 17
+          },
+          {
+            "pid": 98876,
+            "raw": 0,
+            "kind": "exited",
+            "outcome": 0
+          }
+        ],
+        "input": [
+          {
+            "foreground": 98875,
+            "input": [
+              112,
+              105,
+              112,
+              101,
+              108,
+              105,
+              110,
+              101,
+              45,
+              105,
+              110,
+              112,
+              117,
+              116,
+              10
+            ],
+            "pgid": 98875
+          }
+        ],
+        "outcomes": [
+          17,
+          0
+        ],
+        "signalObservations": [
+          {
+            "code": 0,
+            "sender": 98874,
+            "signals": 1
+          },
+          {
+            "code": 0,
+            "sender": 98874,
+            "signals": 1
+          }
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": false,
+        "mode": "wrapper-term",
+        "pass": true,
+        "job": {
+          "identities": [
+            {
+              "pid": 98878,
+              "start_token": "1794145680346456"
+            },
+            {
+              "pid": 98879,
+              "start_token": "1794145680349651"
+            }
+          ],
+          "group": 98878,
+          "controller": {
+            "pid": 98877,
+            "start_token": "1794145680307626"
+          }
+        },
+        "producer": {
+          "foreground": 98878,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98878,
+            "start_token": "1794145680346456"
+          },
+          "pgid": 98878,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98878,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98879,
+            "start_token": "1794145680349651"
+          },
+          "pgid": 98878,
+          "role": "peer"
+        },
+        "events": [
+          {
+            "pid": 98878,
+            "raw": 4352,
+            "kind": "exited",
+            "outcome": 17
+          },
+          {
+            "pid": 98879,
+            "raw": 0,
+            "kind": "exited",
+            "outcome": 0
+          }
+        ],
+        "input": [
+          {
+            "foreground": 98878,
+            "input": [
+              112,
+              105,
+              112,
+              101,
+              108,
+              105,
+              110,
+              101,
+              45,
+              105,
+              110,
+              112,
+              117,
+              116,
+              10
+            ],
+            "pgid": 98878
+          }
+        ],
+        "outcomes": [
+          17,
+          0
+        ],
+        "signalObservations": [
+          {
+            "code": 0,
+            "sender": 98777,
+            "signals": 1
+          },
+          {
+            "code": 0,
+            "sender": 0,
+            "signals": 0
+          }
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": false,
+        "mode": "stop-resume",
+        "pass": true,
+        "job": {
+          "identities": [
+            {
+              "pid": 98881,
+              "start_token": "1794145680411247"
+            },
+            {
+              "pid": 98882,
+              "start_token": "1794145680414413"
+            }
+          ],
+          "group": 98881,
+          "controller": {
+            "pid": 98880,
+            "start_token": "1794145680370704"
+          }
+        },
+        "producer": {
+          "foreground": 98881,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98881,
+            "start_token": "1794145680411247"
+          },
+          "pgid": 98881,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98881,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98882,
+            "start_token": "1794145680414413"
+          },
+          "pgid": 98881,
+          "role": "peer"
+        },
+        "events": [
+          {
+            "pid": 98881,
+            "raw": 4735,
+            "kind": "stopped",
+            "signal": 18
+          },
+          {
+            "pid": 98882,
+            "raw": 4735,
+            "kind": "stopped",
+            "signal": 18
+          },
+          {
+            "pid": 98881,
+            "raw": 4991,
+            "kind": "continued"
+          },
+          {
+            "pid": 98882,
+            "raw": 4991,
+            "kind": "continued"
+          },
+          {
+            "pid": 98882,
+            "raw": 5503,
+            "kind": "stopped",
+            "signal": 21
+          },
+          {
+            "pid": 98881,
+            "raw": 4991,
+            "kind": "continued"
+          },
+          {
+            "pid": 98882,
+            "raw": 4991,
+            "kind": "continued"
+          },
+          {
+            "pid": 98881,
+            "raw": 4352,
+            "kind": "exited",
+            "outcome": 17
+          },
+          {
+            "pid": 98882,
+            "raw": 0,
+            "kind": "exited",
+            "outcome": 0
+          }
+        ],
+        "resumedInput": {
+          "foreground": 98881,
+          "input": [
+            112,
+            105,
+            112,
+            101,
+            108,
+            105,
+            110,
+            101,
+            45,
+            105,
+            110,
+            112,
+            117,
+            116,
+            10
+          ],
+          "pgid": 98881
+        },
+        "outcomes": [
+          17,
+          0
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": false,
+        "mode": "provenance",
+        "pass": true,
+        "job": {
+          "identities": [
+            {
+              "pid": 98884,
+              "start_token": "1794145680472875"
+            },
+            {
+              "pid": 98885,
+              "start_token": "1794145680476043"
+            }
+          ],
+          "group": 98884,
+          "controller": {
+            "pid": 98883,
+            "start_token": "1794145680435096"
+          }
+        },
+        "producer": {
+          "foreground": 98884,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98884,
+            "start_token": "1794145680472875"
+          },
+          "pgid": 98884,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98884,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98885,
+            "start_token": "1794145680476043"
+          },
+          "pgid": 98884,
+          "role": "peer"
+        },
+        "events": [
+          {
+            "pid": 98884,
+            "raw": 4352,
+            "kind": "exited",
+            "outcome": 17
+          },
+          {
+            "pid": 98885,
+            "raw": 0,
+            "kind": "exited",
+            "outcome": 0
+          }
+        ],
+        "input": [
+          {
+            "foreground": 98884,
+            "input": [
+              112,
+              105,
+              112,
+              101,
+              108,
+              105,
+              110,
+              101,
+              45,
+              105,
+              110,
+              112,
+              117,
+              116,
+              10
+            ],
+            "pgid": 98884
+          }
+        ],
+        "outcomes": [
+          17,
+          0
+        ],
+        "sameNativeProvenance": true,
+        "pidVsGroup": [
+          [
+            {
+              "code": 0,
+              "sender": 98883,
+              "signals": 1
+            },
+            {
+              "code": 0,
+              "sender": 0,
+              "signals": 0
+            }
+          ],
+          [
+            {
+              "code": 0,
+              "sender": 98883,
+              "signals": 2
+            },
+            {
+              "code": 0,
+              "sender": 98883,
+              "signals": 1
+            }
+          ]
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": true,
+        "mode": "input",
+        "pass": false,
+        "job": {
+          "identities": [
+            {
+              "pid": 98906,
+              "start_token": "1794145680532860"
+            },
+            {
+              "pid": 98907,
+              "start_token": "1794145680537235"
+            }
+          ],
+          "group": 98906,
+          "controller": {
+            "pid": 98886,
+            "start_token": "1794145680494524"
+          }
+        },
+        "producer": {
+          "foreground": 98908,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98908,
+            "start_token": "1794145680543687"
+          },
+          "pgid": 98908,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98906,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98907,
+            "start_token": "1794145680537235"
+          },
+          "pgid": 98906,
+          "role": "peer"
+        },
+        "error": "AssertionError: ('pipeline peer lost terminal input', {'events': [{'pid': 98906, 'raw': 5503, 'kind': 'stopped', 'signal': 21}, {'pid': 98907, 'raw': 5503, 'kind': 'stopped', 'signal': 21}], 'foreground': 98908, 'outcomes': [None, None]}, [{'pid': 98907, 'raw': 5503, 'kind': 'stopped', 'signal': 21}])",
+        "events": [
+          {
+            "pid": 98906,
+            "raw": 5503,
+            "kind": "stopped",
+            "signal": 21
+          },
+          {
+            "pid": 98907,
+            "raw": 5503,
+            "kind": "stopped",
+            "signal": 21
+          }
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": true,
+        "mode": "terminal-int",
+        "pass": false,
+        "job": {
+          "identities": [
+            {
+              "pid": 98911,
+              "start_token": "1794145680609238"
+            },
+            {
+              "pid": 98912,
+              "start_token": "1794145680612528"
+            }
+          ],
+          "group": 98911,
+          "controller": {
+            "pid": 98910,
+            "start_token": "1794145680570209"
+          }
+        },
+        "producer": {
+          "foreground": 98913,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98913,
+            "start_token": "1794145680618391"
+          },
+          "pgid": 98913,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98911,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98912,
+            "start_token": "1794145680612528"
+          },
+          "pgid": 98911,
+          "role": "peer"
+        },
+        "error": "AssertionError: ('signal delivery timeout', [{'code': 0, 'sender': 98777, 'signals': 1}, {'code': 0, 'sender': 0, 'signals': 0}])",
+        "events": [],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": true,
+        "mode": "group-int",
+        "pass": false,
+        "job": {
+          "identities": [
+            {
+              "pid": 98933,
+              "start_token": "1794145686678007"
+            },
+            {
+              "pid": 98934,
+              "start_token": "1794145686681380"
+            }
+          ],
+          "group": 98933,
+          "controller": {
+            "pid": 98932,
+            "start_token": "1794145686637868"
+          }
+        },
+        "producer": {
+          "foreground": 98935,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98935,
+            "start_token": "1794145686687578"
+          },
+          "pgid": 98935,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98933,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98934,
+            "start_token": "1794145686681380"
+          },
+          "pgid": 98933,
+          "role": "peer"
+        },
+        "error": "AssertionError: ('pipeline peer lost terminal input', {'events': [{'pid': 98933, 'raw': 5503, 'kind': 'stopped', 'signal': 21}, {'pid': 98934, 'raw': 5503, 'kind': 'stopped', 'signal': 21}], 'foreground': 98935, 'outcomes': [None, None]}, [{'pid': 98934, 'raw': 5503, 'kind': 'stopped', 'signal': 21}])",
+        "events": [
+          {
+            "pid": 98933,
+            "raw": 5503,
+            "kind": "stopped",
+            "signal": 21
+          },
+          {
+            "pid": 98934,
+            "raw": 5503,
+            "kind": "stopped",
+            "signal": 21
+          }
+        ],
+        "signalObservations": [
+          {
+            "code": 0,
+            "sender": 98933,
+            "signals": 1
+          },
+          {
+            "code": 0,
+            "sender": 98932,
+            "signals": 1
+          }
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": true,
+        "mode": "wrapper-term",
+        "pass": false,
+        "job": {
+          "identities": [
+            {
+              "pid": 98937,
+              "start_token": "1794145686753626"
+            },
+            {
+              "pid": 98938,
+              "start_token": "1794145686756727"
+            }
+          ],
+          "group": 98937,
+          "controller": {
+            "pid": 98936,
+            "start_token": "1794145686714585"
+          }
+        },
+        "producer": {
+          "foreground": 98939,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98939,
+            "start_token": "1794145686762547"
+          },
+          "pgid": 98939,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98937,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98938,
+            "start_token": "1794145686756727"
+          },
+          "pgid": 98937,
+          "role": "peer"
+        },
+        "error": "AssertionError: ('pipeline peer lost terminal input', {'events': [{'pid': 98937, 'raw': 5503, 'kind': 'stopped', 'signal': 21}, {'pid': 98938, 'raw': 5503, 'kind': 'stopped', 'signal': 21}], 'foreground': 98939, 'outcomes': [None, None]}, [{'pid': 98938, 'raw': 5503, 'kind': 'stopped', 'signal': 21}])",
+        "events": [
+          {
+            "pid": 98937,
+            "raw": 5503,
+            "kind": "stopped",
+            "signal": 21
+          },
+          {
+            "pid": 98938,
+            "raw": 5503,
+            "kind": "stopped",
+            "signal": 21
+          }
+        ],
+        "signalObservations": [
+          {
+            "code": 0,
+            "sender": 98937,
+            "signals": 1
+          },
+          {
+            "code": 0,
+            "sender": 0,
+            "signals": 0
+          }
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      },
+      {
+        "managed": true,
+        "mode": "stop-resume",
+        "pass": false,
+        "job": {
+          "identities": [
+            {
+              "pid": 98941,
+              "start_token": "1794145686827772"
+            },
+            {
+              "pid": 98942,
+              "start_token": "1794145686830931"
+            }
+          ],
+          "group": 98941,
+          "controller": {
+            "pid": 98940,
+            "start_token": "1794145686789926"
+          }
+        },
+        "producer": {
+          "foreground": 98943,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98943,
+            "start_token": "1794145686837164"
+          },
+          "pgid": 98943,
+          "role": "producer"
+        },
+        "peer": {
+          "foreground": 98941,
+          "identity": {
+            "boot_id": "2d6d7a44-201e-400e-8a1c-737a1dc09d53",
+            "pid": 98942,
+            "start_token": "1794145686830931"
+          },
+          "pgid": 98941,
+          "role": "peer"
+        },
+        "error": "AssertionError: ('whole pipeline did not stop', [{'pid': 98941, 'raw': 4479, 'kind': 'stopped', 'signal': 17}], '^Z')",
+        "events": [
+          {
+            "pid": 98941,
+            "raw": 4479,
+            "kind": "stopped",
+            "signal": 17
+          }
+        ],
+        "allRecordedIdentitiesAbsent": true,
+        "remainingIdentities": [],
+        "controllerOutcome": 0
+      }
+    ]
+  },
+  "independentReview": {
+    "path": "pipeline-independent-review.json",
+    "sha256": "7c1e388f98e6218aa66029d2da4216165320ef9a835ad3ed55212f0cf4296f58",
+    "status": "failed",
+    "inspectedInputsMatch": true,
+    "scope": "checkpoint only; not task-8 final QA"
+  },
+  "resources": {
+    "checkAllowanceMs": 3600000,
+    "freeDiskAtChecks": "14 GiB",
+    "newCollectorsStarted": 0,
+    "collectorOwnership": "Global inventory unavailable: ps denied with operation not permitted; no alternate global inventory attempted. Fixture identity checks remain explicitly scoped to owned PIDs.",
+    "deadlineAuthority": "Existing supervising framework; no mission state, deadline, spent budgets or attempt limits changed."
+  },
+  "failedAttempts": [
+    "First new fixture run reported foreground=-1 for /dev/tty tcgetpgrp; switched its observation to inherited terminal stderr descriptor2. Read success/stop behavior still comes from actual /dev/tty reads. Raw initial run retained in pipeline-fixture-initial.json.",
+    "First cargo fmt check required module ordering; rustfmt applied to new owned test paths and registration, then real formatting check passed.",
+    "First native independent reviewer spawn failed: invalid thread-store request: no rollout found. Retry with independent explicit context succeeded."
+  ],
+  "remaining": [
+    "Foreground pipeline defect remains in unchanged product source.",
+    "No validated exact signal forwarding strategy under selected Command-child interface.",
+    "No GREEN checkpoint or refreshed native coverage/full harness acceptance.",
+    "Task-8 final QA and task-9 synthesis remain downstream; desktop, native Windows and Phase 1 scheduling outstanding."
+  ],
+  "commands": [
+    {
+      "path": "pipeline-fmt.json",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+      "started": "2026-11-08T13:46:34.332Z",
+      "ended": "2026-11-08T13:46:34.835Z",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "pipeline-clippy.json",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+      "started": "2026-11-08T13:46:37.659Z",
+      "ended": "2026-11-08T13:46:38.731Z",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "9cf8d53835ddda8ba6d0de4ebf34c24f1d6c589de31c01373356c43258ef53af"
+    },
+    {
+      "path": "pipeline-workspace.json",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exit": 101,
+      "status": "failed",
+      "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+      "started": "2026-11-08T13:47:25.509Z",
+      "ended": "2026-11-08T13:48:14.528Z",
+      "stdoutSha256": "2e0819d4593765f856402972de838cdf4556f80f6d74911a4c16ce11a721a0af",
+      "stderrSha256": "cf3c367138ad7626265a81c2c256becae0568dc4e794aa7a6b1415eebd2ff37e"
+    },
+    {
+      "path": "pipeline-preservation.json",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/managed-exec.test.ts"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+      "started": "2026-11-08T13:48:44.578Z",
+      "ended": "2026-11-08T13:49:51.508Z",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "0bdbe65661d66cbb73fd6b3511cd37cadf1ebd0dc6a61c45ad6238abc5268108"
+    },
+    {
+      "path": "pipeline-equivalence.json",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "sourceHash": "90c531484b119f7e89e5a69ec086ff4161912c8540a3528d6d3904f50f47eaa5",
+      "started": "2026-11-08T13:49:11.815Z",
+      "ended": "2026-11-08T13:51:14.529Z",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "ba3fe0b70635ee7e53fa6d7c8bdb6c44c23336fc46a7ed43f38a1b184979865e"
+    }
+  ]
+}

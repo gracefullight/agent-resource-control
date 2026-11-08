@@ -1,0 +1,51 @@
+{
+  "status": "completed",
+  "taskId": "task-5",
+  "attempt": 3,
+  "skill": "oma-backend",
+  "changedFiles": [
+    ".arc-verify/managed-exec/preservation-checks-attempt2.json",
+    ".arc-verify/managed-exec/preservation-checks.json",
+    ".arc-verify/managed-exec/preservation-claim-attempt2.json",
+    ".arc-verify/managed-exec/preservation-claim.json",
+    ".arc-verify/managed-exec/preservation-failed-checks.json",
+    ".arc-verify/managed-exec/preservation-repair-red.json",
+    ".arc-verify/managed-exec/preservation.md",
+    "docs/rust-coverage.md",
+    "scripts/coverage/acceptance.ts",
+    "scripts/coverage/clean-checkout.test.ts",
+    "scripts/coverage/commands.ts",
+    "scripts/coverage/coverage-cli.test.ts",
+    "scripts/coverage/current-preservation.ts",
+    "scripts/coverage/harness.test.ts",
+    "scripts/coverage/historical.ts",
+    "scripts/coverage/hygiene-preservation.test.ts",
+    "scripts/coverage/hygiene.ts",
+    "scripts/coverage/preservation.test.ts",
+    "scripts/coverage/preservation.ts",
+    "scripts/coverage/run.ts",
+    "scripts/harness/managed-exec-evidence.test.ts",
+    "scripts/harness/managed-exec-evidence.ts",
+    "scripts/harness/managed-exec.test.ts",
+    "scripts/harness/validate.sh"
+  ],
+  "unresolved": [],
+  "artifacts": [
+    ".arc-verify/managed-exec/preservation.md",
+    ".arc-verify/managed-exec/preservation-checks.json",
+    ".arc-verify/managed-exec/preservation-repair-red.json",
+    ".arc-verify/managed-exec/preservation-checks-attempt2.json",
+    ".arc-verify/managed-exec/preservation-claim-attempt2.json",
+    ".arc-verify/managed-exec/preservation-failed-checks.json",
+    ".agents/results/result-backend-task-5-58bcc4d8-a9fd-476d-a073-dfa8e2573e41-01a1ba87-6281-76b2-8230-107af22a927f.md"
+  ],
+  "scope": "Task-5 reachability repair only; lifecycle and final mission acceptance pending",
+  "verificationSourceHash": "c935da70efc3d774bb8222b090b75aac2563f1421243063ea9087a57dd8e1cce",
+  "frameworkRunId": null,
+  "localVerificationRunId": "58bcc4d8-a9fd-476d-a073-dfa8e2573e41",
+  "repairedPaths": [
+    "scripts/coverage/current-preservation.ts",
+    "scripts/harness/managed-exec.test.ts"
+  ],
+  "sessionId": "01a1ba87-6281-76b2-8230-107af22a927f"
+}

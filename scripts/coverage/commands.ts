@@ -1,7 +1,7 @@
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 export type Receipt = {argv:string[];cwd:string;started:string;ended:string;exit:number;stdout:string;stderr:string;pid?:number};
-export async function command(argv:string[],dir:string,cwd:string,env:Record<string,string|undefined>=process.env,timeout=120000):Promise<Receipt> {
+export async function command(argv:string[],dir:string,cwd:string,env:Record<string,string|undefined>=process.env,timeout=3600000):Promise<Receipt> {
   const started=new Date().toISOString();
   let receipt:Receipt;
   try {

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "sourceHash": "a9f6451fc3242aab2d555e56d8ee59caa293cf42481315e23a4c4b4485ce7137",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "argv": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "managed_exec",
+    "scenarios::status_discovery_labels_and_missing_id_never_launch",
+    "--",
+    "--exact",
+    "--nocapture"
+  ],
+  "cwd": ".",
+  "started": "2026-11-08T19:09:19.523Z",
+  "ended": "2026-11-08T19:09:20.461Z",
+  "exit": 0,
+  "status": "passed",
+  "timeoutAllowanceMs": 3600000,
+  "skipFlags": false,
+  "pid": 66141,
+  "stdoutSha256": "4d4c4fe859f70b4d156829ecde53cf7f86baabfd2238b64222a9ba1a28b4fe2b",
+  "stderrSha256": "0ec47043dd6c8a04bed0909a244d632058f372a64394ceb2cc744cb3c0d0404d",
+  "output": {
+    "stdoutPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-19-439Z-recent-green/stdout.txt",
+    "stderrPath": ".arc-verify/managed-exec/implementation/runs/2026-11-08T19-09-19-439Z-recent-green/stderr.txt"
+  },
+  "execution": {
+    "executed": 1,
+    "passed": 1,
+    "failed": 0,
+    "ignored": 0,
+    "harnesses": 1,
+    "tests": [
+      {
+        "harness": 0,
+        "name": "scenarios::status_discovery_labels_and_missing_id_never_launch",
+        "status": "ok"
+      }
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "actorId": "backend",
+  "taskId": "task-7",
+  "skill": "oma-backend",
+  "started": "2026-11-08T13:16:54.585225+00:00",
+  "sourceHash": "66f24fe65f54862539fba92bed779d86820a2b4ccc6bcac859485b2f529009ec",
+  "inputCount": 175,
+  "retainedPassingReceiptBindings": 8,
+  "operatorNote": "2026-11-08T13:15:55.730Z",
+  "abandonedRun": {
+    "path": "target/evidence-hygiene/clean-checkout/runs/14213b3c-fbfb-48c3-867d-4602607bdd05/result.json",
+    "commands": [],
+    "pass": false,
+    "interruptedAt": "2026-11-08T13:16:30.542Z",
+    "scope": "Operator-directed abandonment; no claimed process termination or successful collection"
+  },
+  "preflight": {
+    "host": "Darwin arm64",
+    "diskAvailableGiB": 19,
+    "collectorConcurrency": 1,
+    "timeoutAllowanceMs": 3600000,
+    "cancellation": "No cancellation received; active task-7 repair admitted by supervising framework",
+    "deadline": "Framework-owned mission limits retained; no local deadline or budget reset",
+    "workerAllowance": "Each command retains full framework per-check allowance; checkpoints persisted on completion"
+  },
+  "activeCheck": null,
+  "layoutRepair": {
+    "red": {
+      "receipt": ".arc-verify/managed-exec/implementation/clean-checkout-resumed.json",
+      "exit": 1,
+      "reason": "MISSING_FILE: crates/arc-core/src/process_identity/linux.rs",
+      "nativeWorkspaceTests": "Completed successfully before report accounting failed",
+      "nativeRun": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-w6hJhZ/.arc-verify/rust-coverage/baseline/runs/2026-11-08T13-16-41-982Z-b3fcb0c4-324b-4deb-88bb-79a8814e7b86"
+    },
+    "change": "Inline the existing Linux and macOS platform modules in process_identity.rs; preserve each platform body token-for-token and module scope. No accounting or exclusion changes.",
+    "tokenEquivalence": {
+      "baselineTree": "d3de4fe378c583d2bab33656ae72c5d193cb4daf",
+      "linux": true,
+      "macos": true
+    },
+    "regressionGate": [
+      "bun",
+      "test",
+      "scripts/coverage/clean-checkout.test.ts"
+    ],
+    "files": [
+      "crates/arc-core/src/process_identity.rs",
+      "crates/arc-core/src/process_identity/linux.rs",
+      "crates/arc-core/src/process_identity/macos.rs"
+    ],
+    "scope": "Task-7 native identity source layout only; accepted task-6 contracts and storage untouched",
+    "green": {
+      "receipt": ".arc-verify/managed-exec/implementation/clean-checkout-final.json",
+      "exit": 0,
+      "nativeState": "target/evidence-hygiene/clean-checkout/runs/603ed1d8-e1a2-4ec2-95dd-d1c14680911e/result.json",
+      "regression": "The same required isolated native coverage gate passes without coverage-accounting edits."
+    }
+  },
+  "updated": "2026-11-08T13:28:41.063059+00:00",
+  "currentSourceHash": "22f8a6c578dd3abb584fb83ff8c89b7e303cb332c0de83d3db72419ca5a68ab3",
+  "completedRootCoverage": {
+    "outerReceipt": ".arc-verify/managed-exec/implementation/coverage-cli.json",
+    "nestedReceipt": ".arc-verify/managed-exec/implementation/coverage-root.json",
+    "nativeLatest": {
+      "runId": "2026-11-08T13-26-45-700Z-08d7a50f-7d3b-4fd5-b30c-f11fff9dfca0",
+      "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T13-26-45-700Z-08d7a50f-7d3b-4fd5-b30c-f11fff9dfca0",
+      "sourceHash": "0c7b70dc7c211435910716335f3f6b0932364e12d9e68c0fb98f06c4163fa0a4",
+      "pass": true
+    }
+  },
+  "positiveExecutionCandidate": {
+    "path": ".arc-verify/managed-exec/implementation/positive-execution.json",
+    "sha256": "80adf11a60ac1ae2f83fa74fdb105128ac3086f1b40d7acd1b8f6d8d76d4b4b0",
+    "emittedReceipt": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59952413-f3df-41d9-87cd-be3b46fe4cd9/workspace/target/managed-exec/positive-execution-FhWbj4/receipt.json",
+    "outerReceipt": ".arc-verify/managed-exec/implementation/positive-execution-test.json",
+    "actualExecutor": "backend",
+    "testDeclaredCommandActorId": "technical-director",
+    "status": "Current-source positive execution; awaiting task-8 reviewer-owned binding. Historical preservation receipts and reviews unchanged."
+  },
+  "implementationGatesPassed": true,
+  "downstreamRequired": [
+    "task-8 independent oma-qa with unfiltered cargo test --workspace, final receipt review and reviewer-owned positive-execution binding",
+    "task-9 Chief-owned final-summary.json, final.md and receipt-index.json"
+  ],
+  "priorReport": {
+    "path": ".arc-verify/managed-exec/implementation/runs/attempt6-report-before-update.md",
+    "sha256": "e6ae32236a10f07793d1cb7c2c13cb1cef8f576272536161219550fde83964bc"
+  }
+}

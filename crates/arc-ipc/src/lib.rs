@@ -4,6 +4,7 @@
 //! JSON object. The protocol version is 1 and a frame may not exceed 1 MiB.
 //! Classification command text is transient and never sent to storage or logs.
 
+pub mod jobs;
 mod schema;
 pub use schema::{
     SchemaReport, SchemaStatus, ERROR_SCHEMA_DETAILS_UNAVAILABLE, ERROR_SCHEMA_INCOMPATIBLE,

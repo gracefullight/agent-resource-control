@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "evidence-budget",
+  "status": "passed",
+  "checkedAtUtc": "2026-11-08T08:51:14.674Z",
+  "allFilesIncludingUntrackedAndNested": 40,
+  "trackedHarnessSpeedFiles": 0,
+  "sourceSha256": "fe4f4139d049e430b6a53a4d18cebacfbd5d22c7f7c4d74c0db92f5816764ffc",
+  "receipts": [
+    {
+      "path": ".arc-verify/harness-speed/equivalence.json",
+      "sha256": "159a0c88347f46c242b663e939f88c9c7a3624aa020bbe91ec912326bbcd35cf"
+    },
+    {
+      "path": ".arc-verify/harness-speed/invocations.json",
+      "sha256": "1d8b3a34496b8dec3461d23662c62828177993ef9361fda0eadcef26354ed4f7"
+    },
+    {
+      "path": ".arc-verify/harness-speed/timing.json",
+      "sha256": "d08c1ff985403c6527578360ae7f173f47269702432892e9ea603559c930ed33"
+    },
+    {
+      "path": ".arc-verify/harness-speed/coverage-verification.json",
+      "sha256": "917480851e57069b1a572ce522edeaab63de6ae5c892924e18458cbd1c8a7bdb"
+    }
+  ],
+  "historicalHygiene": {
+    "rustCoverage": {
+      "files": 24,
+      "bytes": 475720
+    },
+    "allArcVerify": {
+      "files": 1744,
+      "bytes": 19024758
+    },
+    "newEvidenceHygieneFiles": 19,
+    "prohibited": []
+  }
+}

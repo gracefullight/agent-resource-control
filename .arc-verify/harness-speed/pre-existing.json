@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "implementation-prerequisite",
+  "observedAtUtc": "2026-11-08T06:16:21.363126+00:00",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "classification": "pre-existing hygiene failure",
+  "finding": "Accepted commit and unchanged input index both contain 932 rust-coverage evidence files; assertHygiene requires fewer than 150. No cleanup authorized within task-3.",
+  "commands": [
+    {
+      "scope": "accepted",
+      "argv": [
+        "git",
+        "ls-tree",
+        "-r",
+        "-z",
+        "--name-only",
+        "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+        "--",
+        ".arc-verify/rust-coverage"
+      ],
+      "exit": 0,
+      "files": 932,
+      "stdoutSha256": "6d3a1cd002ac6b72fbb6f8353a984bc16f19ce4ffb7a1ba7d6c53e1515cc1c36",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "scope": "index",
+      "argv": [
+        "git",
+        "ls-files",
+        "-z",
+        "--",
+        ".arc-verify/rust-coverage"
+      ],
+      "exit": 0,
+      "files": 932,
+      "stdoutSha256": "6d3a1cd002ac6b72fbb6f8353a984bc16f19ce4ffb7a1ba7d6c53e1515cc1c36",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "failedCheck": {
+    "command": {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg09lrDzf:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "LC_CTYPE": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "WORKSPACE_ROOT": null,
+        "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_HOME": "/Users/gracefullight/.cargo",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null
+      }
+    },
+    "startedAtUtc": "2026-11-08T06:14:49.725Z",
+    "endedAtUtc": "2026-11-08T06:14:51.879Z",
+    "pid": 64209,
+    "exit": 1,
+    "exitMs": 2153.582875,
+    "clock": "performance.now()",
+    "marks": {},
+    "totalMs": 2153.5891249999986,
+    "durationsSeconds": {
+      "startup": null,
+      "checks1to4": null,
+      "processStartToCheck5": null,
+      "check5": null,
+      "finalization": null,
+      "total": 2.1535891249999985
+    },
+    "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+    "stderrSha256": "a89f927d219533528e24bdeb89e4c20e0e3bb6fcdf92c68ac764b25314084124",
+    "stdoutBytes": 28,
+    "stderrBytes": 1604,
+    "diagnostics": {
+      "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/809a5eb5-2bd4-4f8e-a71a-a944e039628d/hygiene.test.ts",
+      "retention": "scratch retained locally; not durable evidence"
+    }
+  },
+  "ownershipRequest": "Chief coordination required for any evidence cleanup or amendment. Keep existing budgets and operator verifier unchanged.",
+  "unperformed": "No out-of-scope files changed."
+}

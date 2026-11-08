@@ -64,6 +64,133 @@ info "Files to check: $(echo "${FILES}" | wc -l | tr -d ' ')"
 
 VIOLATIONS=0
 
+
+# Cache native grep results by eligible-file index, then replay the old loops.
+# --null is supported by BSD and GNU grep and avoids colon-prefix ambiguity.
+# Binary-file notices are unframed; retain their original filename and bytes.
+SCAN_DIR=$(mktemp -d -t av-validate-scan-XXXXXX)
+trap 'rm -rf "${SCAN_DIR}"' EXIT
+scan_eligible() {
+  local check="$1" path="$2"
+  [ -f "$path" ] || return 1
+  case "$check" in
+    1)
+      case "$path" in
+        .env.example|scripts/harness/validate.sh|package-lock.json|yarn.lock|go.sum|poetry.lock) return 1 ;;
+        *.png|*.jpg|*.jpeg|*.gif|*.ico|*.woff|*.woff2|*.ttf|*.eot) return 1 ;;
+      esac ;;
+    2)
+      case "$path" in
+        *.sh|*.bash|*.zsh|.github/workflows/*.yml|.github/workflows/*.yaml) ;;
+        *) return 1 ;;
+      esac
+      [ "$path" != scripts/harness/validate.sh ] || return 1 ;;
+    3)
+      case "$path" in */domain/*|domain/*) ;; *) return 1 ;; esac ;;
+  esac
+}
+scan_prepare() {
+  SCAN_CHECK="$1"
+  SCAN_CACHE=()
+  BATCH_FILES=()
+  SCAN_COUNT=${#ELIGIBLE[@]}
+  : > "${SCAN_DIR}/files"
+  local i=0
+  while [ "$i" -lt "$SCAN_COUNT" ]; do
+    printf '%s\t%s\n' "${ELIGIBLE[$i]}" "$i" >> "${SCAN_DIR}/files"
+    # The accepted single-file calls interpret leading '-' as grep options.
+    # Replay these natively; never let their options affect another input.
+    case "${ELIGIBLE[$i]}" in
+      -*) ;;
+      *) BATCH_FILES[${#BATCH_FILES[@]}]="${ELIGIBLE[$i]}" ;;
+    esac
+    i=$((i + 1))
+  done
+}
+scan_frame() {
+  local kind="$1" prefix line file body
+  if [ "$kind" = trigger ]; then
+    while IFS= read -r -d '' file; do printf '%s\t1\n' "$file"; done
+  else
+    while IFS= read -r -d '' prefix || [ -n "$prefix" ]; do
+      # BSD binary notices have no NUL separator. They precede the next
+      # filename (or EOF); peel off each complete notice before text rows.
+      while [[ "$prefix" = *$'\n'* ]]; do
+        line="${prefix%%$'\n'*}"; prefix="${prefix#*$'\n'}"
+        case "$line" in
+          'Binary file '*' matches')
+            file="${line#Binary file }"; file="${file% matches}"
+            printf '%s\t%s\n' "$file" "$line" ;;
+        esac
+      done
+      if [ -n "$prefix" ]; then
+        IFS= read -r body || true
+        printf '%s\t%s\n' "$prefix" "$body"
+      fi
+    done
+  fi
+}
+scan_collect() {
+  local kind="$1" expression="$2" filter="${3:-}"
+  [ "${#BATCH_FILES[@]}" -gt 0 ] || return 0
+      if [ "$kind" = trigger ]; then
+        printf '%s\0' "${BATCH_FILES[@]}" | xargs -0 grep -lE --null "$expression" 2>/dev/null || true
+      else
+        printf '%s\0' "${BATCH_FILES[@]}" | xargs -0 grep -nHE --null "$expression" 2>/dev/null || true
+      fi | scan_frame "$kind" | awk -v map="${SCAN_DIR}/files" '
+        BEGIN {
+          while ((getline line < map) > 0) {
+            tab = index(line, "\t"); ids[substr(line, 1, tab-1)] = substr(line, tab+1)
+          }
+          close(map)
+        }
+        {
+          tab = index($0, "\t"); file = substr($0, 1, tab-1)
+          if (file in ids) print ids[file] "\t" substr($0, tab+1)
+        }' | if [ -n "$filter" ]; then grep -vE "$filter" || true; else cat; fi
+}
+scan_store() {
+  local rule="$1" slot row index body
+  while IFS= read -r row; do
+    index="${row%%$'\t'*}"
+    body="${row#*$'\t'}"
+    slot=$((rule * SCAN_COUNT + index))
+    SCAN_CACHE[$slot]="${SCAN_CACHE[$slot]-}${body}"$'\n'
+  done
+}
+scan_batch() {
+  local rule="$1" kind="$2" expression="$3" filter="${4:-}"
+  scan_store "$rule" < <(scan_collect "$kind" "$expression" "$filter")
+}
+scan_matches() {
+  case "$file" in
+    -*)
+      local expression="$3" filter="${4:-}"
+      matches=""
+      if [ "${5:-}" = report ] || grep -qE "$expression" "$file" 2>/dev/null; then
+        if [ -n "$filter" ]; then
+          matches=$(grep -nE "$expression" "$file" 2>/dev/null | grep -vE "$filter" || true)
+        else
+          matches=$(grep -nE "$expression" "$file" 2>/dev/null || true)
+        fi
+      fi
+      return 0 ;;
+  esac
+  local slot=$(( $1 * SCAN_COUNT + $2 ))
+  matches="${SCAN_CACHE[$slot]-}"
+  matches="${matches%$'\n'}"
+}
+scan_replay_index() {
+  scan_eligible "$SCAN_CHECK" "$file" || return 1
+  # Native option-only calls may consume the loop's remaining FILES stdin.
+  # Seek forward if that consumption skipped entries in the prepared cache.
+  while [ "$file_index" -lt "$SCAN_COUNT" ]; do
+    [ "${ELIGIBLE[$file_index]}" != "$file" ] || return 0
+    file_index=$((file_index + 1))
+  done
+  return 1
+}
+
 # ── Helper: grep a file list for a pattern and report violations ──────────────
 # Usage: check_pattern DESCRIPTION PATTERN [FILE_GLOB]
 check_pattern() {
@@ -114,16 +241,12 @@ info "Check 1/5: Hardcoded secrets"
 # this script itself, and binary/lock files.
 EXCLUDE_SECRET_FILES=".env.example|scripts/harness/validate.sh|package-lock.json|yarn.lock|go.sum|poetry.lock"
 
+ELIGIBLE=()
 while IFS= read -r file; do
-  [ -f "${file}" ] || continue
+  scan_eligible 1 "$file" || continue
 
-  # Skip excluded files
-  case "${file}" in
-    .env.example|scripts/harness/validate.sh|package-lock.json|yarn.lock|go.sum|poetry.lock)
-      continue ;;
-    *.png|*.jpg|*.jpeg|*.gif|*.ico|*.woff|*.woff2|*.ttf|*.eot)
-      continue ;;
-  esac
+  ELIGIBLE[${#ELIGIBLE[@]}]="$file"
+done <<< "${FILES}"
 
   # Patterns that indicate a real secret value (not a placeholder)
   SECRET_PATTERNS=(
@@ -143,11 +266,35 @@ while IFS= read -r file; do
     'Bearer\s+[A-Za-z0-9\._\-]{32,}'
   )
 
+scan_prepare 1
+# Pattern scans dominate elapsed time on the accepted corpus. Keep at most
+# three native batches active; only the parent replays their buffered output.
+rule=0
+SCAN_PIDS=()
+for pattern in "${SECRET_PATTERNS[@]}"; do
+  scan_collect report "$pattern" > "${SCAN_DIR}/secret-${rule}" &
+  SCAN_PIDS[${#SCAN_PIDS[@]}]=$!
+  rule=$((rule + 1))
+  if [ $((rule % 3)) -eq 0 ]; then
+    for scan_pid in "${SCAN_PIDS[@]}"; do wait "$scan_pid"; done
+    SCAN_PIDS=()
+  fi
+done
+if [ "${#SCAN_PIDS[@]}" -gt 0 ]; then
+  for scan_pid in "${SCAN_PIDS[@]}"; do wait "$scan_pid"; done
+fi
+rule=0
+while [ "$rule" -lt "${#SECRET_PATTERNS[@]}" ]; do
+  scan_store "$rule" < "${SCAN_DIR}/secret-${rule}"
+  rule=$((rule + 1))
+done
+file_index=0
+while IFS= read -r file; do
+  scan_replay_index || continue
+  rule=0
   for pattern in "${SECRET_PATTERNS[@]}"; do
-    matches=""
-    if grep -qE "${pattern}" "${file}" 2>/dev/null; then
-      matches=$(grep -nE "${pattern}" "${file}" 2>/dev/null || true)
-    fi
+    scan_matches "$rule" "$file_index" "$pattern"
+    rule=$((rule + 1))
     if [ -n "${matches}" ]; then
       violation "Hardcoded secret detected (pattern: ${pattern})"
       violation "  Fix: Move the value to .env and reference it via environment variable."
@@ -158,6 +305,7 @@ while IFS= read -r file; do
       VIOLATIONS=$(( VIOLATIONS + 1 ))
     fi
   done
+  file_index=$((file_index + 1))
 done <<< "${FILES}"
 
 [ "${VIOLATIONS}" -eq 0 ] && ok "No hardcoded secrets found" || true
@@ -170,23 +318,24 @@ info "Check 2/5: Dangerous shell commands"
 
 VIOLATIONS_BEFORE_2="${VIOLATIONS}"
 
+ELIGIBLE=()
 while IFS= read -r file; do
-  [ -f "${file}" ] || continue
+  scan_eligible 2 "$file" || continue
 
-  # Only check shell scripts and CI YAML
-  case "${file}" in
-    *.sh|*.bash|*.zsh|.github/workflows/*.yml|.github/workflows/*.yaml) ;;
-    *) continue ;;
-  esac
-
-  # Skip this script itself (contains patterns as detection strings)
-  case "${file}" in
-    scripts/harness/validate.sh) continue ;;
-  esac
-
+  ELIGIBLE[${#ELIGIBLE[@]}]="$file"
+done <<< "${FILES}"
+scan_prepare 2
+  scan_batch 0 report 'rm\s+-[rf]{1,2}\s+/'
+  scan_batch 3 trigger 'git\s+push\s+.*--force.*\s+(main|master)'
+  scan_batch 4 trigger 'git\s+push\s+.*-f\s+.*(main|master)'
+  scan_batch 1 report 'git\s+push\s+.*(--force|-f).*(main|master)'
+  scan_batch 2 report 'git\s+push\s+(--force|-f)\s*$'
+file_index=0
+while IFS= read -r file; do
+  scan_replay_index || continue
   # rm -rf with filesystem root or workspace root
-  if grep -qE 'rm\s+-[rf]{1,2}\s+/' "${file}" 2>/dev/null; then
-    matches=$(grep -nE 'rm\s+-[rf]{1,2}\s+/' "${file}" 2>/dev/null || true)
+  scan_matches 0 "$file_index" 'rm\s+-[rf]{1,2}\s+/'
+  if [ -n "$matches" ]; then
     if [ -n "${matches}" ]; then
       violation "Dangerous: rm -rf with absolute path root"
       violation "  Fix: Use a scoped path variable, never start from / or \$HOME directly."
@@ -199,9 +348,21 @@ while IFS= read -r file; do
   fi
 
   # git push --force to main or master
-  if grep -qE 'git\s+push\s+.*--force.*\s+(main|master)' "${file}" 2>/dev/null || \
-     grep -qE 'git\s+push\s+.*-f\s+.*(main|master)' "${file}" 2>/dev/null; then
-    matches=$(grep -nE 'git\s+push\s+.*(--force|-f).*(main|master)' "${file}" 2>/dev/null || true)
+  trigger_one=""
+  case "$file" in
+    -*)
+      if grep -qE 'git\s+push\s+.*--force.*\s+(main|master)' "$file" 2>/dev/null || \
+         grep -qE 'git\s+push\s+.*-f\s+.*(main|master)' "$file" 2>/dev/null; then
+        trigger_one=1
+      fi ;;
+    *)
+      scan_matches 3 "$file_index"
+      trigger_one="$matches"
+      scan_matches 4 "$file_index"
+      trigger_one="$trigger_one$matches" ;;
+  esac
+  if [ -n "$trigger_one" ]; then
+    scan_matches 1 "$file_index" 'git\s+push\s+.*(--force|-f).*(main|master)' "" report
     if [ -n "${matches}" ]; then
       violation "Dangerous: git push --force to main/master"
       violation "  Fix: Never force-push to main or master."
@@ -214,8 +375,8 @@ while IFS= read -r file; do
   fi
 
   # git push --force without branch name (could target current branch = main)
-  if grep -qE 'git\s+push\s+(--force|-f)\s*$' "${file}" 2>/dev/null; then
-    matches=$(grep -nE 'git\s+push\s+(--force|-f)\s*$' "${file}" 2>/dev/null || true)
+  scan_matches 2 "$file_index" 'git\s+push\s+(--force|-f)\s*$'
+  if [ -n "$matches" ]; then
     if [ -n "${matches}" ]; then
       violation "Dangerous: bare git push --force (ambiguous target branch)"
       violation "  Fix: Always specify target branch explicitly and confirm it is not main."
@@ -225,6 +386,7 @@ while IFS= read -r file; do
       VIOLATIONS=$(( VIOLATIONS + 1 ))
     fi
   fi
+  file_index=$((file_index + 1))
 done <<< "${FILES}"
 
 [ "${VIOLATIONS}" -eq "${VIOLATIONS_BEFORE_2}" ] && ok "No dangerous shell commands found" || true
@@ -242,23 +404,28 @@ VIOLATIONS_BEFORE_3="${VIOLATIONS}"
 # Matched against relative import specifiers inside files under */domain/*.
 NON_DOMAIN_LAYER_DIRS="tracker|workspace|sessions|observability|config|orchestrator|relay|server|infrastructure"
 
+ELIGIBLE=()
 while IFS= read -r file; do
-  [ -f "${file}" ] || continue
+  scan_eligible 3 "$file" || continue
 
-  # Only check files inside a domain/ directory subtree
-  case "${file}" in
-    */domain/*|domain/*) ;;
-    *) continue ;;
-  esac
-
+  ELIGIBLE[${#ELIGIBLE[@]}]="$file"
+done <<< "${FILES}"
+scan_prepare 3
+  scan_batch 0 report "from ['\"][^'\"]*(/|^)(${NON_DOMAIN_LAYER_DIRS})(/|['\"])" "from ['\"]\./"
+  scan_batch 1 report "from ['\"].*infrastructure"
+  scan_batch 2 report "^(from|import)\s+.*infrastructure"
+  scan_batch 3 report '"[^"]+/infrastructure[^"]*"'
+  scan_batch 4 report "^(from|import)\s+(sqlalchemy|django\.db|peewee|tortoise|motor|pymongo|linear_sdk)"
+file_index=0
+while IFS= read -r file; do
+  scan_replay_index || continue
   # TypeScript / JavaScript: domain imports any non-domain layer directory.
   # Exclude relative imports that stay inside domain/ (e.g. "./ports/tracker"
   # from domain/parsed-webhook-event.ts is a within-domain reference, not an
   # outbound dependency). Relative imports that escape the domain subtree
   # would need "../../" and would not match this check's starting anchor.
-  if grep -qE "from ['\"][^'\"]*(/|^)(${NON_DOMAIN_LAYER_DIRS})(/|['\"])" "${file}" 2>/dev/null; then
-    matches=$(grep -nE "from ['\"][^'\"]*(/|^)(${NON_DOMAIN_LAYER_DIRS})(/|['\"])" "${file}" 2>/dev/null \
-      | grep -vE "from ['\"]\./" || true)
+  scan_matches 0 "$file_index" "from ['\"][^'\"]*(/|^)(${NON_DOMAIN_LAYER_DIRS})(/|['\"])" "from ['\"]\./"
+  if [ -n "$matches" ]; then
     if [ -n "${matches}" ]; then
       violation "Architecture violation: domain/ imports from non-domain layer"
       violation "  Fix: Domain must be pure. Define an interface in domain/, implement it in the outer layer, and inject it."
@@ -271,8 +438,8 @@ while IFS= read -r file; do
   fi
 
   # Legacy: some older stacks still use an infrastructure/ dir name — keep the check.
-  if grep -qE "from ['\"].*infrastructure" "${file}" 2>/dev/null; then
-    matches=$(grep -nE "from ['\"].*infrastructure" "${file}" 2>/dev/null || true)
+  scan_matches 1 "$file_index" "from ['\"].*infrastructure"
+  if [ -n "$matches" ]; then
     if [ -n "${matches}" ]; then
       violation "Architecture violation: domain/ imports from infrastructure/"
       violation "  Fix: Domain layer must not depend on infrastructure."
@@ -286,8 +453,8 @@ while IFS= read -r file; do
   fi
 
   # Python: import from infrastructure
-  if grep -qE "^(from|import)\s+.*infrastructure" "${file}" 2>/dev/null; then
-    matches=$(grep -nE "^(from|import)\s+.*infrastructure" "${file}" 2>/dev/null || true)
+  scan_matches 2 "$file_index" "^(from|import)\s+.*infrastructure"
+  if [ -n "$matches" ]; then
     if [ -n "${matches}" ]; then
       violation "Architecture violation: domain/ imports from infrastructure/ (Python)"
       violation "  Fix: Use dependency inversion — define abstract interface in domain/, inject concrete impl."
@@ -300,8 +467,8 @@ while IFS= read -r file; do
   fi
 
   # Go: import path contains /infrastructure
-  if grep -qE '"[^"]+/infrastructure[^"]*"' "${file}" 2>/dev/null; then
-    matches=$(grep -nE '"[^"]+/infrastructure[^"]*"' "${file}" 2>/dev/null || true)
+  scan_matches 3 "$file_index" '"[^"]+/infrastructure[^"]*"'
+  if [ -n "$matches" ]; then
     if [ -n "${matches}" ]; then
       violation "Architecture violation: domain/ imports from infrastructure/ (Go)"
       violation "  Fix: Define interfaces in domain/, inject infrastructure implementations via constructors."
@@ -314,8 +481,8 @@ while IFS= read -r file; do
   fi
 
   # Python: ORM or external SDK imported in domain/
-  if grep -qE "^(from|import)\s+(sqlalchemy|django\.db|peewee|tortoise|motor|pymongo|linear_sdk)" "${file}" 2>/dev/null; then
-    matches=$(grep -nE "^(from|import)\s+(sqlalchemy|django\.db|peewee|tortoise|motor|pymongo|linear_sdk)" "${file}" 2>/dev/null || true)
+  scan_matches 4 "$file_index" "^(from|import)\s+(sqlalchemy|django\.db|peewee|tortoise|motor|pymongo|linear_sdk)"
+  if [ -n "$matches" ]; then
     if [ -n "${matches}" ]; then
       violation "Architecture violation: ORM or external SDK imported in domain/ (Python)"
       violation "  Fix: Domain layer must be pure. Move persistence logic to infrastructure/."
@@ -327,6 +494,7 @@ while IFS= read -r file; do
     fi
   fi
 
+  file_index=$((file_index + 1))
 done <<< "${FILES}"
 
 [ "${VIOLATIONS}" -eq "${VIOLATIONS_BEFORE_3}" ] && ok "No architecture layer violations found" || true

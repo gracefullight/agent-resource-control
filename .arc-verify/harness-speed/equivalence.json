@@ -1,0 +1,4190 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "equivalence",
+  "runId": "ce067559-167b-4780-b949-88ced0711e79",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+  "oracleSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+  "candidateScriptPath": "scripts/harness/validate.sh",
+  "candidateScriptSha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8",
+  "integratedSourceIdentity": {
+    "head": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "sha256": "fe4f4139d049e430b6a53a4d18cebacfbd5d22c7f7c4d74c0db92f5816764ffc",
+    "entries": [
+      {
+        "path": "scripts/coverage/acceptance.ts",
+        "mode": 420,
+        "sha256": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d"
+      },
+      {
+        "path": "scripts/coverage/accounting.test.ts",
+        "mode": 420,
+        "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882"
+      },
+      {
+        "path": "scripts/coverage/accounting.ts",
+        "mode": 420,
+        "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1"
+      },
+      {
+        "path": "scripts/coverage/clean-checkout.test.ts",
+        "mode": 420,
+        "sha256": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760"
+      },
+      {
+        "path": "scripts/coverage/commands.ts",
+        "mode": 420,
+        "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea"
+      },
+      {
+        "path": "scripts/coverage/config.ts",
+        "mode": 420,
+        "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a"
+      },
+      {
+        "path": "scripts/coverage/coverage-cli.test.ts",
+        "mode": 420,
+        "sha256": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041"
+      },
+      {
+        "path": "scripts/coverage/evidence.test.ts",
+        "mode": 420,
+        "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8"
+      },
+      {
+        "path": "scripts/coverage/fixture-runner.ts",
+        "mode": 420,
+        "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d"
+      },
+      {
+        "path": "scripts/coverage/fixtures.ts",
+        "mode": 420,
+        "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d"
+      },
+      {
+        "path": "scripts/coverage/gate.test.ts",
+        "mode": 420,
+        "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda"
+      },
+      {
+        "path": "scripts/coverage/gate.ts",
+        "mode": 420,
+        "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29"
+      },
+      {
+        "path": "scripts/coverage/harness.test.ts",
+        "mode": 420,
+        "sha256": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747"
+      },
+      {
+        "path": "scripts/coverage/hygiene-preservation.test.ts",
+        "mode": 420,
+        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+      },
+      {
+        "path": "scripts/coverage/hygiene.test.ts",
+        "mode": 420,
+        "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c"
+      },
+      {
+        "path": "scripts/coverage/hygiene.ts",
+        "mode": 420,
+        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+      },
+      {
+        "path": "scripts/coverage/preservation.test.ts",
+        "mode": 420,
+        "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445"
+      },
+      {
+        "path": "scripts/coverage/preservation.ts",
+        "mode": 420,
+        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+      },
+      {
+        "path": "scripts/coverage/provision.sh",
+        "mode": 420,
+        "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d"
+      },
+      {
+        "path": "scripts/coverage/run.ts",
+        "mode": 420,
+        "sha256": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+      },
+      {
+        "path": "scripts/coverage/source.ts",
+        "mode": 420,
+        "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062"
+      },
+      {
+        "path": "scripts/harness/benchmark.ts",
+        "mode": 420,
+        "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e"
+      },
+      {
+        "path": "scripts/harness/coverage-verification.test.ts",
+        "mode": 420,
+        "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb"
+      },
+      {
+        "path": "scripts/harness/equivalence.test.ts",
+        "mode": 420,
+        "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25"
+      },
+      {
+        "path": "scripts/harness/evidence-budget.test.ts",
+        "mode": 420,
+        "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4"
+      },
+      {
+        "path": "scripts/harness/fixtures.ts",
+        "mode": 420,
+        "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a"
+      },
+      {
+        "path": "scripts/harness/gc.sh",
+        "mode": 493,
+        "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73"
+      },
+      {
+        "path": "scripts/harness/performance.test.ts",
+        "mode": 420,
+        "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242"
+      },
+      {
+        "path": "scripts/harness/test-support.ts",
+        "mode": 420,
+        "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "mode": 493,
+        "sha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8"
+      }
+    ]
+  },
+  "sourceScope": "current working harness and coverage sources",
+  "sourceRevision": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "tools": {
+    "bash": {
+      "path": "/bin/bash",
+      "version": "GNU bash, version 3.2.57(1)-release (arm64-apple-darwin26)\nCopyright (C) 2007 Free Software Foundation, Inc.\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "grep": {
+      "path": "/usr/bin/grep",
+      "version": "grep (BSD grep, GNU compatible) 2.6.0-FreeBSD\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "git": {
+      "path": "/opt/homebrew/bin/git",
+      "version": "git version 2.56.0\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "bun": {
+      "path": "/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin/bun",
+      "version": "1.4.4\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "rustc": {
+      "path": "/Users/gracefullight/.cargo/bin/rustc",
+      "version": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "cargo": {
+      "path": "/Users/gracefullight/.cargo/bin/cargo",
+      "version": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "cargoLlvmCov": {
+      "path": "/Users/gracefullight/.cargo/bin/cargo",
+      "version": "cargo-llvm-cov 0.6.21\n",
+      "stderr": "",
+      "exit": 0
+    }
+  },
+  "clock": "performance.now() monotonic milliseconds",
+  "startedAtUtc": "2026-11-08T08:35:09.299Z",
+  "cases": [
+    {
+      "id": "empty",
+      "fixtureDefinitionSha256": "a63786108e53c4bd3a6e60ccf7a61cb32ee0b641e359ce0f11c4bcb4abe65c59",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-beRegw",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-beRegw/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-beRegw/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "3dc2064cd9182188b08ca6a3c725224f6af24008f06ca74de48ce80fb2552bed",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 44,
+        "stderrBytes": 0
+      },
+      "candidate": {
+        "stdout": "3dc2064cd9182188b08ca6a3c725224f6af24008f06ca74de48ce80fb2552bed",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 44,
+        "stderrBytes": 0
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-beRegw"
+    },
+    {
+      "id": "tracked-harness-exclusion",
+      "fixtureDefinitionSha256": "7adda40a9d2b08de566176ea7f8358dbb9eb71944cbe7ce83ad207dc0eb15484",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tD5l2m",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tD5l2m/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tD5l2m/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "339791ab7c796844ae98cfd5498dea0c7f549f675c1a3f1961026bc0ac0dbbfe",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "ecab42a51b022caafcbf081cf9c69ff149309da34d417a4ea66bee6c4b363484",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "339791ab7c796844ae98cfd5498dea0c7f549f675c1a3f1961026bc0ac0dbbfe",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "47c0a12962838a5421b22ec4dd43fd9b9ad571673b22420495216117927426ca",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tD5l2m"
+    },
+    {
+      "id": "unreadable-grep-input",
+      "fixtureDefinitionSha256": "d60cbb79345b23609c99f2cffbbebf1a28afd9b3c226072079424f3d9d9a66de",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-7KAnP8",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-7KAnP8/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-7KAnP8/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "339791ab7c796844ae98cfd5498dea0c7f549f675c1a3f1961026bc0ac0dbbfe",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "2ce36f79db97b57e86b4b255d787903507baf00fcb7da42521df31e7d43801d0",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "339791ab7c796844ae98cfd5498dea0c7f549f675c1a3f1961026bc0ac0dbbfe",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "96efddbe50309f42a3a4020698f07940da2b2b4ab957bfb756a8306d15727855",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-7KAnP8"
+    },
+    {
+      "id": "clean",
+      "fixtureDefinitionSha256": "ee88faaa93db3cd09c9da2f8786636545e0f4ac39ba0a16a16ebd869c18cd7ab",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Q1dp9S",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Q1dp9S/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Q1dp9S/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "5b0fd532ca593215a485dacdba4d7f9adc8af41e89b6236eef4666933232e2d9",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "fde9248a1026665ee357d2b5e7251c76f89a3a367d3601a443889c6730b194b4",
+        "exit": 0,
+        "stdoutBytes": 759,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "5b0fd532ca593215a485dacdba4d7f9adc8af41e89b6236eef4666933232e2d9",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "26347a3137cdc7f2335235bfc16e0242fe094688d6ef78795ca3f3ee0eb5065c",
+        "exit": 0,
+        "stdoutBytes": 759,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Q1dp9S"
+    },
+    {
+      "id": "unknown-mode",
+      "fixtureDefinitionSha256": "b7bbea6b2a92d8353fcc2ae3605019f97cbf5cdfd1f405c5eb0d6ad2c8684118",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh",
+          "custom-mode"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hsgWbb",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hsgWbb/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hsgWbb/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "6654be068fa7ad259798d3c2c5dd592025efbf0375b777adb75ba48e44a1275e",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "ecab42a51b022caafcbf081cf9c69ff149309da34d417a4ea66bee6c4b363484",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "6654be068fa7ad259798d3c2c5dd592025efbf0375b777adb75ba48e44a1275e",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "fec8a9c697abad9d3705a21aff29c8393e8b655617be3d63e54fcbcbe41b726a",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hsgWbb"
+    },
+    {
+      "id": "coverage-failure",
+      "fixtureDefinitionSha256": "a7ac2b37b5dc87ead00c0ac0c1508568017f2cc0e15b11a9f77f50515eb4645c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-bq6nov",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-bq6nov/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-bq6nov/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "d98579564cd06ae479e63b5ac3cbe8dc74d3ae73b5f17db6994c91e1ae8af85c",
+        "stderr": "fcb19eb381a13f1389b23516c06c084b618e6540c2b0be5230bc7d8275a132c5",
+        "trace": "ecab42a51b022caafcbf081cf9c69ff149309da34d417a4ea66bee6c4b363484",
+        "exit": 1,
+        "stdoutBytes": 656,
+        "stderrBytes": 560
+      },
+      "candidate": {
+        "stdout": "d98579564cd06ae479e63b5ac3cbe8dc74d3ae73b5f17db6994c91e1ae8af85c",
+        "stderr": "fcb19eb381a13f1389b23516c06c084b618e6540c2b0be5230bc7d8275a132c5",
+        "trace": "bb3741855ec271bc2ee7ab7c69719666206061483ddf327a7facd27da5471faa",
+        "exit": 1,
+        "stdoutBytes": 656,
+        "stderrBytes": 560
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-bq6nov"
+    },
+    {
+      "id": "missing-bun",
+      "fixtureDefinitionSha256": "c8e768dbf14aed5f3c1b7b16eb1ac68e9e2357afaf6aaf97ef4415f69e0b3ec9",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-4w9xEa",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-4w9xEa/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-4w9xEa/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "ae1d53dd0313a1a492792c884b1a9c00ae12d1b874b581f4b0784fedfc5fe877",
+        "stderr": "05adacc27d912141b6356c77d1c569d44c0ec3242e6d68359bfc6f7ac9b35f45",
+        "trace": "ecab42a51b022caafcbf081cf9c69ff149309da34d417a4ea66bee6c4b363484",
+        "exit": 1,
+        "stdoutBytes": 640,
+        "stderrBytes": 326
+      },
+      "candidate": {
+        "stdout": "ae1d53dd0313a1a492792c884b1a9c00ae12d1b874b581f4b0784fedfc5fe877",
+        "stderr": "05adacc27d912141b6356c77d1c569d44c0ec3242e6d68359bfc6f7ac9b35f45",
+        "trace": "204e93f083cb79f09b8bc0f893213270903d763d9f381e91b6aecac5f07b8471",
+        "exit": 1,
+        "stdoutBytes": 640,
+        "stderrBytes": 326
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-4w9xEa"
+    },
+    {
+      "id": "explicit-skip",
+      "fixtureDefinitionSha256": "170c453ae7fdcdec1248442428106480f19b437f3cb8835921630d258edbb3f7",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qK3911",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qK3911/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": "1",
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qK3911/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "7017813ec53e2f2660941e281c0b58b526381acf8ad952552ecafb6cd99cb047",
+        "stderr": "03fa40625c772c8015c28319a84dc37ff241569a95bacf48aea0fd9de4cee117",
+        "trace": "ecab42a51b022caafcbf081cf9c69ff149309da34d417a4ea66bee6c4b363484",
+        "exit": 0,
+        "stdoutBytes": 696,
+        "stderrBytes": 99
+      },
+      "candidate": {
+        "stdout": "7017813ec53e2f2660941e281c0b58b526381acf8ad952552ecafb6cd99cb047",
+        "stderr": "03fa40625c772c8015c28319a84dc37ff241569a95bacf48aea0fd9de4cee117",
+        "trace": "b2f77db9f74b871ca3201c807396a12a20270b5fb54c9321f4fc6307469f1c4f",
+        "exit": 0,
+        "stdoutBytes": 696,
+        "stderrBytes": 99
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qK3911"
+    },
+    {
+      "id": "secret-1",
+      "fixtureDefinitionSha256": "ad1cac181ee35ee6e59985c0477a3d7c7ef79c858b0b46c5fb6298a8086e2f9a",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-jYSjjM",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-jYSjjM/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-jYSjjM/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "4f88d728e9bf8b02f47a8d4d9f81745e6a65355651d193be1d49de4f25cd89fd",
+        "trace": "3eac0b59d393832cf2095c918c24592b2885290608844b4d3095b27ebfebc411",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 469
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "4f88d728e9bf8b02f47a8d4d9f81745e6a65355651d193be1d49de4f25cd89fd",
+        "trace": "fb23a4524a35ba9349ebcfbd343dbf1740c1fb20fe28d4cafc234d597eda87c8",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 469
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-jYSjjM"
+    },
+    {
+      "id": "secret-2",
+      "fixtureDefinitionSha256": "81c766987835dedb5a53e9ce5383d6a9a275e621f0fae0bc26d79ec3e493bc8b",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-FG8WtA",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-FG8WtA/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-FG8WtA/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "40fb801fdb91eb13d77e83cccc2c159de50b040e7c1c6c1f8b14ac8994e10de9",
+        "trace": "74bb54699e2754769cca2fb1cfe36969e0ff9c966b140e01509452324d6069a4",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 490
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "40fb801fdb91eb13d77e83cccc2c159de50b040e7c1c6c1f8b14ac8994e10de9",
+        "trace": "25695c345b26ccc4bc611f55ea3c9968a550759eb2338e22267ce7477b79f373",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 490
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-FG8WtA"
+    },
+    {
+      "id": "secret-3",
+      "fixtureDefinitionSha256": "bfdb325b28496aee7e8adb2c9f5efbb8a677159dc92db2cb73034ddaa99738b6",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sZOdlD",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sZOdlD/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sZOdlD/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "701fa2bb6dcda49408cdd3722e6e08a75484c04cecde6ac2a38152af851ecb02",
+        "trace": "f94566d586fe41c5538ae6abc2a7774d996dff2c069e11f073e525b108af56be",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 496
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "701fa2bb6dcda49408cdd3722e6e08a75484c04cecde6ac2a38152af851ecb02",
+        "trace": "fb23a4524a35ba9349ebcfbd343dbf1740c1fb20fe28d4cafc234d597eda87c8",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 496
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sZOdlD"
+    },
+    {
+      "id": "secret-4",
+      "fixtureDefinitionSha256": "c8acb3d17ec32ff0a812a397b91c02e79930d37da9232d2efc62aa8ea20406f7",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QHCCfT",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QHCCfT/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QHCCfT/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "48ed7e3a4b6d0f06fcc7576493a64b61504b588247303f84017a12f4ccb7f5f5",
+        "trace": "334db6c19d6bf7e3ebac52df437474e17dd89314e97d8cd6ce06b89bafa89285",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 502
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "48ed7e3a4b6d0f06fcc7576493a64b61504b588247303f84017a12f4ccb7f5f5",
+        "trace": "b05a784bf204e0aa4a4b0ec87c55ec1a93af6ea3dada89e9fef53cdc0908e8e7",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 502
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QHCCfT"
+    },
+    {
+      "id": "secret-5",
+      "fixtureDefinitionSha256": "fb363ff60b24dc2da5e2375aa3dbcc2951301e57092afeeea81fd1f5dcba1e42",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-TvWT60",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-TvWT60/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-TvWT60/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "f86242a51b0d2d4a9b56e986f23f089dd087012d27046c149a68e306b940bde8",
+        "trace": "0ca604fa315b969e2aeba0799fbb695dd07bb3da7ba96bb041df325e1e0e9ae1",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 498
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "f86242a51b0d2d4a9b56e986f23f089dd087012d27046c149a68e306b940bde8",
+        "trace": "6fbc81a8fb2f8f78b2799ada6f30f48ebee64b3869dabd91c9786a926c1a094f",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 498
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-TvWT60"
+    },
+    {
+      "id": "secret-6",
+      "fixtureDefinitionSha256": "ef13ff93327c469fd5672dbf42572d6f008bc701e6e72b1e936577b30696c48f",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EgJzNB",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EgJzNB/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EgJzNB/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "899bb36a625054a0931641ea9aa04c6d6d811a1c794fc049ca2c29c257519704",
+        "trace": "d563cbfe7fd0d8fca1634d82089fd1c0778fd54ed891d6203067c65d9efb6cc9",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 449
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "899bb36a625054a0931641ea9aa04c6d6d811a1c794fc049ca2c29c257519704",
+        "trace": "dedc219e0684aea4a7462c00f697262d606e1a74c094539df28ff5e52a3c0f83",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 449
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EgJzNB"
+    },
+    {
+      "id": "secret-7",
+      "fixtureDefinitionSha256": "d38210e10effd8645a995f5af330df99d659caa335ba9fb34d5d7f1c9fd0bdb7",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-w04ElH",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-w04ElH/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-w04ElH/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "3eee029c9310dca9159ed2dd641d84fa249ec0672e816a8affd0ca444449a8a8",
+        "trace": "d8e150c25ad52e33d24ffb6570ccbaf52361f8c07753a9a9ac1fc1d73c816440",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 472
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "3eee029c9310dca9159ed2dd641d84fa249ec0672e816a8affd0ca444449a8a8",
+        "trace": "2fec30d514f90992e125978c2eeaca093f80825c6f540ed62d5457e4c35ecbd6",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 472
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-w04ElH"
+    },
+    {
+      "id": "secret-8",
+      "fixtureDefinitionSha256": "4068de12e206aeda04b7792689f419262a934a3926a0410eecaacea01079bb2b",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QlLdmM",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QlLdmM/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QlLdmM/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "3660f02ce28b597cddf876117a0bf6bc5e1020c11135c1067644c0928b6af062",
+        "trace": "025fedaa5b69fd90f0736625e8ebbe547b49e37fb601ead54fdf73c5b1ab4075",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 533
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "3660f02ce28b597cddf876117a0bf6bc5e1020c11135c1067644c0928b6af062",
+        "trace": "b610c3695993b744d354b13b94dfeb4a3d85e79f2b1c856ba24e23e2b52a8ed5",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 533
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-QlLdmM"
+    },
+    {
+      "id": "secret-9",
+      "fixtureDefinitionSha256": "0ee5bcbc9024ce5f14be03e52d5026cb32b619af148181546dc04328598cc92d",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-IIhxIM",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-IIhxIM/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-IIhxIM/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "48cbd2567a856fc9f08c43ea70bb8ac7f775b2f9b13667319d02c0c69871cf24",
+        "trace": "945bac3f528fdb58abdec817df802c77751845024d42d9cc91558ac7cc0416b2",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 490
+      },
+      "candidate": {
+        "stdout": "87f283da922be89f998453d9b207585e45d27e3a9fa6ce0d320cd0ab0ceb47cd",
+        "stderr": "48cbd2567a856fc9f08c43ea70bb8ac7f775b2f9b13667319d02c0c69871cf24",
+        "trace": "8122c8bdc5ec8eed3e02c63ec205d71d854b4c52023b86312d4ac4e614db9268",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 490
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-IIhxIM"
+    },
+    {
+      "id": "secret-file-rule-line-order",
+      "fixtureDefinitionSha256": "97706ff1ad73f92f7dea2fd94e270485cb99073e55b884ced3ed31b6bfed604d",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8K1S6y",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8K1S6y/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8K1S6y/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "65b37b3ca912cf88d61d7032c32f712995ff50d2303bbf081d1c1ed3ceae4ce9",
+        "stderr": "2218f1770eb223a440bbf45f155be59457a16102eac5783ecd26f8747407cbf5",
+        "trace": "bd0d9fccff33806f729e36993b5fc2e13836c6825cd3365ad51e5d7bac2335ca",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 1649
+      },
+      "candidate": {
+        "stdout": "65b37b3ca912cf88d61d7032c32f712995ff50d2303bbf081d1c1ed3ceae4ce9",
+        "stderr": "2218f1770eb223a440bbf45f155be59457a16102eac5783ecd26f8747407cbf5",
+        "trace": "9c4677a2abe4940ac5c91102daff9930352a0ad7357ea97f9f3a533302d55ea5",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 1649
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8K1S6y"
+    },
+    {
+      "id": "option-name---definitely-invalid",
+      "fixtureDefinitionSha256": "38359c3301449216ec85df762beece511fd92b403e74ec61cc91bc3799c9b4f6",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rkk4rR",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rkk4rR/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rkk4rR/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "34e91f521be3a2df1c31244a9061deae0965af321e7fd24e478355eae4882084",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "candidate": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "ebb9cdfa2287660095ac89e8a69612776d5e21f4cd537324818c101597c5dcd4",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rkk4rR"
+    },
+    {
+      "id": "option-name--q",
+      "fixtureDefinitionSha256": "01d59d3f055927e6292afadf997c5d5603b32861b2867e04482c2a4a1d4891b1",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9wzhTA",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9wzhTA/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9wzhTA/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "7962a9599d35188cf9d1626ae4f75efa0b6779bf6667b8cfabfba4df8b8949b4",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "f933ecdc6f54b09c6f0b4d657388a8dcf882ff9f26149bc325cbc4ac89692dba",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9wzhTA"
+    },
+    {
+      "id": "option-name---",
+      "fixtureDefinitionSha256": "8737932c468d15892b2aaaebb8aaaff8f056770f2cbff4a8101f8ffe1541fee5",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ke1Wzo",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ke1Wzo/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ke1Wzo/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "688090ce7884377fab87cb1fd2bf3d32817f3fea64f4b10bd08c269b479599b7",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "ca4633f1841ee09129b221d30e046c554d96e7db9dd4b36011ab62a1e49705bb",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ke1Wzo"
+    },
+    {
+      "id": "option-name--",
+      "fixtureDefinitionSha256": "dcfb273aa209762a8078e3e00f892dde8a0583d092814757819ff71566f78a0a",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-yPwUdF",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-yPwUdF/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-yPwUdF/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "b9bfa35e8d3c56715a03a8acfd99d525a64ee473c50cd40d68b5213174aaabbc",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "e80af3c264b7a954e015a6469c7987bf70a51a5c24319b07acf3386fd472706c",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-yPwUdF"
+    },
+    {
+      "id": "option-name--H",
+      "fixtureDefinitionSha256": "7da0f6da593d068c99268700594681c28a622c7e70acc4488def8da6b5ee3057",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-uq7ODK",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-uq7ODK/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-uq7ODK/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "908ef35a7b33f93e46a9c05e64f5cfb2f58997ed9fad1062e14dd6c4df9b2393",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "965c4dda172f70020e7f5e8afb9e36d61e56ed21456e0b974160fa88df0a9f7b",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-uq7ODK"
+    },
+    {
+      "id": "option-name--l",
+      "fixtureDefinitionSha256": "ca662fe2920ab1fa50eabdf253a290a4b999d85475cb10fe68611e0d9839ea52",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lPLhOt",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lPLhOt/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lPLhOt/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "43ef55e51ead07e9c7f5064ed1d73dada68eaff6ebf7288c00a7e55be0933c54",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "84b084b91e7f09f609294d434bcb76a348a5526cfa72223028426e059ead0e79",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lPLhOt"
+    },
+    {
+      "id": "option-name--v",
+      "fixtureDefinitionSha256": "fceaf3427b38ab99e39b2c20bf66da6a11f7bfbb9b182897526edb7b370bf09c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GgM7AY",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GgM7AY/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GgM7AY/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "16e5c6ee6ac27c174b0679d7dca21a3446890b3347698cc28eab59d324dd8ab3",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "f611809ecf6bee5e0fe3f1d0ca1c6851735c40e70592fcc08cedf2722dd0b64f",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GgM7AY"
+    },
+    {
+      "id": "option-name--e",
+      "fixtureDefinitionSha256": "f2383977ab01c0fa2995737436387391116a8871203b4b55eec3287480ee13d6",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hzDmLf",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hzDmLf/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hzDmLf/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "a8aa06d3a41d96ac05286332ab1317f08aa3b3728cfc302a4ea6729d3e350442",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "candidate": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "db66a2f894763d95ce97634178379e20be2555a4cda1d6e99255b9e407b4ed34",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hzDmLf"
+    },
+    {
+      "id": "option-name--f",
+      "fixtureDefinitionSha256": "702f2426ccdd77b4fe35d2e71e39ad00f983d5b5e057130bdcdc0c7085ca4fa0",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EOb3Ye",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EOb3Ye/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EOb3Ye/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "1cb40aec174e898c61b94904989727b45b83ef6a2cf83198024eba4c8bdbe479",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "candidate": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "fc2fca6836e8d1f80f05a2ae759f25c01b29658f71c4faed03d12d2ca7a75e1b",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-EOb3Ye"
+    },
+    {
+      "id": "option-name---help",
+      "fixtureDefinitionSha256": "cea39c6ccacbf73738e6ac1e801b1a4db27b4d50f8e235e2ce0dda552fd88f6b",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hLyT1O",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hLyT1O/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hLyT1O/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "1ff61492514f0c2f1cb162f5c735c0e65fd1b1d4f7db202bf911763ea6405696",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "candidate": {
+        "stdout": "1295db7f13781da31d0751b266c09738cb033e2596d7427b753be39c06b724cb",
+        "stderr": "b07aa02ff99513c7eb01f787ad9f367a2b0a1bc3188d959c59194e6b20f508c1",
+        "trace": "50067f0269cf6e5c8307dd44448c6d0744da761c9d9dde0f93b27e43b384a91e",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 792
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hLyT1O"
+    },
+    {
+      "id": "option-name--V",
+      "fixtureDefinitionSha256": "6a7ec979a42cb264cde07244b0c46ca26f7a73c24d11a7ed2dc6f74727f13f0c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-HRClSz",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-HRClSz/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-HRClSz/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "4cd7534571902da02dcee6c13ea7ea22b60ec9e66a2c1ca7b8712791ce2e2a6f",
+        "stderr": "745b6b561a2dac63d9e51d539c60df2d7d146021fdebc8a0385756b8d4fc27b8",
+        "trace": "37966dec9b5392fb52463873ad9bb4d7e80437b7526254e1097d094e9141eedc",
+        "exit": 1,
+        "stdoutBytes": 1067,
+        "stderrBytes": 3847
+      },
+      "candidate": {
+        "stdout": "4cd7534571902da02dcee6c13ea7ea22b60ec9e66a2c1ca7b8712791ce2e2a6f",
+        "stderr": "745b6b561a2dac63d9e51d539c60df2d7d146021fdebc8a0385756b8d4fc27b8",
+        "trace": "c50efd4e586803683f1daa450d49a2618dbe5c141d74c8cedb520110fd226c17",
+        "exit": 1,
+        "stdoutBytes": 1067,
+        "stderrBytes": 3847
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-HRClSz"
+    },
+    {
+      "id": "option-name---include=*.txt",
+      "fixtureDefinitionSha256": "030b83174a0bdc935c8267091edcd243dd4433128b70f85123631205a31ad103",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-O6kIt8",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-O6kIt8/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-O6kIt8/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "10ef75e38b682cc6d3b243f32c25a2a45fb9ddd0d9f6a1e7f4d181cf8c1db6bc",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "9e6c605ce355a788539daeebb5d4180b0ff9c24ebe1b2ac23fed55b504512e8f",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "13b5b552fd5310e29d87f7953daeb0ae773ef965fa17582682834fc2a6ec0a72",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-O6kIt8"
+    },
+    {
+      "id": "option-path---definitely-invalid.sh",
+      "fixtureDefinitionSha256": "35623ddfeac85c12b8407d029f9b66dbaa156ebe76bc67dea1b5e6c112d84b35",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CjJcaj",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CjJcaj/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CjJcaj/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "ffcd382fd1e19da3e41c2b98b2fcffa7482376120af4f968cf0228ad0d9a040f",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "candidate": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "24e73905f0e949c30ca03272ca1add441cc3fc1a468ac92d4e5c92648abd5495",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CjJcaj"
+    },
+    {
+      "id": "option-path--e.sh",
+      "fixtureDefinitionSha256": "ff5b5984b2de0714dc148c2c82e4e1085445d5b31d210594eddb1a44a994cc03",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sv1zzN",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sv1zzN/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sv1zzN/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "f8f995eb3e62f443c3f4635a84146c9973e0db2b1ab2d722165340dc9099b823",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "candidate": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "225a4a6b0f61d67dee8763723b3f138501cdb205495682615737334aa13d1e79",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sv1zzN"
+    },
+    {
+      "id": "option-path--q.sh",
+      "fixtureDefinitionSha256": "e0a83f1e89e103104e025d11dbc2082a364ca304aa04e8c28a6f9a2f0fbf5208",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-B1CBbl",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-B1CBbl/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-B1CBbl/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "9fe3de13e9e410f53d888b61ae0a1f22eeee1ad483d876483cb4537202044a67",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "candidate": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "77f5be5cdcee8f2bff3585e7ceae9db1964f81074e3fa5044a275d838909d161",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-B1CBbl"
+    },
+    {
+      "id": "option-path--dir/domain/a.ts",
+      "fixtureDefinitionSha256": "208121f5e912f462f437cdefd3b4e42f1f1839897ee69edf0b7e8ef1694155f8",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UB4xTM",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UB4xTM/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UB4xTM/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "5386f7911015722a2877648b74e536cd457edfbb99c5f7998708aff62fd99afd",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "candidate": {
+        "stdout": "1875952ecd3802b852fbb31d48e4ae7e31259dbac31386c7f4fb2f1e2d4d9d02",
+        "stderr": "814f95fa4f3de94795f75e3351d55a1cbcec48924b9c0457636ea19ad8eb0250",
+        "trace": "e473c46506bffe027e0c73560a2ffaa9bb18404dd0e066c71b92fc55cd55744d",
+        "exit": 1,
+        "stdoutBytes": 536,
+        "stderrBytes": 1128
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UB4xTM"
+    },
+    {
+      "id": "option-name-staged-invalid",
+      "fixtureDefinitionSha256": "1d8f69c2f597790aaeba78087195421ed1012d284b593bb883e97b48ae2a5be3",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh",
+          "--staged"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8HqoOu",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8HqoOu/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8HqoOu/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "438915740ab3c972d038614eeddf5a78723be8fa174a48d46e8b5ebd120ac89a",
+        "stderr": "3eee029c9310dca9159ed2dd641d84fa249ec0672e816a8affd0ca444449a8a8",
+        "trace": "fbfd0a1d43190f868e7665c5fccdd0b5bfffc9641f6dbfe6bda6543b7abe3b34",
+        "exit": 1,
+        "stdoutBytes": 650,
+        "stderrBytes": 472
+      },
+      "candidate": {
+        "stdout": "438915740ab3c972d038614eeddf5a78723be8fa174a48d46e8b5ebd120ac89a",
+        "stderr": "3eee029c9310dca9159ed2dd641d84fa249ec0672e816a8affd0ca444449a8a8",
+        "trace": "8cf315be907f37b94414cd201b04b8bc38064b62ddbe64db4dacf91fd1b2c6d0",
+        "exit": 1,
+        "stdoutBytes": 650,
+        "stderrBytes": 472
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-8HqoOu"
+    },
+    {
+      "id": "option-name-excluded",
+      "fixtureDefinitionSha256": "e89b76cc5416ec15dac833d7cb80685bff52931e55add0473028ea834b36ce26",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-zi5QSh",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-zi5QSh/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-zi5QSh/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "65b37b3ca912cf88d61d7032c32f712995ff50d2303bbf081d1c1ed3ceae4ce9",
+        "stderr": "3eee029c9310dca9159ed2dd641d84fa249ec0672e816a8affd0ca444449a8a8",
+        "trace": "d8e150c25ad52e33d24ffb6570ccbaf52361f8c07753a9a9ac1fc1d73c816440",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 472
+      },
+      "candidate": {
+        "stdout": "65b37b3ca912cf88d61d7032c32f712995ff50d2303bbf081d1c1ed3ceae4ce9",
+        "stderr": "3eee029c9310dca9159ed2dd641d84fa249ec0672e816a8affd0ca444449a8a8",
+        "trace": "7d45e3dfb4c8cae98b38e350ed1f93de483cb6335a2609ddbd2fb1b040768c4d",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 472
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-zi5QSh"
+    },
+    {
+      "id": "placeholders",
+      "fixtureDefinitionSha256": "2ac65b36cfb379980391124d0e0d65b734ca428913a38fc01a162d8f27263a9f",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sPkwx7",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sPkwx7/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sPkwx7/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "2220ae8c24ca18a5c047fef8a13773af23e7a99bd18c4274c2ad8a306fc285ab",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "98dc194446cc07cdc75d42d74e0886ce45f68c870e97c035619d24e6cff7e42e",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "2220ae8c24ca18a5c047fef8a13773af23e7a99bd18c4274c2ad8a306fc285ab",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "b591a44369f2c59d47ce27158b67f6b9a3bc1f648e85776df16c841538e54a6e",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-sPkwx7"
+    },
+    {
+      "id": "shell-0",
+      "fixtureDefinitionSha256": "2a340031e366b3dfb604ac8cd0c05dadd650cc4f810136f92bfdbbd3a725ea7c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V7ShgF",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V7ShgF/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V7ShgF/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "92d2f2d6cf8d346660f7bd2b5c8bb8da2b7445c6df50ccf2c50032349a780ee7",
+        "trace": "0a7d6b656bbf1189fa4debf383d6cee79feb6cfdd2d2cbe952a5ef68c8b21a33",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 423
+      },
+      "candidate": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "92d2f2d6cf8d346660f7bd2b5c8bb8da2b7445c6df50ccf2c50032349a780ee7",
+        "trace": "e44dca2f3441f5591ae071e6ac028644f2d8bf75b809a4ef5506554cf13bb976",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 423
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V7ShgF"
+    },
+    {
+      "id": "shell-1",
+      "fixtureDefinitionSha256": "335dfc1f5fa2e66a1009a8167ee2027f0af06693defc1451046c416d590f5e2a",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S0UN7T",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S0UN7T/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S0UN7T/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "d66f82027b8093e4da7ff5ad9625ac1b279df795a63441eabad733dd06843030",
+        "trace": "e278a03cd5af77fcde4fc625eb9493c277b8195445934209b97215566dbde72f",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 426
+      },
+      "candidate": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "d66f82027b8093e4da7ff5ad9625ac1b279df795a63441eabad733dd06843030",
+        "trace": "c93b0961237fafdb303809e0198f3f59672ff9e0bcd757d9a99749570dd20484",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 426
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S0UN7T"
+    },
+    {
+      "id": "shell-2",
+      "fixtureDefinitionSha256": "9c5bd587e7fc67498facd6d7177c96150b73d2dcffc2a49fb8050b1ce99299ec",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RUq8Kp",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RUq8Kp/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RUq8Kp/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "c8406e6ac2f494ec0f28175e0fbc424be653b1425c29aaabf46966b69c27c626",
+        "trace": "ce7637cc4ac4a0e292257c9866e00ee1f80a6f7dba5696a6ac6c3f86ec2b02ca",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 423
+      },
+      "candidate": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "c8406e6ac2f494ec0f28175e0fbc424be653b1425c29aaabf46966b69c27c626",
+        "trace": "adde5da2aa9fcbb193de0a742f7ef07cbc1ce702198bb12a8f300b4811bee93e",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 423
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RUq8Kp"
+    },
+    {
+      "id": "shell-3",
+      "fixtureDefinitionSha256": "d72dfed367bb778f5e5fa8d5fa50cd60becd4a63149deed028869ade023a9777",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YTpxiA",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YTpxiA/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YTpxiA/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "cf3a74a5d291085d8c3edd4763ac3fd5920b384497a7e53309d4c071eaccf363",
+        "trace": "fe1c78d6a12c7f6a3b0a7561f6c101e9aacf0e185fdff1cb1c086d55add59e9b",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 378
+      },
+      "candidate": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "cf3a74a5d291085d8c3edd4763ac3fd5920b384497a7e53309d4c071eaccf363",
+        "trace": "fdbb162fbbd2c1f5479edd46a69a31092dc638f4ae866d1af7ad973fdf2aab5a",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 378
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YTpxiA"
+    },
+    {
+      "id": "shell-4",
+      "fixtureDefinitionSha256": "4b7a0fa48723fa7aa1e88b233f228d94e129d105ace31149738712945fd637ad",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rPnavx",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rPnavx/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rPnavx/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "003097cd89c4b63e217e43412f8ccb8bfbfe8c1f499cb6771ce81b560a0648a0",
+        "trace": "fe1c78d6a12c7f6a3b0a7561f6c101e9aacf0e185fdff1cb1c086d55add59e9b",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 373
+      },
+      "candidate": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "003097cd89c4b63e217e43412f8ccb8bfbfe8c1f499cb6771ce81b560a0648a0",
+        "trace": "7c9574a6b36ea2b501e75bb16485e3ba1ec9fb54040b2c2c00ebe4da3eed9c63",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 373
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-rPnavx"
+    },
+    {
+      "id": "force-report-without-trigger",
+      "fixtureDefinitionSha256": "27c77e2810390d0b989e7396edc87e70c091dffda2c5c0fe545fb28c5d4b9d62",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-gU49hs",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-gU49hs/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-gU49hs/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "2220ae8c24ca18a5c047fef8a13773af23e7a99bd18c4274c2ad8a306fc285ab",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "01af7df0a1f26071b18864cc8fa194ee9e29e9686ed57f9168d2c599f3fd98b9",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "2220ae8c24ca18a5c047fef8a13773af23e7a99bd18c4274c2ad8a306fc285ab",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "fac22a14773f8af77d0752bb065954bf27f411b6c96e0ddd00baf83f2a780dae",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-gU49hs"
+    },
+    {
+      "id": "force-trigger-and-report",
+      "fixtureDefinitionSha256": "90336b1455806eb6f3a25f5653533823d59ff6b2822f406838825c91a785174c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RxWonZ",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RxWonZ/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RxWonZ/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "9903d4fe821acb35fbd32bb47e9a3dfcb5aad57b1eb2f0d59f4659c3e84094f9",
+        "trace": "e278a03cd5af77fcde4fc625eb9493c277b8195445934209b97215566dbde72f",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 487
+      },
+      "candidate": {
+        "stdout": "330a611ed1304f0e1b31ec8d1e738aaa431299c7819e4279b69f1e064c1b59d2",
+        "stderr": "9903d4fe821acb35fbd32bb47e9a3dfcb5aad57b1eb2f0d59f4659c3e84094f9",
+        "trace": "d102657c152dc3fae108bb094912827b66499b146151fd9a4059f6806743eacc",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 487
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-RxWonZ"
+    },
+    {
+      "id": "force-no-cross-file-trigger",
+      "fixtureDefinitionSha256": "b8a6a441fb965ed889f97eba9773fa23e35914b8f187dbc1004b37c65d02e8b4",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-3gDyc3",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-3gDyc3/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-3gDyc3/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "f341a6158f22fa75b5a9a2f2a38fab31772f7f4953e86e58d38dc41145b7f56e",
+        "stderr": "8286f166d41aa256cd0c7b0d6459db1f5ff9e0eae912ddc8e81362558d3ba355",
+        "trace": "7908a75bad605b38b32ab70a1557d0370204a1da961236332ffb419d5a12c3d1",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 426
+      },
+      "candidate": {
+        "stdout": "f341a6158f22fa75b5a9a2f2a38fab31772f7f4953e86e58d38dc41145b7f56e",
+        "stderr": "8286f166d41aa256cd0c7b0d6459db1f5ff9e0eae912ddc8e81362558d3ba355",
+        "trace": "e29f18cec40108def8456fc57d1e487d46208c05364b91dc609aec89976c7d66",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 426
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-3gDyc3"
+    },
+    {
+      "id": "shell-file-rule-line-order",
+      "fixtureDefinitionSha256": "b6c9c166476e1140bb6050de3bec66b4352c669d48340a146c37aa149cfd564b",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V1L0ov",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V1L0ov/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V1L0ov/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "f341a6158f22fa75b5a9a2f2a38fab31772f7f4953e86e58d38dc41145b7f56e",
+        "stderr": "5f6b212dcb7f9175a145a507df0dce2b87465776f53762ce8dcbc5229fa21e0f",
+        "trace": "c3945f5edf8712454b034a8ff4a9461ee779c1b1722145ad3bf187b5399fcb1f",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 2459
+      },
+      "candidate": {
+        "stdout": "f341a6158f22fa75b5a9a2f2a38fab31772f7f4953e86e58d38dc41145b7f56e",
+        "stderr": "5f6b212dcb7f9175a145a507df0dce2b87465776f53762ce8dcbc5229fa21e0f",
+        "trace": "34cf021318166362db4b36156e17ed3d32d5a7bc15c2fc8913bdaf03a3940643",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 2459
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-V1L0ov"
+    },
+    {
+      "id": "layer-tracker",
+      "fixtureDefinitionSha256": "a979036e0a904dab3a98e64e50ea998d4b7e5964ec2ad248e5d70d3b26e189ac",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZxZzw4",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZxZzw4/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZxZzw4/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "9e7a2793849665547836225d81bb3630075516b702f399898f880869fa9f2e2c",
+        "trace": "b0b3ecc622e1541dc0487b26b018f4a9ba9c8077b29c50b4320518fd80cc19bf",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 535
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "9e7a2793849665547836225d81bb3630075516b702f399898f880869fa9f2e2c",
+        "trace": "9868f7a2f0832fa9a5ed52caf60c789d7ed50e759e93d6eb0c7c4e24ae6f52a7",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 535
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZxZzw4"
+    },
+    {
+      "id": "layer-workspace",
+      "fixtureDefinitionSha256": "55f71d7c4b7ae5029d9d1b942eb1774f46b478b28810a46bcf8b7e96fa8d387c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-DIALwU",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-DIALwU/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-DIALwU/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "9853ccf2a2216de6c2c8812d1bd4cf62281a36244ff236a1f6a48b3dcf32cd59",
+        "trace": "abea565a014b3e0745667e43d639a4e6e709bc75c774a8fc77aeba6922d7db77",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 537
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "9853ccf2a2216de6c2c8812d1bd4cf62281a36244ff236a1f6a48b3dcf32cd59",
+        "trace": "1fc19a14ecd523ab2d1f6850aee329294eeb07e03b1ae2cd327da4c734b4f10b",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 537
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-DIALwU"
+    },
+    {
+      "id": "layer-sessions",
+      "fixtureDefinitionSha256": "fd7ca68dbf34aac512051337706bee2af2e60516ec54fef473745efe9a66ba8f",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-PF2Sxk",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-PF2Sxk/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-PF2Sxk/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "04311915e027551a7525b4f091c7b2f1fdb59c3b858f90d506d37a2060a1d486",
+        "trace": "cf869b04c6823ced8d8c9229c01216cbe306bed90f0e83dc904115d12fbb5a90",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 536
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "04311915e027551a7525b4f091c7b2f1fdb59c3b858f90d506d37a2060a1d486",
+        "trace": "a088d7c60689fa9ccc50375c8cd13371fbc7a4d6637890a3a6afec3974025f70",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 536
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-PF2Sxk"
+    },
+    {
+      "id": "layer-observability",
+      "fixtureDefinitionSha256": "a0a503cdd8149ea6a1f75550512b92ea07101ff25558cab7ab8d9ad5a0f85533",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZToE4I",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZToE4I/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZToE4I/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "973a488e5d298a71ad96ee510e46a31a5bf4ee7b03623607618e2f5cf72495fd",
+        "trace": "b0b3ecc622e1541dc0487b26b018f4a9ba9c8077b29c50b4320518fd80cc19bf",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 541
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "973a488e5d298a71ad96ee510e46a31a5bf4ee7b03623607618e2f5cf72495fd",
+        "trace": "b8c04b68c14ad38260f6225917fa49ee9264572cdf9b6fbe1d9bbed2bbef0126",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 541
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZToE4I"
+    },
+    {
+      "id": "layer-config",
+      "fixtureDefinitionSha256": "f80ee204b32497712a4660e36c7700911c18ef22495394665e8ecf4a7178593c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-pHZSOv",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-pHZSOv/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-pHZSOv/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "a66105db77713c034656a2f001523b4f0b524abcf2bbddf0bd0de9416cecf8ed",
+        "trace": "b0b3ecc622e1541dc0487b26b018f4a9ba9c8077b29c50b4320518fd80cc19bf",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 534
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "a66105db77713c034656a2f001523b4f0b524abcf2bbddf0bd0de9416cecf8ed",
+        "trace": "c74f57adc31d11ac7d9b5bd9feb3715b5b0a46ee273bc75748616786c85c1230",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 534
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-pHZSOv"
+    },
+    {
+      "id": "layer-orchestrator",
+      "fixtureDefinitionSha256": "90a1811b0cd92dd24d742173f480e1e64ed783792473e33b902eabfc93818913",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lTc7VE",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lTc7VE/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lTc7VE/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "3f0608b233d3afaddcc30bfb56fef69b2167ad2bbd6e466a5530fc6b8a5c052a",
+        "trace": "cf869b04c6823ced8d8c9229c01216cbe306bed90f0e83dc904115d12fbb5a90",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 540
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "3f0608b233d3afaddcc30bfb56fef69b2167ad2bbd6e466a5530fc6b8a5c052a",
+        "trace": "361921e0bcfad8b878f326abdf5fd66c999ae34b73543f55e398a8617576d34b",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 540
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lTc7VE"
+    },
+    {
+      "id": "layer-relay",
+      "fixtureDefinitionSha256": "4acfc0f9a297bc8e38c734a9c11f08759df2a4f42182d7b299af22aac4e61508",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qb3IIP",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qb3IIP/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qb3IIP/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "eb3d52a7e89c72ed9c04e13f4c62a57d6eb7333eda680121ead883e87a4a2a64",
+        "trace": "cf869b04c6823ced8d8c9229c01216cbe306bed90f0e83dc904115d12fbb5a90",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 533
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "eb3d52a7e89c72ed9c04e13f4c62a57d6eb7333eda680121ead883e87a4a2a64",
+        "trace": "b3f7f40326e6e8266224847c6d9a83ac8b63211a6e2234c4037df0daabb93706",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 533
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-qb3IIP"
+    },
+    {
+      "id": "layer-server",
+      "fixtureDefinitionSha256": "bf0e86cac5295369c4110fe93829bd2fce8ccb3e0627e555aab968e984ff74a1",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZkvT8w",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZkvT8w/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZkvT8w/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "bc7a0583b3ed0feaa27385c3ae7c86aaba29a30e3627c832c21c33170121b133",
+        "trace": "abea565a014b3e0745667e43d639a4e6e709bc75c774a8fc77aeba6922d7db77",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 534
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "bc7a0583b3ed0feaa27385c3ae7c86aaba29a30e3627c832c21c33170121b133",
+        "trace": "22fa3d022da34d0a7eef2ec7b9870327382a12601f608ac6c7ca9d8b180ab468",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 534
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZkvT8w"
+    },
+    {
+      "id": "layer-infrastructure",
+      "fixtureDefinitionSha256": "889359242e9f78f1c7f5dd15396ca361da9efa93a5be87f27bc24aec51a733d0",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tSIZNX",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tSIZNX/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tSIZNX/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "b23a9b93c3b695e2b52c78bfc85c279bf17ca26b2355e401475399c09962e931",
+        "trace": "4c26105ecd0a3ae51600ad6e79f4fed627fdcf94cc45ba5b7699ba931cd7a321",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 1377
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "b23a9b93c3b695e2b52c78bfc85c279bf17ca26b2355e401475399c09962e931",
+        "trace": "632e2100b0ff06225261a904ea17210cbe1ce8dea39f9564c561547de63ea8e9",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 1377
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-tSIZNX"
+    },
+    {
+      "id": "architecture-0",
+      "fixtureDefinitionSha256": "6f8de18bca24573eb09a01f413a92d6740a404f836e2c325c2dbc571c589fab1",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-XIvba7",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-XIvba7/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-XIvba7/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "07478027c0c8fd3903ba25a77c6a7d48e8ff430aaf57d8a1f7080b8a47e1804b",
+        "trace": "050e7913b2b5b124da2c0126240cca71f3811a50f17789445c19e6c03a465c14",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 551
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "07478027c0c8fd3903ba25a77c6a7d48e8ff430aaf57d8a1f7080b8a47e1804b",
+        "trace": "0a4e94dc1f8b6ff8e9f1179939458d2adbff11593459123f120910a648584876",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 551
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-XIvba7"
+    },
+    {
+      "id": "architecture-1",
+      "fixtureDefinitionSha256": "a2d17dc7e09feec71ad8180ef5ec930b59ad740bdb792a1c62b5c706f07ea59a",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lscFF7",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lscFF7/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lscFF7/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "4eec88589c788ff000513240baf4f2992a6fcdfd07cf23e5eb7299c10df2ea53",
+        "trace": "92793be578c11f89561fd13973aa67aef6ef7ceffec637eb8bbfac633a4ee078",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 948
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "4eec88589c788ff000513240baf4f2992a6fcdfd07cf23e5eb7299c10df2ea53",
+        "trace": "ab4404b7a69722d6629a5dd3bfcc5c6ea8fe1546039126d220c1094ee5b0b555",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 948
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-lscFF7"
+    },
+    {
+      "id": "architecture-2",
+      "fixtureDefinitionSha256": "f060f63cb3c5dcf145f438ca64a4eee13482030f5f3977430f12ef86c3cdfa82",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-1PuQr7",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-1PuQr7/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-1PuQr7/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "6e079eabe8861f0c8bdab4c6cd36f61fe2587379acb2705da1d27712dea1994c",
+        "trace": "b2884327ba2ee4cdc95013312ddbdac84fc4467e942cf892030e82f19e61df7d",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 483
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "6e079eabe8861f0c8bdab4c6cd36f61fe2587379acb2705da1d27712dea1994c",
+        "trace": "5421c28af071f71ebec60127f4d8ba9f182f7e6e0010d3c589f09ae82e99c192",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 483
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-1PuQr7"
+    },
+    {
+      "id": "architecture-3",
+      "fixtureDefinitionSha256": "d07a23845d475c0d1819665ef91706f13729b7d6d8a9998c3c24c037a027c95c",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BcQlxk",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BcQlxk/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BcQlxk/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "4eaafce1469ad41dc0d4d1e12121b1efb52962138f512e8df8601675840fa9c6",
+        "trace": "b2884327ba2ee4cdc95013312ddbdac84fc4467e942cf892030e82f19e61df7d",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 482
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "4eaafce1469ad41dc0d4d1e12121b1efb52962138f512e8df8601675840fa9c6",
+        "trace": "fda61a8458e06885b4d6a03202075ae8d5faae55201f7ad4d42dc5480d6742ad",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 482
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BcQlxk"
+    },
+    {
+      "id": "architecture-4",
+      "fixtureDefinitionSha256": "196322b180f3f8a09b87048fb1efd0e7c389a8dabaeadb9ef0a16c6dcaa7f095",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BrZIiB",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BrZIiB/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BrZIiB/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "0221f71fcb413572fbfb9799b9df98082db13637b03ec9d98f5936efcf4a8f0b",
+        "trace": "b2884327ba2ee4cdc95013312ddbdac84fc4467e942cf892030e82f19e61df7d",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 479
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "0221f71fcb413572fbfb9799b9df98082db13637b03ec9d98f5936efcf4a8f0b",
+        "trace": "3e96e331867ba09f896134195bb1c6feb5734ab006700fabcc230d6f57c9391b",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 479
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BrZIiB"
+    },
+    {
+      "id": "architecture-5",
+      "fixtureDefinitionSha256": "f4116d46a9304ca71aba8d3fdea23bea36455802d12b0ecdb742029da928cc64",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-kHeX7M",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-kHeX7M/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-kHeX7M/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "f71be899182915a514f6bcb30a910a68ad2a48fcf1e3c5d39a42bbf631887032",
+        "trace": "b2884327ba2ee4cdc95013312ddbdac84fc4467e942cf892030e82f19e61df7d",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 481
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "f71be899182915a514f6bcb30a910a68ad2a48fcf1e3c5d39a42bbf631887032",
+        "trace": "21ef43063750cbdb3113d7ffea7b5736cc9c81b6269b6ade95db646848aba940",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 481
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-kHeX7M"
+    },
+    {
+      "id": "architecture-6",
+      "fixtureDefinitionSha256": "fdd28405db9456c4f314ff6203a29f7eda6564f1f56a7ab8b1a855df325ae5d4",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GEXw48",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GEXw48/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GEXw48/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "97494310ad83d61ae33a2a41a5808ded34ba05bcfb8f83df31147b0b48917c81",
+        "trace": "b2884327ba2ee4cdc95013312ddbdac84fc4467e942cf892030e82f19e61df7d",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 478
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "97494310ad83d61ae33a2a41a5808ded34ba05bcfb8f83df31147b0b48917c81",
+        "trace": "2f9002a5b472f4fe34e5b6196bdb6d78b0837df4b7e9d5656ea0d0db25421954",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 478
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-GEXw48"
+    },
+    {
+      "id": "architecture-7",
+      "fixtureDefinitionSha256": "ae1a7f2e75d0f2363921444b08f3866d69a641fa58e4e82a3aabae35e56fdee8",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BOtXOi",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BOtXOi/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BOtXOi/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "2d69e38273c5ef09fc4e8fa459c013fc6f37efe7498ca0c29ace904afc60e148",
+        "trace": "b2884327ba2ee4cdc95013312ddbdac84fc4467e942cf892030e82f19e61df7d",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 480
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "2d69e38273c5ef09fc4e8fa459c013fc6f37efe7498ca0c29ace904afc60e148",
+        "trace": "6a4ff173f01d49732ea9ea17fcae031dae98dd8d38bc81b6ca0e94b187d8e009",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 480
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-BOtXOi"
+    },
+    {
+      "id": "architecture-8",
+      "fixtureDefinitionSha256": "c247ec6b9feea1839c17d1d00e8b16c9e0b21d5e537443f580f5bb81ef8dbe59",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S1HVCx",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S1HVCx/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S1HVCx/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "0d661f8f4895ee8fe7326e534d846e9118e7e8f2fdb7346e3043399116a5bd29",
+        "trace": "b2884327ba2ee4cdc95013312ddbdac84fc4467e942cf892030e82f19e61df7d",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 483
+      },
+      "candidate": {
+        "stdout": "12367ad0a27b9beabdfc0dfa774ef76c610d52e1fbf4a6858f47a35a906ec5d5",
+        "stderr": "0d661f8f4895ee8fe7326e534d846e9118e7e8f2fdb7346e3043399116a5bd29",
+        "trace": "a4cb4e06ec42b7fe4cf838efbf08f2c0c8fa075aeb26897e7cca08885364e525",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 483
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-S1HVCx"
+    },
+    {
+      "id": "within-domain-and-overlap",
+      "fixtureDefinitionSha256": "d84c0181988f6d6cc848a04bc4deba1b8ee47ed121c750bab2d446b4f65a9a2f",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-boFSRE",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-boFSRE/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-boFSRE/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "86a3f6229df2aa14fdd0e2c0b7e42d7142325afc0ff55a73eeb3ee96aaea6dd0",
+        "stderr": "a1bcce544240c00dc24630b822d1416e140a8882206afe2536548f14b4204829",
+        "trace": "90ca2d54a9de4b975b2d2d79033989f2d7bab132b25f169a36b1c985e0c1336e",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 2850
+      },
+      "candidate": {
+        "stdout": "86a3f6229df2aa14fdd0e2c0b7e42d7142325afc0ff55a73eeb3ee96aaea6dd0",
+        "stderr": "a1bcce544240c00dc24630b822d1416e140a8882206afe2536548f14b4204829",
+        "trace": "07f22b9d460978edbf7c14fd49cd30d7312eca21943e36fd503d0f1906aa85a9",
+        "exit": 1,
+        "stdoutBytes": 641,
+        "stderrBytes": 2850
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-boFSRE"
+    },
+    {
+      "id": "all-checks-coverage-after-violation",
+      "fixtureDefinitionSha256": "675782fe317df9f104a971a9ec947ba0f97d1941761951e0449dac1d9842b77d",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YMwJlY",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YMwJlY/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YMwJlY/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "a516e17103cfe1813e32fcdeb304a2cf30ac50f5ce86c883a7feb6ff83fcf6d7",
+        "stderr": "185feb28403e0332dcc024bfa626168c9fae79ecc34837cca101349533166fdf",
+        "trace": "d2ea7e9827cb21b512c93d932964cbf55397c1184b526c42c8ad991c7eed9259",
+        "exit": 1,
+        "stdoutBytes": 490,
+        "stderrBytes": 3313
+      },
+      "candidate": {
+        "stdout": "a516e17103cfe1813e32fcdeb304a2cf30ac50f5ce86c883a7feb6ff83fcf6d7",
+        "stderr": "185feb28403e0332dcc024bfa626168c9fae79ecc34837cca101349533166fdf",
+        "trace": "d629dfdd0ed0890268131ffc62456c0c0c894f5a14108242c4e8e3a37ecd1490",
+        "exit": 1,
+        "stdoutBytes": 490,
+        "stderrBytes": 3313
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YMwJlY"
+    },
+    {
+      "id": "secret-exclusions",
+      "fixtureDefinitionSha256": "80cacac06e33a1f12a34c38606192eeabaa4cb1cd64d89dc75efe2a9dd8e7c7b",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-vtLNbA",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-vtLNbA/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-vtLNbA/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "5b0fd532ca593215a485dacdba4d7f9adc8af41e89b6236eef4666933232e2d9",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 759,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "5b0fd532ca593215a485dacdba4d7f9adc8af41e89b6236eef4666933232e2d9",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 759,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-vtLNbA"
+    },
+    {
+      "id": "per-check-exclusion-controls",
+      "fixtureDefinitionSha256": "f736892e0befe75658f288b1cb0839f705a5712e66b7fa187e4e821c177e6e0e",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CmprtE",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CmprtE/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CmprtE/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "3ca6783c3db7624256f04d3479089c1d72d4bfe101795db1a187843b02c332f4",
+        "stderr": "29bf62d869e34e23daf9428b0a4476eb30bf2f421ed65a8c37c86e351c3eed18",
+        "trace": "d35f8b0f6a13ecc31dcca6b387d068d103064fd45650f09f443d50a7494247dc",
+        "exit": 1,
+        "stdoutBytes": 597,
+        "stderrBytes": 1789
+      },
+      "candidate": {
+        "stdout": "3ca6783c3db7624256f04d3479089c1d72d4bfe101795db1a187843b02c332f4",
+        "stderr": "29bf62d869e34e23daf9428b0a4476eb30bf2f421ed65a8c37c86e351c3eed18",
+        "trace": "a94c49c534b3caca9a0d81808e9751d560a89eb537025a2ccf50b68c1fdfa69e",
+        "exit": 1,
+        "stdoutBytes": 597,
+        "stderrBytes": 1789
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-CmprtE"
+    },
+    {
+      "id": "length-exclusions",
+      "fixtureDefinitionSha256": "a9ca9199fd007a967ecd1c79e48aa0e2ad88cfd519cc3acceb2598723b69fa9a",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ITLPuT",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ITLPuT/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ITLPuT/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "3e03f034fe82d5acf854fad05878155b2601dde3009566581ae51a1db4bd74f5",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "aea74a70869c617c66278552488ac2896063614c5f4fafb7ce3a7a82a5d5d5b0",
+        "exit": 0,
+        "stdoutBytes": 759,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "3e03f034fe82d5acf854fad05878155b2601dde3009566581ae51a1db4bd74f5",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "48679056741f234af01398d6bd312224bfc2585d032639420133c23287b7af62",
+        "exit": 0,
+        "stdoutBytes": 759,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ITLPuT"
+    },
+    {
+      "id": "length-newline-boundaries",
+      "fixtureDefinitionSha256": "e715c1ef418fc0cf6d778381258fe0291756f070424a8ee87a33205b92939c1b",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-JDFbjq",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-JDFbjq/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-JDFbjq/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "e27e6d002e64ebbbc9163e9896af9b53e323731dbe653a06eed95eb38a147621",
+        "stderr": "6e7da1ad37aa8b9e36488d6444a8184ee649ddcaf89bb4798e58ef495f1d3f2b",
+        "trace": "e2ed2118595a91ba080afe25c126b086e8a218415688542e788a77f965e065e2",
+        "exit": 1,
+        "stdoutBytes": 656,
+        "stderrBytes": 1245
+      },
+      "candidate": {
+        "stdout": "e27e6d002e64ebbbc9163e9896af9b53e323731dbe653a06eed95eb38a147621",
+        "stderr": "6e7da1ad37aa8b9e36488d6444a8184ee649ddcaf89bb4798e58ef495f1d3f2b",
+        "trace": "86e0a2fedd1bf1b11498a5dd1ccfc621df4645b171a4ead433b71eaf9b5b60b9",
+        "exit": 1,
+        "stdoutBytes": 656,
+        "stderrBytes": 1245
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-JDFbjq"
+    },
+    {
+      "id": "filename-framing-binary-and-empty",
+      "fixtureDefinitionSha256": "0445775f12d870787c2b97e7294c4556fcccaa99816cfbf4ebe76199b7a3578f",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hEA0cp",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hEA0cp/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hEA0cp/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "23b29c88558a861f105311e82754df08e9e902138c888eaf5b644eb804547475",
+        "stderr": "17513b083f3e5939dc8fc437cae01bea9e3e5b8ac77d741a7aacbdf4ec74e009",
+        "trace": "3eefc8c9f84f7eff0cfe9ac52b4145a6a1a6d582133392a6d9c35e5d855b7ecf",
+        "exit": 1,
+        "stdoutBytes": 592,
+        "stderrBytes": 3919
+      },
+      "candidate": {
+        "stdout": "23b29c88558a861f105311e82754df08e9e902138c888eaf5b644eb804547475",
+        "stderr": "17513b083f3e5939dc8fc437cae01bea9e3e5b8ac77d741a7aacbdf4ec74e009",
+        "trace": "7e0ea75c9d65a1f8c71851f2d72f3731a5ba74982dd27308c577eba763a37097",
+        "exit": 1,
+        "stdoutBytes": 592,
+        "stderrBytes": 3919
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-hEA0cp"
+    },
+    {
+      "id": "symlinks",
+      "fixtureDefinitionSha256": "e156392a164529f6f51d59b250a68c8defbf5fd4549b1c67221166e26731ee5e",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-KvU3fh",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-KvU3fh/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-KvU3fh/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "15e30d1836bb3365493f160d237dbf9c4e07507808ca4cbe69b6590454f67234",
+        "stderr": "f7a67b155c8463443c34445a3f2981e61df5397b38d5aab5938ff17539d7f9b6",
+        "trace": "a0613335d9abd44fd3653271990bce1c2b27445621fdb709dbab6d18d4eef0d1",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 797
+      },
+      "candidate": {
+        "stdout": "15e30d1836bb3365493f160d237dbf9c4e07507808ca4cbe69b6590454f67234",
+        "stderr": "f7a67b155c8463443c34445a3f2981e61df5397b38d5aab5938ff17539d7f9b6",
+        "trace": "b031dd3b94d2b086c99fb9a6f8d70859cb85ebe8e3d360c9b1bb8eaeaaa0b27d",
+        "exit": 1,
+        "stdoutBytes": 653,
+        "stderrBytes": 797
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-KvU3fh"
+    },
+    {
+      "id": "missing-file",
+      "fixtureDefinitionSha256": "e5c4b50398fde9e3a4f2c5c9eca7fa4671a21ac32d158a7acb8787163f1bb3cf",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-J2uDX3",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-J2uDX3/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-J2uDX3/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "f341a6158f22fa75b5a9a2f2a38fab31772f7f4953e86e58d38dc41145b7f56e",
+        "stderr": "f6ca099ea03efbff444aea0b386830a9094dc70beb239d5524192c2d67433589",
+        "trace": "55060ceee9a1d0075c73e4b2627c2c3a28396122a2cdd195162433d0c526bbe2",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 423
+      },
+      "candidate": {
+        "stdout": "f341a6158f22fa75b5a9a2f2a38fab31772f7f4953e86e58d38dc41145b7f56e",
+        "stderr": "f6ca099ea03efbff444aea0b386830a9094dc70beb239d5524192c2d67433589",
+        "trace": "54b09522cfd66ec3ec39a4975deb245ed05a98b96fdf3daf4f9f3a5bc43e3e90",
+        "exit": 1,
+        "stdoutBytes": 646,
+        "stderrBytes": 423
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-J2uDX3"
+    },
+    {
+      "id": "all-selected-missing",
+      "fixtureDefinitionSha256": "74589e09f900a2dc0922d96cc3984f96b5ae6c65706c1d4787cd72788855f8eb",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-M7nLiy",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-M7nLiy/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-M7nLiy/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "2220ae8c24ca18a5c047fef8a13773af23e7a99bd18c4274c2ad8a306fc285ab",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "2220ae8c24ca18a5c047fef8a13773af23e7a99bd18c4274c2ad8a306fc285ab",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 758,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-M7nLiy"
+    },
+    {
+      "id": "staged-add",
+      "fixtureDefinitionSha256": "b617e4b52f15a63ca030ef5b6728f705814bf272c59d3389131937ddc7667e14",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh",
+          "--staged"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Y5w2Kr",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Y5w2Kr/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Y5w2Kr/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "2a84591bcb181602b525f77a941bbad32a1df584e36dce883e5497d9fb50c39f",
+        "stderr": "92d2f2d6cf8d346660f7bd2b5c8bb8da2b7445c6df50ccf2c50032349a780ee7",
+        "trace": "0a7d6b656bbf1189fa4debf383d6cee79feb6cfdd2d2cbe952a5ef68c8b21a33",
+        "exit": 1,
+        "stdoutBytes": 643,
+        "stderrBytes": 423
+      },
+      "candidate": {
+        "stdout": "2a84591bcb181602b525f77a941bbad32a1df584e36dce883e5497d9fb50c39f",
+        "stderr": "92d2f2d6cf8d346660f7bd2b5c8bb8da2b7445c6df50ccf2c50032349a780ee7",
+        "trace": "b8cbc801511f34d7c2dd0127c7d9ccd8a45a6b3b3813e5b1b7e66f7acc05232f",
+        "exit": 1,
+        "stdoutBytes": 643,
+        "stderrBytes": 423
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-Y5w2Kr"
+    },
+    {
+      "id": "staged-working-violation",
+      "fixtureDefinitionSha256": "38948b36870a7ef9be7cb707f821cac5134102cf2d53ccfe507e614c46bf63fd",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh",
+          "--staged"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UtpkMg",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UtpkMg/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UtpkMg/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "2a84591bcb181602b525f77a941bbad32a1df584e36dce883e5497d9fb50c39f",
+        "stderr": "92d2f2d6cf8d346660f7bd2b5c8bb8da2b7445c6df50ccf2c50032349a780ee7",
+        "trace": "0a7d6b656bbf1189fa4debf383d6cee79feb6cfdd2d2cbe952a5ef68c8b21a33",
+        "exit": 1,
+        "stdoutBytes": 643,
+        "stderrBytes": 423
+      },
+      "candidate": {
+        "stdout": "2a84591bcb181602b525f77a941bbad32a1df584e36dce883e5497d9fb50c39f",
+        "stderr": "92d2f2d6cf8d346660f7bd2b5c8bb8da2b7445c6df50ccf2c50032349a780ee7",
+        "trace": "a45e57e3b7bd55e6ff4ced17137025e655515da87ef130bdfef3e7d114b2044e",
+        "exit": 1,
+        "stdoutBytes": 643,
+        "stderrBytes": 423
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-UtpkMg"
+    },
+    {
+      "id": "staged-working-repair",
+      "fixtureDefinitionSha256": "0b8b67fee001b3f5c1c6fbe55a4d0efb1a085716849bb7f7cdefe88b79681726",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh",
+          "--staged"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ffviVn",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ffviVn/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ffviVn/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "465cc320f28c7d0e762d8420ec103cf2b18534dacb1eacc40240322bd8bd9590",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "01af7df0a1f26071b18864cc8fa194ee9e29e9686ed57f9168d2c599f3fd98b9",
+        "exit": 0,
+        "stdoutBytes": 755,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "465cc320f28c7d0e762d8420ec103cf2b18534dacb1eacc40240322bd8bd9590",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "adde5da2aa9fcbb193de0a742f7ef07cbc1ce702198bb12a8f300b4811bee93e",
+        "exit": 0,
+        "stdoutBytes": 755,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ffviVn"
+    },
+    {
+      "id": "staged-modification-deletion-copy",
+      "fixtureDefinitionSha256": "eb3f809ecf76b3120ceb6bded1f8f852f8ac4752e83257becfdde92acf325674",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh",
+          "--staged"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9RbAdN",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9RbAdN/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9RbAdN/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "3270feda3891b37a314a2ea320acd4545b9dc89703849ce34ec643c780ad87b4",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "98bdfd1551775f37d72fb7d3363eb8b9007e6f7b9adb06c520f9a610f10c5b2d",
+        "exit": 0,
+        "stdoutBytes": 755,
+        "stderrBytes": 16
+      },
+      "candidate": {
+        "stdout": "3270feda3891b37a314a2ea320acd4545b9dc89703849ce34ec643c780ad87b4",
+        "stderr": "18daf964a4d2fc25cba59827f47657518dc95b043a0f3f48755d6ddf9f500a99",
+        "trace": "b25649a3d6d154b821e0ed3a23aaa62da720684355fb35509d63c02700778bed",
+        "exit": 0,
+        "stdoutBytes": 755,
+        "stderrBytes": 16
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-9RbAdN"
+    },
+    {
+      "id": "empty-staged",
+      "fixtureDefinitionSha256": "baee1059890c37e07862339fbe5ab43d11fcd3f21d3ece0fb88e56b191742067",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      },
+      "pass": true,
+      "command": {
+        "argv": [
+          "/bin/bash",
+          "scripts/harness/validate.sh",
+          "--staged"
+        ],
+        "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-0Wad9g",
+        "environment": {
+          "PATH": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-0Wad9g/.fixture-bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C",
+          "LC_CTYPE": null,
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-0Wad9g/.fixture-workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "original": {
+        "stdout": "3dc2064cd9182188b08ca6a3c725224f6af24008f06ca74de48ce80fb2552bed",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 44,
+        "stderrBytes": 0
+      },
+      "candidate": {
+        "stdout": "3dc2064cd9182188b08ca6a3c725224f6af24008f06ca74de48ce80fb2552bed",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "exit": 0,
+        "stdoutBytes": 44,
+        "stderrBytes": 0
+      },
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-0Wad9g"
+    }
+  ],
+  "status": "passed",
+  "endedAtUtc": "2026-11-08T08:36:56.460Z",
+  "exit": 0,
+  "command": {
+    "argv": [
+      "bun",
+      "test",
+      "scripts/harness/equivalence.test.ts"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace"
+  }
+}

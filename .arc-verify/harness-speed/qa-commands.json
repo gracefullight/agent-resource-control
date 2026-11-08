@@ -1,0 +1,474 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "independent-command-receipts",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "candidateScriptSha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8",
+  "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+  "startedAtUtc": "2026-11-08T08:03:02.304349+00:00",
+  "checkedAtUtc": "2026-11-08T08:24:07.579885+00:00",
+  "status": "passed",
+  "commands": [
+    {
+      "id": "01-equivalence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:03:02.304349+00:00",
+      "endedAtUtc": "2026-11-08T08:05:15.142542+00:00",
+      "exit": 0,
+      "suiteReportedSeconds": 120.21,
+      "durationNote": "First command launched with initial source snapshot; suite reports 120.21s; end is completion-observation time. Later commands use monotonic command receipts.",
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "log": "target/harness-speed/independent-qa/01-equivalence.log",
+      "logSha256": "8ad863109a262f052a53583539b59ae872e6f02a2f6093a98bcca64e2511ae91",
+      "logBytes": 341,
+      "perCheckLimitMs": 3600000
+    },
+    {
+      "id": "02-performance",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/performance.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:05:15.222040+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:14:30.895518+00:00",
+      "elapsedSeconds": 555.6724987080088,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/02-performance.log",
+      "logSha256": "7a1d05a0b65d912bcd84569368ac9156e30957edbff2f232f765140330d0a194",
+      "logBytes": 690
+    },
+    {
+      "id": "03-coverage-verification",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/coverage-verification.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:14:36.941900+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:14:53.030017+00:00",
+      "elapsedSeconds": 16.08813691700925,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/03-coverage-verification.log",
+      "logSha256": "0648fcfdbee7d0b762fd7ce1ad7c63c216cb5e24c2fc662b5620062b69809c91",
+      "logBytes": 259
+    },
+    {
+      "id": "04-coverage-cli",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:14:57.612819+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:16:22.056455+00:00",
+      "elapsedSeconds": 84.44345424999483,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/04-coverage-cli.log",
+      "logSha256": "8d382a01c086402dc6e0de847d905cb108b4d6d4175fe1da74b5d9b4b2e5cd6b",
+      "logBytes": 217
+    },
+    {
+      "id": "05-clean-checkout",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:16:27.415283+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:17:54.338454+00:00",
+      "elapsedSeconds": 86.92308287500055,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/05-clean-checkout.log",
+      "logSha256": "bd8f86c5f53519c24e0c611eb4edc85818d53be8223223047989fde8594f2862",
+      "logBytes": 859
+    },
+    {
+      "id": "06-cargo-fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:17:58.201610+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:17:58.611413+00:00",
+      "elapsedSeconds": 0.40977737499633804,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/06-cargo-fmt.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "logBytes": 0
+    },
+    {
+      "id": "07-cargo-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:18:02.685979+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:18:03.099140+00:00",
+      "elapsedSeconds": 0.41314512499957345,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/07-cargo-clippy.log",
+      "logSha256": "f4403412cb20dc7d8a0a94c08c9c8853e4bac9b3e8489158834f30512311ed97",
+      "logBytes": 72
+    },
+    {
+      "id": "08-cargo-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:18:06.942578+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:18:45.228737+00:00",
+      "elapsedSeconds": 38.28598799998872,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/08-cargo-test.log",
+      "logSha256": "c1e59816f2170ba0d7ead5b6e250b5d719bcb89f575f46dde3da146447095acb",
+      "logBytes": 27841
+    },
+    {
+      "id": "09-harness",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:18:49.518297+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:20:17.940341+00:00",
+      "elapsedSeconds": 88.42173504200764,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/09-harness.log",
+      "logSha256": "cbc1cf1b231ce447df8e8d280a40d042c84c164cdaec88b91b25384d983d2888",
+      "logBytes": 223
+    },
+    {
+      "id": "10-evidence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:20:23.460916+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:20:24.017893+00:00",
+      "elapsedSeconds": 0.5569426660076715,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/10-evidence.log",
+      "logSha256": "b0e1c4072efb10d8fdd3f7acc146a8c75073911e3249d19e21381ef78454248d",
+      "logBytes": 244
+    },
+    {
+      "id": "11-scratch-path",
+      "argv": [
+        "bun",
+        "target/harness-speed/independent-qa/edgecases.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:20:37.010611+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:20:44.219057+00:00",
+      "elapsedSeconds": 7.208402583986754,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/11-scratch-path.log",
+      "logSha256": "69a02431900f5f1c9dd729894b1b019dad751e6eb2f2bb06e6d08bffab05cee1",
+      "logBytes": 4381
+    },
+    {
+      "id": "12-audit",
+      "argv": [
+        "bun",
+        "target/harness-speed/independent-qa/audit.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:21:49.047647+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:21:54.586027+00:00",
+      "elapsedSeconds": 5.5383582079957705,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/12-audit.log",
+      "logSha256": "16c62a69f5d90127f3742312a8e2f29164ad8b362510a2ced93ef8ae6c16ca84",
+      "logBytes": 1276
+    },
+    {
+      "id": "13-evidence-budget",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/evidence-budget.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "startedAtUtc": "2026-11-08T08:23:43.356218+00:00",
+      "perCheckLimitMs": 3600000,
+      "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+      "environment": {
+        "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0ACtXGB:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+        "LANG": "C.UTF-8",
+        "LC_ALL": "C.UTF-8",
+        "SKIP_COVERAGE": null,
+        "RUSTUP_TOOLCHAIN": "1.95.0",
+        "CARGO_TARGET_DIR": null,
+        "CARGO_NET_OFFLINE": null,
+        "RUSTFLAGS": null,
+        "RUSTC_WRAPPER": null,
+        "WORKSPACE_ROOT": null
+      },
+      "exit": 0,
+      "endedAtUtc": "2026-11-08T08:23:44.006143+00:00",
+      "elapsedSeconds": 0.6498925409978256,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/13-evidence-budget.log",
+      "logSha256": "979e71d34f89409534ef243168e232ad2baf57bddf5b55db40803456ef1e2a2e",
+      "logBytes": 245
+    }
+  ],
+  "coverageVerificationChildren": [
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/accounting.test.ts"
+      ],
+      "exit": 0,
+      "elapsedSeconds": 0.17097749999999998,
+      "testsPassed": 12,
+      "testsFailed": 0,
+      "assertions": 43,
+      "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/fba0ff46-3d60-4bc1-aeba-ed48841b7e6f/accounting.test.ts",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "90bb1319c39bc8668ee4560ded93e41242e108c3b18b1a2c265b613e11e045e5"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts"
+      ],
+      "exit": 0,
+      "elapsedSeconds": 0.7012904579999999,
+      "testsPassed": 14,
+      "testsFailed": 0,
+      "assertions": 41,
+      "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/fba0ff46-3d60-4bc1-aeba-ed48841b7e6f/gate.test.ts",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "31232d5fd17286e477489f76436367a0c580130bf262cd1e0d962238a69aa049"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene-preservation.test.ts"
+      ],
+      "exit": 0,
+      "elapsedSeconds": 12.322053458000001,
+      "testsPassed": 3,
+      "testsFailed": 0,
+      "assertions": 20,
+      "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/fba0ff46-3d60-4bc1-aeba-ed48841b7e6f/hygiene-preservation.test.ts",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "95e394c0f0130c363d02d4c5422914ec55f5915407360db7f68dcffb54e068c8"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene.test.ts"
+      ],
+      "exit": 0,
+      "elapsedSeconds": 0.8413815840000006,
+      "testsPassed": 4,
+      "testsFailed": 0,
+      "assertions": 214,
+      "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/fba0ff46-3d60-4bc1-aeba-ed48841b7e6f/hygiene.test.ts",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "0d88078bfb99062cb45aa7cb9999c2b12549ea70ce69278af784c3d077c9ea2b"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/preservation.test.ts"
+      ],
+      "exit": 0,
+      "elapsedSeconds": 1.4016504999999997,
+      "testsPassed": 1,
+      "testsFailed": 0,
+      "assertions": 3,
+      "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/coverage-verification/fba0ff46-3d60-4bc1-aeba-ed48841b7e6f/preservation.test.ts",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "59bd1b7a9463866774f2e95f358cf3e11f5843eb08c8a5c895f9460340a8f5c7"
+    }
+  ],
+  "logsRetention": "Full streams and runnable audit/reproduction scripts remain in target/harness-speed/independent-qa; native reports stay at referenced collecting/scratch locations.",
+  "perCheckTimeoutNote": "Latest mission/operator allowance is 3600000ms. Existing product test/collector inner limits were not changed; every command finished normally. No check used the contract planning timeout as a termination limit."
+}

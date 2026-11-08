@@ -1,5 +1,6 @@
 import { readFileSync, lstatSync, readdirSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { HARNESS } from "./config";
 
 export const ACCEPTED_HEAD = "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e";
 export const HYGIENE = ".arc-verify/evidence-hygiene";
@@ -74,6 +75,16 @@ export function assertHygiene(audit: ReturnType<typeof auditTrackedEvidence>) {
 const protectedPath = (path: string) => (path.startsWith("crates/") && path.endsWith(".rs")) ||
   path === "crates/arc-storage/migrations/0001_phase0.sql" || path === "scripts/harness/validate.sh";
 
+// Byte changes to the harness are authorized; path/type/executable mode remain fixed.
+export function checkHarnessStructure(root: string) {
+  const entries = indexEntries(root, HARNESS);
+  if (entries.length !== 1 || entries[0].path !== HARNESS) throw Error("PRESERVATION: index protected path set changed");
+  if (entries[0].mode !== "100755") throw Error(`PRESERVATION: index bytes/mode changed: ${HARNESS}`);
+  const stat = lstatSync(resolve(root, HARNESS));
+  if (!stat.isFile() || stat.isSymbolicLink()) throw Error(`PRESERVATION: regular file required: ${HARNESS}`);
+  if (!(stat.mode & 0o111)) throw Error(`PRESERVATION: local bytes/mode changed: ${HARNESS}`);
+}
+
 export function checkExactPreservation(root: string) {
   const accepted = gitBytes(root, ["ls-tree", "-r", "-z", ACCEPTED_HEAD, "--", "crates", "scripts/harness/validate.sh"])
     .toString().split("\0").filter(Boolean).map(row => {
@@ -98,11 +109,11 @@ export function checkExactPreservation(root: string) {
   if (JSON.stringify(paths(accepted)) !== JSON.stringify(local.sort())) throw Error("PRESERVATION: local protected path set changed");
   for (const entry of accepted) {
     const current = indexed.find(e => e.path === entry.path)!;
-    if (current.mode !== entry.mode || current.oid !== entry.oid) throw Error(`PRESERVATION: index bytes/mode changed: ${entry.path}`);
+    if (current.mode !== entry.mode || entry.path !== HARNESS && current.oid !== entry.oid) throw Error(`PRESERVATION: index bytes/mode changed: ${entry.path}`);
     const path = resolve(root, entry.path), stat = lstatSync(path);
     if (!stat.isFile() || stat.isSymbolicLink()) throw Error(`PRESERVATION: regular file required: ${entry.path}`);
     const mode = stat.mode & 0o111 ? "100755" : "100644";
-    if (mode !== entry.mode || !readFileSync(path).equals(gitBytes(root, ["show", `${ACCEPTED_HEAD}:${entry.path}`])))
+    if (mode !== entry.mode || entry.path !== HARNESS && !readFileSync(path).equals(gitBytes(root, ["show", `${ACCEPTED_HEAD}:${entry.path}`])))
       throw Error(`PRESERVATION: local bytes/mode changed: ${entry.path}`);
   }
   return { acceptedHead: ACCEPTED_HEAD, files: accepted.length, pass: true };

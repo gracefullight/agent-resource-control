@@ -1,0 +1,433 @@
+{
+  "schemaVersion": 1,
+  "actor": "independent-reviewer",
+  "taskId": "task-4",
+  "status": "completed",
+  "reviewVerdict": "PASS",
+  "verificationCompleteness": "complete",
+  "reviewedAtUtc": "2026-11-08T08:23:28.541585+00:00",
+  "startedAtUtc": "2026-11-08T08:03:02.304349+00:00",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+  "oracleSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+  "candidateScriptSha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8",
+  "sourceSha256": "75f4089c68f49ba0d5c93bdd503f8305e6667d0007aa56b0e5193ec3b19abefb",
+  "integratedSourceIdentity": {
+    "head": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "sha256": "fe4f4139d049e430b6a53a4d18cebacfbd5d22c7f7c4d74c0db92f5816764ffc",
+    "entries": [
+      {
+        "path": "scripts/coverage/acceptance.ts",
+        "mode": 420,
+        "sha256": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d"
+      },
+      {
+        "path": "scripts/coverage/accounting.test.ts",
+        "mode": 420,
+        "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882"
+      },
+      {
+        "path": "scripts/coverage/accounting.ts",
+        "mode": 420,
+        "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1"
+      },
+      {
+        "path": "scripts/coverage/clean-checkout.test.ts",
+        "mode": 420,
+        "sha256": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760"
+      },
+      {
+        "path": "scripts/coverage/commands.ts",
+        "mode": 420,
+        "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea"
+      },
+      {
+        "path": "scripts/coverage/config.ts",
+        "mode": 420,
+        "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a"
+      },
+      {
+        "path": "scripts/coverage/coverage-cli.test.ts",
+        "mode": 420,
+        "sha256": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041"
+      },
+      {
+        "path": "scripts/coverage/evidence.test.ts",
+        "mode": 420,
+        "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8"
+      },
+      {
+        "path": "scripts/coverage/fixture-runner.ts",
+        "mode": 420,
+        "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d"
+      },
+      {
+        "path": "scripts/coverage/fixtures.ts",
+        "mode": 420,
+        "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d"
+      },
+      {
+        "path": "scripts/coverage/gate.test.ts",
+        "mode": 420,
+        "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda"
+      },
+      {
+        "path": "scripts/coverage/gate.ts",
+        "mode": 420,
+        "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29"
+      },
+      {
+        "path": "scripts/coverage/harness.test.ts",
+        "mode": 420,
+        "sha256": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747"
+      },
+      {
+        "path": "scripts/coverage/hygiene-preservation.test.ts",
+        "mode": 420,
+        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+      },
+      {
+        "path": "scripts/coverage/hygiene.test.ts",
+        "mode": 420,
+        "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c"
+      },
+      {
+        "path": "scripts/coverage/hygiene.ts",
+        "mode": 420,
+        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+      },
+      {
+        "path": "scripts/coverage/preservation.test.ts",
+        "mode": 420,
+        "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445"
+      },
+      {
+        "path": "scripts/coverage/preservation.ts",
+        "mode": 420,
+        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+      },
+      {
+        "path": "scripts/coverage/provision.sh",
+        "mode": 420,
+        "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d"
+      },
+      {
+        "path": "scripts/coverage/run.ts",
+        "mode": 420,
+        "sha256": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+      },
+      {
+        "path": "scripts/coverage/source.ts",
+        "mode": 420,
+        "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062"
+      },
+      {
+        "path": "scripts/harness/benchmark.ts",
+        "mode": 420,
+        "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e"
+      },
+      {
+        "path": "scripts/harness/coverage-verification.test.ts",
+        "mode": 420,
+        "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb"
+      },
+      {
+        "path": "scripts/harness/equivalence.test.ts",
+        "mode": 420,
+        "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25"
+      },
+      {
+        "path": "scripts/harness/evidence-budget.test.ts",
+        "mode": 420,
+        "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4"
+      },
+      {
+        "path": "scripts/harness/fixtures.ts",
+        "mode": 420,
+        "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a"
+      },
+      {
+        "path": "scripts/harness/gc.sh",
+        "mode": 493,
+        "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73"
+      },
+      {
+        "path": "scripts/harness/performance.test.ts",
+        "mode": 420,
+        "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242"
+      },
+      {
+        "path": "scripts/harness/test-support.ts",
+        "mode": 420,
+        "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "mode": 493,
+        "sha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8"
+      }
+    ]
+  },
+  "skillsUsed": [
+    "oma-qa"
+  ],
+  "findings": [],
+  "severityCounts": {
+    "CRITICAL": 0,
+    "HIGH": 0,
+    "MEDIUM": 0,
+    "LOW": 0
+  },
+  "productFilesChangedByReviewer": [],
+  "indexMutatedByReviewer": false,
+  "missionStateMutated": false,
+  "changedPaths": [
+    ".arc-verify/harness-speed/qa.md",
+    ".arc-verify/harness-speed/qa.json",
+    ".arc-verify/harness-speed/timings.json",
+    ".arc-verify/harness-speed/qa-commands.json",
+    ".arc-verify/harness-speed/qa-audit.json",
+    ".arc-verify/harness-speed/qa-edgecases.json"
+  ],
+  "testGeneratedReceipts": [
+    ".arc-verify/harness-speed/timing.json",
+    ".arc-verify/harness-speed/invocations.json",
+    ".arc-verify/harness-speed/equivalence.json",
+    ".arc-verify/harness-speed/coverage-verification.json"
+  ],
+  "sourceEntriesVerifiedUnchanged": 126,
+  "precedingReportsPreserved": true,
+  "indexTree": "f25af4f19afa14a9208ad109795490a6cf0cfaf1",
+  "acceptance": {
+    "requiredCommandChecksPassed": 11,
+    "equivalenceCasesPassed": 79,
+    "extraScratchPathCasesPassed": 4,
+    "batchingTrace": [
+      {
+        "count": 2,
+        "original": 38,
+        "candidate": 20,
+        "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-mCqvQE",
+        "traceSha256": "2b4eb6285e70a25900e7b8a91327ecfa1b0c97c1ef0efc566da487940e1d2ec2"
+      },
+      {
+        "count": 80,
+        "original": 1520,
+        "candidate": 20,
+        "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-YmnlDR",
+        "traceSha256": "86a4c7917005aba1e42fe517f6914bdfb6131af1d4103d963ac717b010fbbd8e"
+      }
+    ],
+    "threeCandidateScansUnder20Seconds": true,
+    "coverageVerificationFiles": [
+      "accounting.test.ts",
+      "clean-checkout.test.ts",
+      "coverage-cli.test.ts",
+      "evidence.test.ts",
+      "gate.test.ts",
+      "harness.test.ts",
+      "hygiene-preservation.test.ts",
+      "hygiene.test.ts",
+      "preservation.test.ts"
+    ],
+    "cargoGatesPassed": true,
+    "fullUnskippedHarnessPassed": true,
+    "postCollectionEvidencePassed": true,
+    "rustMigrationPreservationPassed": true,
+    "sixExactPerCrateFloorsPassed": true,
+    "historicalReceiptsPreserved": true,
+    "evidenceFilesIncludingPendingReports": 36,
+    "evidenceBudgetTest": {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/evidence-budget.test.ts"
+      ],
+      "exit": 0,
+      "elapsedSeconds": 0.6498925409978256,
+      "assertions": 133,
+      "count": 36
+    }
+  },
+  "commandsReceipt": ".arc-verify/harness-speed/qa-commands.json",
+  "auditReceipt": ".arc-verify/harness-speed/qa-audit.json",
+  "timingsReceipt": ".arc-verify/harness-speed/timings.json",
+  "rejectedHypotheses": [
+    {
+      "hypothesis": "awk -v may alter a TMPDIR path containing literal backslash escapes",
+      "result": "not reproduced on this host; all four ordinary/space/backslash-t/backslash-n differential cases had identical streams, exits, coverage calls and three violations",
+      "receipt": ".arc-verify/harness-speed/qa-edgecases.json"
+    }
+  ],
+  "preExistingHygieneFailures": {
+    "acceptedRustCoverageFiles": 932,
+    "acceptedArcVerifyFiles": 2652,
+    "acceptedProhibitedCount": 457,
+    "prohibitedManifestSha256": "e9459be6eccc59e8cacb55d5822f1e7a871512a15fbd9c26c99eeff72762dabc",
+    "examples": [
+      {
+        "path": ".arc-verify/rust-coverage/baseline/latest.json",
+        "reasons": [
+          "runtime pointer"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/00-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/01-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/inputs.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      }
+    ],
+    "resolution": "operator-authorized prior task-3 index-only removals; fresh hygiene and clean-checkout checks passed",
+    "current": {
+      "rustCoverage": {
+        "files": 24,
+        "bytes": 475720
+      },
+      "allArcVerify": {
+        "files": 1744,
+        "bytes": 19024758
+      },
+      "newEvidenceHygieneFiles": 19,
+      "prohibited": []
+    }
+  },
+  "limits": [
+    "Serena tools unavailable; known-path reads and Git objects covered the assigned source scope.",
+    "Host process enumeration was denied. This reviewer serialized all checks; host-wide competing process absence is not independently established.",
+    "Timings are current host measurements; final Chief acceptance and delivery are separate tasks."
+  ],
+  "unresolved": [],
+  "nativeEvidence": {
+    "checkout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+    "latest": {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/.arc-verify/rust-coverage/baseline/latest.json",
+      "sha256": "18581de7f00009ba2033e0371c7daf8a295ef9e57049e438ff267669135a5cf1",
+      "runId": "2026-11-08T08-18-56-766Z-93dd6ce1-259e-4313-b343-79541cb3977e",
+      "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T08-18-56-766Z-93dd6ce1-259e-4313-b343-79541cb3977e",
+      "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+      "pass": true
+    },
+    "summary": {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/.arc-verify/rust-coverage/baseline/runs/2026-11-08T08-18-56-766Z-93dd6ce1-259e-4313-b343-79541cb3977e/summary.json",
+      "sha256": "242d5b32319f100e074160a0a39f306c446895b99d795d3c44b34369e8761370"
+    },
+    "nativeHashes": {
+      "lcov": "0508da769e267631859c5c07db67d641702ef07a478213c3ee2dae4eea81b9c2",
+      "llvmJson": "da1beb732d273c761eb1f610e9699a60d0c1af0ed2473f4544564ee9b04f6b9e"
+    },
+    "profileCount": 851,
+    "childProof": [
+      {
+        "binary": "arcctl",
+        "pid": 67935,
+        "profiles": [
+          "arc-67935-11708300777802047112_0.profraw"
+        ],
+        "exit": 0
+      },
+      {
+        "binary": "arc-daemon",
+        "pid": 67936,
+        "profiles": [
+          "arc-67936-9358645423002903239_0.profraw"
+        ],
+        "exit": 1
+      }
+    ],
+    "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379"
+  },
+  "cleanCheckout": {
+    "receipt": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/evidence-hygiene/clean-checkout/runs/e642e5a5-d24b-47bc-b6a1-3cf88d1d32a0/result.json",
+    "sha256": "85eed427b3b220b87965c52d055f6464c474f4c9e456a23a1946bf23ceb7d19a",
+    "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-lAsPth",
+    "tree": "f25af4f19afa14a9208ad109795490a6cf0cfaf1",
+    "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+    "precollection": {
+      "priorArtifacts": [],
+      "targetAbsent": true,
+      "runsAbsent": true,
+      "runtimeLatestAbsent": true,
+      "sourceIdentityMatches": true
+    },
+    "commands": [
+      {
+        "argv": [
+          "bun",
+          "run",
+          "test:coverage"
+        ],
+        "exit": 0
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/evidence.test.ts"
+        ],
+        "exit": 0
+      }
+    ],
+    "nativeHashes": {
+      "lcov": "2e081cbcecb1778bb6047e565e20f7b76f1cada898d7a7f7462e1c8586e49807",
+      "llvmJson": "f0abd53512f98b3a204d7bd004fdeff601c0cafa09056d1bc2644d3796278089"
+    },
+    "pass": true
+  },
+  "finalHarness": {
+    "receipt": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/.arc-verify/rust-coverage/tooling/acceptance/runs/harness-138bab41-a1f7-45d3-a086-5a86d8dae1b2/00-command.json",
+    "sha256": "97b74ba8bb5cad00970c7dfb51f3fec34c2ec496281734bea52f2682948f35a3",
+    "argv": [
+      "./scripts/harness/validate.sh"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+    "exit": 0,
+    "started": "2026-11-08T08:18:51.080Z",
+    "ended": "2026-11-08T08:20:17.845Z",
+    "binding": {
+      "name": "harness",
+      "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+      "afterHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+      "unchanged": true,
+      "exit": 0,
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ]
+    },
+    "stdoutSha256": "cbe5ac1f074b39eb9adf57aa5af02f14081338ed32d95ffe3129327d3a483309",
+    "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+    "filesToCheck": "3143"
+  },
+  "verificationCompletedAtUtc": "2026-11-08T08:24:07.580817+00:00",
+  "commandCountIncludingSupplemental": 13,
+  "artifacts": [
+    {
+      "path": ".arc-verify/harness-speed/timings.json",
+      "sha256": "207a33dd76590dd610fb23e8a501b57007b2a384aeb729fda0b4915315b849c3"
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa-commands.json",
+      "sha256": "aa12313eed46396db31699bc5d96d05beaa09532913a2d17d6f8a2b7cef3ec89"
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa-audit.json",
+      "sha256": "55a7b2b52c330d4d61cc89b188c3a3637b35fbb84f459e391346fbeb16cc604e"
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa-edgecases.json",
+      "sha256": "e326ddeafa219165975663fc146322eaa004328bc6cf6614f48105e5c6d305ca"
+    }
+  ]
+}

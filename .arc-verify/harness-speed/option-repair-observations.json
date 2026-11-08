@@ -1,0 +1,3294 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "option-repair-final-observations",
+  "checkedAtUtc": "2026-11-08T07:44:16.697Z",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "status": "partial",
+  "integratedSourceIdentity": {
+    "head": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "sha256": "fe4f4139d049e430b6a53a4d18cebacfbd5d22c7f7c4d74c0db92f5816764ffc",
+    "entries": [
+      {
+        "path": "scripts/coverage/acceptance.ts",
+        "mode": 420,
+        "sha256": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d"
+      },
+      {
+        "path": "scripts/coverage/accounting.test.ts",
+        "mode": 420,
+        "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882"
+      },
+      {
+        "path": "scripts/coverage/accounting.ts",
+        "mode": 420,
+        "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1"
+      },
+      {
+        "path": "scripts/coverage/clean-checkout.test.ts",
+        "mode": 420,
+        "sha256": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760"
+      },
+      {
+        "path": "scripts/coverage/commands.ts",
+        "mode": 420,
+        "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea"
+      },
+      {
+        "path": "scripts/coverage/config.ts",
+        "mode": 420,
+        "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a"
+      },
+      {
+        "path": "scripts/coverage/coverage-cli.test.ts",
+        "mode": 420,
+        "sha256": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041"
+      },
+      {
+        "path": "scripts/coverage/evidence.test.ts",
+        "mode": 420,
+        "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8"
+      },
+      {
+        "path": "scripts/coverage/fixture-runner.ts",
+        "mode": 420,
+        "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d"
+      },
+      {
+        "path": "scripts/coverage/fixtures.ts",
+        "mode": 420,
+        "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d"
+      },
+      {
+        "path": "scripts/coverage/gate.test.ts",
+        "mode": 420,
+        "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda"
+      },
+      {
+        "path": "scripts/coverage/gate.ts",
+        "mode": 420,
+        "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29"
+      },
+      {
+        "path": "scripts/coverage/harness.test.ts",
+        "mode": 420,
+        "sha256": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747"
+      },
+      {
+        "path": "scripts/coverage/hygiene-preservation.test.ts",
+        "mode": 420,
+        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+      },
+      {
+        "path": "scripts/coverage/hygiene.test.ts",
+        "mode": 420,
+        "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c"
+      },
+      {
+        "path": "scripts/coverage/hygiene.ts",
+        "mode": 420,
+        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+      },
+      {
+        "path": "scripts/coverage/preservation.test.ts",
+        "mode": 420,
+        "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445"
+      },
+      {
+        "path": "scripts/coverage/preservation.ts",
+        "mode": 420,
+        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+      },
+      {
+        "path": "scripts/coverage/provision.sh",
+        "mode": 420,
+        "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d"
+      },
+      {
+        "path": "scripts/coverage/run.ts",
+        "mode": 420,
+        "sha256": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+      },
+      {
+        "path": "scripts/coverage/source.ts",
+        "mode": 420,
+        "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062"
+      },
+      {
+        "path": "scripts/harness/benchmark.ts",
+        "mode": 420,
+        "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e"
+      },
+      {
+        "path": "scripts/harness/coverage-verification.test.ts",
+        "mode": 420,
+        "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb"
+      },
+      {
+        "path": "scripts/harness/equivalence.test.ts",
+        "mode": 420,
+        "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25"
+      },
+      {
+        "path": "scripts/harness/evidence-budget.test.ts",
+        "mode": 420,
+        "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4"
+      },
+      {
+        "path": "scripts/harness/fixtures.ts",
+        "mode": 420,
+        "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a"
+      },
+      {
+        "path": "scripts/harness/gc.sh",
+        "mode": 493,
+        "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73"
+      },
+      {
+        "path": "scripts/harness/performance.test.ts",
+        "mode": 420,
+        "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242"
+      },
+      {
+        "path": "scripts/harness/test-support.ts",
+        "mode": 420,
+        "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "mode": 493,
+        "sha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8"
+      }
+    ]
+  },
+  "ownership": {
+    "allTask3ProductEdits": [
+      "scripts/coverage/config.ts",
+      "scripts/coverage/hygiene-preservation.test.ts",
+      "scripts/coverage/hygiene.ts",
+      "scripts/coverage/preservation.ts",
+      "scripts/harness/benchmark.ts",
+      "scripts/harness/coverage-verification.test.ts",
+      "scripts/harness/equivalence.test.ts",
+      "scripts/harness/evidence-budget.test.ts",
+      "scripts/harness/fixtures.ts",
+      "scripts/harness/performance.test.ts",
+      "scripts/harness/test-support.ts",
+      "scripts/harness/validate.sh"
+    ],
+    "attempt4ProductEdits": [
+      "scripts/harness/validate.sh",
+      "scripts/harness/fixtures.ts",
+      "scripts/harness/equivalence.test.ts"
+    ],
+    "workingEqualsIndex": true,
+    "entries": [
+      {
+        "path": "scripts/coverage/config.ts",
+        "mode": 420,
+        "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a"
+      },
+      {
+        "path": "scripts/coverage/hygiene-preservation.test.ts",
+        "mode": 420,
+        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+      },
+      {
+        "path": "scripts/coverage/hygiene.ts",
+        "mode": 420,
+        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+      },
+      {
+        "path": "scripts/coverage/preservation.ts",
+        "mode": 420,
+        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+      },
+      {
+        "path": "scripts/harness/benchmark.ts",
+        "mode": 420,
+        "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e"
+      },
+      {
+        "path": "scripts/harness/coverage-verification.test.ts",
+        "mode": 420,
+        "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb"
+      },
+      {
+        "path": "scripts/harness/equivalence.test.ts",
+        "mode": 420,
+        "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25"
+      },
+      {
+        "path": "scripts/harness/evidence-budget.test.ts",
+        "mode": 420,
+        "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4"
+      },
+      {
+        "path": "scripts/harness/fixtures.ts",
+        "mode": 420,
+        "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a"
+      },
+      {
+        "path": "scripts/harness/performance.test.ts",
+        "mode": 420,
+        "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242"
+      },
+      {
+        "path": "scripts/harness/test-support.ts",
+        "mode": 420,
+        "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "mode": 493,
+        "sha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8"
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code",
+        "--",
+        "scripts/harness",
+        "scripts/coverage"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--check",
+        "--",
+        "scripts/harness",
+        "scripts/coverage"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code",
+        "HEAD",
+        "--",
+        "Cargo.toml",
+        "Cargo.lock",
+        "package.json",
+        "mise.toml",
+        "crates",
+        "scripts/coverage/accounting.ts",
+        "scripts/coverage/gate.ts",
+        "scripts/coverage/run.ts",
+        "scripts/coverage/commands.ts",
+        "scripts/coverage/acceptance.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--exit-code",
+        "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+        "--",
+        ".arc-verify"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "dependencyDeliverables": [
+    {
+      "path": "technical.md",
+      "sha256": "0da2f4786770bb24aec836e7566eafe4f99109b75e598abe2beb3060fe23648b",
+      "unchangedSinceAttemptStart": true
+    },
+    {
+      "path": "contract.json",
+      "sha256": "299a22260f7b0311c55b1fc3b119e5c601f6d24ab18e06eb36f0edc5fc281fd7",
+      "unchangedSinceAttemptStart": true
+    },
+    {
+      "path": "interaction.md",
+      "sha256": "8fdc1c9380e2fd117133a9381a978cd996cbb66255ccf0140bf6d8e62acbb9e7",
+      "unchangedSinceAttemptStart": true
+    }
+  ],
+  "receipts": [
+    {
+      "path": "equivalence.json",
+      "sha256": "8f58c00a96cc34778b9d0b3c3fafcdcbd28cbf8d83aaab00aaa82d9231413709"
+    },
+    {
+      "path": "invocations.json",
+      "sha256": "e1f30d3230448f7078ca3b9805cd0e2312c8c270e7057112a7c0f48639924d9b"
+    },
+    {
+      "path": "timing.json",
+      "sha256": "2708975d37f221e4019764d73b274d47e31236f6e92707ba9e639df3c979f4a8"
+    },
+    {
+      "path": "coverage-verification.json",
+      "sha256": "59aedb75d1e77348c69220cbcf3e1800c9312452a07368272f50d9bf07a989d4"
+    },
+    {
+      "path": "option-repair-equivalence.json",
+      "sha256": "9c788476f5eed607d205eafaf21f7e5ac0c74eb9986d7d7af438453744f831d8"
+    },
+    {
+      "path": "option-repair-performance.json",
+      "sha256": "ef0a3fd6e69c58ea5b7c7d4b1c1a13f7a95ab0e6aaa6736f605356bddc230da3"
+    },
+    {
+      "path": "option-repair-checks.json",
+      "sha256": "e32bc02ae0a2333c48ef9514ea985219f702d695608e825b64adf137e4b5b00f"
+    },
+    {
+      "path": "option-repair-finalchecks.json",
+      "sha256": "e8bc85a27a21550827d3ec67403ad3da12da6184d7a54e8ec91c82e60c6333bf"
+    },
+    {
+      "path": "option-repair-trace.json",
+      "sha256": "ec73e0b54cddc2e1dc2597ac9b1367fd07d47e63a816c6156adf41add134ab85"
+    },
+    {
+      "path": "trace-count-correction.json",
+      "sha256": "25d4a0a4a32150f83e5fc767a2349c33b0ac73dec9cbd8f183b413af67293cc2"
+    }
+  ],
+  "evidenceBudget": {
+    "allFilesIncludingUntrackedAndNested": 24,
+    "exclusiveLimit": 150,
+    "withinLimit": true,
+    "largestBeforeFinalReportBytes": 330264
+  },
+  "preExistingHygiene": {
+    "acceptedAndIndexedRustCoveragePaths": 932,
+    "identity": "25194d586da7697c630c6200432af685737e74b1c9bc3f3c4557c3f71d23fc1f",
+    "acceptedAndIndexedIdentical": true,
+    "audit": {
+      "rustCoverage": {
+        "files": 932,
+        "bytes": 260660104
+      },
+      "allArcVerify": {
+        "files": 2652,
+        "bytes": 279209142
+      },
+      "newEvidenceHygieneFiles": 19,
+      "prohibited": [
+        {
+          "path": ".arc-verify/rust-coverage/baseline/latest.json",
+          "reasons": [
+            "runtime pointer"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-40-02-332Z-d0be6ef7-97f9-41d5-8cfa-7b5ac53129c9/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/01-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/02-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/03-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/04-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/05-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/06-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/07-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/08-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/09-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/10-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/inputs.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/metadata.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/non-workspace-roots.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/profiles.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/raw.json",
+          "reasons": [
+            "runtime directory",
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/raw.lcov",
+          "reasons": [
+            "runtime directory",
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/source-inventory.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/summary.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/uncovered.md",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/versions.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/clippy-2026-11-08T00-16-18-015Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/clippy-2026-11-08T00-16-18-015Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/clippy-2026-11-08T00-16-18-015Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/clippy-2026-11-08T00-16-18-015Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/coverage-cli-2026-11-08T00-14-54-922Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/coverage-cli-2026-11-08T00-14-54-922Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/coverage-cli-2026-11-08T00-14-54-922Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/coverage-cli-2026-11-08T00-14-54-922Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/deterministic-2026-11-08T00-21-03-169Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/deterministic-2026-11-08T00-21-03-169Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/deterministic-2026-11-08T00-21-03-169Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/deterministic-2026-11-08T00-21-03-169Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/evidence-2026-11-08T00-23-15-770Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/evidence-2026-11-08T00-23-15-770Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/evidence-2026-11-08T00-23-15-770Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/evidence-2026-11-08T00-23-15-770Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/fmt-2026-11-08T00-16-17-652Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/fmt-2026-11-08T00-16-17-652Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/fmt-2026-11-08T00-16-17-652Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/fmt-2026-11-08T00-16-17-652Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/full-harness-2026-11-08T00-19-29-756Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/full-harness-2026-11-08T00-19-29-756Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/full-harness-2026-11-08T00-19-29-756Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/full-harness-2026-11-08T00-19-29-756Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/harness-2026-11-08T00-17-16-851Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/harness-2026-11-08T00-17-16-851Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/harness-2026-11-08T00-17-16-851Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/harness-2026-11-08T00-17-16-851Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/prerequisites-2026-11-08T00-14-52-542Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/prerequisites-2026-11-08T00-14-52-542Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/prerequisites-2026-11-08T00-14-52-542Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/prerequisites-2026-11-08T00-14-52-542Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-deterministic-2026-11-08T00-31-13-479Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-deterministic-2026-11-08T00-31-13-479Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-deterministic-2026-11-08T00-31-13-479Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-deterministic-2026-11-08T00-31-13-479Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-harness-2026-11-08T00-29-09-721Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-harness-2026-11-08T00-29-09-721Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-harness-2026-11-08T00-29-09-721Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-2-harness-2026-11-08T00-29-09-721Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-deterministic-2026-11-08T00-36-49-827Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-deterministic-2026-11-08T00-36-49-827Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-deterministic-2026-11-08T00-36-49-827Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-deterministic-2026-11-08T00-36-49-827Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-harness-2026-11-08T00-34-47-083Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-harness-2026-11-08T00-34-47-083Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-harness-2026-11-08T00-34-47-083Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-harness-2026-11-08T00-34-47-083Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-offline-fetch-2026-11-08T00-36-56-259Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-offline-fetch-2026-11-08T00-36-56-259Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-offline-fetch-2026-11-08T00-36-56-259Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-3-offline-fetch-2026-11-08T00-36-56-259Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-coverage-cli-2026-11-08T00-43-48-991Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-coverage-cli-2026-11-08T00-43-48-991Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-coverage-cli-2026-11-08T00-43-48-991Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-coverage-cli-2026-11-08T00-43-48-991Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-deterministic-2026-11-08T00-46-07-539Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-deterministic-2026-11-08T00-46-07-539Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-deterministic-2026-11-08T00-46-07-539Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-deterministic-2026-11-08T00-46-07-539Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-final-evidence-2026-11-08T00-50-17-147Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-final-evidence-2026-11-08T00-50-17-147Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-final-evidence-2026-11-08T00-50-17-147Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-final-evidence-2026-11-08T00-50-17-147Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-harness-2026-11-08T00-46-19-073Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-harness-2026-11-08T00-46-19-073Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-harness-2026-11-08T00-46-19-073Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-harness-2026-11-08T00-46-19-073Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-prerequisites-2026-11-08T00-43-39-260Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-prerequisites-2026-11-08T00-43-39-260Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-prerequisites-2026-11-08T00-43-39-260Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-prerequisites-2026-11-08T00-43-39-260Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/workspace-tests-2026-11-08T00-16-20-097Z/00-command.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/workspace-tests-2026-11-08T00-16-20-097Z/receipt.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/workspace-tests-2026-11-08T00-16-20-097Z/stderr.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/workspace-tests-2026-11-08T00-16-20-097Z/stdout.txt",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/raw.json",
+          "reasons": [
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/raw.lcov",
+          "reasons": [
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/raw.json",
+          "reasons": [
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/raw.lcov",
+          "reasons": [
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/process/child-only.lcov",
+          "reasons": [
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/process/child-only.profdata",
+          "reasons": [
+            "coverage extension"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/runs/integrated.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/runs/repair-2.json",
+          "reasons": [
+            "runtime directory"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/tooling/attempt-5/llvm-export.json",
+          "reasons": [
+            "raw export filename",
+            "native LLVM export content"
+          ]
+        }
+      ]
+    },
+    "requiredFailingCommands": [
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/harness/coverage-verification.test.ts"
+        ],
+        "exit": 1,
+        "diagnostics": {
+          "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/option-repair/f0aaccb0-eab2-4f3c-ab29-c03f48452fc6/0",
+          "retention": "scratch retained locally; not durable evidence"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/clean-checkout.test.ts"
+        ],
+        "exit": 1,
+        "diagnostics": {
+          "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/option-repair/f0aaccb0-eab2-4f3c-ab29-c03f48452fc6/1",
+          "retention": "scratch retained locally; not durable evidence"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/harness/evidence-budget.test.ts"
+        ],
+        "exit": 1,
+        "diagnostics": {
+          "directory": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/option-repair/f0aaccb0-eab2-4f3c-ab29-c03f48452fc6/4",
+          "retention": "scratch retained locally; not durable evidence"
+        }
+      }
+    ],
+    "prerequisite": "Chief-coordinated authorized resolution of inherited evidence count and prohibited indexed artifacts, then successful unchanged required check replays; no cleanup or ownership handoff performed here"
+  },
+  "runtimeOutput": {
+    "path": ".arc-verify/rust-coverage/baseline/latest.json",
+    "sha256": "62ad527fb596302a36931b734dcba2ef5581a5f30b2844d88f53e349f3856c85",
+    "latest": {
+      "runId": "2026-11-08T07-42-42-031Z-8eab5e73-f1ba-4d50-a6ee-52cc6f1256de",
+      "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T07-42-42-031Z-8eab5e73-f1ba-4d50-a6ee-52cc6f1256de",
+      "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+      "pass": true
+    },
+    "summaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/.arc-verify/rust-coverage/baseline/runs/2026-11-08T07-42-42-031Z-8eab5e73-f1ba-4d50-a6ee-52cc6f1256de/summary.json",
+    "summarySha256": "6f6536cb097fa279d247f0fdb1ef1b52a99f4f18f09a1faec36cb193b9691a45",
+    "rawSha256": "7ee25f1370615febd5996fc12394b1ee4818c5513e361f4a8a1a3c4f355b7e21",
+    "llvmSha256": "04f92db6b10881dac57e5cec95bea97cd490b21b4f8412cd272d7ad08bebd97d",
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 64,
+        "total": 64,
+        "percent": 100,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 577,
+        "total": 578,
+        "percent": 99.82698961937716,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 226,
+        "total": 227,
+        "percent": 99.55947136563877,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 215,
+        "total": 215,
+        "percent": 100,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1508,
+        "total": 1613,
+        "percent": 93.4903905765654,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 203,
+        "total": 213,
+        "percent": 95.30516431924883,
+        "pass": true
+      }
+    ],
+    "role": "normal collector output, not staged or manually rewritten",
+    "nativeEvidenceCheckedAfterFinalCollection": true
+  },
+  "independentReview": {
+    "status": "pending existing independent oma-qa task",
+    "selfReviewNotSubstituted": true
+  },
+  "execution": {
+    "noMissionStateMutations": true,
+    "noDownloads": true,
+    "noBrowserOrProductionBuild": true,
+    "allObservedOwnedCommandSessionsExited": true,
+    "schedule": "all benchmarks and checks serial",
+    "processInventory": {
+      "command": [
+        "ps",
+        "-Ao",
+        "pid,ppid,etime,command"
+      ],
+      "exit": 127,
+      "error": "zsh: operation not permitted: ps",
+      "limitation": "host-wide competing-process absence not verified; this Actor started no competing verification"
+    }
+  }
+}

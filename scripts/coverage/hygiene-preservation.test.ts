@@ -1,11 +1,12 @@
 import { test, expect } from "bun:test";
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, chmodSync, unlinkSync, symlinkSync, rmSync } from "node:fs";
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, chmodSync, unlinkSync, symlinkSync, rmSync, realpathSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, resolve, dirname } from "node:path";
+import { checkPreservation } from "./preservation";
 import { root } from "./acceptance";
 import { ACCEPTED_HEAD, gitBytes, checkExactPreservation, indexEntries } from "./hygiene";
 
-test("all protected local/index paths, bytes and modes equal accepted HEAD", () => {
+test("protected bytes/modes equal accepted HEAD; harness path/type/mode survive", () => {
   expect(checkExactPreservation(root)).toEqual({ acceptedHead: ACCEPTED_HEAD, files: 84, pass: true });
 });
 
@@ -47,3 +48,36 @@ test("exact preservation rejects additions, removals, byte changes, modes and sy
     expect(checkExactPreservation(dir).pass).toBe(true);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 }, 30000);
+
+
+test("amendment 4 permits harness byte changes but retains harness structure and migration bytes", () => {
+  const dir = realpathSync(mkdtempSync(join(tmpdir(), "arc-harness-preservation-")));
+  try {
+    gitBytes(root, ["clone", "--quiet", "--shared", "--no-checkout", root, dir]);
+    gitBytes(dir, ["read-tree", ACCEPTED_HEAD]);
+    const entries = [...indexEntries(dir, "crates"), ...indexEntries(dir, "scripts/harness/validate.sh")];
+    gitBytes(dir, ["checkout-index", "--stdin"], entries.map(e => e.path).join("\n") + "\n");
+    const harness = resolve(dir, "scripts/harness/validate.sh"), bytes = readFileSync(harness);
+    writeFileSync(harness, Buffer.concat([bytes, Buffer.from("\n# authorized byte change\n")]));
+    expect(checkExactPreservation(dir).pass).toBe(true);
+    expect(checkPreservation(dir).pass).toBe(true);
+    gitBytes(dir, ["add", "--", "scripts/harness/validate.sh"]);
+    expect(checkPreservation(dir).pass).toBe(true);
+    chmodSync(harness, 0o644);
+    expect(() => checkPreservation(dir)).toThrow("local bytes/mode changed");
+    chmodSync(harness, 0o755);
+    const entry = indexEntries(dir, "scripts/harness/validate.sh")[0];
+    gitBytes(dir, ["update-index", "--cacheinfo", `100644,${entry.oid},${entry.path}`]);
+    expect(() => checkPreservation(dir)).toThrow("index bytes/mode changed");
+    gitBytes(dir, ["update-index", "--cacheinfo", `100755,${entry.oid},${entry.path}`]);
+    unlinkSync(harness); symlinkSync("missing", harness);
+    expect(() => checkPreservation(dir)).toThrow("regular file required");
+    unlinkSync(harness); writeFileSync(harness, bytes); chmodSync(harness, 0o755);
+    const migration = resolve(dir, "crates/arc-storage/migrations/0001_phase0.sql");
+    writeFileSync(migration, Buffer.concat([readFileSync(migration), Buffer.from("\n")]));
+    expect(() => checkPreservation(dir)).toThrow("protected bytes changed");
+    expect(() => checkExactPreservation(dir)).toThrow("local bytes/mode changed");
+    gitBytes(dir, ["add", "--", "crates/arc-storage/migrations/0001_phase0.sql"]);
+    expect(() => checkExactPreservation(dir)).toThrow("index bytes/mode changed");
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+}, 1800000);

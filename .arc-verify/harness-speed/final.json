@@ -1,0 +1,977 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-6",
+  "actor": "chief-director",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+  "createdAtUtc": "2026-11-08T08:32:29.006976+00:00",
+  "completion": {
+    "status": "passed",
+    "outstandingRequirements": [],
+    "frameworkFinalVerification": "separate framework step; not claimed by task-6",
+    "acceptedAtUtc": "2026-11-08T08:32:49.451133+00:00"
+  },
+  "changedPaths": [
+    ".arc-verify/harness-speed/index.md",
+    ".arc-verify/harness-speed/final.md",
+    ".arc-verify/harness-speed/final.json"
+  ],
+  "productFilesChangedByChief": [],
+  "missionStateMutated": false,
+  "indexMutatedByChief": false,
+  "implementationChangedPaths": [
+    "scripts/coverage/config.ts",
+    "scripts/coverage/hygiene-preservation.test.ts",
+    "scripts/coverage/hygiene.ts",
+    "scripts/coverage/preservation.ts",
+    "scripts/harness/benchmark.ts",
+    "scripts/harness/coverage-verification.test.ts",
+    "scripts/harness/equivalence.test.ts",
+    "scripts/harness/evidence-budget.test.ts",
+    "scripts/harness/fixtures.ts",
+    "scripts/harness/performance.test.ts",
+    "scripts/harness/test-support.ts",
+    "scripts/harness/validate.sh"
+  ],
+  "authorizedUntracking": {
+    "removedIndexEntries": 908,
+    "diskFilesRetained": true,
+    "whitelistedIndexedFiles": 24,
+    "whitelistedBytes": 475720,
+    "prohibitedIndexedArtifacts": 0,
+    "proof": ".arc-verify/harness-speed/attempt-6-recovery.json"
+  },
+  "oracleSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+  "candidateScriptSha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8",
+  "reviewedIndexTree": "f25af4f19afa14a9208ad109795490a6cf0cfaf1",
+  "finalRelevantSourceBindings": {
+    "head": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "sha256": "fe4f4139d049e430b6a53a4d18cebacfbd5d22c7f7c4d74c0db92f5816764ffc",
+    "entries": [
+      {
+        "path": "scripts/coverage/acceptance.ts",
+        "mode": 420,
+        "sha256": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d"
+      },
+      {
+        "path": "scripts/coverage/accounting.test.ts",
+        "mode": 420,
+        "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882"
+      },
+      {
+        "path": "scripts/coverage/accounting.ts",
+        "mode": 420,
+        "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1"
+      },
+      {
+        "path": "scripts/coverage/clean-checkout.test.ts",
+        "mode": 420,
+        "sha256": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760"
+      },
+      {
+        "path": "scripts/coverage/commands.ts",
+        "mode": 420,
+        "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea"
+      },
+      {
+        "path": "scripts/coverage/config.ts",
+        "mode": 420,
+        "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a"
+      },
+      {
+        "path": "scripts/coverage/coverage-cli.test.ts",
+        "mode": 420,
+        "sha256": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041"
+      },
+      {
+        "path": "scripts/coverage/evidence.test.ts",
+        "mode": 420,
+        "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8"
+      },
+      {
+        "path": "scripts/coverage/fixture-runner.ts",
+        "mode": 420,
+        "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d"
+      },
+      {
+        "path": "scripts/coverage/fixtures.ts",
+        "mode": 420,
+        "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d"
+      },
+      {
+        "path": "scripts/coverage/gate.test.ts",
+        "mode": 420,
+        "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda"
+      },
+      {
+        "path": "scripts/coverage/gate.ts",
+        "mode": 420,
+        "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29"
+      },
+      {
+        "path": "scripts/coverage/harness.test.ts",
+        "mode": 420,
+        "sha256": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747"
+      },
+      {
+        "path": "scripts/coverage/hygiene-preservation.test.ts",
+        "mode": 420,
+        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+      },
+      {
+        "path": "scripts/coverage/hygiene.test.ts",
+        "mode": 420,
+        "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c"
+      },
+      {
+        "path": "scripts/coverage/hygiene.ts",
+        "mode": 420,
+        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+      },
+      {
+        "path": "scripts/coverage/preservation.test.ts",
+        "mode": 420,
+        "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445"
+      },
+      {
+        "path": "scripts/coverage/preservation.ts",
+        "mode": 420,
+        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+      },
+      {
+        "path": "scripts/coverage/provision.sh",
+        "mode": 420,
+        "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d"
+      },
+      {
+        "path": "scripts/coverage/run.ts",
+        "mode": 420,
+        "sha256": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+      },
+      {
+        "path": "scripts/coverage/source.ts",
+        "mode": 420,
+        "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062"
+      },
+      {
+        "path": "scripts/harness/benchmark.ts",
+        "mode": 420,
+        "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e"
+      },
+      {
+        "path": "scripts/harness/coverage-verification.test.ts",
+        "mode": 420,
+        "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb"
+      },
+      {
+        "path": "scripts/harness/equivalence.test.ts",
+        "mode": 420,
+        "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25"
+      },
+      {
+        "path": "scripts/harness/evidence-budget.test.ts",
+        "mode": 420,
+        "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4"
+      },
+      {
+        "path": "scripts/harness/fixtures.ts",
+        "mode": 420,
+        "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a"
+      },
+      {
+        "path": "scripts/harness/gc.sh",
+        "mode": 493,
+        "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73"
+      },
+      {
+        "path": "scripts/harness/performance.test.ts",
+        "mode": 420,
+        "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242"
+      },
+      {
+        "path": "scripts/harness/test-support.ts",
+        "mode": 420,
+        "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "mode": 493,
+        "sha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8"
+      }
+    ]
+  },
+  "nativeCoverageInputSha256": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+  "evidenceBindings": [
+    {
+      "path": ".arc-verify/harness-speed/attempt-5-checks.json",
+      "sha256": "bf93d2a872f1d9d36d2bc55cf4be3fb5c8475186df53eb575d9300de00833290",
+      "bytes": 39121
+    },
+    {
+      "path": ".arc-verify/harness-speed/attempt-5-handoff.md",
+      "sha256": "39fcb74be3d09b51737584046cf96fef774150d8f0ff5eb6d9f24a0b54fc4877",
+      "bytes": 8493
+    },
+    {
+      "path": ".arc-verify/harness-speed/attempt-6-checks.json",
+      "sha256": "2d5d0a3c91eae099f30de6354ffa583c4ef98d7d20978037b42fa88601b6dc7a",
+      "bytes": 23142
+    },
+    {
+      "path": ".arc-verify/harness-speed/attempt-6-handoff.md",
+      "sha256": "8d54b7e3de62879d8c466c4ae033581d99a46c282629c408f48b3d4b949daff9",
+      "bytes": 8523
+    },
+    {
+      "path": ".arc-verify/harness-speed/attempt-6-recovery.json",
+      "sha256": "1601e0299f61f6e71a208f95a242ccc7802548470e69495e7e80a1e61182f09b",
+      "bytes": 113270
+    },
+    {
+      "path": ".arc-verify/harness-speed/attempts.json",
+      "sha256": "36d3078a71a021e906b7a896c7d2442e762c7e9f2d45fdb9ea11e6bd83721072",
+      "bytes": 135837
+    },
+    {
+      "path": ".arc-verify/harness-speed/before-option-repair.json",
+      "sha256": "14472ef9530a9fa858920f9ce48950bda4bd0d845e1d9497b27760f3d4512033",
+      "bytes": 330264
+    },
+    {
+      "path": ".arc-verify/harness-speed/contract.json",
+      "sha256": "299a22260f7b0311c55b1fc3b119e5c601f6d24ab18e06eb36f0edc5fc281fd7",
+      "bytes": 30151
+    },
+    {
+      "path": ".arc-verify/harness-speed/coverage-verification.json",
+      "sha256": "0cebc2594e572b16580d5a0c80ae7ddf25d325cad1648310b2538a198973f7ec",
+      "bytes": 30280
+    },
+    {
+      "path": ".arc-verify/harness-speed/equivalence.json",
+      "sha256": "7847259496e58109881962ad24ed89f07c71869154f2db7e014eb5e6e26883c4",
+      "bytes": 167736
+    },
+    {
+      "path": ".arc-verify/harness-speed/implementation.md",
+      "sha256": "fcfadbc848dcf9036ab0cd9461bdf4f85cc5f2ae0f6332f3b1f536cd922bf8d1",
+      "bytes": 40613
+    },
+    {
+      "path": ".arc-verify/harness-speed/interaction.md",
+      "sha256": "8fdc1c9380e2fd117133a9381a978cd996cbb66255ccf0140bf6d8e62acbb9e7",
+      "bytes": 19389
+    },
+    {
+      "path": ".arc-verify/harness-speed/invocations.json",
+      "sha256": "9c73c673550860bed566571afb8c114c0460e713d930717f396c359c10873cb0",
+      "bytes": 8156
+    },
+    {
+      "path": ".arc-verify/harness-speed/option-regression.json",
+      "sha256": "a10234498c7d43df00f0877439fef4eb00cb3c4dbdc9c40c1e74be75740c3365",
+      "bytes": 176283
+    },
+    {
+      "path": ".arc-verify/harness-speed/option-repair-checks.json",
+      "sha256": "e32bc02ae0a2333c48ef9514ea985219f702d695608e825b64adf137e4b5b00f",
+      "bytes": 58413
+    },
+    {
+      "path": ".arc-verify/harness-speed/option-repair-equivalence.json",
+      "sha256": "9c788476f5eed607d205eafaf21f7e5ac0c74eb9986d7d7af438453744f831d8",
+      "bytes": 13287
+    },
+    {
+      "path": ".arc-verify/harness-speed/option-repair-finalchecks.json",
+      "sha256": "e8bc85a27a21550827d3ec67403ad3da12da6184d7a54e8ec91c82e60c6333bf",
+      "bytes": 36536
+    },
+    {
+      "path": ".arc-verify/harness-speed/option-repair-observations.json",
+      "sha256": "096d4f4b8acd0628f6abc1519094896c87cd2c3a2323bea13df711ab86a3186d",
+      "bytes": 120288
+    },
+    {
+      "path": ".arc-verify/harness-speed/option-repair-performance.json",
+      "sha256": "ef0a3fd6e69c58ea5b7c7d4b1c1a13f7a95ab0e6aaa6736f605356bddc230da3",
+      "bytes": 13198
+    },
+    {
+      "path": ".arc-verify/harness-speed/option-repair-trace.json",
+      "sha256": "ec73e0b54cddc2e1dc2597ac9b1367fd07d47e63a816c6156adf41add134ab85",
+      "bytes": 1260
+    },
+    {
+      "path": ".arc-verify/harness-speed/pattern-profile.json",
+      "sha256": "ba4f794e8eec313f3023ef82ee56b37a743683a26b69afe11990288450438978",
+      "bytes": 38759
+    },
+    {
+      "path": ".arc-verify/harness-speed/pre-existing.json",
+      "sha256": "42ebff66d5365849a811c8279a024786e16a8b476d739d25cef3b09b92fc93e2",
+      "bytes": 5606
+    },
+    {
+      "path": ".arc-verify/harness-speed/profile.json",
+      "sha256": "88526c45368eb78ca1d736f9b6202deb189ebfd17b69b024382c1d5cf11103df",
+      "bytes": 35857
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa-audit.json",
+      "sha256": "55a7b2b52c330d4d61cc89b188c3a3637b35fbb84f459e391346fbeb16cc604e",
+      "bytes": 17088
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa-commands.json",
+      "sha256": "aa12313eed46396db31699bc5d96d05beaa09532913a2d17d6f8a2b7cef3ec89",
+      "bytes": 48241
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa-edgecases.json",
+      "sha256": "e326ddeafa219165975663fc146322eaa004328bc6cf6614f48105e5c6d305ca",
+      "bytes": 12368
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa.json",
+      "sha256": "f399b83e87af9ad023045b5393f0c1fd6223f1c2c59eb850a79d4afa17c0fc58",
+      "bytes": 16219
+    },
+    {
+      "path": ".arc-verify/harness-speed/qa.md",
+      "sha256": "ab7935f05e8f00ef135bc3a4663fcc6e682752bfcc0bc67fa1eed24a4bb34b5f",
+      "bytes": 12804
+    },
+    {
+      "path": ".arc-verify/harness-speed/recovery-checks.json",
+      "sha256": "8644fa0b22389925977fb2c8512fb3a0ce0af010f87506ca8b0ebd1444ace4be",
+      "bytes": 81166
+    },
+    {
+      "path": ".arc-verify/harness-speed/recovery-observations.json",
+      "sha256": "5a9667a287d4ec840684f0af2487a7c378d9294424fbe867a27e807093c15b83",
+      "bytes": 5802
+    },
+    {
+      "path": ".arc-verify/harness-speed/technical.md",
+      "sha256": "0da2f4786770bb24aec836e7566eafe4f99109b75e598abe2beb3060fe23648b",
+      "bytes": 16593
+    },
+    {
+      "path": ".arc-verify/harness-speed/timing-before-recovery.json",
+      "sha256": "af5c96aeb47bbfa540dd2e748f9c6d8ca7d5a0db9b3bacb5d375071ca32bd207",
+      "bytes": 127872
+    },
+    {
+      "path": ".arc-verify/harness-speed/timing.json",
+      "sha256": "2efdb204860bbb8145b314fd58528671c29a7b4423819207c1a5904da92a8fbf",
+      "bytes": 137125
+    },
+    {
+      "path": ".arc-verify/harness-speed/timings.json",
+      "sha256": "207a33dd76590dd610fb23e8a501b57007b2a384aeb729fda0b4915315b849c3",
+      "bytes": 49688
+    },
+    {
+      "path": ".arc-verify/harness-speed/trace-count-correction.json",
+      "sha256": "25d4a0a4a32150f83e5fc767a2349c33b0ac73dec9cbd8f183b413af67293cc2",
+      "bytes": 241038
+    },
+    {
+      "path": ".arc-verify/harness-speed/value.md",
+      "sha256": "07269718760e4077926fc5058626298b004e56b16a7ea7c1641fbef0275730b8",
+      "bytes": 7649
+    }
+  ],
+  "successCriteria": [
+    {
+      "id": "behavior",
+      "status": "passed",
+      "evidence": [
+        "equivalence.json",
+        "invocations.json",
+        "qa-edgecases.json"
+      ],
+      "cases": 79,
+      "supplementalCases": 4
+    },
+    {
+      "id": "speed",
+      "status": "passed",
+      "evidence": [
+        "timing.json",
+        "timings.json"
+      ],
+      "strictLimitSeconds": 20,
+      "candidateChecks1to4Seconds": [
+        14.616738417000015,
+        14.657120791999972,
+        14.67545745799999
+      ]
+    },
+    {
+      "id": "coverage-preservation",
+      "status": "passed",
+      "evidence": [
+        "coverage-verification.json",
+        "qa-audit.json",
+        "qa-commands.json"
+      ],
+      "protectedEntries": 84,
+      "perCrateThresholdPercent": 80,
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 64,
+          "total": 64,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 577,
+          "total": 578,
+          "percent": 99.82698961937716,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 226,
+          "total": 227,
+          "percent": 99.55947136563877,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 215,
+          "total": 215,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1508,
+          "total": 1613,
+          "percent": 93.4903905765654,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 203,
+          "total": 213,
+          "percent": 95.30516431924883,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "id": "cargo",
+      "status": "passed",
+      "evidence": [
+        "qa-commands.json"
+      ],
+      "workspacePassingTests": 275
+    },
+    {
+      "id": "full-harness-native-evidence",
+      "status": "passed",
+      "evidence": [
+        "qa.json",
+        "qa-audit.json",
+        "qa-commands.json"
+      ],
+      "finalHarness": {
+        "receipt": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/.arc-verify/rust-coverage/tooling/acceptance/runs/harness-138bab41-a1f7-45d3-a086-5a86d8dae1b2/00-command.json",
+        "sha256": "97b74ba8bb5cad00970c7dfb51f3fec34c2ec496281734bea52f2682948f35a3",
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+        "exit": 0,
+        "started": "2026-11-08T08:18:51.080Z",
+        "ended": "2026-11-08T08:20:17.845Z",
+        "binding": {
+          "name": "harness",
+          "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+          "afterHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+          "unchanged": true,
+          "exit": 0,
+          "argv": [
+            "./scripts/harness/validate.sh"
+          ]
+        },
+        "stdoutSha256": "cbe5ac1f074b39eb9adf57aa5af02f14081338ed32d95ffe3129327d3a483309",
+        "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+        "filesToCheck": "3143"
+      },
+      "nativeEvidence": {
+        "checkout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+        "latest": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/.arc-verify/rust-coverage/baseline/latest.json",
+          "sha256": "18581de7f00009ba2033e0371c7daf8a295ef9e57049e438ff267669135a5cf1",
+          "runId": "2026-11-08T08-18-56-766Z-93dd6ce1-259e-4313-b343-79541cb3977e",
+          "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T08-18-56-766Z-93dd6ce1-259e-4313-b343-79541cb3977e",
+          "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379",
+          "pass": true
+        },
+        "summary": {
+          "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/.arc-verify/rust-coverage/baseline/runs/2026-11-08T08-18-56-766Z-93dd6ce1-259e-4313-b343-79541cb3977e/summary.json",
+          "sha256": "242d5b32319f100e074160a0a39f306c446895b99d795d3c44b34369e8761370"
+        },
+        "nativeHashes": {
+          "lcov": "0508da769e267631859c5c07db67d641702ef07a478213c3ee2dae4eea81b9c2",
+          "llvmJson": "da1beb732d273c761eb1f610e9699a60d0c1af0ed2473f4544564ee9b04f6b9e"
+        },
+        "profileCount": 851,
+        "childProof": [
+          {
+            "binary": "arcctl",
+            "pid": 67935,
+            "profiles": [
+              "arc-67935-11708300777802047112_0.profraw"
+            ],
+            "exit": 0
+          },
+          {
+            "binary": "arc-daemon",
+            "pid": 67936,
+            "profiles": [
+              "arc-67936-9358645423002903239_0.profraw"
+            ],
+            "exit": 1
+          }
+        ],
+        "sourceHash": "91b009125526827cd072e922cb1cafcede1ec5d6b2a09ee16dba0ab98dbd0379"
+      }
+    },
+    {
+      "id": "independent-review-final-budget",
+      "status": "passed",
+      "evidence": [
+        "qa.md",
+        "qa.json",
+        "budget.json",
+        "index.md",
+        "final.md"
+      ]
+    }
+  ],
+  "requiredCommandEvidence": [
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "target/harness-speed/independent-qa/01-equivalence.log",
+      "logSha256": "8ad863109a262f052a53583539b59ae872e6f02a2f6093a98bcca64e2511ae91",
+      "logBytes": 341,
+      "elapsedSeconds": 120.21,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/performance.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/02-performance.log",
+      "logSha256": "7a1d05a0b65d912bcd84569368ac9156e30957edbff2f232f765140330d0a194",
+      "logBytes": 690,
+      "elapsedSeconds": 555.6724987080088,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/coverage-verification.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/03-coverage-verification.log",
+      "logSha256": "0648fcfdbee7d0b762fd7ce1ad7c63c216cb5e24c2fc662b5620062b69809c91",
+      "logBytes": 259,
+      "elapsedSeconds": 16.08813691700925,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/04-coverage-cli.log",
+      "logSha256": "8d382a01c086402dc6e0de847d905cb108b4d6d4175fe1da74b5d9b4b2e5cd6b",
+      "logBytes": 217,
+      "elapsedSeconds": 84.44345424999483,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/05-clean-checkout.log",
+      "logSha256": "bd8f86c5f53519c24e0c611eb4edc85818d53be8223223047989fde8594f2862",
+      "logBytes": 859,
+      "elapsedSeconds": 86.92308287500055,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/06-cargo-fmt.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "logBytes": 0,
+      "elapsedSeconds": 0.40977737499633804,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/07-cargo-clippy.log",
+      "logSha256": "f4403412cb20dc7d8a0a94c08c9c8853e4bac9b3e8489158834f30512311ed97",
+      "logBytes": 72,
+      "elapsedSeconds": 0.41314512499957345,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/08-cargo-test.log",
+      "logSha256": "c1e59816f2170ba0d7ead5b6e250b5d719bcb89f575f46dde3da146447095acb",
+      "logBytes": 27841,
+      "elapsedSeconds": 38.28598799998872,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/09-harness.log",
+      "logSha256": "cbc1cf1b231ce447df8e8d280a40d042c84c164cdaec88b91b25384d983d2888",
+      "logBytes": 223,
+      "elapsedSeconds": 88.42173504200764,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/10-evidence.log",
+      "logSha256": "b0e1c4072efb10d8fdd3f7acc146a8c75073911e3249d19e21381ef78454248d",
+      "logBytes": 244,
+      "elapsedSeconds": 0.5569426660076715,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/evidence-budget.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+      "exit": 0,
+      "log": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/independent-qa/13-evidence-budget.log",
+      "logSha256": "979e71d34f89409534ef243168e232ad2baf57bddf5b55db40803456ef1e2a2e",
+      "logBytes": 245,
+      "elapsedSeconds": 0.6498925409978256,
+      "executedBy": "independent-reviewer",
+      "receipt": ".arc-verify/harness-speed/qa-commands.json"
+    }
+  ],
+  "chiefChecks": [
+    {
+      "command": "Scoped Git status/diffs and immutable Git objects",
+      "exit": 0,
+      "outcome": "908 inherited index removals and 12 implementation source changes preserved; current reviewed index and working product match"
+    },
+    {
+      "command": "Read-only Python source/receipt/stream audit",
+      "exit": 0,
+      "outcome": "30 source bindings, 13 command logs, 79 saved stdout/stderr pairs, 4 timing stream pairs and final harness/native/clean-checkout hashes verified"
+    },
+    {
+      "argv": [
+        "bun",
+        "-e",
+        "import {acceptedCorpus} from \"./scripts/harness/benchmark.ts\"; const c=acceptedCorpus(); console.log(JSON.stringify({entries:c.entries.length,blobBytes:c.blobBytes,gitTreeManifestSha256:c.gitTreeManifestSha256,pathModeContentManifestSha256:c.pathModeContentManifestSha256}));"
+      ],
+      "exit": 0,
+      "outcome": {
+        "entries": 4044,
+        "blobBytes": 285669775,
+        "gitTreeManifestSha256": "cc9e627ec4cc9f2ab8fa41b8be66e6ca285f64cf48729600d7aac587da955344",
+        "pathModeContentManifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3"
+      }
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "passingTests": 1,
+      "assertions": 2580,
+      "suiteReportedSeconds": 1.096
+    },
+    {
+      "command": "Closeout local-link, preserved evidence hash, inner harness stream and Cargo count audit",
+      "exit": 0
+    },
+    {
+      "status": "passed",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/evidence-budget.test.ts"
+      ],
+      "exit": 0,
+      "startedAtUtc": "2026-11-08T08:32:48.511103+00:00",
+      "endedAtUtc": "2026-11-08T08:32:49.451102+00:00",
+      "elapsedSeconds": 0.9400144999963231,
+      "wrapperTimeoutSeconds": 3600,
+      "allFilesIncludingUntrackedAndNested": 40,
+      "limitExclusive": 150,
+      "receipt": ".arc-verify/harness-speed/budget.json",
+      "scope": "all recursive mission evidence files including untracked files and all closeout reports",
+      "stdout": "bun test v1.4.4 (38afee6c8)\n",
+      "stderr": "\nscripts/harness/evidence-budget.test.ts:\n(pass) all harness-speed evidence is bounded, compact and bound to current implementation [485.71ms]\n\n 1 pass\n 0 fail\n 141 expect() calls\nRan 1 test across 1 file. [927.00ms]\n"
+    }
+  ],
+  "benchmarkCorpus": {
+    "entries": 4044,
+    "blobBytes": 285669775,
+    "gitTreeManifestSha256": "cc9e627ec4cc9f2ab8fa41b8be66e6ca285f64cf48729600d7aac587da955344",
+    "pathModeContentManifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3"
+  },
+  "timings": [
+    {
+      "label": "original",
+      "exit": 0,
+      "durationsSeconds": {
+        "startup": 0.7414107910000003,
+        "checks1to4": 163.421057459,
+        "processStartToCheck5": 164.16246825000002,
+        "check5": 83.56864900000001,
+        "check1": 160.65030354200002,
+        "check2": 0.5770941670000029,
+        "check3": 0.15009816599998158,
+        "check4": 2.04356158400001,
+        "finalization": 0.002127791000006255,
+        "total": 247.733245041
+      }
+    },
+    {
+      "label": "candidate-1",
+      "exit": 0,
+      "durationsSeconds": {
+        "startup": 0.7330960830000113,
+        "checks1to4": 14.616738417000015,
+        "processStartToCheck5": 15.349834500000027,
+        "check5": 82.11061870799999,
+        "check1": 11.593158582999981,
+        "check2": 0.5446203340000356,
+        "check3": 0.44570874999999066,
+        "check4": 2.0332507500000063,
+        "finalization": 0.006546792000008282,
+        "total": 97.46700000000003
+      }
+    },
+    {
+      "label": "candidate-2",
+      "exit": 0,
+      "durationsSeconds": {
+        "startup": 0.5154111250000424,
+        "checks1to4": 14.657120791999972,
+        "processStartToCheck5": 15.172531917000015,
+        "check5": 81.83818645799998,
+        "check1": 11.65271762499999,
+        "check2": 0.5369895839999663,
+        "check3": 0.44293833299999824,
+        "check4": 2.024475250000018,
+        "finalization": 0.00592291700001806,
+        "total": 97.01664129200002
+      }
+    },
+    {
+      "label": "candidate-3",
+      "exit": 0,
+      "durationsSeconds": {
+        "startup": 0.5098638750000392,
+        "checks1to4": 14.67545745799999,
+        "processStartToCheck5": 15.18532133300003,
+        "check5": 81.48330670799996,
+        "check1": 11.619907415999974,
+        "check2": 0.5492738750000135,
+        "check3": 0.44179200000001584,
+        "check4": 2.064484166999988,
+        "finalization": 0.006240749999997206,
+        "total": 96.67486879099998
+      }
+    }
+  ],
+  "independentReview": {
+    "verdict": "PASS",
+    "findings": [],
+    "receipt": ".arc-verify/harness-speed/qa.json",
+    "unresolved": []
+  },
+  "decisions": [
+    {
+      "choice": "At most three concurrent secret-pattern batches with ordered parent replay",
+      "basis": "Sequential scan profile 30.238 seconds, Check 1 27.925 seconds; retained recovery and fresh independent timing/byte-equivalence support measured need",
+      "evidence": [
+        "profile.json",
+        "pattern-profile.json",
+        "implementation.md",
+        "qa.md"
+      ]
+    },
+    {
+      "choice": "Keep Check 4 unchanged",
+      "basis": "Roughly two-second measured cost; target met without newline-count changes"
+    },
+    {
+      "choice": "Retain immutable historical evidence; resolve inherited hygiene through authorized index-only removal",
+      "basis": "Operator authorization and fresh hygiene/clean-checkout evidence"
+    }
+  ],
+  "preExistingHygieneFailures": {
+    "acceptedRustCoverageFiles": 932,
+    "acceptedArcVerifyFiles": 2652,
+    "acceptedProhibitedCount": 457,
+    "prohibitedManifestSha256": "e9459be6eccc59e8cacb55d5822f1e7a871512a15fbd9c26c99eeff72762dabc",
+    "examples": [
+      {
+        "path": ".arc-verify/rust-coverage/baseline/latest.json",
+        "reasons": [
+          "runtime pointer"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/00-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/01-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/inputs.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      }
+    ],
+    "resolution": "operator-authorized prior task-3 index-only removals; fresh hygiene and clean-checkout checks passed",
+    "current": {
+      "rustCoverage": {
+        "files": 24,
+        "bytes": 475720
+      },
+      "allArcVerify": {
+        "files": 1744,
+        "bytes": 19024758
+      },
+      "newEvidenceHygieneFiles": 19,
+      "prohibited": []
+    }
+  },
+  "interfaceCompatibility": {
+    "validatorCommandModesStreamsOrderingCountsExits": "preserved by deterministic differential evidence",
+    "runtimeDependenciesAdded": false,
+    "rustMigrationAccountingThresholds": "preserved",
+    "historicalBaselinesRewritten": false
+  },
+  "skillsUsedByChief": [
+    "oma-pm"
+  ],
+  "priorActorSkills": {
+    "implementation": [
+      "oma-dev-workflow",
+      "oma-refactor"
+    ],
+    "independentReview": [
+      "oma-qa"
+    ]
+  },
+  "remainingRisks": [
+    "Single-host, fixed-order benchmark with one original and three candidates; host-wide process absence unverified.",
+    "Native exports and fixture streams remain in linked local scratch/runtime locations.",
+    "Financial and customer outcomes unmeasured."
+  ],
+  "finalEvidenceBudget": {
+    "status": "passed",
+    "command": [
+      "bun",
+      "test",
+      "scripts/harness/evidence-budget.test.ts"
+    ],
+    "exit": 0,
+    "startedAtUtc": "2026-11-08T08:32:48.511103+00:00",
+    "endedAtUtc": "2026-11-08T08:32:49.451102+00:00",
+    "elapsedSeconds": 0.9400144999963231,
+    "wrapperTimeoutSeconds": 3600,
+    "allFilesIncludingUntrackedAndNested": 40,
+    "limitExclusive": 150,
+    "receipt": ".arc-verify/harness-speed/budget.json",
+    "scope": "all recursive mission evidence files including untracked files and all closeout reports",
+    "stdout": "bun test v1.4.4 (38afee6c8)\n",
+    "stderr": "\nscripts/harness/evidence-budget.test.ts:\n(pass) all harness-speed evidence is bounded, compact and bound to current implementation [485.71ms]\n\n 1 pass\n 0 fail\n 141 expect() calls\nRan 1 test across 1 file. [927.00ms]\n"
+  }
+}

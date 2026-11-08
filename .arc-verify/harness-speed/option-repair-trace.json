@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "candidateScriptSha256": "0e66d222504f469cc9be910e1c7a6e33544440f017809e25cc255f6dc90f29a8",
+  "equivalenceReceiptSha256": "8f58c00a96cc34778b9d0b3c3fafcdcbd28cbf8d83aaab00aaa82d9231413709",
+  "case": "option-name---definitely-invalid",
+  "tracePath": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-ZC1Ic9/candidate.trace",
+  "traceSha256": "02d793ad9890332f4e9f369120735fa5eaecdb0458220cfc2f0b064fc3fbd4f7",
+  "isolatedOptionInvocations": 9,
+  "noOrdinaryFileArgumentsInOptionCalls": true,
+  "stdinCases": [
+    {
+      "id": "option-name--q",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      }
+    },
+    {
+      "id": "option-name---",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      }
+    },
+    {
+      "id": "option-name--",
+      "equal": {
+        "stdout": true,
+        "stderr": true,
+        "exit": true,
+        "coverageCalls": true
+      }
+    }
+  ],
+  "check": "native invalid-option calls use exactly the original -qE arguments and no ordinary batch member",
+  "status": "passed"
+}

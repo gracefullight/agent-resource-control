@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "recovery-scope-and-prerequisites",
+  "checkedAtUtc": "2026-11-08T07:12:59.242Z",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "rustCoverageIndex": {
+    "acceptedFiles": 932,
+    "indexedFiles": 932,
+    "acceptedManifestSha256": "220c4fe94bc7183e56701454e9b8bae4d7d2dd3edbb0616816e12cd0e74ee934",
+    "indexedManifestSha256": "220c4fe94bc7183e56701454e9b8bae4d7d2dd3edbb0616816e12cd0e74ee934",
+    "entriesEqual": true
+  },
+  "hygiene": {
+    "rustCoverage": {
+      "files": 932,
+      "bytes": 260660104
+    },
+    "allArcVerify": {
+      "files": 2652,
+      "bytes": 279209142
+    },
+    "newEvidenceHygieneFiles": 19,
+    "prohibitedCount": 457,
+    "prohibitedExamples": [
+      {
+        "path": ".arc-verify/rust-coverage/baseline/latest.json",
+        "reasons": [
+          "runtime pointer"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/00-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/01-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/inputs.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/receipt.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/source-inventory.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/00-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      },
+      {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/01-command.json",
+        "reasons": [
+          "runtime directory"
+        ]
+      }
+    ],
+    "completeAuditSha256": "ba054d59048a3a31b7d517e1a357b2cde9dd4f56b1a0e1e9d423e55ac350c58c",
+    "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/recovery-hygiene-audit.json"
+  },
+  "checks": [
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code",
+        "HEAD",
+        "--",
+        "Cargo.toml",
+        "Cargo.lock",
+        "package.json",
+        "mise.toml",
+        "crates"
+      ],
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--exit-code",
+        "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+        "--",
+        ".arc-verify"
+      ],
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--exit-code",
+        "--",
+        "scripts/harness",
+        "scripts/coverage"
+      ],
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--check",
+        "--",
+        "scripts"
+      ],
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "sourceSha256": "e1fa3cc6230fd7669bab8dcc90c37ae47585510426fff8321ffb47fe3c67cc05",
+  "ownedProductPaths": [
+    "scripts/coverage/config.ts",
+    "scripts/coverage/hygiene-preservation.test.ts",
+    "scripts/coverage/hygiene.ts",
+    "scripts/coverage/preservation.ts",
+    "scripts/harness/benchmark.ts",
+    "scripts/harness/coverage-verification.test.ts",
+    "scripts/harness/equivalence.test.ts",
+    "scripts/harness/evidence-budget.test.ts",
+    "scripts/harness/fixtures.ts",
+    "scripts/harness/performance.test.ts",
+    "scripts/harness/test-support.ts",
+    "scripts/harness/validate.sh"
+  ],
+  "dependencyReportHashes": {
+    "technical.md": "0da2f4786770bb24aec836e7566eafe4f99109b75e598abe2beb3060fe23648b",
+    "contract.json": "299a22260f7b0311c55b1fc3b119e5c601f6d24ab18e06eb36f0edc5fc281fd7",
+    "interaction.md": "8fdc1c9380e2fd117133a9381a978cd996cbb66255ccf0140bf6d8e62acbb9e7"
+  },
+  "allHarnessSpeedFilesIncludingThisReceipt": 15,
+  "resourceLimits": {
+    "diagnostics": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace/target/harness-speed/recovery-resource-limits.txt",
+    "sha256": "e990672c4f958b6a90ee0a96f67cdbbebca1e84fbe85eed1d867687247de635e"
+  },
+  "prerequisite": "Chief coordination is required for the inherited evidence-hygiene state. Keep all existing count/raw-artifact and clean-checkout obligations failing until their inputs satisfy them. No task-3 cleanup or historical rewrite is authorized."
+}

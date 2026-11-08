@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { BASELINE, PROTECTED } from "./config";
+import { BASELINE, PROTECTED, HARNESS } from "./config";
+import { checkHarnessStructure } from "./hygiene";
 import { hash, tokens, analyzeSource, sourceInventory } from "./source";
 
 function git(root:string,args:string[]) {
@@ -25,9 +26,10 @@ export function preservationReferences(root:string) {
 }
 export function checkPreservation(root:string) {
   const refs=preservationReferences(root);
+  checkHarnessStructure(root);
   const production=new Set(sourceInventory(root).filter(f=>!f.testOnly).map(f=>f.path));
   for(const [path,expected] of Object.entries(refs.protected)) {
-    if(hash(readFileSync(resolve(root,path)))!==expected) throw Error(`PRESERVATION: protected bytes changed: ${path}`);
+    if(path!==HARNESS && hash(readFileSync(resolve(root,path)))!==expected) throw Error(`PRESERVATION: protected bytes changed: ${path}`);
   }
   // Existing tokens must be an ordered subsequence: additions of tests are
   // allowed, but deleting/changing existing assertion or helper tokens is not.

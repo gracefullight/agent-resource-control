@@ -1,0 +1,1523 @@
+{
+  "schemaVersion": 1,
+  "evidenceKind": "timing",
+  "runId": "c8318a49-ae52-4768-a52f-dce18f255275",
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+  "oracleSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+  "candidateScriptPath": "scripts/harness/validate.sh",
+  "candidateScriptSha256": "c81dd9795a14822c4277afc48700d5b2bb8c66b49f06db6c011bf18048ec8ded",
+  "integratedSourceIdentity": {
+    "head": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "sha256": "7adb33eb15f571d3fedb9307a85c9365800662fc9e7479944b875d4fceda7215",
+    "entries": [
+      {
+        "path": "scripts/coverage/acceptance.ts",
+        "mode": 420,
+        "sha256": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d"
+      },
+      {
+        "path": "scripts/coverage/accounting.test.ts",
+        "mode": 420,
+        "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882"
+      },
+      {
+        "path": "scripts/coverage/accounting.ts",
+        "mode": 420,
+        "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1"
+      },
+      {
+        "path": "scripts/coverage/clean-checkout.test.ts",
+        "mode": 420,
+        "sha256": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760"
+      },
+      {
+        "path": "scripts/coverage/commands.ts",
+        "mode": 420,
+        "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea"
+      },
+      {
+        "path": "scripts/coverage/config.ts",
+        "mode": 420,
+        "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a"
+      },
+      {
+        "path": "scripts/coverage/coverage-cli.test.ts",
+        "mode": 420,
+        "sha256": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041"
+      },
+      {
+        "path": "scripts/coverage/evidence.test.ts",
+        "mode": 420,
+        "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8"
+      },
+      {
+        "path": "scripts/coverage/fixture-runner.ts",
+        "mode": 420,
+        "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d"
+      },
+      {
+        "path": "scripts/coverage/fixtures.ts",
+        "mode": 420,
+        "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d"
+      },
+      {
+        "path": "scripts/coverage/gate.test.ts",
+        "mode": 420,
+        "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda"
+      },
+      {
+        "path": "scripts/coverage/gate.ts",
+        "mode": 420,
+        "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29"
+      },
+      {
+        "path": "scripts/coverage/harness.test.ts",
+        "mode": 420,
+        "sha256": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747"
+      },
+      {
+        "path": "scripts/coverage/hygiene-preservation.test.ts",
+        "mode": 420,
+        "sha256": "d6a3cfcbdd7e6f950cb78d42b18c5956b715b1ef1e08d1ca0b65b7dd987aa5ad"
+      },
+      {
+        "path": "scripts/coverage/hygiene.test.ts",
+        "mode": 420,
+        "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c"
+      },
+      {
+        "path": "scripts/coverage/hygiene.ts",
+        "mode": 420,
+        "sha256": "9bc95c03b842417b843ec004de83595f0a34db0c973fb8a06d1118473126db14"
+      },
+      {
+        "path": "scripts/coverage/preservation.test.ts",
+        "mode": 420,
+        "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445"
+      },
+      {
+        "path": "scripts/coverage/preservation.ts",
+        "mode": 420,
+        "sha256": "73868ae3432ba9e9cc2a2547ae0d2e9a0e41c1f77f78a6f5c64acff9d47f7c45"
+      },
+      {
+        "path": "scripts/coverage/provision.sh",
+        "mode": 420,
+        "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d"
+      },
+      {
+        "path": "scripts/coverage/run.ts",
+        "mode": 420,
+        "sha256": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+      },
+      {
+        "path": "scripts/coverage/source.ts",
+        "mode": 420,
+        "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062"
+      },
+      {
+        "path": "scripts/harness/benchmark.ts",
+        "mode": 420,
+        "sha256": "5bdb46d760842601b91836ba32d05fefea18195c6ac65f18e5ca7645bd19499b"
+      },
+      {
+        "path": "scripts/harness/coverage-verification.test.ts",
+        "mode": 420,
+        "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb"
+      },
+      {
+        "path": "scripts/harness/equivalence.test.ts",
+        "mode": 420,
+        "sha256": "8de2fb5359f66e697eb806fcdbe7df9a723ca52f9ec596ff25f3c09ed53168d0"
+      },
+      {
+        "path": "scripts/harness/evidence-budget.test.ts",
+        "mode": 420,
+        "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4"
+      },
+      {
+        "path": "scripts/harness/fixtures.ts",
+        "mode": 420,
+        "sha256": "5bef17281e8bfa0fa50bba52712cef9c69a131fe14502f50cbeef632f80bb455"
+      },
+      {
+        "path": "scripts/harness/gc.sh",
+        "mode": 493,
+        "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73"
+      },
+      {
+        "path": "scripts/harness/performance.test.ts",
+        "mode": 420,
+        "sha256": "5ee3eb1e0c3b291b21c8ef81587c4ff2e79cc655e656c875ae6e896083d5f4b3"
+      },
+      {
+        "path": "scripts/harness/test-support.ts",
+        "mode": 420,
+        "sha256": "2ae87f9236820a5481aa1eeb3a073d3ca31542fcc1fbd288dc6423d9f1a8e584"
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "mode": 493,
+        "sha256": "c81dd9795a14822c4277afc48700d5b2bb8c66b49f06db6c011bf18048ec8ded"
+      }
+    ]
+  },
+  "sourceScope": "current working harness and coverage sources",
+  "sourceRevision": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "tools": {
+    "bash": {
+      "path": "/bin/bash",
+      "version": "GNU bash, version 3.2.57(1)-release (arm64-apple-darwin26)\nCopyright (C) 2007 Free Software Foundation, Inc.\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "grep": {
+      "path": "/usr/bin/grep",
+      "version": "grep (BSD grep, GNU compatible) 2.6.0-FreeBSD\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "git": {
+      "path": "/opt/homebrew/bin/git",
+      "version": "git version 2.56.0\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "bun": {
+      "path": "/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin/bun",
+      "version": "1.4.4\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "rustc": {
+      "path": "/Users/gracefullight/.cargo/bin/rustc",
+      "version": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "cargo": {
+      "path": "/Users/gracefullight/.cargo/bin/cargo",
+      "version": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": "",
+      "exit": 0
+    },
+    "cargoLlvmCov": {
+      "path": "/Users/gracefullight/.cargo/bin/cargo",
+      "version": "cargo-llvm-cov 0.6.21\n",
+      "stderr": "",
+      "exit": 0
+    }
+  },
+  "clock": "performance.now() monotonic milliseconds",
+  "startedAtUtc": "2026-11-08T06:22:45.985Z",
+  "runs": [
+    {
+      "label": "original",
+      "command": {
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/corpus",
+        "environment": {
+          "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg09lrDzf:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "LC_CTYPE": "C.UTF-8",
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "startedAtUtc": "2026-11-08T06:22:49.846Z",
+      "endedAtUtc": "2026-11-08T06:26:35.542Z",
+      "pid": 15082,
+      "exit": 0,
+      "exitMs": 225694.59975000002,
+      "clock": "performance.now()",
+      "marks": {
+        "check1": {
+          "ms": 769.3296250000003,
+          "byteOffset": 105
+        },
+        "check5": {
+          "ms": 146140.64283300002,
+          "byteOffset": 606
+        },
+        "coverageDone": {
+          "ms": 225693.83404100002,
+          "byteOffset": 1375
+        }
+      },
+      "totalMs": 225694.63729100002,
+      "durationsSeconds": {
+        "startup": 0.7693296250000003,
+        "checks1to4": 145.371313208,
+        "processStartToCheck5": 146.14064283300002,
+        "check5": 79.553191208,
+        "finalization": 0.000803249999997206,
+        "total": 225.69463729100002
+      },
+      "stdoutSha256": "57a7c3a6d0131cfcc0cf70b37e8cd46db90a353f4f69233119c90909abf62b27",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "stdoutBytes": 1456,
+      "stderrBytes": 30,
+      "diagnostics": {
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/original",
+        "retention": "scratch retained locally; not durable evidence"
+      },
+      "corpusBefore": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [],
+        "workingManifestSha256": "25aed0863d0f8c66c38949c743acc3e88dd172da06a191c4a53ff91490e3aa3f",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusAfter": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [
+          {
+            "path": ".arc-verify/rust-coverage/baseline/latest.json",
+            "expected": {
+              "mode": "100644",
+              "sha256": "ca900e8ec61430d9d4e079f4e9cbd6a1027de3b0d97898b0c422b7ea4f482fb7"
+            },
+            "actual": {
+              "mode": "100644",
+              "sha256": "eef5e9dc0994a49d6d2e2fc4ae85ad3414e6367c1bd9be7b0029a5f5f7c5cb94"
+            }
+          }
+        ],
+        "workingManifestSha256": "00d07c02fa0908d949737578b9e1d824bb87ccf739b182daf46be94165a897c4",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusPreserved": false,
+      "coverage": {
+        "latest": {
+          "runId": "2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d",
+          "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d",
+          "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+          "pass": true
+        },
+        "crates": [
+          {
+            "crate": "arc-core",
+            "covered": 64,
+            "total": 64,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-detector",
+            "covered": 577,
+            "total": 578,
+            "percent": 99.82698961937716,
+            "pass": true
+          },
+          {
+            "crate": "arc-storage",
+            "covered": 226,
+            "total": 227,
+            "percent": 99.55947136563877,
+            "pass": true
+          },
+          {
+            "crate": "arc-ipc",
+            "covered": 215,
+            "total": 215,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-daemon",
+            "covered": 1507,
+            "total": 1613,
+            "percent": 93.42839429634222,
+            "pass": true
+          },
+          {
+            "crate": "arc-cli",
+            "covered": 203,
+            "total": 213,
+            "percent": 95.30516431924883,
+            "pass": true
+          }
+        ],
+        "host": "aarch64-apple-darwin",
+        "versions": {
+          "bun": "1.4.4",
+          "rustc": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+          "cargoLlvmCov": "cargo-llvm-cov 0.6.21\n",
+          "host": "aarch64-apple-darwin",
+          "llvm-cov": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n",
+          "llvm-profdata": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n"
+        },
+        "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+        "rawSha256": "02785541b16691e59b369cea3939d7edd640b1c4bc1db6eab3f2496aec077dc2",
+        "llvmSha256": "f29e87f4b9dc4f3712ebe6c4b1291d62120cc6ae2b9b130a8366e2d11de51d2c",
+        "commandExits": [
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "-Vv"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "--print",
+              "sysroot"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "metadata",
+              "--format-version",
+              "1",
+              "--locked",
+              "--offline"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--workspace",
+              "--all-targets",
+              "--locked",
+              "--offline",
+              "--no-report",
+              "--no-cfg-coverage",
+              "--no-cfg-coverage-nightly"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/corpus/target/arc-coverage/2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d/debug/arcctl",
+              "--help"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/corpus/target/arc-coverage/2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d/debug/arc-daemon"
+            ],
+            "exit": 1
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--lcov",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d/raw.lcov",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--json",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d/raw.json",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          }
+        ],
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d"
+      },
+      "gatePassed": true,
+      "prefixPassed": false,
+      "stdoutSnippet": "\u001b[0;34m[validate]\u001b[0m Mode: all-tracked\n\u001b[0;34m[validate]\u001b[0m Files to check: 4044\n\u001b[0;34m[validate]\u001b[0m Check 1/5: Hardcoded secrets\n\u001b[0;32m[ok]\u001b[0m       No hardcoded secrets found\n\u001b[0;34m[validate]\u001b[0m Check 2/5: Dangerous shell commands\n\u001b[0;32m[ok]\u001b[0m       No dangerous shell commands found\n\u001b[0;34m[validate]\u001b[0m Check 3/5: Architecture layer violations (domain must be pure)\n\u001b[0;32m[ok]\u001b[0m       No architecture layer violations found\n\u001b[0;34m[validate]\u001b[0m Check 4/5: File length cap (CONSTRAINTS.md §5: max 500 lines per file)\n\u001b[0;32m[ok]\u001b[0m       No oversized files found\n\u001b[0;34m[validate]\u001b[0m Check 5/5: Test coverage thresholds\nCoverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\nCoverage: merging fresh execution profiles and validating reports\nPASS arc-core: 64/64 production lines (100.00%; requires 80%)\nPASS arc-detector: 577/578 production lines (99.83%; requires 80%)\nPASS arc-storage: 226/227 production lines (99.56%; requires 80%)\nPASS arc-ipc: 215/215 production lines (100.00%; requires 80%)\nPASS arc-daemon: 1507/1613 production lines (93.43%; requires 80%)\nPASS arc-cli: 203/213 production lines (95.31%; requires 80%)\nCoverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-08T06-25-16-028Z-6249be7f-974d-46f8-beac-f7ea12ee642d\n\u001b[0;32m[ok]\u001b[0m       Coverage thresholds met\n\n\u001b[0;32m[ok]\u001b[0m       All checks passed (0 violations).\n",
+      "stderrSnippet": "$ bun scripts/coverage/run.ts\n"
+    },
+    {
+      "label": "candidate-1",
+      "command": {
+        "argv": [
+          "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/candidate/scripts/harness/validate.sh"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/corpus",
+        "environment": {
+          "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg09lrDzf:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "LC_CTYPE": "C.UTF-8",
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "startedAtUtc": "2026-11-08T06:26:38.782Z",
+      "endedAtUtc": "2026-11-08T06:28:30.617Z",
+      "pid": 53531,
+      "exit": 0,
+      "exitMs": 111833.77095800001,
+      "clock": "performance.now()",
+      "marks": {
+        "check1": {
+          "ms": 738.3058330000204,
+          "byteOffset": 105
+        },
+        "check5": {
+          "ms": 32841.21745800003,
+          "byteOffset": 606
+        },
+        "coverageDone": {
+          "ms": 111827.880125,
+          "byteOffset": 1375
+        }
+      },
+      "totalMs": 111833.80900000004,
+      "durationsSeconds": {
+        "startup": 0.7383058330000204,
+        "checks1to4": 32.102911625000004,
+        "processStartToCheck5": 32.84121745800003,
+        "check5": 78.98666266699996,
+        "finalization": 0.0059288750000414435,
+        "total": 111.83380900000003
+      },
+      "stdoutSha256": "ba499e93be8a1d0bbb7754c096ed6d58575a7594976261f3b74ba94581b0b52e",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "stdoutBytes": 1456,
+      "stderrBytes": 30,
+      "diagnostics": {
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/candidate-1",
+        "retention": "scratch retained locally; not durable evidence"
+      },
+      "corpusBefore": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [],
+        "workingManifestSha256": "25aed0863d0f8c66c38949c743acc3e88dd172da06a191c4a53ff91490e3aa3f",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusAfter": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [
+          {
+            "path": ".arc-verify/rust-coverage/baseline/latest.json",
+            "expected": {
+              "mode": "100644",
+              "sha256": "ca900e8ec61430d9d4e079f4e9cbd6a1027de3b0d97898b0c422b7ea4f482fb7"
+            },
+            "actual": {
+              "mode": "100644",
+              "sha256": "499d4c0eda10e678608d018f56fb657d4a0ba211349006fe9a1e91db41fb1d78"
+            }
+          }
+        ],
+        "workingManifestSha256": "276153191c2969d6087b33ddbd316ed14a338f5cb65f943acdfd522c0489d54b",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusPreserved": false,
+      "coverage": {
+        "latest": {
+          "runId": "2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6",
+          "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6",
+          "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+          "pass": true
+        },
+        "crates": [
+          {
+            "crate": "arc-core",
+            "covered": 64,
+            "total": 64,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-detector",
+            "covered": 577,
+            "total": 578,
+            "percent": 99.82698961937716,
+            "pass": true
+          },
+          {
+            "crate": "arc-storage",
+            "covered": 226,
+            "total": 227,
+            "percent": 99.55947136563877,
+            "pass": true
+          },
+          {
+            "crate": "arc-ipc",
+            "covered": 215,
+            "total": 215,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-daemon",
+            "covered": 1507,
+            "total": 1613,
+            "percent": 93.42839429634222,
+            "pass": true
+          },
+          {
+            "crate": "arc-cli",
+            "covered": 203,
+            "total": 213,
+            "percent": 95.30516431924883,
+            "pass": true
+          }
+        ],
+        "host": "aarch64-apple-darwin",
+        "versions": {
+          "bun": "1.4.4",
+          "rustc": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+          "cargoLlvmCov": "cargo-llvm-cov 0.6.21\n",
+          "host": "aarch64-apple-darwin",
+          "llvm-cov": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n",
+          "llvm-profdata": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n"
+        },
+        "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+        "rawSha256": "08ef314fbf03bb67b78e0f4e17bb5c065d804a9ab1e624f8ecf54ec67c002bd6",
+        "llvmSha256": "3472f58ebba8420cfd7e1550918d18303bd86f29b2ff5e8aae207281fc738123",
+        "commandExits": [
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "-Vv"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "--print",
+              "sysroot"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "metadata",
+              "--format-version",
+              "1",
+              "--locked",
+              "--offline"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--workspace",
+              "--all-targets",
+              "--locked",
+              "--offline",
+              "--no-report",
+              "--no-cfg-coverage",
+              "--no-cfg-coverage-nightly"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/corpus/target/arc-coverage/2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6/debug/arcctl",
+              "--help"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/corpus/target/arc-coverage/2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6/debug/arc-daemon"
+            ],
+            "exit": 1
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--lcov",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6/raw.lcov",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--json",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6/raw.json",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          }
+        ],
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6"
+      },
+      "gatePassed": true,
+      "prefixPassed": false,
+      "stdoutSnippet": "\u001b[0;34m[validate]\u001b[0m Mode: all-tracked\n\u001b[0;34m[validate]\u001b[0m Files to check: 4044\n\u001b[0;34m[validate]\u001b[0m Check 1/5: Hardcoded secrets\n\u001b[0;32m[ok]\u001b[0m       No hardcoded secrets found\n\u001b[0;34m[validate]\u001b[0m Check 2/5: Dangerous shell commands\n\u001b[0;32m[ok]\u001b[0m       No dangerous shell commands found\n\u001b[0;34m[validate]\u001b[0m Check 3/5: Architecture layer violations (domain must be pure)\n\u001b[0;32m[ok]\u001b[0m       No architecture layer violations found\n\u001b[0;34m[validate]\u001b[0m Check 4/5: File length cap (CONSTRAINTS.md §5: max 500 lines per file)\n\u001b[0;32m[ok]\u001b[0m       No oversized files found\n\u001b[0;34m[validate]\u001b[0m Check 5/5: Test coverage thresholds\nCoverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\nCoverage: merging fresh execution profiles and validating reports\nPASS arc-core: 64/64 production lines (100.00%; requires 80%)\nPASS arc-detector: 577/578 production lines (99.83%; requires 80%)\nPASS arc-storage: 226/227 production lines (99.56%; requires 80%)\nPASS arc-ipc: 215/215 production lines (100.00%; requires 80%)\nPASS arc-daemon: 1507/1613 production lines (93.43%; requires 80%)\nPASS arc-cli: 203/213 production lines (95.31%; requires 80%)\nCoverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-08T06-27-11-665Z-69a22c57-6b83-4137-b2ef-7390e3d476a6\n\u001b[0;32m[ok]\u001b[0m       Coverage thresholds met\n\n\u001b[0;32m[ok]\u001b[0m       All checks passed (0 violations).\n",
+      "stderrSnippet": "$ bun scripts/coverage/run.ts\n"
+    },
+    {
+      "label": "candidate-2",
+      "command": {
+        "argv": [
+          "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/candidate/scripts/harness/validate.sh"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/corpus",
+        "environment": {
+          "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg09lrDzf:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "LC_CTYPE": "C.UTF-8",
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "startedAtUtc": "2026-11-08T06:28:33.774Z",
+      "endedAtUtc": "2026-11-08T06:30:25.573Z",
+      "pid": 58459,
+      "exit": 0,
+      "exitMs": 111798.45120799995,
+      "clock": "performance.now()",
+      "marks": {
+        "check1": {
+          "ms": 611.4136249999865,
+          "byteOffset": 105
+        },
+        "check5": {
+          "ms": 32685.781541999953,
+          "byteOffset": 606
+        },
+        "coverageDone": {
+          "ms": 111792.60712499998,
+          "byteOffset": 1375
+        }
+      },
+      "totalMs": 111798.48749999999,
+      "durationsSeconds": {
+        "startup": 0.6114136249999865,
+        "checks1to4": 32.07436791699997,
+        "processStartToCheck5": 32.68578154199995,
+        "check5": 79.10682558300003,
+        "finalization": 0.005880375000007917,
+        "total": 111.7984875
+      },
+      "stdoutSha256": "de2f16f1b6550057687dd0771f8d7941b8db59de879d51dbab9dfb7327475472",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "stdoutBytes": 1456,
+      "stderrBytes": 30,
+      "diagnostics": {
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/candidate-2",
+        "retention": "scratch retained locally; not durable evidence"
+      },
+      "corpusBefore": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [],
+        "workingManifestSha256": "25aed0863d0f8c66c38949c743acc3e88dd172da06a191c4a53ff91490e3aa3f",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusAfter": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [
+          {
+            "path": ".arc-verify/rust-coverage/baseline/latest.json",
+            "expected": {
+              "mode": "100644",
+              "sha256": "ca900e8ec61430d9d4e079f4e9cbd6a1027de3b0d97898b0c422b7ea4f482fb7"
+            },
+            "actual": {
+              "mode": "100644",
+              "sha256": "cba62a54dc86780ba3c545e11c85774e114e325378aeb6fb16ae7f511415a5fb"
+            }
+          }
+        ],
+        "workingManifestSha256": "f7d84dd14b625972b277493370b04828511bb7d7ca60395d08394f9a648a551d",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusPreserved": false,
+      "coverage": {
+        "latest": {
+          "runId": "2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885",
+          "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885",
+          "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+          "pass": true
+        },
+        "crates": [
+          {
+            "crate": "arc-core",
+            "covered": 64,
+            "total": 64,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-detector",
+            "covered": 577,
+            "total": 578,
+            "percent": 99.82698961937716,
+            "pass": true
+          },
+          {
+            "crate": "arc-storage",
+            "covered": 226,
+            "total": 227,
+            "percent": 99.55947136563877,
+            "pass": true
+          },
+          {
+            "crate": "arc-ipc",
+            "covered": 215,
+            "total": 215,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-daemon",
+            "covered": 1507,
+            "total": 1613,
+            "percent": 93.42839429634222,
+            "pass": true
+          },
+          {
+            "crate": "arc-cli",
+            "covered": 203,
+            "total": 213,
+            "percent": 95.30516431924883,
+            "pass": true
+          }
+        ],
+        "host": "aarch64-apple-darwin",
+        "versions": {
+          "bun": "1.4.4",
+          "rustc": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+          "cargoLlvmCov": "cargo-llvm-cov 0.6.21\n",
+          "host": "aarch64-apple-darwin",
+          "llvm-cov": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n",
+          "llvm-profdata": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n"
+        },
+        "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+        "rawSha256": "8dcb00b2fb3d3dc0c202a1bde817093db4ba0d97c28c6c42191daf3681245c4b",
+        "llvmSha256": "cde5739709afc32c6f5875f999e7bf3ab47f9ff53ea2409f42735a131c432704",
+        "commandExits": [
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "-Vv"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "--print",
+              "sysroot"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "metadata",
+              "--format-version",
+              "1",
+              "--locked",
+              "--offline"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--workspace",
+              "--all-targets",
+              "--locked",
+              "--offline",
+              "--no-report",
+              "--no-cfg-coverage",
+              "--no-cfg-coverage-nightly"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/corpus/target/arc-coverage/2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885/debug/arcctl",
+              "--help"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/corpus/target/arc-coverage/2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885/debug/arc-daemon"
+            ],
+            "exit": 1
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--lcov",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885/raw.lcov",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--json",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885/raw.json",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          }
+        ],
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885"
+      },
+      "gatePassed": true,
+      "prefixPassed": false,
+      "stdoutSnippet": "\u001b[0;34m[validate]\u001b[0m Mode: all-tracked\n\u001b[0;34m[validate]\u001b[0m Files to check: 4044\n\u001b[0;34m[validate]\u001b[0m Check 1/5: Hardcoded secrets\n\u001b[0;32m[ok]\u001b[0m       No hardcoded secrets found\n\u001b[0;34m[validate]\u001b[0m Check 2/5: Dangerous shell commands\n\u001b[0;32m[ok]\u001b[0m       No dangerous shell commands found\n\u001b[0;34m[validate]\u001b[0m Check 3/5: Architecture layer violations (domain must be pure)\n\u001b[0;32m[ok]\u001b[0m       No architecture layer violations found\n\u001b[0;34m[validate]\u001b[0m Check 4/5: File length cap (CONSTRAINTS.md §5: max 500 lines per file)\n\u001b[0;32m[ok]\u001b[0m       No oversized files found\n\u001b[0;34m[validate]\u001b[0m Check 5/5: Test coverage thresholds\nCoverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\nCoverage: merging fresh execution profiles and validating reports\nPASS arc-core: 64/64 production lines (100.00%; requires 80%)\nPASS arc-detector: 577/578 production lines (99.83%; requires 80%)\nPASS arc-storage: 226/227 production lines (99.56%; requires 80%)\nPASS arc-ipc: 215/215 production lines (100.00%; requires 80%)\nPASS arc-daemon: 1507/1613 production lines (93.43%; requires 80%)\nPASS arc-cli: 203/213 production lines (95.31%; requires 80%)\nCoverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-08T06-29-06-497Z-1d2c47de-0517-4424-a237-6586a94cb885\n\u001b[0;32m[ok]\u001b[0m       Coverage thresholds met\n\n\u001b[0;32m[ok]\u001b[0m       All checks passed (0 violations).\n",
+      "stderrSnippet": "$ bun scripts/coverage/run.ts\n"
+    },
+    {
+      "label": "candidate-3",
+      "command": {
+        "argv": [
+          "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/candidate/scripts/harness/validate.sh"
+        ],
+        "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/corpus",
+        "environment": {
+          "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg09lrDzf:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "LC_CTYPE": "C.UTF-8",
+          "SKIP_COVERAGE": null,
+          "WORKSPACE_ROOT": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/workspaces",
+          "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+          "RUSTUP_TOOLCHAIN": "1.95.0",
+          "CARGO_HOME": "/Users/gracefullight/.cargo",
+          "CARGO_TARGET_DIR": null,
+          "CARGO_NET_OFFLINE": null,
+          "RUSTFLAGS": null,
+          "RUSTC_WRAPPER": null
+        }
+      },
+      "startedAtUtc": "2026-11-08T06:30:28.748Z",
+      "endedAtUtc": "2026-11-08T06:32:21.595Z",
+      "pid": 63257,
+      "exit": 0,
+      "exitMs": 112846.05024999997,
+      "clock": "performance.now()",
+      "marks": {
+        "check1": {
+          "ms": 592.0862080000225,
+          "byteOffset": 105
+        },
+        "check5": {
+          "ms": 32630.911167000013,
+          "byteOffset": 606
+        },
+        "coverageDone": {
+          "ms": 112840.214042,
+          "byteOffset": 1375
+        }
+      },
+      "totalMs": 112846.10912500008,
+      "durationsSeconds": {
+        "startup": 0.5920862080000224,
+        "checks1to4": 32.03882495899999,
+        "processStartToCheck5": 32.630911167000015,
+        "check5": 80.20930287499999,
+        "finalization": 0.0058950830000685525,
+        "total": 112.84610912500007
+      },
+      "stdoutSha256": "019f39e99b8b0721b69f73f39e6574ef9f23d676b015247cf56aef3d47490aaa",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "stdoutBytes": 1456,
+      "stderrBytes": 30,
+      "diagnostics": {
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/candidate-3",
+        "retention": "scratch retained locally; not durable evidence"
+      },
+      "corpusBefore": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [],
+        "workingManifestSha256": "25aed0863d0f8c66c38949c743acc3e88dd172da06a191c4a53ff91490e3aa3f",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusAfter": {
+        "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+        "entries": 4044,
+        "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+        "deviations": [
+          {
+            "path": ".arc-verify/rust-coverage/baseline/latest.json",
+            "expected": {
+              "mode": "100644",
+              "sha256": "ca900e8ec61430d9d4e079f4e9cbd6a1027de3b0d97898b0c422b7ea4f482fb7"
+            },
+            "actual": {
+              "mode": "100644",
+              "sha256": "cbd01a3fad96c08d8a65562b3e820723aa45569f9a8d20af2bcac845d02c361f"
+            }
+          }
+        ],
+        "workingManifestSha256": "8ee722973a2fe51ec30d73ce7a8abf1b76806476605ff4dd93a0c06bc372d5aa",
+        "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+        "states": {
+          "regular-file": 3619,
+          "link-to-file": 189,
+          "link-to-directory": 236
+        }
+      },
+      "corpusPreserved": false,
+      "coverage": {
+        "latest": {
+          "runId": "2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a",
+          "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a",
+          "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+          "pass": true
+        },
+        "crates": [
+          {
+            "crate": "arc-core",
+            "covered": 64,
+            "total": 64,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-detector",
+            "covered": 577,
+            "total": 578,
+            "percent": 99.82698961937716,
+            "pass": true
+          },
+          {
+            "crate": "arc-storage",
+            "covered": 226,
+            "total": 227,
+            "percent": 99.55947136563877,
+            "pass": true
+          },
+          {
+            "crate": "arc-ipc",
+            "covered": 215,
+            "total": 215,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-daemon",
+            "covered": 1507,
+            "total": 1613,
+            "percent": 93.42839429634222,
+            "pass": true
+          },
+          {
+            "crate": "arc-cli",
+            "covered": 203,
+            "total": 213,
+            "percent": 95.30516431924883,
+            "pass": true
+          }
+        ],
+        "host": "aarch64-apple-darwin",
+        "versions": {
+          "bun": "1.4.4",
+          "rustc": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+          "cargoLlvmCov": "cargo-llvm-cov 0.6.21\n",
+          "host": "aarch64-apple-darwin",
+          "llvm-cov": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n",
+          "llvm-profdata": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n"
+        },
+        "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+        "rawSha256": "5d38b0121e9fc5ed3d3163bdccacb9c98761644811861fe3e0659d23d76fff84",
+        "llvmSha256": "5533171a736526c02fe5a80fd374077a5bc0e84292b7b9888e11f06795c3dc00",
+        "commandExits": [
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "-Vv"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "rustc",
+              "--print",
+              "sysroot"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+              "--version"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "metadata",
+              "--format-version",
+              "1",
+              "--locked",
+              "--offline"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "--workspace",
+              "--all-targets",
+              "--locked",
+              "--offline",
+              "--no-report",
+              "--no-cfg-coverage",
+              "--no-cfg-coverage-nightly"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/corpus/target/arc-coverage/2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a/debug/arcctl",
+              "--help"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/corpus/target/arc-coverage/2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a/debug/arc-daemon"
+            ],
+            "exit": 1
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--lcov",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a/raw.lcov",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          },
+          {
+            "argv": [
+              "rustup",
+              "run",
+              "1.95.0",
+              "cargo",
+              "llvm-cov",
+              "report",
+              "--json",
+              "--output-path",
+              "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a/raw.json",
+              "--failure-mode",
+              "any",
+              "--disable-default-ignore-filename-regex",
+              "--ignore-filename-regex",
+              "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+              "--verbose"
+            ],
+            "exit": 0
+          }
+        ],
+        "directory": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/corpus/.arc-verify/rust-coverage/baseline/runs/2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a"
+      },
+      "gatePassed": true,
+      "prefixPassed": false,
+      "stdoutSnippet": "\u001b[0;34m[validate]\u001b[0m Mode: all-tracked\n\u001b[0;34m[validate]\u001b[0m Files to check: 4044\n\u001b[0;34m[validate]\u001b[0m Check 1/5: Hardcoded secrets\n\u001b[0;32m[ok]\u001b[0m       No hardcoded secrets found\n\u001b[0;34m[validate]\u001b[0m Check 2/5: Dangerous shell commands\n\u001b[0;32m[ok]\u001b[0m       No dangerous shell commands found\n\u001b[0;34m[validate]\u001b[0m Check 3/5: Architecture layer violations (domain must be pure)\n\u001b[0;32m[ok]\u001b[0m       No architecture layer violations found\n\u001b[0;34m[validate]\u001b[0m Check 4/5: File length cap (CONSTRAINTS.md §5: max 500 lines per file)\n\u001b[0;32m[ok]\u001b[0m       No oversized files found\n\u001b[0;34m[validate]\u001b[0m Check 5/5: Test coverage thresholds\nCoverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\nCoverage: merging fresh execution profiles and validating reports\nPASS arc-core: 64/64 production lines (100.00%; requires 80%)\nPASS arc-detector: 577/578 production lines (99.83%; requires 80%)\nPASS arc-storage: 226/227 production lines (99.56%; requires 80%)\nPASS arc-ipc: 215/215 production lines (100.00%; requires 80%)\nPASS arc-daemon: 1507/1613 production lines (93.43%; requires 80%)\nPASS arc-cli: 203/213 production lines (95.31%; requires 80%)\nCoverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-08T06-31-01-419Z-d7aa5eea-79b9-4715-afd7-5e2bf461980a\n\u001b[0;32m[ok]\u001b[0m       Coverage thresholds met\n\n\u001b[0;32m[ok]\u001b[0m       All checks passed (0 violations).\n",
+      "stderrSnippet": "$ bun scripts/coverage/run.ts\n"
+    }
+  ],
+  "status": "failed",
+  "command": {
+    "argv": [
+      "bun",
+      "test",
+      "scripts/harness/performance.test.ts"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92ab1985-9682-4e04-a416-1f3ab9a6bc3a/workspace",
+    "environment": {
+      "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg09lrDzf:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "LC_CTYPE": "C.UTF-8",
+      "SKIP_COVERAGE": null,
+      "WORKSPACE_ROOT": null,
+      "TMPDIR": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/",
+      "RUSTUP_TOOLCHAIN": "1.95.0",
+      "CARGO_HOME": "/Users/gracefullight/.cargo",
+      "CARGO_TARGET_DIR": null,
+      "CARGO_NET_OFFLINE": null,
+      "RUSTFLAGS": null,
+      "RUSTC_WRAPPER": null
+    }
+  },
+  "systemUtilities": {
+    "wc": {
+      "path": "/usr/bin/wc",
+      "sha256": "1f6160e420e65c2caa11ea9bb63262abb317352d0e2cd2c519fcc995d227ad10",
+      "implementation": "host system utility; OS identified in host"
+    },
+    "awk": {
+      "path": "/usr/bin/awk",
+      "sha256": "310e75b917c4d346cecb6ffab9ca88507870242347a6cf0110eef4aa73b6f809",
+      "implementation": "host system utility; OS identified in host"
+    }
+  },
+  "gitConfiguration": {
+    "core.quotepath": {
+      "value": null,
+      "exit": 1
+    },
+    "core.filemode": {
+      "value": "true",
+      "exit": 0
+    },
+    "core.excludesfile": {
+      "value": null,
+      "exit": 1
+    }
+  },
+  "schedule": "original then candidate-1/2/3, serial real coverage; no suites started concurrently by this runner",
+  "observer": "external stdout/stderr drains; markers timestamped when complete marker bytes are received; prefix includes output delivery",
+  "boundaryNotes": "startup ends at Check 1 label; Checks 1–4 end at Check 5 label; Check 5 ends at Coverage thresholds met; finalization ends after exit and stream drain. processStartToCheck5 is the conservative acceptance measure.",
+  "benchmarkCorpus": {
+    "entries": 4044,
+    "blobBytes": 285669775,
+    "gitTreeManifestSha256": "cc9e627ec4cc9f2ab8fa41b8be66e6ca285f64cf48729600d7aac587da955344",
+    "pathModeContentManifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3"
+  },
+  "snapshots": [
+    {
+      "scratch": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK",
+      "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/corpus",
+      "candidate": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-2JrUtK/candidate/scripts/harness/validate.sh"
+    },
+    {
+      "scratch": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR",
+      "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/corpus",
+      "candidate": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-i7fzTR/candidate/scripts/harness/validate.sh"
+    },
+    {
+      "scratch": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX",
+      "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/corpus",
+      "candidate": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-VPYqAX/candidate/scripts/harness/validate.sh"
+    },
+    {
+      "scratch": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn",
+      "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/corpus",
+      "candidate": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-benchmark-7OW4Qn/candidate/scripts/harness/validate.sh"
+    }
+  ],
+  "initialCorpus": {
+    "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+    "entries": 4044,
+    "manifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+    "deviations": [],
+    "workingManifestSha256": "25aed0863d0f8c66c38949c743acc3e88dd172da06a191c4a53ff91490e3aa3f",
+    "dereferencedSha256": "6aaa0ea68b95be92ad7b7d50c663b62f7b77830d143ba7f3c9852e663b9275e8",
+    "states": {
+      "regular-file": 3619,
+      "link-to-file": 189,
+      "link-to-directory": 236
+    }
+  },
+  "exit": 1,
+  "error": "Error: expect(received).toBe(expected)\n\nExpected: true\nReceived: false\n",
+  "endedAtUtc": "2026-11-08T06:32:22.438Z"
+}

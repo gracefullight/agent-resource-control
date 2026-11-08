@@ -1,0 +1,579 @@
+{
+  "schemaVersion": 1,
+  "status": "implementation-contract; measurements not collected",
+  "authority": "Saved task-1 and mission acceptance; this file defines evidence exchange and does not amend the mission or its verifier.",
+  "ownedPaths": [
+    ".arc-verify/harness-speed/technical.md",
+    ".arc-verify/harness-speed/contract.json"
+  ],
+  "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+  "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+  "sourceProvenance": {
+    "baselineHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "baselineTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+    "snapshotCommit": "5873a552333a07300bd102775d3f20eb23d1ef8c",
+    "snapshotRef": "refs/agent-valley/task-evidence/c79eadbc796a4c83-7afaa346b4bf92bf-1/snapshot",
+    "snapshotTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+    "observedLocalHead": "5873a552333a07300bd102775d3f20eb23d1ef8c",
+    "observedLocalTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+    "workerRef": "refs/agent-valley/task-evidence/c79eadbc796a4c83-7afaa346b4bf92bf-1/worker",
+    "scope": "Initial Actor checkout; report files will be uncommitted task outputs. Final integrated source requires its own receipt.",
+    "refAvailability": {
+      "scope": "Actor local repository only; supplied refs preserved verbatim, not replaced with local HEAD",
+      "refs": {
+        "snapshotRef": {
+          "suppliedRef": "refs/agent-valley/task-evidence/c79eadbc796a4c83-7afaa346b4bf92bf-1/snapshot",
+          "localResolutionExit": 1,
+          "localResolvedRevision": null
+        },
+        "workerRef": {
+          "suppliedRef": "refs/agent-valley/task-evidence/c79eadbc796a4c83-7afaa346b4bf92bf-1/worker",
+          "localResolutionExit": 1,
+          "localResolvedRevision": null
+        }
+      },
+      "objects": "Accepted and snapshot commits/trees were independently resolved directly; missing local ref names do not negate their object identities."
+    }
+  },
+  "oracle": {
+    "path": "scripts/harness/validate.sh",
+    "revision": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "gitBlobOid": "d90f4626868bd1c6ccaed84200a8f23ac83eef0e",
+    "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+    "bytes": 20351,
+    "gitMode": "100755",
+    "readCommand": [
+      "git",
+      "show",
+      "f85ae0430038cc3d7a6125f650872dbfce6b5529:scripts/harness/validate.sh"
+    ],
+    "retention": "Read Git object at runtime into isolated scratch; never retain a tracked oracle copy."
+  },
+  "benchmarkCorpus": {
+    "revision": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+    "tree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
+    "entries": 4044,
+    "blobs": 4044,
+    "blobBytes": 285669775,
+    "modes": {
+      "100644": 3594,
+      "100755": 25,
+      "120000": 425
+    },
+    "manifestCommand": [
+      "git",
+      "ls-tree",
+      "-r",
+      "-z",
+      "--full-tree",
+      "f85ae0430038cc3d7a6125f650872dbfce6b5529"
+    ],
+    "gitTreeManifestSha256": "cc9e627ec4cc9f2ab8fa41b8be66e6ca285f64cf48729600d7aac587da955344",
+    "pathModeContentManifestSha256": "5a4cc80b455f45901c8c70825972150937f2d6c22402f706562247a1b72733b3",
+    "contentManifestEncoding": {
+      "order": "Exact entry order of the NUL-delimited ls-tree command, without resorting.",
+      "fields": [
+        "mode ASCII",
+        "type ASCII",
+        "Git object OID ASCII",
+        "raw path bytes",
+        "lowercase SHA-256 ASCII of Git blob bytes"
+      ],
+      "record": "Concatenate five netstrings (decimal byte length, colon, field bytes, comma), then one LF. Hash the concatenation of records with SHA-256. Non-blob content hash is empty; accepted corpus has only blobs.",
+      "content": "git cat-file --batch with the entry OIDs in manifest order; parse declared byte sizes, not lines. Symlink blob bytes are the target text, not referent bytes."
+    },
+    "materialization": "Isolated Git index/tree equal to accepted tree; all accepted paths, modes, blob bytes and symlink targets unchanged. New implementation/tests/evidence must not enter this benchmark tracked list.",
+    "candidateSubstitution": "Execute an untracked scratch candidate outside the corpus, from the same corpus cwd; leave tracked scripts/harness/validate.sh at accepted bytes. Both scripts retain the same exclusion path. Verify corpus before and after each run.",
+    "dereferencedInputs": "Record each tracked path as regular-file, link-to-file, link-to-directory, missing or other under the harness -f predicate; hash readable bytes actually scanned before/after, including link referents. Preserve and record symlink resolution. Do not materialize directory links as regular files or silently omit unreadable inputs.",
+    "observedInitialSymlinks": {
+      "total": 425,
+      "fileReferents": 189,
+      "directoryReferents": 236,
+      "missingReferents": 0,
+      "scope": "Actor initial local checkout metadata, not a benchmark measurement"
+    },
+    "identitySeparation": "Benchmark identity remains the accepted corpus even when candidate changes. Final integrated source identity records the final index/commit plus working-byte/mode manifest and candidate hash separately; never call the optimized tree the unchanged accepted corpus."
+  },
+  "semantics": {
+    "shell": "Existing set -e and set -u; Bash 3.2-compatible indexed arrays and builtins only. Native BSD grep extended-regex behavior; no GNU-only or new regex engine assumptions.",
+    "selection": {
+      "default": [
+        "git",
+        "ls-files"
+      ],
+      "staged": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only",
+        "--diff-filter=ACM"
+      ],
+      "gitErrors": "stderr suppressed; failure tolerated as original. Preserve Git quoting/config behavior and original line-delimited read semantics.",
+      "mode": "Only first argument exactly --staged changes selection; other first arguments retain their original printed Mode value.",
+      "empty": "Print existing No files to validate message, exit 0 before check labels or coverage.",
+      "missing": "Every check skips paths failing [ -f ]; symlinks to regular files are included, links to directories are skipped. File count is the selected list count, not eligible existing-file count."
+    },
+    "checkOrder": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "reportOrder": "Within each check: original FILES order, then original rule order, then grep matching-line order. Never report pattern-first batches directly.",
+    "count": "Increment once for each file/rule with nonempty report matches, regardless of matching line count. Distinct overlapping rules each increment. Check 4 increments per oversized file; Check 5 increments once on missing Bun or nonzero coverage exit.",
+    "streams": "Preserve stdout and stderr bytes independently including ANSI escape sequences, spacing, blank lines, messages, line numbers and binary-file reporting. No normalization. Cross-stream interleaving is not a substitute for per-stream equality.",
+    "checks": [
+      {
+        "id": 1,
+        "label": "Hardcoded secrets",
+        "eligible": "Every selected existing -f path except these case exclusions; no source-extension restriction.",
+        "excludeExact": [
+          ".env.example",
+          "scripts/harness/validate.sh",
+          "package-lock.json",
+          "yarn.lock",
+          "go.sum",
+          "poetry.lock"
+        ],
+        "excludeGlobs": [
+          "*.png",
+          "*.jpg",
+          "*.jpeg",
+          "*.gif",
+          "*.ico",
+          "*.woff",
+          "*.woff2",
+          "*.ttf",
+          "*.eot"
+        ],
+        "ruleOrder": [
+          {
+            "id": "secret-1",
+            "trigger": "lin_api_[A-Za-z0-9]{20,}",
+            "report": "lin_api_[A-Za-z0-9]{20,}"
+          },
+          {
+            "id": "secret-2",
+            "trigger": "API_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]",
+            "report": "API_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]"
+          },
+          {
+            "id": "secret-3",
+            "trigger": "API_SECRET\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]",
+            "report": "API_SECRET\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]"
+          },
+          {
+            "id": "secret-4",
+            "trigger": "ACCESS_TOKEN\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-\\.]{16,}[\"\\x27]",
+            "report": "ACCESS_TOKEN\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-\\.]{16,}[\"\\x27]"
+          },
+          {
+            "id": "secret-5",
+            "trigger": "PRIVATE_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]",
+            "report": "PRIVATE_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]"
+          },
+          {
+            "id": "secret-6",
+            "trigger": "AKIA[0-9A-Z]{16}",
+            "report": "AKIA[0-9A-Z]{16}"
+          },
+          {
+            "id": "secret-7",
+            "trigger": "ghp_[A-Za-z0-9]{36}",
+            "report": "ghp_[A-Za-z0-9]{36}"
+          },
+          {
+            "id": "secret-8",
+            "trigger": "github_pat_[A-Za-z0-9_]{82}",
+            "report": "github_pat_[A-Za-z0-9_]{82}"
+          },
+          {
+            "id": "secret-9",
+            "trigger": "Bearer\\s+[A-Za-z0-9\\._\\-]{32,}",
+            "report": "Bearer\\s+[A-Za-z0-9\\._\\-]{32,}"
+          }
+        ],
+        "engine": "grep -qE trigger then grep -nE report, stderr suppressed. Preserve engine semantics without translating literal regex text."
+      },
+      {
+        "id": 2,
+        "label": "Dangerous shell commands",
+        "includeGlobs": [
+          "*.sh",
+          "*.bash",
+          "*.zsh",
+          ".github/workflows/*.yml",
+          ".github/workflows/*.yaml"
+        ],
+        "excludeExact": [
+          "scripts/harness/validate.sh"
+        ],
+        "ruleOrder": [
+          {
+            "id": "absolute-rm",
+            "trigger": "rm\\s+-[rf]{1,2}\\s+/",
+            "report": "rm\\s+-[rf]{1,2}\\s+/"
+          },
+          {
+            "id": "protected-branch-force-push",
+            "triggerAny": [
+              "git\\s+push\\s+.*--force.*\\s+(main|master)",
+              "git\\s+push\\s+.*-f\\s+.*(main|master)"
+            ],
+            "report": "git\\s+push\\s+.*(--force|-f).*(main|master)",
+            "invariant": "At least one trigger must match this same file before reporting the report-expression lines. A report-only line can appear alongside a different triggering line in that file. Triggers from other files must not activate it."
+          },
+          {
+            "id": "bare-force-push",
+            "trigger": "git\\s+push\\s+(--force|-f)\\s*$",
+            "report": "git\\s+push\\s+(--force|-f)\\s*$"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "label": "Architecture layer violations (domain must be pure)",
+        "includeGlobs": [
+          "*/domain/*",
+          "domain/*"
+        ],
+        "extensionFilter": null,
+        "layerDirectories": "tracker|workspace|sessions|observability|config|orchestrator|relay|server|infrastructure",
+        "ruleOrder": [
+          {
+            "id": "non-domain-layer",
+            "trigger": "from ['\"][^'\"]*(/|^)(tracker|workspace|sessions|observability|config|orchestrator|relay|server|infrastructure)(/|['\"])",
+            "report": "from ['\"][^'\"]*(/|^)(tracker|workspace|sessions|observability|config|orchestrator|relay|server|infrastructure)(/|['\"])",
+            "reportExclude": "from ['\"]\\./",
+            "filterScope": "Only this rule; apply after the original line-number prefix as accepted grep pipeline does."
+          },
+          {
+            "id": "legacy-infrastructure",
+            "trigger": "from ['\"].*infrastructure",
+            "report": "from ['\"].*infrastructure"
+          },
+          {
+            "id": "python-infrastructure",
+            "trigger": "^(from|import)\\s+.*infrastructure",
+            "report": "^(from|import)\\s+.*infrastructure"
+          },
+          {
+            "id": "go-infrastructure",
+            "trigger": "\"[^\"]+/infrastructure[^\"]*\"",
+            "report": "\"[^\"]+/infrastructure[^\"]*\""
+          },
+          {
+            "id": "python-orm-or-sdk",
+            "trigger": "^(from|import)\\s+(sqlalchemy|django\\.db|peewee|tortoise|motor|pymongo|linear_sdk)",
+            "report": "^(from|import)\\s+(sqlalchemy|django\\.db|peewee|tortoise|motor|pymongo|linear_sdk)"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "label": "File length cap",
+        "includeGlobs": [
+          "*.ts",
+          "*.tsx",
+          "*.js",
+          "*.jsx",
+          "*.mjs",
+          "*.cjs",
+          "*.py",
+          "*.go",
+          "*.rs"
+        ],
+        "excludeGlobs": [
+          "*/node_modules/*",
+          "*/dist/*",
+          "*/build/*",
+          "*.d.ts",
+          "*/__tests__/*",
+          "*.test.ts",
+          "*.test.tsx",
+          "*.test.js",
+          ".agents/*",
+          ".claude/*",
+          ".codex/*",
+          ".cursor/*",
+          ".qwen/*",
+          ".gemini/*",
+          ".grok/*",
+          ".kimi-code/*",
+          "apps/dashboard/src/lib/canvas/*",
+          "*/apps/dashboard/src/lib/canvas/*"
+        ],
+        "maxLines": 500,
+        "grandfathered": [],
+        "lineCount": "wc -l counts LF bytes; no implicit extra line for an unterminated last line. Preserve original space-stripped integer and strict lines > ceiling comparison. A batched wc implementation must discard total rows and preserve file mapping, order, missing-file behavior and ceiling lookup."
+      },
+      {
+        "id": 5,
+        "label": "Test coverage thresholds",
+        "command": [
+          "bun",
+          "run",
+          "test:coverage"
+        ],
+        "skip": "Only SKIP_COVERAGE=1 skips and emits the existing warning. No skip in performance/full acceptance receipts.",
+        "workspaceRoot": "Keep WORKSPACE_ROOT when set; otherwise mktemp -d -t av-validate-workspaces-XXXXXX and export it.",
+        "outcomes": "Preserve Bun-missing, coverage-nonzero and coverage-success paths verbatim, including inherited Vitest wording. Coverage still runs after earlier violations."
+      }
+    ],
+    "messages": "All info/ok/warn/violation text and final success/failure messages are the literals at the oracle path/revision/hash. Preserve check-specific success suppression and cumulative count behavior.",
+    "exits": "0 when the selected list is empty or all checks pass; 1 for accumulated violations. Compare incidental original shell/tool failure exits as observed; never coerce every failure to 1.",
+    "unusedHelper": "check_pattern is declared but not invoked by the accepted five checks; its -P fallback is not the active-check engine."
+  },
+  "implementation": {
+    "selected": "Sequential unchanged-pattern batches over exact eligible existing-file lists, cache results, then replay file/rule/line order through existing messages.",
+    "batching": "No grep subprocess per file or per reported file. One eligible-list batch per expression when host argument limits permit; deterministic bounded chunks are allowed only to respect host argument limits and must retain the same semantics. Keep trigger/report data separately where required.",
+    "reuse": "Bash, grep, wc/awk and dependency-free Bun tests; no manifest/lockfile/runtime-dependency additions.",
+    "notSelected": [
+      "Parallel pattern workers: adds process coordination and ordering risk before a measured need.",
+      "Cache across executions or narrower default input: invalidates unchanged-corpus acceptance and can skip checks."
+    ]
+  },
+  "amendment4": {
+    "authorized": "Replace only obsolete exact harness-byte equality obligations with executable original-versus-candidate behavioral equivalence; update the affected assertions and expectations together.",
+    "affectedPaths": [
+      "scripts/coverage/config.ts",
+      "scripts/coverage/preservation.ts",
+      "scripts/coverage/hygiene.ts",
+      "scripts/coverage/hygiene-preservation.test.ts"
+    ],
+    "retain": [
+      "Harness tracked path, local/index presence, regular-file/non-symlink type and accepted executable mode 100755.",
+      "Every existing Rust and migration path/content/token/mode protection and its negative tests; no exemption for Rust files.",
+      "Historical BASELINE fbe76a5f15101ad415f355ef06f1deeb1f97d568 and hygiene ACCEPTED_HEAD aacb3b4359f13c31c0705c0cffc5bf1ac00f387e; original receipts remain historical.",
+      "checkPreservation invocation in harness.test.ts and checkExactPreservation in clean-checkout.test.ts.",
+      "All source inventory, LLVM/LCOV corroboration, freshness, missing-file/crate, child-process/profile, exact-denominator and source-binding obligations.",
+      "Independent exact >=80% line coverage for arc-core, arc-detector, arc-storage, arc-ipc, arc-daemon and arc-cli; no aggregate floor or rounded comparison."
+    ],
+    "ownership": "Implementation and narrowly necessary preservation edits belong to the assigned engineer, not this Actor. Coordinate any additional shared-manifest edit with Chief."
+  },
+  "acceptanceInterfaces": [
+    {
+      "path": "scripts/harness/equivalence.test.ts",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/equivalence.test.ts"
+      ],
+      "requires": "Deterministic isolated Git fixtures; byte equality of original/candidate stdout, stderr and exit for the complete matrix."
+    },
+    {
+      "path": "scripts/harness/performance.test.ts",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/performance.test.ts"
+      ],
+      "requires": "Verify corpus/script identities and measured Checks 1–4 <20s; separately retain Check 5 and total, without skip flags."
+    },
+    {
+      "path": "scripts/harness/coverage-verification.test.ts",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/coverage-verification.test.ts"
+      ],
+      "requires": "Exercise retained coverage/accounting/preservation/hygiene suites and amended harness type/mode and equivalence protections, without replacing real collection acceptance."
+    },
+    {
+      "path": "scripts/harness/evidence-budget.test.ts",
+      "command": [
+        "bun",
+        "test",
+        "scripts/harness/evidence-budget.test.ts"
+      ],
+      "requires": "Final .arc-verify/harness-speed evidence count strictly <150, including reports and receipts. Reject tracked runtime/native exports; keep scratch fixtures outside evidence set."
+    }
+  ],
+  "fixtureMatrix": {
+    "isolation": "Create deterministic Git fixtures under scratch/target or system temporary directory. Generate payloads at runtime; no tracked original script copy or literal violation corpus. Execute each oracle/candidate pair against the same fixture root, Git configuration, files and environment.",
+    "cases": [
+      "Clean eligible files and clean files of every selected extension.",
+      "Each of nine secret expressions under the actual grep engine, including nonmatches/placeholders.",
+      "Each of three dangerous-command rules, both protected-branch triggers and trigger/report differences.",
+      "All five architecture rules, each non-domain layer directory, within-domain ./ imports filtered only by rule 1, overlapping first/legacy/Go matches.",
+      "500 versus 501 LF counts, empty files, final line lacking LF, long excluded test/declaration/generated/managed/canvas files.",
+      "Multiple files, rules, repeated lines and repeated occurrences on one line; assert file/rule/line output order and per-file/rule totals.",
+      "Every exact/glob exclusion with positive eligible controls; document that secret scanning still covers many files excluded by Check 4.",
+      "Tracked-but-locally-missing files; staged ACM additions/copies/modifications and omitted deletions; unstaged content behavior remains original.",
+      "All-tracked empty input, staged empty input and only-missing selected input; coverage invocation/early return observed separately.",
+      "Controlled successful coverage, nonzero coverage and Bun-missing cases without skip; coverage still invoked when earlier checks fail.",
+      "Explicit SKIP_COVERAGE=1 equivalence case only, never substituted for full acceptance.",
+      "Binary-like data, symlinks to files/directories and supported path punctuation/spaces to expose batched filename framing changes."
+    ],
+    "coverageStub": "Only inside equivalence fixtures; deterministic stdout/stderr/exit/invocation record. Never satisfy real coverage, Cargo or integrated harness acceptance with a stub.",
+    "failPolicy": "Any stream-byte/exit discrepancy fails equivalence. A theoretically positive expression not supported by the actual BSD engine must be recorded as such, not silently reinterpreted."
+  },
+  "receiptContract": {
+    "format": "Compact UTF-8 JSON records; schemaVersion=1 and evidenceKind distinguish equivalence, timing, verification, review and closeout. Missing/unperformed values are null or explicitly not-collected, never invented zeros/passes.",
+    "commonRequired": [
+      "schemaVersion",
+      "evidenceKind",
+      "runId",
+      "acceptedHead",
+      "acceptedTree",
+      "benchmarkCorpusManifestSha256 or integratedSourceIdentity as applicable",
+      "oracleSha256",
+      "candidateScriptPath",
+      "candidateScriptSha256",
+      "sourceScope",
+      "sourceRevision",
+      "command.argv",
+      "command.cwd",
+      "command.environment",
+      "host",
+      "tools",
+      "startedAtUtc",
+      "endedAtUtc",
+      "clock",
+      "exit",
+      "stdoutSha256",
+      "stderrSha256",
+      "diagnostics",
+      "status"
+    ],
+    "commandEnvironment": "Record effective relevant PATH, locale LANG/LC_ALL/LC_CTYPE, Git config affecting path quoting/order, SKIP_COVERAGE (explicit unset in full runs), WORKSPACE_ROOT, TMPDIR and Rust/Cargo overrides. Hash or describe unrelated environment without storing secrets. Record the actual values or absence used, not assumed defaults.",
+    "hostTools": "OS/version/architecture and tool command paths plus version output for Bash, grep, Git, Bun, rustc, Cargo, cargo-llvm-cov; wc/awk implementation identity and matching llvm-cov/llvm-profdata when coverage is collected. Record competing verification processes or their absence and run sequence.",
+    "streams": "SHA-256 over raw bytes, including empty streams; record byte lengths and exact raw diagnostic location. For fixtures, include oracle/candidate stream hashes, exits, byte-equality booleans and fixture-definition hash/ID. Do not strip colors, timestamps or paths to manufacture equivalence.",
+    "sourceBinding": "Before/after index tree/manifest, working-byte/mode and dereferenced-input identities must agree for each scope. Record uncommitted final edits independently of HEAD and include test/preservation-source identities. Existing coverage inputIdentity(root).sha256 is retained but does not include validate.sh or scripts/harness tests and cannot alone bind final harness source.",
+    "timing": {
+      "observer": "External monotonic observer drains stdout/stderr concurrently without altering validator output. Record clock API and marker detection; no wall-clock subtraction for elapsed times.",
+      "boundaries": [
+        "tStart: monotonic time immediately before spawning the command.",
+        "tCheck5: time the complete original Check 5/5 label is received on stdout. Record the label byte offset and read timestamp.",
+        "tEnd: time process exit and both streams are collected; record exit observation and stream-drain completion separately if different."
+      ],
+      "durationsSeconds": {
+        "checks1to4": "tCheck5 - tStart; includes startup/file-selection/output delivery, so the <20s bound covers the full observed prefix.",
+        "check5": "tEnd - tCheck5; observed coverage phase including unchanged result/footer/process-drain overhead, explicitly label that inclusion.",
+        "total": "tEnd - tStart; same observer/clock; must equal checks1to4 + check5 within stored precision."
+      },
+      "pass": "A valid non-skipped candidate run on the unchanged accepted corpus has checks1to4 <20. Record original/candidate independently and all attempted runs; do not omit a slow valid run. Gate success is separate from timing success.",
+      "missingBoundary": "Use null and explanation if Check 5 never starts (e.g. empty input or shell failure); do not claim zero time or complete performance acceptance.",
+      "schedule": "Serialize benchmark pairs and coverage collection; no competing expensive suites. Retain warm/cold/run order and actual repeated measurements when taken; this contract invents none."
+    },
+    "diagnostics": "Paths and SHA-256 for compact retained receipts/reports; point to existing ignored coverage runs/target or external scratch for large raw outputs, with retention/availability stated. Do not copy large native exports into harness-speed.",
+    "checkTimeout": "Framework per-check limit is 1800000 ms. Mission planning timeoutMs=120000 does not authorize terminating checks at 120000; any new wrapper/replay must allow at least 1800000 ms. Report shorter existing nested deadlines to Chief rather than weakening or altering the operator verifier.",
+    "final": {
+      "path": ".arc-verify/harness-speed/final.json",
+      "required": {
+        "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
+        "completion.status": "passed only after all required evidence and independent review pass"
+      },
+      "alsoRecord": [
+        "acceptedTree",
+        "benchmarkCorpus identity",
+        "final integrated HEAD/index tree and working manifest",
+        "candidate/test/preservation hashes",
+        "all command results and receipt references",
+        "Checks 1–4, Check 5 and total per run",
+        "pre-existing hygiene failures distinctly from new regressions",
+        "independent review binding",
+        "evidence file count and count scope"
+      ]
+    }
+  },
+  "requiredVerification": {
+    "serialCollections": [
+      [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ]
+    ],
+    "cargo": [
+      [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      [
+        "cargo",
+        "test",
+        "--workspace"
+      ]
+    ],
+    "fullHarness": [
+      "./scripts/harness/validate.sh"
+    ],
+    "note": "The harness.test.ts wrapper invokes the full harness and may supply the same source-bound full-command evidence; retain the exact invocation/streams and unset skip. No historical pass replaces a required current command. Current native evidence is checked after the final collection.",
+    "review": "Independent oma-qa; .arc-verify/harness-speed/qa.md must contain Verification completeness and Pre-existing hygiene failures. index.md must cover Equivalence, Checks 1–4, Check 5 and Independent review.",
+    "budget": {
+      "path": ".arc-verify/harness-speed",
+      "maxFilesExclusive": 150,
+      "scope": "Count all evidence files recursively in the final evidence set, including new/untracked deliverables, final reports and receipts; report tracked count separately. Do not move evidence out merely to evade the goal."
+    }
+  },
+  "observedPrerequisites": {
+    "host": "Darwin arm64",
+    "bash": "3.2.57(1)-release; /bin/bash",
+    "grep": "BSD grep, GNU compatible 2.6.0-FreeBSD; /usr/bin/grep",
+    "wc": "/usr/bin/wc",
+    "awk": "/usr/bin/awk",
+    "git": "2.56.0",
+    "bun": "1.4.4",
+    "rustc": "1.95.0 (59807616e 2026-04-14)",
+    "cargo": "1.95.0 (f2d3ce0bd 2026-03-21)",
+    "cargoLlvmCov": "0.6.21",
+    "rustupComponents": "rustfmt, clippy and llvm-tools installed; matching LLVM binaries/version and cached offline dependencies not yet exercised",
+    "limits": "No benchmark, Cargo suite, coverage collection or full harness run in task-1."
+  },
+  "inspectionLimits": [
+    "Serena tools unavailable in current tool catalog; read supplied known paths directly, no native repository content search.",
+    "Global git status failed with av.yaml: Operation not permitted; scoped diffs/status for scripts, crates, manifests and owned evidence paths were empty initially. No global cleanliness claim.",
+    "Acceptance test paths absent initially; assigned implementation must create them.",
+    "Existing command/acceptance helpers have 120000/900000 ms nested defaults and tests have 960000/1860000 ms declarations. Flag timeout mismatch to Chief; task-1 cannot edit outside ownership.",
+    "Supplied snapshotRef and workerRef do not resolve in this isolated Actor repository (each --verify --quiet exit 1); their availability in the source/review repository is unverified. Initial combined rev-parse attempt failed with unknown revision. Use the verified object hashes and integrated delivery receipt, not substituted ref identities."
+  ],
+  "measurements": {
+    "timing": null,
+    "equivalence": null,
+    "coverage": null,
+    "cargo": null,
+    "independentReview": null
+  },
+  "deliverableValidation": {
+    "status": "passed",
+    "scope": "Task-1 artifact validation only; not implementation or mission acceptance",
+    "checks": [
+      "JSON parse and required acceptance-interface assertions",
+      "Accepted commit/tree/oracle SHA-256 reproduced from Git objects",
+      "Both full 4044-entry manifest digests and blob-byte total independently reproduced",
+      "Every recorded detection/report/filter regex compared with accepted shell argument evaluation",
+      "Scoped working/index source diffs empty and status limited to the two owned files"
+    ],
+    "evidenceFileCount": 2,
+    "expensiveSuitesRun": false
+  }
+}

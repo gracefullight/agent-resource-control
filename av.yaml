@@ -2,7 +2,7 @@ workspace:
   root: /Users/gracefullight/workspace/arc
 actor:
   type: codex
-  timeout: 1800
+  timeout: 3600  # harness rewrites and coverage runs exceed 30 minutes for one Actor attempt
 chief:
   review_vendor: off  # only codex has quota on this host; opencode/qwen reviews hang or answer prose
   memory: true

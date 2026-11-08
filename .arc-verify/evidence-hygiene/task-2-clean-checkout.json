@@ -1,0 +1,120 @@
+{
+  "classification": "Fresh",
+  "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+  "accountingBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "snapshotTree": "ea3f9d85304015d3c785d0a3edee13e7556a6c7b",
+  "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-IRp289",
+  "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+  "started": "2026-11-08T02:41:26.253Z",
+  "pass": true,
+  "precollection": {
+    "priorArtifacts": [],
+    "targetAbsent": true,
+    "runsAbsent": true,
+    "runtimeLatestAbsent": true,
+    "sourceIdentityMatches": true
+  },
+  "runId": "2026-11-08T02-41-28-401Z-cb1745f4-2e10-4627-9a70-ffb4514bd9be",
+  "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-41-28-401Z-cb1745f4-2e10-4627-9a70-ffb4514bd9be",
+  "host": "aarch64-apple-darwin",
+  "crates": [
+    {
+      "crate": "arc-core",
+      "covered": 64,
+      "total": 64,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-detector",
+      "covered": 577,
+      "total": 578,
+      "percent": 99.82698961937716,
+      "pass": true
+    },
+    {
+      "crate": "arc-storage",
+      "covered": 226,
+      "total": 227,
+      "percent": 99.55947136563877,
+      "pass": true
+    },
+    {
+      "crate": "arc-ipc",
+      "covered": 215,
+      "total": 215,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-daemon",
+      "covered": 1507,
+      "total": 1613,
+      "percent": 93.42839429634222,
+      "pass": true
+    },
+    {
+      "crate": "arc-cli",
+      "covered": 203,
+      "total": 213,
+      "percent": 95.30516431924883,
+      "pass": true
+    }
+  ],
+  "nativeHashes": {
+    "lcov": "c1ebe20aa49d4e176d0c07f77c4151ba302ec9bcd858021375cd382a70480b45",
+    "llvmJson": "6a22a8c1288f8aea6df825b4a43b7c0f807fe3411ba9d0aa255ccfc3f3a67de5"
+  },
+  "childProof": [
+    {
+      "binary": "arcctl",
+      "pid": 89221,
+      "profiles": [
+        "arc-89221-11708300777802047112_0.profraw"
+      ],
+      "exit": 0
+    },
+    {
+      "binary": "arc-daemon",
+      "pid": 89222,
+      "profiles": [
+        "arc-89222-9358645423002903239_0.profraw"
+      ],
+      "exit": 1
+    }
+  ],
+  "ended": "2026-11-08T02:42:54.880Z",
+  "commands": [
+    {
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-IRp289",
+      "started": "2026-11-08T02:41:28.363Z",
+      "ended": "2026-11-08T02:42:53.454Z",
+      "exit": 0,
+      "pid": 86082,
+      "stdoutSha256": "478d19360ad9aeeab4ef6216b4b003fcea875b52fd6d6182ceee5ab02c465106",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-IRp289",
+      "started": "2026-11-08T02:42:53.454Z",
+      "ended": "2026-11-08T02:42:53.826Z",
+      "exit": 0,
+      "pid": 89242,
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "dc5a66100ee905a8ad2eff4ca874c52838bdfc79e395abcfaade616b89b51402"
+    }
+  ],
+  "localReceiptPath": "target/evidence-hygiene/clean-checkout/runs/0bf5ba1b-7d05-4e43-8fb2-4574e1648521/result.json",
+  "localReceiptSha256": "50616e6c615422e6f424c9b8c8e2c668f2c3cba4f550ff0302ff6811f76284e5",
+  "scope": "Task-2 preliminary clean-checkout proof. Final integrated verification and independent review remain required."
+}

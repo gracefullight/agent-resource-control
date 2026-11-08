@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "classification": "Historical",
+  "provenance": {
+    "originalPath": ".arc-verify/rust-coverage/integration/repair-4/commands.json",
+    "originalGitBlob": "3b9faf2cdcbf30cb455ee945aef685752983a589",
+    "originalSha256": "867dd3f2196d9bcf3e0b55a89c1d2dfbedbc1ee0f9d882576edf4184e78126ea",
+    "storageCommit": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+    "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+    "runId": "unavailable",
+    "host": "unavailable",
+    "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+    "started": "2026-11-08T00:43:39.267Z",
+    "ended": "2026-11-08T00:50:17.935Z"
+  },
+  "commands": [
+    {
+      "name": "repair-4-prerequisites",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked",
+        "--offline"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 59594,
+      "started": "2026-11-08T00:43:39.267Z",
+      "ended": "2026-11-08T00:43:39.462Z",
+      "durationMs": 202,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-prerequisites-2026-11-08T00-43-39-260Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-coverage-cli",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 59610,
+      "started": "2026-11-08T00:43:48.999Z",
+      "ended": "2026-11-08T00:45:09.535Z",
+      "durationMs": 80542,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-coverage-cli-2026-11-08T00-43-48-991Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "2c89971a7f76233b18b59283ec8f28deb8e9e4ea1fc654dfca57e8d59e7f65ba",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 62293,
+      "started": "2026-11-08T00:45:17.814Z",
+      "ended": "2026-11-08T00:45:18.923Z",
+      "durationMs": 1116,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 62297,
+      "started": "2026-11-08T00:45:18.935Z",
+      "ended": "2026-11-08T00:45:19.305Z",
+      "durationMs": 376,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "9d892c5778d0c975f64a671e66ea5a753502353da3addd1dfdf3825225e406a2",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-workspace-tests",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 62303,
+      "started": "2026-11-08T00:45:22.587Z",
+      "ended": "2026-11-08T00:46:02.623Z",
+      "durationMs": 40064,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "7037c56ea1465e2fbd5db44b5b086336f9b08213e55c86142fef678c4c599cf3",
+      "stderrSha256": "55f1d026e2f03e9ef8975899b925304591519ce554727e02cc182a8b2a12d17d",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-deterministic",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 63253,
+      "started": "2026-11-08T00:46:07.555Z",
+      "ended": "2026-11-08T00:46:10.619Z",
+      "durationMs": 3071,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-deterministic-2026-11-08T00-46-07-539Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "e0379a1148f722bad6928189539f5732eeded649789a5f5cb5a2e091d6fb9f41",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-harness",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 63461,
+      "started": "2026-11-08T00:46:19.083Z",
+      "ended": "2026-11-08T00:50:06.367Z",
+      "durationMs": 227290,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-harness-2026-11-08T00-46-19-073Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "fa2e230c3e14631d2c9be2505f243957de5820c94d9052b04d88cdbe796650b4",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-final-evidence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 99586,
+      "started": "2026-11-08T00:50:17.156Z",
+      "ended": "2026-11-08T00:50:17.935Z",
+      "durationMs": 785,
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-final-evidence-2026-11-08T00-50-17-147Z",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "b5b51c42ff31a8f6743993056969b9149ec03917bf66ecc2dbf20070297b4d1f",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-required-coverage-cli",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 59611,
+      "started": "2026-11-08T00:43:49.363Z",
+      "ended": "2026-11-08T00:45:09.527Z",
+      "exit": 0,
+      "durationMs": 80164.0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "environmentProvenance": "Inherited realAcceptance environment; SKIP_COVERAGE absent in both parent and child.",
+      "receipt": ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-f8af459c-a9cf-49ed-9c31-34138816c24e/00-command.json",
+      "receiptSha256": "7f86dab0c3f70346bb91e2d316393b5ed84df9c11f1dc8fdad944b014dc13915",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "62fe396b78331ce6720f8d4bc566649ce1c2b12ba02c93ad3449bd207d2815be",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    },
+    {
+      "name": "repair-4-required-harness",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "pid": 63546,
+      "started": "2026-11-08T00:46:20.384Z",
+      "ended": "2026-11-08T00:50:06.357Z",
+      "exit": 0,
+      "durationMs": 225973.0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceStable": true,
+      "environmentProvenance": "Inherited realAcceptance environment; SKIP_COVERAGE absent in both parent and child.",
+      "receipt": ".arc-verify/rust-coverage/tooling/acceptance/harness-c4da9be1-0b54-46d4-ba48-5c247c503f88/00-command.json",
+      "receiptSha256": "54d2b163df247f2b7f0892bb8039c62a149543cfa14c973d20a5f413492850e3",
+      "toolVersionsArtifact": ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+      "toolVersionsSha256": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+      "stdoutSha256": "bd8314d474d2c3a579d977782716f06dca75c31c9b8584b264e1c5ff3f5e1362",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "environmentSha256": "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c"
+    }
+  ],
+  "toolVersions": [
+    {
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "1.4.4\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustc",
+        "-Vv"
+      ],
+      "exit": 0,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "-V"
+      ],
+      "exit": 0,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "cargo-llvm-cov 0.6.21\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustup",
+        "component",
+        "list",
+        "--installed"
+      ],
+      "exit": 0,
+      "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nllvm-tools-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "mise",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "2026.10.22 macos-arm64 (2026-10-28)\n",
+      "stderr": "mise WARN  mise version 2026.11.3 available\nmise WARN  self-update is disabled for this install, update mise the same way you installed it\n"
+    },
+    {
+      "argv": [
+        "mise",
+        "tasks",
+        "--all"
+      ],
+      "exit": 0,
+      "stdout": "coverage:provision\ntest:coverage\n",
+      "stderr": ""
+    }
+  ],
+  "environments": {
+    "b3626a14cbc9c886fd2927e7431aa16235491521d4402d57ff1050dac35d770c": {
+      "PATH": "/Users/gracefullight/.bun/bin:/Users/gracefullight/.cargo/bin:/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin:/Users/gracefullight/.local/share/mise/installs/npm-oh-my-agent/20.16.0/bin:/Users/gracefullight/.local/share/mise/installs/infisical/latest:/Users/gracefullight/.local/share/mise/installs/node/26/bin:/Users/gracefullight/.local/share/mise/installs/python/3.14/bin:/Users/gracefullight/.local/share/mise/installs/supabase/2.78.1:/Users/gracefullight/.local/share/mise/installs/terraform/1.15.8:/Users/gracefullight/.local/share/mise/installs/uv/latest/uv-aarch64-apple-darwin:/Users/gracefullight/.local/share/mise/shims:/Users/gracefullight/.bun/install/global/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex-path:/Users/gracefullight/.local/bin:/Users/gracefullight/.resend/bin:/Users/gracefullight/.mimocode/bin:/Users/gracefullight/.kimi-code/bin:/Users/gracefullight/.grok/bin:/Users/gracefullight/.antigravity/antigravity/bin:/Users/gracefullight/.amp/bin:/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Library/TeX/texbin:/opt/podman/bin:/Users/gracefullight/.codex/tmp/arg0-macos/codex-arg0Saqm1K:/Applications/Orca.app/Contents/Resources/bin:/Library/Java/JavaVirtualMachines/zulu-21.jdk/Contents/Home/bin:/opt/zerobrew/bin:/opt/zerobrew/sbin:/Users/gracefullight/.zerobrew/bin:/Users/gracefullight/Library/Application Support/JetBrains/Toolbox/scripts:/Users/gracefullight/.orbstack/bin:/Users/gracefullight/Library/Android/sdk/emulator:/Users/gracefullight/Library/Android/sdk/platform-tools:/Users/gracefullight/.maestro/bin:/Users/gracefullight/.volta/bin:/Users/gracefullight/.asdf/shims:/Users/gracefullight/.fnm/aliases/default/bin:/Users/gracefullight/Library/pnpm:/Users/gracefullight/.yarn/bin:/usr/local/sbin:/nix/var/nix/profiles/default/bin:/Users/gracefullight/bin:/Users/gracefullight/.nix-profile/bin:/Users/gracefullight/.opencode/bin:/Users/gracefullight/.vite-plus/bin",
+      "BUN_INSTALL": "/Users/gracefullight/.bun",
+      "CARGO_HOME": "/Users/gracefullight/.cargo",
+      "RUSTUP_HOME": "/Users/gracefullight/.rustup",
+      "RUSTUP_TOOLCHAIN": "1.95.0"
+    }
+  }
+}

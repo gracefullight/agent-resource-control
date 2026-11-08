@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "classification": "Fresh task-5 original-local rehash after accepted delivery integration",
+  "checkedAt": "2026-11-08T03:40:59.846368+00:00",
+  "workspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+  "manifest": "target/evidence-hygiene/baseline-local-manifest.json",
+  "manifestSha256": "c7aa81c97561770a8317efaa23ea2f89c4143660f4f558bd0012a899916c41c0",
+  "manifestBytes": 773326,
+  "manifestUnchanged": true,
+  "rawFilesPreserved": true,
+  "rawFiles": 456,
+  "rawBytes": 252272711,
+  "allRemovedFilesPreserved": true,
+  "allRemovedFiles": 908,
+  "allRemovedBytes": 260184384,
+  "historyPreserved": true,
+  "historyObjects": [
+    {
+      "object": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e^{commit}",
+      "exit": 0
+    },
+    {
+      "object": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e^{tree}",
+      "exit": 0
+    },
+    {
+      "object": "fbe76a5f15101ad415f355ef06f1deeb1f97d568^{commit}",
+      "exit": 0
+    },
+    {
+      "object": "fbe76a5f15101ad415f355ef06f1deeb1f97d568^{tree}",
+      "exit": 0
+    }
+  ],
+  "inventoryPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/local-rehash.json",
+  "inventorySha256": "0ef167449ba82eda99547d958a2ac4885d88c91e04bf8363084a32d3d5fc98d8",
+  "method": "Read and SHA-256 every original manifest path in the original raw-bearing receiving workspace; compare original size/hash. git cat-file -e for original commit/tree objects. No raw file was deleted, replaced or copied into the verification checkout."
+}

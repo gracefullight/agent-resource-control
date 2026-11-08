@@ -1,0 +1,865 @@
+{
+  "schemaVersion": 1,
+  "status": "measured-baseline-not-mission-acceptance",
+  "measuredAtUtc": "2026-11-08T02:14:11.984872+00:00",
+  "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+  "acceptedTree": "8131af56cf26cbf3d332fbcf1af00858e5a4bc3a",
+  "historyAvailable": {
+    "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e": true,
+    "fbe76a5f15101ad415f355ef06f1deeb1f97d568": true
+  },
+  "method": {
+    "command": [
+      "git",
+      "ls-tree",
+      "-r",
+      "-l",
+      "-z",
+      "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+      "--",
+      ".arc-verify"
+    ],
+    "aggregation": "Parse NUL records into mode/type/oid/size and path; count each blob path once and sum uncompressed blob sizes. Duplicate OIDs count once per path. Not Git pack, disk, network or clone size.",
+    "indexMatchesAcceptedTree": true,
+    "afterMethod": "Use git ls-files --stage -z -- .arc-verify plus git cat-file --batch-check for every stage-0 blob OID; identical path-count and sum-of-blob-sizes method. Include staged additions/deletions; fail nonzero stages. Recheck final committed tree with ls-tree. Unstaged/untracked reports must be added before final accounting.",
+    "classification": "All tracked blobs under .arc-verify, irrespective of filename suffix, examined through git cat-file --batch. JSON objects recognized by type llvm.coverage.json.export or native data[].files[] filename and segments/branches structure. Classification categories overlap; union and disjoint intersections supplied."
+  },
+  "before": {
+    "rustCoverage": {
+      "files": 927,
+      "bytes": 260548113
+    },
+    "allArcVerify": {
+      "files": 2628,
+      "bytes": 278635154
+    }
+  },
+  "prohibited": {
+    "runsDirectory": {
+      "files": 449,
+      "bytes": 218352659
+    },
+    "profilesDirectory": {
+      "files": 0,
+      "bytes": 0
+    },
+    "coverageExtension": {
+      "files": 16,
+      "bytes": 13114041
+    },
+    "knownRawJsonName": {
+      "files": 14,
+      "bytes": 210777833
+    },
+    "nativeLlvmJsonContent": {
+      "files": 14,
+      "bytes": 210777833
+    },
+    "union": {
+      "files": 456,
+      "bytes": 252272711
+    },
+    "disjointCombinations": {
+      "coverageExtension": {
+        "files": 4,
+        "bytes": 5954386
+      },
+      "knownRawJsonName+nativeLlvmJsonContent": {
+        "files": 3,
+        "bytes": 27965666
+      },
+      "runsDirectory": {
+        "files": 426,
+        "bytes": 28380837
+      },
+      "runsDirectory+coverageExtension": {
+        "files": 12,
+        "bytes": 7159655
+      },
+      "runsDirectory+knownRawJsonName+nativeLlvmJsonContent": {
+        "files": 11,
+        "bytes": 182812167
+      }
+    }
+  },
+  "contentOnlyOutsidePathRules": [],
+  "rawJsonOutsideRuns": [
+    {
+      "path": ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/raw.json",
+      "oid": "519e06d73cf2ab1d8ab26a6b789271aedb2f79e5",
+      "bytes": 5793434,
+      "sha256": "8f9fe1f2cd02c015583ea06bc9caf8616b10bb8c441ae3414bfa3a2e04553e44",
+      "categories": [
+        "knownRawJsonName",
+        "nativeLlvmJsonContent"
+      ]
+    },
+    {
+      "path": ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/raw.json",
+      "oid": "18b9d0cc18c96ec42f0b2c305b61fd0b9a11a2f9",
+      "bytes": 5815014,
+      "sha256": "12b8cbb1245af8dbe0c007fcaff980779423d6a8f55d5d19b9e43970122c1dfb",
+      "categories": [
+        "knownRawJsonName",
+        "nativeLlvmJsonContent"
+      ]
+    },
+    {
+      "path": ".arc-verify/rust-coverage/tooling/attempt-5/llvm-export.json",
+      "oid": "88182a074390aaae62dfff076d025706db023371",
+      "bytes": 16357218,
+      "sha256": "8c5ab9882915befd78390b83e33d96a1b8dd3537ceec73404ba31ad59bd0824e",
+      "categories": [
+        "knownRawJsonName",
+        "nativeLlvmJsonContent"
+      ]
+    }
+  ],
+  "localPreservation": {
+    "manifest": "target/evidence-hygiene/baseline-local-manifest.json",
+    "manifestSha256": "c7aa81c97561770a8317efaa23ea2f89c4143660f4f558bd0012a899916c41c0",
+    "manifestBytes": 773326,
+    "rawFiles": {
+      "files": 456,
+      "bytes": 252272711
+    },
+    "rawRecordsSha256": "905d979bb042767a913f30875862196b02ab3a53c545c96ffc74e8efcfd7acec",
+    "errors": [],
+    "ignoreCommand": [
+      "git",
+      "check-ignore",
+      "--no-index",
+      "--verbose",
+      "target/evidence-hygiene/baseline-local-manifest.json"
+    ],
+    "ignoreExit": 0,
+    "ignoreOutput": ".gitignore:11:/target/\ttarget/evidence-hygiene/baseline-local-manifest.json",
+    "integrationRequirement": "Keep the manifest and every recorded local path in this mission worktree; git rm --cached never filesystem removal; after integration hash each recorded path and compare bytes and SHA-256 before signing local-preservation.json. Manifest contains classified path inventory; never git add it."
+  },
+  "exactPreservation": {
+    "scope": "Every accepted HEAD .rs file under crates (production and tests, stronger than required), plus migration and harness. Compare complete protected path sets, raw file bytes, modes and symlink state. Include newly added .rs paths in working tree, index and final tree; fail additions, deletions, renames or byte differences. Do not substitute token equality.",
+    "files": 84,
+    "rustFiles": 82,
+    "allExistingLocalBytesEqual": true,
+    "recordsSha256": "e67732d863c5b6443a537e8f4414a38bc4e919c50baa01b9663fc23efd6b449c",
+    "records": [
+      {
+        "path": "crates/arc-cli/src/classify.rs",
+        "mode": "100644",
+        "gitBlob": "2763ea772632e9d5b23d1f2f11f8ba45bbbefd19",
+        "bytes": 3267,
+        "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-cli/src/doctor.rs",
+        "mode": "100644",
+        "gitBlob": "415d6cbf8851ba11d828dc9191f54dd99ff0c413",
+        "bytes": 3766,
+        "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-cli/src/main.rs",
+        "mode": "100644",
+        "gitBlob": "b8065085626f4e29ec4a808ce9213b4780cbca0d",
+        "bytes": 6104,
+        "sha256": "62005310d32c69f201a4f7798492418c03d3338fc6a940024b98d3c0fdda897b",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-cli/tests/binary.rs",
+        "mode": "100644",
+        "gitBlob": "dcc34e135307f773db20b84b7a9932183cd53215",
+        "bytes": 1577,
+        "sha256": "fcdf17704312c735e33af4b8cc9947abbecc06ef1205f3a81c551fe0c9fe8da3",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-cli/tests/classification.rs",
+        "mode": "100644",
+        "gitBlob": "e400bead9f5965aa1a9efede8f5eee5f434d73e4",
+        "bytes": 10794,
+        "sha256": "0ba8a5ffcb0cdd54d5299941d61926e8bf4f5b358764219a25c4a205efbd6515",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-cli/tests/schema.rs",
+        "mode": "100644",
+        "gitBlob": "1c75bbd98db1d555cad178ff57ed6de8fae5cfe4",
+        "bytes": 9152,
+        "sha256": "d63b9f3ec80835ede61caf740c5a632a54df91d600a35b019fcff7270eb29a5a",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-core/src/lib.rs",
+        "mode": "100644",
+        "gitBlob": "3fa1c221e07187517aeaf35ac24b959c57f8431f",
+        "bytes": 6013,
+        "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-core/tests/coverage.rs",
+        "mode": "100644",
+        "gitBlob": "697249ee16004691eaf87df619772f88ef6710fb",
+        "bytes": 2420,
+        "sha256": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-core/tests/runtime.rs",
+        "mode": "100644",
+        "gitBlob": "a45ddf0b59e633470c6988908d763fd7e8fe6aaa",
+        "bytes": 2176,
+        "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery.rs",
+        "mode": "100644",
+        "gitBlob": "8ac05ccf229e31c33265a371f0c81e8de7b05d3f",
+        "bytes": 6183,
+        "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+        "mode": "100644",
+        "gitBlob": "d7cdaa830d8d4162e277502bfe307458021de59b",
+        "bytes": 5876,
+        "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/admission.rs",
+        "mode": "100644",
+        "gitBlob": "50ca3f58957f6bd37122e37ea753db43a661d545",
+        "bytes": 4357,
+        "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/connection.rs",
+        "mode": "100644",
+        "gitBlob": "0caafba539a956606ee27735fb0ceda0090578f9",
+        "bytes": 6115,
+        "sha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/database_failure_tests.rs",
+        "mode": "100644",
+        "gitBlob": "25ee219ac590e7feeeca4c5eebdc53e32c627e73",
+        "bytes": 12677,
+        "sha256": "4851a2c1f7630492d9878c624fd5590cffaf1dc79dfacde74fa1dac57351183d",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker.rs",
+        "mode": "100644",
+        "gitBlob": "ef5b0889d1cff612f2172f74d2070328891845e9",
+        "bytes": 10233,
+        "sha256": "7784ea662d806d458fe9c878cdf0a127a64c34d5c6bf290d962fd54eb1e5223d",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/execution.rs",
+        "mode": "100644",
+        "gitBlob": "abc510c1c32f10f35c8a060d64e5e36cf28c1528",
+        "bytes": 11932,
+        "sha256": "ef135ed9b956b12cdea1ca93f3bc2260897d78d25b4a732577ed250875753ff0",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/schema_tests.rs",
+        "mode": "100644",
+        "gitBlob": "96c9f5267c8e98484c1ce780bce3fa05da661aa5",
+        "bytes": 3139,
+        "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/tests.rs",
+        "mode": "100644",
+        "gitBlob": "77cab030ed76b598dbbcd1f5f9bf333f9e4eb49a",
+        "bytes": 15223,
+        "sha256": "ad4d62631f91287b298ae5314930f82a96f69d2facfa8d13d2837104827e2728",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/instance.rs",
+        "mode": "100644",
+        "gitBlob": "bd256f94016169d3b5e1dc808f03e6ac4185e2be",
+        "bytes": 15423,
+        "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle.rs",
+        "mode": "100644",
+        "gitBlob": "be02560e63512dd10d4aca677f412519a6f15785",
+        "bytes": 10398,
+        "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+        "mode": "100644",
+        "gitBlob": "160fc075f23b0560b65d711f5f46249a1cd0bbc7",
+        "bytes": 14740,
+        "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/limits.rs",
+        "mode": "100644",
+        "gitBlob": "d7cb5a5eeb97758c405b55ae9c7cc516df2c3a8b",
+        "bytes": 5256,
+        "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/main.rs",
+        "mode": "100644",
+        "gitBlob": "72d761b8cc5beb6e43eca33968c5e623c01bd55a",
+        "bytes": 2752,
+        "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/platform.rs",
+        "mode": "100644",
+        "gitBlob": "1de07fc4cc39c187ec41e33b3ed8b41ce01551ae",
+        "bytes": 4046,
+        "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+        "mode": "100644",
+        "gitBlob": "053833decb8f28e671b437e44df8b2d1dc603bde",
+        "bytes": 9834,
+        "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_metrics.rs",
+        "mode": "100644",
+        "gitBlob": "2b4aad3de2d37245aff00ce999155ec8e566a1e9",
+        "bytes": 8012,
+        "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report.rs",
+        "mode": "100644",
+        "gitBlob": "d82f184bb765e4b2a361bbcf573d59d514926d13",
+        "bytes": 5316,
+        "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+        "mode": "100644",
+        "gitBlob": "89cb70128594256f71be9c97b3bcf5d07aa3667e",
+        "bytes": 4790,
+        "sha256": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/server.rs",
+        "mode": "100644",
+        "gitBlob": "17d06b40809f7bfb20ac8be7443cac862efcfde3",
+        "bytes": 11597,
+        "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/server_tests.rs",
+        "mode": "100644",
+        "gitBlob": "931b6f2acf9da1d766016074b79c087a5514eb4d",
+        "bytes": 14650,
+        "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/transport.rs",
+        "mode": "100644",
+        "gitBlob": "5278760a97a7ce01d29dd5e38ecacaa89b3a7766",
+        "bytes": 5408,
+        "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_test_support.rs",
+        "mode": "100644",
+        "gitBlob": "a4813ffcdecadcb6d9575ed0f3d31e685eae9a72",
+        "bytes": 2003,
+        "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/src/transport_tests.rs",
+        "mode": "100644",
+        "gitBlob": "53d7313c853fbcdcd16f5a0f27ec780326a16a01",
+        "bytes": 16773,
+        "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/bounded.rs",
+        "mode": "100644",
+        "gitBlob": "6f5e063eaf568b2492f904de2af36a3ac040e593",
+        "bytes": 4508,
+        "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/classification.rs",
+        "mode": "100644",
+        "gitBlob": "c2adad039578c5457159605b885e9ace5ca5a969",
+        "bytes": 8036,
+        "sha256": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/classification/boundaries.rs",
+        "mode": "100644",
+        "gitBlob": "8bd365304829eb50947da27fd17dc5c1f368101d",
+        "bytes": 2414,
+        "sha256": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/classification/privacy.rs",
+        "mode": "100644",
+        "gitBlob": "3a5b3311c6be7118af59a70d31a31feb4f03beca",
+        "bytes": 7620,
+        "sha256": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/classification/saturation.rs",
+        "mode": "100644",
+        "gitBlob": "970a665b87aa8044a2b6ce13e111392ff75245b9",
+        "bytes": 6463,
+        "sha256": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/db_worker_unit.rs",
+        "mode": "100644",
+        "gitBlob": "aa46ed7e544d27a8ce6f0bbcad2d81b4afe5eba8",
+        "bytes": 327,
+        "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident.rs",
+        "mode": "100644",
+        "gitBlob": "2ce58ccb0ed649edffa50e06997ca42ef2fc5d33",
+        "bytes": 13180,
+        "sha256": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident/coordination.rs",
+        "mode": "100644",
+        "gitBlob": "60517a0e0a2d06a62d9c07297e2574c16ba8db2f",
+        "bytes": 1097,
+        "sha256": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident/coverage.rs",
+        "mode": "100644",
+        "gitBlob": "76bd350ab03b13c7aa2b06b986e3b44ac6ff6628",
+        "bytes": 5572,
+        "sha256": "27502ce76b66ede028c87af92c6f398a8e359478da0eacce03e841526e97ea07",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident/identity.rs",
+        "mode": "100644",
+        "gitBlob": "391cb651455f46cb7929a6d9576f64f22ee2b20f",
+        "bytes": 5871,
+        "sha256": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident/lifecycle.rs",
+        "mode": "100644",
+        "gitBlob": "a40c7688259e9dedbb2a376af66de174bbb0d0f9",
+        "bytes": 4973,
+        "sha256": "ce417b8adb49af65ff79605bdddb7879896eafc363b00a11b38045f8768c5934",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident/provisioning.rs",
+        "mode": "100644",
+        "gitBlob": "7213aa7d4475d67e17bc43fca253ec8102826f7d",
+        "bytes": 7207,
+        "sha256": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/resident/schema.rs",
+        "mode": "100644",
+        "gitBlob": "3cb465106732d19125b92af098d8cbd92a53b0f0",
+        "bytes": 6081,
+        "sha256": "eeea4387e63373ccac880325a2bf1ca80da2907011c76dec1468b796ffaa3030",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/startup.rs",
+        "mode": "100644",
+        "gitBlob": "97dfe14bcafd5f74f259e0ff17b629a8040e562b",
+        "bytes": 5538,
+        "sha256": "992be2ff74b1d10cceababaa6cb726732ef0726a9b64c2f5901a71f6bcc33745",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/admission_load.rs",
+        "mode": "100644",
+        "gitBlob": "0e661435f39dad638b44aaabf37b915e3aa761b7",
+        "bytes": 7519,
+        "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/deadline_recovery.rs",
+        "mode": "100644",
+        "gitBlob": "c4db592b913aafafa3abe6f72d74b7268464e3fb",
+        "bytes": 2311,
+        "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/measurements.rs",
+        "mode": "100644",
+        "gitBlob": "5a60273c3d9630918532e0adc983bd416490bd2b",
+        "bytes": 8194,
+        "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/mod.rs",
+        "mode": "100644",
+        "gitBlob": "f29a0809c234006189d720f22d439ed846c57d00",
+        "bytes": 2230,
+        "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/native.rs",
+        "mode": "100644",
+        "gitBlob": "081739b51173aeba5f17fa8a01292948ffa05dc9",
+        "bytes": 2764,
+        "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/support/runtime.rs",
+        "mode": "100644",
+        "gitBlob": "b0c5338c239e6f7190390eb5ce4990009cb2f79c",
+        "bytes": 9834,
+        "sha256": "f7a22c665f955457d9c753f487c8e40afa17e0a7c98e874bd405361788960f44",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/transport_unit.rs",
+        "mode": "100644",
+        "gitBlob": "b465361a60ccf975f1220708c21774dd6983ac9f",
+        "bytes": 512,
+        "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-daemon/tests/worker_runtime.rs",
+        "mode": "100644",
+        "gitBlob": "b01545f4116dd77512f117a0a2815795a5ce997f",
+        "bytes": 12920,
+        "sha256": "8e9dcd0f00ffa0ffce506f12f5effbaa346571647a03022b5d54a423360a27b8",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/budget.rs",
+        "mode": "100644",
+        "gitBlob": "aba172d340035c8054be47f4d9e6deff2aaec9ef",
+        "bytes": 2097,
+        "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/coverage_tests.rs",
+        "mode": "100644",
+        "gitBlob": "18a9b78c71c43b19f53dcf8d1058ec877f4a9537",
+        "bytes": 1897,
+        "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/lexer.rs",
+        "mode": "100644",
+        "gitBlob": "80c54d8bfdcde6f4ca963fbcb4c21f99d950f570",
+        "bytes": 5584,
+        "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/lib.rs",
+        "mode": "100644",
+        "gitBlob": "961f897afbb0ba22c204acc59ca3f3621838112d",
+        "bytes": 2493,
+        "sha256": "5fa33846ff3f6ed68b81c787a2f77fcf790935c29a978b7ffe4633185e653614",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/parser.rs",
+        "mode": "100644",
+        "gitBlob": "9e497a39c97cd5a849c936f3116c9553fe89297f",
+        "bytes": 4535,
+        "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/rules.rs",
+        "mode": "100644",
+        "gitBlob": "b85bf88632a8b054ec2d2ac800e5b4957b560f12",
+        "bytes": 8753,
+        "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/tests.rs",
+        "mode": "100644",
+        "gitBlob": "3a50926e40f5f4b43cbbc8f053adf353de69b91f",
+        "bytes": 11473,
+        "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/src/types.rs",
+        "mode": "100644",
+        "gitBlob": "562fd3958a7f190d74983e9530b5313cfebd0d5a",
+        "bytes": 4874,
+        "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/tests/support/contract.rs",
+        "mode": "100644",
+        "gitBlob": "6fd3138a572712e23fe8990d717665a346af0ccf",
+        "bytes": 3846,
+        "sha256": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-detector/tests/support/ssh.rs",
+        "mode": "100644",
+        "gitBlob": "c8c19ea3c07de1175b8fc42cb77035619980498b",
+        "bytes": 6862,
+        "sha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/src/lib.rs",
+        "mode": "100644",
+        "gitBlob": "2f3fef92d816f9d741250a6930b0188fcac598b5",
+        "bytes": 11658,
+        "sha256": "57807b93f06693000117ca9ae12738e63e38ddfd8629b16aff3829ec17df7064",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/src/schema.rs",
+        "mode": "100644",
+        "gitBlob": "3c7feae3157de7b0ea43b00f95469a71f6315430",
+        "bytes": 2693,
+        "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/dispatch.rs",
+        "mode": "100644",
+        "gitBlob": "b4f65def9a9f532412f6577cf92c0f46e0841473",
+        "bytes": 2439,
+        "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/framing.rs",
+        "mode": "100644",
+        "gitBlob": "cb50a70b0769985a6509da52217489b8332b83f9",
+        "bytes": 3653,
+        "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/mod.rs",
+        "mode": "100644",
+        "gitBlob": "7f5fd842a5395567a050705d10f4897affa51935",
+        "bytes": 124,
+        "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/schema.rs",
+        "mode": "100644",
+        "gitBlob": "fe9fd60ca12b3d085898ba7b6d9b309ef451ba40",
+        "bytes": 5603,
+        "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/tests/classification.rs",
+        "mode": "100644",
+        "gitBlob": "68cdd17b618de217f7e6c294cc801508a892a686",
+        "bytes": 3951,
+        "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-ipc/tests/coverage.rs",
+        "mode": "100644",
+        "gitBlob": "736c261c332e9c4559baabb9d786f7312d5950cc",
+        "bytes": 9633,
+        "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/migrations/0001_phase0.sql",
+        "mode": "100644",
+        "gitBlob": "8d8e5d5eb4ea9706119c054dc77cdacbdb3725e8",
+        "bytes": 3917,
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/src/history.rs",
+        "mode": "100644",
+        "gitBlob": "aba5ec2c082f6405c0fc88ff411c4ee71221324b",
+        "bytes": 4730,
+        "sha256": "31bd31276df810465752cc9e1492f3c90dabde0f1209e99ae6b5ce9ccfc02a5f",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/src/lib.rs",
+        "mode": "100644",
+        "gitBlob": "5895eeb89e0739b1bb5c8ac4f5d42cafe93c94d5",
+        "bytes": 1868,
+        "sha256": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/src/migration.rs",
+        "mode": "100644",
+        "gitBlob": "e6c3f76d81184b67f67d3e8f0136b31a27aeb1a5",
+        "bytes": 5979,
+        "sha256": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/src/migration/tests.rs",
+        "mode": "100644",
+        "gitBlob": "8d258e61ffec6145780e60b94c71cd44e3f31c06",
+        "bytes": 4553,
+        "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/src/migration/tests/acceptance.rs",
+        "mode": "100644",
+        "gitBlob": "aa58a5fa4a736824cd53a8b0e631acf982331163",
+        "bytes": 7100,
+        "sha256": "60bd1084d6954b6ee47d8176620d702b705d922831937ac84e666007453ea10f",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/src/migration/tests/concurrency.rs",
+        "mode": "100644",
+        "gitBlob": "af11332ede93c5d614183b973d1ac8256551acb4",
+        "bytes": 5377,
+        "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/src/migration/tests/rejection.rs",
+        "mode": "100644",
+        "gitBlob": "e5d8716e5393b0c543b4a8583b124b1a78221793",
+        "bytes": 6250,
+        "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/tests/coverage.rs",
+        "mode": "100644",
+        "gitBlob": "883eca0ebfbc582d0c8db65860cf8a5babdd598a",
+        "bytes": 5666,
+        "sha256": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+        "localEqual": true
+      },
+      {
+        "path": "crates/arc-storage/tests/nfr010.rs",
+        "mode": "100644",
+        "gitBlob": "35fae26fa23b8f1bc7bfff75a7e24706a13dc157",
+        "bytes": 7743,
+        "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+        "localEqual": true
+      },
+      {
+        "path": "scripts/harness/validate.sh",
+        "mode": "100755",
+        "gitBlob": "d90f4626868bd1c6ccaed84200a8f23ac83eef0e",
+        "bytes": 20351,
+        "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+        "localEqual": true
+      }
+    ]
+  },
+  "inspection": {
+    "scopedDiffCommand": [
+      "git",
+      "diff",
+      "--name-status",
+      "HEAD",
+      "--",
+      ".arc-verify",
+      "scripts/coverage",
+      "docs/rust-coverage.md",
+      ".gitignore",
+      "crates",
+      "scripts/harness/validate.sh",
+      "Cargo.toml",
+      "Cargo.lock"
+    ],
+    "scopedDiffEmpty": true,
+    "globalDiffLimit": "Initial unrestricted git diff printed av.yaml: Operation not permitted. No bypass attempted; global cleanliness is not asserted.",
+    "codeSearch": "Serena tools absent from callable ALL_TOOLS metadata. No repository native code search used; known paths and Git/evidence metadata only."
+  },
+  "skillsUsed": [
+    "oma-architecture"
+  ],
+  "checksRun": "Read-only Git/blob/hash accounting and known-path coverage-flow inspection; no build, test suite, coverage collection or provisioning in task-1.",
+  "task1Checks": {
+    "checkedAtUtc": "2026-11-08T02:16:43.618267+00:00",
+    "outcome": "passed-task-specific-report-and-preservation-checks",
+    "rawManifestDigestMatches": true,
+    "all456RecordedLocalFilesStillPresentAndEqual": true,
+    "all84ProtectedPathsBytesAndModesEqual": true,
+    "crateRustPathSetEqualIncludingLocalUntrackedPaths": true,
+    "allSelectedSourceBlobHashesVerified": true,
+    "retainedCategoriesAnd24UniqueDestinationsVerified": true,
+    "documentedAccountingRecipeExit": 0,
+    "documentedAccountingRecipeOutput": "before\n.arc-verify/rust-coverage/ {'files': 927, 'bytes': 260548113}\n.arc-verify/ {'files': 2628, 'bytes': 278635154}\nindex at invocation\n.arc-verify/rust-coverage/ {'files': 927, 'bytes': 260548113}\n.arc-verify/ {'files': 2628, 'bytes': 278635154}\n",
+    "outsideOwnedReportsScopedDiffEmpty": true,
+    "nonignoredNewReportPaths": [
+      ".arc-verify/evidence-hygiene/baseline.json",
+      ".arc-verify/evidence-hygiene/retention.json",
+      ".arc-verify/evidence-hygiene/technical.md"
+    ],
+    "historyCommitObjectsStillAvailable": true,
+    "rawCoverageTargetDirectoryPresentAtCheck": false,
+    "missionTestsExecuted": false
+  }
+}

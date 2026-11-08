@@ -1,0 +1,219 @@
+{
+  "schemaVersion": 1,
+  "classification": "Historical",
+  "provenance": {
+    "originalPath": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/receipt.json",
+    "originalGitBlob": "662062de7221ec4ed0d01e40f9cab7e28f437dfa",
+    "originalSha256": "dedafa2ad054b77461a8cc5fc9a92bba46e9dabeb01be9700cf4d390904464ac",
+    "storageCommit": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+    "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+    "runId": "2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab",
+    "host": "aarch64-apple-darwin",
+    "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+    "started": "2026-11-08T01:44:40.486Z",
+    "ended": "2026-11-08T01:46:03.208Z"
+  },
+  "commands": [
+    {
+      "argv": [
+        "rustup",
+        "run",
+        "1.95.0",
+        "rustc",
+        "-Vv"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:44:40.486Z",
+      "ended": "2026-11-08T01:44:40.673Z",
+      "exit": 0,
+      "pid": 71775,
+      "stdoutSha256": "e61cba8ded8c60e985f759f74a221c4773649021477d00b44c7af411eb8c218c",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "rustup",
+        "run",
+        "1.95.0",
+        "cargo",
+        "llvm-cov",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:44:40.674Z",
+      "ended": "2026-11-08T01:44:40.750Z",
+      "exit": 0,
+      "pid": 71776,
+      "stdoutSha256": "efc57bc1d04870059ff6831e9722df3c7a41a6c19d78054dba6a432cff96b8d2",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "rustup",
+        "run",
+        "1.95.0",
+        "rustc",
+        "--print",
+        "sysroot"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:44:40.750Z",
+      "ended": "2026-11-08T01:44:40.829Z",
+      "exit": 0,
+      "pid": 71777,
+      "stdoutSha256": "8447996ff6219130082a00484ffe3e60346f249632a3c1673bb52a7f1987c900",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:44:40.829Z",
+      "ended": "2026-11-08T01:44:40.841Z",
+      "exit": 0,
+      "pid": 71778,
+      "stdoutSha256": "62aed1babfd5a0166ded8ade64763740e977a029af93f4aae43bc4ec2065c940",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:44:40.842Z",
+      "ended": "2026-11-08T01:44:40.855Z",
+      "exit": 0,
+      "pid": 71779,
+      "stdoutSha256": "62aed1babfd5a0166ded8ade64763740e977a029af93f4aae43bc4ec2065c940",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "rustup",
+        "run",
+        "1.95.0",
+        "cargo",
+        "metadata",
+        "--format-version",
+        "1",
+        "--locked",
+        "--offline"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:44:40.856Z",
+      "ended": "2026-11-08T01:44:41.040Z",
+      "exit": 0,
+      "pid": 71780,
+      "stdoutSha256": "460ff0d5065fc3f215c0eb4bfac7cd2e5b2ac5d532d8849cbdc4f0a2bc4f94dd",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "rustup",
+        "run",
+        "1.95.0",
+        "cargo",
+        "llvm-cov",
+        "--workspace",
+        "--all-targets",
+        "--locked",
+        "--offline",
+        "--no-report",
+        "--no-cfg-coverage",
+        "--no-cfg-coverage-nightly"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:44:41.051Z",
+      "ended": "2026-11-08T01:45:55.804Z",
+      "exit": 0,
+      "pid": 71782,
+      "stdoutSha256": "c56a82211104fcde2bb74b19e26a9f6faecf18bd3d4327261bc73a8ee555e66e",
+      "stderrSha256": "eb17d479a488771b622be2eb69de72bd0d5597de635409498b29246d8858c6db"
+    },
+    {
+      "argv": [
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/target/arc-coverage/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/debug/arcctl",
+        "--help"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:45:55.804Z",
+      "ended": "2026-11-08T01:45:55.810Z",
+      "exit": 0,
+      "pid": 75415,
+      "stdoutSha256": "aa2dccd29d7cf3624715603ba4d1e1be801686b3ea645503af05c40f78232fbe",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "argv": [
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/target/arc-coverage/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/debug/arc-daemon"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:45:55.812Z",
+      "ended": "2026-11-08T01:45:55.817Z",
+      "exit": 1,
+      "pid": 75416,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "d4726294a173639c0b3f0d1a4f7fbdf4e82902244ae9cb302396bb9f514d0c12"
+    },
+    {
+      "argv": [
+        "rustup",
+        "run",
+        "1.95.0",
+        "cargo",
+        "llvm-cov",
+        "report",
+        "--lcov",
+        "--output-path",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/raw.lcov",
+        "--failure-mode",
+        "any",
+        "--disable-default-ignore-filename-regex",
+        "--ignore-filename-regex",
+        "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+        "--verbose"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:45:55.819Z",
+      "ended": "2026-11-08T01:45:59.556Z",
+      "exit": 0,
+      "pid": 75417,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "0300fafcd98c19974649f53fa6810c26a30084fd30cf00c8e5085c2e88bff62d"
+    },
+    {
+      "argv": [
+        "rustup",
+        "run",
+        "1.95.0",
+        "cargo",
+        "llvm-cov",
+        "report",
+        "--json",
+        "--output-path",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/raw.json",
+        "--failure-mode",
+        "any",
+        "--disable-default-ignore-filename-regex",
+        "--ignore-filename-regex",
+        "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)",
+        "--verbose"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T01:45:59.556Z",
+      "ended": "2026-11-08T01:46:03.208Z",
+      "exit": 0,
+      "pid": 75618,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrSha256": "3ac84146d164bfc881c4df8d6f9f7037748fd097d4de9b9164deade526f41424"
+    }
+  ],
+  "runId": "2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab",
+  "pass": true,
+  "exit": 0,
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8"
+}

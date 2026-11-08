@@ -6,6 +6,8 @@ From the repository root, run:
 bun run test:coverage
 ```
 
+For retained historical receipts and amendment verification, use the [evidence index](../.arc-verify/evidence-hygiene/index.md). Current run reports are local and ignored by Git; a historical pass does not verify this checkout.
+
 The gate runs unit, integration and instrumented CLI/daemon tests across all six Rust crates. Each crate must reach **80% production-source line coverage**. This is a new engineering target, not an observed baseline or SRS threshold. A passing coverage run does not complete the separate Cargo, harness or independent QA requirements.
 
 ## Set up once
@@ -71,7 +73,7 @@ The unchanged harness may append inherited Vitest guidance. This root command me
 
 ## Reports and source identity
 
-The [latest-run pointer](../.arc-verify/rust-coverage/baseline/latest.json) identifies the most recent attempt and its pass/fail state. It updates on failure too. It is not a promise that the latest run passed. Use the directory printed by your invocation; older passing runs remain historical evidence.
+The local runtime pointer `.arc-verify/rust-coverage/baseline/latest.json` identifies the most recent attempt and its pass/fail state. It updates on failure too. It is not a promise that the latest run passed. The pointer and run directories are ignored and are absent in a clean checkout until collection. Use the directory printed by your invocation; older passing runs remain historical evidence.
 
 Each attempt has a unique directory under `.arc-verify/rust-coverage/baseline/runs/`. Files appear as their stage completes:
 
@@ -86,11 +88,28 @@ Each attempt has a unique directory under `.arc-verify/rust-coverage/baseline/ru
 | Numbered `*-command.json` files | Actual commands, working directories, times, PIDs, exits and captured output. |
 | `receipt.json` | Attempt verdict and command receipts, including failed attempts. |
 
+Run directories, profile directories, `.profraw`, `.profdata`, `.lcov` and native raw JSON exports are local evidence, not distributed tracked proof. Future CLI/harness acceptance receipts are also local under `.arc-verify/rust-coverage/tooling/acceptance/runs/`. Selected historical summaries, uncovered-line reports, compact receipts and verdicts remain available through the [evidence index](../.arc-verify/evidence-hygiene/index.md).
+
 Raw `.profraw` files and the merged profile stay under `target/arc-coverage/` in that run's unique target directory. The profile manifest records their exact location. A failed prerequisite may leave only inputs and a failed receipt; absent summaries mean measurement is unavailable.
 
-The accepted committed source baseline is `fbe76a5f15101ad415f355ef06f1deeb1f97d568`. A baseline label alone does not bind a measurement to later edits. The gate hashes crate sources, tests, manifests and migrations; Cargo.lock; root tool/package configuration; the machine-readable accounting contract; coverage scripts; and any root Cargo configuration/build script. It checks equal before/after input hashes and fresh report timestamps. Documentation files are outside that implementation-input fingerprint. Consult each run's input manifest for the actual measured bytes.
+The original accounting/preservation baseline remains `fbe76a5f15101ad415f355ef06f1deeb1f97d568`; existing report fields named `acceptedBaseline` retain that meaning. The evidence-hygiene amendment starts from accepted committed source `aacb3b4359f13c31c0705c0cffc5bf1ac00f387e`. Neither label binds a measurement to later edits. The gate hashes crate sources, tests, manifests and migrations; Cargo.lock; root tool/package configuration; the machine-readable accounting contract; coverage scripts; and any root Cargo configuration/build script. It checks equal before/after input hashes and fresh report timestamps. Documentation files are outside that implementation-input fingerprint. Consult each run's input manifest for the actual measured bytes.
 
 Native exports retain the collecting checkout's absolute source paths. Matching input hashes alone do not make copied reports replayable in another worktree. Run evidence checks in the collecting checkout, or collect a fresh run in the checkout being verified. Keep raw exports unchanged.
+
+## Verify current local evidence
+
+Collect in the checkout being verified, then run the live evidence check:
+
+```sh
+bun run test:coverage
+bun test scripts/coverage/evidence.test.ts
+```
+
+Run them in order after finishing implementation edits. The second command requires a successful latest run, matching current input hashes, unchanged native LCOV/LLVM JSON exports and actual profile bytes. It recomputes accounting, checks profile hashes and merge-list equality, and verifies CLI/daemon child PIDs. A retained summary or compact receipt cannot replace those inputs.
+
+If the pointer or reports are missing, collect coverage here. If the latest attempt failed, follow its diagnostic and rerun collection successfully. If inputs changed or reports are stale, finish edits and recollect; do not restore a passing pointer or copy historical exports. Native reports contain checkout-specific paths. Serialize coverage and harness collection in one checkout, then run the live evidence check after the last collection.
+
+The [clean-checkout check](../scripts/coverage/clean-checkout.test.ts), invoked with `bun test scripts/coverage/clean-checkout.test.ts`, separately creates an isolated checkout from the current Git index, verifies no prior run artifacts exist, collects coverage and checks native evidence there. Stage the intended implementation and retention changes first. Its local checkout and receipts stay available for inspection; a previous isolated pass does not verify later source changes. Hygiene checks separately enforce the retained set and exact amendment-baseline preservation.
 
 ## Production accounting
 
@@ -107,7 +126,7 @@ The run uses one workspace/all-targets instrumentation pass without coverage-onl
 
 ## Platform boundaries and remaining work
 
-The delivered measurement receipts record `aarch64-apple-darwin`, using the native host target. The gate admits Apple Darwin and Linux Rust hosts, rejects target overrides, and records the actual host in each summary. Admission of Linux is not evidence of a passing Linux measurement. Native Linux requires its own run; native Windows is not a supported gate host for the current Unix-socket CLI/daemon.
+The retained historical measurement receipts record `aarch64-apple-darwin`, using the native host target. The gate admits Apple Darwin and Linux Rust hosts, rejects target overrides, and records the actual host in each summary. Admission of Linux is not evidence of a passing Linux measurement. Native Linux requires its own run; native Windows is not a supported gate host for the current Unix-socket CLI/daemon.
 
 Inactive cfg branches are inventoried production source, but the host compiler does not map them into this run's executable denominator. They are **unmeasured**, not covered. Relevant inactive paths on macOS include:
 

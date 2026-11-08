@@ -5,7 +5,7 @@ import { inputIdentity } from "./source";
 import { EVIDENCE } from "./config";
 export const root=resolve(import.meta.dir,"../..");
 export async function realAcceptance(name:string,argv:string[]) {
-  const dir=resolve(root,EVIDENCE,"tooling/acceptance",`${name}-${crypto.randomUUID()}`);
+  const dir=resolve(root,EVIDENCE,"tooling/acceptance/runs",`${name}-${crypto.randomUUID()}`);
   mkdirSync(dir,{recursive:true});
   const before=inputIdentity(root);
   const env={...process.env};delete env.SKIP_COVERAGE;

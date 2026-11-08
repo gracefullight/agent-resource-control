@@ -1,0 +1,103 @@
+[
+  {
+    "classification": "Fresh task-2 preliminary checks, not mission acceptance",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/hygiene.test.ts",
+      "scripts/coverage/hygiene-preservation.test.ts",
+      "scripts/coverage/gate.test.ts",
+      "scripts/coverage/accounting.test.ts",
+      "scripts/coverage/preservation.test.ts"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+    "started": "2026-11-08T02:39:22.924054+00:00",
+    "ended": "2026-11-08T02:39:29.206480+00:00",
+    "elapsedSeconds": 6.282215207989793,
+    "exit": 1,
+    "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+    "stderrSha256": "0a8446b82d9bf8e38b67424439e64e3642b5f87fddcb8d8df157e45866af08ca",
+    "stdoutPath": "target/evidence-hygiene/task-2/runs/focused-1.stdout",
+    "stderrPath": "target/evidence-hygiene/task-2/runs/focused-1.stderr"
+  },
+  {
+    "classification": "Fresh task-2 preliminary checks, not mission acceptance",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/hygiene.test.ts",
+      "scripts/coverage/hygiene-preservation.test.ts",
+      "scripts/coverage/gate.test.ts",
+      "scripts/coverage/accounting.test.ts",
+      "scripts/coverage/preservation.test.ts"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+    "started": "2026-11-08T02:39:52.103478+00:00",
+    "ended": "2026-11-08T02:39:58.263946+00:00",
+    "elapsedSeconds": 6.16029199998593,
+    "exit": 0,
+    "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+    "stderrSha256": "f41e02b6248de37782abfb65abe0d88bee8f268050b5b1a5b36469abae6067bb",
+    "stdoutPath": "target/evidence-hygiene/task-2/runs/focused-2.stdout",
+    "stderrPath": "target/evidence-hygiene/task-2/runs/focused-2.stderr"
+  },
+  {
+    "classification": "Fresh task-2 preliminary checks, not mission acceptance",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/hygiene.test.ts",
+      "scripts/coverage/hygiene-preservation.test.ts",
+      "scripts/coverage/gate.test.ts",
+      "scripts/coverage/accounting.test.ts",
+      "scripts/coverage/preservation.test.ts"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+    "started": "2026-11-08T02:41:02.697280+00:00",
+    "ended": "2026-11-08T02:41:08.899474+00:00",
+    "elapsedSeconds": 6.201969166984782,
+    "exit": 0,
+    "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+    "stderrSha256": "00e5ab0928cd4eae6e844957fe703f46703446848f2dccb88a80420c37a86d7e",
+    "stdoutPath": "target/evidence-hygiene/task-2/runs/focused-3.stdout",
+    "stderrPath": "target/evidence-hygiene/task-2/runs/focused-3.stderr"
+  },
+  {
+    "classification": "Fresh task-2 preliminary checks, not mission acceptance",
+    "argv": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "fetch",
+      "--locked",
+      "--offline"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+    "started": "2026-11-08T02:41:08.899884+00:00",
+    "ended": "2026-11-08T02:41:09.301465+00:00",
+    "elapsedSeconds": 0.4015870410075877,
+    "exit": 0,
+    "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdoutPath": "target/evidence-hygiene/task-2/runs/offline-prerequisites.stdout",
+    "stderrPath": "target/evidence-hygiene/task-2/runs/offline-prerequisites.stderr"
+  },
+  {
+    "classification": "Fresh task-2 preliminary clean-checkout verification, not final mission acceptance",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/clean-checkout.test.ts"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+    "started": "2026-11-08T02:41:24.954318+00:00",
+    "ended": "2026-11-08T02:42:54.884126+00:00",
+    "elapsedSeconds": 89.92883158300538,
+    "exit": 0,
+    "stdoutSha256": "a9119099220ffdc0ae6e16c0a8c50a6aab964988b3d0b1bc83006a69b271d6d5",
+    "stderrSha256": "a50da5ee74f88e90375196bdf5dcc22faebfd6986278f19bdf3edaf7bee735df",
+    "stdoutPath": "target/evidence-hygiene/task-2/runs/clean-checkout-1.stdout",
+    "stderrPath": "target/evidence-hygiene/task-2/runs/clean-checkout-1.stderr"
+  }
+]

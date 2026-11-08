@@ -1,9 +1,0 @@
-   Compiling arc-daemon v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.02s
-     Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)
-
-running 1 test
-test runtime_report::tests::invalid_report_names_fail_before_creating_a_file ... ok
-
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 58 filtered out; finished in 0.00s
-

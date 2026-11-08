@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "classification": "Fresh index-only retention operation, not coverage verification",
+  "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+  "measuredAt": "2026-11-08T02:39:10.882684+00:00",
+  "retentionContractSha256": "809b2cd13df460a0ad11afebdb818f60d216e8bff001998fa0b5687fb9053115",
+  "baselineManifest": {
+    "manifest": "target/evidence-hygiene/baseline-local-manifest.json",
+    "manifestSha256": "c7aa81c97561770a8317efaa23ea2f89c4143660f4f558bd0012a899916c41c0",
+    "manifestBytes": 773326,
+    "rawFiles": {
+      "files": 456,
+      "bytes": 252272711
+    },
+    "rawRecordsSha256": "905d979bb042767a913f30875862196b02ab3a53c545c96ffc74e8efcfd7acec",
+    "errors": [],
+    "ignoreCommand": [
+      "git",
+      "check-ignore",
+      "--no-index",
+      "--verbose",
+      "target/evidence-hygiene/baseline-local-manifest.json"
+    ],
+    "ignoreExit": 0,
+    "ignoreOutput": ".gitignore:11:/target/\ttarget/evidence-hygiene/baseline-local-manifest.json",
+    "integrationRequirement": "Keep the manifest and every recorded local path in this mission worktree; git rm --cached never filesystem removal; after integration hash each recorded path and compare bytes and SHA-256 before signing local-preservation.json. Manifest contains classified path inventory; never git add it."
+  },
+  "removedIndexFiles": 908,
+  "removedPathsSha256": "870a312e5e436a05ad5101dc4dde42910254649983e3e1817c8c7c591c87cb60",
+  "operation": [
+    "git",
+    "rm",
+    "--cached",
+    "--quiet",
+    "--ignore-unmatch",
+    "--pathspec-from-file=-",
+    "--pathspec-file-nul"
+  ],
+  "localFilesPreserved": true,
+  "localRawFilesVerified": 456,
+  "localRawBytesVerified": 252272711,
+  "selectedFiles": 24,
+  "selectedDestinations": [
+    ".arc-verify/rust-coverage/baseline/first-measurement.json",
+    ".arc-verify/rust-coverage/baseline/first-measurement.md",
+    ".arc-verify/rust-coverage/contract/accounting.json",
+    ".arc-verify/rust-coverage/contract/accounting.md",
+    ".arc-verify/rust-coverage/contract/preservation-references.json",
+    ".arc-verify/rust-coverage/contract/source-inventory.json",
+    ".arc-verify/rust-coverage/final-summary.json",
+    ".arc-verify/rust-coverage/final.md",
+    ".arc-verify/rust-coverage/historical/accepted-head-commands.json",
+    ".arc-verify/rust-coverage/historical/accepted-head-summary.json",
+    ".arc-verify/rust-coverage/historical/accepted-head-uncovered.md",
+    ".arc-verify/rust-coverage/historical/accepted-head-versions.json",
+    ".arc-verify/rust-coverage/historical/repair-4-commands.json",
+    ".arc-verify/rust-coverage/integration/repair-4/acceptance.json",
+    ".arc-verify/rust-coverage/integration/repair-4/report.md",
+    ".arc-verify/rust-coverage/library/report.md",
+    ".arc-verify/rust-coverage/process/recovery.md",
+    ".arc-verify/rust-coverage/process/report.md",
+    ".arc-verify/rust-coverage/process/uncovered.md",
+    ".arc-verify/rust-coverage/qa/driver-probes.json",
+    ".arc-verify/rust-coverage/qa/omission-audit.json",
+    ".arc-verify/rust-coverage/qa/reconciliation.json",
+    ".arc-verify/rust-coverage/qa/review.json",
+    ".arc-verify/rust-coverage/qa/review.md"
+  ],
+  "historyPreserved": true,
+  "integrationRequirement": "Keep this raw-bearing workspace and ignored manifest. Do not checkout/reset staged-deleted paths. Recheck all original manifest records after integration; a raw-free clone cannot prove original-local preservation.",
+  "finalLocalRecheck": {
+    "at": "2026-11-08T02:43:58.010039+00:00",
+    "allRemovedFilesVerified": 908,
+    "allRemovedLocalBytesVerified": 260184384,
+    "rawFilesVerified": 456,
+    "rawFilesPreserved": true,
+    "historyPreserved": true,
+    "manifestSha256": "c7aa81c97561770a8317efaa23ea2f89c4143660f4f558bd0012a899916c41c0"
+  },
+  "before": {
+    "rustCoverage": {
+      "files": 927,
+      "bytes": 260548113
+    },
+    "allArcVerify": {
+      "files": 2628,
+      "bytes": 278635154
+    }
+  },
+  "afterScope": "Task-2 final index checkpoint, including its reports and task-1 inputs. Downstream additions require new final accounting.",
+  "after": {
+    "rustCoverage": {
+      "files": 24,
+      "bytes": 475720
+    },
+    "allArcVerify": {
+      "files": 1732,
+      "bytes": 18659837
+    },
+    "newEvidenceHygieneFiles": 7,
+    "prohibitedArtifacts": 0
+  }
+}

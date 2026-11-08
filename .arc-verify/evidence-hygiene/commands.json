@@ -1,0 +1,2893 @@
+{
+  "schemaVersion": 1,
+  "classification": "Fresh task-5 completed command evidence; historical failed attempts retained; independent QA and Chief acceptance downstream",
+  "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+  "accountingBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "started": "2026-11-08T02:54:31.874399+00:00",
+  "missionBudget": {
+    "executionStartedAt": "2026-11-08T02:07:29.971Z",
+    "absoluteDeadline": "2026-11-09T02:07:29.971000+00:00",
+    "policy": {
+      "maxParallel": 3,
+      "maxDurationSec": 86400,
+      "maxRuns": 200,
+      "maxRetries": 3,
+      "retryDelayMs": 1000,
+      "autoResume": true
+    },
+    "spentAtAdmission": {
+      "startedAt": "2026-11-08T02:07:29.971Z",
+      "runsStarted": 26,
+      "retries": 0,
+      "progressKey": "d161b207187c9678531b62d87b0ddcbb7f2344eae1ac710d220d799380f2a67c",
+      "interventionAt": "2026-11-08T02:31:05.230Z"
+    },
+    "taskAttempt": 2,
+    "reset": false
+  },
+  "host": {
+    "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "cpuCount": 8,
+    "freeDiskBytes": 79462400000
+  },
+  "commands": [
+    {
+      "label": "mise-tasks",
+      "argv": [
+        "mise",
+        "tasks",
+        "--all"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.092733+00:00",
+      "ended": "2026-11-08T02:54:32.145102+00:00",
+      "elapsedSeconds": 0.052,
+      "exit": 0,
+      "pid": 16319,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/00-mise-tasks.stdout",
+      "stdoutSha256": "760fcefae3f5b1e6a78602c21147bc97d888a09006e317ca0d8d10507994c3c8",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/00-mise-tasks.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "bun-version",
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.146792+00:00",
+      "ended": "2026-11-08T02:54:32.160725+00:00",
+      "elapsedSeconds": 0.014,
+      "exit": 0,
+      "pid": 16324,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/01-bun-version.stdout",
+      "stdoutSha256": "d03d8b268b4171328ac2458ce8ca82d69a1fde38469d4e4faae4f8fa8d8a5e35",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/01-bun-version.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "rustc-version",
+      "argv": [
+        "rustc",
+        "-Vv"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.162605+00:00",
+      "ended": "2026-11-08T02:54:32.361461+00:00",
+      "elapsedSeconds": 0.199,
+      "exit": 0,
+      "pid": 16327,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/02-rustc-version.stdout",
+      "stdoutSha256": "e61cba8ded8c60e985f759f74a221c4773649021477d00b44c7af411eb8c218c",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/02-rustc-version.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "cargo-version",
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.363011+00:00",
+      "ended": "2026-11-08T02:54:32.448084+00:00",
+      "elapsedSeconds": 0.085,
+      "exit": 0,
+      "pid": 16346,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/03-cargo-version.stdout",
+      "stdoutSha256": "c10ec31b8c6e6e2693cf65fc1971b41edbc3da1ae7db6f9f3f36c4823f8dcab5",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/03-cargo-version.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "llvm-cov-version",
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.449684+00:00",
+      "ended": "2026-11-08T02:54:32.535272+00:00",
+      "elapsedSeconds": 0.086,
+      "exit": 0,
+      "pid": 16353,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/04-llvm-cov-version.stdout",
+      "stdoutSha256": "efc57bc1d04870059ff6831e9722df3c7a41a6c19d78054dba6a432cff96b8d2",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/04-llvm-cov-version.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "rust-components",
+      "argv": [
+        "rustup",
+        "component",
+        "list",
+        "--installed",
+        "--toolchain",
+        "1.95.0"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.537890+00:00",
+      "ended": "2026-11-08T02:54:32.584738+00:00",
+      "elapsedSeconds": 0.047,
+      "exit": 0,
+      "pid": 16366,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/05-rust-components.stdout",
+      "stdoutSha256": "63a177dbe55c26eb3458c535e985384f8f639a9d9dbf0167040ee8879db8dbc1",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/05-rust-components.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "offline-dependencies",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked",
+        "--offline"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.586605+00:00",
+      "ended": "2026-11-08T02:54:32.795709+00:00",
+      "elapsedSeconds": 0.209,
+      "exit": 0,
+      "pid": 16371,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/06-offline-dependencies.stdout",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/06-offline-dependencies.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "llvm-cov-version",
+      "argv": [
+        "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.871589+00:00",
+      "ended": "2026-11-08T02:54:32.894705+00:00",
+      "elapsedSeconds": 0.023,
+      "exit": 0,
+      "pid": 16401,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/07-llvm-cov-version.stdout",
+      "stdoutSha256": "62aed1babfd5a0166ded8ade64763740e977a029af93f4aae43bc4ec2065c940",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/07-llvm-cov-version.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "llvm-profdata-version",
+      "argv": [
+        "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "started": "2026-11-08T02:54:32.896376+00:00",
+      "ended": "2026-11-08T02:54:32.918409+00:00",
+      "elapsedSeconds": 0.022,
+      "exit": 0,
+      "pid": 16404,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": null,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/08-llvm-profdata-version.stdout",
+      "stdoutSha256": "62aed1babfd5a0166ded8ade64763740e977a029af93f4aae43bc4ec2065c940",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/08-llvm-profdata-version.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "coverage",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:54:34.430903+00:00",
+      "ended": "2026-11-08T02:55:59.404985+00:00",
+      "elapsedSeconds": 84.974,
+      "exit": 0,
+      "pid": 16574,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/09-coverage.stdout",
+      "stdoutSha256": "ba3f38aba3b0fc4f178315a3232f0ee2c43012414b8d6ca69567e36ec4e0f337",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/09-coverage.stderr",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "gate-accounting-preservation",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:55:59.441954+00:00",
+      "ended": "2026-11-08T02:56:01.382596+00:00",
+      "elapsedSeconds": 1.941,
+      "exit": 0,
+      "pid": 22314,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/10-gate-accounting-preservation.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/10-gate-accounting-preservation.stderr",
+      "stderrSha256": "613fc7d7b5caa562076a62c32c55026d6a611bb550d87849d482f617444a953e",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "hygiene",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:56:01.415472+00:00",
+      "ended": "2026-11-08T02:56:02.238143+00:00",
+      "elapsedSeconds": 0.823,
+      "exit": 0,
+      "pid": 22413,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/11-hygiene.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/11-hygiene.stderr",
+      "stderrSha256": "9898fb318342cad43a908d23c354bd8bdddd2da47beaabc4b2ab2b3065041529",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "hygiene-preservation",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene-preservation.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:56:02.272495+00:00",
+      "ended": "2026-11-08T02:56:05.974513+00:00",
+      "elapsedSeconds": 3.702,
+      "exit": 0,
+      "pid": 22450,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/12-hygiene-preservation.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/12-hygiene-preservation.stderr",
+      "stderrSha256": "0787fa720efa26b53621b42fdca90cd423660741e905d5f70d811370db49e219",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "clean-checkout",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:56:06.009790+00:00",
+      "ended": "2026-11-08T02:57:33.774295+00:00",
+      "elapsedSeconds": 87.764,
+      "exit": 0,
+      "pid": 22751,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/13-clean-checkout.stdout",
+      "stdoutSha256": "853cb8488fe8d71aae536eedc8ef0e0f765ceb6c7040ec261d2dd13790a1e7f1",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/13-clean-checkout.stderr",
+      "stderrSha256": "cc93e4435975db313ee53974001818f7c4733e8ea46256404c2260339f31b827",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "coverage-cli",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:57:33.809839+00:00",
+      "ended": "2026-11-08T02:58:57.210343+00:00",
+      "elapsedSeconds": 83.404,
+      "exit": 0,
+      "pid": 25523,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/14-coverage-cli.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/14-coverage-cli.stderr",
+      "stderrSha256": "e3ac251433164d425e017f662b4052f809998031b5f5503f35914233ad2814bc",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "harness-wrapper",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:58:57.247377+00:00",
+      "ended": "2026-11-08T03:00:57.262111+00:00",
+      "elapsedSeconds": 120.016,
+      "exit": -15,
+      "pid": 27986,
+      "timeoutSeconds": 120,
+      "timedOut": true,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/15-harness-wrapper.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/15-harness-wrapper.stderr",
+      "stderrSha256": "500bc3eebe011d1c447d5919e5de0c5e87d2fe29a9457644ce85989e2525cd13",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:00:57.300926+00:00",
+      "ended": "2026-11-08T03:00:57.612072+00:00",
+      "elapsedSeconds": 0.311,
+      "exit": 0,
+      "pid": 57137,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/16-fmt.stdout",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/16-fmt.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:00:57.645858+00:00",
+      "ended": "2026-11-08T03:01:08.345782+00:00",
+      "elapsedSeconds": 10.7,
+      "exit": 0,
+      "pid": 57142,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/17-clippy.stdout",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/17-clippy.stderr",
+      "stderrSha256": "706e178c50afbc6b94b7319146f46668f7d58da01e320740d0ecb9ca14d7aec7",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "workspace-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:01:08.394884+00:00",
+      "ended": "2026-11-08T03:02:24.503725+00:00",
+      "elapsedSeconds": 76.109,
+      "exit": 0,
+      "pid": 57699,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/18-workspace-test.stdout",
+      "stdoutSha256": "2bae0121989667378ff11dc7bc56c657ee6accf9e6ac03e022d6fff97c35f8f5",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/18-workspace-test.stderr",
+      "stderrSha256": "37892e617d72fc5868a9b6d1339b17c09715b30eb64359613c0831eed998282f",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "harness",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:02:24.616742+00:00",
+      "ended": "2026-11-08T03:04:24.624001+00:00",
+      "elapsedSeconds": 120.007,
+      "exit": -15,
+      "pid": 60270,
+      "timeoutSeconds": 120,
+      "timedOut": true,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/19-harness.stdout",
+      "stdoutSha256": "d44ef1d5b85f3f3404f63c28871c39a879e7df5b097f049821c7455c6f72e827",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/19-harness.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "evidence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:04:24.729417+00:00",
+      "ended": "2026-11-08T03:04:25.640875+00:00",
+      "elapsedSeconds": 0.911,
+      "exit": 0,
+      "pid": 1768,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/20-evidence.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/20-evidence.stderr",
+      "stderrSha256": "68c4708ba722468ff3d60d01d676b65514a296ed78b22b2a06388e99651be2e2",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "recovery-3-evidence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:09:39.549936+00:00",
+      "ended": "2026-11-08T03:09:40.480431+00:00",
+      "elapsedSeconds": 0.93,
+      "exit": 0,
+      "pid": 11929,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-3/evidence.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-3/evidence.stderr",
+      "stderrSha256": "6ed10a326113c0a907942f3b600c9b542e7dc823bb1ed00c6e6594f1f70bec0e"
+    },
+    {
+      "label": "recovery-4-hygiene",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:13:49.999037+00:00",
+      "ended": "2026-11-08T03:13:51.086263+00:00",
+      "elapsedSeconds": 1.087,
+      "exit": 0,
+      "pid": 17911,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene.stdout",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene.stderr",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "affbc59b2546d0ed0afd07ce0370b2adef3860cb7c70e1cdd30e4396915d8bac"
+    },
+    {
+      "label": "recovery-4-hygiene-preservation",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene-preservation.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:13:51.086760+00:00",
+      "ended": "2026-11-08T03:13:55.286188+00:00",
+      "elapsedSeconds": 4.199,
+      "exit": 0,
+      "pid": 17951,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene-preservation.stdout",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene-preservation.stderr",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "cac93d31d7a527a96801bb6e1afe4765c5aaa7f704901110cb33e72a2a8b71d4"
+    },
+    {
+      "label": "recovery-4-evidence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:13:55.286766+00:00",
+      "ended": "2026-11-08T03:13:56.066830+00:00",
+      "elapsedSeconds": 0.78,
+      "exit": 0,
+      "pid": 18347,
+      "timeoutSeconds": 120,
+      "timedOut": false,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/evidence.stdout",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/evidence.stderr",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrSha256": "aa5ad047b4175fa2e5676f3c072bfa293ad5836f8c976886cb0b0cf0cd5a7870"
+    },
+    {
+      "label": "recovery-6-harness-wrapper",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:33:21.401220+00:00",
+      "ended": "2026-11-08T03:37:15.546419+00:00",
+      "elapsedSeconds": 234.146,
+      "exit": 0,
+      "pid": 47322,
+      "timeoutSeconds": 1020,
+      "effectiveDeadlineCappedSeconds": 1020,
+      "timedOut": false,
+      "rootWaitConfirmed": true,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness-wrapper.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness-wrapper.stderr",
+      "stderrSha256": "e6ff0494fd52770263d321e84d98564d56fd1f7c9edb6538dee4d0540a3ef7f7",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "recovery-6-harness",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:37:15.630692+00:00",
+      "ended": "2026-11-08T03:40:46.960375+00:00",
+      "elapsedSeconds": 211.329,
+      "exit": 0,
+      "pid": 82052,
+      "timeoutSeconds": 1020,
+      "effectiveDeadlineCappedSeconds": 1020,
+      "timedOut": false,
+      "rootWaitConfirmed": true,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness.stdout",
+      "stdoutSha256": "c3b68f380b48f74132589e9c2787fae319fd825a9db7b0a45345ab9e3149a983",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness.stderr",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+      "sourceUnchanged": true
+    },
+    {
+      "label": "recovery-6-evidence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:40:47.143343+00:00",
+      "ended": "2026-11-08T03:40:49.839236+00:00",
+      "elapsedSeconds": 2.696,
+      "exit": 0,
+      "pid": 23571,
+      "timeoutSeconds": 120,
+      "effectiveDeadlineCappedSeconds": 120,
+      "timedOut": false,
+      "rootWaitConfirmed": true,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/evidence.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/evidence.stderr",
+      "stderrSha256": "c21a77bf9a15c3a9317c71b2bbf82ba7277aa60bdd72accd3ab14cc83d7fde4f",
+      "sourceUnchanged": true
+    }
+  ],
+  "integration": [
+    {
+      "path": ".arc-verify/evidence-hygiene/documentation.md",
+      "bytes": 12149,
+      "sha256": "1af1b77d5e0427137915c7fbf4525bf55c2b67cc50b0513ee1c4f77e5afc3d0a",
+      "deliveryBlob": "ece694fb786cb16f06cbcf7ce6ca7b01c070830f",
+      "deliveryTree": "875f5f29a6ced92a7f55aa53dd69f584c4a021be",
+      "deliveryStatus": "applied",
+      "indexMatches": true
+    },
+    {
+      "path": ".arc-verify/evidence-hygiene/index.md",
+      "bytes": 9576,
+      "sha256": "d36c233ee7bdfb94714019e8a855aedc24f69a54762801a411c059715dbb3f20",
+      "deliveryBlob": "f7911e0e79aa9b1584917f01b36266a58eb805a9",
+      "deliveryTree": "875f5f29a6ced92a7f55aa53dd69f584c4a021be",
+      "deliveryStatus": "applied",
+      "indexMatches": true
+    },
+    {
+      "path": "docs/rust-coverage.md",
+      "bytes": 14341,
+      "sha256": "ba853422508f7db0e8ccf472f08b42187e270de0637cba5796f21f8fb728a7c2",
+      "deliveryBlob": "242102639d5bd8ca972fa1706cb075906c05628c",
+      "deliveryTree": "875f5f29a6ced92a7f55aa53dd69f584c4a021be",
+      "deliveryStatus": "applied",
+      "indexMatches": true
+    },
+    {
+      "path": ".arc-verify/evidence-hygiene/claims.md",
+      "bytes": 14207,
+      "sha256": "e472845c01204ed50af24ebd173dc6469284dcf46c0bff69063eb83c4bc74d51",
+      "deliveryBlob": "5ce48385e0497a1702da1e8c97641d861f5f5592",
+      "deliveryTree": "cc70db2925ceaf89468b66c5469b65a2038607ac",
+      "deliveryStatus": "applied",
+      "indexMatches": true
+    }
+  ],
+  "environment": {
+    "SKIP_COVERAGE": "unset",
+    "CARGO_NET_OFFLINE": "true",
+    "CARGO_TERM_COLOR": "never",
+    "toolPaths": {
+      "bun": "/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin/bun",
+      "cargo": "/Users/gracefullight/.cargo/bin/cargo",
+      "rustc": "/Users/gracefullight/.cargo/bin/rustc",
+      "rustup": "/Users/gracefullight/.cargo/bin/rustup",
+      "mise": "/opt/homebrew/bin/mise",
+      "git": "/opt/homebrew/bin/git",
+      "python3": "/Users/gracefullight/.local/share/mise/installs/python/3.14/bin/python3"
+    }
+  },
+  "snapshotTree": "6903568319eae73e7518909e54d410379d94dbc1",
+  "rustcIdentity": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+  "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+  "precollection": {
+    "checkedAt": "2026-11-08T02:54:34.343209+00:00",
+    "priorArtifacts": [],
+    "targetAbsent": true,
+    "runAndProfileDirectoriesAbsent": true,
+    "runtimeLatestAbsent": true,
+    "inheritedIgnoredFilesCopied": false
+  },
+  "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+  "inputFiles": {
+    ".arc-verify/rust-coverage/contract/accounting.json": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb",
+    "Cargo.lock": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+    "Cargo.toml": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+    "crates/arc-cli/Cargo.toml": "62de866471b2d2609a84d71b1b3e2b7a7be421f79966097a799927bd3e45e00b",
+    "crates/arc-cli/src/classify.rs": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+    "crates/arc-cli/src/doctor.rs": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+    "crates/arc-cli/src/main.rs": "62005310d32c69f201a4f7798492418c03d3338fc6a940024b98d3c0fdda897b",
+    "crates/arc-cli/tests/binary.rs": "fcdf17704312c735e33af4b8cc9947abbecc06ef1205f3a81c551fe0c9fe8da3",
+    "crates/arc-cli/tests/classification.rs": "0ba8a5ffcb0cdd54d5299941d61926e8bf4f5b358764219a25c4a205efbd6515",
+    "crates/arc-cli/tests/schema.rs": "d63b9f3ec80835ede61caf740c5a632a54df91d600a35b019fcff7270eb29a5a",
+    "crates/arc-core/Cargo.toml": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+    "crates/arc-core/src/lib.rs": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+    "crates/arc-core/tests/coverage.rs": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+    "crates/arc-core/tests/runtime.rs": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+    "crates/arc-daemon/Cargo.toml": "05b6537910cc4737501c26ba0ea5a89a17f76944c5e19936065c30a0299f75e0",
+    "crates/arc-daemon/src/accept_recovery.rs": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+    "crates/arc-daemon/src/accept_recovery_tests.rs": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+    "crates/arc-daemon/src/admission.rs": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+    "crates/arc-daemon/src/connection.rs": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
+    "crates/arc-daemon/src/database_failure_tests.rs": "4851a2c1f7630492d9878c624fd5590cffaf1dc79dfacde74fa1dac57351183d",
+    "crates/arc-daemon/src/db_worker.rs": "7784ea662d806d458fe9c878cdf0a127a64c34d5c6bf290d962fd54eb1e5223d",
+    "crates/arc-daemon/src/db_worker/execution.rs": "ef135ed9b956b12cdea1ca93f3bc2260897d78d25b4a732577ed250875753ff0",
+    "crates/arc-daemon/src/db_worker/schema_tests.rs": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+    "crates/arc-daemon/src/db_worker/tests.rs": "ad4d62631f91287b298ae5314930f82a96f69d2facfa8d13d2837104827e2728",
+    "crates/arc-daemon/src/instance.rs": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+    "crates/arc-daemon/src/lifecycle.rs": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+    "crates/arc-daemon/src/lifecycle_tests.rs": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+    "crates/arc-daemon/src/limits.rs": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+    "crates/arc-daemon/src/main.rs": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+    "crates/arc-daemon/src/platform.rs": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+    "crates/arc-daemon/src/runtime_metrics.rs": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+    "crates/arc-daemon/src/runtime_report.rs": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+    "crates/arc-daemon/src/runtime_report_tests.rs": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+    "crates/arc-daemon/src/server.rs": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+    "crates/arc-daemon/src/server_tests.rs": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+    "crates/arc-daemon/src/transport.rs": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+    "crates/arc-daemon/src/transport_test_support.rs": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+    "crates/arc-daemon/src/transport_tests.rs": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+    "crates/arc-daemon/tests/bounded.rs": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+    "crates/arc-daemon/tests/classification.rs": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
+    "crates/arc-daemon/tests/classification/boundaries.rs": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
+    "crates/arc-daemon/tests/classification/privacy.rs": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
+    "crates/arc-daemon/tests/classification/saturation.rs": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
+    "crates/arc-daemon/tests/db_worker_unit.rs": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+    "crates/arc-daemon/tests/resident.rs": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486",
+    "crates/arc-daemon/tests/resident/coordination.rs": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
+    "crates/arc-daemon/tests/resident/coverage.rs": "27502ce76b66ede028c87af92c6f398a8e359478da0eacce03e841526e97ea07",
+    "crates/arc-daemon/tests/resident/identity.rs": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
+    "crates/arc-daemon/tests/resident/lifecycle.rs": "ce417b8adb49af65ff79605bdddb7879896eafc363b00a11b38045f8768c5934",
+    "crates/arc-daemon/tests/resident/provisioning.rs": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
+    "crates/arc-daemon/tests/resident/schema.rs": "eeea4387e63373ccac880325a2bf1ca80da2907011c76dec1468b796ffaa3030",
+    "crates/arc-daemon/tests/startup.rs": "992be2ff74b1d10cceababaa6cb726732ef0726a9b64c2f5901a71f6bcc33745",
+    "crates/arc-daemon/tests/support/admission_load.rs": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+    "crates/arc-daemon/tests/support/measurements.rs": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+    "crates/arc-daemon/tests/support/mod.rs": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+    "crates/arc-daemon/tests/support/native.rs": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+    "crates/arc-daemon/tests/support/runtime.rs": "f7a22c665f955457d9c753f487c8e40afa17e0a7c98e874bd405361788960f44",
+    "crates/arc-daemon/tests/transport_unit.rs": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+    "crates/arc-daemon/tests/worker_runtime.rs": "8e9dcd0f00ffa0ffce506f12f5effbaa346571647a03022b5d54a423360a27b8",
+    "crates/arc-detector/Cargo.toml": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab",
+    "crates/arc-detector/src/budget.rs": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+    "crates/arc-detector/src/coverage_tests.rs": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+    "crates/arc-detector/src/lexer.rs": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+    "crates/arc-detector/src/lib.rs": "5fa33846ff3f6ed68b81c787a2f77fcf790935c29a978b7ffe4633185e653614",
+    "crates/arc-detector/src/parser.rs": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+    "crates/arc-detector/src/rules.rs": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+    "crates/arc-detector/src/tests.rs": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+    "crates/arc-detector/src/types.rs": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+    "crates/arc-detector/tests/support/contract.rs": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+    "crates/arc-detector/tests/support/ssh.rs": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+    "crates/arc-ipc/Cargo.toml": "1448e14d83c9cf6fe162a68c35aaa14d603c910079992e0c5de48c5af004398a",
+    "crates/arc-ipc/src/lib.rs": "57807b93f06693000117ca9ae12738e63e38ddfd8629b16aff3829ec17df7064",
+    "crates/arc-ipc/src/schema.rs": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+    "crates/arc-ipc/src/tests/dispatch.rs": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+    "crates/arc-ipc/src/tests/framing.rs": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+    "crates/arc-ipc/src/tests/mod.rs": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+    "crates/arc-ipc/src/tests/schema.rs": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+    "crates/arc-ipc/tests/classification.rs": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+    "crates/arc-ipc/tests/coverage.rs": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+    "crates/arc-storage/Cargo.toml": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+    "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "crates/arc-storage/src/history.rs": "31bd31276df810465752cc9e1492f3c90dabde0f1209e99ae6b5ce9ccfc02a5f",
+    "crates/arc-storage/src/lib.rs": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b",
+    "crates/arc-storage/src/migration.rs": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533",
+    "crates/arc-storage/src/migration/tests.rs": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+    "crates/arc-storage/src/migration/tests/acceptance.rs": "60bd1084d6954b6ee47d8176620d702b705d922831937ac84e666007453ea10f",
+    "crates/arc-storage/src/migration/tests/concurrency.rs": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+    "crates/arc-storage/src/migration/tests/rejection.rs": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+    "crates/arc-storage/tests/coverage.rs": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+    "crates/arc-storage/tests/fixtures/0001_fixture.sql": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639",
+    "crates/arc-storage/tests/fixtures/0002_additive.sql": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127",
+    "crates/arc-storage/tests/nfr010.rs": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
+    "mise.toml": "5af71f4d3bb6e8da776de80f1252a0601ecde35114b18a0cc87946c74c1e7600",
+    "package.json": "d9f600d7586838dc24ca522ecb30a93f3da6b430712cc911a1de4145706eb9c0",
+    "rust-toolchain.toml": "f6d2a8e736e4a30b034416cc5c00fcac466d708e385e61b07285949f7074d823",
+    "scripts/coverage/acceptance.ts": "d6e97b7cec4f2e2fc64bc38da0a4ac3e351f642db74582cff8f24014d8c5ff7d",
+    "scripts/coverage/accounting.test.ts": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882",
+    "scripts/coverage/accounting.ts": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+    "scripts/coverage/clean-checkout.test.ts": "38bdd92010143e3aad82ede4eccaffe1107de9eb1f888e5308f7ab7864cba760",
+    "scripts/coverage/commands.ts": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+    "scripts/coverage/config.ts": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+    "scripts/coverage/coverage-cli.test.ts": "9e036e2a4af25832627df04d030a5441ecc7687aa7296df58bd2b0e2efa42041",
+    "scripts/coverage/evidence.test.ts": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8",
+    "scripts/coverage/fixture-runner.ts": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+    "scripts/coverage/fixtures.ts": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+    "scripts/coverage/gate.test.ts": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+    "scripts/coverage/gate.ts": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+    "scripts/coverage/harness.test.ts": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747",
+    "scripts/coverage/hygiene-preservation.test.ts": "35a238b31342f86b534439f747df64005e299277efe897e20523a61d920f675c",
+    "scripts/coverage/hygiene.test.ts": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c",
+    "scripts/coverage/hygiene.ts": "a17757322a5448a0e01101c4c3da57076d513b260f28098a8e456f32744da319",
+    "scripts/coverage/preservation.test.ts": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+    "scripts/coverage/preservation.ts": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+    "scripts/coverage/provision.sh": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+    "scripts/coverage/run.ts": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6",
+    "scripts/coverage/source.ts": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062"
+  },
+  "ended": "2026-11-08T03:04:25.679998+00:00",
+  "allRequiredCommandsPassed": true,
+  "independentReview": "Pending managed reviewer Actor; this Actor does not review its own work",
+  "coverageCollections": [
+    {
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "runId": "2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade",
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "pass": true,
+      "exit": 0,
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/receipt.json",
+        "sha256": "11e598b574d338f57ee6ffb855f90c75d1fff8b174fc144a500411aed557c323",
+        "bytes": 443473
+      },
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/summary.json",
+        "sha256": "c4162360804f5251873d088e9e8867a971e9c4f1958fcca78147c07eff0dc58f",
+        "bytes": 68195
+      },
+      "uncovered": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/uncovered.md",
+        "sha256": "a2dd23ba90e4d69afcec644d426fc81f0e7ccb0e2e084c3562367731282e6a44",
+        "bytes": 2150
+      },
+      "nativeReports": {
+        "lcovSha256": "b77be0986850915f81905acb10e5325ede3dfc59054791f4e36c9d6bec5922af",
+        "llvmJsonSha256": "602149d0c039683d3da14eab1a72ba1e848668186f4189e5436c51048c7f95f2"
+      },
+      "profiles": {
+        "count": 851,
+        "mergeCount": 851,
+        "receipt": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/profiles.json",
+          "sha256": "b9b9e0e626c10d97d3f883ac1d54b03e9d497ed4d48aeb2c86f649cc7d08c607",
+          "bytes": 332970
+        }
+      },
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 22292,
+          "profiles": [
+            "arc-22292-11708300777802047112_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 22293,
+          "profiles": [
+            "arc-22293-9358645423002903239_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 64,
+          "total": 64,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 577,
+          "total": 578,
+          "percent": 99.82698961937716,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 226,
+          "total": 227,
+          "percent": 99.55947136563877,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 215,
+          "total": 215,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1507,
+          "total": 1613,
+          "percent": 93.42839429634222,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 203,
+          "total": 213,
+          "percent": 95.30516431924883,
+          "pass": true
+        }
+      ],
+      "nativeCommands": [
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "-Vv"
+          ],
+          "argvSha256": "ac90748485422917d9f4acc11359dcf09cbdb57ccc262a2c6d0db6eea2177157",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:54:34.536Z",
+          "ended": "2026-11-08T02:54:34.571Z",
+          "exit": 0,
+          "pid": 16585,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/00-command.json",
+            "sha256": "ee6988ad99ff90d1c8f321cd2cb956b7bda2341200bc5e1aa1c7330f1a69b99f",
+            "bytes": 519
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "dad7b581cb6036e705735c54281b42897fde1ecd9030ed0e9cc0143e6f40a5c8",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:54:34.571Z",
+          "ended": "2026-11-08T02:54:34.608Z",
+          "exit": 0,
+          "pid": 16589,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/01-command.json",
+            "sha256": "3ff7ef7c8e354fe3fe45d048c79f76b1c9c25a0fd1fb3d55502e0abcfc06b36c",
+            "bytes": 365
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "--print",
+            "sysroot"
+          ],
+          "argvSha256": "9298602488ca46c53d140040efff9e760d99950e8df9735a02df99ba3a7cd29e",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:54:34.609Z",
+          "ended": "2026-11-08T02:54:34.643Z",
+          "exit": 0,
+          "pid": 16592,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/02-command.json",
+            "sha256": "b2fb333758bfa9a77141d5af85c7cfccd238ad089d6c52200665ea982721e095",
+            "bytes": 408
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "a17a3a5de36495640ec3a6fba4b83412d6ee244804f19c1a23a1f2b1cf932505",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:54:34.644Z",
+          "ended": "2026-11-08T02:54:34.648Z",
+          "exit": 0,
+          "pid": 16596,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/03-command.json",
+            "sha256": "be5cec8151c995f66a7d794428be6ef1e7c2606e08374f55ae6203d4fdc6e0a6",
+            "bytes": 483
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+            "--version"
+          ],
+          "argvSha256": "44f83f534a3ab505fb0703501d4e87c0ce881aafd1f2ae601bc05178d31f6033",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:54:34.649Z",
+          "ended": "2026-11-08T02:54:34.653Z",
+          "exit": 0,
+          "pid": 16597,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/04-command.json",
+            "sha256": "016c247c0960bbe06fa8937ddf42d61251b704e4054f255e55c64798f71fffb2",
+            "bytes": 488
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "metadata",
+            "--format-version",
+            "1",
+            "--locked",
+            "--offline"
+          ],
+          "argvSha256": "b881d937004c1ae8c63eeab41205f8dfc8bfedeece788741ed43e13adb0a9b94",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:54:34.654Z",
+          "ended": "2026-11-08T02:54:34.788Z",
+          "exit": 0,
+          "pid": 16599,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/05-command.json",
+            "sha256": "76bec41c08052ab9ff894f351cdc8a9409d1b2499e91b8dbe3cf94722cc68c72",
+            "bytes": 367718
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "argvSha256": "f50889fff1d8b28eb4d904e12d5d26fc20c802c415dd5cb5104a7e71202fd16b",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:54:34.792Z",
+          "ended": "2026-11-08T02:55:52.263Z",
+          "exit": 0,
+          "pid": 16619,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/06-command.json",
+            "sha256": "a7a0f743767722dc82a9d590502f001d7b9793c66107ea6d79d3c8304f1927bb",
+            "bytes": 32394
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/debug/arcctl",
+            "--help"
+          ],
+          "argvSha256": "4d4804c495e9fb5634d16ea475f9bd71478f4018b7ef31b00bad991d46443f6a",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:55:52.264Z",
+          "ended": "2026-11-08T02:55:52.269Z",
+          "exit": 0,
+          "pid": 22292,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/07-command.json",
+            "sha256": "d202fdad5566a84bd7e406ac0d2fca2a36dfae80f3912ee41a0de88267a6dc8c",
+            "bytes": 821
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/debug/arc-daemon"
+          ],
+          "argvSha256": "f91bcbefbb911194a9fadcdc076cd8b5159158cc29007a80c3a3acb51a734c95",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:55:52.270Z",
+          "ended": "2026-11-08T02:55:52.276Z",
+          "exit": 1,
+          "pid": 22293,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/08-command.json",
+            "sha256": "e2a7f0b9d654a410b1680ddd680095af1934969e1ec166b2800ab99841ee5552",
+            "bytes": 532
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "265aa1932ef8ee4733f26291c3537af4bde614779bf6db0cc199bb9222b650ee",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:55:52.278Z",
+          "ended": "2026-11-08T02:55:55.502Z",
+          "exit": 0,
+          "pid": 22294,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/09-command.json",
+            "sha256": "246153730b1c505148b8a673395fde6231368f69f5ec5fa0e04e7cf3e0d49ee1",
+            "bytes": 19325
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "57a2966cb7299ff14263c222b47d4826bd7d745f73e300462100bd3b84ba9b18",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:55:55.502Z",
+          "ended": "2026-11-08T02:55:59.080Z",
+          "exit": 0,
+          "pid": 22304,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-54-34-470Z-71c6cf34-d996-41cc-8c9e-c71362656ade/10-command.json",
+            "sha256": "4fb576cfb7425273f26850561bf6f61aa7f7765bc8089be778a8ed892c2713b5",
+            "bytes": 19325
+          }
+        }
+      ]
+    },
+    {
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "runId": "2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e",
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "pass": true,
+      "exit": 0,
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/receipt.json",
+        "sha256": "aa7bbdd9b29df179fe3b8906296f71518ea5366e6ade4a7d120c10ca9a68027d",
+        "bytes": 443473
+      },
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/summary.json",
+        "sha256": "3a5c087a12e3e1afe25b1160edcd80d783fbe8d142e41808895c8ad5c522bbf2",
+        "bytes": 68195
+      },
+      "uncovered": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/uncovered.md",
+        "sha256": "a2dd23ba90e4d69afcec644d426fc81f0e7ccb0e2e084c3562367731282e6a44",
+        "bytes": 2150
+      },
+      "nativeReports": {
+        "lcovSha256": "c8e490eb3c5ef15e9c2e1ccbc326764b930842ddb6918c9cfea21cf1f0702029",
+        "llvmJsonSha256": "5c2ab199b94af0c031b76635abfa2fb8596de1f5bdc7ffac42660529a9cef086"
+      },
+      "profiles": {
+        "count": 851,
+        "mergeCount": 851,
+        "receipt": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/profiles.json",
+          "sha256": "99d6fb57e62f815dcdb87a810bc90e8a2f0b23d3e49e50cfd513e9c556105bc1",
+          "bytes": 332970
+        }
+      },
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 27963,
+          "profiles": [
+            "arc-27963-11708300777802047112_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 27964,
+          "profiles": [
+            "arc-27964-9358645423002903239_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 64,
+          "total": 64,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 577,
+          "total": 578,
+          "percent": 99.82698961937716,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 226,
+          "total": 227,
+          "percent": 99.55947136563877,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 215,
+          "total": 215,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1507,
+          "total": 1613,
+          "percent": 93.42839429634222,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 203,
+          "total": 213,
+          "percent": 95.30516431924883,
+          "pass": true
+        }
+      ],
+      "nativeCommands": [
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "-Vv"
+          ],
+          "argvSha256": "ac90748485422917d9f4acc11359dcf09cbdb57ccc262a2c6d0db6eea2177157",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:57:33.953Z",
+          "ended": "2026-11-08T02:57:33.989Z",
+          "exit": 0,
+          "pid": 25526,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/00-command.json",
+            "sha256": "775d98a24bf4ad7e1bda823c4fc519ddb6375f6b9f4a40bfe0a181cf8a290e00",
+            "bytes": 519
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "dad7b581cb6036e705735c54281b42897fde1ecd9030ed0e9cc0143e6f40a5c8",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:57:33.989Z",
+          "ended": "2026-11-08T02:57:34.028Z",
+          "exit": 0,
+          "pid": 25527,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/01-command.json",
+            "sha256": "fad3194cad7af25f241041bf08ab8349e554e8ea5ae429010d653f5d1742a7dc",
+            "bytes": 365
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "--print",
+            "sysroot"
+          ],
+          "argvSha256": "9298602488ca46c53d140040efff9e760d99950e8df9735a02df99ba3a7cd29e",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:57:34.028Z",
+          "ended": "2026-11-08T02:57:34.063Z",
+          "exit": 0,
+          "pid": 25528,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/02-command.json",
+            "sha256": "f778ce0d8e4eb84c5d90f017ad4aa213fa04000a45ec86b5b7027d8901c02ae0",
+            "bytes": 408
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "a17a3a5de36495640ec3a6fba4b83412d6ee244804f19c1a23a1f2b1cf932505",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:57:34.064Z",
+          "ended": "2026-11-08T02:57:34.068Z",
+          "exit": 0,
+          "pid": 25529,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/03-command.json",
+            "sha256": "c526cf8f14de63ae4c95b1355ae9be47c8659681642ffa7fb8e6e919c4cc700e",
+            "bytes": 483
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+            "--version"
+          ],
+          "argvSha256": "44f83f534a3ab505fb0703501d4e87c0ce881aafd1f2ae601bc05178d31f6033",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:57:34.069Z",
+          "ended": "2026-11-08T02:57:34.073Z",
+          "exit": 0,
+          "pid": 25530,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/04-command.json",
+            "sha256": "c6ccb919e628db2b104842e5dfdc9826a47d7ff97041260e74e1ec2c86a092be",
+            "bytes": 488
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "metadata",
+            "--format-version",
+            "1",
+            "--locked",
+            "--offline"
+          ],
+          "argvSha256": "b881d937004c1ae8c63eeab41205f8dfc8bfedeece788741ed43e13adb0a9b94",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:57:34.074Z",
+          "ended": "2026-11-08T02:57:34.227Z",
+          "exit": 0,
+          "pid": 25531,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/05-command.json",
+            "sha256": "5357e606e91c2b12dbac77cb256c354046c67b015b0ce66db033e1b97a5ba736",
+            "bytes": 367718
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "argvSha256": "f50889fff1d8b28eb4d904e12d5d26fc20c802c415dd5cb5104a7e71202fd16b",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:57:34.231Z",
+          "ended": "2026-11-08T02:58:49.784Z",
+          "exit": 0,
+          "pid": 25534,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/06-command.json",
+            "sha256": "8aa943108da46b288f74a834bd00b6affcfa566e3776ad00006a850b9433f16d",
+            "bytes": 32394
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/debug/arcctl",
+            "--help"
+          ],
+          "argvSha256": "81aec54a067127ee9105e29aa684b4bbf172b65b63f93df87000c16b8224277a",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:58:49.784Z",
+          "ended": "2026-11-08T02:58:49.789Z",
+          "exit": 0,
+          "pid": 27963,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/07-command.json",
+            "sha256": "ecfda8f3d0772f30526a5605a96639024fb455ae19ba5184a14588636cf1c9a9",
+            "bytes": 821
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/debug/arc-daemon"
+          ],
+          "argvSha256": "c3f9dcd99ea728b79279f50ff91e78f0d97deb535ab31f34acc714f64daf5b6b",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:58:49.790Z",
+          "ended": "2026-11-08T02:58:49.796Z",
+          "exit": 1,
+          "pid": 27964,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/08-command.json",
+            "sha256": "e6ccf23c69a0930eb148d2722d8ea21be841b988bd2ed942487ea43992393693",
+            "bytes": 532
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "1029acc50fb5f89d109ad9ff1d71ff7673c25ed6d899e15d58e4322a06c7e930",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:58:49.797Z",
+          "ended": "2026-11-08T02:58:53.353Z",
+          "exit": 0,
+          "pid": 27965,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/09-command.json",
+            "sha256": "e18c0c5f72d79d52c656c00ca55a7a52bd32fc4ce4e18af36869e1471c78e5f2",
+            "bytes": 19325
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "a09d9e630dae8cb82dd94ff4408fb57747983b1cafd53c36db7ae3c34bf56d5e",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T02:58:53.353Z",
+          "ended": "2026-11-08T02:58:56.851Z",
+          "exit": 0,
+          "pid": 27973,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-57-33-891Z-2d7a7535-ee5e-42d9-baa6-73a523d57b7e/10-command.json",
+            "sha256": "b55edc73731503018b4b5538fcb6f5dc2c8c833362228fb445bb1267126e813b",
+            "bytes": 19325
+          }
+        }
+      ]
+    },
+    {
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "runId": "2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394",
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "pass": true,
+      "exit": 0,
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/receipt.json",
+        "sha256": "0f8a50e4a9e54f9a5619511cea1dda136ade1fa7a8774b3f28128356a904dd89",
+        "bytes": 443473
+      },
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/summary.json",
+        "sha256": "5d2b9a5d286e397e7322b47b6a5bf38ae1f5972f2478898eadcb2049805e4740",
+        "bytes": 68195
+      },
+      "uncovered": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/uncovered.md",
+        "sha256": "a2dd23ba90e4d69afcec644d426fc81f0e7ccb0e2e084c3562367731282e6a44",
+        "bytes": 2150
+      },
+      "nativeReports": {
+        "lcovSha256": "3596ca32b7ddb105e73ac906fd095b395d41f68bf214f829e2a782771a2371d1",
+        "llvmJsonSha256": "78175471107e454ba1bacc14904bbca2422b07beca1ef2abb2333fe523f28dff"
+      },
+      "profiles": {
+        "count": 851,
+        "mergeCount": 851,
+        "receipt": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/profiles.json",
+          "sha256": "c8996b46b11193b3415b12cf5197a8248e1af71a5189e389eeb11683d6f39975",
+          "bytes": 332970
+        }
+      },
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 81842,
+          "profiles": [
+            "arc-81842-11708300777802047112_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 81861,
+          "profiles": [
+            "arc-81861-9358645423002903239_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 64,
+          "total": 64,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 577,
+          "total": 578,
+          "percent": 99.82698961937716,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 226,
+          "total": 227,
+          "percent": 99.55947136563877,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 215,
+          "total": 215,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1507,
+          "total": 1613,
+          "percent": 93.42839429634222,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 203,
+          "total": 213,
+          "percent": 95.30516431924883,
+          "pass": true
+        }
+      ],
+      "nativeCommands": [
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "-Vv"
+          ],
+          "argvSha256": "ac90748485422917d9f4acc11359dcf09cbdb57ccc262a2c6d0db6eea2177157",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:35:25.096Z",
+          "ended": "2026-11-08T03:35:25.319Z",
+          "exit": 0,
+          "pid": 76523,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/00-command.json",
+            "sha256": "2fc8b92211f4a5f4d7c23a020e951109fc518d4ca30ed85ffde610dee521114b",
+            "bytes": 519
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "dad7b581cb6036e705735c54281b42897fde1ecd9030ed0e9cc0143e6f40a5c8",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:35:25.319Z",
+          "ended": "2026-11-08T03:35:25.421Z",
+          "exit": 0,
+          "pid": 76524,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/01-command.json",
+            "sha256": "277eaf8ce4518cf42b1ac8c62f541a6a8f01bba42d2e7dae9fb1f6797de65b5b",
+            "bytes": 365
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "--print",
+            "sysroot"
+          ],
+          "argvSha256": "9298602488ca46c53d140040efff9e760d99950e8df9735a02df99ba3a7cd29e",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:35:25.421Z",
+          "ended": "2026-11-08T03:35:25.498Z",
+          "exit": 0,
+          "pid": 76525,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/02-command.json",
+            "sha256": "e008e3d66bf93c964eff886e5f33fe6ea7cdc271e31f7afd0a60402c857da332",
+            "bytes": 408
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "a17a3a5de36495640ec3a6fba4b83412d6ee244804f19c1a23a1f2b1cf932505",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:35:25.499Z",
+          "ended": "2026-11-08T03:35:25.522Z",
+          "exit": 0,
+          "pid": 76526,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/03-command.json",
+            "sha256": "086145cf1481ee3f2e3be895d074df9dcf96181126997823cbdac45272cee4d4",
+            "bytes": 483
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+            "--version"
+          ],
+          "argvSha256": "44f83f534a3ab505fb0703501d4e87c0ce881aafd1f2ae601bc05178d31f6033",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:35:25.523Z",
+          "ended": "2026-11-08T03:35:25.545Z",
+          "exit": 0,
+          "pid": 76527,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/04-command.json",
+            "sha256": "6db72d559c0bdad873fb834dc6aa9120de34f22fc7f5d15bf6292f8f9f2c7c36",
+            "bytes": 488
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "metadata",
+            "--format-version",
+            "1",
+            "--locked",
+            "--offline"
+          ],
+          "argvSha256": "b881d937004c1ae8c63eeab41205f8dfc8bfedeece788741ed43e13adb0a9b94",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:35:25.545Z",
+          "ended": "2026-11-08T03:35:25.744Z",
+          "exit": 0,
+          "pid": 76528,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/05-command.json",
+            "sha256": "b01d6b8705e122fc17f1cd49d0822922bbf9edcb02fbfbb3538744a1c2c70f53",
+            "bytes": 367718
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "argvSha256": "f50889fff1d8b28eb4d904e12d5d26fc20c802c415dd5cb5104a7e71202fd16b",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:35:25.749Z",
+          "ended": "2026-11-08T03:37:06.682Z",
+          "exit": 0,
+          "pid": 76529,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/06-command.json",
+            "sha256": "ab473de2f70b9ba73eea27092c32b393795c49ddd7e9c72fbc6802eae10195ac",
+            "bytes": 32394
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/debug/arcctl",
+            "--help"
+          ],
+          "argvSha256": "d93a42fdfca07da7034f4be9d1a9be7a498a19ba1002666af8dd0a638455782a",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:37:06.687Z",
+          "ended": "2026-11-08T03:37:06.703Z",
+          "exit": 0,
+          "pid": 81842,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/07-command.json",
+            "sha256": "63f55edcd6f9dad9fb32e5853684df4f6d21147de44958d44fa1cf2909ba75bf",
+            "bytes": 821
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/debug/arc-daemon"
+          ],
+          "argvSha256": "b5968912a344b5bbf4ae215c51d25b337524ea5bae693bc33214928f454c8abf",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:37:06.716Z",
+          "ended": "2026-11-08T03:37:06.818Z",
+          "exit": 1,
+          "pid": 81861,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/08-command.json",
+            "sha256": "59afdba6231a21551fcadf51defabfc3ac7f3584b35d336fcb22f94291ffd06f",
+            "bytes": 532
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "40df8c7c09b44a4387afadd19c1b9119bd23ea14a4d7a731213fbc72d8154798",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:37:06.822Z",
+          "ended": "2026-11-08T03:37:11.267Z",
+          "exit": 0,
+          "pid": 81880,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/09-command.json",
+            "sha256": "c94e7b2b6502627330d93eae41f1e4195b9d1272c792dbe3e4df254a53c36001",
+            "bytes": 19325
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "31085e8e7de8ac795cafeb174773f388420342a198f5a521e028f80cc24fce1c",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:37:11.267Z",
+          "ended": "2026-11-08T03:37:15.157Z",
+          "exit": 0,
+          "pid": 82036,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-35-25-008Z-f9b2e158-79b7-4cde-b66b-e20ede617394/10-command.json",
+            "sha256": "6687fde8a95bdda84a5f81651aa4d299f3d3e5fa8961c7f06f88ae230b8dff61",
+            "bytes": 19325
+          }
+        }
+      ]
+    },
+    {
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "runId": "2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848",
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "pass": true,
+      "exit": 0,
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/receipt.json",
+        "sha256": "947f6a00018c89656f00597d995a8573758c45abf6b8f1f87245b5aa394a90b0",
+        "bytes": 443473
+      },
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/summary.json",
+        "sha256": "95dee42adeac8b9a44610bc7e62f5d71757ac71f83fcab0e846a21e4d62d513b",
+        "bytes": 68195
+      },
+      "uncovered": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/uncovered.md",
+        "sha256": "a2dd23ba90e4d69afcec644d426fc81f0e7ccb0e2e084c3562367731282e6a44",
+        "bytes": 2150
+      },
+      "nativeReports": {
+        "lcovSha256": "c36ad98c8a79af021053e5dad3f481b5f41f6d33dc1d005552eb0061d8082f7a",
+        "llvmJsonSha256": "2bc21ea40692ef2ce5f939324183705a278d67a5a254612697402a0154582296"
+      },
+      "profiles": {
+        "count": 851,
+        "mergeCount": 851,
+        "receipt": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/profiles.json",
+          "sha256": "db8c9525bbab386a4e467de6db4f9683ae38aca1b128ab398d924e822bb608fa",
+          "bytes": 332970
+        }
+      },
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 18589,
+          "profiles": [
+            "arc-18589-11708300777802047112_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 18660,
+          "profiles": [
+            "arc-18660-9358645423002903239_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 64,
+          "total": 64,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 577,
+          "total": 578,
+          "percent": 99.82698961937716,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 226,
+          "total": 227,
+          "percent": 99.55947136563877,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 215,
+          "total": 215,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1507,
+          "total": 1613,
+          "percent": 93.42839429634222,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 203,
+          "total": 213,
+          "percent": 95.30516431924883,
+          "pass": true
+        }
+      ],
+      "nativeCommands": [
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "-Vv"
+          ],
+          "argvSha256": "ac90748485422917d9f4acc11359dcf09cbdb57ccc262a2c6d0db6eea2177157",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:39:01.941Z",
+          "ended": "2026-11-08T03:39:02.144Z",
+          "exit": 0,
+          "pid": 10788,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/00-command.json",
+            "sha256": "01e425bbdb1d0eaa943c18507e3c44db18308dfc7dd3d59a64f545d3f5c2d9c2",
+            "bytes": 519
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "dad7b581cb6036e705735c54281b42897fde1ecd9030ed0e9cc0143e6f40a5c8",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:39:02.144Z",
+          "ended": "2026-11-08T03:39:02.219Z",
+          "exit": 0,
+          "pid": 10789,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/01-command.json",
+            "sha256": "32ca840812d313cbe4b121610aab90bf80af48bfe6c5c630c450b71b01009042",
+            "bytes": 365
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "rustc",
+            "--print",
+            "sysroot"
+          ],
+          "argvSha256": "9298602488ca46c53d140040efff9e760d99950e8df9735a02df99ba3a7cd29e",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:39:02.220Z",
+          "ended": "2026-11-08T03:39:02.298Z",
+          "exit": 0,
+          "pid": 10790,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/02-command.json",
+            "sha256": "473f726509e9fa3aee206b3e956ff79a6025fbf4651a04bd96cfeee2976b22f6",
+            "bytes": 408
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+            "--version"
+          ],
+          "argvSha256": "a17a3a5de36495640ec3a6fba4b83412d6ee244804f19c1a23a1f2b1cf932505",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:39:02.298Z",
+          "ended": "2026-11-08T03:39:02.310Z",
+          "exit": 0,
+          "pid": 10791,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/03-command.json",
+            "sha256": "fa4e9bd0f18c3f35a8914bed4256c67d28f3f6f639dbf7b85cef6ed0bff1c4d4",
+            "bytes": 483
+          }
+        },
+        {
+          "argv": [
+            "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+            "--version"
+          ],
+          "argvSha256": "44f83f534a3ab505fb0703501d4e87c0ce881aafd1f2ae601bc05178d31f6033",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:39:02.310Z",
+          "ended": "2026-11-08T03:39:02.324Z",
+          "exit": 0,
+          "pid": 10792,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/04-command.json",
+            "sha256": "afc0bc2c2a7fa551536383b399adbac34742a2013200b6227781505c1ce953b3",
+            "bytes": 488
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "metadata",
+            "--format-version",
+            "1",
+            "--locked",
+            "--offline"
+          ],
+          "argvSha256": "b881d937004c1ae8c63eeab41205f8dfc8bfedeece788741ed43e13adb0a9b94",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:39:02.325Z",
+          "ended": "2026-11-08T03:39:02.503Z",
+          "exit": 0,
+          "pid": 10793,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/05-command.json",
+            "sha256": "942f0bf9c405a26c177ab05117b70d851b1c63a19825308f0df3d08bcdb69f55",
+            "bytes": 367718
+          }
+        },
+        {
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "argvSha256": "f50889fff1d8b28eb4d904e12d5d26fc20c802c415dd5cb5104a7e71202fd16b",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:39:02.510Z",
+          "ended": "2026-11-08T03:40:27.279Z",
+          "exit": 0,
+          "pid": 10794,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/06-command.json",
+            "sha256": "62a1050d213814b08a24421319627ed2b801fbe5790ab3b7bc759f1ab493405b",
+            "bytes": 32394
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/debug/arcctl",
+            "--help"
+          ],
+          "argvSha256": "cb782bd719175e530cde32077b288f403d6554de37c246a31aa331622dd2974c",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:40:27.307Z",
+          "ended": "2026-11-08T03:40:27.374Z",
+          "exit": 0,
+          "pid": 18589,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/07-command.json",
+            "sha256": "4b1d4ee66e818e82d13055bf29cc29bf153ea25e518d56c31089fa8fa2302c57",
+            "bytes": 821
+          }
+        },
+        {
+          "argv": [
+            "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt/target/arc-coverage/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/debug/arc-daemon"
+          ],
+          "argvSha256": "91971b6a9fe9085f3d0fe3011d4bde394e9da641dc0a139effd9e60474b975cb",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:40:27.395Z",
+          "ended": "2026-11-08T03:40:27.485Z",
+          "exit": 1,
+          "pid": 18660,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/08-command.json",
+            "sha256": "42ffd347d9e5570c962a0160c2023c6f88c4884b493de5425e4a8b0e20fa09da",
+            "bytes": 532
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "644fa688e55da59c8597cc3ae1d8bc57b18ee7416664dd83f83361cb43e774a9",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:40:27.515Z",
+          "ended": "2026-11-08T03:40:38.368Z",
+          "exit": 0,
+          "pid": 18669,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/09-command.json",
+            "sha256": "92ee48d865f95a32d2db7191a70a44f9bdf0bdee67afb6d852b268ea21000136",
+            "bytes": 19325
+          }
+        },
+        {
+          "argv": null,
+          "argvSha256": "8580d49471b0cf0505b68e5ab1bd3fd37d8f7b33935cc9fc647244922c839e0b",
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:40:38.376Z",
+          "ended": "2026-11-08T03:40:46.197Z",
+          "exit": 0,
+          "pid": 21494,
+          "commandReceipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848/10-command.json",
+            "sha256": "477a180f83341ed76b10690589ceed5fbb191d9730ef75aa327b839378805a3f",
+            "bytes": 19325
+          }
+        }
+      ]
+    }
+  ],
+  "wrapperChildren": [
+    {
+      "binding": {
+        "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/coverage-cli-0ff783ee-4032-4603-9edc-c51b8e65c99c/binding.json",
+        "sha256": "81f690bdf43e3aa5b0f2ae87c7e72435aab0e5c33a7073c68500c703a8831431",
+        "bytes": 289
+      },
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/coverage-cli-0ff783ee-4032-4603-9edc-c51b8e65c99c/00-command.json",
+        "sha256": "e9b2ff302366199f7692c9a2e36db64e4598f93677857ad7c4bb4432d340ad10",
+        "bytes": 1052
+      },
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:57:33.853Z",
+      "ended": "2026-11-08T02:58:57.162Z",
+      "exit": 0,
+      "pid": 25524,
+      "stdoutSha256": "817cf94c87a687572292ada914f8c6bef779b19506c53268491254a7da585850",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+    },
+    {
+      "binding": {
+        "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/harness-9ecb0721-ca44-43ca-b648-e77bd40fdb35/binding.json",
+        "sha256": "17c2e23c9c7d74772758270921784acc2d7737ab8be265f907728e95b421cc4b",
+        "bytes": 278
+      },
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/tooling/acceptance/runs/harness-9ecb0721-ca44-43ca-b648-e77bd40fdb35/00-command.json",
+        "sha256": "b728c6cbbad589a410de02fbbaec36c1b7df8c4438c675b6b48e7d3093682352",
+        "bytes": 1935
+      },
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:33:23.375Z",
+      "ended": "2026-11-08T03:37:15.508Z",
+      "exit": 0,
+      "pid": 47415,
+      "stdoutSha256": "d08ef1c64482ad87eee92ac20fa56d236827213106c0579e34ac2df7f8a969a1",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+    }
+  ],
+  "incompleteCoverageRuns": [
+    {
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-00-52-854Z-3e65c9f1-8169-4600-95cf-e49f2a3688d1",
+      "availableFiles": [
+        "non-workspace-roots.json",
+        "source-inventory.json",
+        "versions.json",
+        "03-command.json",
+        "04-command.json",
+        "metadata.json",
+        "05-command.json",
+        "02-command.json",
+        "00-command.json",
+        "inputs.json",
+        "01-command.json"
+      ]
+    }
+  ],
+  "cleanCheckoutChildren": [
+    {
+      "classification": "Fresh",
+      "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+      "accountingBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+      "snapshotTree": "6903568319eae73e7518909e54d410379d94dbc1",
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-hF5HU5",
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "started": "2026-11-08T02:56:07.266Z",
+      "pass": true,
+      "precollection": {
+        "priorArtifacts": [],
+        "targetAbsent": true,
+        "runsAbsent": true,
+        "runtimeLatestAbsent": true,
+        "sourceIdentityMatches": true
+      },
+      "runId": "2026-11-08T02-56-09-443Z-4b477f14-82a1-41a6-aca0-f71741eaca6e",
+      "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T02-56-09-443Z-4b477f14-82a1-41a6-aca0-f71741eaca6e",
+      "host": "aarch64-apple-darwin",
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 64,
+          "total": 64,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 577,
+          "total": 578,
+          "percent": 99.82698961937716,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 226,
+          "total": 227,
+          "percent": 99.55947136563877,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 215,
+          "total": 215,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1507,
+          "total": 1613,
+          "percent": 93.42839429634222,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 203,
+          "total": 213,
+          "percent": 95.30516431924883,
+          "pass": true
+        }
+      ],
+      "nativeHashes": {
+        "lcov": "b681161a3883a7c75946481df8e80e3cf6773f2f89082c701312094cf837af7a",
+        "llvmJson": "c4604a87965a2c94f855f81db05d13fcec0c4e953f35ef494e3f38b63237768e"
+      },
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 25392,
+          "profiles": [
+            "arc-25392-11708300777802047112_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 25393,
+          "profiles": [
+            "arc-25393-9358645423002903239_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "ended": "2026-11-08T02:57:33.763Z",
+      "commands": [
+        {
+          "argv": [
+            "bun",
+            "run",
+            "test:coverage"
+          ],
+          "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-hF5HU5",
+          "started": "2026-11-08T02:56:09.405Z",
+          "ended": "2026-11-08T02:57:32.324Z",
+          "exit": 0,
+          "pid": 22948,
+          "stdoutSha256": "41475d58ca919263372316dd2336657e19b3eedd3fb2c7b6b3185b386c9483e2",
+          "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+        },
+        {
+          "argv": [
+            "bun",
+            "test",
+            "scripts/coverage/evidence.test.ts"
+          ],
+          "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-hF5HU5",
+          "started": "2026-11-08T02:57:32.325Z",
+          "ended": "2026-11-08T02:57:32.702Z",
+          "exit": 0,
+          "pid": 25433,
+          "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "stderrSha256": "ff7902c46fff6ce8747dbacf9965830c75c50f7cf87e036bc449d28fb366258c"
+        }
+      ],
+      "localReceipt": {
+        "path": "target/evidence-hygiene/clean-checkout/runs/b4fc48f3-9f5f-4afe-9dea-7ebcfdc6e7b3/result.json",
+        "sha256": "0af39cbfeef79ad0fdc07e4e095c3e140bc7916ac3ade5f9b0c2555d7ab6eb1f",
+        "bytes": 3252
+      }
+    }
+  ],
+  "incompleteWrapperDirectories": [
+    ".arc-verify/rust-coverage/tooling/acceptance/runs/harness-f4f6908d-9ba8-4cf2-966c-6f5877130245"
+  ],
+  "finalLatest": {
+    "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+    "runId": "2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T03-39-01-852Z-54eb07ec-10c6-4817-8cd9-f9b44bd88848",
+    "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+    "pass": true
+  },
+  "preservationCheckouts": {
+    "original": {
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "result": {
+        "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+        "files": 84,
+        "pass": true
+      }
+    },
+    "final": {
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "result": {
+        "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+        "files": 84,
+        "pass": true
+      }
+    },
+    "nested": {
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-hF5HU5",
+      "result": {
+        "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+        "files": 84,
+        "pass": true
+      }
+    }
+  },
+  "deliveredInputsUnchanged": true,
+  "failedRequiredCommands": [],
+  "requiredCommands": [
+    [
+      "bun",
+      "run",
+      "test:coverage"
+    ],
+    [
+      "bun",
+      "test",
+      "scripts/coverage/gate.test.ts",
+      "scripts/coverage/accounting.test.ts",
+      "scripts/coverage/preservation.test.ts"
+    ],
+    [
+      "bun",
+      "test",
+      "scripts/coverage/hygiene.test.ts"
+    ],
+    [
+      "bun",
+      "test",
+      "scripts/coverage/hygiene-preservation.test.ts"
+    ],
+    [
+      "bun",
+      "test",
+      "scripts/coverage/clean-checkout.test.ts"
+    ],
+    [
+      "bun",
+      "test",
+      "scripts/coverage/coverage-cli.test.ts"
+    ],
+    [
+      "bun",
+      "test",
+      "scripts/coverage/harness.test.ts"
+    ],
+    [
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    [
+      "cargo",
+      "clippy",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    [
+      "cargo",
+      "test",
+      "--workspace"
+    ],
+    [
+      "./scripts/harness/validate.sh"
+    ],
+    [
+      "bun",
+      "test",
+      "scripts/coverage/evidence.test.ts"
+    ]
+  ],
+  "reportFinalizedAt": "2026-11-08T03:41:08.282148+00:00",
+  "ownedProcessGroups": {
+    "checkedAt": "2026-11-08T03:05:11.233705+00:00",
+    "groups": [
+      1768,
+      16319,
+      16324,
+      16327,
+      16346,
+      16353,
+      16366,
+      16371,
+      16401,
+      16404,
+      16574,
+      22314,
+      22413,
+      22450,
+      22751,
+      25523,
+      27986,
+      57137,
+      57142,
+      57699,
+      60270
+    ],
+    "rootProcessesWaited": true,
+    "allGroupsExited": null,
+    "verification": "unavailable",
+    "argv": [
+      "ps",
+      "-axo",
+      "pid=,pgid="
+    ],
+    "error": "[Errno 1] Operation not permitted: 'ps'",
+    "interpretation": "All Popen roots have recorded wait results. Descendant process-group absence could not be inspected because ps execution was denied; no bypass was attempted."
+  },
+  "status": "completed",
+  "recovery": {
+    "attempt": 6,
+    "started": "2026-11-08T03:33:21.356390+00:00",
+    "priorRecovery": {
+      "attempt": 5,
+      "started": "2026-11-08T03:19:55.126924+00:00",
+      "priorRecovery": {
+        "attempt": 4,
+        "started": "2026-11-08T03:13:05.611047+00:00",
+        "savedDeadlineUnchanged": true,
+        "concurrencyLimit": 3,
+        "priorRecovery": {
+          "attempt": 3,
+          "started": "2026-11-08T03:09:25.498528+00:00",
+          "savedBudgetUnchanged": true,
+          "priorAttemptAndReceiptsPreserved": true,
+          "implementationChanged": false,
+          "diagnosis": "The unchanged harness launches nine external grep checks for each eligible tracked file; both earlier 120-second gates are still incomplete. A bounded trace reached 3550 grep calls in 15 seconds, still in Check 1. This is evidence of runtime cost, not proof of a product failure.",
+          "probe": {
+            "classification": "Diagnostic probe, not a replacement required gate",
+            "argv": [
+              "/bin/bash",
+              "-x",
+              "./scripts/harness/validate.sh"
+            ],
+            "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+            "started": "2026-11-08T03:08:46.338377+00:00",
+            "ended": "2026-11-08T03:09:01.348355+00:00",
+            "timeoutSeconds": 15,
+            "timedOut": true,
+            "exit": -15,
+            "elapsedSeconds": 15.01,
+            "pid": 7867,
+            "grepChecksReached": 3550,
+            "traceSha256": "b353f8f58b98fc833d9bf1670730169d67607e0188b04e621e68b1fd33307fd7",
+            "stdoutSha256": "d44ef1d5b85f3f3404f63c28871c39a879e7df5b097f049821c7455c6f72e827",
+            "skipCoverage": "unset",
+            "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+            "stages": "\u001b[0;34m[validate]\u001b[0m Mode: all-tracked\n\u001b[0;34m[validate]\u001b[0m Files to check: 3127\n\u001b[0;34m[validate]\u001b[0m Check 1/5: Hardcoded secrets\n",
+            "lastControlStatements": [
+              "+ 146: for pattern in '\"${SECRET_PATTERNS[@]}\"'",
+              "+ 147: matches=",
+              "+ 148: grep -qE 'API_SECRET\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]' .agents/skills/oma-translation/resources/anti-ai-patterns.md",
+              "+ 151: '[' -n '' ']'",
+              "+ 146: for pattern in '\"${SECRET_PATTERNS[@]}\"'",
+              "+ 147: matches=",
+              "+ 148: grep -qE 'ACCESS_TOKEN\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-\\.]{16,}[\"\\x27]' .agents/skills/oma-translation/resources/anti-ai-patterns.md"
+            ],
+            "receiptPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-3/scan-probe.json",
+            "receiptSha256": "22b3097f885606b111a1e3f61f553ca23174b5b039c88410af5257a61b2d33c0"
+          },
+          "launchBenchmark": {
+            "classification": "observed diagnostic, not acceptance",
+            "argvTemplate": [
+              "BASH",
+              "-c",
+              "for ((i=0;i<1000;i++)); do grep -qE \"no_such_pattern_for_profile\" package.json; done"
+            ],
+            "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+            "observedSeconds": {
+              "/bin/bash": 3.775,
+              "/opt/homebrew/bin/bash": 4.184
+            },
+            "grepPath": "/usr/bin/grep",
+            "interpretation": "Existing newer shell was slower. No tool installation or PATH substitution was made."
+          },
+          "failedAttempt": {
+            "kind": "diagnostic runner preparation",
+            "error": "Python SyntaxError: unclosed list comprehension",
+            "processStarted": false,
+            "correction": "Removed unused malformed expression; bounded trace then completed as a timed diagnostic."
+          },
+          "requiredRepairOwner": "task-2 implementation owner, coordinated by Chief Director",
+          "ownershipConflict": "Task-5 owns only five evidence files and ignored receipts. Harness bytes and verification commands/timeouts are immutable. No implementation repair or alternate host has been delivered.",
+          "remainingRequiredFailures": [
+            {
+              "argv": [
+                "bun",
+                "test",
+                "scripts/coverage/harness.test.ts"
+              ],
+              "exit": -15,
+              "timedOut": true,
+              "elapsedSeconds": 120.016
+            },
+            {
+              "argv": [
+                "./scripts/harness/validate.sh"
+              ],
+              "exit": -15,
+              "timedOut": true,
+              "elapsedSeconds": 120.007
+            }
+          ],
+          "rerunPolicy": "No unchanged 120-second harness retries without a delivered repair or changed prerequisite. Existing successful receipts remain valid while delivered input map and non-task-5 tracked entries are unchanged. Refresh live evidence verification and preservation; do not claim the harness passed.",
+          "liveEvidenceRefreshed": {
+            "label": "recovery-3-evidence",
+            "argv": [
+              "bun",
+              "test",
+              "scripts/coverage/evidence.test.ts"
+            ],
+            "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+            "started": "2026-11-08T03:09:39.549936+00:00",
+            "ended": "2026-11-08T03:09:40.480431+00:00",
+            "elapsedSeconds": 0.93,
+            "exit": 0,
+            "pid": 11929,
+            "timeoutSeconds": 120,
+            "timedOut": false,
+            "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+            "sourceUnchanged": true,
+            "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-3/evidence.stdout",
+            "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+            "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-3/evidence.stderr",
+            "stderrSha256": "6ed10a326113c0a907942f3b600c9b542e7dc823bb1ed00c6e6594f1f70bec0e"
+          },
+          "latestUnchanged": true,
+          "ended": "2026-11-08T03:09:40.513122+00:00"
+        },
+        "inspection": {
+          "path": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/inspection.json",
+          "sha256": "7ff1d216cab26bdda663adb441e9c53580e76fae690c26565ef3a0dbc1d956ba"
+        },
+        "probe": {
+          "classification": "Diagnostic only; not a required gate or runtime lower bound",
+          "argv": [
+            "/bin/bash",
+            "-c",
+            "for ((i=0; i<1000; i++)); do grep -qE \"ARC\" README.md; done"
+          ],
+          "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+          "started": "2026-11-08T03:13:45.421895+00:00",
+          "ended": "2026-11-08T03:13:49.997824+00:00",
+          "exit": 0,
+          "elapsedSeconds": 4.576,
+          "timeoutSeconds": 15,
+          "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "eligibleSecretScanFiles": 2890,
+          "minimumGrepLaunchesCheck1": 26010,
+          "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+          "elapsedScope": "Probe process plus subsequent tracked-file eligibility inventory"
+        },
+        "implementationChanged": false,
+        "prerequisitesAvailable": true,
+        "environmentChangeEstablished": false,
+        "requiredGateRerun": false,
+        "reason": "Both required harness gates remain timed out. No authorized repair or changed execution prerequisite was delivered. Repeating the unchanged expensive gates would add no repair evidence.",
+        "ownershipConflict": {
+          "immutablePaths": [
+            "scripts/harness/validate.sh"
+          ],
+          "implementationOwner": "task-2 engineer",
+          "task5OwnedPaths": [
+            "commands.json",
+            "fresh.md",
+            "before-after.json",
+            "preservation.json",
+            "local-preservation.json"
+          ],
+          "fixedExternalTimeoutSeconds": 120
+        },
+        "chiefHandoff": "Arrange an execution environment that completes the unmodified full harness within the fixed 120-second timeout; any implementation repair must go through task-2 and preserve harness bytes and acceptance. Then rerun exact harness wrapper and standalone commands serially, capture wrapper child binding, run live evidence after last collection, and refresh affected receipts. No passing harness is claimed.",
+        "ended": "2026-11-08T03:14:26.658556+00:00",
+        "independentReview": "Chief-managed review remains pending; this Actor has not reviewed its work"
+      },
+      "priorRecoveryAuthority": "Historical attempts; claims that 120 seconds was immutable are superseded by the current Chief recovery assignment.",
+      "inspection": {
+        "path": ".arc-verify/evidence-hygiene/runs/task-5/recovery-5/inspection.json",
+        "sha256": "623f5d53e5860ac106d35c52c8cba7d8a028fd256a80d1434900fd7e00c06959"
+      },
+      "savedDeadlineUnchanged": true,
+      "concurrencyLimit": 3,
+      "spentAtAdmission": {
+        "startedAt": "2026-11-08T02:07:29.971Z",
+        "runsStarted": 33,
+        "retries": 0,
+        "progressKey": "933e1a1c51f730ead02143a6d3d22ce34ad286b9146b53241129f469cb3a7968",
+        "interventionAt": "2026-11-08T02:31:05.230Z"
+      },
+      "status": "blocked-framework-prerequisite",
+      "runnerAllowancePrepared": true,
+      "managedTimeoutCorrected": false,
+      "requiredGateRerun": false,
+      "reason": "The assignment requires managed timeout correction before the two harness reruns. Installed supported maintenance is unavailable and repository-bound MCP startup fails on av.yaml EPERM.",
+      "chiefHandoff": "Provide a supported managed verification-contract maintenance operation for only bun test scripts/coverage/harness.test.ts: 120000 to 1020000 ms, preserving argv/criterion/all other checks and original budgets. Then admit serial exact harness gates in the retained checkout using the prepared 1020-second/deadline-capped runner, collect completed wrapper child receipts, and run live evidence.test.ts last. Do not manually rewrite mission state.",
+      "ended": "2026-11-08T03:20:23.963353+00:00",
+      "independentReview": "Return through the existing managed reviewer; actual runner schema is supplied by the supervisor. No self-review or substitute review was created."
+    },
+    "spentAtAdmission": {
+      "startedAt": "2026-11-08T02:07:29.971Z",
+      "runsStarted": 37,
+      "retries": 0,
+      "progressKey": "e017328635400fcb70d7e9b0790c01dea7d53cae4800b4ec2b9dd628b3b19e8f",
+      "interventionAt": "2026-11-08T03:32:24.730Z"
+    },
+    "savedDeadlineUnchanged": true,
+    "concurrencyLimit": 3,
+    "status": "completed",
+    "operatorClarification": {
+      "recordedAt": "2026-11-08T03:32:24.730Z",
+      "text": "Every verification-contract command uses the operator per-check timeout of 1800 seconds. timeoutMs 120000 values are planning estimates no longer applied. No contract change is needed or possible. Task-5 must run both harness commands with wrapper allowance at least 1020000 ms."
+    },
+    "inputIdentityConfirmed": true,
+    "historicalStreamsRehashed": 50,
+    "priorRecoveryAuthority": "Historical blocked prerequisite superseded by operator environment clarification; original receipts remain unchanged.",
+    "ended": "2026-11-08T03:41:08.281923+00:00",
+    "independentReview": "Return through the existing managed reviewer; actual runner schema is supplied by the supervisor. No self-review or substitute review was created.",
+    "terminationEvidence": {
+      "rootProcessesWaited": true,
+      "receipts": [
+        47322,
+        82052,
+        23571
+      ],
+      "descendantAbsence": "Not inspected; prior ps denial preserved. No bypass attempted."
+    }
+  },
+  "timeoutAuthority": {
+    "historicalAttemptSeconds": 120,
+    "historicalMeaning": "Earlier mission-generated runner allowance; not an operator requirement.",
+    "harnessRunnerSeconds": 1020,
+    "managedEffectivePerCheckSeconds": 1800,
+    "savedContractEstimateMs": 120000,
+    "contractChangeRequired": false,
+    "basis": "Current explicit operator clarification; mission state and verification contract left unchanged.",
+    "unrelatedCommandSeconds": 120
+  },
+  "historicalFailedRequiredCommands": [
+    {
+      "label": "harness-wrapper",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "exit": -15,
+      "timedOut": true,
+      "elapsedSeconds": 120.016
+    },
+    {
+      "label": "harness",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exit": -15,
+      "timedOut": true,
+      "elapsedSeconds": 120.007
+    }
+  ],
+  "successfulRequiredCommands": [
+    {
+      "label": "coverage",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:54:34.430903+00:00",
+      "ended": "2026-11-08T02:55:59.404985+00:00",
+      "elapsedSeconds": 84.974,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/09-coverage.stdout",
+      "stdoutSha256": "ba3f38aba3b0fc4f178315a3232f0ee2c43012414b8d6ca69567e36ec4e0f337",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/09-coverage.stderr",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+    },
+    {
+      "label": "gate-accounting-preservation",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:55:59.441954+00:00",
+      "ended": "2026-11-08T02:56:01.382596+00:00",
+      "elapsedSeconds": 1.941,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/10-gate-accounting-preservation.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/10-gate-accounting-preservation.stderr",
+      "stderrSha256": "613fc7d7b5caa562076a62c32c55026d6a611bb550d87849d482f617444a953e"
+    },
+    {
+      "label": "recovery-4-hygiene",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:13:49.999037+00:00",
+      "ended": "2026-11-08T03:13:51.086263+00:00",
+      "elapsedSeconds": 1.087,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene.stderr",
+      "stderrSha256": "affbc59b2546d0ed0afd07ce0370b2adef3860cb7c70e1cdd30e4396915d8bac"
+    },
+    {
+      "label": "recovery-4-hygiene-preservation",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/hygiene-preservation.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:13:51.086760+00:00",
+      "ended": "2026-11-08T03:13:55.286188+00:00",
+      "elapsedSeconds": 4.199,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene-preservation.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-4/hygiene-preservation.stderr",
+      "stderrSha256": "cac93d31d7a527a96801bb6e1afe4765c5aaa7f704901110cb33e72a2a8b71d4"
+    },
+    {
+      "label": "clean-checkout",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/clean-checkout.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:56:06.009790+00:00",
+      "ended": "2026-11-08T02:57:33.774295+00:00",
+      "elapsedSeconds": 87.764,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/13-clean-checkout.stdout",
+      "stdoutSha256": "853cb8488fe8d71aae536eedc8ef0e0f765ceb6c7040ec261d2dd13790a1e7f1",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/13-clean-checkout.stderr",
+      "stderrSha256": "cc93e4435975db313ee53974001818f7c4733e8ea46256404c2260339f31b827"
+    },
+    {
+      "label": "coverage-cli",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T02:57:33.809839+00:00",
+      "ended": "2026-11-08T02:58:57.210343+00:00",
+      "elapsedSeconds": 83.404,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/14-coverage-cli.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/14-coverage-cli.stderr",
+      "stderrSha256": "e3ac251433164d425e017f662b4052f809998031b5f5503f35914233ad2814bc"
+    },
+    {
+      "label": "recovery-6-harness-wrapper",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:33:21.401220+00:00",
+      "ended": "2026-11-08T03:37:15.546419+00:00",
+      "elapsedSeconds": 234.146,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness-wrapper.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness-wrapper.stderr",
+      "stderrSha256": "e6ff0494fd52770263d321e84d98564d56fd1f7c9edb6538dee4d0540a3ef7f7"
+    },
+    {
+      "label": "fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:00:57.300926+00:00",
+      "ended": "2026-11-08T03:00:57.612072+00:00",
+      "elapsedSeconds": 0.311,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/16-fmt.stdout",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/16-fmt.stderr",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:00:57.645858+00:00",
+      "ended": "2026-11-08T03:01:08.345782+00:00",
+      "elapsedSeconds": 10.7,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/17-clippy.stdout",
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/17-clippy.stderr",
+      "stderrSha256": "706e178c50afbc6b94b7319146f46668f7d58da01e320740d0ecb9ca14d7aec7"
+    },
+    {
+      "label": "workspace-test",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:01:08.394884+00:00",
+      "ended": "2026-11-08T03:02:24.503725+00:00",
+      "elapsedSeconds": 76.109,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/18-workspace-test.stdout",
+      "stdoutSha256": "2bae0121989667378ff11dc7bc56c657ee6accf9e6ac03e022d6fff97c35f8f5",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/18-workspace-test.stderr",
+      "stderrSha256": "37892e617d72fc5868a9b6d1339b17c09715b30eb64359613c0831eed998282f"
+    },
+    {
+      "label": "recovery-6-harness",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:37:15.630692+00:00",
+      "ended": "2026-11-08T03:40:46.960375+00:00",
+      "elapsedSeconds": 211.329,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness.stdout",
+      "stdoutSha256": "c3b68f380b48f74132589e9c2787fae319fd825a9db7b0a45345ab9e3149a983",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/harness.stderr",
+      "stderrSha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+    },
+    {
+      "label": "recovery-6-evidence",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "started": "2026-11-08T03:40:47.143343+00:00",
+      "ended": "2026-11-08T03:40:49.839236+00:00",
+      "elapsedSeconds": 2.696,
+      "exit": 0,
+      "sourceHash": "260b6772a9d1fa3baf329befb8d957b3ed80f58116b6be8bb973372367c169fd",
+      "sourceUnchanged": true,
+      "stdoutPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/evidence.stdout",
+      "stdoutSha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+      "stderrPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/evidence.stderr",
+      "stderrSha256": "c21a77bf9a15c3a9317c71b2bbf82ba7277aa60bdd72accd3ab14cc83d7fde4f"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "classification": "Fresh task-5 recovery-6 completed staged checkpoint; independent QA and Chief acceptance downstream",
+  "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+  "method": "before: git ls-tree -r -l -z acceptedHead -- .arc-verify; after: git ls-files --stage -z and git cat-file --batch sizes/content; count each path once, sum uncompressed Git blob bytes. No working-file size substitution.",
+  "before": {
+    "rustCoverage": {
+      "files": 927,
+      "bytes": 260548113
+    },
+    "allArcVerify": {
+      "files": 2628,
+      "bytes": 278635154
+    }
+  },
+  "after": {
+    "rustCoverage": {
+      "files": 24,
+      "bytes": 475720
+    },
+    "allArcVerify": {
+      "files": 1740,
+      "bytes": 18836277
+    },
+    "newEvidenceHygieneFiles": 15,
+    "prohibitedArtifacts": 0
+  },
+  "limits": {
+    "rustCoverageFewerThan": 150,
+    "newEvidenceHygieneFilesFewerThan": 150,
+    "bothPass": true
+  },
+  "exhaustiveProhibitedArtifactAudit": {
+    "scope": "all indexed .arc-verify blobs, every suffix",
+    "categories": [
+      "runs/profiles directories",
+      "profraw/profdata/lcov extensions",
+      "raw.json/llvm-export.json names",
+      "runtime latest pointer",
+      "native LLVM JSON export content including renamed exports"
+    ],
+    "count": 0,
+    "paths": []
+  },
+  "interpretation": "Logical current-tree blob bytes; no Git history, raw disk, clone-transfer or financial savings claim."
+}

@@ -1,0 +1,449 @@
+{
+  "schemaVersion": 1,
+  "status": "task-1-handoff-not-applied",
+  "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+  "baselineReport": ".arc-verify/evidence-hygiene/baseline.json",
+  "limits": {
+    "rustCoverageExclusiveUpperBound": 150,
+    "evidenceHygieneNewFilesExclusiveUpperBound": 150,
+    "selectedRustCoverageDestinations": 24,
+    "remainingSlotsBefore149": 125,
+    "newEvidenceFilesThisTask": 3
+  },
+  "categories": [
+    "accounting",
+    "summary",
+    "uncovered",
+    "receipt",
+    "review"
+  ],
+  "retained": [
+    {
+      "category": "accounting",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/contract/accounting.json",
+        "oid": "e207100db110a802c6740ccb9bb02058580f4c5c",
+        "bytes": 5500,
+        "sha256": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb"
+      },
+      "destination": ".arc-verify/rust-coverage/contract/accounting.json",
+      "reason": "Retain the original accounting baseline, schema and reference scope; do not rewrite historical baseline provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "accounting",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/contract/accounting.md",
+        "oid": "403fcf225cf2e8123714cb44e869a80e26160def",
+        "bytes": 10310,
+        "sha256": "af387c1c9be4fb104ff460fbfcc4e8133460527d15894b911d00106bbf299a9b"
+      },
+      "destination": ".arc-verify/rust-coverage/contract/accounting.md",
+      "reason": "Retain the original accounting baseline, schema and reference scope; do not rewrite historical baseline provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "accounting",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/contract/preservation-references.json",
+        "oid": "6fbda01d2481ed7444db80abd88a4ff43de29016",
+        "bytes": 26282,
+        "sha256": "44f9ba7a4ca68c66dfb9c230b5d4d6f5ca7948536e5e52976d6c932f34bdecce"
+      },
+      "destination": ".arc-verify/rust-coverage/contract/preservation-references.json",
+      "reason": "Retain the original accounting baseline, schema and reference scope; do not rewrite historical baseline provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "accounting",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/contract/source-inventory.json",
+        "oid": "f3ab7bbc38a6ac095d6c521f19aaaa1980f0abc6",
+        "bytes": 24950,
+        "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+      },
+      "destination": ".arc-verify/rust-coverage/contract/source-inventory.json",
+      "reason": "Retain the original accounting baseline, schema and reference scope; do not rewrite historical baseline provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "summary",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/baseline/first-measurement.json",
+        "oid": "916ffca8f92142c2611db039168df8381e37df0a",
+        "bytes": 2010,
+        "sha256": "0c01ee5c3ed644d949caef362f504c9c40e2a935f737df00b0e48bb071a4cce1"
+      },
+      "destination": ".arc-verify/rust-coverage/baseline/first-measurement.json",
+      "reason": "Selected first-measurement context; historical data, not fresh validation.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "summary",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/baseline/first-measurement.md",
+        "oid": "244916de9e4966b6a391948de2c8c5eed691e235",
+        "bytes": 2034,
+        "sha256": "0113c17c0ff704e0b32168f412c88213fc8851443e236413a151383ae902c9a2"
+      },
+      "destination": ".arc-verify/rust-coverage/baseline/first-measurement.md",
+      "reason": "Selected first-measurement context; historical data, not fresh validation.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "uncovered",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/process/uncovered.md",
+        "oid": "c6e1d686b47dee5f52a8cb7dd649088c7bd0b64f",
+        "bytes": 1708,
+        "sha256": "c89cfbc29302f77b2a195346d866c7c97e59d824d45ecddd7cef9e4fb1b1e9ec"
+      },
+      "destination": ".arc-verify/rust-coverage/process/uncovered.md",
+      "reason": "Selected earlier per-file gaps; latest historical run is separately copied with exact run identity.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/final.md",
+        "oid": "deeaff99b04e8bcc18fd556922aba95e0b46da68",
+        "bytes": 13679,
+        "sha256": "f21d459b282b621e8e67d162be578a773172c8be1ee71a1a232943a46580a2c1"
+      },
+      "destination": ".arc-verify/rust-coverage/final.md",
+      "reason": "Preserve original verdict/report bytes and original limitations; maintained index explicitly marks all removed-path references as archived Git provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "summary",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/final-summary.json",
+        "oid": "3290dbca753fe2526d049433eb27b285260f6f7a",
+        "bytes": 100001,
+        "sha256": "684e4d9213bc83202a1de3f045da240f43f70c00b12fb1bfbc32794274016f3b"
+      },
+      "destination": ".arc-verify/rust-coverage/final-summary.json",
+      "reason": "Preserve original verdict/report bytes and original limitations; maintained index explicitly marks all removed-path references as archived Git provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/library/report.md",
+        "oid": "52a35394c907cb7f6b1749a5265522f8d9f119ca",
+        "bytes": 14870,
+        "sha256": "33761087054f49c0b7abdf3b3304e5594d3669aa6065b8e6db0318bace7d83c1"
+      },
+      "destination": ".arc-verify/rust-coverage/library/report.md",
+      "reason": "Preserve original verdict/report bytes and original limitations; maintained index explicitly marks all removed-path references as archived Git provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/process/report.md",
+        "oid": "2715720620c4f546a373b634f3a2ab8bbf620b88",
+        "bytes": 10046,
+        "sha256": "859849b21f22af5516a6e520374cb561032f63ba490e4fb582c78be42b814b16"
+      },
+      "destination": ".arc-verify/rust-coverage/process/report.md",
+      "reason": "Preserve original verdict/report bytes and original limitations; maintained index explicitly marks all removed-path references as archived Git provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/process/recovery.md",
+        "oid": "a24190892223029a4df2c104b5a4d51180215e12",
+        "bytes": 9462,
+        "sha256": "a61a75e9c97f02b11340a5c5acbd0e01edadb331ecb6b02142d17c7482a8db30"
+      },
+      "destination": ".arc-verify/rust-coverage/process/recovery.md",
+      "reason": "Preserve original verdict/report bytes and original limitations; maintained index explicitly marks all removed-path references as archived Git provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/integration/repair-4/report.md",
+        "oid": "7020dfd20844674fefdd78234e2c598e300698cd",
+        "bytes": 9384,
+        "sha256": "fcf3f39d1451047be7ecdf05a63dc6d4ddbf548de8b01fab17588233e030de19"
+      },
+      "destination": ".arc-verify/rust-coverage/integration/repair-4/report.md",
+      "reason": "Preserve original verdict/report bytes and original limitations; maintained index explicitly marks all removed-path references as archived Git provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/integration/repair-4/acceptance.json",
+        "oid": "b12b4f600714bf765be8fabcebfa74b616283998",
+        "bytes": 5921,
+        "sha256": "c5c1526b5c05de759176b0722a5425c618b8c7ed6359ab2158246b8c75c0c0a9"
+      },
+      "destination": ".arc-verify/rust-coverage/integration/repair-4/acceptance.json",
+      "reason": "Preserve original verdict/report bytes and original limitations; maintained index explicitly marks all removed-path references as archived Git provenance.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/qa/review.md",
+        "oid": "efcf44c7ab7cba1d6898f1fb5cd33c3e9e1d9b08",
+        "bytes": 17740,
+        "sha256": "cb2fa49fb7c1475c19e41633f0a99d73d0aeb64f9b64c0882a76a9ee61663883"
+      },
+      "destination": ".arc-verify/rust-coverage/qa/review.md",
+      "reason": "Selected historical independent QA verdict, failure-probe results and native corroboration accounting.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/qa/review.json",
+        "oid": "cc036c2b5ba8341736975a951a29b5bb1c16c6a2",
+        "bytes": 9073,
+        "sha256": "d3cc0e61cc294b21f766849a15cd031f8bef642595951162b85e7f5353df4782"
+      },
+      "destination": ".arc-verify/rust-coverage/qa/review.json",
+      "reason": "Selected historical independent QA verdict, failure-probe results and native corroboration accounting.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/qa/driver-probes.json",
+        "oid": "aa36aa51fd6f868d4dbc4d7369acf1bc8b1995ae",
+        "bytes": 2780,
+        "sha256": "650f0a275073fb83397284a076284d2f01a8063f020414433a55943d85afcbc6"
+      },
+      "destination": ".arc-verify/rust-coverage/qa/driver-probes.json",
+      "reason": "Selected historical independent QA verdict, failure-probe results and native corroboration accounting.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/qa/reconciliation.json",
+        "oid": "22ab127b5021cd4bee3bcbb1917072c0adda4e21",
+        "bytes": 65813,
+        "sha256": "9d771968d9c6aebb776e424e61021dd657aafa4f572b8c219ff9f2221cd00c6e"
+      },
+      "destination": ".arc-verify/rust-coverage/qa/reconciliation.json",
+      "reason": "Selected historical independent QA verdict, failure-probe results and native corroboration accounting.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "review",
+      "action": "retain-bytes",
+      "source": {
+        "path": ".arc-verify/rust-coverage/qa/omission-audit.json",
+        "oid": "9ce9c2917cb9724c248cb1e8adfe42c59221ecc5",
+        "bytes": 32166,
+        "sha256": "b3abda1c2a4bd980eff400103db06347fbb9ad8cdd06c78aaa3a47534ae80626"
+      },
+      "destination": ".arc-verify/rust-coverage/qa/omission-audit.json",
+      "reason": "Selected historical independent QA verdict, failure-probe results and native corroboration accounting.",
+      "label": "Historical; inspect through the maintained evidence-hygiene index, not as fresh acceptance."
+    },
+    {
+      "category": "summary",
+      "action": "copy-exact-before-untracking",
+      "source": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/summary.json",
+        "oid": "ca84dc8a59ad5eedfbff6fd1da7e7c417a389130",
+        "bytes": 67740,
+        "sha256": "81d2adff50467d9ebcb4c70aea3f1018064315ba04d97be69957a0f9232556e2"
+      },
+      "destination": ".arc-verify/rust-coverage/historical/accepted-head-summary.json",
+      "reason": "Extract selected historical run evidence from prohibited runs/ path without changing bytes. Historical wrapper in index supplies original path/run/host/time/source."
+    },
+    {
+      "category": "uncovered",
+      "action": "copy-exact-before-untracking",
+      "source": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/uncovered.md",
+        "oid": "20da55be29bb777384f0a3332223d1485aaa4aa2",
+        "bytes": 2150,
+        "sha256": "a2dd23ba90e4d69afcec644d426fc81f0e7ccb0e2e084c3562367731282e6a44"
+      },
+      "destination": ".arc-verify/rust-coverage/historical/accepted-head-uncovered.md",
+      "reason": "Extract selected historical run evidence from prohibited runs/ path without changing bytes. Historical wrapper in index supplies original path/run/host/time/source."
+    },
+    {
+      "category": "receipt",
+      "action": "copy-exact-before-untracking",
+      "source": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/versions.json",
+        "oid": "16568309f654206efe78a074f0f1b9b27576b9c7",
+        "bytes": 531,
+        "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+      },
+      "destination": ".arc-verify/rust-coverage/historical/accepted-head-versions.json",
+      "reason": "Extract selected historical run evidence from prohibited runs/ path without changing bytes. Historical wrapper in index supplies original path/run/host/time/source."
+    },
+    {
+      "category": "receipt",
+      "action": "derive-compact",
+      "source": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab/receipt.json",
+        "oid": "662062de7221ec4ed0d01e40f9cab7e28f437dfa",
+        "bytes": 450715,
+        "sha256": "dedafa2ad054b77461a8cc5fc9a92bba46e9dabeb01be9700cf4d390904464ac"
+      },
+      "destination": ".arc-verify/rust-coverage/historical/accepted-head-commands.json",
+      "reason": "Retain identity, argv, cwd, PID, timestamps, exit and output hashes; do not copy raw stdout/stderr or embedded metadata. Link original through git show at accepted storage commit."
+    },
+    {
+      "category": "receipt",
+      "action": "derive-compact",
+      "source": {
+        "path": ".arc-verify/rust-coverage/integration/repair-4/commands.json",
+        "oid": "3b9faf2cdcbf30cb455ee945aef685752983a589",
+        "bytes": 161343,
+        "sha256": "867dd3f2196d9bcf3e0b55a89c1d2dfbedbc1ee0f9d882576edf4184e78126ea"
+      },
+      "destination": ".arc-verify/rust-coverage/historical/repair-4-commands.json",
+      "reason": "Retain exact wrapper argv/timestamps/exits/source-before-and-after/receipt hashes/environment-provenance and versions; drop repeated input inventories and full output bodies. Preserve failed receipts if present; never synthesize successful results."
+    }
+  ],
+  "selectedHistoricalRun": {
+    "storageCommit": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+    "executedCommit": "Not recorded as an execution HEAD in the selected run receipt; use its exact recorded source fingerprint. Storage commit is not asserted as executed HEAD.",
+    "originalDirectory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab",
+    "runId": "2026-11-08T01-44-40-398Z-a4294aac-18e6-499d-b452-44ffb3b612ab",
+    "historicalAccountingBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+    "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+    "host": "aarch64-apple-darwin",
+    "started": "2026-11-08T01:44:40.486Z",
+    "ended": "2026-11-08T01:46:03.208Z",
+    "pass": true,
+    "exit": 0,
+    "inputs": "Retained exact summary.json embeds its original inputs map; never overwrite it with receiving-checkout paths or fresh fingerprints.",
+    "nativeHashes": {
+      "lcov": "18f062107644bba9ee65d807ae609715d70fd5928876dabc3a17b4c83de65534",
+      "llvmJson": "515923b8d2fa14bf6095ae9e321aabf9e53d53f5c4a23800f5d83b5c248069ea"
+    },
+    "label": "Historical receipt; not replayable native evidence in a raw-free checkout and not current mission acceptance."
+  },
+  "compactReceiptSchema": {
+    "schemaVersion": 1,
+    "classification": "Historical",
+    "provenance": [
+      "originalPath",
+      "originalGitBlob",
+      "originalSha256",
+      "storageCommit",
+      "acceptedBaseline",
+      "runId",
+      "host",
+      "sourceHash",
+      "started",
+      "ended"
+    ],
+    "commandFields": [
+      "argv",
+      "cwd",
+      "pid",
+      "started",
+      "ended",
+      "exit",
+      "stdoutSha256",
+      "stderrSha256"
+    ],
+    "rules": [
+      "Use SHA-256 of the exact UTF-8 stdout/stderr strings; retain per-command failure exits.",
+      "A field absent from the original must be marked unavailable rather than inferred as observed.",
+      "Link original bytes with git show <storageCommit>:<originalPath>; full raw files remain local and in Git history.",
+      "Record wrapper argv separately from child command argv; sourceHash and afterHash must not be conflated."
+    ]
+  },
+  "untrackPolicy": {
+    "operation": "Copy/derive selected destinations first. Use git rm --cached --ignore-unmatch -- <explicit path list>, never git rm without --cached. Preserve source files locally. Do not rewrite history.",
+    "rustCoverage": "Untrack every accepted-tree path beneath .arc-verify/rust-coverage except the explicit retain-bytes destinations above. Then add only the selected historical destinations. New work reports belong to evidence-hygiene, not additional rust-coverage attempt directories.",
+    "allArcVerify": "Outside rust-coverage, untrack every member of the prohibited union computed over all .arc-verify paths and native-export content. Preserve unrelated non-prohibited evidence. Baseline found no prohibited paths outside rust-coverage; rerun against final index.",
+    "plannedAcceptedFilesUntrackedUnderRustCoverage": 908,
+    "rawInventory": "Ignored target/evidence-hygiene/baseline-local-manifest.json is local only; it must survive index cleanup and integration."
+  },
+  "runtimePointers": [
+    {
+      "path": ".arc-verify/rust-coverage/baseline/latest.json",
+      "action": "untrack and ignore as runtime-only; collector continues to update every success/failure. Do not distribute a passing pointer into removed run data."
+    }
+  ],
+  "transientOutputs": [
+    {
+      "path": ".arc-verify/rust-coverage/baseline/runs/",
+      "action": "Keep raw exports, commands, profiles metadata and run summaries local and ignored; live evidence.test.ts still reads them."
+    },
+    {
+      "path": ".arc-verify/rust-coverage/tooling/acceptance/",
+      "action": "Untrack existing outputs and move future realAcceptance receipts below an ignored runs/ directory; retain compact selected historical receipts only."
+    },
+    {
+      "path": "target/arc-coverage/",
+      "action": "Existing ignored location for fresh owned targets and %p-%m profiles; retain all bytes needed by current evidence verification."
+    },
+    {
+      "path": ".arc-verify/rust-coverage/library/libraries-*/",
+      "action": "Untrack historical exports/inventories/logs along with other nonselected outputs; retain local bytes and history."
+    }
+  ],
+  "requiredIgnorePolicy": {
+    "patterns": [
+      ".arc-verify/**/runs/",
+      ".arc-verify/**/profiles/",
+      ".arc-verify/**/*.profraw",
+      ".arc-verify/**/*.profdata",
+      ".arc-verify/**/*.lcov",
+      ".arc-verify/**/raw.json",
+      ".arc-verify/**/llvm-export.json",
+      ".arc-verify/rust-coverage/baseline/latest.json"
+    ],
+    "contentBackstop": "gitignore cannot detect renamed LLVM JSON. Final tracked-tree audit must examine JSON content in every .arc-verify blob irrespective of extension; fail on native type or native data/files/segments shape. If new raw filenames are introduced, add ignore rules and deterministic positive probes.",
+    "negativeProbes": [
+      ".arc-verify/rust-coverage/contract/accounting.json",
+      ".arc-verify/rust-coverage/historical/accepted-head-summary.json",
+      ".arc-verify/evidence-hygiene/commands.json",
+      ".arc-verify/rust-coverage/historical/accepted-head-commands.json"
+    ],
+    "positiveProbes": [
+      ".arc-verify/probe/runs/id/summary.json",
+      ".arc-verify/probe/nested/profiles/payload",
+      ".arc-verify/probe/nested/file.profraw",
+      ".arc-verify/probe/nested/file.profdata",
+      ".arc-verify/probe/nested/file.lcov",
+      ".arc-verify/probe/nested/raw.json",
+      ".arc-verify/probe/nested/llvm-export.json",
+      ".arc-verify/rust-coverage/baseline/latest.json"
+    ],
+    "probeCommand": "git check-ignore --no-index --verbose --stdin; assert positives match expected rules and negatives have no match. Inspect each result, not only aggregate exit."
+  },
+  "handoff": {
+    "engineer": "Implement ignore/index/runtime/test changes with oma-dev-workflow; own shared manifest/index cleanup; consume this report without modifying its historical measurements. Before/after compare via baseline.method.afterMethod. Publish exact actual receipts and fresh source identity under evidence-hygiene.",
+    "documentation": "Read the retained exact historical files and new engineer receipts. Write evidence-hygiene/index.md with Historical and Fresh sections, original storage commit, old accounting baseline, historical source/host/run/time and fresh source/host/run/time. Update docs/rust-coverage.md; keep bun run test:coverage and direct local summary/uncovered journey. Do not edit byte-bound historical verdicts; label via index. Resolve every live link to removed evidence by pointing to retained maintained copy or an explicitly historical git-show reference.",
+    "qa": "Independent oma-qa consumes final diff, raw preservation manifest digest and fresh receipts; reproduce cheap deterministic index/content/ignore/path/byte checks, and check exact required tests and harness outcomes. Do not rerun all costly instrumentation solely for review ownership; same-source valid receipts may be reused with explicit verification limits.",
+    "preservation": "Compare exact bytes/path sets/modes against acceptedHead, not historical token baseline; retain existing historical preservation behavior separately. All 82 existing Rust files plus migration/harness are protected in baseline.json. Fail newly added/deleted protected paths, including untracked Rust additions; final Git tree and local working files must both comply.",
+    "localIntegration": "Never checkout/reset/remove original raw files during staged deletion integration. If another worktree is used for verification, leave original worktree untouched. Before any worktree cleanup, preserve raw paths plus local manifest in the original retained worktree; verify every listed byte/hash after integration and report actual missing/different files. A clean checkout intentionally has no historical raw payload and must not be used to assert original-local preservation.",
+    "cleanCheckout": "Create separate checkout with required Git history, final implementation/test/contract files and no inherited target, runs, profiles, latest pointers or raw exports. Installed pinned tools/caches may be reused; collection remains locked/offline. Record checkout identity and precollection absence checks, collect coverage there, then run evidence.test.ts against that checkout after its final collection. Never copy absolute-path historical exports into it. Contract file from fbe baseline retains original bytes and meaning."
+  }
+}

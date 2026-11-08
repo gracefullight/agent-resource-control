@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "classification": "Fresh task-5 exact-byte/path/mode preservation, independent QA pending",
+  "checkedAt": "2026-11-08T03:41:04.319223+00:00",
+  "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+  "scope": "All crate .rs files (including tests), 0001_phase0.sql and unchanged scripts/harness/validate.sh",
+  "files": 84,
+  "rustFiles": 82,
+  "pass": true,
+  "pathSetsEqual": true,
+  "indexBytesAndModesEqual": true,
+  "localBytesAndModesEqual": true,
+  "regularFilesOnly": true,
+  "additions": [],
+  "deletions": [],
+  "changed": [],
+  "inventoryPath": ".arc-verify/evidence-hygiene/runs/task-5/recovery-6/protected-inventory.json",
+  "inventorySha256": "f1449d9c0e0e34cd1d08dea3de86b98da88d84c702b10dafee86647745e9411a",
+  "method": "Compare complete accepted/local/index protected path sets, exact git show accepted-HEAD bytes, SHA-256, stage-0 object IDs, executable bits and regular-file state; hygiene-preservation.test.ts independently exercises negative cases.",
+  "checkouts": {
+    "original": {
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/92501eba-f80e-495e-bff2-aa79dd6d6f37/workspace",
+      "result": {
+        "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+        "files": 84,
+        "pass": true
+      }
+    },
+    "final": {
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-final-coverage-g9ku0kyt",
+      "result": {
+        "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+        "files": 84,
+        "pass": true
+      }
+    },
+    "nested": {
+      "cwd": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-hF5HU5",
+      "result": {
+        "acceptedHead": "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e",
+        "files": 84,
+        "pass": true
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "createdAt": "2026-11-08T00:34:32.554590+00:00",
+  "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "task": "task-6",
+  "attempt": 3,
+  "missionLimits": {
+    "maxDurationSec": 86400,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "maxParallel": 3,
+    "reset": false
+  },
+  "execution": "One task; verification serial; preserve existing 115000-ms child timer and 120000-ms test timer.",
+  "resources": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  }
+}

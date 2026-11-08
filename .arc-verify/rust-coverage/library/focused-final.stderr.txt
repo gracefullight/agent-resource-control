@@ -1,0 +1,18 @@
+   Compiling arc-detector v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-1724980aa084bbaa-1/crates/arc-detector)
+   Compiling arc-ipc v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-1724980aa084bbaa-1/crates/arc-ipc)
+   Compiling arc-storage v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-1724980aa084bbaa-1/crates/arc-storage)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.59s
+     Running unittests src/lib.rs (target/debug/deps/arc_core-b8dbbbda8203ad41)
+     Running tests/coverage.rs (target/debug/deps/coverage-c945b6ebb38216a7)
+     Running tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)
+     Running unittests src/lib.rs (target/debug/deps/arc_detector-d94ead05b83a4077)
+     Running unittests src/lib.rs (target/debug/deps/arc_ipc-713a0ccbb8b2bde8)
+     Running tests/classification.rs (target/debug/deps/classification-edb46d8cf1c6a5fd)
+     Running tests/coverage.rs (target/debug/deps/coverage-1e3789a306245d58)
+     Running unittests src/lib.rs (target/debug/deps/arc_storage-d0c5bfbeb30e5db0)
+     Running tests/coverage.rs (target/debug/deps/coverage-50b4c7fc24e616de)
+     Running tests/nfr010.rs (target/debug/deps/nfr010-4eab894387460722)
+   Doc-tests arc_core
+   Doc-tests arc_detector
+   Doc-tests arc_ipc
+   Doc-tests arc_storage

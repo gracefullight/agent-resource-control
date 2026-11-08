@@ -1,0 +1,36 @@
+{
+  "createdAt": "2026-11-08T00:43:50.157333+00:00",
+  "host": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "task": "task-6",
+  "attempt": 4,
+  "missionLimits": {
+    "maxDurationSec": 86400,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "maxParallel": 3,
+    "reset": false
+  },
+  "execution": "Serial verification; authorized operator note raises child timeout to 900000 ms and harness test timeout to 960000 ms; receipt runner allows 1020000 ms. No deadline/run/retry reset; no new Actors.",
+  "resources": {
+    "RLIMIT_NOFILE": [
+      1048576,
+      9223372036854775807
+    ],
+    "RLIMIT_NPROC": [
+      2666,
+      4000
+    ],
+    "RLIMIT_AS": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "RLIMIT_CPU": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  },
+  "operatorNote": "2026-11-08T00:42:45.775Z; constants are mission-owned and must be raised to at least 900000 ms.",
+  "availableDiskGiB": 98,
+  "cpus": 8,
+  "memoryBytes": 17179869184
+}

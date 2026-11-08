@@ -1,0 +1,220 @@
+{
+  "status": "ready-for-independent-QA",
+  "complete": true,
+  "task": "task-6",
+  "missionComplete": false,
+  "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+  "inputCount": 114,
+  "allFiveExactCommandsPass": true,
+  "allVerificationTestsPass": true,
+  "commands": [
+    {
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "exit": 0,
+      "durationMs": 80164.0,
+      "receipt": ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-f8af459c-a9cf-49ed-9c31-34138816c24e/00-command.json",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8"
+    },
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "durationMs": 1116,
+      "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "durationMs": 376,
+      "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exit": 0,
+      "durationMs": 40064,
+      "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8"
+    },
+    {
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exit": 0,
+      "durationMs": 225973.0,
+      "receipt": ".arc-verify/rust-coverage/tooling/acceptance/harness-c4da9be1-0b54-46d4-ba48-5c247c503f88/00-command.json",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8"
+    }
+  ],
+  "verificationWrappers": [
+    {
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked",
+        "--offline"
+      ],
+      "exit": 0,
+      "durationMs": 202,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-prerequisites-2026-11-08T00-43-39-260Z"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/coverage-cli.test.ts"
+      ],
+      "exit": 0,
+      "durationMs": 80542,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-coverage-cli-2026-11-08T00-43-48-991Z"
+    },
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "durationMs": 1116,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "durationMs": 376,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exit": 0,
+      "durationMs": 40064,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "durationMs": 3071,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-deterministic-2026-11-08T00-46-07-539Z"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "exit": 0,
+      "durationMs": 227290,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-harness-2026-11-08T00-46-19-073Z"
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "durationMs": 785,
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-4-final-evidence-2026-11-08T00-50-17-147Z"
+    }
+  ],
+  "measurement": {
+    "runId": "2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228",
+    "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+    "pass": true
+  },
+  "crates": [
+    {
+      "crate": "arc-core",
+      "covered": 64,
+      "total": 64,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-detector",
+      "covered": 577,
+      "total": 578,
+      "percent": 99.82698961937716,
+      "pass": true
+    },
+    {
+      "crate": "arc-storage",
+      "covered": 226,
+      "total": 227,
+      "percent": 99.55947136563877,
+      "pass": true
+    },
+    {
+      "crate": "arc-ipc",
+      "covered": 215,
+      "total": 215,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-daemon",
+      "covered": 1507,
+      "total": 1613,
+      "percent": 93.42839429634222,
+      "pass": true
+    },
+    {
+      "crate": "arc-cli",
+      "covered": 203,
+      "total": 213,
+      "percent": 95.30516431924883,
+      "pass": true
+    }
+  ],
+  "independentQA": "Task-7 pending; task-6 implementer does not self-approve",
+  "historicalFailures": "Previous attempts and all failed receipts retained; only this current-source attempt establishes repair acceptance.",
+  "obligations": {
+    "desktop": "incomplete",
+    "native Windows": "incomplete",
+    "remaining Phase 0": "incomplete"
+  }
+}

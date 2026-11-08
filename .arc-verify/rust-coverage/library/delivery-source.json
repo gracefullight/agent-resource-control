@@ -1,0 +1,33 @@
+{
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "localHead": "6175ac9ba822ca20c0529394cd22e0ac8a4b9d48",
+  "scope": "Actor-local working-tree changes, absent from accepted committed baseline",
+  "ownedSourceFiles": {
+    "crates/arc-core/tests/coverage.rs": {
+      "sha256": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+      "bytes": 2420,
+      "lines": 75
+    },
+    "crates/arc-detector/src/coverage_tests.rs": {
+      "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+      "bytes": 1897,
+      "lines": 53
+    },
+    "crates/arc-detector/src/lib.rs": {
+      "sha256": "5fa33846ff3f6ed68b81c787a2f77fcf790935c29a978b7ffe4633185e653614",
+      "bytes": 2493,
+      "lines": 74
+    },
+    "crates/arc-storage/tests/coverage.rs": {
+      "sha256": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+      "bytes": 5666,
+      "lines": 147
+    },
+    "crates/arc-ipc/tests/coverage.rs": {
+      "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+      "bytes": 9633,
+      "lines": 286
+    }
+  },
+  "patchSha256": "a2fa4822137924a5ac22afdf1c7992b7be1ad15f208b9227430ac97ae11de706"
+}

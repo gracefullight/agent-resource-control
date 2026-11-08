@@ -1,0 +1,12 @@
+{
+  "command": [
+    "bun",
+    "test",
+    "scripts/coverage/preservation.test.ts",
+    "scripts/coverage/gate.test.ts",
+    "scripts/coverage/accounting.test.ts"
+  ],
+  "exit": 0,
+  "started": "2026-11-07T23:57:45.040492+00:00",
+  "elapsedSeconds": 1.905648946762085
+}

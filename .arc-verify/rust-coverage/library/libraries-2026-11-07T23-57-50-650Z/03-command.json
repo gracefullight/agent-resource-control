@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+    "--version"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-1724980aa084bbaa-1",
+  "started": "2026-11-07T23:57:50.818Z",
+  "ended": "2026-11-07T23:57:50.823Z",
+  "exit": 0,
+  "stdout": "LLVM (http://llvm.org/):\n  LLVM version 22.1.2-rust-1.95.0-stable\n  Optimized build.\n",
+  "stderr": "",
+  "pid": 6473
+}

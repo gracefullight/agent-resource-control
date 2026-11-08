@@ -1,0 +1,1667 @@
+{
+  "observedAt": "2026-11-08T00:08:08.441204+00:00",
+  "status": "recovered",
+  "taskAttempt": 2,
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "actualInputTree": "670e7d793ff12ac83476680a39fa7496243d6d4b",
+  "retainedInputSnapshot": "6732fb6e33d3e58f208fca0807e3daf0407ffbf6",
+  "retainedWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1",
+  "assignedWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "rustFiles": [
+    {
+      "path": "crates/arc-cli/tests/binary.rs",
+      "sha256": "fcdf17704312c735e33af4b8cc9947abbecc06ef1205f3a81c551fe0c9fe8da3",
+      "bytes": 1577
+    },
+    {
+      "path": "crates/arc-cli/tests/classification.rs",
+      "sha256": "0ba8a5ffcb0cdd54d5299941d61926e8bf4f5b358764219a25c4a205efbd6515",
+      "bytes": 10794
+    },
+    {
+      "path": "crates/arc-cli/tests/schema.rs",
+      "sha256": "d63b9f3ec80835ede61caf740c5a632a54df91d600a35b019fcff7270eb29a5a",
+      "bytes": 9152
+    },
+    {
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "sha256": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486",
+      "bytes": 13180
+    },
+    {
+      "path": "crates/arc-daemon/tests/resident/coverage.rs",
+      "sha256": "27502ce76b66ede028c87af92c6f398a8e359478da0eacce03e841526e97ea07",
+      "bytes": 5572
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+      "sha256": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+      "bytes": 4790
+    }
+  ],
+  "retainedMeasurement": {
+    "runId": "2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a",
+    "sourceHash": "9906da2dbf7e051b919b94a40267d8e985a602757ebe6232fde01b76f638947d",
+    "pass": true
+  },
+  "allRetainedMeasurementInputsStillMatch": true,
+  "sharedPointer": {
+    "path": ".arc-verify/rust-coverage/baseline/latest.json",
+    "bytes": 283,
+    "sha256": "5f0233ab2a4c06577965d7959770a6299b697dd27d3aa182e2524bbe8fcd280c",
+    "indexSha256": "6d5ee0c4dbe567133cbfa625243d0e03b3d8eea8b2669f8de9807851fe3a98b3",
+    "worktreeUnchanged": true,
+    "indexUnchanged": true
+  },
+  "retainedPointerRestoredToOwnSnapshot": "6d5ee0c4dbe567133cbfa625243d0e03b3d8eea8b2669f8de9807851fe3a98b3",
+  "preservedPeers": {
+    "crates/arc-core/Cargo.toml": {
+      "bytes": 135,
+      "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857"
+    },
+    "crates/arc-core/src/lib.rs": {
+      "bytes": 6013,
+      "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435"
+    },
+    "crates/arc-core/tests/coverage.rs": {
+      "bytes": 2420,
+      "sha256": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18"
+    },
+    "crates/arc-core/tests/runtime.rs": {
+      "bytes": 2176,
+      "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8"
+    },
+    "crates/arc-detector/Cargo.toml": {
+      "bytes": 169,
+      "sha256": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab"
+    },
+    "crates/arc-detector/src/budget.rs": {
+      "bytes": 2097,
+      "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883"
+    },
+    "crates/arc-detector/src/coverage_tests.rs": {
+      "bytes": 1897,
+      "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04"
+    },
+    "crates/arc-detector/src/lexer.rs": {
+      "bytes": 5584,
+      "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59"
+    },
+    "crates/arc-detector/src/lib.rs": {
+      "bytes": 2493,
+      "sha256": "5fa33846ff3f6ed68b81c787a2f77fcf790935c29a978b7ffe4633185e653614"
+    },
+    "crates/arc-detector/src/parser.rs": {
+      "bytes": 4535,
+      "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3"
+    },
+    "crates/arc-detector/src/rules.rs": {
+      "bytes": 8753,
+      "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253"
+    },
+    "crates/arc-detector/src/tests.rs": {
+      "bytes": 11473,
+      "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae"
+    },
+    "crates/arc-detector/src/types.rs": {
+      "bytes": 4874,
+      "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd"
+    },
+    "crates/arc-detector/tests/support/contract.rs": {
+      "bytes": 3846,
+      "sha256": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d"
+    },
+    "crates/arc-detector/tests/support/ssh.rs": {
+      "bytes": 6862,
+      "sha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7"
+    },
+    "crates/arc-storage/Cargo.toml": {
+      "bytes": 201,
+      "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1"
+    },
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "bytes": 3917,
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+    },
+    "crates/arc-storage/src/history.rs": {
+      "bytes": 4730,
+      "sha256": "31bd31276df810465752cc9e1492f3c90dabde0f1209e99ae6b5ce9ccfc02a5f"
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "bytes": 1868,
+      "sha256": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b"
+    },
+    "crates/arc-storage/src/migration/tests/acceptance.rs": {
+      "bytes": 7100,
+      "sha256": "60bd1084d6954b6ee47d8176620d702b705d922831937ac84e666007453ea10f"
+    },
+    "crates/arc-storage/src/migration/tests/concurrency.rs": {
+      "bytes": 5377,
+      "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3"
+    },
+    "crates/arc-storage/src/migration/tests/rejection.rs": {
+      "bytes": 6250,
+      "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59"
+    },
+    "crates/arc-storage/src/migration/tests.rs": {
+      "bytes": 4553,
+      "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34"
+    },
+    "crates/arc-storage/src/migration.rs": {
+      "bytes": 5979,
+      "sha256": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533"
+    },
+    "crates/arc-storage/tests/coverage.rs": {
+      "bytes": 5666,
+      "sha256": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de"
+    },
+    "crates/arc-storage/tests/fixtures/0001_fixture.sql": {
+      "bytes": 187,
+      "sha256": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639"
+    },
+    "crates/arc-storage/tests/fixtures/0002_additive.sql": {
+      "bytes": 234,
+      "sha256": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127"
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "bytes": 7743,
+      "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61"
+    },
+    "crates/arc-ipc/Cargo.toml": {
+      "bytes": 174,
+      "sha256": "1448e14d83c9cf6fe162a68c35aaa14d603c910079992e0c5de48c5af004398a"
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "bytes": 11658,
+      "sha256": "57807b93f06693000117ca9ae12738e63e38ddfd8629b16aff3829ec17df7064"
+    },
+    "crates/arc-ipc/src/schema.rs": {
+      "bytes": 2693,
+      "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f"
+    },
+    "crates/arc-ipc/src/tests/dispatch.rs": {
+      "bytes": 2439,
+      "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d"
+    },
+    "crates/arc-ipc/src/tests/framing.rs": {
+      "bytes": 3653,
+      "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960"
+    },
+    "crates/arc-ipc/src/tests/mod.rs": {
+      "bytes": 124,
+      "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6"
+    },
+    "crates/arc-ipc/src/tests/schema.rs": {
+      "bytes": 5603,
+      "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd"
+    },
+    "crates/arc-ipc/tests/classification.rs": {
+      "bytes": 3951,
+      "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d"
+    },
+    "crates/arc-ipc/tests/coverage.rs": {
+      "bytes": 9633,
+      "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341"
+    },
+    "docs/architecture/CONSTRAINTS.md": {
+      "bytes": 5652,
+      "sha256": "ec660774adafb8b26d7cdd8acd69279a54dd4547e721fcf14bed95965b5b7d8e"
+    },
+    "docs/architecture/LAYERS.md": {
+      "bytes": 3909,
+      "sha256": "993dcb4a901eead83bc907daf09ca79550fcf8ff68162d3a2226dd4f5b2a7116"
+    },
+    "docs/architecture/enforcement/go.md": {
+      "bytes": 4060,
+      "sha256": "d5257f51a3881f85570cf224919bc0db18f0bcd965d31e5db9db42ea6a1ee68c"
+    },
+    "docs/architecture/enforcement/python.md": {
+      "bytes": 3018,
+      "sha256": "30a23eba1046d888d4d5b1de3c108fe72b80c248494ea6592b54b10aa9be12af"
+    },
+    "docs/architecture/enforcement/typescript.md": {
+      "bytes": 3985,
+      "sha256": "318a03139a301e7325851954fb8c24365dc8f05ec18fad3b48402d1713a65f58"
+    },
+    "docs/bounded-ipc-contract.md": {
+      "bytes": 28910,
+      "sha256": "989a8d0fcfbffc427d2c952494771065248358f3211f0044fa764dd4810ad8d0"
+    },
+    "docs/bounded-ipc-final.md": {
+      "bytes": 28329,
+      "sha256": "c1ef3c544d5560c59c27f72999b6b4e950466d8c7ab87c4e26d0ce70f472b305"
+    },
+    "docs/bounded-ipc-recovery.md": {
+      "bytes": 21984,
+      "sha256": "3caee0122fb9e775dbef13d4717d2eecb134ba2b61845eb03f333b0add59a65b"
+    },
+    "docs/bounded-ipc-targets.md": {
+      "bytes": 9960,
+      "sha256": "991aa83a4c7d721a3b4eec303b635aa5df88cd7830918aa5309b1ef3cff41ddd"
+    },
+    "docs/bounded-ipc-value-scope.md": {
+      "bytes": 13616,
+      "sha256": "f0f6f0f932eeab477d9ba99339b302b4c57853f283d880a6eb7c490647fc0026"
+    },
+    "docs/decisions/0001-turso-team-ledger.md": {
+      "bytes": 5251,
+      "sha256": "9473a89dd8d23d396fbc08e31793566c0993151900d7be64fb0e08cc729aef54"
+    },
+    "docs/decisions/001-chief-continuous-operation.md": {
+      "bytes": 6740,
+      "sha256": "0fe7bbcde69d62953225e59cd7e52af516e3b57993e9f3f100b4bfb492d3e220"
+    },
+    "docs/decisions/README.md": {
+      "bytes": 185,
+      "sha256": "8d547d5006eadbb51bb8deea683a21146324233615fd4cb0094422de98e3b7af"
+    },
+    "docs/decisions/adr-chief-decision-ownership.md": {
+      "bytes": 3933,
+      "sha256": "699b673b774c82e396ec22af5e180f87606055c2a09b65dd07366e493e39c258"
+    },
+    "docs/decisions/adr-runtime-execution-and-state-ownership.archify.delivery.json": {
+      "bytes": 659,
+      "sha256": "14ebfe3cdbedf0ca299a74d5601d443eb69d5f1c5ec4b5bea93926a9d3ee99df"
+    },
+    "docs/decisions/adr-runtime-execution-and-state-ownership.archify.html": {
+      "bytes": 822326,
+      "sha256": "927014c8f52cb19efe42869c72b55788056302591fde8ee8e11cc22d63fb0400"
+    },
+    "docs/decisions/adr-runtime-execution-and-state-ownership.archify.json": {
+      "bytes": 2800,
+      "sha256": "6c059e24ed960a460e5484ebeae1788d39cb4fd29273c2804067440ec516cd15"
+    },
+    "docs/decisions/adr-runtime-execution-and-state-ownership.md": {
+      "bytes": 18498,
+      "sha256": "37b9a98320399cc6016b926f2dc54027d36a39255aeda786d2b56064bc50e454"
+    },
+    "docs/guides/a2a-execution.md": {
+      "bytes": 7007,
+      "sha256": "cf50b554ec0fada1eed0dea86fea78d4538d0c0c955f8c74f14f47f762d1ed4b"
+    },
+    "docs/guides/agent-clients.md": {
+      "bytes": 11393,
+      "sha256": "489e9c3acbc608fb653fe7026ab8db93bba476daff76f2feb2f421d7fd41782b"
+    },
+    "docs/guides/chief-containers.md": {
+      "bytes": 6133,
+      "sha256": "6c7c25f855b3a542b1220130b8c81b6ad890e89911fc557b08617880f857021d"
+    },
+    "docs/guides/chief-continuous.md": {
+      "bytes": 15294,
+      "sha256": "7af839979d06ef17cc7ca817f2ba4a58000744b9fe15034a73c87411d119c38e"
+    },
+    "docs/guides/chief-integrations.md": {
+      "bytes": 18023,
+      "sha256": "31560e57afd429259dcb4b9ea853ef1a9c53bbaeb96b9ddeb97784c2f0446b65"
+    },
+    "docs/guides/chief-missions.md": {
+      "bytes": 34305,
+      "sha256": "2f5e8949302a8471a9cff4e99ac24f9161008830722350542986499b8fa69b3c"
+    },
+    "docs/guides/conformance-checklist.md": {
+      "bytes": 2243,
+      "sha256": "ede334510052e7cda4688f459353f39710d2bcf93812e8bca9cbdca538485efe"
+    },
+    "docs/guides/conventions.md": {
+      "bytes": 7196,
+      "sha256": "2d344e455221e1a40d8eb680f8089b20b711ebeca8ee191c7578fe8a2b4bc545"
+    },
+    "docs/guides/environment-setup.md": {
+      "bytes": 23299,
+      "sha256": "bb43205beb4a9cca289f58c4013decc5b66947722e53046bf1372a39c99aed04"
+    },
+    "docs/guides/implementation-guide.md": {
+      "bytes": 9652,
+      "sha256": "1cfca7a3192b6c85bb49d5db1597532e36a504d16d985f810cdcea98e7f7412e"
+    },
+    "docs/guides/native-plugins.md": {
+      "bytes": 9278,
+      "sha256": "8dcf69b168e381939d5d996a20f7eb1fd6630e0b318ea9897a48c26789cf0f74"
+    },
+    "docs/guides/oma-integration.md": {
+      "bytes": 11421,
+      "sha256": "428d5d15a5673b29a741f4e58d0f2664653f9a98c3045e1ff323037cdeca9f53"
+    },
+    "docs/guides/production-readiness.md": {
+      "bytes": 7540,
+      "sha256": "c68d849f50a7713b4fc51a98aa362be665fe8f6f208497257cd3a9b6da439b5b"
+    },
+    "docs/guides/team-ledger.md": {
+      "bytes": 9016,
+      "sha256": "a36d7950294590472ebf184c7013df164f027994cd1d3f10c4119fdd1b7dd306"
+    },
+    "docs/guides/unattended-delivery.md": {
+      "bytes": 10832,
+      "sha256": "0a3876094bfd54a6e115355af253932e4b8732e343175ebbbc7815d79d6636a4"
+    },
+    "docs/guides/web-mcp.md": {
+      "bytes": 6760,
+      "sha256": "55c0c40360bd0cdfe442c593560ec839ca2444fd960597f7bfab6a6097fd9874"
+    },
+    "docs/harness/ENTROPY.md": {
+      "bytes": 4520,
+      "sha256": "ca32015de4ce8ae1e1cf9b03cbfbc0a3b058b7352b50dec4e25338415f0a57b7"
+    },
+    "docs/harness/FEEDBACK-LOOPS.md": {
+      "bytes": 4076,
+      "sha256": "c573b93367d8148a684a816ffb9f84a3c6806fc2cc70baf47abf1b6ed36a55fa"
+    },
+    "docs/harness/LEGIBILITY.md": {
+      "bytes": 4245,
+      "sha256": "44e245a70c882a06ad142ac166186bb05010a1091c725e375b9b7caba7e07b4f"
+    },
+    "docs/harness/SAFETY.md": {
+      "bytes": 14948,
+      "sha256": "cc5596ae4aaaa87e1e4bbc5bdc6c746d34524e1a100049d789d3f72a1eff7167"
+    },
+    "docs/ipc-provisioning-design-review.md": {
+      "bytes": 15098,
+      "sha256": "05d79061d397688dc0f19da1dec290bba413e7483ceb5ee3aa94d70992085b70"
+    },
+    "docs/ipc-provisioning-final.md": {
+      "bytes": 12213,
+      "sha256": "47e7116ea4f46306c442a30a8d1fc554422fc38ff44eb30ab39cb73a4e58f845"
+    },
+    "docs/ipc-provisioning-implementation.md": {
+      "bytes": 25294,
+      "sha256": "4b0236cb11364fba28eb2a87ff1bb084e136cc3e6e40d1d52a895bd15372d47b"
+    },
+    "docs/ipc-provisioning-qa.md": {
+      "bytes": 20908,
+      "sha256": "66efac5bd2840b9af6fb8063c59c2b849e38b6bff4a1fa900a19301f9c055b48"
+    },
+    "docs/ipc-provisioning-technical-review.md": {
+      "bytes": 13492,
+      "sha256": "ab9d6a7ec000618711b26bef6f5c76154eb404b978c4540dd2008609c30ff655"
+    },
+    "docs/ipc-provisioning-value-scope.md": {
+      "bytes": 3987,
+      "sha256": "b7570650336cf44ecc1445f3fc2efe36e352b4d85a5ad1887bc9eedeeac8ea48"
+    },
+    "docs/phase0-review.md": {
+      "bytes": 2707,
+      "sha256": "f37a21aaec805952d7f656eb6987b9dffe20a6142eeaa2ce5cbf056fc2dad800"
+    },
+    "docs/prd.md": {
+      "bytes": 26791,
+      "sha256": "2a87a8090ae8d90a7b50d4eeb92e17d6c1e5fcdbf70853a21760faebab9b7a2a"
+    },
+    "docs/releases/release-checks.md": {
+      "bytes": 4551,
+      "sha256": "e5c2dffa68da418be547cbec54b048bc0feb1359f987ea6fbf4546ba172fe928"
+    },
+    "docs/releases/v0.2.0.md": {
+      "bytes": 5255,
+      "sha256": "ba1a7c4a6210ab65b8490257d134ca7a2100a0b06149ad3d5a5f7023483554a2"
+    },
+    "docs/releases/v1.0.0.md": {
+      "bytes": 1309,
+      "sha256": "bdf37b438cee693f22fec786533c3558997a2d52df6c0d28eaaaeb144743f495"
+    },
+    "docs/reports/operability-audit-2026-10-03.md": {
+      "bytes": 13301,
+      "sha256": "1e55e512b505c0c0c6da2aa14f5b0f0370d37be6bca3c4fce83057f8a2dd6792"
+    },
+    "docs/resident-slice-review.md": {
+      "bytes": 38999,
+      "sha256": "b98fc5cac9836bb3d97d28ec7c96d83387acffa6e72c41fc39b9f3c4d3f6f188"
+    },
+    "docs/runtime-identity-evidence.json": {
+      "bytes": 18668,
+      "sha256": "e1184cc85e7ad2e7dded8e2d5aff172375d62b2eb52546bdc3e645f706b9e888"
+    },
+    "docs/runtime-identity-final.md": {
+      "bytes": 14826,
+      "sha256": "3b4aea741ac3b21cb9c0c0ed1767d80483494e67f6f84423d26161bdf2a762a3"
+    },
+    "docs/runtime-identity-implementation.md": {
+      "bytes": 15053,
+      "sha256": "1aafd9d0fa49b989ad97b734e987124d9abc40788ab1deea767226ddc6a9ffe6"
+    },
+    "docs/runtime-identity-qa.md": {
+      "bytes": 19197,
+      "sha256": "af20ea9d6590d5d74e8fbf237d56c82ad72af4f493aae608d5569ef35794a562"
+    },
+    "docs/runtime-identity-technical-review.md": {
+      "bytes": 18606,
+      "sha256": "cf13c873b784d8a5b430b80d5fb8b799ea48b75f5ba121bcbe27879a442c409c"
+    },
+    "docs/runtime-identity-usage.md": {
+      "bytes": 15863,
+      "sha256": "5c5a852344a000f2e9aa3b93aa6487a3b09262512b5de40d2473fd804c73773a"
+    },
+    "docs/runtime-identity-value-scope.md": {
+      "bytes": 4633,
+      "sha256": "85ef668df693c92241f420bdc05a53440dfe2231d9a9bdae59db46a464c9f311"
+    },
+    "docs/rust-coverage.md": {
+      "bytes": 11796,
+      "sha256": "845b5d569c753e35c3b1c025c5baba9d90578c1637a05d9eafb6b5609f484f38"
+    },
+    "docs/schema-compatibility-contract.md": {
+      "bytes": 23734,
+      "sha256": "d796b2875b3c998fd186e18043317f355896a3fa4ca705952752b105c46e5e9e"
+    },
+    "docs/specs/agent-runner.md": {
+      "bytes": 20525,
+      "sha256": "14cfbe8e24d0905b1e28de2ebcf96b7d47de461a590777d2b604284f1f7601e7"
+    },
+    "docs/specs/config-layer.md": {
+      "bytes": 6254,
+      "sha256": "38b5144fa5a959e886a9ce428f08f2052dadb03a9a5085242b57a00d0db48d94"
+    },
+    "docs/specs/domain-models.md": {
+      "bytes": 4570,
+      "sha256": "d625d04e45606d76a50b262b04a4c6c4e9df8e1a5ecd95d967d50d4eadc2e2f7"
+    },
+    "docs/specs/observability.md": {
+      "bytes": 7436,
+      "sha256": "171295506d8e7b95be2191eb8b00549d5a04e330b0055413cda66df90377f24e"
+    },
+    "docs/specs/orchestrator.md": {
+      "bytes": 12799,
+      "sha256": "fb681be78dc4009032ba2a399fe5c15180362c3e56219ad494ecf2a3d423bd68"
+    },
+    "docs/specs/tracker-client.md": {
+      "bytes": 8763,
+      "sha256": "2e218829552b42c392e90920b35b3e2da5ce91cb1fa39685a733a81c991c73c3"
+    },
+    "docs/specs/workflow-loader.md": {
+      "bytes": 4848,
+      "sha256": "710f60ba98dc02e234b7c100337e8304eccc63532aba21d8ae789759484847c4"
+    },
+    "docs/specs/workspace-manager.md": {
+      "bytes": 5987,
+      "sha256": "48bff81bfcae5983905533107253ab497c64d8fd639992ac09e85459f7fb9f48"
+    },
+    "docs/stacks/go.md": {
+      "bytes": 6714,
+      "sha256": "459b62b4604e924c95a39e4cd67742ba2548894434d324dfd412c3ebe2f71110"
+    },
+    "docs/stacks/python.md": {
+      "bytes": 5347,
+      "sha256": "8f59145b65b98a8e4b706ea2263c2bd47f65fd7f0f3a746977c9b30efe93901d"
+    },
+    "docs/stacks/typescript.md": {
+      "bytes": 5279,
+      "sha256": "f27116a63b74ae35256a91af93110b3ec5ac27f8b5a83c00b35813cf9dc31dc8"
+    },
+    ".arc-verify/rust-coverage/library/check.py": {
+      "bytes": 1884,
+      "sha256": "474656ade20fe4d0524e1205538d637dfd7701caffda19c3a4e7801acd45b489"
+    },
+    ".arc-verify/rust-coverage/library/clippy-final.json": {
+      "bytes": 26707,
+      "sha256": "b558d00a215ba4d306335959275dc52b37dc3937e425280cc0b5b86a81b2b7ae"
+    },
+    ".arc-verify/rust-coverage/library/clippy-final.stderr.txt": {
+      "bytes": 900,
+      "sha256": "3e69af9b7adf7113a2b222d8aa1303684f69aa9fd4cadd0a1ec0c6bbac16f076"
+    },
+    ".arc-verify/rust-coverage/library/clippy-final.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/clippy.json": {
+      "bytes": 26700,
+      "sha256": "e0c8014c5534f6d589f6e2f6734e0035cad74810ede78f7a685fc4b866429820"
+    },
+    ".arc-verify/rust-coverage/library/clippy.stderr.txt": {
+      "bytes": 3235,
+      "sha256": "51fa9d380480ce23923fb032b236018ded9369d0a08ce3473b1e447da653dde3"
+    },
+    ".arc-verify/rust-coverage/library/clippy.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/command-index.json": {
+      "bytes": 4117,
+      "sha256": "8b305001e87d6cf94f61d33ad8ec658558e976069da0c1608824279bef0655eb"
+    },
+    ".arc-verify/rust-coverage/library/coverage-final.json": {
+      "bytes": 26649,
+      "sha256": "00724cf52b16d52042907f882be05afb36f4fa4c0d1506f97c3885b8c7c5a46f"
+    },
+    ".arc-verify/rust-coverage/library/coverage-final.stderr.txt": {
+      "bytes": 5419,
+      "sha256": "a9f41e39ca018b31811a6aabb0794cbb0969801424611195326850a9a613574e"
+    },
+    ".arc-verify/rust-coverage/library/coverage-final.stdout.txt": {
+      "bytes": 138,
+      "sha256": "960cb3557be990a2ee9fe1534a7ba61408db42eaa7676778716eb2e9b037eb4f"
+    },
+    ".arc-verify/rust-coverage/library/coverage.json": {
+      "bytes": 26642,
+      "sha256": "43f3fd4e189fca371a1fa53744ba3879c2875b27ab33ad9d74753e3b65fe4f76"
+    },
+    ".arc-verify/rust-coverage/library/coverage.stderr.txt": {
+      "bytes": 5419,
+      "sha256": "caec058ccfc7f060ae7845a7d0135bd934daad9f829831a05001ad9b3eadd5a2"
+    },
+    ".arc-verify/rust-coverage/library/coverage.stdout.txt": {
+      "bytes": 138,
+      "sha256": "960cb3557be990a2ee9fe1534a7ba61408db42eaa7676778716eb2e9b037eb4f"
+    },
+    ".arc-verify/rust-coverage/library/delivery-source.json": {
+      "bytes": 1203,
+      "sha256": "49e2a3e8c2cf83bbd37fe74aa2bd01fd0d5647efa59753dba8c6f01af43f2754"
+    },
+    ".arc-verify/rust-coverage/library/delivery.json": {
+      "bytes": 20195,
+      "sha256": "d6c2cc31057b60ea61982be4157b62aa2ff01b8014c9cec71b33c3bb355ed91a"
+    },
+    ".arc-verify/rust-coverage/library/diagnostic-final.json": {
+      "bytes": 26670,
+      "sha256": "3fb5419207c97ee823f50de18a7ceebb94cdcb19d196751e8f8aa712b806eb0a"
+    },
+    ".arc-verify/rust-coverage/library/diagnostic-final.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/diagnostic-final.stdout.txt": {
+      "bytes": 632,
+      "sha256": "b45d10f83506d26581f89b88c3aecffa9731ebce13cea2ef99124cc166f5212b"
+    },
+    ".arc-verify/rust-coverage/library/diagnostic-latest.json": {
+      "bytes": 716,
+      "sha256": "70c7c6915735acc3268557af1b28fe5d967240140fbe4c8bf523e350d90bdeda"
+    },
+    ".arc-verify/rust-coverage/library/diagnostic.json": {
+      "bytes": 26664,
+      "sha256": "2e59b9483b7a1b16fd8c259cb2b270f2cc2a2b2bcfe59639071b8b982626e49e"
+    },
+    ".arc-verify/rust-coverage/library/diagnostic.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/diagnostic.stdout.txt": {
+      "bytes": 646,
+      "sha256": "e571ef25fff7a42e47f55daeffc3c657b233bbe5bcb06ced8abe4a8c84328560"
+    },
+    ".arc-verify/rust-coverage/library/failed-final-workspace-inputs.json": {
+      "bytes": 12709,
+      "sha256": "5dc200776ec57a7426e1fb95334e802b4540248bcc61959df6eee50bf9d55f14"
+    },
+    ".arc-verify/rust-coverage/library/failed-final-workspace-receipt.json": {
+      "bytes": 394896,
+      "sha256": "da856da67d672273d6675536fffef05a894ddaf18b42bb8c971b7780b92b1b9d"
+    },
+    ".arc-verify/rust-coverage/library/failed-final-workspace-run.json": {
+      "bytes": 300,
+      "sha256": "2c1556a32de2b6f6687c9c46cce7bbb4de612c0c85c2d01f9a22edb21027f04d"
+    },
+    ".arc-verify/rust-coverage/library/failed-final-workspace-source-inventory.json": {
+      "bytes": 25330,
+      "sha256": "df4891120b7cea3eae3a232d0ddd05afa51986cfb8ec5041f3f896f6864c46a8"
+    },
+    ".arc-verify/rust-coverage/library/failed-final-workspace-versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/library/failed-workspace-inputs.json": {
+      "bytes": 12709,
+      "sha256": "2f34fb2a8be4cb205ede6a7757595f90412e858cf8ac6434baece52296a2016f"
+    },
+    ".arc-verify/rust-coverage/library/failed-workspace-receipt.json": {
+      "bytes": 394903,
+      "sha256": "cbb1d6b265d70476dadbf6091799c5fdbffff9d949829287117361509fe02f03"
+    },
+    ".arc-verify/rust-coverage/library/failed-workspace-run.json": {
+      "bytes": 300,
+      "sha256": "96908fd0132ade1c0b97e41dc700d8e986b64cd6fbdf30ed29a07b0e20a80c63"
+    },
+    ".arc-verify/rust-coverage/library/failed-workspace-source-inventory.json": {
+      "bytes": 25330,
+      "sha256": "3e76ada8b946a4228aa335ee0fc567279b49959b098abb14f2024f681ae7077b"
+    },
+    ".arc-verify/rust-coverage/library/failed-workspace-versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/library/final-workspace-test-failure.stderr.txt": {
+      "bytes": 4855,
+      "sha256": "3e77a1aefa8972e0e46a875a0e2000c1d9f192c46e824b1f6b8a78159fbd2e16"
+    },
+    ".arc-verify/rust-coverage/library/final-workspace-test-failure.stdout.txt": {
+      "bytes": 2106,
+      "sha256": "94961394ce3859628caf3b4a6bc51d4adbecab2421bebba7256dee3eb576a36b"
+    },
+    ".arc-verify/rust-coverage/library/fmt-final.json": {
+      "bytes": 26663,
+      "sha256": "df6cfa653e8f56e398a045461899d6e2cf686375e5b31eb815f0b6e0facfb8e2"
+    },
+    ".arc-verify/rust-coverage/library/fmt-final.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/fmt-final.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/fmt.json": {
+      "bytes": 26658,
+      "sha256": "acd2ffc17e4e9a63e8d263122a154f839131138b56670f27b8b24a1d6e2cee60"
+    },
+    ".arc-verify/rust-coverage/library/fmt.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/fmt.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    ".arc-verify/rust-coverage/library/focused-final.json": {
+      "bytes": 26740,
+      "sha256": "90987271728ad69995f42f8ac964a526e0641689dc25686ad6247af647d43dad"
+    },
+    ".arc-verify/rust-coverage/library/focused-final.stderr.txt": {
+      "bytes": 1789,
+      "sha256": "eed66ce0a2d5058314b7e4a4a56138d908b694c9788a6657bc04d3a4a7f2dc81"
+    },
+    ".arc-verify/rust-coverage/library/focused-final.stdout.txt": {
+      "bytes": 8013,
+      "sha256": "69be171a1ca1555f89b887df31d8bc1005e5d855d46af626041da606f47d48ed"
+    },
+    ".arc-verify/rust-coverage/library/focused.json": {
+      "bytes": 26734,
+      "sha256": "0d2452c2547cbe0ea6c2c158559ecec3b4cf6ddeb3f1fdbe27409dde8fab3ecc"
+    },
+    ".arc-verify/rust-coverage/library/focused.stderr.txt": {
+      "bytes": 3140,
+      "sha256": "59f6d13cd530c71f566b5059e73d071d3da9c92b56143fb50f8288aa1137f402"
+    },
+    ".arc-verify/rust-coverage/library/focused.stdout.txt": {
+      "bytes": 7767,
+      "sha256": "b0721377fe762301514dbe38c6d648bf872d63d6e2fde6903a102583d13ee7f0"
+    },
+    ".arc-verify/rust-coverage/library/inherited-inputs.json": {
+      "bytes": 12263,
+      "sha256": "8b2de7366c102bb41a1bacc91740fbe49d2c78acac8f0057c20a12206678c7c0"
+    },
+    ".arc-verify/rust-coverage/library/inherited-receipt.json": {
+      "bytes": 446034,
+      "sha256": "860fc5cee61110c5345273893fec489cc7dd617b5bc923302d71d7061a3a4471"
+    },
+    ".arc-verify/rust-coverage/library/inherited-summary.json": {
+      "bytes": 67986,
+      "sha256": "4990fd4d7da8cbb578144cc400a1f861ea947906ca3266a9aa7d91b3711e012e"
+    },
+    ".arc-verify/rust-coverage/library/inherited-uncovered.md": {
+      "bytes": 2407,
+      "sha256": "fe204e34e9508f623f90db42f274c69e61bc52274a2ad873ec817a549870fa90"
+    },
+    ".arc-verify/rust-coverage/library/inherited-versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/library/inspection.json": {
+      "bytes": 1499,
+      "sha256": "c3824c913ecc397b1f17149385094cfc62f630c85c27329e6c7c32e520ecb67c"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/00-command.json": {
+      "bytes": 658,
+      "sha256": "4000f636529e32b4861eb6b5c78baa803fcd9f61b3c737a2457685f0137b920a"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/01-command.json": {
+      "bytes": 504,
+      "sha256": "93675e3e0750200ebc4c31ad77d52e6cf446710fecaab2344552d599b5446d43"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/02-command.json": {
+      "bytes": 547,
+      "sha256": "9cfdf7e7791066ed77608fb98be616d533e3ef909fe62d658ad88a8946168b85"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/03-command.json": {
+      "bytes": 622,
+      "sha256": "37ec51ec31c1bda1ce117294091246dfc744228de2912f14214c012786dd4773"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/04-command.json": {
+      "bytes": 627,
+      "sha256": "9e6e3ae16dd39af9a1a7f277dce3770c3e1bb4d9b521b7c226ecdf9fe03ccf8b"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/05-command.json": {
+      "bytes": 378497,
+      "sha256": "1e06990edf1da9884d829fac390898cbee8edd6f81070fc5ec8aab15107238ec"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/06-command.json": {
+      "bytes": 11866,
+      "sha256": "3ecf68f858e9711792ef30459c3c0f7c52f25f14104281a2adb238412c730584"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/07-command.json": {
+      "bytes": 8368,
+      "sha256": "293279b4336a94de738cca44c571489339cc7574b8f8dfce66b1497c0b60a2ea"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/08-command.json": {
+      "bytes": 8368,
+      "sha256": "a4cef0b7a60cfd2fdb5306597cdc6a6ee509dc2c37aa2c13c402f5ee9c0d18cc"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/inputs.json": {
+      "bytes": 12709,
+      "sha256": "2f34fb2a8be4cb205ede6a7757595f90412e858cf8ac6434baece52296a2016f"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/raw.json": {
+      "bytes": 5793434,
+      "sha256": "8f9fe1f2cd02c015583ea06bc9caf8616b10bb8c441ae3414bfa3a2e04553e44"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/raw.lcov": {
+      "bytes": 124497,
+      "sha256": "9f85458fb49c647af2107151609139635c1cf1832bccb2187cea98eea6834b51"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/source-inventory.json": {
+      "bytes": 6998,
+      "sha256": "22ba0bd9feb67b0c919a9ab47fcf45e423d709bb98627e59ce4f1065fdd5f96f"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/summary.json": {
+      "bytes": 18181,
+      "sha256": "dcc74176aac78e2e2f6388d72d9c11ef9cd5f4f06934217a0042732a99141d1f"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/uncovered.md": {
+      "bytes": 705,
+      "sha256": "a4f0393194c444587d3b0dd01393dca202273c4115feeb57dfc4a5eb9d9c5b54"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/versions.json": {
+      "bytes": 514,
+      "sha256": "e9694176de2f8b01081d30da38d34a326dc5aa24cb5163cde902e7152f7c768a"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/00-command.json": {
+      "bytes": 658,
+      "sha256": "190a10577bb8f2248dfbc6321d07f946edaa87e0d8bc398148d5842510e6a017"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/01-command.json": {
+      "bytes": 504,
+      "sha256": "3e1fa297c5e1e2dec7283c5003d7cd73c45d5c2bfdbb654e4cc093f90f545e6d"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/02-command.json": {
+      "bytes": 547,
+      "sha256": "36c0cbd3ea34f4a3bf9ca0ac34f5b665d8dd0df4aea14067d931b172fc349c43"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/03-command.json": {
+      "bytes": 622,
+      "sha256": "e87aba474946cfea24b5fbad7824be6364cf2781ffb44dc344d99d6a3b2857a2"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/04-command.json": {
+      "bytes": 627,
+      "sha256": "821f51d58c0ab79a472ad0ff2582d670a19bfd907f934d8bcb369364b8e7bd95"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/05-command.json": {
+      "bytes": 378497,
+      "sha256": "6ea787301e1b69a6c35bf2e1034f8115d8a304a5a09b879700f093cfe0f790cf"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/06-command.json": {
+      "bytes": 12115,
+      "sha256": "cb4b6b25244c698f0938ab493681d31e70851bf36522c35c2507f450e4b8a727"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/07-command.json": {
+      "bytes": 8369,
+      "sha256": "36e6c47ff18b699fdcfab52b7a24c6859a3ec58f244bd41874622486024c7ab5"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/08-command.json": {
+      "bytes": 8369,
+      "sha256": "ce9c109be4c8d50e400eab76ec8b7a6f473416e59f83388d57bf4f21efe43c5a"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/inputs.json": {
+      "bytes": 12709,
+      "sha256": "5dc200776ec57a7426e1fb95334e802b4540248bcc61959df6eee50bf9d55f14"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/profiles.json": {
+      "bytes": 19285,
+      "sha256": "18dd693e2022a340c615b8cf6ce5ca49cd496015f9f967cd03f7617f68794c99"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/raw.json": {
+      "bytes": 5815014,
+      "sha256": "12b8cbb1245af8dbe0c007fcaff980779423d6a8f55d5d19b9e43970122c1dfb"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/raw.lcov": {
+      "bytes": 130122,
+      "sha256": "e2d895e80d98e5e0e143436243c7b61ccdb2bd851393364af2c546f6b3f37020"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/source-inventory.json": {
+      "bytes": 6998,
+      "sha256": "84131cfe9cdb15d89b225fd1d13e69a7dd34cd52f487d4196285156539385a4d"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/summary.json": {
+      "bytes": 18158,
+      "sha256": "04763fb07124d431080a761cdb476559392ac5d643cc1435b6d04eb9847a7e99"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/uncovered.md": {
+      "bytes": 675,
+      "sha256": "661961b5ef5bc474ebbc2bbfe8d6146df1eea87fa850e70339934e679f516bf8"
+    },
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/versions.json": {
+      "bytes": 514,
+      "sha256": "e9694176de2f8b01081d30da38d34a326dc5aa24cb5163cde902e7152f7c768a"
+    },
+    ".arc-verify/rust-coverage/library/line-delta.json": {
+      "bytes": 4360,
+      "sha256": "c2ab6875c4ed7d0333ed7388a737c7d57521fc96c46471b2411cba0110b0875b"
+    },
+    ".arc-verify/rust-coverage/library/measure.ts": {
+      "bytes": 8784,
+      "sha256": "b2c171768e4afa42048267e8c8514471616ec22530cbaab30c1674e7e99bf01a"
+    },
+    ".arc-verify/rust-coverage/library/preservation-details.json": {
+      "bytes": 2244,
+      "sha256": "37876aec7b9c76719581ecbbdeb8ceff6bd2cdf9914a6571fe929a9a7c947e85"
+    },
+    ".arc-verify/rust-coverage/library/preservation-final.json": {
+      "bytes": 26678,
+      "sha256": "2eaedac332faedeeb13aa93a366226b0a3811205756ea045982f57a7c22e5c35"
+    },
+    ".arc-verify/rust-coverage/library/preservation-final.stderr.txt": {
+      "bytes": 217,
+      "sha256": "3fc8c7644ed70107a18014d7739a52807d44c07ca7decb9d696af622434a8142"
+    },
+    ".arc-verify/rust-coverage/library/preservation-final.stdout.txt": {
+      "bytes": 28,
+      "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+    },
+    ".arc-verify/rust-coverage/library/preservation.json": {
+      "bytes": 26669,
+      "sha256": "eb7f2d7ac0a994725b12dfd8b8fa93ddd263a2e3cc052f91c94ce94349af11c5"
+    },
+    ".arc-verify/rust-coverage/library/preservation.stderr.txt": {
+      "bytes": 217,
+      "sha256": "3b1cb8e9929bcfe1b344b9234eb487547c7e67182e58ff64346c1709c6466e0a"
+    },
+    ".arc-verify/rust-coverage/library/preservation.stdout.txt": {
+      "bytes": 28,
+      "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+    },
+    ".arc-verify/rust-coverage/library/report.md": {
+      "bytes": 14870,
+      "sha256": "33761087054f49c0b7abdf3b3304e5594d3669aa6065b8e6db0318bace7d83c1"
+    },
+    ".arc-verify/rust-coverage/library/result.json": {
+      "bytes": 2872,
+      "sha256": "63c96e187bbf5a29e6bc663dcb160e80e87030b956893de69c6f3743dfd71ed4"
+    },
+    ".arc-verify/rust-coverage/library/tests.patch": {
+      "bytes": 21346,
+      "sha256": "a2fa4822137924a5ac22afdf1c7992b7be1ad15f208b9227430ac97ae11de706"
+    },
+    ".arc-verify/rust-coverage/library/whitespace.json": {
+      "bytes": 1298,
+      "sha256": "d2355bb1801b1d4b9a1ccb77709c830b9c2764324f2757e4358d04b1a6f1aea7"
+    },
+    ".arc-verify/rust-coverage/library/workspace-test-failure.stderr.txt": {
+      "bytes": 4855,
+      "sha256": "daa8bcb2299fed0e24f79541b84ab0429dcaead1abf14379c6bcf3de63bc8fb1"
+    },
+    ".arc-verify/rust-coverage/library/workspace-test-failure.stdout.txt": {
+      "bytes": 2106,
+      "sha256": "1130e0cc4fb70eaeff91e28fec4020969be5784e0cdece17b08da3b227625ea0"
+    },
+    ".arc-verify/rust-coverage/directors/design.md": {
+      "bytes": 13082,
+      "sha256": "1a1580a31cbb5bf7c601f9265922547d4a3ef189cc2dcbb35cd6832564864eb4"
+    },
+    ".arc-verify/rust-coverage/directors/marketing.md": {
+      "bytes": 12108,
+      "sha256": "dd61976fbcfa8e6820bd02bf700f36a5c0dc5853876dd2da28bda1d143b8b298"
+    }
+  },
+  "preservedExistingRuns": {
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/00-command.json": {
+      "bytes": 659,
+      "sha256": "dad662a7c179d193a9affe971976caabeaf28106bf83fac932cb1be02a1dc90b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/01-command.json": {
+      "bytes": 656,
+      "sha256": "4a586ed708ababac2537dc778b299aacad5e5abd4f7a103511c1ab4ccbadbfb7"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/inputs.json": {
+      "bytes": 12263,
+      "sha256": "ec59b010b07004cd514decbaac49253b019ec9e88bef2b0412b81fefdd85fd18"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/receipt.json": {
+      "bytes": 1983,
+      "sha256": "d6e89151edd357022402c8d55a4d1ebb3574748bf1020308d99d3dc070b4019b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/00-command.json": {
+      "bytes": 659,
+      "sha256": "8886cddf3076d052ff0df4d8a3278e4e4d59f8a0a995f6636fbb001307139e02"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/01-command.json": {
+      "bytes": 656,
+      "sha256": "6ea88eb9e4540456187494384291fed51370303db9ea2b98961a0d4ee9cf1f5f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/inputs.json": {
+      "bytes": 12263,
+      "sha256": "ec59b010b07004cd514decbaac49253b019ec9e88bef2b0412b81fefdd85fd18"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/receipt.json": {
+      "bytes": 1983,
+      "sha256": "d79f8d311fdf4e158653f94c1ad501d3bccba29191e64e464a63aecbf8a55eca"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-791Z-d4b88912-379e-4bf1-8381-ccb4e71e7c15/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/00-command.json": {
+      "bytes": 659,
+      "sha256": "6bcbfcae0e05d7296af83eb71694fde2ea141447c30275b4e9b39314dee6f556"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/01-command.json": {
+      "bytes": 656,
+      "sha256": "9c918a65ca4afae76150ef90509f911b0d33ea9c05c808b4e29c6a3b63dca998"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/inputs.json": {
+      "bytes": 12263,
+      "sha256": "d241a816bcd1f41f5b4febd95161da8a2ef4a1e71169d89152912a7a7a3d82f8"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/receipt.json": {
+      "bytes": 1983,
+      "sha256": "cb8de4edd3d2fb373518fb3d4a0381675885de030ce68ae3f34d848a84f656db"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-10-22-777Z-7177880e-cee2-4357-8292-9b6334d33690/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/00-command.json": {
+      "bytes": 659,
+      "sha256": "75547480360d97038b54b5abbe4bfe40c8d87f04acc23339247e07acaefaa1bf"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/01-command.json": {
+      "bytes": 656,
+      "sha256": "74f4a308c208453a713946066f71f613c6bb6176ac51e8bc6eb4348b3054fdc0"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/inputs.json": {
+      "bytes": 12263,
+      "sha256": "1f6b04fec7f55fd0f6ffb6e8e0cfd1b9c058bfef12d6c96e2a17399c368a8542"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/receipt.json": {
+      "bytes": 1983,
+      "sha256": "fef151ffe7685517381cbad0af6b3bea4e42e6aa796fb594bf90971ce6f0c53e"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-57-968Z-6d79d02d-c75e-4b3f-b40f-47ce00f83d9f/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/00-command.json": {
+      "bytes": 659,
+      "sha256": "ab7cd859ca8f9fdca11c22b90df99a4f98b1d117c6f15deae87b644b010d072f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/01-command.json": {
+      "bytes": 656,
+      "sha256": "c3f700842efe45f860af0a5aecdcd01b46ddf83c0209abbb589551009f94abb5"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/inputs.json": {
+      "bytes": 12263,
+      "sha256": "1f6b04fec7f55fd0f6ffb6e8e0cfd1b9c058bfef12d6c96e2a17399c368a8542"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/receipt.json": {
+      "bytes": 1983,
+      "sha256": "441d92a871a0c154b7bcd8181d7f2980221613717258aa7baa9faf7036334101"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-11-58-333Z-27e82986-bc50-41cc-9187-3b8d01973218/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/00-command.json": {
+      "bytes": 659,
+      "sha256": "9aea8060a6c77e296b43c994299de43c61a882d4d7e63085c0ae19ae0b2807b2"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/01-command.json": {
+      "bytes": 656,
+      "sha256": "b14a0c6d0b90f8f56b438739686579b9f11e47cbfda0bb241c1dc2b1da4572c5"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/inputs.json": {
+      "bytes": 12263,
+      "sha256": "1f6b04fec7f55fd0f6ffb6e8e0cfd1b9c058bfef12d6c96e2a17399c368a8542"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/receipt.json": {
+      "bytes": 1983,
+      "sha256": "930ff7b29f439061c121e1472eba147186b0b9356d46a8513a2ea98970ce47c1"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-46-170Z-b807e0e7-efee-4d3c-8133-809c29aab0ef/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/00-command.json": {
+      "bytes": 659,
+      "sha256": "cd7fe50c9d8bb7884525d900401ea22d065a6f26908a7d63aba9e552a459db4f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/01-command.json": {
+      "bytes": 656,
+      "sha256": "4e150e37997f43e319f0264e75abfcbc7c860ffa2501951bb125e02139c3a24c"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/inputs.json": {
+      "bytes": 12263,
+      "sha256": "5f69d2cdcabee6ca68ac98062f6d280f176f08b91eca13fdc99965c1a4e9f7d4"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/receipt.json": {
+      "bytes": 1983,
+      "sha256": "0c2dff14f3ba778ee9ce1c098ccd346527d1352698869b718936da67753596dc"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-13-57-487Z-0a1e7cd5-85d8-4a79-8bc0-bc4c23a11c3f/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/00-command.json": {
+      "bytes": 589,
+      "sha256": "048437625cb86cc5ee5fcbe33d92439094427d1528c50bea604dcb980ddfb350"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/01-command.json": {
+      "bytes": 586,
+      "sha256": "9ca335654132710cf5809c0e7e689d416361037caaa68a5a33746000ce963a6d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/inputs.json": {
+      "bytes": 12263,
+      "sha256": "5f69d2cdcabee6ca68ac98062f6d280f176f08b91eca13fdc99965c1a4e9f7d4"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/receipt.json": {
+      "bytes": 1843,
+      "sha256": "301f93bffb1fc9e37718123f3056c985975dd603122599c245d8df3aeee2748b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-530Z-26d32580-71b3-4a38-8df6-0e68c7b87872/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/00-command.json": {
+      "bytes": 589,
+      "sha256": "91727d4da0ee12e087485a504c1fe2141dc2e4a0c419834ed55a826c81bf21e3"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/01-command.json": {
+      "bytes": 586,
+      "sha256": "62920c689dbb2fe7e3c0d1e1c918a2c2e5453cc3a6104ae8c544e1dbbf8e77e4"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/inputs.json": {
+      "bytes": 12263,
+      "sha256": "5f69d2cdcabee6ca68ac98062f6d280f176f08b91eca13fdc99965c1a4e9f7d4"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/receipt.json": {
+      "bytes": 1843,
+      "sha256": "5b9c23ea06bec616dadf7e7e8550b7027c886180acb9236fb816820fcc0dcd42"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-18-19-871Z-0f573691-c8db-403d-8060-c04f12d5197b/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/00-command.json": {
+      "bytes": 588,
+      "sha256": "ce54404e1b53996ba7173ffe733b26dcdcdf65326fcb7e9e8d952c71af26c9ed"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/01-command.json": {
+      "bytes": 585,
+      "sha256": "6c81a8dfd26c1a63e1b40f2092d6b17e0e87a3f36e97830afa3f99d1885a515b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/inputs.json": {
+      "bytes": 12263,
+      "sha256": "5f69d2cdcabee6ca68ac98062f6d280f176f08b91eca13fdc99965c1a4e9f7d4"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/receipt.json": {
+      "bytes": 1841,
+      "sha256": "04230bfc4e805e0dc4aebaa53758793efb1143f76b718a6fc6ddada6bccf095b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-20-36-538Z-c348ee37-db6b-4451-a28a-9f943fd7ed2e/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/00-command.json": {
+      "bytes": 588,
+      "sha256": "5a13a4517340a04faf75bc6dbaaca96fe047f221abd25413df36ae62a8df814c"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/01-command.json": {
+      "bytes": 585,
+      "sha256": "1bdf2beef6ceb037335a5aacec68fd8c644375cf820b43d4bd1a6a21499cef30"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/inputs.json": {
+      "bytes": 12263,
+      "sha256": "0f14bb48b167b43e3d34ce127b6c8a01ef5b86fd39cf4f12f74ffbd72218d2f6"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/receipt.json": {
+      "bytes": 1841,
+      "sha256": "d1825b12a43b8cd9c99699d4eab172f35ab83f221b0dfa0c3d323d21f3a1bb4d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-214Z-438a89d0-f38b-419a-887b-1b9bf6c996f6/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/00-command.json": {
+      "bytes": 588,
+      "sha256": "7fd055e3044cbb67151b8aebd0d1072a96c48fcbf5a598453c9e14adb95258d5"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/01-command.json": {
+      "bytes": 585,
+      "sha256": "a1547b25bb2909bc14c4151eb69e940748038d599fa86f1873c0d89851d6fc60"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/inputs.json": {
+      "bytes": 12263,
+      "sha256": "0f14bb48b167b43e3d34ce127b6c8a01ef5b86fd39cf4f12f74ffbd72218d2f6"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/receipt.json": {
+      "bytes": 1841,
+      "sha256": "9d1959cc0c27cc58ec46aefef3affab1156a36db36e27e0e783c2690a342f95a"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/00-command.json": {
+      "bytes": 589,
+      "sha256": "2cd6d50e572d13a7709ebd8e98a1d8bc296d0d607d7bd3b8c512a48a494410e3"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/01-command.json": {
+      "bytes": 435,
+      "sha256": "226684f420d71e28f5783dd5d47a160b3604f8aae46ddf810b086d0e9e13ee73"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/02-command.json": {
+      "bytes": 478,
+      "sha256": "3fdf886727fbf6422af816823178ef43cc0bb3ae5f8c4191d2df0a1429938987"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/03-command.json": {
+      "bytes": 553,
+      "sha256": "565b4dc8cfc573162d38c34bcc0f3ecbb7f814889d8c228f5d777941f828faea"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/04-command.json": {
+      "bytes": 558,
+      "sha256": "4a65d11c88217b0e9c58d45e79bf8a329a5508e0cfebbddb1aaa7743dbe0c3a6"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/05-command.json": {
+      "bytes": 372077,
+      "sha256": "d3c20484abf7507aeba8d7d4501e6088bbc2aa1b376fb811bd4d3ec9f3180b7f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/06-command.json": {
+      "bytes": 624,
+      "sha256": "dd21f292a2836595b9158bb5b1486c7616e5fc6698f3bb90f14fa67b3d49ba1f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/inputs.json": {
+      "bytes": 12263,
+      "sha256": "1582cc90c96468520ca45acf15de9b4a6a0c568989361d6e631769c806d2ed03"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/metadata.json": {
+      "bytes": 540002,
+      "sha256": "e70731d90c848f867ccf9e74f8ffb2562caf19c2ea65500fac55f56ec65ed71d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/receipt.json": {
+      "bytes": 376207,
+      "sha256": "c65ad133102a758beda3cb679de8cfe712d546f838c64d54013921adcc128d54"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7/versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/00-command.json": {
+      "bytes": 589,
+      "sha256": "70497538bd797fc36ec51184e7c924221587eda8ede5c0f4c5f6fd9de6ca9131"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/01-command.json": {
+      "bytes": 435,
+      "sha256": "b16a49a31802ecf62f00cd35c1cf672050bd93c1ded1797b0950ab1d27500168"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/02-command.json": {
+      "bytes": 478,
+      "sha256": "0f2e1396b7da4c77bf739ba494b9a2a25b8e58fa01562f64aefbea82b03fc81b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/03-command.json": {
+      "bytes": 553,
+      "sha256": "a7272517ccb5f1e19e886636263e02da2d21d640c87f32f92d6b6ce6f1dcb598"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/04-command.json": {
+      "bytes": 558,
+      "sha256": "c6aebceddf6655d768709bd150dc41984061f0a7d228348e076deb497b4077d2"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/05-command.json": {
+      "bytes": 372077,
+      "sha256": "f73b16d36b0dee59e162692340ab626ed6b752da4ea1da1a401e090cb7d34172"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/06-command.json": {
+      "bytes": 29996,
+      "sha256": "9797fc260c71c3631a398952efe19bea38b12e781b5254120b1f8084e0825116"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/07-command.json": {
+      "bytes": 960,
+      "sha256": "c8c7cc1b722147199b04d0bb9001858cbb615584938566ddc5efcab40ccb2c5d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/08-command.json": {
+      "bytes": 671,
+      "sha256": "2ef42ae33e2aa24ca75ba7c4e16bd599598cc658d4996c6886f270813e6e6eac"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/09-command.json": {
+      "bytes": 19309,
+      "sha256": "46e4968192fa1d7aaec6e837c0322918f8d285a3a4fe15d4e74867ef23e8abd3"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/inputs.json": {
+      "bytes": 12263,
+      "sha256": "f587a12916a47e090028653dec3a951fdb7ff51e0dde482f3a3dbeae03b750bd"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/metadata.json": {
+      "bytes": 540002,
+      "sha256": "e70731d90c848f867ccf9e74f8ffb2562caf19c2ea65500fac55f56ec65ed71d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/profiles.json": {
+      "bytes": 382576,
+      "sha256": "7f395ca37126ed03eb69be663dd4bd726ad03c8cb1ffa236251a642609590e0f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/raw.lcov": {
+      "bytes": 578339,
+      "sha256": "e5e6c7941707a6be425fee123ac0ed486445f10b44b85393c36d6a3558118d6d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/receipt.json": {
+      "bytes": 426702,
+      "sha256": "8608770fcdc874650f8b7a04a03bfc897d166eaeedec36e4b5b5f8813e3aacdd"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-34-000Z-56401e45-63aa-4e7b-b0c6-ce430e9d3a3e/versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/00-command.json": {
+      "bytes": 588,
+      "sha256": "ad3a271cc90dde064d37a41de7f0720b8a48288d105ad1cba991c60df1eaa11a"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/01-command.json": {
+      "bytes": 434,
+      "sha256": "74f98ac27afc8f6f42217c42d8dcc269c6b47352531c8aef68cceebef122074a"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/02-command.json": {
+      "bytes": 477,
+      "sha256": "9a930b069f77feb66359d2cb38dd0f56f93f332c97786dd1be0eb9f8112242b1"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/03-command.json": {
+      "bytes": 552,
+      "sha256": "a0c6f77e47890824ecfc5c152e81628d56667be443a54f036dbc8bed7f7bd208"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/04-command.json": {
+      "bytes": 557,
+      "sha256": "fa7a1fd41526408ec1d1055960a2189aef8916d26a15ec6123ca8a85d072c9f7"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/05-command.json": {
+      "bytes": 372076,
+      "sha256": "6710d027c93e6fc51aac5ece833068d569672ce449da285806038a8726647750"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/06-command.json": {
+      "bytes": 29995,
+      "sha256": "a4eb9beebb53313503f1c50d053f84aceef2e9e979a6bf3ae8c6ddad919dc6b0"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/07-command.json": {
+      "bytes": 961,
+      "sha256": "60170ed9dcbc1fe5abfe640acfacce1cdb83354bb3d787aba9e2d4e4a4e2a284"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/08-command.json": {
+      "bytes": 672,
+      "sha256": "44f6e40f4e363566344ba423dea51da9db0c3519b6e9f6884d0383049eed10a5"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/09-command.json": {
+      "bytes": 19310,
+      "sha256": "52a40666c7c34969e4f8bd2bab356cc4005e551e2a52108b052dcddc53c6b681"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/10-command.json": {
+      "bytes": 19310,
+      "sha256": "bcc121a301b7e9357f7d11092b8ad1110b4204c7a2989d5b3d1866d655427964"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/inputs.json": {
+      "bytes": 12263,
+      "sha256": "8b2de7366c102bb41a1bacc91740fbe49d2c78acac8f0057c20a12206678c7c0"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/metadata.json": {
+      "bytes": 540002,
+      "sha256": "e70731d90c848f867ccf9e74f8ffb2562caf19c2ea65500fac55f56ec65ed71d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/profiles.json": {
+      "bytes": 383830,
+      "sha256": "2c3c0611bde88840ed59370165729adf3df445240b3b8a14d2e9dca187b8e932"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/raw.json": {
+      "bytes": 16357680,
+      "sha256": "746ec421734b71637a816330a1d1897e536e4e3127d040c5507a90284b9c9f70"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/raw.lcov": {
+      "bytes": 578384,
+      "sha256": "6940b456d8d2fdb28ae9158c82f52dbf0258fe0d386885f56af594eb5e063020"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/receipt.json": {
+      "bytes": 446027,
+      "sha256": "de8726f82aec036d6e8d97e3f58a9bf493b1e87ad6aca0ab0070518bfdf31277"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/summary.json": {
+      "bytes": 67975,
+      "sha256": "709564eeb6817d562187a4b60288be18f955db26023c4d8b0724140744d9ef42"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/uncovered.md": {
+      "bytes": 2403,
+      "sha256": "33a87796fb6d0c5d9a47f7e961bd37b5ccaddd4736562451d22978cf4c02bcba"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/00-command.json": {
+      "bytes": 589,
+      "sha256": "86497f485007d582999b42849883a982b02ef1cb1222aeb9c55728d018c92210"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/01-command.json": {
+      "bytes": 435,
+      "sha256": "890e304a9294a4789bb23868d01e76554c8a848862bbcf2370af77fcef626621"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/02-command.json": {
+      "bytes": 478,
+      "sha256": "37aff5a56bd9db2cca08ba415630742a85d587a5820713133dec63c871b39310"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/03-command.json": {
+      "bytes": 553,
+      "sha256": "0dc69f08c6c8da3ee3e3f9e42d6cbec9dbb04bbd1d63c26928dedfc9ba202e51"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/04-command.json": {
+      "bytes": 558,
+      "sha256": "7d776f3fc1c560c2283cad260cae8d316cf777eeb0483dd62648c69b8ea0ab32"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/05-command.json": {
+      "bytes": 372077,
+      "sha256": "446a28d55eb25940514cf94d35b5659a81d21b98ace4a14a5df6f9eb5d6dcac6"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/06-command.json": {
+      "bytes": 29996,
+      "sha256": "47e1f1edf92e6095b72bfad52f6b4ba5e3ec0bc7f69831099883b74cc8658ab1"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/07-command.json": {
+      "bytes": 961,
+      "sha256": "682da3204c0368510c45969b92ea9225a7618744501264dfdfbd4b28e4899f72"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/08-command.json": {
+      "bytes": 672,
+      "sha256": "07aea9a3dd200aaf09c9d8c3a966a9bd852640e8957b6f302234a147775666a3"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/09-command.json": {
+      "bytes": 19310,
+      "sha256": "58a5ad8749d7eb1d1267727e18e14937fddc80405afef3bfbcb81cf159aa93d3"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/10-command.json": {
+      "bytes": 19310,
+      "sha256": "a51310f071075bd5a053aaa81cb9786bd08ad5ecc5c9966d7828e1a52ca5b2b2"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/inputs.json": {
+      "bytes": 12263,
+      "sha256": "8b2de7366c102bb41a1bacc91740fbe49d2c78acac8f0057c20a12206678c7c0"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/metadata.json": {
+      "bytes": 540002,
+      "sha256": "e70731d90c848f867ccf9e74f8ffb2562caf19c2ea65500fac55f56ec65ed71d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/profiles.json": {
+      "bytes": 383884,
+      "sha256": "d734316458be246c1d136d63ef731970ecc3be411441e110ab4a5209205129e8"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/raw.json": {
+      "bytes": 16357547,
+      "sha256": "a445d14ca9eda9edc25dddb0cd4e14f533f159490dcc3ce2d2549314a1568530"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/raw.lcov": {
+      "bytes": 578424,
+      "sha256": "90e1088918967f4037e91a4bb281e61cf00d8d3f5ee2f129b205e0c846e218b0"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/receipt.json": {
+      "bytes": 446034,
+      "sha256": "860fc5cee61110c5345273893fec489cc7dd617b5bc923302d71d7061a3a4471"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/summary.json": {
+      "bytes": 67986,
+      "sha256": "4990fd4d7da8cbb578144cc400a1f861ea947906ca3266a9aa7d91b3711e012e"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/uncovered.md": {
+      "bytes": 2407,
+      "sha256": "fe204e34e9508f623f90db42f274c69e61bc52274a2ad873ec817a549870fa90"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/00-command.json": {
+      "bytes": 659,
+      "sha256": "939e6b6545dd058b1751885828ba18eb0c10e6a6fab2f5c8d9c72d4a1cab272f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/01-command.json": {
+      "bytes": 505,
+      "sha256": "3f79606a0a89cd6181580906196a12bf1d99cf2d67283317296e01811868f38f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/02-command.json": {
+      "bytes": 548,
+      "sha256": "5509347081c17d841d153cfec8a6f75a272958f6eb3bd2401d8034281e41809d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/03-command.json": {
+      "bytes": 623,
+      "sha256": "6d39a1418f6b2ca1dc975d837af283d44eaf340faeaaf0a311fe9863c30697c0"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/04-command.json": {
+      "bytes": 628,
+      "sha256": "ff702ce9dedd85bdfc9fb0a386ee1011c2e797bee46a4dd33824609c69118fc1"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/05-command.json": {
+      "bytes": 378498,
+      "sha256": "fd2d33860f57955a094743d612164b713cac1e9e712aa3ca19ae8d5af3d95758"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/06-command.json": {
+      "bytes": 7694,
+      "sha256": "b8affe93a195b033335d4843ca7e2915d699248b364c19a9d564ac49707ac201"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/inputs.json": {
+      "bytes": 12709,
+      "sha256": "2f34fb2a8be4cb205ede6a7757595f90412e858cf8ac6434baece52296a2016f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/metadata.json": {
+      "bytes": 546761,
+      "sha256": "37f45e1a27704669e3cf35f5acc427a76e8a66d232e820bf5c1e5f2d0d74b391"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/receipt.json": {
+      "bytes": 394903,
+      "sha256": "cbb1d6b265d70476dadbf6091799c5fdbffff9d949829287117361509fe02f03"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/source-inventory.json": {
+      "bytes": 25330,
+      "sha256": "3e76ada8b946a4228aa335ee0fc567279b49959b098abb14f2024f681ae7077b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/00-command.json": {
+      "bytes": 658,
+      "sha256": "24743a2e257f74c95b74e763bdbb0268bfd774f32125e0c74c70c2059ab6c3ea"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/01-command.json": {
+      "bytes": 504,
+      "sha256": "659aa8c90688ec4853c6c0075dcc2d7963bd6d53f696414fcddfc6dd83c65989"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/02-command.json": {
+      "bytes": 547,
+      "sha256": "0ed613468a676118651bd80153f3abb222ebcd64de7b1a3991295467d06d3c0f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/03-command.json": {
+      "bytes": 622,
+      "sha256": "69b05ff29d5792984d41bb4df972bef821f02c358ddd88269417942e67dda22f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/04-command.json": {
+      "bytes": 627,
+      "sha256": "cefacc273132661f01374d54cf1ace881e0763b7ffdb929bc65a6cad09104b76"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/05-command.json": {
+      "bytes": 378497,
+      "sha256": "2b64a65e1a78fe54e16ad11989967e2a08ba6a9f5bba98c8f1d723dd83141450"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/06-command.json": {
+      "bytes": 7693,
+      "sha256": "959fa8d33803782d991484d7cba8c96340b19a4023b9ae63892bdbb573afeddb"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/inputs.json": {
+      "bytes": 12709,
+      "sha256": "5dc200776ec57a7426e1fb95334e802b4540248bcc61959df6eee50bf9d55f14"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/metadata.json": {
+      "bytes": 546761,
+      "sha256": "37f45e1a27704669e3cf35f5acc427a76e8a66d232e820bf5c1e5f2d0d74b391"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/receipt.json": {
+      "bytes": 394896,
+      "sha256": "da856da67d672273d6675536fffef05a894ddaf18b42bb8c971b7780b92b1b9d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/source-inventory.json": {
+      "bytes": 25330,
+      "sha256": "df4891120b7cea3eae3a232d0ddd05afa51986cfb8ec5041f3f896f6864c46a8"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    }
+  },
+  "immutableMeasurementFiles": {
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/00-command.json": {
+      "bytes": 659,
+      "sha256": "0fa6d8f6fa89e973cd416b04e317b3f80e17284c1c2d55bac03e2bec913324c5"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/01-command.json": {
+      "bytes": 505,
+      "sha256": "e0d130b737944ea7df45c9418f2fe8721c964ee3e43cc88791593a5fa44382ed"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/02-command.json": {
+      "bytes": 548,
+      "sha256": "631893a26ff0ddb9ae79a6e68282acb10a96e8c92a7f852d10d01ecf7eb641c2"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/03-command.json": {
+      "bytes": 623,
+      "sha256": "8c502a72a70898cc77dd8a5278269ce23a5179faa7c96fd7ab3186ef5b120359"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/04-command.json": {
+      "bytes": 628,
+      "sha256": "145e760d3516838c36c160b03eae320cfe6b25899850eff65d6c2666555430f5"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/05-command.json": {
+      "bytes": 377257,
+      "sha256": "ad9a4804c659621908be34e1acab30c8ee6f3bfa1d5b94d93c8d592ed495d52d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/06-command.json": {
+      "bytes": 30975,
+      "sha256": "c659c9261b7c16013557dea950bda51af7a8299b405e6ca68477b07b614f3173"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/07-command.json": {
+      "bytes": 1101,
+      "sha256": "99fe1b24251b337c9e8ee8be855692a6d7e652cc3fb0daed90dbbd2e7d9c9589"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/08-command.json": {
+      "bytes": 812,
+      "sha256": "4932382b120e6b8371026d923dc1ef4732b0736e8fcbed6d10f15638fd55bf3b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/09-command.json": {
+      "bytes": 19808,
+      "sha256": "8b3752abd1c0ee180c03ab6e17228ce28da94482cf2c0df33c1f30272651461d"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/10-command.json": {
+      "bytes": 19808,
+      "sha256": "176a60d3b80851253c8e8e3479c1cf92d388d25f12b08b69a1fcd824ed2f8bca"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/inputs.json": {
+      "bytes": 12383,
+      "sha256": "aafe8d04f2428e0e2ab00ee3145adef82d166049c9971a555b6cdd2fa1a1d59f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/metadata.json": {
+      "bytes": 545112,
+      "sha256": "9b68ab96c1851e0938ee287293163ea50ead333b039058ef58c6eb6f7f966347"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/non-workspace-roots.json": {
+      "bytes": 6312,
+      "sha256": "69035b932ba801c15d2ffee2bec4664d43321c6e3d7f308fdc33219442fb6456"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/profiles.json": {
+      "bytes": 447498,
+      "sha256": "45a634178ecdb213912cad2258b41caad3fe3bdc574b9d94de7eaf505737b11b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/raw.json": {
+      "bytes": 16599361,
+      "sha256": "7b48da46cf77762775b4871b6f4e2b9b8aac4965d60a359f5c4e6a416b35b02b"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/raw.lcov": {
+      "bytes": 590405,
+      "sha256": "efae24464844a380e89973ac0a433c20f6d3fd2d9747b2042ccae897c722c13f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/receipt.json": {
+      "bytes": 453819,
+      "sha256": "73c76172eb5c2291ffc2f9f6370b1d094038724065710d3d64698867962ac667"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/source-inventory.json": {
+      "bytes": 24950,
+      "sha256": "53d82e8b2454970dfeda26bd74a259ae1ded973d17c0ddedf851b9991ca9693a"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/summary.json": {
+      "bytes": 67989,
+      "sha256": "02a93f28865f22a1e973fce05db37b046103a6cd540d6e8f8685eb2b83ba123f"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/uncovered.md": {
+      "bytes": 2383,
+      "sha256": "b514d17aff96bff95e40945b9022dd5f0b4f765e8efed42dec1db549c044d08e"
+    },
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/versions.json": {
+      "bytes": 531,
+      "sha256": "6cc1a8da287e67d95618ab27099c4cd52d0280127b94a8f144268f83d4cd479c"
+    }
+  },
+  "isolatedVsIntegratedInputDifferences": [
+    "crates/arc-detector/src/lib.rs"
+  ],
+  "integratedAddedSourceFiles": [
+    "crates/arc-core/tests/coverage.rs",
+    "crates/arc-detector/src/coverage_tests.rs",
+    "crates/arc-ipc/tests/coverage.rs",
+    "crates/arc-storage/tests/coverage.rs"
+  ],
+  "receiptReuse": "Only retained isolated same-source receipts. Current library additions are not represented by the retained measurement. Task-6 owns serial integrated commands and latest-pointer updates.",
+  "limits": {
+    "maxDurationSec": 86400,
+    "maxParallel": 3,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "newActors": 0,
+    "installations": 0,
+    "execution": "serial recovery; existing spent budgets not reset"
+  }
+}

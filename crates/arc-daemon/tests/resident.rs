@@ -5,6 +5,8 @@ mod support;
 
 #[path = "resident/coordination.rs"]
 mod coordination;
+#[path = "resident/coverage.rs"]
+mod coverage;
 #[path = "resident/identity.rs"]
 mod identity;
 #[path = "resident/lifecycle.rs"]

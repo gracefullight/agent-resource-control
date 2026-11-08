@@ -119,3 +119,21 @@ fn expired_deadline_and_real_os_write_errors_are_failures() {
         .unwrap_err();
     assert_eq!(error.raw_os_error(), Some(libc::EBADF));
 }
+
+#[test]
+fn invalid_report_names_fail_before_creating_a_file() {
+    let directory = Directory::new();
+    for path in [
+        std::path::PathBuf::from("no-parent"),
+        directory.0.join(".."),
+        directory.0.join("nul\0name"),
+    ] {
+        let error = RuntimeReport::open(Some(&path)).err().unwrap();
+        assert_eq!(
+            error.kind(),
+            io::ErrorKind::InvalidInput,
+            "{path:?}: {error}"
+        );
+        assert_eq!(fs::read_dir(&directory.0).unwrap().count(), 0);
+    }
+}

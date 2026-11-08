@@ -1,0 +1,33 @@
+[
+  {
+    "argv": [
+      "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+      "merge",
+      "-sparse",
+      "-o",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/.arc-verify/rust-coverage/process/child-only.profdata",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/target/arc-coverage/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/arc-96130-9358645423002903239_0.profraw",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/target/arc-coverage/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/arc-96131-9358645423002903239_0.profraw",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/target/arc-coverage/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/arc-96133-11708300777802047112_0.profraw",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/target/arc-coverage/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/arc-96134-11708300777802047112_0.profraw",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/target/arc-coverage/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/arc-96132-9358645423002903239_0.profraw"
+    ],
+    "exit": 0,
+    "elapsedSeconds": 0.03518199920654297,
+    "stderr": ""
+  },
+  {
+    "argv": [
+      "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+      "export",
+      "--format=lcov",
+      "--instr-profile=/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/.arc-verify/rust-coverage/process/child-only.profdata",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/target/arc-coverage/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/debug/arc-daemon",
+      "--object",
+      "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/target/arc-coverage/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/debug/arcctl"
+    ],
+    "exit": 0,
+    "elapsedSeconds": 0.13773107528686523,
+    "stderr": ""
+  }
+]

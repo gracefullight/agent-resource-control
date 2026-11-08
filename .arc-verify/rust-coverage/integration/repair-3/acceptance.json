@@ -1,0 +1,183 @@
+{
+  "status": "partial",
+  "complete": false,
+  "allFiveExactCommandsPass": false,
+  "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108",
+  "reason": "Required real-command harness verification exceeds its preserved 115000-ms timer during Check 1, before coverage.",
+  "latestRequiredCommands": [
+    {
+      "name": "required-coverage-cli",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "started": "2026-11-08T00:14:54.996Z",
+      "exit": 0,
+      "durationMs": 79636,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108"
+    },
+    {
+      "name": "fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "started": "2026-11-08T00:16:17.660Z",
+      "exit": 0,
+      "durationMs": 300,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108"
+    },
+    {
+      "name": "clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "started": "2026-11-08T00:16:18.022Z",
+      "exit": 0,
+      "durationMs": 2023,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108"
+    },
+    {
+      "name": "workspace-tests",
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "started": "2026-11-08T00:16:20.103Z",
+      "exit": 0,
+      "durationMs": 46793,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108"
+    },
+    {
+      "name": "required-repair-3-harness",
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "started": "2026-11-08T00:34:48.665Z",
+      "exit": 143,
+      "durationMs": 115004.0,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108"
+    }
+  ],
+  "freshChecks": [
+    {
+      "name": "repair-3-harness",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "started": "2026-11-08T00:34:47.103Z",
+      "exit": 1,
+      "durationMs": 116594,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108",
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-3-harness-2026-11-08T00-34-47-083Z"
+    },
+    {
+      "name": "repair-3-deterministic",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "started": "2026-11-08T00:36:49.835Z",
+      "exit": 0,
+      "durationMs": 2753,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108",
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-3-deterministic-2026-11-08T00-36-49-827Z"
+    },
+    {
+      "name": "repair-3-offline-fetch",
+      "argv": [
+        "cargo",
+        "fetch",
+        "--locked",
+        "--offline"
+      ],
+      "started": "2026-11-08T00:36:56.267Z",
+      "exit": 0,
+      "durationMs": 193,
+      "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108",
+      "directory": ".arc-verify/rust-coverage/integration/runs/repair-3-offline-fetch-2026-11-08T00-36-56-259Z"
+    }
+  ],
+  "nestedHarness": {
+    "receipt": ".arc-verify/rust-coverage/tooling/acceptance/harness-41bf1559-70ea-42e9-8359-2281b908bb99/00-command.json",
+    "argv": [
+      "./scripts/harness/validate.sh"
+    ],
+    "exit": 143,
+    "durationMs": 115004.0,
+    "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108"
+  },
+  "retainedCoverage": {
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9",
+    "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108",
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 64,
+        "total": 64,
+        "percent": 100,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 577,
+        "total": 578,
+        "percent": 99.82698961937716,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 226,
+        "total": 227,
+        "percent": 99.55947136563877,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 215,
+        "total": 215,
+        "percent": 100,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 1507,
+        "total": 1613,
+        "percent": 93.42839429634222,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 203,
+        "total": 213,
+        "percent": 95.30516431924883,
+        "pass": true
+      }
+    ],
+    "files": 29,
+    "freshMeasurementThisAttempt": false
+  },
+  "independentQA": "task-7 pending",
+  "obligations": {
+    "desktop": "incomplete",
+    "native Windows": "incomplete",
+    "remaining Phase 0": "incomplete"
+  }
+}

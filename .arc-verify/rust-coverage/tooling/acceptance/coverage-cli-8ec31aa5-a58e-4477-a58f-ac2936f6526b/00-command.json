@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "bun",
+    "run",
+    "test:coverage"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-08T01:11:36.413Z",
+  "ended": "2026-11-08T01:12:58.534Z",
+  "exit": 0,
+  "stdout": "Coverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\nCoverage: merging fresh execution profiles and validating reports\nPASS arc-core: 64/64 production lines (100.00%; requires 80%)\nPASS arc-detector: 577/578 production lines (99.83%; requires 80%)\nPASS arc-storage: 226/227 production lines (99.56%; requires 80%)\nPASS arc-ipc: 215/215 production lines (100.00%; requires 80%)\nPASS arc-daemon: 1507/1613 production lines (93.43%; requires 80%)\nPASS arc-cli: 203/213 production lines (95.31%; requires 80%)\nCoverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f\n",
+  "stderr": "$ bun scripts/coverage/run.ts\n",
+  "pid": 7188
+}

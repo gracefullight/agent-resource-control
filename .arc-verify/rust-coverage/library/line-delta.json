@@ -1,0 +1,228 @@
+{
+  "inheritedSourceHash": "23db85747b5e61c3637d93684e84aba95fd6c8bd5d924135541bc3c875859399",
+  "currentSourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+  "scope": "Inherited workspace run compared with final four-library diagnostic; equal canonical production line maps",
+  "files": [
+    {
+      "path": "crates/arc-core/src/lib.rs",
+      "originalUncovered": [],
+      "newlyCovered": [],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-detector/src/budget.rs",
+      "originalUncovered": [],
+      "newlyCovered": [],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-detector/src/lexer.rs",
+      "originalUncovered": [],
+      "newlyCovered": [],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-detector/src/lib.rs",
+      "originalUncovered": [],
+      "newlyCovered": [],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-detector/src/parser.rs",
+      "originalUncovered": [
+        98
+      ],
+      "newlyCovered": [],
+      "stillUncovered": [
+        98
+      ],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-detector/src/rules.rs",
+      "originalUncovered": [
+        107,
+        153,
+        158,
+        173,
+        250
+      ],
+      "newlyCovered": [
+        107,
+        153,
+        158,
+        173,
+        250
+      ],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-detector/src/types.rs",
+      "originalUncovered": [],
+      "newlyCovered": [],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "originalUncovered": [
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        150,
+        152,
+        156,
+        157,
+        158,
+        159,
+        161,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        188,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        199,
+        215,
+        216,
+        217,
+        230,
+        250,
+        261,
+        264,
+        345
+      ],
+      "newlyCovered": [
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        150,
+        152,
+        156,
+        157,
+        158,
+        159,
+        161,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        188,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        199,
+        215,
+        216,
+        217,
+        230,
+        250,
+        261,
+        264,
+        345
+      ],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-ipc/src/schema.rs",
+      "originalUncovered": [],
+      "newlyCovered": [],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-storage/src/history.rs",
+      "originalUncovered": [
+        59,
+        86
+      ],
+      "newlyCovered": [
+        59,
+        86
+      ],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-storage/src/lib.rs",
+      "originalUncovered": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        41,
+        47
+      ],
+      "newlyCovered": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        41,
+        47
+      ],
+      "stillUncovered": [],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    },
+    {
+      "path": "crates/arc-storage/src/migration.rs",
+      "originalUncovered": [
+        48,
+        49,
+        66,
+        116
+      ],
+      "newlyCovered": [
+        48,
+        49,
+        66
+      ],
+      "stillUncovered": [
+        116
+      ],
+      "newlyUncovered": [],
+      "sameMappedDenominator": true
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "ownedFiles": {
+    "crates/arc-core/tests/coverage.rs": {
+      "sha256": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+      "bytes": 2420,
+      "lines": 75
+    },
+    "crates/arc-detector/src/coverage_tests.rs": {
+      "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+      "bytes": 1897,
+      "lines": 53
+    },
+    "crates/arc-detector/src/lib.rs": {
+      "sha256": "5fa33846ff3f6ed68b81c787a2f77fcf790935c29a978b7ffe4633185e653614",
+      "bytes": 2493,
+      "lines": 74
+    },
+    "crates/arc-storage/tests/coverage.rs": {
+      "sha256": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+      "bytes": 5666,
+      "lines": 147
+    },
+    "crates/arc-ipc/tests/coverage.rs": {
+      "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+      "bytes": 9633,
+      "lines": 286
+    }
+  },
+  "protectedAndDependencyFiles": {
+    "scripts/harness/validate.sh": {
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "equalsAcceptedBaseline": true
+    },
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "equalsAcceptedBaseline": true
+    },
+    "Cargo.toml": {
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "equalsAcceptedBaseline": true
+    },
+    "Cargo.lock": {
+      "sha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "equalsAcceptedBaseline": true
+    },
+    "crates/arc-core/Cargo.toml": {
+      "sha256": "7e21658e96bb43f3362df6cbdce676742e44255686d094fb21e5809b02b3e857",
+      "equalsAcceptedBaseline": true
+    },
+    "crates/arc-detector/Cargo.toml": {
+      "sha256": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab",
+      "equalsAcceptedBaseline": true
+    },
+    "crates/arc-storage/Cargo.toml": {
+      "sha256": "40e351a4adf6ab841340c5a7e9778c47dab0b28f9b64c11f980d0444cfd783a1",
+      "equalsAcceptedBaseline": true
+    },
+    "crates/arc-ipc/Cargo.toml": {
+      "sha256": "1448e14d83c9cf6fe162a68c35aaa14d603c910079992e0c5de48c5af004398a",
+      "equalsAcceptedBaseline": true
+    }
+  }
+}

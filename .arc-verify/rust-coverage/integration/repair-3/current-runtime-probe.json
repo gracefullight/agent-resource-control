@@ -1,0 +1,18 @@
+{
+  "createdAt": "2026-11-08T00:34:44.616729+00:00",
+  "argv": [
+    "/bin/bash",
+    "-c",
+    "for ((i=0;i<1000;i++)); do if grep -qE 'lin_api_[A-Za-z0-9]{20,}' Cargo.toml 2>/dev/null; then exit 1; fi; done"
+  ],
+  "exit": 0,
+  "durationSec": 3.682032834010897,
+  "stdout": "",
+  "stderr": "",
+  "trackedCount": 3702,
+  "check1EligibleCount": 3464,
+  "grepInvocationsAtLeast": 31176,
+  "roughSpawnEstimateSec": 114.79105563312373,
+  "qualification": "Diagnostic projection from a small actual command loop, not a measured full-scan duration or acceptance substitute.",
+  "scope": "Complete git ls-files retained; no index, file-selection, PATH, shell-function or environment substitution."
+}

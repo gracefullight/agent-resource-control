@@ -1,0 +1,15 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--test",
+    "resident",
+    "coverage::",
+    "--",
+    "--nocapture"
+  ],
+  "exit": 0,
+  "elapsedSeconds": 9.54127812385559
+}

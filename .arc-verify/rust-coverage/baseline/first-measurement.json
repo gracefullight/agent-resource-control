@@ -1,0 +1,83 @@
+{
+  "measured": true,
+  "runId": "2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d",
+  "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d",
+  "sourceHash": "23db85747b5e61c3637d93684e84aba95fd6c8bd5d924135541bc3c875859399",
+  "rawSha256": "6940b456d8d2fdb28ae9158c82f52dbf0258fe0d386885f56af594eb5e063020",
+  "llvmSha256": "746ec421734b71637a816330a1d1897e536e4e3127d040c5507a90284b9c9f70",
+  "host": "aarch64-apple-darwin",
+  "crates": [
+    {
+      "crate": "arc-core",
+      "covered": 64,
+      "total": 64,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-detector",
+      "covered": 572,
+      "total": 578,
+      "percent": 98.96193771626298,
+      "pass": true
+    },
+    {
+      "crate": "arc-storage",
+      "covered": 214,
+      "total": 227,
+      "percent": 94.27312775330397,
+      "pass": true
+    },
+    {
+      "crate": "arc-ipc",
+      "covered": 178,
+      "total": 215,
+      "percent": 82.79069767441861,
+      "pass": true
+    },
+    {
+      "crate": "arc-daemon",
+      "covered": 1502,
+      "total": 1613,
+      "percent": 93.11841289522629,
+      "pass": true
+    },
+    {
+      "crate": "arc-cli",
+      "covered": 200,
+      "total": 213,
+      "percent": 93.89671361502347,
+      "pass": true
+    }
+  ],
+  "rawReports": [
+    "raw.lcov",
+    "raw.json"
+  ],
+  "uncovered": "uncovered.md",
+  "profiles": 832,
+  "mergeProfiles": 832,
+  "childProof": [
+    {
+      "binary": "arcctl",
+      "pid": 11536,
+      "profiles": [
+        "arc-11536-11708300777802047112_0.profraw"
+      ],
+      "exit": 0
+    },
+    {
+      "binary": "arc-daemon",
+      "pid": 11537,
+      "profiles": [
+        "arc-11537-9358645423002903239_0.profraw"
+      ],
+      "exit": 1
+    }
+  ],
+  "engineeringTarget": "80% per crate, new target rather than an SRS threshold or prior baseline",
+  "desktop": "incomplete",
+  "nativeWindows": "incomplete",
+  "remainingPhase0": "incomplete",
+  "pass": true
+}

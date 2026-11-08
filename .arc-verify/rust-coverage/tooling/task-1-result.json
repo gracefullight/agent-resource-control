@@ -1,0 +1,114 @@
+{
+  "status": "partial",
+  "taskId": "task-1",
+  "actorId": "technical-director",
+  "summary": "Pinned coverage driver, accounting contract and deterministic checks delivered; real instrumentation blocked by unavailable tools and denied provisioning writes.",
+  "changedFiles": [
+    "package.json",
+    "mise.toml",
+    "rust-toolchain.toml",
+    "scripts/coverage/acceptance.ts",
+    "scripts/coverage/accounting.test.ts",
+    "scripts/coverage/accounting.ts",
+    "scripts/coverage/commands.ts",
+    "scripts/coverage/config.ts",
+    "scripts/coverage/coverage-cli.test.ts",
+    "scripts/coverage/evidence.test.ts",
+    "scripts/coverage/fixture-runner.ts",
+    "scripts/coverage/fixtures.ts",
+    "scripts/coverage/gate.test.ts",
+    "scripts/coverage/gate.ts",
+    "scripts/coverage/harness.test.ts",
+    "scripts/coverage/preservation.test.ts",
+    "scripts/coverage/preservation.ts",
+    "scripts/coverage/provision.sh",
+    "scripts/coverage/run.ts",
+    "scripts/coverage/source.ts",
+    ".arc-verify/rust-coverage/contract/",
+    ".arc-verify/rust-coverage/baseline/",
+    ".arc-verify/rust-coverage/tooling/"
+  ],
+  "artifacts": [
+    ".arc-verify/rust-coverage/tooling/task-1-result.md",
+    ".arc-verify/rust-coverage/tooling/delivery-source.json",
+    ".arc-verify/rust-coverage/contract/accounting.json",
+    ".arc-verify/rust-coverage/contract/accounting.md",
+    ".arc-verify/rust-coverage/baseline/initial-summary.json"
+  ],
+  "sourceEvidence": {
+    "scope": "Actor-local uncommitted task edits",
+    "localHead": "d3c62cb034707d8cdbb30ba3ab51a392e92a6cce",
+    "acceptedBaselineHead": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+    "acceptedBaselineTree": "8db02719b5bd06d888729ca337f9bf8887991515"
+  },
+  "deliveredSourceHash": "e1b5926c8a134fd5609dfc7d66524b2583442a3fd48ac3dbac6e5374958360f8",
+  "checks": {
+    "controlledGateAccountingPreservation": {
+      "exit": 0,
+      "testsPassed": 23,
+      "assertions": 59,
+      "evidence": ".arc-verify/rust-coverage/tooling/fixtures-delivery.txt"
+    },
+    "cargoFmt": {
+      "exit": 0,
+      "evidence": ".arc-verify/rust-coverage/tooling/fmt.json"
+    },
+    "cargoClippy": {
+      "exit": 0,
+      "evidence": ".arc-verify/rust-coverage/tooling/clippy.json"
+    },
+    "cargoWorkspaceTests": {
+      "exit": 0,
+      "testsPassed": 247,
+      "ignored": 0,
+      "evidence": ".arc-verify/rust-coverage/tooling/workspace-tests.json"
+    },
+    "coverage": {
+      "exit": 1,
+      "measured": false,
+      "evidence": ".arc-verify/rust-coverage/tooling/coverage-delivery.txt"
+    },
+    "coverageCli": {
+      "exit": 1,
+      "evidence": ".arc-verify/rust-coverage/tooling/coverage-cli-stable.json"
+    },
+    "harness": {
+      "exit": 1,
+      "violations": 1,
+      "evidence": ".arc-verify/rust-coverage/tooling/harness-stable.json"
+    },
+    "evidenceValidation": {
+      "exit": 1,
+      "evidence": ".arc-verify/rust-coverage/tooling/evidence-stable.json"
+    }
+  },
+  "unresolved": [
+    "Pinned cargo-llvm-cov is missing; its installation failed with denied Cargo cache writes.",
+    "Matching llvm-tools-preview installation failed and was rolled back.",
+    "mise install failed to write trusted-config symlink.",
+    "Cargo cache preparation failed; offline fetch reports uncached anstyle-wincon 3.0.11.",
+    "No real coverage measurement, tool-compatibility validation, instrumented-child profile proof or uncovered-line report exists.",
+    "Full harness and real CLI/evidence acceptance do not pass.",
+    "Independent oma-qa is pending with the assigned separate reviewer.",
+    "Harness scan took about 108 seconds before real instrumentation, leaving little margin in its fixed 120-second acceptance check."
+  ],
+  "acceptance": {
+    "prerequisitePinsAndSeparation": true,
+    "accountingContractAndFixtures": true,
+    "realInitialMeasurement": false,
+    "deterministicFailureCases": true,
+    "integerThresholdAndMerging": true,
+    "sixTestInterfacesAndPreservation": true
+  },
+  "platform": {
+    "desktop": "incomplete",
+    "native Windows": "incomplete",
+    "remaining Phase 0": "incomplete"
+  },
+  "skillsUsed": [
+    "oma-dev-workflow",
+    "oma-backend",
+    "installed backend-engineer definition"
+  ],
+  "integration": "Actor-local only. Include ignored scripts/coverage files explicitly; intent-to-add exposes them locally. No committed-baseline or external-delivery claim."
+}

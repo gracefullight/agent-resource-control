@@ -1,0 +1,12 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-cli",
+    "--test",
+    "schema"
+  ],
+  "exit": 0,
+  "elapsedSeconds": 2.345447301864624
+}

@@ -1,0 +1,120 @@
+{
+  "at": "2026-11-07T23:30:39.314189+00:00",
+  "treeBeforeThisManifest": "94d2c3f94bf09a34dac99241a7d74c04df805ebb",
+  "manifestSelfExcluded": true,
+  "sourceHash": "ecd38f7d15137942dbdee81dc996386cb4f8347ca8644cdcf62c1de9b2b28027",
+  "sourceBindingUnchanged": true,
+  "all17ActualContentsCaptured": true,
+  "scripts": [
+    {
+      "path": "scripts/coverage/acceptance.ts",
+      "bytes": 1077,
+      "sha256": "f7a715a6b1b0f479b36ce3443d1eb688f19e18ee6ff3619d053a5cb316964fa2",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/accounting.test.ts",
+      "bytes": 4645,
+      "sha256": "bf7eddd1ee3db03cef8e5d9bb71e188b8d374fea045ce9b4a0710ecd866744db",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/accounting.ts",
+      "bytes": 4348,
+      "sha256": "621a38a25fb9031fe9279d04a33ed4bf35576fd2646877659e268982899c4750",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/commands.ts",
+      "bytes": 1142,
+      "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/config.ts",
+      "bytes": 418,
+      "sha256": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/coverage-cli.test.ts",
+      "bytes": 626,
+      "sha256": "64b2a3d47b106da5f695d7362162ae25c506bd4f519a7a79fcad3b04d9776282",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/evidence.test.ts",
+      "bytes": 1701,
+      "sha256": "863773e541e0427c137e986b498fc72c10a15e15c0cbc18eb29b74d82ea4a0ef",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/fixture-runner.ts",
+      "bytes": 978,
+      "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/fixtures.ts",
+      "bytes": 1052,
+      "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/gate.test.ts",
+      "bytes": 3030,
+      "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/gate.ts",
+      "bytes": 1455,
+      "sha256": "b5e69c6c5f13f922e7495391aa4d77653445c197ff7748b87e937872fef9ead6",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/harness.test.ts",
+      "bytes": 551,
+      "sha256": "22307fd93cebef7bb72090b2be34c23859fee8d872157b93b56518da43e1cd70",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/preservation.test.ts",
+      "bytes": 469,
+      "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/preservation.ts",
+      "bytes": 2529,
+      "sha256": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/provision.sh",
+      "bytes": 283,
+      "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/run.ts",
+      "bytes": 9147,
+      "sha256": "4dd717b32ea2d9d38371e006dbb6aca0061de7fb9724445759436935a824ec88",
+      "actualIndexAndTreeMatch": true
+    },
+    {
+      "path": "scripts/coverage/source.ts",
+      "bytes": 8807,
+      "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "actualIndexAndTreeMatch": true
+    }
+  ],
+  "diffCheck": {
+    "exit": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  "report": ".arc-verify/rust-coverage/tooling/attempt-3/task-1-result.md",
+  "status": "partial",
+  "deliveryPrerequisite": "No remaining local source-content capture mismatch; tooling/measurement and fixed-budget harness remain blocked."
+}

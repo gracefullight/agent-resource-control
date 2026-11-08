@@ -1,0 +1,17 @@
+{
+  "exit": 1,
+  "stdout": "bun test v1.4.4 (38afee6c8)\n",
+  "stderr": "\nscripts/coverage/coverage-cli.test.ts:\n11 |   const env={...process.env};delete env.SKIP_COVERAGE;\n12 |   const result=await command(argv,dir,root,env,115000);\n13 |   const after=inputIdentity(root);\n14 |   writeFileSync(resolve(dir,\"binding.json\"),JSON.stringify({name,sourceHash:before.sha256,afterHash:after.sha256,unchanged:before.sha256===after.sha256,exit:result.exit,argv},null,2)+\"\\n\");\n15 |   if(before.sha256!==after.sha256) throw Error(`${name}: source changed during acceptance`);\n16 |   if(result.exit!==0) throw Error(`${name}: command exited ${result.exit}\\n${result.stdout}\\n${result.stderr}\\nReceipt: ${dir}`);\n                                 ^\nerror: coverage-cli: command exited 1\nCoverage: checking pinned tools (setup: mise run coverage:provision)\n\n$ bun scripts/coverage/run.ts\nCoverage unavailable or failed: Error: MISSING_TOOL cargo-llvm-cov: exited 101; error: no such command: `llvm-cov`\n\nhelp: view all installed commands with `cargo --list`\nhelp: find a package to install `llvm-cov` with `cargo search cargo-llvm-cov`\nEvidence: .arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7\nUNAVAILABLE arc-core: no valid current measurement\nUNAVAILABLE arc-detector: no valid current measurement\nUNAVAILABLE arc-storage: no valid current measurement\nUNAVAILABLE arc-ipc: no valid current measurement\nUNAVAILABLE arc-daemon: no valid current measurement\nUNAVAILABLE arc-cli: no valid current measurement\nerror: script \"test:coverage\" exited with code 1\n\nReceipt: /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/tooling/acceptance/coverage-cli-236f6c14-aef4-4b48-834d-a34ed0db9eeb\n      at realAcceptance (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/scripts/coverage/acceptance.ts:16:29)\n      at async <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/scripts/coverage/coverage-cli.test.ts:8:22)\n(fail) root entry point executes the real six-crate coverage gate [192.98ms]\n\n 0 pass\n 1 fail\n 2 expect() calls\nRan 1 test across 1 file. [217.00ms]\n",
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/coverage-cli.test.ts"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:25:58.601157+00:00",
+  "elapsedSec": 0.22771141701377928,
+  "environment": {
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "CARGO_NET_OFFLINE": "true"
+  }
+}

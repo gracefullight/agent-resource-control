@@ -1,0 +1,17 @@
+{
+  "exit": 1,
+  "stdout": "bun test v1.4.4 (38afee6c8)\n",
+  "stderr": "\nscripts/coverage/harness.test.ts:\n11 |   const env={...process.env};delete env.SKIP_COVERAGE;\n12 |   const result=await command(argv,dir,root,env,115000);\n13 |   const after=inputIdentity(root);\n14 |   writeFileSync(resolve(dir,\"binding.json\"),JSON.stringify({name,sourceHash:before.sha256,afterHash:after.sha256,unchanged:before.sha256===after.sha256,exit:result.exit,argv},null,2)+\"\\n\");\n15 |   if(before.sha256!==after.sha256) throw Error(`${name}: source changed during acceptance`);\n16 |   if(result.exit!==0) throw Error(`${name}: command exited ${result.exit}\\n${result.stdout}\\n${result.stderr}\\nReceipt: ${dir}`);\n                                 ^\nerror: harness: command exited 143\n\u001b[0;34m[validate]\u001b[0m Mode: all-tracked\n\u001b[0;34m[validate]\u001b[0m Files to check: 3206\n\u001b[0;34m[validate]\u001b[0m Check 1/5: Hardcoded secrets\n\u001b[0;32m[ok]\u001b[0m       No hardcoded secrets found\n\u001b[0;34m[validate]\u001b[0m Check 2/5: Dangerous shell commands\n\u001b[0;32m[ok]\u001b[0m       No dangerous shell commands found\n\u001b[0;34m[validate]\u001b[0m Check 3/5: Architecture layer violations (domain must be pure)\n\u001b[0;32m[ok]\u001b[0m       No architecture layer violations found\n\u001b[0;34m[validate]\u001b[0m Check 4/5: File length cap (CONSTRAINTS.md \u00a75: max 500 lines per file)\n\n\nReceipt: /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/tooling/acceptance/harness-6d5b81a6-77e2-4f73-9bd6-cfc39fb80e11\n      at realAcceptance (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/scripts/coverage/acceptance.ts:16:29)\n      at async <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/scripts/coverage/harness.test.ts:6:22)\n(fail) real unchanged harness passes with zero violations and no skip flags [116404.54ms]\n\n 0 pass\n 1 fail\nRan 1 test across 1 file. [116.44s]\n",
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/harness.test.ts"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:26:50.861958+00:00",
+  "elapsedSec": 116.44781508299639,
+  "environment": {
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "CARGO_NET_OFFLINE": "true"
+  }
+}

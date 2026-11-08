@@ -69,3 +69,6 @@ fn aggregate(leaves: &[Classification], b: &mut budget::Budget) -> budget::Check
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod coverage_tests;

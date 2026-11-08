@@ -1,0 +1,17 @@
+{
+  "exit": 1,
+  "stdout": "bun test v1.4.4 (38afee6c8)\n",
+  "stderr": "\nscripts/coverage/evidence.test.ts:\n 7 | import { account } from \"./accounting\";\n 8 | \n 9 | test(\"current successful source-bound coverage contains all crates, files and child profiles\",()=>{\n10 |   const load=(path:string)=>JSON.parse(readFileSync(resolve(root,path),\"utf8\"));\n11 |   const latest=load(`${EVIDENCE}/baseline/latest.json`);\n12 |   expect(latest.pass).toBe(true);expect(latest.sourceHash).toBe(inputIdentity(root).sha256);\n                           ^\nerror: expect(received).toBe(expected)\n\nExpected: true\nReceived: false\n\n      at <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/scripts/coverage/evidence.test.ts:12:23)\n(fail) current successful source-bound coverage contains all crates, files and child profiles [0.46ms]\n\n 0 pass\n 1 fail\n 1 expect() calls\nRan 1 test across 1 file. [25.00ms]\n",
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/evidence.test.ts"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:28:47.310588+00:00",
+  "elapsedSec": 0.034453458996722475,
+  "environment": {
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "CARGO_NET_OFFLINE": "true"
+  }
+}

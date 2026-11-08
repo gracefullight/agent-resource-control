@@ -1,0 +1,254 @@
+{
+  "schemaVersion": 1,
+  "actor": "reviewer",
+  "task": "task-7",
+  "independent": true,
+  "verdict": "PASS",
+  "completeness": "completed",
+  "scope": "Independent implementation integrity, accounting, preservation, deterministic failure behavior and source-bound command-evidence review. Final frozen-contract operator verification and task-8 final report are separate obligations.",
+  "missionComplete": false,
+  "finalOperatorVerificationApproved": false,
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+  "inputCount": 114,
+  "host": "aarch64-apple-darwin",
+  "skillsUsed": [
+    "oma-qa"
+  ],
+  "findings": [],
+  "productBlockers": [],
+  "crates": [
+    {
+      "crate": "arc-core",
+      "covered": 64,
+      "total": 64,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-detector",
+      "covered": 577,
+      "total": 578,
+      "percent": 99.82698961937716,
+      "pass": true
+    },
+    {
+      "crate": "arc-storage",
+      "covered": 226,
+      "total": 227,
+      "percent": 99.55947136563877,
+      "pass": true
+    },
+    {
+      "crate": "arc-ipc",
+      "covered": 215,
+      "total": 215,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-daemon",
+      "covered": 1507,
+      "total": 1613,
+      "percent": 93.42839429634222,
+      "pass": true
+    },
+    {
+      "crate": "arc-cli",
+      "covered": 203,
+      "total": 213,
+      "percent": 95.30516431924883,
+      "pass": true
+    }
+  ],
+  "productionFileCount": 29,
+  "testOnlyFileCount": 20,
+  "omissionSpansAudited": 54,
+  "existingRustFilesPreserved": 77,
+  "protectedBytes": {
+    "scripts/harness/validate.sh": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+    "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  },
+  "implementationFilesChanged": [],
+  "ownership": "Only .arc-verify/rust-coverage/qa/ artifacts and review runtime files written; all 793 preceding integrated file hashes unchanged. No mission-state or contract edits.",
+  "verification": {
+    "deterministic": {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "tests": 28,
+      "assertions": 2667,
+      "receipt": ".arc-verify/rust-coverage/qa/receipts/00-command.json"
+    },
+    "realInstrumentedIntegrationCli": {
+      "exit": 0,
+      "passedTests": 1,
+      "distinctReapedChildren": 5,
+      "childOnlyProfilesProveProductionCounters": true,
+      "receipts": [
+        ".arc-verify/rust-coverage/qa/receipts/real-children.json",
+        ".arc-verify/rust-coverage/qa/receipts/real-child-merge.json"
+      ]
+    },
+    "nativeReconciliation": {
+      "argv": [
+        "python3",
+        ".arc-verify/rust-coverage/qa/reconcile.py"
+      ],
+      "exit": 0,
+      "runs": 2,
+      "rawProfilesChecked": 1702,
+      "allProductionLineMapsMatch": true,
+      "receipt": ".arc-verify/rust-coverage/qa/reconciliation.json"
+    },
+    "driverFailureProbes": {
+      "argv": [
+        "python3",
+        ".arc-verify/rust-coverage/qa/driver-probes.py"
+      ],
+      "exit": 0,
+      "cases": 18,
+      "completePriorPassingRunPerCase": true,
+      "results": ".arc-verify/rust-coverage/qa/driver-probes.json"
+    },
+    "reusedSameSourceExactCommands": [
+      {
+        "argv": [
+          "bun",
+          "run",
+          "test:coverage"
+        ],
+        "exit": 0,
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "receipt": ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-f8af459c-a9cf-49ed-9c31-34138816c24e/00-command.json",
+        "receiptSha256": "7f86dab0c3f70346bb91e2d316393b5ed84df9c11f1dc8fdad944b014dc13915"
+      },
+      {
+        "argv": [
+          "cargo",
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "exit": 0,
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z",
+        "receiptSha256": "cd11b98cc3e0e9b8ffb6d90934aed4ddbb6fd6b719af1e7c1239c96205126e3c"
+      },
+      {
+        "argv": [
+          "cargo",
+          "clippy",
+          "--workspace",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit": 0,
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z",
+        "receiptSha256": "c39e7cb57914996737ac0959063c00a0166573cf4aa07d370d88159ba4809562"
+      },
+      {
+        "argv": [
+          "cargo",
+          "test",
+          "--workspace"
+        ],
+        "exit": 0,
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z",
+        "receiptSha256": "611b09b859a48814f04ec37e0058534dcdb52e61507d3ec6350d2c66f4112926"
+      },
+      {
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "exit": 0,
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "receipt": ".arc-verify/rust-coverage/tooling/acceptance/harness-c4da9be1-0b54-46d4-ba48-5c247c503f88/00-command.json",
+        "receiptSha256": "54d2b163df247f2b7f0892bb8039c62a149543cfa14c973d20a5f413492850e3"
+      }
+    ],
+    "toolVersions": "Rechecked Bun 1.4.4, cargo-llvm-cov 0.6.21 and Rust 1.95.0 installed LLVM component; native receipts identify matching LLVM 22.1.2. No provisioning required."
+  },
+  "chiefHandoff": [
+    {
+      "kind": "frozen-enclosing-runner-runtime-conflict",
+      "owner": "chief-director",
+      "status": "unresolved downstream verification limitation",
+      "contractPointer": "/mission/verificationContract/criteria/6/checks/0/timeoutMs",
+      "contractTimeoutMs": 120000,
+      "recordedPassingWrapperMs": 227290,
+      "recordedPassingChildMs": 225973,
+      "evidence": ".arc-verify/rust-coverage/integration/repair-4/acceptance.json:66,149",
+      "nextAction": "Chief must reconcile actual runtime with immutable runner allowance through the authorized mission mechanism, or retain operator verification as incomplete. Reviewer did not edit the contract or execute/approve that enclosing runner."
+    },
+    {
+      "kind": "downstream-final-deliverables",
+      "owner": "chief-director",
+      "status": "task-8 pending",
+      "paths": [
+        ".arc-verify/rust-coverage/final.md",
+        ".arc-verify/rust-coverage/final-summary.json"
+      ],
+      "nextAction": "Prepare final source-bound report and report actual final verification outcome without promoting task-7 PASS to mission completion."
+    }
+  ],
+  "unavailableEvidence": [
+    {
+      "area": "other native platforms",
+      "reason": "Only Darwin arm64 measured; inactive branches inventoried as unmeasured."
+    },
+    {
+      "area": "global Git cleanliness",
+      "reason": "av.yaml access denied; no bypass attempted."
+    }
+  ],
+  "obligations": {
+    "desktop": "incomplete",
+    "native Windows": "incomplete",
+    "remaining Phase 0": "incomplete"
+  },
+  "failedReviewDiagnosticAttempts": [
+    {
+      "command": "native llvm-cov show initial invocation",
+      "exit": 1,
+      "cause": "Reviewer supplied a source path as an object; corrected using positional object and --sources.",
+      "receipt": ".arc-verify/rust-coverage/qa/receipts/native-show-example.json"
+    },
+    {
+      "command": "python3 .arc-verify/rust-coverage/qa/reconcile.py",
+      "exit": 1,
+      "cause": "Reviewer initially expected libtest success output to contain captured lifecycle JSON; resolved by a focused --nocapture native run."
+    },
+    {
+      "command": "python3 .arc-verify/rust-coverage/qa/reconcile.py",
+      "exit": 1,
+      "cause": "Native text selector normalizes path aliases; exact canonical view and source-union export semantics reconciled."
+    },
+    {
+      "command": "python3 .arc-verify/rust-coverage/qa/reconcile.py",
+      "exit": 1,
+      "cause": "Direct native JSON differs in cargo-added metadata and float percentage serialization; all segments/counts/functions match.",
+      "receipt": ".arc-verify/rust-coverage/qa/receipts/reconcile-stderr.txt"
+    }
+  ],
+  "artifacts": [
+    ".arc-verify/rust-coverage/qa/review.md",
+    ".arc-verify/rust-coverage/qa/reconciliation.json",
+    ".arc-verify/rust-coverage/qa/driver-probes.json",
+    ".arc-verify/rust-coverage/qa/evidence-catalog.json",
+    ".arc-verify/rust-coverage/qa/omission-audit.json",
+    ".arc-verify/rust-coverage/qa/ownership-preservation.json"
+  ],
+  "createdAt": "2026-11-08T01:03:08.093422+00:00"
+}

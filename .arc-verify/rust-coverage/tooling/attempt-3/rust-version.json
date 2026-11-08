@@ -1,0 +1,15 @@
+{
+  "exit": 0,
+  "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+  "stderr": "",
+  "argv": [
+    "rustup",
+    "run",
+    "1.95.0",
+    "rustc",
+    "-Vv"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:24:39.229191+00:00",
+  "elapsedSec": 0.14375375001691282
+}

@@ -1,0 +1,16 @@
+{
+  "exit": 0,
+  "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+  "stderr": "",
+  "argv": [
+    "rustup",
+    "component",
+    "list",
+    "--toolchain",
+    "1.95.0",
+    "--installed"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:24:39.198408+00:00",
+  "elapsedSec": 0.030380124982912093
+}

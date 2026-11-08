@@ -1,0 +1,23 @@
+{
+  "createdAt": "2026-11-08T00:54:42.184912+00:00",
+  "task": "task-7",
+  "missionLimits": {
+    "maxDurationSec": 86400,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "maxParallel": 3,
+    "reset": false
+  },
+  "reviewExecution": "Serial bounded local checks; reuse same-source native receipts; no provisioning, full suite repetition, build command or subagent dispatch. New diagnostic checks each capped at 120 seconds. Mission deadline is not reset.",
+  "host": "Darwin arm64",
+  "resourceLimits": {
+    "nproc": [
+      2666,
+      4000
+    ],
+    "cpu": [
+      9223372036854775807,
+      9223372036854775807
+    ]
+  }
+}

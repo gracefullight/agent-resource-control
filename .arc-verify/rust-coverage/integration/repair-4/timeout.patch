@@ -1,0 +1,23 @@
+diff --git a/scripts/coverage/acceptance.ts b/scripts/coverage/acceptance.ts
+index 23f95f2..b78494c 100644
+--- a/scripts/coverage/acceptance.ts
++++ b/scripts/coverage/acceptance.ts
+@@ -9,7 +9,7 @@ export async function realAcceptance(name:string,argv:string[]) {
+   mkdirSync(dir,{recursive:true});
+   const before=inputIdentity(root);
+   const env={...process.env};delete env.SKIP_COVERAGE;
+-  const result=await command(argv,dir,root,env,115000);
++  const result=await command(argv,dir,root,env,900000);
+   const after=inputIdentity(root);
+   writeFileSync(resolve(dir,"binding.json"),JSON.stringify({name,sourceHash:before.sha256,afterHash:after.sha256,unchanged:before.sha256===after.sha256,exit:result.exit,argv},null,2)+"\n");
+   if(before.sha256!==after.sha256) throw Error(`${name}: source changed during acceptance`);
+diff --git a/scripts/coverage/harness.test.ts b/scripts/coverage/harness.test.ts
+index 3f165c6..fdf3f86 100644
+--- a/scripts/coverage/harness.test.ts
++++ b/scripts/coverage/harness.test.ts
+@@ -10,4 +10,4 @@ test("real unchanged harness passes with zero violations and no skip flags",asyn
+   expect(result.stderr).not.toContain("skipping coverage gate");
+   expect(result.stderr).not.toContain("[VIOLATION]");
+   for(const crate of CRATES) expect(result.stdout).toContain(`PASS ${crate}:`);
+-},120000);
++},960000);

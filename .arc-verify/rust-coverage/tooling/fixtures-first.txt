@@ -1,0 +1,152 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9d56bf54552db382: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/57811029c080c016: Operation not permitted (os error 1)
+bun test v1.4.4 (38afee6c8)
+
+scripts/coverage/gate.test.ts:
+11 |   change(args,f);
+12 |   const input=join(f.root,"input.json");writeFileSync(input,JSON.stringify(args));
+13 |   const child=Bun.spawn([process.execPath,join(import.meta.dir,"fixture-runner.ts"),input],{stdout:"pipe",stderr:"pipe"});
+14 |   const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
+15 |   if(diagnostic) {expect(exit).not.toBe(0);expect(stderr).toContain(diagnostic);expect(stdout).not.toContain("PASS");}
+16 |   else {expect(exit).toBe(0);expect(stdout).toContain("PASS");}
+                          ^
+error: expect(received).toBe(expected)
+
+Expected: 0
+Received: 1
+
+      at check (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/gate.test.ts:16:22)
+(fail) exact 80% succeeds [26.06ms]
+(pass) failed subprocess tests cannot reuse old passing artifacts [35.37ms]
+(pass) test exit is checked before report validity [21.37ms]
+(pass) missing tool returns nonzero [20.42ms]
+(pass) mismatched tool returns nonzero [24.48ms]
+(pass) missing report returns nonzero [20.84ms]
+(pass) stale report returns nonzero [20.43ms]
+(pass) source changed during measurement returns nonzero [24.11ms]
+(pass) malformed report returns nonzero [20.93ms]
+10 |   writeFileSync(join(f.root,"old-passing-report.lcov"),f.lcov);
+11 |   change(args,f);
+12 |   const input=join(f.root,"input.json");writeFileSync(input,JSON.stringify(args));
+13 |   const child=Bun.spawn([process.execPath,join(import.meta.dir,"fixture-runner.ts"),input],{stdout:"pipe",stderr:"pipe"});
+14 |   const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
+15 |   if(diagnostic) {expect(exit).not.toBe(0);expect(stderr).toContain(diagnostic);expect(stdout).not.toContain("PASS");}
+                                                               ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "MISSING_FILE"
+Received: "Error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-QVdgr3/crates/arc-detector/src/lib.rs\n"
+
+      at check (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/gate.test.ts:15:59)
+(fail) missing crate returns nonzero [21.18ms]
+10 |   writeFileSync(join(f.root,"old-passing-report.lcov"),f.lcov);
+11 |   change(args,f);
+12 |   const input=join(f.root,"input.json");writeFileSync(input,JSON.stringify(args));
+13 |   const child=Bun.spawn([process.execPath,join(import.meta.dir,"fixture-runner.ts"),input],{stdout:"pipe",stderr:"pipe"});
+14 |   const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
+15 |   if(diagnostic) {expect(exit).not.toBe(0);expect(stderr).toContain(diagnostic);expect(stdout).not.toContain("PASS");}
+                                                               ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "MISSING_FILE"
+Received: "Error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-nzPZRh/crates/arc-core/src/lib.rs\n"
+
+      at check (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/gate.test.ts:15:59)
+(fail) missing production file returns nonzero [23.91ms]
+10 |   writeFileSync(join(f.root,"old-passing-report.lcov"),f.lcov);
+11 |   change(args,f);
+12 |   const input=join(f.root,"input.json");writeFileSync(input,JSON.stringify(args));
+13 |   const child=Bun.spawn([process.execPath,join(import.meta.dir,"fixture-runner.ts"),input],{stdout:"pipe",stderr:"pipe"});
+14 |   const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
+15 |   if(diagnostic) {expect(exit).not.toBe(0);expect(stderr).toContain(diagnostic);expect(stdout).not.toContain("PASS");}
+                                                               ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "BELOW_THRESHOLD: arc-core 3/5"
+Received: "Error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-soKtSt/crates/arc-core/src/lib.rs\n"
+
+      at check (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/gate.test.ts:15:59)
+(fail) one failing crate fails despite high workspace average [21.69ms]
+10 |   writeFileSync(join(f.root,"old-passing-report.lcov"),f.lcov);
+11 |   change(args,f);
+12 |   const input=join(f.root,"input.json");writeFileSync(input,JSON.stringify(args));
+13 |   const child=Bun.spawn([process.execPath,join(import.meta.dir,"fixture-runner.ts"),input],{stdout:"pipe",stderr:"pipe"});
+14 |   const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
+15 |   if(diagnostic) {expect(exit).not.toBe(0);expect(stderr).toContain(diagnostic);expect(stdout).not.toContain("PASS");}
+                                                               ^
+error: expect(received).toContain(expected)
+
+Expected to contain: "BELOW_THRESHOLD"
+Received: "Error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-33WsXM/crates/arc-core/src/lib.rs\n"
+
+      at check (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/gate.test.ts:15:59)
+(fail) a displayed 80.00% below the exact boundary fails [118.11ms]
+
+scripts/coverage/accounting.test.ts:
+11 |   let current:string|undefined, records=0;
+12 |   for(const row of lcov.split(/\r?\n/)) {
+13 |     if(row.startsWith("SF:")) {
+14 |       if(current) throw Error("MALFORMED_REPORT: unterminated record");
+15 |       current=relative(root,canonical(row.slice(3)));
+16 |       if(!known.has(current) && !/^crates\/[^/]+\/tests\//.test(current)) throw Error(`UNMAPPED_FILE: ${current}`);
+                                                                                                                      ^
+error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-MohEnP/crates/arc-core/src/lib.rs
+      at account (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.ts:16:114)
+      at <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.test.ts:9:16)
+(fail) repeated compilation unions source lines instead of averaging binaries [3.39ms]
+11 |   let current:string|undefined, records=0;
+12 |   for(const row of lcov.split(/\r?\n/)) {
+13 |     if(row.startsWith("SF:")) {
+14 |       if(current) throw Error("MALFORMED_REPORT: unterminated record");
+15 |       current=relative(root,canonical(row.slice(3)));
+16 |       if(!known.has(current) && !/^crates\/[^/]+\/tests\//.test(current)) throw Error(`UNMAPPED_FILE: ${current}`);
+                                                                                                                      ^
+error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-SNMbDD/crates/arc-core/src/lib.rs
+      at account (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.ts:16:114)
+      at <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.test.ts:14:29)
+(fail) zero-hit lines survive; per-file uncovered numbers are stable [2.02ms]
+11 |   let current:string|undefined, records=0;
+12 |   for(const row of lcov.split(/\r?\n/)) {
+13 |     if(row.startsWith("SF:")) {
+14 |       if(current) throw Error("MALFORMED_REPORT: unterminated record");
+15 |       current=relative(root,canonical(row.slice(3)));
+16 |       if(!known.has(current) && !/^crates\/[^/]+\/tests\//.test(current)) throw Error(`UNMAPPED_FILE: ${current}`);
+                                                                                                                      ^
+error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-4f7Yn8/crates/arc-core/src/lib.rs
+      at account (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.ts:16:114)
+      at <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.test.ts:20:16)
+(fail) test-only lines/files never dilute production denominator [1.89ms]
+11 |   let current:string|undefined, records=0;
+12 |   for(const row of lcov.split(/\r?\n/)) {
+13 |     if(row.startsWith("SF:")) {
+14 |       if(current) throw Error("MALFORMED_REPORT: unterminated record");
+15 |       current=relative(root,canonical(row.slice(3)));
+16 |       if(!known.has(current) && !/^crates\/[^/]+\/tests\//.test(current)) throw Error(`UNMAPPED_FILE: ${current}`);
+                                                                                                                      ^
+error: UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-q7ub2n/crates/arc-core/src/lib.rs
+      at account (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.ts:16:114)
+      at <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.test.ts:27:10)
+(fail) canonical aliases merge and never duplicate denominators [1.74ms]
+26 |   const alias=f.record("crates/arc-core/src/../src/lib.rs",[0,0,0,0,1]);
+27 |   expect(account(f.lcov+alias,f.inventory,f.root).crates[0].total).toBe(5);
+28 | });
+29 | test("unknown paths, zero denominators and malformed hits fail closed",()=>{
+30 |   const f=fixture();
+31 |   expect(()=>account(f.lcov.replace("DA:1,1","DA:1,-1"),f.inventory,f.root)).toThrow("MALFORMED_REPORT");
+                                                                                  ^
+error: expect(received).toThrow(expected)
+
+Expected substring: "MALFORMED_REPORT"
+Received message: "UNMAPPED_FILE: ../../../../../../private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-coverage-fixture-6RRN7C/crates/arc-core/src/lib.rs"
+
+      at <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/scripts/coverage/accounting.test.ts:31:78)
+(fail) unknown paths, zero denominators and malformed hits fail closed [2.32ms]
+(pass) cfg omission handles nested Rust comments, literals and test-only statements [0.96ms]
+(pass) test combined with any platform condition is not blanket-excluded [0.09ms]
+(pass) external cfg test module keeps its declared path; arbitrary filenames are not exclusions [0.08ms]
+(pass) live inventory classifies all six crate roots and test-only module trees [65.57ms]
+
+ 12 pass
+ 10 fail
+ 41 expect() calls
+Ran 22 tests across 2 files. [498.00ms]

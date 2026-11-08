@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/gate.test.ts",
+    "scripts/coverage/accounting.test.ts",
+    "scripts/coverage/preservation.test.ts"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:18:17.715646+00:00",
+  "exit": 0,
+  "stdout": "bun test v1.4.4 (38afee6c8)\n",
+  "stderr": "\nscripts/coverage/preservation.test.ts:\n(pass) accepted baseline protected bytes, production tokens and existing assertions survive [1166.71ms]\n\nscripts/coverage/gate.test.ts:\n(pass) exact 80% succeeds [22.45ms]\n(pass) failed subprocess tests cannot reuse old passing artifacts [32.97ms]\n(pass) test exit is checked before report validity [21.42ms]\n(pass) missing tool returns nonzero [23.55ms]\n(pass) mismatched tool returns nonzero [20.14ms]\n(pass) missing report returns nonzero [21.25ms]\n(pass) stale report returns nonzero [20.07ms]\n(pass) source changed during measurement returns nonzero [20.87ms]\n(pass) malformed report returns nonzero [20.70ms]\n(pass) missing crate returns nonzero [21.51ms]\n(pass) missing production file returns nonzero [21.66ms]\n(pass) one failing crate fails despite high workspace average [22.46ms]\n(pass) a displayed 80.00% below the exact boundary fails [265.65ms]\n\nscripts/coverage/accounting.test.ts:\n(pass) repeated compilation unions source lines instead of averaging binaries [3.03ms]\n(pass) zero-hit lines survive; per-file uncovered numbers are stable [2.60ms]\n(pass) test-only lines/files never dilute production denominator [2.20ms]\n(pass) canonical aliases merge and never duplicate denominators [2.04ms]\n(pass) unknown paths, zero denominators and malformed hits fail closed [2.34ms]\n(pass) cfg omission handles nested Rust comments, literals and test-only statements [0.15ms]\n(pass) test combined with any platform condition is not blanket-excluded [0.04ms]\n(pass) external cfg test module keeps its declared path; arbitrary filenames are not exclusions [0.04ms]\n(pass) live inventory classifies all six crate roots and test-only module trees [42.88ms]\n\n 23 pass\n 0 fail\n 59 expect() calls\nRan 23 tests across 3 files. [1.77s]\n",
+  "elapsedSeconds": 1.7832767500076443,
+  "sourceHash": "e1b5926c8a134fd5609dfc7d66524b2583442a3fd48ac3dbac6e5374958360f8"
+}

@@ -1,0 +1,172 @@
+{
+  "commands": [
+    {
+      "label": "focused",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-core",
+        "-p",
+        "arc-detector",
+        "-p",
+        "arc-storage",
+        "-p",
+        "arc-ipc"
+      ],
+      "exit": 0,
+      "sourceHash": "ed28e8d525403c13ed88e309343b1a5b48e77f56ad0e0138207bf720bcf39026",
+      "sourceStable": true,
+      "elapsedSeconds": 19.179701082990505
+    },
+    {
+      "label": "fmt",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "sourceHash": "ed28e8d525403c13ed88e309343b1a5b48e77f56ad0e0138207bf720bcf39026",
+      "sourceStable": true,
+      "elapsedSeconds": 0.34668829099973664
+    },
+    {
+      "label": "preservation",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/preservation.test.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "ed28e8d525403c13ed88e309343b1a5b48e77f56ad0e0138207bf720bcf39026",
+      "sourceStable": true,
+      "elapsedSeconds": 1.2961045409902
+    },
+    {
+      "label": "clippy",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "sourceHash": "ed28e8d525403c13ed88e309343b1a5b48e77f56ad0e0138207bf720bcf39026",
+      "sourceStable": true,
+      "elapsedSeconds": 8.023466582992114
+    },
+    {
+      "label": "coverage",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "exit": 1,
+      "sourceHash": "ed28e8d525403c13ed88e309343b1a5b48e77f56ad0e0138207bf720bcf39026",
+      "sourceStable": true,
+      "elapsedSeconds": 29.41900545899989
+    },
+    {
+      "label": "diagnostic",
+      "argv": [
+        "bun",
+        ".arc-verify/rust-coverage/library/measure.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "ed28e8d525403c13ed88e309343b1a5b48e77f56ad0e0138207bf720bcf39026",
+      "sourceStable": true,
+      "elapsedSeconds": 16.46074791700812
+    },
+    {
+      "label": "focused-final",
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-core",
+        "-p",
+        "arc-detector",
+        "-p",
+        "arc-storage",
+        "-p",
+        "arc-ipc"
+      ],
+      "exit": 0,
+      "sourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+      "sourceStable": true,
+      "elapsedSeconds": 2.8756585419760086
+    },
+    {
+      "label": "fmt-final",
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "sourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+      "sourceStable": true,
+      "elapsedSeconds": 0.3245076250168495
+    },
+    {
+      "label": "preservation-final",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/preservation.test.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+      "sourceStable": true,
+      "elapsedSeconds": 1.2241017499763984
+    },
+    {
+      "label": "clippy-final",
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "sourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+      "sourceStable": true,
+      "elapsedSeconds": 0.5481400829739869
+    },
+    {
+      "label": "coverage-final",
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "exit": 1,
+      "sourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+      "sourceStable": true,
+      "elapsedSeconds": 25.432296374987345
+    },
+    {
+      "label": "diagnostic-final",
+      "argv": [
+        "bun",
+        ".arc-verify/rust-coverage/library/measure.ts"
+      ],
+      "exit": 0,
+      "sourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+      "sourceStable": true,
+      "elapsedSeconds": 17.03967233299045
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "inputs": 114,
+  "runs": 2,
+  "files": 29,
+  "profiles": [
+    851,
+    851
+  ],
+  "nativeShowDifferences": [],
+  "nativeShowWarnings": [
+    "warning: 1 functions have mismatched data",
+    "hash-mismatch: No profile record found for '_RNvNtNtNtCs3sWyVBygx32_5tokio4sync4mpsc5block11start_index' with hash = 0x0"
+  ]
+}

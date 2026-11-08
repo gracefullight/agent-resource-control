@@ -24,6 +24,9 @@ build/
 *.egg-info/
 *.tsbuildinfo
 coverage/
+!/scripts/coverage/
+!/scripts/coverage/*.ts
+!/scripts/coverage/provision.sh
 .idea/
 .vscode/
 *.swp
@@ -47,3 +50,11 @@ docs/plans/*
 .av.log
 docs/generated/
 .opencode/
+
+# Raw coverage artifacts regenerated on every gate run (bun run test:coverage);
+# only summaries, uncovered-line reports and receipts stay tracked.
+.arc-verify/**/runs/
+.arc-verify/**/profiles/
+.arc-verify/**/*.profraw
+.arc-verify/**/*.profdata
+.arc-verify/**/*.lcov

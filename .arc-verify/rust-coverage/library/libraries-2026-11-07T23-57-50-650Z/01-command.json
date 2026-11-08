@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "rustup",
+    "run",
+    "1.95.0",
+    "cargo",
+    "llvm-cov",
+    "--version"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-1724980aa084bbaa-1",
+  "started": "2026-11-07T23:57:50.744Z",
+  "ended": "2026-11-07T23:57:50.782Z",
+  "exit": 0,
+  "stdout": "cargo-llvm-cov 0.6.21\n",
+  "stderr": "",
+  "pid": 6471
+}

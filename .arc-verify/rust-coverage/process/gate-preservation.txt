@@ -1,0 +1,39 @@
+bun test v1.4.4 (38afee6c8)
+
+scripts/coverage/preservation.test.ts:
+(pass) accepted baseline protected bytes, production tokens and existing assertions survive [1166.85ms]
+
+scripts/coverage/gate.test.ts:
+(pass) exact 80% succeeds [23.31ms]
+(pass) failed subprocess tests cannot reuse old passing artifacts [33.40ms]
+(pass) test exit is checked before report validity [21.04ms]
+(pass) missing tool returns nonzero [21.42ms]
+(pass) mismatched tool returns nonzero [20.52ms]
+(pass) missing report returns nonzero [21.34ms]
+(pass) stale report returns nonzero [20.87ms]
+(pass) source changed during measurement returns nonzero [20.67ms]
+(pass) malformed report returns nonzero [21.14ms]
+(pass) missing crate returns nonzero [21.63ms]
+(pass) missing production file returns nonzero [22.52ms]
+(pass) one failing crate fails despite high workspace average [21.38ms]
+(pass) a displayed 80.00% below the exact boundary fails [329.31ms]
+(pass) inconsistent LF/LH cannot inflate coverage to a passing verdict [22.49ms]
+
+scripts/coverage/accounting.test.ts:
+(pass) repeated compilation unions source lines instead of averaging binaries [3.16ms]
+(pass) zero-hit lines survive; per-file uncovered numbers are stable [2.12ms]
+(pass) test-only lines/files never dilute production denominator [2.47ms]
+(pass) canonical aliases merge and never duplicate denominators [2.43ms]
+(pass) unknown paths, zero denominators and malformed hits fail closed [2.50ms]
+(pass) cfg omission handles nested Rust comments, literals and test-only statements [0.17ms]
+(pass) test combined with any platform condition is not blanket-excluded [0.07ms]
+(pass) external cfg test module keeps its declared path; arbitrary filenames are not exclusions [0.05ms]
+(pass) live inventory classifies all six crate roots and test-only module trees [38.54ms]
+(pass) record summaries must match DA lines before repeated instances merge [2.83ms]
+(pass) duplicate DA entries and summaries outside a record are malformed [3.38ms]
+(pass) LLVM function summaries require corroboration by the complete segment-derived line map [4.08ms]
+
+ 27 pass
+ 0 fail
+ 87 expect() calls
+Ran 27 tests across 3 files. [1.89s]

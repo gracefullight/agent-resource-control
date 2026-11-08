@@ -1,0 +1,14 @@
+{
+  "sourceHash": "9906da2dbf7e051b919b94a40267d8e985a602757ebe6232fde01b76f638947d",
+  "unchangedSinceCoverage": true,
+  "preservation": {
+    "baselineHead": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+    "baselineTree": "8db02719b5bd06d888729ca337f9bf8887991515",
+    "protected": {
+      "scripts/harness/validate.sh": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+    },
+    "existingRustFiles": 77,
+    "pass": true
+  }
+}

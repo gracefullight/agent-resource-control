@@ -1,0 +1,195 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-profdata",
+        "merge",
+        "-sparse",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2195-9358645423002903239_0.profraw",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2196-9358645423002903239_0.profraw",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2198-11708300777802047112_0.profraw",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2199-11708300777802047112_0.profraw",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2197-9358645423002903239_0.profraw",
+        "-o",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/children.profdata",
+        "-failure-mode=any"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T00:58:56.462964+00:00",
+      "ended": "2026-11-08T00:58:56.508760+00:00",
+      "exit": 0,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/Users/gracefullight/.rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/aarch64-apple-darwin/bin/llvm-cov",
+        "export",
+        "-instr-profile=/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/children.profdata",
+        "-object",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/target/arc-coverage/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/debug/arcctl",
+        "-object",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/target/arc-coverage/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/debug/arc-daemon",
+        "-ignore-filename-regex",
+        "^/Users/gracefullight/\\.rustup/toolchains/1\\.95\\.0-aarch64-apple-darwin(/|$)|^/rustc/59807616e1fa2540724bfbac14d7976d7e4a3860(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstream-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-1\\.0\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-parse-1\\.0\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-query-1\\.1\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/anstyle-wincon-3\\.0\\.11(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/bitflags-2\\.13\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/block-buffer-0\\.12\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cc-1\\.11\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cfg-if-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_builder-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_derive-4\\.6\\.7(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/clap_lex-1\\.1\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/colorchoice-1\\.0\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/const-oid-0\\.10\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/cpufeatures-0\\.3\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/crypto-common-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/digest-0\\.11\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/errno-0\\.3\\.14(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-iterator-0\\.3\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/fallible-streaming-iterator-0\\.1\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/find-msvc-tools-0\\.1\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/foldhash-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashbrown-0\\.17\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hashlink-0\\.12\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/heck-0\\.5\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/hybrid-array-0\\.4\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/is_terminal_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/itoa-1\\.0\\.18(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libc-0\\.2\\.191(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/libsqlite3-sys-0\\.39\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/memchr-2\\.8\\.3(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/mio-1\\.2\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/once_cell_polyfill-1\\.70\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pin-project-lite-0\\.2\\.17(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/pkg-config-0\\.3\\.34(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/proc-macro2-1\\.0\\.107(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/quote-1\\.0\\.47(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rsqlite-vfs-0\\.2\\.0(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/rusqlite-0\\.41\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_core-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_derive-1\\.0\\.229(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/serde_json-1\\.0\\.154(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sha2-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/shlex-2\\.0\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/signal-hook-registry-1\\.4\\.8(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/smallvec-1\\.16\\.4(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/socket2-0\\.6\\.5(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/sqlite-wasm-rs-0\\.6\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/strsim-0\\.11\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/syn-3\\.0\\.9(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/thiserror-impl-2\\.0\\.21(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-1\\.54\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/tokio-macros-2\\.7\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/typenum-1\\.20\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/unicode-ident-1\\.0\\.27(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/utf8parse-0\\.2\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/vcpkg-0\\.2\\.15(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/wasi-0\\.11\\.1\\+wasi-snapshot-preview1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-link-0\\.2\\.1(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/windows-sys-0\\.61\\.2(/|$)|^/Users/gracefullight/\\.cargo/registry/src/index\\.crates\\.io-1949cf8c6b5b557f/zmij-1\\.0\\.23(/|$)"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "started": "2026-11-08T00:58:56.508838+00:00",
+      "ended": "2026-11-08T00:58:57.764589+00:00",
+      "exit": 0,
+      "stdoutSha256": "7a7d0988b213e275c130c6b5bb25853e00d8f801ad45336be8479cf155c1d2e7",
+      "stderr": ""
+    }
+  ],
+  "children": [
+    {
+      "binary": "arc-daemon",
+      "pid": 2195,
+      "profiles": [
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2195-9358645423002903239_0.profraw"
+      ],
+      "reaped": true
+    },
+    {
+      "binary": "arc-daemon",
+      "pid": 2196,
+      "profiles": [
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2196-9358645423002903239_0.profraw"
+      ],
+      "reaped": true
+    },
+    {
+      "binary": "arcctl",
+      "pid": 2198,
+      "profiles": [
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2198-11708300777802047112_0.profraw"
+      ],
+      "reaped": true
+    },
+    {
+      "binary": "arcctl",
+      "pid": 2199,
+      "profiles": [
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2199-11708300777802047112_0.profraw"
+      ],
+      "reaped": true
+    },
+    {
+      "binary": "arc-daemon",
+      "pid": 2197,
+      "profiles": [
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2197-9358645423002903239_0.profraw"
+      ],
+      "reaped": true
+    }
+  ],
+  "rawProfiles": [
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2195-9358645423002903239_0.profraw",
+      "sha256": "6cffcc63a123214ae19c2bf6924de8e1b41e8274f4c947d071fd0d558cf79b43",
+      "size": 436152
+    },
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2196-9358645423002903239_0.profraw",
+      "sha256": "ae5125ef7e68897ca7a13bb20843afc5fb30a128f317bdf543e3fd313e8f141d",
+      "size": 436152
+    },
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2198-11708300777802047112_0.profraw",
+      "sha256": "2100669e1a748ff62cd5f2ae604050f5928338b2b647c415042202f9f4bea4f1",
+      "size": 255264
+    },
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2199-11708300777802047112_0.profraw",
+      "sha256": "b98346e1550a8132f5f3f076910ff81a1dfa02b7d12b700454a6ede97c8add63",
+      "size": 255264
+    },
+    {
+      "path": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/real-children/profiles/arc-2197-9358645423002903239_0.profraw",
+      "sha256": "14c87820b1f5de3a95fbdbfad26a34b77215e144144391b80c6501e8e76b0c96",
+      "size": 436152
+    }
+  ],
+  "productionHitProof": [
+    {
+      "crate": "arc-cli",
+      "positiveSegmentCount": 121,
+      "files": [
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-cli/src/classify.rs",
+          0
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-cli/src/doctor.rs",
+          37
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-cli/src/main.rs",
+          84
+        ]
+      ]
+    },
+    {
+      "crate": "arc-daemon",
+      "positiveSegmentCount": 1971,
+      "files": [
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/accept_recovery.rs",
+          31
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/admission.rs",
+          109
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/connection.rs",
+          97
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/db_worker.rs",
+          220
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/db_worker/execution.rs",
+          160
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/instance.rs",
+          82
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/lifecycle.rs",
+          311
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/limits.rs",
+          84
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/main.rs",
+          85
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/platform.rs",
+          34
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/runtime_metrics.rs",
+          186
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/runtime_report.rs",
+          142
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/server.rs",
+          264
+        ],
+        [
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/crates/arc-daemon/src/transport.rs",
+          166
+        ]
+      ]
+    }
+  ]
+}

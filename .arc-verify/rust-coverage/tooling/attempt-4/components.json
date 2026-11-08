@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "rustup",
+    "component",
+    "list",
+    "--toolchain",
+    "1.95.0",
+    "--installed"
+  ],
+  "started": "2026-11-07T23:33:00.710241+00:00",
+  "exit": 0,
+  "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+  "stderr": ""
+}

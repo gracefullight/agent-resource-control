@@ -23,3 +23,24 @@ fn no_arguments_names_both_commands_and_exits_nonzero() {
     }
     assert!(!combined.contains("\u{1b}["), "colored output: {combined}");
 }
+
+#[test]
+fn legacy_usage_errors_and_version_keep_their_exit_contract() {
+    for args in [&["unknown-operation"][..], &["status", "--unknown"]] {
+        let output = Command::new(env!("CARGO_BIN_EXE_arcctl"))
+            .args(args)
+            .output()
+            .unwrap();
+        assert_eq!(output.status.code(), Some(2));
+        assert!(output.stdout.is_empty());
+        assert!(String::from_utf8_lossy(&output.stderr).contains("Usage:"));
+        assert!(!output.stderr.contains(&27));
+    }
+    let output = Command::new(env!("CARGO_BIN_EXE_arcctl"))
+        .arg("--version")
+        .output()
+        .unwrap();
+    assert!(output.status.success());
+    assert!(output.stderr.is_empty());
+    assert_eq!(output.stdout, b"arcctl 0.1.0\n");
+}

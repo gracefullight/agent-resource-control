@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "acceptedBaselineHead": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "acceptedBaselineTree": "8db02719b5bd06d888729ca337f9bf8887991515",
+  "actorSnapshotCommit": "d3c62cb034707d8cdbb30ba3ab51a392e92a6cce",
+  "actorSnapshotTree": "8db02719b5bd06d888729ca337f9bf8887991515",
+  "crates": [
+    "arc-core",
+    "arc-detector",
+    "arc-storage",
+    "arc-ipc",
+    "arc-daemon",
+    "arc-cli"
+  ],
+  "threshold": {
+    "percent": 80,
+    "scope": "each crate",
+    "status": "new engineering target, not a measured baseline or SRS threshold",
+    "comparison": "BigInt(covered) * 100 >= BigInt(total) * 80"
+  },
+  "pins": {
+    "rust": "1.95.0",
+    "bun": "1.4.4",
+    "cargo-llvm-cov": "0.6.21",
+    "llvm": "llvm-tools-preview from Rust 1.95.0"
+  },
+  "toolCompatibility": "Every gate run verifies exact pinned tools and matching LLVM versions. A completed instrumented test/report run, with numbered receipts and versions.json, establishes compatibility; provisioning alone does not.",
+  "source": {
+    "roots": "all six crates/*/src trees",
+    "canonical": "realpath, workspace-relative slash paths, SHA-256 file bytes",
+    "inputs": "Cargo.toml, Cargo.lock, rust-toolchain.toml, mise.toml, package.json, every crates/ file, scripts/coverage/ file, contract/accounting.json and any root .cargo config/build.rs",
+    "baselineMeaning": "accepted committed source only; Actor task edits remain local until integrated"
+  },
+  "accounting": {
+    "lineUnit": "unique canonical source file plus LLVM LCOV DA line number",
+    "merge": "union of mapped DA line numbers; hit if any compilation instance has positive hits; never average binaries or count repeated modules twice",
+    "zeroHit": "retain every zero-hit production DA line",
+    "testOnly": "omit src items whose cfg expression is provably false with test disabled; omit files reachable exclusively through test-only modules or Cargo integration-test roots",
+    "production": "retain all production modules, including source recompiled using path attributes in test targets",
+    "unknown": "reject unclassified source, unknown LCOV files outside explicitly recognized integration-test directories, missing production files, malformed records and any crate with zero denominator",
+    "inactive": "host compiler cfg controls executable mapping; inactive platform source stays inventoried and is unmeasured, never represented as covered",
+    "noMappedLines": "a present production file may have zero DA lines; all files must be present and every crate needs positive total",
+    "upstreamFilters": "Disable cargo-llvm-cov default filename filters; ignore only exact non-workspace dependency package roots from locked Cargo metadata, Rust sysroot and its compiler source hash. Retain path-included production modules even when recorded paths contain tests/../src.",
+    "recordValidation": "Standalone LCOV requires safe LF/LH exactly matching DA counts. Real LLVM 22.1.2 exports additionally require a fresh schema-3.1.0 JSON export: exact source-file set, LF/LH equal its function-group summary, and every DA line/count exactly equal a line map reconstructed from its ordered native segments. No summary is used as the unique-source denominator. Malformed counts, missing/extra lines/files, duplicate records or mismatched summaries fail before canonical merging."
+  },
+  "profiles": {
+    "target": "fresh UUID run target/arc-coverage/<run-id>",
+    "filename": "arc-%p-%m.profraw",
+    "children": "existing integration child binaries inherit instrumentation; extra real arcctl help and daemon startup-failure probes record PIDs",
+    "mergeProof": "exact equality between fresh raw profile inventory and pinned cargo-llvm-cov llvm-profdata input list, including explicit child PIDs"
+  },
+  "reports": {
+    "directory": ".arc-verify/rust-coverage/baseline/runs/<run-id>",
+    "raw": "raw.lcov and raw.json: both native exports from the same fresh profile merge; neither is rewritten",
+    "source": "inputs.json and source-inventory.json",
+    "summary": "summary.json with schemaVersion=1, sourceHash, rawSha256, llvmSha256, runId, acceptedBaseline, host, versions, six crates and per-file mapped/uncovered/omitted lines",
+    "profiles": "profiles.json with binary, PID, raw filenames, hashes and exact merge list",
+    "commands": "numbered command JSON receipts with argv, cwd, times, PID, exit, stdout and stderr",
+    "verdict": "receipt.json for every attempt, including prerequisites failure; latest.json always overwritten with current outcome",
+    "freshness": "new run-specific paths, both native report mtimes after collection start, and identical before/after full input hashes"
+  },
+  "failurePolicy": "nonzero for missing/mismatched tools, failed tests, child-profile failure, missing/stale/malformed reports, missing crates/files or any below-target crate; no implicit installs and no prior passing-report fallback",
+  "platformBoundaries": {
+    "executedHost": "Host and target recorded per real measurement in versions.json and summary.json; only active compiler cfg is measured.",
+    "supportedGateHosts": [
+      "macOS",
+      "Linux"
+    ],
+    "inactiveInventory": [
+      "arc-core/src/lib.rs: non-macOS runtime path, Windows LOCALAPPDATA branch, non-macOS XDG branch",
+      "arc-daemon/src/platform.rs: Linux peer credentials and other-Unix unsupported fallback"
+    ],
+    "desktop": "incomplete",
+    "native Windows": "incomplete",
+    "remaining Phase 0": "incomplete"
+  }
+}

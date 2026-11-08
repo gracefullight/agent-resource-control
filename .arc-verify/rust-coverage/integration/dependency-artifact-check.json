@@ -1,0 +1,12 @@
+[
+  {
+    "manifest": ".arc-verify/rust-coverage/library/delivery.json",
+    "verified": 102,
+    "passValue": true
+  },
+  {
+    "manifest": ".arc-verify/rust-coverage/process/recovery-artifact-inventory.json",
+    "verified": 95,
+    "passValue": true
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "harness",
+  "sourceHash": "a5a93181186e51229807dccb937c917892c36b051a833f111d0a1c9b59ee079e",
+  "afterHash": "a5a93181186e51229807dccb937c917892c36b051a833f111d0a1c9b59ee079e",
+  "unchanged": true,
+  "exit": 1,
+  "argv": [
+    "./scripts/harness/validate.sh"
+  ]
+}

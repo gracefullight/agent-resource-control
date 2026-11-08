@@ -1,0 +1,16 @@
+   Compiling arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/crates/arc-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.85s
+     Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)
+
+running 8 tests
+test doctor_help_explains_schema_scope_and_prestartup_stderr ... ok
+test schema_error_without_details_never_claims_verified_compatibility ... ok
+test actual_cli_reports_verified_production_and_two_version_fixture_success ... ok
+test new_client_old_daemon_labels_unavailable_details_without_claiming_verification ... ok
+test unavailable_and_malformed_present_details_fail_without_legacy_fallback ... ok
+test inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility ... ok
+test integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories ... ok
+test every_schema_failure_survives_error_envelope_with_actionable_reason ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.53s
+

@@ -1,0 +1,5 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9d56bf54552db382: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/57811029c080c016: Operation not permitted (os error 1)
+info: downloading component llvm-tools
+info: rolling back changes
+error: component download failed for llvm-tools-aarch64-apple-darwin: error opening file for download: cleaning up cached downloads: No such file or directory (os error 2)

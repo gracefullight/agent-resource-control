@@ -1,0 +1,1687 @@
+{
+  "schemaVersion": 1,
+  "task": "task-8",
+  "actor": "chief-director",
+  "status": "completed",
+  "complete": true,
+  "reportDeliverablesComplete": true,
+  "decision": "Fresh unchanged harness wrapper passed in 246466 ms with zero violations and no skip flags. All six crate targets, current source bindings, five exact command receipts and independent task-7 QA pass. Task-8 delivery complete; supervising framework verification pending after handoff.",
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "currentHead": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "committedImplementation": false,
+  "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+  "inputCount": 114,
+  "sourceManifest": ".arc-verify/rust-coverage/integration/repair-4/source.json",
+  "host": "Darwin arm64",
+  "target": "aarch64-apple-darwin",
+  "threshold": {
+    "percent": 80,
+    "scope": "each of six crates independently",
+    "basis": "new engineering target, not a measured baseline or SRS threshold",
+    "exactIntegerComparison": true
+  },
+  "crates": [
+    {
+      "crate": "arc-core",
+      "covered": 64,
+      "total": 64,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-detector",
+      "covered": 577,
+      "total": 578,
+      "percent": 99.82698961937716,
+      "pass": true
+    },
+    {
+      "crate": "arc-storage",
+      "covered": 226,
+      "total": 227,
+      "percent": 99.55947136563876,
+      "pass": true
+    },
+    {
+      "crate": "arc-ipc",
+      "covered": 215,
+      "total": 215,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-daemon",
+      "covered": 1507,
+      "total": 1613,
+      "percent": 93.42839429634222,
+      "pass": true
+    },
+    {
+      "crate": "arc-cli",
+      "covered": 203,
+      "total": 213,
+      "percent": 95.30516431924883,
+      "pass": true
+    }
+  ],
+  "productionFileCount": 29,
+  "testOnlyFileCount": 20,
+  "omissionSpansAudited": 54,
+  "measurements": [
+    {
+      "kind": "standalone",
+      "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "pass": true,
+      "rawProfileCount": 851,
+      "passedTests": 275,
+      "uncoveredReport": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/uncovered.md",
+      "nativeFormats": [
+        "raw.lcov",
+        "raw.json"
+      ]
+    },
+    {
+      "kind": "harness",
+      "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "pass": true,
+      "rawProfileCount": 851,
+      "passedTests": 275,
+      "uncoveredReport": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/uncovered.md",
+      "nativeFormats": [
+        "raw.lcov",
+        "raw.json"
+      ]
+    }
+  ],
+  "allFiveExactCommandsPass": true,
+  "commands": [
+    {
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "receipt": ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-f8af459c-a9cf-49ed-9c31-34138816c24e/00-command.json",
+      "sha256": "7f86dab0c3f70346bb91e2d316393b5ed84df9c11f1dc8fdad944b014dc13915",
+      "exit": 0,
+      "durationMs": 80164,
+      "execution": "reused same-source task-6 receipt; revalidated by task-7 and Chief"
+    },
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/00-command.json",
+      "sha256": "cd11b98cc3e0e9b8ffb6d90934aed4ddbb6fd6b719af1e7c1239c96205126e3c",
+      "exit": 0,
+      "durationMs": 1116,
+      "execution": "reused same-source task-6 receipt; revalidated by task-7 and Chief"
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/00-command.json",
+      "sha256": "c39e7cb57914996737ac0959063c00a0166573cf4aa07d370d88159ba4809562",
+      "exit": 0,
+      "durationMs": 376,
+      "execution": "reused same-source task-6 receipt; revalidated by task-7 and Chief"
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/00-command.json",
+      "sha256": "611b09b859a48814f04ec37e0058534dcdb52e61507d3ec6350d2c66f4112926",
+      "exit": 0,
+      "durationMs": 40064,
+      "execution": "reused same-source task-6 receipt; revalidated by task-7 and Chief"
+    },
+    {
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "receipt": ".arc-verify/rust-coverage/tooling/acceptance/harness-c4da9be1-0b54-46d4-ba48-5c247c503f88/00-command.json",
+      "sha256": "54d2b163df247f2b7f0892bb8039c62a149543cfa14c973d20a5f413492850e3",
+      "exit": 0,
+      "durationMs": 225973,
+      "execution": "reused same-source task-6 receipt; revalidated by task-7 and Chief"
+    }
+  ],
+  "independentReview": {
+    "path": ".arc-verify/rust-coverage/qa/review.json",
+    "verdict": "PASS",
+    "completeness": "completed",
+    "scope": "task-7 independent implementation/evidence review",
+    "missionComplete": false,
+    "probeCases": 18,
+    "realInstrumentedReapedChildren": 5,
+    "technicalDirectorReview": "PASS per supplied dependency review handoff"
+  },
+  "frameworkVerification": {
+    "status": "pending-supervising-framework-after-passing-local-replay",
+    "executedByTask8": true,
+    "executionKind": "Direct local replay of required harness check after operator-reported framework timeout change; other current same-source checks reused.",
+    "passed": null,
+    "localReplayPassed": true,
+    "contractChanged": false,
+    "contractPointer": "/mission/verificationContract/criteria/6/checks/0/timeoutMs",
+    "frozenTimeoutMs": 120000,
+    "frozenTimeoutMeaning": "planning estimate per operator framework-change note",
+    "effectiveFrameworkPerCheckTimeoutMs": 1800000,
+    "wrapperTimeoutMs": 1000000,
+    "wrapperArgv": [
+      "bun",
+      "test",
+      "scripts/coverage/harness.test.ts"
+    ],
+    "resultReceipt": ".arc-verify/rust-coverage/final-summary.json#/attempt4/harnessReplay",
+    "supervisingFrameworkExecuted": false,
+    "supervisingFrameworkReceipt": null,
+    "nextAction": "Supervising framework executes unchanged final verification after this Actor handoff; no host-managed result claimed.",
+    "internalChildTimeoutMs": 900000,
+    "internalBunTestTimeoutMs": 960000
+  },
+  "criteria": [
+    {
+      "id": 1,
+      "status": "pass",
+      "evidence": [
+        "package.json",
+        ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-f8af459c-a9cf-49ed-9c31-34138816c24e/00-command.json",
+        ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb/summary.json",
+        ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228/summary.json"
+      ],
+      "localCommandResult": "#/contractReplay/checks/0"
+    },
+    {
+      "id": 2,
+      "status": "pass",
+      "evidence": [
+        ".arc-verify/rust-coverage/qa/driver-probes.json",
+        ".arc-verify/rust-coverage/qa/receipts/00-command.json"
+      ],
+      "freshChiefTests": true,
+      "localCommandResult": "#/contractReplay/checks/1"
+    },
+    {
+      "id": 3,
+      "status": "pass",
+      "evidence": [
+        ".arc-verify/rust-coverage/qa/review.json",
+        "scripts/coverage/preservation.test.ts"
+      ],
+      "localCommandResult": "#/contractReplay/checks/2"
+    },
+    {
+      "id": 4,
+      "status": "pass",
+      "evidence": [
+        ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/00-command.json"
+      ],
+      "localCommandResult": "#/contractReplay/checks/3"
+    },
+    {
+      "id": 5,
+      "status": "pass",
+      "evidence": [
+        ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/00-command.json"
+      ],
+      "localCommandResult": "#/contractReplay/checks/4"
+    },
+    {
+      "id": 6,
+      "status": "pass",
+      "evidence": [
+        ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/00-command.json"
+      ],
+      "localCommandResult": "#/contractReplay/checks/5"
+    },
+    {
+      "id": 7,
+      "status": "pass",
+      "evidence": [
+        ".arc-verify/rust-coverage/tooling/acceptance/harness-c4da9be1-0b54-46d4-ba48-5c247c503f88/00-command.json",
+        ".arc-verify/rust-coverage/integration/repair-4/acceptance.json",
+        ".arc-verify/rust-coverage/tooling/acceptance/harness-124c2bfe-3335-4277-9d88-18ef99281fa6/00-command.json",
+        ".arc-verify/rust-coverage/tooling/acceptance/harness-124c2bfe-3335-4277-9d88-18ef99281fa6/binding.json"
+      ],
+      "reason": "Exact required wrapper passes after operator environment timeout correction; protected bytes and argv unchanged.",
+      "localCommandResult": "#/attempt4/harnessReplay"
+    },
+    {
+      "id": 8,
+      "status": "pass",
+      "evidence": [
+        ".arc-verify/rust-coverage/final.md",
+        ".arc-verify/rust-coverage/final-summary.json",
+        ".arc-verify/rust-coverage/qa/review.json"
+      ],
+      "reason": "Current source-bound evidence, actual independent QA and final artifacts pass; task-8 complete. Framework replay follows this handoff.",
+      "localCommandResult": "#/contractReplay/checks/7"
+    }
+  ],
+  "protectedBytes": {
+    "scripts/harness/validate.sh": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+    "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  },
+  "interfaceCompatibility": "Production behavior, permissions, protocol and existing assertions preserved. Task-8 changes reports only.",
+  "toolVersions": {
+    "bun": "1.4.4",
+    "rust": "1.95.0",
+    "cargo": "1.95.0",
+    "cargoLlvmCov": "0.6.21",
+    "llvm": "22.1.2",
+    "evidence": ".arc-verify/rust-coverage/integration/repair-4/versions.json"
+  },
+  "skillsUsed": [
+    "oma-coordination",
+    "oma-docs"
+  ],
+  "agentDefinition": ".agents/agents/docs-curator.md",
+  "decisions": {
+    "technical": "Reuse pinned Rust/Bun tooling, one workspace pass, canonical source unions and measured-gap tests; reject added dependencies/Vitest and six separate passes.",
+    "design": "Plain terminal counts plus files delivered. HTML explorer, wizard and retention experiments deferred; usability benefits remain unmeasured.",
+    "marketing": "Commercial experiments deferred. No revenue, cost, savings, demand, retention or ROI result is established."
+  },
+  "artifactHashes": {
+    ".arc-verify/rust-coverage/final.md": "f21d459b282b621e8e67d162be578a773172c8be1ee71a1a232943a46580a2c1",
+    ".arc-verify/rust-coverage/qa/review.md": "cb2fa49fb7c1475c19e41633f0a99d73d0aeb64f9b64c0882a76a9ee61663883",
+    ".arc-verify/rust-coverage/qa/review.json": "d3cc0e61cc294b21f766849a15cd031f8bef642595951162b85e7f5353df4782",
+    ".arc-verify/rust-coverage/qa/reconciliation.json": "9d771968d9c6aebb776e424e61021dd657aafa4f572b8c219ff9f2221cd00c6e",
+    ".arc-verify/rust-coverage/qa/driver-probes.json": "650f0a275073fb83397284a076284d2f01a8063f020414433a55943d85afcbc6",
+    ".arc-verify/rust-coverage/integration/repair-4/source.json": "2e58e20f4221f12f5b7028dc6651eef56b343766fbd9cef936b0f0d38065d718",
+    ".arc-verify/rust-coverage/integration/repair-4/acceptance.json": "c5c1526b5c05de759176b0722a5425c618b8c7ed6359ab2158246b8c75c0c0a9",
+    ".arc-verify/rust-coverage/integration/repair-4/versions.json": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+    ".arc-verify/rust-coverage/directors/design.md": "1a1580a31cbb5bf7c601f9265922547d4a3ef189cc2dcbb35cd6832564864eb4",
+    ".arc-verify/rust-coverage/directors/marketing.md": "dd61976fbcfa8e6820bd02bf700f36a5c0dc5853876dd2da28bda1d143b8b298",
+    ".arc-verify/rust-coverage/tooling/acceptance/harness-124c2bfe-3335-4277-9d88-18ef99281fa6/00-command.json": "c431a49cf99dab2229a428876f6579f6f6062da02d274e4c5bd60e707759c32c",
+    ".arc-verify/rust-coverage/tooling/acceptance/harness-124c2bfe-3335-4277-9d88-18ef99281fa6/binding.json": "ff4b3ed305f9e7534f731dfbdc6ef1b6cc10ebcb3f8f5e7176c0002e8be36f22",
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/summary.json": "809d6928df5390c87d8db1b9ada7f623c59c9ee7e7498ab727307ebcb331fc88",
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/uncovered.md": "a2dd23ba90e4d69afcec644d426fc81f0e7ccb0e2e084c3562367731282e6a44",
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/inputs.json": "2e58e20f4221f12f5b7028dc6651eef56b343766fbd9cef936b0f0d38065d718",
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160/receipt.json": "be868288545cda752ddbff9fa63aa9355843011edff05be49c6cb18f36a60554"
+  },
+  "changedPaths": [
+    ".arc-verify/rust-coverage/final.md",
+    ".arc-verify/rust-coverage/final-summary.json"
+  ],
+  "unresolved": [],
+  "obligations": {
+    "desktop": "incomplete",
+    "native Windows": "incomplete",
+    "remaining Phase 0": "incomplete"
+  },
+  "limits": [
+    "Darwin arm64 measurement only; inactive platform branches and native Windows/desktop unmeasured.",
+    "Stable Rust doctest coverage outside collection.",
+    "Serena unavailable; known-path reads only. Global Git status denied av.yaml; no bypass.",
+    "Usability, field adoption and commercial outcomes unmeasured. Local receipts are not external attestation."
+  ],
+  "savedBudget": {
+    "maxDurationSec": 86400,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "maxParallel": 3,
+    "reset": false
+  },
+  "createdAt": "2026-11-08T01:08:11.198Z",
+  "recoveryHistory": [
+    {
+      "attempt": 1,
+      "frameworkVerification": {
+        "status": "pending-after-integration",
+        "executedByTask8": false,
+        "passed": false,
+        "contractChanged": false,
+        "contractPointer": "/mission/verificationContract/criteria/6/checks/0/timeoutMs",
+        "frozenTimeoutMs": 120000,
+        "observedPassingWrapperMs": 227290,
+        "observedPassingChildMs": 225973,
+        "wrapperArgv": [
+          "bun",
+          "test",
+          "scripts/coverage/harness.test.ts"
+        ],
+        "internalChildTimeoutMs": 900000,
+        "internalBunTestTimeoutMs": 960000,
+        "resultReceipt": null,
+        "reason": "No final framework result supplied or produced during report-only task; above-budget passing receipt cannot certify frozen timeout."
+      },
+      "reportSha256": "70c1f00a67a3a4930e0908c8a17c6ba6ab9c4e20f55c37a3f8733a10bae112ec",
+      "summarySha256": "02223f597973ab2449f4c36fe5db1903473c10e5f33120c9c656496e9f727eb1"
+    },
+    {
+      "attempt": 3,
+      "status": "partial",
+      "complete": false,
+      "decision": "Coverage implementation and task-7 independent QA pass. Final fixed-contract verification fails: attempt-3 harness wrapper timed out at 120009 ms (exit 124). Completion withheld; routing to the integration owner failed before peer startup.",
+      "frameworkVerification": {
+        "status": "failed-local-exact-check-reproduction",
+        "executedByTask8": true,
+        "executionKind": "Direct local reproduction of all saved checks; not a host-managed framework run",
+        "passed": false,
+        "contractChanged": false,
+        "contractPointer": "/mission/verificationContract/criteria/6/checks/0/timeoutMs",
+        "frozenTimeoutMs": 120000,
+        "wrapperArgv": [
+          "bun",
+          "test",
+          "scripts/coverage/harness.test.ts"
+        ],
+        "actualTimeoutResult": {
+          "exit": 124,
+          "durationMs": 120009,
+          "processReturnCode": -15,
+          "processGroup": 36816
+        },
+        "resultReceipt": ".arc-verify/rust-coverage/final-summary.json#/attempt3/harnessReplay",
+        "supervisingFrameworkReceipt": null,
+        "supervisingFrameworkExecuted": false,
+        "routingStatus": "Attempt-3 native Technical Director/task-6 handoff failed before startup: thread-store context unavailable. No supervising framework endpoint is exposed; handoff retained in owned reports.",
+        "observedPassingWrapperMs": 227290,
+        "observedPassingChildMs": 225973,
+        "internalChildTimeoutMs": 900000,
+        "internalBunTestTimeoutMs": 960000
+      },
+      "freshChiefChecks": {
+        "attempt": 3,
+        "resultPointer": "#/attempt3",
+        "failedHarnessReplay": true,
+        "deterministicSuiteExit": 0,
+        "deterministicTests": 28,
+        "deterministicAssertions": 2667,
+        "sourceInputsUnchanged": 114,
+        "precedingPassingChecksReused": "Attempt-2 exact checks 0-5 and 7; task-6 full-harness receipt; all source bindings revalidated."
+      },
+      "unresolved": [
+        {
+          "owner": "existing task-6 Technical Director/integration owner; supervising Chief/framework owner",
+          "kind": "frozen-executable-verification-failure",
+          "status": "reproduced in attempt 3; native routing failed before peer startup",
+          "paths": [
+            "scripts/coverage/harness.test.ts",
+            "scripts/coverage/acceptance.ts",
+            ".arc-verify/rust-coverage/integration/repair-4/acceptance.json",
+            ".arc-verify/rust-coverage/final-summary.json#/attempt3/harnessReplay"
+          ],
+          "contractPointer": "/mission/verificationContract/criteria/6/checks/0/timeoutMs",
+          "timeoutMs": 120000,
+          "actualExit": 124,
+          "actualDurationMs": 120009,
+          "reason": "The real unchanged harness has a retained passing 225973 ms receipt; the fixed outer wrapper times out. Task-8 owns reports only and cannot modify integration tooling or the frozen contract. Native routing failed with the recorded thread-store error. No passing framework result is available.",
+          "nextAction": "The existing integration owner must supply a nonweakening repair and passing execution within the unchanged command/limit, and the supervising framework owner must run the saved final contract. Preserve the failed outcome until actual results establish success.",
+          "productPatchAssigned": false,
+          "contractChanged": false
+        }
+      ],
+      "reportSha256": "49576f580fd9f6498e3f7a5fa1806611db60df1c61986101ab171fd6acfbb222",
+      "summarySha256": "33f2818c90d7b7210a9079990daea36003447f0d32a52b7eb60effcfd38aa9b9"
+    }
+  ],
+  "contractReplay": {
+    "kind": "local-exact-contract-command-replay",
+    "attempt": 2,
+    "sessionId": "01a1b8b4-e8dc-7211-b2d0-5e7828d8f048",
+    "authority": "Local task-8 execution; not a supervising framework receipt",
+    "startedAt": "2026-11-08T01:11:35.921895+00:00",
+    "status": "failed",
+    "before": {
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "inputCount": 114,
+      "checkedAt": "2026-11-08T01:11:35.130233+00:00"
+    },
+    "checks": [
+      {
+        "criterion": 1,
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/coverage-cli.test.ts"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:11:35.922775+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:11:35.927617+00:00"
+        },
+        "pid": 7187,
+        "processGroup": 7187,
+        "exit": 0,
+        "processReturnCode": 0,
+        "timedOut": false,
+        "durationMs": 82619,
+        "finishedAt": "2026-11-08T01:12:58.547310+00:00",
+        "stdout": "bun test v1.4.4 (38afee6c8)\n",
+        "stderr": "\nscripts/coverage/coverage-cli.test.ts:\n(pass) root entry point executes the real six-crate coverage gate [82138.49ms]\n\n 1 pass\n 0 fail\n 9 expect() calls\nRan 1 test across 1 file. [82.61s]\n",
+        "cleanup": [],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:12:58.552360+00:00"
+        },
+        "passed": true
+      },
+      {
+        "criterion": 2,
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/gate.test.ts",
+          "scripts/coverage/accounting.test.ts"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:12:58.552928+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:12:58.556839+00:00"
+        },
+        "pid": 9958,
+        "processGroup": 9958,
+        "exit": 0,
+        "processReturnCode": 0,
+        "timedOut": false,
+        "durationMs": 1273,
+        "finishedAt": "2026-11-08T01:12:59.829903+00:00",
+        "stdout": "bun test v1.4.4 (38afee6c8)\n",
+        "stderr": "\nscripts/coverage/gate.test.ts:\n(pass) exact 80% succeeds [28.53ms]\n(pass) failed subprocess tests cannot reuse old passing artifacts [37.75ms]\n(pass) test exit is checked before report validity [23.38ms]\n(pass) missing tool returns nonzero [24.51ms]\n(pass) mismatched tool returns nonzero [22.81ms]\n(pass) missing report returns nonzero [26.71ms]\n(pass) stale report returns nonzero [20.94ms]\n(pass) source changed during measurement returns nonzero [21.62ms]\n(pass) malformed report returns nonzero [22.00ms]\n(pass) missing crate returns nonzero [21.86ms]\n(pass) missing production file returns nonzero [22.31ms]\n(pass) one failing crate fails despite high workspace average [25.58ms]\n(pass) a displayed 80.00% below the exact boundary fails [361.35ms]\n(pass) inconsistent LF/LH cannot inflate coverage to a passing verdict [22.28ms]\n\nscripts/coverage/accounting.test.ts:\n(pass) repeated compilation unions source lines instead of averaging binaries [4.88ms]\n(pass) zero-hit lines survive; per-file uncovered numbers are stable [3.94ms]\n(pass) test-only lines/files never dilute production denominator [2.09ms]\n(pass) canonical aliases merge and never duplicate denominators [2.12ms]\n(pass) unknown paths, zero denominators and malformed hits fail closed [3.33ms]\n(pass) cfg omission handles nested Rust comments, literals and test-only statements [0.99ms]\n(pass) test combined with any platform condition is not blanket-excluded [0.07ms]\n(pass) external cfg test module keeps its declared path; arbitrary filenames are not exclusions [0.06ms]\n(pass) live inventory classifies all six crate roots and test-only module trees [53.08ms]\n(pass) record summaries must match DA lines before repeated instances merge [4.18ms]\n(pass) duplicate DA entries and summaries outside a record are malformed [2.46ms]\n(pass) LLVM function summaries require corroboration by the complete segment-derived line map [4.80ms]\n\n 26 pass\n 0 fail\n 84 expect() calls\nRan 26 tests across 2 files. [1256.00ms]\n",
+        "cleanup": [],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:12:59.835529+00:00"
+        },
+        "passed": true
+      },
+      {
+        "criterion": 3,
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/preservation.test.ts"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:12:59.836095+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:12:59.840719+00:00"
+        },
+        "pid": 9975,
+        "processGroup": 9975,
+        "exit": 0,
+        "processReturnCode": 0,
+        "timedOut": false,
+        "durationMs": 1329,
+        "finishedAt": "2026-11-08T01:13:01.170179+00:00",
+        "stdout": "bun test v1.4.4 (38afee6c8)\n",
+        "stderr": "\nscripts/coverage/preservation.test.ts:\n(pass) accepted baseline protected bytes, production tokens and existing assertions survive [1211.94ms]\n\n 1 pass\n 0 fail\n 3 expect() calls\nRan 1 test across 1 file. [1318.00ms]\n",
+        "cleanup": [],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:01.174653+00:00"
+        },
+        "passed": true
+      },
+      {
+        "criterion": 4,
+        "argv": [
+          "cargo",
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:13:01.175102+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:01.179318+00:00"
+        },
+        "pid": 10059,
+        "processGroup": 10059,
+        "exit": 0,
+        "processReturnCode": 0,
+        "timedOut": false,
+        "durationMs": 304,
+        "finishedAt": "2026-11-08T01:13:01.483587+00:00",
+        "stdout": "",
+        "stderr": "",
+        "cleanup": [],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:01.488334+00:00"
+        },
+        "passed": true
+      },
+      {
+        "criterion": 5,
+        "argv": [
+          "cargo",
+          "clippy",
+          "--workspace",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:13:01.488797+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:01.492758+00:00"
+        },
+        "pid": 10063,
+        "processGroup": 10063,
+        "exit": 0,
+        "processReturnCode": 0,
+        "timedOut": false,
+        "durationMs": 334,
+        "finishedAt": "2026-11-08T01:13:01.827058+00:00",
+        "stdout": "",
+        "stderr": "    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.24s\n",
+        "cleanup": [],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:01.831932+00:00"
+        },
+        "passed": true
+      },
+      {
+        "criterion": 6,
+        "argv": [
+          "cargo",
+          "test",
+          "--workspace"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:13:01.832389+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:01.836812+00:00"
+        },
+        "pid": 10068,
+        "processGroup": 10068,
+        "exit": 0,
+        "processReturnCode": 0,
+        "timedOut": false,
+        "durationMs": 39410,
+        "finishedAt": "2026-11-08T01:13:41.247267+00:00",
+        "stdout": "\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 3 tests\ntest arcctl_binary_is_built_next_to_the_test_harness ... ok\ntest no_arguments_names_both_commands_and_exits_nonzero ... ok\ntest legacy_usage_errors_and_version_keep_their_exit_contract ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.61s\n\n\nrunning 5 tests\ntest error_with_success_payload_is_rejected_before_error_mapping ... ok\ntest help_usage_privacy_and_absent_daemon ... ok\ntest literal_payloads_and_options_are_preserved_in_one_request ... ok\ntest peer_failures_are_typed_correlated_and_never_reflected ... ok\ntest timeout_is_bounded_with_no_retry_or_partial_result ... ok\n\ntest result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.52s\n\n\nrunning 8 tests\ntest doctor_help_explains_schema_scope_and_prestartup_stderr ... ok\ntest schema_error_without_details_never_claims_verified_compatibility ... ok\ntest new_client_old_daemon_labels_unavailable_details_without_claiming_verification ... ok\ntest actual_cli_reports_verified_production_and_two_version_fixture_success ... ok\ntest unavailable_and_malformed_present_details_fail_without_legacy_fallback ... ok\ntest inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility ... ok\ntest integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories ... ok\ntest every_schema_failure_survives_error_envelope_with_actionable_reason ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s\n\n\nrunning 2 tests\ntest tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer ... ok\ntest tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 4 tests\ntest database_path_probe ... ok\ntest database_override_preserves_non_utf8_path_bytes ... ok\ntest database_override_precedes_missing_platform_directory ... ok\ntest absent_and_empty_home_fail_after_empty_database_override ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\nrunning 3 tests\ntest configuration_probe ... ok\ntest native_default_is_independent_of_child_tmpdir ... ok\ntest nonempty_socket_override_and_empty_override_policy_are_preserved ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s\n\n\nrunning 59 tests\ntest db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt ... ok\ntest db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks ... ok\ntest db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost ... ok\ntest db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker ... ok\ntest db_worker::tests::active_sql_is_interrupted_and_worker_joins ... ok\ntest db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds ... ok\ntest db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation ... ok\ntest db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits ... ok\ntest db_worker::tests::stop_between_empty_check_and_park_is_not_lost ... ok\ntest instance::tests::a_dead_pid_is_recovered_without_killing_anyone ... ok\ntest instance::tests::a_live_duplicate_is_rejected ... ok\ntest instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone ... ok\ntest instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file ... ok\ntest db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones ... ok\ntest instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked ... ok\ntest db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started ... ok\ntest lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation ... ok\ntest instance::tests::dropping_a_stale_holder_preserves_its_successors_lock ... ok\ntest lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable ... ok\ntest lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure ... ok\ntest lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable ... ok\ntest lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures ... ok\ntest lifecycle_tests::accept_recovery_tests::accept_child ... ok\ntest instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes ... ok\ntest db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback ... ok\ntest db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline ... ok\ntest lifecycle_tests::accept_recovery_tests::isolated_transient_accept_error_recovers_cli ... ok\ntest lifecycle_tests::controlled_worker_child ... ok\ntest lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover ... ok\ntest db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned ... ok\ntest lifecycle_tests::report_lifecycle_tests::report_child ... ok\ntest db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients ... ok\ntest lifecycle_tests::accept_recovery_tests::repeated_resource_pressure_recovers_cli ... ok\ntest lifecycle_tests::accept_recovery_tests::signal_while_backing_off_is_accounted ... ok\ntest lifecycle_tests::accept_recovery_tests::unusable_listener_cause_survives_accounted_shutdown ... ok\ntest limits::tests::limits_reject_invalid_config_and_profiles ... ok\ntest runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping ... ok\ntest runtime_report::tests::complete_serialization_is_capped_before_any_file_write ... ok\ntest runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures ... ok\ntest runtime_report::tests::invalid_report_names_fail_before_creating_a_file ... ok\ntest runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents ... ok\ntest runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement ... ok\ntest server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation ... ok\ntest server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable ... ok\ntest server::tests::a_shared_temporary_root_is_refused_instead_of_tightened ... ok\ntest lifecycle_tests::report_lifecycle_tests::disabled_export_creates_no_report_or_runtime_stdout_record ... ok\ntest server::tests::already_exists_is_validated_without_repair_or_following_links ... ok\ntest server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version ... ok\ntest server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy ... ok\ntest server::tests::new_nested_and_existing_private_directories_are_usable_without_repair ... ok\ntest server::tests::permissive_existing_directories_are_rejected_without_mutation ... ok\ntest server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries ... ok\ntest server::tests::final_intermediate_and_dangling_symlinks_are_not_followed ... ok\ntest lifecycle_tests::report_lifecycle_tests::invalid_exports_refuse_startup_preserve_entries_and_join_worker ... ok\ntest lifecycle_tests::report_lifecycle_tests::report_write_failure_preserves_cleanup_and_actual_worker_accounting ... ok\ntest lifecycle_tests::report_lifecycle_tests::requested_export_is_open_before_readiness_and_contains_complete_schema ... ok\ntest lifecycle_tests::sigint_reaps_stalled_handlers_and_joins_worker ... ok\ntest lifecycle_tests::sigterm_reaps_stalled_handlers_and_joins_worker ... ok\ntest accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold ... ok\n\ntest result: ok. 59 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.78s\n\n\nrunning 3 tests\ntest native_probe_then_full_100000_attempt_workload ... ok\ntest nonreading_peer_releases_real_daemon_capacity ... ok\ntest malformed_and_stalled_frames_recover_actual_cli ... ok\n\ntest result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 20.99s\n\n\nrunning 8 tests\ntest ssh_option_values_preserve_typed_daemon_and_cli_observations ... ok\ntest privacy::required_loopback_endpoint_nonexecution_and_privacy ... ok\ntest privacy::unix_endpoint_traps_substitutions_and_live_wal_never_receive_input ... ok\ntest invalid_payloads_version_priority_and_same_connection_recovery ... ok\ntest boundaries::detector_budgets_are_preserved_through_daemon_and_cli ... ok\ntest saturation::maximum_and_exhausting_classification_load_preserves_health_and_shutdown ... ok\ntest ssh_post_destination_daemon_human_and_json_cli_matrix ... ok\ntest actual_daemon_and_cli_delivered_contract_matrix ... ok\n\ntest result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.84s\n\n\nrunning 17 tests\ntest db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt ... ok\ntest db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker ... ok\ntest db_worker::tests::active_sql_is_interrupted_and_worker_joins ... ok\ntest db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks ... ok\ntest db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost ... ok\ntest db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds ... ok\ntest db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation ... ok\ntest db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits ... ok\ntest limits::tests::limits_reject_invalid_config_and_profiles ... ok\ntest runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping ... ok\ntest db_worker::tests::stop_between_empty_check_and_park_is_not_lost ... ok\ntest db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started ... ok\ntest db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones ... ok\ntest db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback ... ok\ntest db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline ... ok\ntest db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned ... ok\ntest db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients ... ok\n\ntest result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s\n\n\nrunning 14 tests\ntest fixture_serialization_probe ... ok\ntest provisioning::nondirectory_parent_is_rejected_before_lock_or_database_initialization ... ok\ntest coordination::fixture_coordination_is_shared_across_processes ... ok\ntest lifecycle::resident_contract_holds_until_sigterm ... ok\ntest lifecycle::commands_report_daemon_unavailable_when_absent ... ok\ntest identity::concurrent_distinct_overrides_admit_one_and_recover_after_shutdown_and_death ... ok\ntest identity::native_default_and_cli_ignore_unset_changed_and_unwritable_tmpdir ... ok\ntest coverage::startup_failures_release_admission_then_sigint_reaps_instrumented_children ... ok\ntest provisioning::overlong_socket_paths_and_existing_socket_entries_reject_without_mutation ... ok\ntest provisioning::permissive_directories_and_their_contents_survive_daemon_and_cli_rejection ... ok\ntest provisioning::private_existing_and_new_nested_directories_support_override_startup ... ok\ntest provisioning::symlink_targets_and_dangling_links_survive_daemon_and_cli_rejection ... ok\ntest schema::baseline_client_adapter_accepts_actual_new_daemon_production_report ... ok\ntest schema::live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_history ... ok\n\ntest result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.69s\n\n\nrunning 2 tests\ntest checksum_rejection_exits_nonzero_with_recovery_guidance ... ok\ntest missing_invalid_and_newer_schema_startup_reject_without_data_or_history_changes ... ok\n\ntest result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s\n\n\nrunning 18 tests\ntest limits::tests::limits_reject_invalid_config_and_profiles ... ok\ntest runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping ... ok\ntest tests::metrics_are_fixed_size_and_preserve_high_waters ... ok\ntest tests::headers_and_trickled_bodies_have_absolute_deadlines ... ok\ntest tests::cancellation_reaps_unpolled_handlers_and_drops_all_guards ... ok\ntest tests::header_progress_does_not_renew_the_body_budget ... ok\ntest tests::retained_tasks_reap_and_rejections_do_not_call_factory ... ok\ntest tests::malformed_json_and_version_errors_continue_without_database ... ok\ntest tests::same_user_authentication_supports_async_sockets_and_rejects_non_sockets ... ok\ntest tests::saturated_requests_close_before_allocating_even_for_invalid_prefixes ... ok\ntest tests::zero_and_oversized_frames_reject_without_body_allocation ... ok\ntest tests::typed_worker_outcomes_keep_busy_distinct_from_integrity ... ok\ntest tests::stalled_header_and_partial_body_release_request_capacity ... ok\ntest tests::request_admission_races_and_unwind_never_exceed_cap ... ok\ntest tests::nonreading_peer_expires_under_write_backpressure ... ok\ntest tests::blocked_handler_write_releases_request_and_response_reservations ... ok\ntest tests::response_serialization_is_capped_before_any_prefix_is_written ... ok\ntest tests::oversized_echo_uses_one_small_fallback_then_closes ... ok\n\ntest result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s\n\n\nrunning 56 tests\ntest controlled_daemon_child ... ok\ntest db_worker::execution::race_tests::stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt ... ok\ntest db_worker::tests::cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks ... ok\ntest db_worker::tests::active_sql_is_interrupted_and_worker_joins ... ok\ntest db_worker::tests::concurrent_cancelled_admission_preserves_queue_and_outstanding_bounds ... ok\ntest db_worker::tests::dropping_ticket_interrupts_active_sql_without_stopping_worker ... ok\ntest db_worker::tests::enqueue_between_empty_check_and_park_is_not_lost ... ok\ntest controlled_slow_database_does_not_block_health_and_cli_recovers ... ok\ntest admission_load::hundred_thousand_request_attempts_have_no_waiting_admission ... ok\ntest db_worker::tests::finite_queue_rejects_100000_attempts_and_recovers_after_cancellation ... ok\ntest db_worker::tests::lock_wait_is_bounded_and_shutdown_cancels_actual_busy_callback ... ok\ntest db_worker::tests::shutdown_timeout_retains_handle_until_native_thread_really_exits ... ok\ntest db_worker::tests::queued_deadline_is_absolute_and_expired_job_is_not_started ... ok\ntest db_worker::tests::stop_between_empty_check_and_park_is_not_lost ... ok\ntest db_worker::tests::execution_deadline_interrupts_sql_before_response_deadline ... ok\ntest admission_load::hundred_thousand_database_attempts_bound_retained_cancelled_work ... ok\ntest db_worker::tests::stopped_worker_discards_full_queue_with_live_client_clones ... ok\ntest instance::tests::a_dead_pid_is_recovered_without_killing_anyone ... ok\ntest instance::tests::a_live_duplicate_is_rejected ... ok\ntest instance::tests::a_mismatched_start_time_is_recovered_without_killing_anyone ... ok\ntest instance::tests::a_stale_inode_never_unlinks_the_successors_lock_file ... ok\ntest instance::tests::a_stale_inode_still_named_by_the_path_is_unlinked ... ok\ntest instance::tests::dropping_a_stale_holder_preserves_its_successors_lock ... ok\ntest instance::tests::unsafe_anchor_entries_are_rejected_without_repair_or_writes ... ok\ntest lifecycle::failure_tests::failed_integrity_and_schema_reports_keep_dispatch_validation ... ok\ntest lifecycle::failure_tests::non_sqlite_failures_default_to_unavailable ... ok\ntest lifecycle::failure_tests::only_positive_sqlite_corruption_evidence_is_integrity_failure ... ok\ntest lifecycle::failure_tests::operational_resource_and_unexpected_sql_errors_are_unavailable ... ok\ntest db_worker::tests::schema_tests::schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned ... ok\ntest lifecycle::tests::database_contention_and_unavailability_are_not_integrity_failures ... ok\ntest limits::tests::limits_reject_invalid_config_and_profiles ... ok\ntest runtime_metrics::tests::lifetime_counters_saturate_instead_of_wrapping ... ok\ntest runtime_report::tests::complete_serialization_is_capped_before_any_file_write ... ok\ntest runtime_report::tests::expired_deadline_and_real_os_write_errors_are_failures ... ok\ntest runtime_report::tests::invalid_report_names_fail_before_creating_a_file ... ok\ntest runtime_report::tests::report_open_is_private_create_new_and_refuses_links_and_unsafe_parents ... ok\ntest runtime_report::tests::retained_descriptor_is_not_redirected_by_path_replacement ... ok\ntest lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover ... ok\ntest db_worker::tests::repeated_idle_workers_close_and_join_with_live_clients ... ok\ntest server::tests::a_directory_that_appears_between_walks_is_validated_before_nested_creation ... ok\ntest server::tests::a_positional_array_is_rejected_and_the_connection_stays_usable ... ok\ntest server::tests::a_shared_temporary_root_is_refused_instead_of_tightened ... ok\ntest server::tests::a_socketpair_serves_hello_and_survives_an_incompatible_version ... ok\ntest server::tests::already_exists_is_validated_without_repair_or_following_links ... ok\ntest server::tests::final_intermediate_and_dangling_symlinks_are_not_followed ... ok\ntest server::tests::foreign_uid_and_nonprivate_modes_are_rejected_by_the_live_policy ... ok\ntest server::tests::new_nested_and_existing_private_directories_are_usable_without_repair ... ok\ntest server::tests::permissive_existing_directories_are_rejected_without_mutation ... ok\ntest server::tests::socket_length_validation_counts_native_bytes_and_preserves_entries ... ok\ntest deadline_recovery::full_request_and_connection_saturation_recovers_without_restart ... ok\ntest health_completes_while_native_sql_preparation_is_deliberately_stalled ... ok\ntest health_completes_while_schema_assessment_is_deliberately_stalled ... ok\ntest saturated_sigint_finishes_within_five_seconds ... ok\ntest saturated_sigterm_finishes_within_five_seconds ... ok\ntest admission_load::hundred_thousand_connection_attempts_never_spawn_rejection_tasks ... ok\ntest accept_recovery::tests::retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold ... ok\n\ntest result: ok. 56 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.90s\n\n\nrunning 13 tests\ntest coverage_tests::unquoted_control_words_cannot_be_mistaken_for_executable_names ... ok\ntest coverage_tests::empty_nested_shell_retains_unknown_in_compound_commands ... ok\ntest coverage_tests::ssh_ambiguous_destination_and_option_boundaries_stay_conservative ... ok\ntest tests::ipv6_destination_numeric_validation_and_loopback_conservatism ... ok\ntest tests::ssh_post_destination_work_checks_refuse_before_overrun ... ok\ntest tests::work_counter_refuses_before_operations_and_never_wraps ... ok\ntest tests::syntax_quotes_aggregation_and_ssh_negative_matrix ... ok\ntest tests::malformed_payloads_are_not_analysis_requests ... ok\ntest tests::production_work_exhaustion_trace ... ok\ntest tests::delivered_contract_matrix ... ok\ntest tests::input_unicode_tokens_invocations_and_depth_boundaries ... ok\ntest tests::ssh_post_destination_matrix ... ok\ntest tests::bounded_deterministic_arbitrary_unicode_inputs_never_panic ... ok\n\ntest result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\nrunning 19 tests\ntest tests::dispatch::unknown_operation_is_unsupported ... ok\ntest tests::framing::multiple_json_values_are_rejected ... ok\ntest tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds ... ok\ntest tests::framing::an_object_request_still_decodes_after_a_rejected_array ... ok\ntest tests::framing::a_framed_array_is_rejected_without_reaching_a_handler ... ok\ntest tests::dispatch::hello_and_health_do_not_require_the_database ... ok\ntest tests::dispatch::legacy_doctor_requires_ok_integrity_and_one_migration ... ok\ntest tests::framing::frame_round_trips_one_json_object ... ok\ntest tests::framing::non_object_roots_are_rejected ... ok\ntest tests::framing::oversize_declared_length_is_rejected_without_reading_the_body ... ok\ntest tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame ... ok\ntest tests::framing::responses_are_objects_too ... ok\ntest tests::framing::zero_length_is_rejected_without_reading_a_body ... ok\ntest tests::schema::legacy_absence_and_null_decode_but_missing_present_fields_are_invalid ... ok\ntest tests::schema::every_incompatibility_keeps_diagnostic_result_and_prevents_legacy_success ... ok\ntest tests::schema::modern_version_two_succeeds_but_legacy_count_check_rejects_without_falsifying_count ... ok\ntest tests::schema::present_but_inconsistent_details_never_fall_back_to_legacy_success ... ok\ntest tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema ... ok\ntest tests::schema::legacy_request_and_decoder_accept_new_production_report_with_truthful_count ... ok\n\ntest result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 4 tests\ntest ssh_option_values_are_not_forwarding_flags ... ok\ntest malformed_payload_version_priority_and_legacy_envelopes ... ok\ntest ssh_post_destination_typed_dispatch ... ok\ntest classification_contract_dispatch_never_calls_doctor ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 9 tests\ntest fragmented_and_interrupted_reads_recover_without_consuming_the_next_frame ... ok\ntest frame_error_messages_and_sources_describe_each_failure ... ok\ntest ipc_errors_keep_display_and_source_chains ... ok\ntest failed_serialization_emits_nothing_and_framed_decode_keeps_type_errors ... ok\ntest header_body_and_flush_failures_preserve_the_original_io_error ... ok\ntest closed_truncated_and_io_failures_remain_distinct ... ok\ntest failing_doctor_returns_only_integrity_error_with_request_correlation ... ok\ntest exchange_writes_one_request_and_reads_one_correlated_response ... ok\ntest outbound_frame_boundaries_reject_before_writing_and_accept_the_exact_limit ... ok\n\ntest result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 18 tests\ntest migration::tests::concurrency::interrupted_child ... ok\ntest migration::tests::acceptance::malformed_registry_is_rejected_before_any_sql ... ok\ntest migration::tests::acceptance::initial_sql_failure_rolls_back_every_pending_object ... ok\ntest migration::tests::acceptance::later_failure_rolls_back_prior_migration_history_in_same_batch ... ok\ntest migration::tests::acceptance::sql_failure_rolls_back_schema_application_data_history_and_witness ... ok\ntest migration::tests::rejection::assessment_reuses_existing_transaction_without_committing_it ... ok\ntest migration::tests::concurrency::concurrent_upgraders_serialize_and_reread_after_lock_acquisition ... ok\ntest migration::tests::rejection::known_prefix_defect_takes_precedence_over_future_history ... ok\ntest migration::tests::concurrency::process_interruption_before_commit_rolls_back_and_recovers ... ok\ntest migration::tests::acceptance::fixture_initialization_additive_upgrade_reopen_and_idempotency ... ok\ntest migration::tests::acceptance::production_legacy_history_is_read_only_then_stamped_atomically ... ok\ntest migration::tests::rejection::unreadable_layout_stays_a_typed_sql_error ... ok\ntest migration::tests::rejection::checksum_defects_in_every_known_entry_leave_all_state_unchanged ... ok\ntest migration::tests::rejection::numeric_version_order_ignores_history_insertion_and_timestamp_order ... ok\ntest migration::tests::rejection::unsupported_newer_history_and_witness_and_downgrade_are_rejected ... ok\ntest migration::tests::rejection::empty_arc_objects_or_history_and_nonzero_witness_are_never_fresh ... ok\ntest migration::tests::rejection::missing_history_table_rows_gaps_and_trailing_entry_are_rejected ... ok\ntest migration::tests::rejection::invalid_history_ids_types_duplicates_and_witness_are_rejected ... ok\n\ntest result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s\n\n\nrunning 6 tests\ntest incompatible_schema_messages_preserve_recovery_guidance_and_versions ... ok\ntest migration_errors_keep_diagnostics_and_sources ... ok\ntest invalid_database_locations_preserve_caller_files ... ok\ntest a_memory_uri_cannot_satisfy_the_required_wal_mode ... ok\ntest view_named_history_is_invalid_and_assessment_is_read_only ... ok\ntest invalid_utf8_history_is_rejected_without_rewriting_bytes ... ok\n\ntest result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s\n\n\nrunning 4 tests\ntest mismatched_checksum_is_rejected_without_reapplying_migration ... ok\ntest foreign_keys_and_unique_resource_identity_are_enforced ... ok\ntest migration_failure_rolls_back_all_new_tables ... ok\ntest nfr010_wal_migration_survives_close_and_reopen_without_cleanup ... ok\n\ntest result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n\nrunning 0 tests\n\ntest result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s\n\n",
+        "stderr": "    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s\n     Running unittests src/main.rs (target/debug/deps/arcctl-7bac95b2d513d7e6)\n     Running tests/binary.rs (target/debug/deps/binary-c4318fd78e2e57e4)\n     Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)\n     Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)\n     Running unittests src/lib.rs (target/debug/deps/arc_core-b8dbbbda8203ad41)\n     Running tests/coverage.rs (target/debug/deps/coverage-c945b6ebb38216a7)\n     Running tests/runtime.rs (target/debug/deps/runtime-66eefb6234c07295)\n     Running unittests src/main.rs (target/debug/deps/arc_daemon-5cda2af89fb5f617)\n     Running tests/bounded.rs (target/debug/deps/bounded-27ce5c3d3f555b7c)\n     Running tests/classification.rs (target/debug/deps/classification-bc48c7932772f15e)\n     Running tests/db_worker_unit.rs (target/debug/deps/db_worker_unit-c3236d0e94052219)\n     Running tests/resident.rs (target/debug/deps/resident-5106fbe03e2dfcad)\n     Running tests/startup.rs (target/debug/deps/startup-44362c6a2c4ef930)\n     Running tests/transport_unit.rs (target/debug/deps/transport_unit-7095544879075c46)\n     Running tests/worker_runtime.rs (target/debug/deps/worker_runtime-1f1335d3bb64ce80)\n     Running unittests src/lib.rs (target/debug/deps/arc_detector-b381db5022296a9f)\n     Running unittests src/lib.rs (target/debug/deps/arc_ipc-538bb5b10ec650e9)\n     Running tests/classification.rs (target/debug/deps/classification-c145f0322af8fc43)\n     Running tests/coverage.rs (target/debug/deps/coverage-951ffd5ff74adf34)\n     Running unittests src/lib.rs (target/debug/deps/arc_storage-9c503387852acc2d)\n     Running tests/coverage.rs (target/debug/deps/coverage-94fa139e7af99f5c)\n     Running tests/nfr010.rs (target/debug/deps/nfr010-b7fdde9a9b4fdd76)\n   Doc-tests arc_core\n   Doc-tests arc_detector\n   Doc-tests arc_ipc\n   Doc-tests arc_storage\n",
+        "cleanup": [],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:41.267105+00:00"
+        },
+        "passed": true
+      },
+      {
+        "criterion": 7,
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/harness.test.ts"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:13:41.267951+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:13:41.272661+00:00"
+        },
+        "pid": 11382,
+        "processGroup": 11382,
+        "exit": 124,
+        "processReturnCode": -15,
+        "timedOut": true,
+        "durationMs": 120011,
+        "finishedAt": "2026-11-08T01:15:41.284145+00:00",
+        "stdout": "bun test v1.4.4 (38afee6c8)\n",
+        "stderr": "\nscripts/coverage/harness.test.ts:\n",
+        "cleanup": [
+          "SIGTERM to owned process group",
+          "owned process group absent"
+        ],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:15:41.306867+00:00"
+        },
+        "passed": false
+      },
+      {
+        "criterion": 8,
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/evidence.test.ts"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+        "timeoutMs": 120000,
+        "startedAt": "2026-11-08T01:15:41.308655+00:00",
+        "before": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:15:41.313322+00:00"
+        },
+        "pid": 32718,
+        "processGroup": 32718,
+        "exit": 0,
+        "processReturnCode": 0,
+        "timedOut": false,
+        "durationMs": 1330,
+        "finishedAt": "2026-11-08T01:15:42.643714+00:00",
+        "stdout": "bun test v1.4.4 (38afee6c8)\n",
+        "stderr": "\nscripts/coverage/evidence.test.ts:\n(pass) current successful source-bound coverage contains all crates, files and child profiles [672.92ms]\n\n 1 pass\n 0 fail\n 2580 expect() calls\nRan 1 test across 1 file. [1310.00ms]\n",
+        "cleanup": [],
+        "after": {
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "inputCount": 114,
+          "checkedAt": "2026-11-08T01:15:42.648970+00:00"
+        },
+        "passed": true
+      }
+    ],
+    "savedLimits": {
+      "maxDurationSec": 86400,
+      "maxRuns": 200,
+      "maxRetries": 3,
+      "maxParallel": 3,
+      "reset": false
+    },
+    "limitsReset": false,
+    "resourceLimits": {
+      "nproc": [
+        2666,
+        4000
+      ],
+      "cpu": [
+        9223372036854775807,
+        9223372036854775807
+      ]
+    },
+    "runner": "Python subprocess.Popen argv without shell; fixed 120000 ms per check; owned process-group termination on timeout",
+    "toolInventory": "No framework verification tool exposed; collaboration.list_agents returned only /root. AV recursion and mission-state mutation prohibited.",
+    "after": {
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "inputCount": 114,
+      "checkedAt": "2026-11-08T01:15:42.653651+00:00"
+    },
+    "finishedAt": "2026-11-08T01:15:42.653661+00:00",
+    "generatedEvidencePaths": [
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/00-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/01-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/02-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/03-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/04-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/05-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/06-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/07-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/08-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/09-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/10-command.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/inputs.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/metadata.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/non-workspace-roots.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/profiles.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/raw.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/raw.lcov",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/receipt.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/source-inventory.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/summary.json",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/uncovered.md",
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f/versions.json",
+      ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-8ec31aa5-a58e-4477-a58f-ac2936f6526b/00-command.json",
+      ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-8ec31aa5-a58e-4477-a58f-ac2936f6526b/binding.json"
+    ],
+    "updatedEvidencePaths": [
+      ".arc-verify/rust-coverage/baseline/latest.json"
+    ],
+    "diagnosticFailures": [
+      {
+        "command": [
+          "ps",
+          "-axo",
+          "pid=,ppid=,pgid=,stat=,comm="
+        ],
+        "exit": 1,
+        "reason": "Operation not permitted. No process inventory retrieved."
+      }
+    ],
+    "timeoutResourceCheck": {
+      "ownedProcessGroup": 11382,
+      "groupStatus": "absent",
+      "checkedAt": "2026-11-08T01:16:10.333520+00:00",
+      "method": "signal 0 on recorded owned group; parent exit/reaping and group-directed termination recorded in command result",
+      "inventory": "ps denied; no claim about unrelated processes"
+    },
+    "precedingQaManifestCheck": {
+      "files": 793,
+      "unchanged": 792,
+      "changed": [
+        ".arc-verify/rust-coverage/baseline/latest.json"
+      ]
+    },
+    "collectorExit": 0,
+    "verificationPassed": false,
+    "staticChecks": [
+      {
+        "criterion": 1,
+        "kind": "json",
+        "path": "package.json",
+        "pointer": "/private",
+        "equals": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "criterion": 1,
+        "kind": "json",
+        "path": "package.json",
+        "pointer": "/scripts/test:coverage",
+        "equals": "bun scripts/coverage/run.ts",
+        "actual": "bun scripts/coverage/run.ts",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "file",
+        "path": ".arc-verify/rust-coverage/final.md",
+        "minBytes": 1000,
+        "actualBytes": 20211,
+        "contains": [
+          "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+          "desktop: incomplete",
+          "native Windows: incomplete",
+          "remaining Phase 0: incomplete"
+        ],
+        "missing": [],
+        "sha256": "655a792bdd255808fe3432082e781a52df1c9a08eea72517614fd1fcd86f61d2",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "file",
+        "path": ".arc-verify/rust-coverage/qa/review.md",
+        "minBytes": 1000,
+        "actualBytes": 17740,
+        "contains": [
+          "Independent",
+          "coverage",
+          "preservation"
+        ],
+        "missing": [],
+        "sha256": "cb2fa49fb7c1475c19e41633f0a99d73d0aeb64f9b64c0882a76a9ee61663883",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "json",
+        "path": ".arc-verify/rust-coverage/qa/review.json",
+        "pointer": "/verdict",
+        "equals": "PASS",
+        "actual": "PASS",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "json",
+        "path": ".arc-verify/rust-coverage/qa/review.json",
+        "pointer": "/completeness",
+        "equals": "completed",
+        "actual": "completed",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "json",
+        "path": ".arc-verify/rust-coverage/final-summary.json",
+        "pointer": "/complete",
+        "equals": true,
+        "actual": false,
+        "passed": false
+      }
+    ],
+    "staticChecksCompletedAt": "2026-11-08T01:17:28.045687+00:00",
+    "staticCollectorExit": 1,
+    "criteriaResults": [
+      {
+        "criterion": 1,
+        "passed": true
+      },
+      {
+        "criterion": 2,
+        "passed": true
+      },
+      {
+        "criterion": 3,
+        "passed": true
+      },
+      {
+        "criterion": 4,
+        "passed": true
+      },
+      {
+        "criterion": 5,
+        "passed": true
+      },
+      {
+        "criterion": 6,
+        "passed": true
+      },
+      {
+        "criterion": 7,
+        "passed": false
+      },
+      {
+        "criterion": 8,
+        "passed": false
+      }
+    ],
+    "reportChecks": {
+      "method": "Manual inspection; oma docs verify not run because it writes out-of-scope docs/generated/doc-refs.json",
+      "relativeLinks": 27,
+      "missingTargets": [],
+      "trailingWhitespaceLines": 0,
+      "scopedGitDiffCheckExit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceInputCount": 114,
+      "protectedBaselineBytesMatch": true,
+      "qaAndPriorArtifactHashesMatch": true,
+      "checkedAt": "2026-11-08T01:17:28.127061+00:00"
+    },
+    "historical": true,
+    "harnessFailureSupersededBy": "#/attempt4/harnessReplay"
+  },
+  "previousChiefChecks": {
+    "deterministic": {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "tests": 28,
+      "assertions": 2667,
+      "output": "bun test v1.4.4 (38afee6c8)\n\nscripts/coverage/preservation.test.ts:\n(pass) accepted baseline protected bytes, production tokens and existing assertions survive [1183.94ms]\n\nscripts/coverage/gate.test.ts:\n(pass) exact 80% succeeds [25.63ms]\n(pass) failed subprocess tests cannot reuse old passing artifacts [43.00ms]\n(pass) test exit is checked before report validity [20.05ms]\n(pass) missing tool returns nonzero [21.41ms]\n(pass) mismatched tool returns nonzero [20.43ms]\n(pass) missing report returns nonzero [20.76ms]\n(pass) stale report returns nonzero [19.91ms]\n(pass) source changed during measurement returns nonzero [20.53ms]\n(pass) malformed report returns nonzero [21.13ms]\n(pass) missing crate returns nonzero [44.60ms]\n(pass) missing production file returns nonzero [20.89ms]\n(pass) one failing crate fails despite high workspace average [21.39ms]\n(pass) a displayed 80.00% below the exact boundary fails [353.04ms]\n(pass) inconsistent LF/LH cannot inflate coverage to a passing verdict [22.30ms]\n\nscripts/coverage/evidence.test.ts:\n(pass) current successful source-bound coverage contains all crates, files and child profiles [631.40ms]\n\nscripts/coverage/accounting.test.ts:\n(pass) repeated compilation unions source lines instead of averaging binaries [3.60ms]\n(pass) zero-hit lines survive; per-file uncovered numbers are stable [2.67ms]\n(pass) test-only lines/files never dilute production denominator [2.05ms]\n(pass) canonical aliases merge and never duplicate denominators [1.99ms]\n(pass) unknown paths, zero denominators and malformed hits fail closed [3.44ms]\n(pass) cfg omission handles nested Rust comments, literals and test-only statements [0.19ms]\n(pass) test combined with any platform condition is not blanket-excluded [0.04ms]\n(pass) external cfg test module keeps its declared path; arbitrary filenames are not exclusions [0.07ms]\n(pass) live inventory classifies all six crate roots and test-only module trees [43.68ms]\n(pass) record summaries must match DA lines before repeated instances merge [3.59ms]\n(pass) duplicate DA entries and summaries outside a record are malformed [2.15ms]\n(pass) LLVM function summaries require corroboration by the complete segment-derived line map [3.80ms]\n\n 28 pass\n 0 fail\n 2667 expect() calls\nRan 28 tests across 4 files. [3.04s]\n"
+    },
+    "bindingCheck": {
+      "checkedAt": "2026-11-08T01:06:30.830524+00:00",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "inputCount": 114,
+      "commands": [
+        {
+          "argv": [
+            "bun",
+            "run",
+            "test:coverage"
+          ],
+          "receipt": ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-f8af459c-a9cf-49ed-9c31-34138816c24e/00-command.json",
+          "sha256": "7f86dab0c3f70346bb91e2d316393b5ed84df9c11f1dc8fdad944b014dc13915",
+          "exit": 0
+        },
+        {
+          "argv": [
+            "cargo",
+            "fmt",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/00-command.json",
+          "sha256": "cd11b98cc3e0e9b8ffb6d90934aed4ddbb6fd6b719af1e7c1239c96205126e3c",
+          "exit": 0
+        },
+        {
+          "argv": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/00-command.json",
+          "sha256": "c39e7cb57914996737ac0959063c00a0166573cf4aa07d370d88159ba4809562",
+          "exit": 0
+        },
+        {
+          "argv": [
+            "cargo",
+            "test",
+            "--workspace"
+          ],
+          "receipt": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/00-command.json",
+          "sha256": "611b09b859a48814f04ec37e0058534dcdb52e61507d3ec6350d2c66f4112926",
+          "exit": 0
+        },
+        {
+          "argv": [
+            "./scripts/harness/validate.sh"
+          ],
+          "receipt": ".arc-verify/rust-coverage/tooling/acceptance/harness-c4da9be1-0b54-46d4-ba48-5c247c503f88/00-command.json",
+          "sha256": "54d2b163df247f2b7f0892bb8039c62a149543cfa14c973d20a5f413492850e3",
+          "exit": 0
+        }
+      ],
+      "measurements": [
+        ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb",
+        ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228"
+      ],
+      "productionFilesPerRun": 29,
+      "pass": true
+    },
+    "protectedBaselineByteComparison": {
+      "exit": 0,
+      "matched": true
+    },
+    "documentation": {
+      "helpCommand": "oma docs verify --help",
+      "helpExit": 0,
+      "cliVerifyRun": false,
+      "cliSyncRun": false,
+      "reason": "CLI regenerates out-of-scope docs/generated/doc-refs.json; manual assigned-file checks used.",
+      "manualRelativeLinksStatus": "pass",
+      "manualRelativeLinks": 24,
+      "missingTargets": 0,
+      "trailingWhitespaceLines": 0,
+      "scopedGitDiffCheckExit": 0
+    },
+    "diagnosticFailures": [
+      {
+        "exit": 1,
+        "reason": "Treated command receipt directory as a file; corrected to 00-command.json."
+      },
+      {
+        "exit": 1,
+        "reason": "Treated binding receipt as command-hash target; corrected to 00-command.json."
+      }
+    ],
+    "ownership": {
+      "precedingIntegratedFiles": 793,
+      "allMatchedIndependentQaManifest": true,
+      "implementationInputsUnchanged": 114
+    }
+  },
+  "freshChiefChecks": {
+    "attempt": 4,
+    "resultPointer": "#/attempt4",
+    "failedHarnessReplay": false,
+    "harnessExit": 0,
+    "harnessDurationMs": 246466,
+    "deterministicSuiteExit": 0,
+    "deterministicTests": 28,
+    "deterministicAssertions": 2667,
+    "sourceInputsUnchanged": 114,
+    "precedingPassingChecksReused": "Same-source task-6 receipts and attempt-2 exact checks 0-5 and 7; all manifest/report/receipt hashes revalidated."
+  },
+  "additionalStandaloneMeasurement": {
+    "runId": "2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-11-36-448Z-a61dd0df-ee29-4efc-9aba-debc174ea07f",
+    "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+    "pass": true
+  },
+  "updatedAt": "2026-11-08T01:38:37.577399+00:00",
+  "attempt3": {
+    "attempt": 3,
+    "scope": "report-only recovery, saved contract unchanged",
+    "intake": {
+      "checkedAt": "2026-11-08T01:20:50.919137+00:00",
+      "inputCount": 114,
+      "inputHashesMatch": true,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "head": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+      "protectedBytes": {
+        "scripts/harness/validate.sh": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+        "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+      },
+      "commands": [
+        {
+          "argv": [
+            "bun",
+            "run",
+            "test:coverage"
+          ],
+          "exit": 0,
+          "sha256": "7f86dab0c3f70346bb91e2d316393b5ed84df9c11f1dc8fdad944b014dc13915"
+        },
+        {
+          "argv": [
+            "cargo",
+            "fmt",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "exit": 0,
+          "sha256": "cd11b98cc3e0e9b8ffb6d90934aed4ddbb6fd6b719af1e7c1239c96205126e3c"
+        },
+        {
+          "argv": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "exit": 0,
+          "sha256": "c39e7cb57914996737ac0959063c00a0166573cf4aa07d370d88159ba4809562"
+        },
+        {
+          "argv": [
+            "cargo",
+            "test",
+            "--workspace"
+          ],
+          "exit": 0,
+          "sha256": "611b09b859a48814f04ec37e0058534dcdb52e61507d3ec6350d2c66f4112926"
+        },
+        {
+          "argv": [
+            "./scripts/harness/validate.sh"
+          ],
+          "exit": 0,
+          "sha256": "54d2b163df247f2b7f0892bb8039c62a149543cfa14c973d20a5f413492850e3"
+        }
+      ],
+      "measurements": [
+        {
+          "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-43-49-396Z-e559836e-73d9-4c33-b202-cd7a23cb44cb",
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "files": 29,
+          "pass": true
+        },
+        {
+          "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-48-46-903Z-669089ee-9bd4-42bc-910e-4e1b9f574228",
+          "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+          "files": 29,
+          "pass": true
+        }
+      ],
+      "artifactHashesChecked": [
+        ".arc-verify/rust-coverage/final.md",
+        ".arc-verify/rust-coverage/qa/review.md",
+        ".arc-verify/rust-coverage/qa/review.json",
+        ".arc-verify/rust-coverage/qa/reconciliation.json",
+        ".arc-verify/rust-coverage/qa/driver-probes.json",
+        ".arc-verify/rust-coverage/integration/repair-4/source.json",
+        ".arc-verify/rust-coverage/integration/repair-4/acceptance.json",
+        ".arc-verify/rust-coverage/integration/repair-4/versions.json",
+        ".arc-verify/rust-coverage/directors/design.md",
+        ".arc-verify/rust-coverage/directors/marketing.md"
+      ],
+      "independentReview": {
+        "verdict": "PASS",
+        "completeness": "completed",
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8"
+      },
+      "precedingArtifacts": {
+        "checked": 793,
+        "changed": [
+          ".arc-verify/rust-coverage/baseline/latest.json"
+        ],
+        "immutableArtifactsMatch": true
+      },
+      "documentationBefore": {
+        "localLinks": 27,
+        "missing": [],
+        "trailingWhitespaceLines": 0
+      }
+    },
+    "failedInspectionAttempts": [
+      {
+        "exit": 1,
+        "reason": "Direct equality of serialized floating percentages differed at 1e-14 for arc-storage; corrected to exact crate/covered/total/pass equality. No file writes occurred."
+      }
+    ],
+    "routing": {
+      "requestedOwner": "existing task-6 Technical Director and supervising framework owner",
+      "nativeHandoffAttempted": true,
+      "nativeHandoffResult": "failed before agent startup",
+      "diagnostic": "Fatal error: failed to load model context for thread 01a1b8bc-f7a5-77c1-a350-a6e9141144cd: invalid thread-store request: no rollout found for thread id 01a1b8bc-f7a5-77c1-a350-a6e9141144cd",
+      "hostFrameworkEndpointExposed": false,
+      "missionStateChanged": false
+    },
+    "budget": {
+      "maxDurationSec": 86400,
+      "maxRuns": 200,
+      "maxRetries": 3,
+      "maxParallel": 3,
+      "reset": false,
+      "attempt": 3,
+      "costUnknown": true,
+      "retryCounterAuthority": "Saved attempt 3 and maxRetries 3 retained; no additional dispatch or reset."
+    },
+    "harnessReplay": {
+      "criterion": 7,
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "timeoutMs": 120000,
+      "startedAt": "2026-11-08T01:21:02.644885+00:00",
+      "sourceHashBefore": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "contractChanged": false,
+      "pid": 36816,
+      "processGroup": 36816,
+      "timedOut": true,
+      "exit": 124,
+      "processReturnCode": -15,
+      "durationMs": 120009,
+      "finishedAt": "2026-11-08T01:23:02.653830+00:00",
+      "stdout": "bun test v1.4.4 (38afee6c8)\n",
+      "stderr": "\nscripts/coverage/harness.test.ts:\n",
+      "passed": false,
+      "parentReaped": true,
+      "ownedGroupAbsent": true,
+      "sourceHashAfter": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "createdAcceptanceDirectories": [
+        ".arc-verify/rust-coverage/tooling/acceptance/harness-d17ac6c7-e3d2-430f-92fb-2f864d6be248"
+      ]
+    },
+    "completedAt": "2026-11-08T01:23:02.683735+00:00",
+    "deterministicChecks": {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/preservation.test.ts",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "stdout": "bun test v1.4.4 (38afee6c8)\n",
+      "stderr": "\nscripts/coverage/preservation.test.ts:\n(pass) accepted baseline protected bytes, production tokens and existing assertions survive [1268.10ms]\n\nscripts/coverage/gate.test.ts:\n(pass) exact 80% succeeds [30.99ms]\n(pass) failed subprocess tests cannot reuse old passing artifacts [42.00ms]\n(pass) test exit is checked before report validity [20.26ms]\n(pass) missing tool returns nonzero [22.53ms]\n(pass) mismatched tool returns nonzero [20.59ms]\n(pass) missing report returns nonzero [21.53ms]\n(pass) stale report returns nonzero [21.86ms]\n(pass) source changed during measurement returns nonzero [20.42ms]\n(pass) malformed report returns nonzero [21.22ms]\n(pass) missing crate returns nonzero [22.63ms]\n(pass) missing production file returns nonzero [41.23ms]\n(pass) one failing crate fails despite high workspace average [23.47ms]\n(pass) a displayed 80.00% below the exact boundary fails [351.50ms]\n(pass) inconsistent LF/LH cannot inflate coverage to a passing verdict [25.57ms]\n\nscripts/coverage/evidence.test.ts:\n(pass) current successful source-bound coverage contains all crates, files and child profiles [670.07ms]\n\nscripts/coverage/accounting.test.ts:\n(pass) repeated compilation unions source lines instead of averaging binaries [4.00ms]\n(pass) zero-hit lines survive; per-file uncovered numbers are stable [2.20ms]\n(pass) test-only lines/files never dilute production denominator [2.25ms]\n(pass) canonical aliases merge and never duplicate denominators [2.04ms]\n(pass) unknown paths, zero denominators and malformed hits fail closed [3.71ms]\n(pass) cfg omission handles nested Rust comments, literals and test-only statements [0.19ms]\n(pass) test combined with any platform condition is not blanket-excluded [0.10ms]\n(pass) external cfg test module keeps its declared path; arbitrary filenames are not exclusions [0.05ms]\n(pass) live inventory classifies all six crate roots and test-only module trees [38.57ms]\n(pass) record summaries must match DA lines before repeated instances merge [4.26ms]\n(pass) duplicate DA entries and summaries outside a record are malformed [2.65ms]\n(pass) LLVM function summaries require corroboration by the complete segment-derived line map [4.09ms]\n\n 28 pass\n 0 fail\n 2667 expect() calls\nRan 28 tests across 4 files. [2.86s]\n",
+      "durationMs": 2884,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "finishedAt": "2026-11-08T01:23:14.032314+00:00"
+    },
+    "inventoryEvaluation": {
+      "argv": [
+        "bun",
+        "-e",
+        "import inputIdentity and sourceInventory from ./scripts/coverage/source; evaluate current workspace"
+      ],
+      "exit": 0,
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "inputCount": 114,
+      "productionFiles": 29,
+      "testOnlyFiles": 20,
+      "omissionSpans": 54
+    },
+    "toolVersionChecks": {
+      "exit": 0,
+      "argv": [
+        [
+          "bun",
+          "--version"
+        ],
+        [
+          "rustc",
+          "-Vv"
+        ],
+        [
+          "cargo",
+          "-V"
+        ],
+        [
+          "cargo",
+          "llvm-cov",
+          "--version"
+        ],
+        [
+          "rustup",
+          "component",
+          "list",
+          "--installed"
+        ]
+      ],
+      "bun": "1.4.4",
+      "rust": "1.95.0",
+      "cargo": "1.95.0",
+      "cargoLlvmCov": "0.6.21",
+      "llvm": "22.1.2",
+      "matchingLlvmToolsInstalled": true
+    },
+    "docsCli": {
+      "argv": [
+        "oma",
+        "docs",
+        "verify",
+        "--help"
+      ],
+      "exit": 0,
+      "verificationRun": false,
+      "reason": "Verification regenerates docs/generated/doc-refs.json outside task-8 ownership. Manual local-link checks used; no CLI drift-count claim."
+    },
+    "documentationAfter": {
+      "checkedAt": "2026-11-08T01:24:50.078193+00:00",
+      "manual": true,
+      "localLinks": 26,
+      "missingTargets": [],
+      "trailingWhitespaceLines": 0,
+      "jsonParse": "PASS",
+      "requiredPhrases": "PASS",
+      "reportSha256": "49576f580fd9f6498e3f7a5fa1806611db60df1c61986101ab171fd6acfbb222",
+      "cliDriftCounts": null,
+      "scopedGitDiffCheck": {
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "--",
+          ".arc-verify/rust-coverage/final.md",
+          ".arc-verify/rust-coverage/final-summary.json"
+        ],
+        "exit": 0
+      }
+    },
+    "staticChecks": [
+      {
+        "criterion": 1,
+        "kind": "json",
+        "path": "package.json",
+        "pointer": "/private",
+        "equals": true,
+        "actual": true,
+        "passed": true
+      },
+      {
+        "criterion": 1,
+        "kind": "json",
+        "path": "package.json",
+        "pointer": "/scripts/test:coverage",
+        "equals": "bun scripts/coverage/run.ts",
+        "actual": "bun scripts/coverage/run.ts",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "json",
+        "path": ".arc-verify/rust-coverage/qa/review.json",
+        "pointer": "/verdict",
+        "equals": "PASS",
+        "actual": "PASS",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "json",
+        "path": ".arc-verify/rust-coverage/qa/review.json",
+        "pointer": "/completeness",
+        "equals": "completed",
+        "actual": "completed",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "json",
+        "path": ".arc-verify/rust-coverage/final-summary.json",
+        "pointer": "/complete",
+        "equals": true,
+        "actual": false,
+        "passed": false
+      },
+      {
+        "criterion": 8,
+        "kind": "file",
+        "path": ".arc-verify/rust-coverage/final.md",
+        "minBytes": 1000,
+        "actualBytes": 16940,
+        "contains": [
+          "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+          "desktop: incomplete",
+          "native Windows: incomplete",
+          "remaining Phase 0: incomplete"
+        ],
+        "missing": [],
+        "sha256": "49576f580fd9f6498e3f7a5fa1806611db60df1c61986101ab171fd6acfbb222",
+        "passed": true
+      },
+      {
+        "criterion": 8,
+        "kind": "file",
+        "path": ".arc-verify/rust-coverage/qa/review.md",
+        "minBytes": 1000,
+        "actualBytes": 17740,
+        "contains": [
+          "Independent",
+          "coverage",
+          "preservation"
+        ],
+        "missing": [],
+        "sha256": "cb2fa49fb7c1475c19e41633f0a99d73d0aeb64f9b64c0882a76a9ee61663883",
+        "passed": true
+      }
+    ],
+    "finalSourceInputsUnchanged": 114,
+    "precedingArtifactsAfter": {
+      "checked": 793,
+      "changed": [
+        ".arc-verify/rust-coverage/baseline/latest.json"
+      ],
+      "immutableArtifactsMatch": true
+    },
+    "finalAcceptance": "failed: exact harness timed out; complete==true unsatisfied"
+  },
+  "completionScope": "Task-8 implementation-evidence and report delivery; supervising framework final verification follows this handoff.",
+  "attempt4": {
+    "attempt": 4,
+    "scope": "Report-only recovery and expressly requested executable harness replay",
+    "operatorChange": "2026-11-08 framework note: contract timeoutMs fields remain immutable planning estimates; effective per-check timeout 1800 seconds. Affected check rerun in current environment.",
+    "harnessReplay": {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/harness.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+      "wrapperTimeoutMs": 1000000,
+      "pid": 93025,
+      "startedAt": "2026-11-08T01:33:38.784693+00:00",
+      "finishedAt": "2026-11-08T01:37:45.250905+00:00",
+      "durationMs": 246466,
+      "exit": 0,
+      "processReturnCode": 0,
+      "stdout": "bun test v1.4.4 (38afee6c8)\n",
+      "stderr": "\nscripts/coverage/harness.test.ts:\n(pass) real unchanged harness passes with zero violations and no skip flags [245878.61ms]\n\n 1 pass\n 0 fail\n 10 expect() calls\nRan 1 test across 1 file. [246.44s]\n",
+      "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+      "sourceInputsUnchanged": true,
+      "innerReceipt": ".arc-verify/rust-coverage/tooling/acceptance/harness-124c2bfe-3335-4277-9d88-18ef99281fa6/00-command.json",
+      "innerReceiptSha256": "c431a49cf99dab2229a428876f6579f6f6062da02d274e4c5bd60e707759c32c",
+      "bindingPath": ".arc-verify/rust-coverage/tooling/acceptance/harness-124c2bfe-3335-4277-9d88-18ef99281fa6/binding.json",
+      "binding": {
+        "name": "harness",
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "afterHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "unchanged": true,
+        "exit": 0,
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ]
+      },
+      "bindingSha256": "ff4b3ed305f9e7534f731dfbdc6ef1b6cc10ebcb3f8f5e7176c0002e8be36f22",
+      "freshCoverage": {
+        "runId": "2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160",
+        "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160",
+        "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "pass": true
+      },
+      "innerCommand": {
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "exit": 0,
+        "started": "2026-11-08T01:33:40.622Z",
+        "ended": "2026-11-08T01:37:45.225Z",
+        "zeroViolations": true,
+        "noSkipFlags": true,
+        "sixCratesPass": true
+      }
+    },
+    "observations": {
+      "checkedAt": "2026-11-08T01:34:05.243863+00:00",
+      "commandReceipts": [
+        {
+          "path": ".arc-verify/rust-coverage/tooling/acceptance/coverage-cli-f8af459c-a9cf-49ed-9c31-34138816c24e/00-command.json",
+          "sha256": "7f86dab0c3f70346bb91e2d316393b5ed84df9c11f1dc8fdad944b014dc13915",
+          "exit": 0,
+          "argv": [
+            "bun",
+            "run",
+            "test:coverage"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-fmt-2026-11-08T00-45-17-805Z/00-command.json",
+          "sha256": "cd11b98cc3e0e9b8ffb6d90934aed4ddbb6fd6b719af1e7c1239c96205126e3c",
+          "exit": 0,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--all",
+            "--",
+            "--check"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-clippy-2026-11-08T00-45-18-928Z/00-command.json",
+          "sha256": "c39e7cb57914996737ac0959063c00a0166573cf4aa07d370d88159ba4809562",
+          "exit": 0,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/integration/runs/repair-4-workspace-tests-2026-11-08T00-45-22-579Z/00-command.json",
+          "sha256": "611b09b859a48814f04ec37e0058534dcdb52e61507d3ec6350d2c66f4112926",
+          "exit": 0,
+          "argv": [
+            "cargo",
+            "test",
+            "--workspace"
+          ]
+        },
+        {
+          "path": ".arc-verify/rust-coverage/tooling/acceptance/harness-c4da9be1-0b54-46d4-ba48-5c247c503f88/00-command.json",
+          "sha256": "54d2b163df247f2b7f0892bb8039c62a149543cfa14c973d20a5f413492850e3",
+          "exit": 0,
+          "argv": [
+            "./scripts/harness/validate.sh"
+          ]
+        }
+      ],
+      "artifactHashes": {
+        ".arc-verify/rust-coverage/qa/review.md": "cb2fa49fb7c1475c19e41633f0a99d73d0aeb64f9b64c0882a76a9ee61663883",
+        ".arc-verify/rust-coverage/qa/review.json": "d3cc0e61cc294b21f766849a15cd031f8bef642595951162b85e7f5353df4782",
+        ".arc-verify/rust-coverage/qa/reconciliation.json": "9d771968d9c6aebb776e424e61021dd657aafa4f572b8c219ff9f2221cd00c6e",
+        ".arc-verify/rust-coverage/qa/driver-probes.json": "650f0a275073fb83397284a076284d2f01a8063f020414433a55943d85afcbc6",
+        ".arc-verify/rust-coverage/integration/repair-4/source.json": "2e58e20f4221f12f5b7028dc6651eef56b343766fbd9cef936b0f0d38065d718",
+        ".arc-verify/rust-coverage/integration/repair-4/acceptance.json": "c5c1526b5c05de759176b0722a5425c618b8c7ed6359ab2158246b8c75c0c0a9",
+        ".arc-verify/rust-coverage/integration/repair-4/versions.json": "e285bc08ae70070f716c3f8260a4645c33024375ba214b5b20dd199266b96fe4",
+        ".arc-verify/rust-coverage/directors/design.md": "1a1580a31cbb5bf7c601f9265922547d4a3ef189cc2dcbb35cd6832564864eb4",
+        ".arc-verify/rust-coverage/directors/marketing.md": "dd61976fbcfa8e6820bd02bf700f36a5c0dc5853876dd2da28bda1d143b8b298"
+      },
+      "documentationBefore": {
+        "manual": true,
+        "localLinks": 26,
+        "missingTargets": [],
+        "trailingWhitespaceLines": 0,
+        "cliRun": false,
+        "reason": "CLI regenerates shared docs/generated/doc-refs.json outside assignment; scoped manual reference check used."
+      },
+      "versions": [
+        {
+          "argv": [
+            "bun",
+            "--version"
+          ],
+          "exit": 0,
+          "stdout": "1.4.4\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "rustc",
+            "-Vv"
+          ],
+          "exit": 0,
+          "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "cargo",
+            "-V"
+          ],
+          "exit": 0,
+          "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "cargo",
+            "llvm-cov",
+            "--version"
+          ],
+          "exit": 0,
+          "stdout": "cargo-llvm-cov 0.6.21\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "rustup",
+            "component",
+            "list",
+            "--installed"
+          ],
+          "exit": 0,
+          "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nllvm-tools-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+          "stderr": ""
+        }
+      ],
+      "retainedMeasurements": "two distinct runs; 29 production files; six exact crate counts match; source manifests current",
+      "deterministicChecks": {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/gate.test.ts",
+          "scripts/coverage/accounting.test.ts",
+          "scripts/coverage/preservation.test.ts",
+          "scripts/coverage/evidence.test.ts"
+        ],
+        "exit": 0,
+        "passedTests": 28,
+        "failedTests": 0,
+        "assertions": 2667,
+        "reportedDurationSeconds": 2.75,
+        "executionEvidence": "Native exec session 42892, chunk 028987; completed 2026-11-08T01:34Z. Test output observed directly; all required failure/accounting checks passed."
+      },
+      "inventoryEvaluation": {
+        "command": "bun -e importing inputIdentity and sourceInventory from ./scripts/coverage/source",
+        "exit": 0,
+        "sha256": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+        "inputCount": 114,
+        "productionFiles": 29,
+        "testOnlyFiles": 20,
+        "omissionSpans": 54
+      },
+      "budget": {
+        "saved": {
+          "maxDurationSec": 86400,
+          "maxRuns": 200,
+          "maxRetries": 3,
+          "maxParallel": 3,
+          "reset": false
+        },
+        "operatorRecordedMeasuredRunsAtDispatch": 44,
+        "attempt": 4,
+        "limitsReset": false,
+        "dispatches": 0,
+        "concurrentAgentTasks": 1,
+        "checkWrapperTimeoutMs": 1000000,
+        "effectiveFrameworkPerCheckTimeoutMs": 1800000,
+        "authority": "Operator framework-change note in saved assignment; no mission metadata modified."
+      },
+      "previousReportSha256": "49576f580fd9f6498e3f7a5fa1806611db60df1c61986101ab171fd6acfbb222",
+      "previousSummarySha256": "33f2818c90d7b7210a9079990daea36003447f0d32a52b7eb60effcfd38aa9b9"
+    },
+    "completedAt": "2026-11-08T01:38:19.139849+00:00",
+    "finalAcceptance": "PASS for task-8/local evidence; supervising framework verification remains next stage",
+    "sourceInputsUnchanged": 114,
+    "failedAttempts": [],
+    "documentationAfter": {
+      "checkedAt": "2026-11-08T01:38:37.577149+00:00",
+      "manual": true,
+      "localLinks": 27,
+      "missingTargets": [],
+      "trailingWhitespaceLines": 0,
+      "jsonParse": "PASS",
+      "staticContractChecks": "PASS",
+      "completeTrue": true,
+      "qaVerdict": "PASS",
+      "cliDriftCounts": null,
+      "cliRun": false,
+      "reason": "oma docs verify regenerates shared docs/generated/doc-refs.json outside owned report paths.",
+      "scopedGitDiffCheck": {
+        "argv": [
+          "git",
+          "diff",
+          "--check",
+          "--",
+          ".arc-verify/rust-coverage/final.md",
+          ".arc-verify/rust-coverage/final-summary.json"
+        ],
+        "exit": 0
+      },
+      "allSourceInputsMatch": 114,
+      "allRecordedArtifactHashesMatch": 16,
+      "protectedBytesMatchAcceptedHead": true
+    },
+    "postReplayEvidenceCheck": {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "passedTests": 1,
+      "failedTests": 0,
+      "assertions": 2580,
+      "reportedDurationMs": 1163,
+      "scope": "Fresh harness-generated raw reports, profile hashes, source bindings and child profiles.",
+      "executionEvidence": "exec session 20485, completion chunk cb1853"
+    }
+  },
+  "additionalHarnessMeasurement": {
+    "runId": "2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T01-36-21-343Z-9776ab27-0462-4156-bab7-94aa7a4c7160",
+    "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+    "pass": true
+  }
+}

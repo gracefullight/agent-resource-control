@@ -1,0 +1,107 @@
+[
+  {
+    "argv": [
+      "bun",
+      "-e",
+      "import { inputIdentity } from './scripts/coverage/source.ts'; import { checkPreservation } from './scripts/coverage/preservation.ts'; console.log(JSON.stringify({identity:inputIdentity(process.cwd()),preservation:checkPreservation(process.cwd())}));"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1",
+    "pid": 13314,
+    "started": "2026-11-08T00:09:05.617640+00:00",
+    "ended": "2026-11-08T00:09:06.840588+00:00",
+    "exit": 0,
+    "elapsedSeconds": 1.2226987500034738,
+    "log": ".arc-verify/rust-coverage/process/recovery-isolated-source-preservation.txt",
+    "logSha256": "684f0b4f4747c98883194307f6bc18779325037050e59c4ba46f10d329fb6921"
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "-p",
+      "arc-cli"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+    "pid": 13397,
+    "started": "2026-11-08T00:09:06.841010+00:00",
+    "ended": "2026-11-08T00:09:17.397772+00:00",
+    "exit": 0,
+    "elapsedSeconds": 10.55671970898402,
+    "log": ".arc-verify/rust-coverage/process/recovery-cli.txt",
+    "logSha256": "aeb931bddfdecb08a0724aab35d1eb7090a9dac90d6b7a045381eb8f4ad19dd1"
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "-p",
+      "arc-daemon",
+      "--test",
+      "resident",
+      "coverage::",
+      "--",
+      "--nocapture"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+    "pid": 13685,
+    "started": "2026-11-08T00:09:17.398086+00:00",
+    "ended": "2026-11-08T00:09:19.660613+00:00",
+    "exit": 0,
+    "elapsedSeconds": 2.2625337920035236,
+    "log": ".arc-verify/rust-coverage/process/recovery-resident.txt",
+    "logSha256": "07ad35f12bcd827bf45361e5ea6d0dca838cee73f6f6a739c703698fad8e432f"
+  },
+  {
+    "argv": [
+      "cargo",
+      "test",
+      "-p",
+      "arc-daemon",
+      "--bin",
+      "arc-daemon",
+      "runtime_report::tests::invalid_report_names"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+    "pid": 13767,
+    "started": "2026-11-08T00:09:19.660972+00:00",
+    "ended": "2026-11-08T00:09:21.354197+00:00",
+    "exit": 0,
+    "elapsedSeconds": 1.6932637499994598,
+    "log": ".arc-verify/rust-coverage/process/recovery-unit.txt",
+    "logSha256": "eea6a5355eb555a76d62beab8b8173524898ff9fcb4ca4a6666c62d59788ea47"
+  },
+  {
+    "argv": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+    "pid": 13798,
+    "started": "2026-11-08T00:09:21.354617+00:00",
+    "ended": "2026-11-08T00:09:21.652382+00:00",
+    "exit": 0,
+    "elapsedSeconds": 0.29780370797379874,
+    "log": ".arc-verify/rust-coverage/process/recovery-fmt.txt",
+    "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/preservation.test.ts",
+      "scripts/coverage/gate.test.ts",
+      "scripts/coverage/accounting.test.ts"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+    "pid": 13801,
+    "started": "2026-11-08T00:09:21.652828+00:00",
+    "ended": "2026-11-08T00:09:23.753977+00:00",
+    "exit": 0,
+    "elapsedSeconds": 2.1011740830144845,
+    "log": ".arc-verify/rust-coverage/process/recovery-gate-preservation.txt",
+    "logSha256": "e5a0acfd85a2a9a0eac64a6f78cd1df45ed95f7fc8db4ef2e490e1c5e2625d16"
+  }
+]

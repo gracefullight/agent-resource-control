@@ -1,2 +1,10 @@
 [tools]
 rust = "1.95.0"
+bun = "1.4.4"
+
+# Provisioning is explicit; verification never installs prerequisites.
+[tasks."coverage:provision"]
+run = "bash scripts/coverage/provision.sh"
+
+[tasks."test:coverage"]
+run = "bun run test:coverage"

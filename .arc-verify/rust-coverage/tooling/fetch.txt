@@ -1,0 +1,8 @@
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9d56bf54552db382: Operation not permitted (os error 1)
+mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-7afaa346b4bf92bf-1/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/57811029c080c016: Operation not permitted (os error 1)
+ Downloading crates ...
+  Downloaded once_cell_polyfill v1.70.2
+error: failed to open `/Users/gracefullight/.cargo/registry/cache/index.crates.io-1949cf8c6b5b557f/once_cell_polyfill-1.70.2.crate`
+
+Caused by:
+  Operation not permitted (os error 1)

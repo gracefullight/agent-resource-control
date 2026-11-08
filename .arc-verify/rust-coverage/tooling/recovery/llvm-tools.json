@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "rustup",
+    "component",
+    "add",
+    "llvm-tools-preview",
+    "--toolchain",
+    "1.95.0"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:17:34.876156+00:00",
+  "exit": 1,
+  "stdout": "",
+  "stderr": "info: downloading component llvm-tools\ninfo: rolling back changes\nerror: component download failed for llvm-tools-aarch64-apple-darwin: error opening file for download: cleaning up cached downloads: No such file or directory (os error 2)\n",
+  "elapsedSeconds": 0.07246779199340381
+}

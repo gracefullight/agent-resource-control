@@ -1,0 +1,19 @@
+{
+  "exit": 1,
+  "stdout": "",
+  "stderr": "DEBUG ARGS: mise --verbose install rust@1.95.0 bun@1.4.4\nDEBUG config: ~/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/mise.toml\nDEBUG config: ~/workspace/arc/mise.toml\nDEBUG config: ~/.config/mise/config.toml\nDEBUG GET https://mise-versions.jdx.dev/data/index.v1.json\nDEBUG GET https://mise-versions.jdx.dev/data/rust.toml\nDEBUG GET https://mise-versions.jdx.dev/data/rust.toml 200 OK\nWARN  failed to write cache file: /Users/gracefullight/Library/Caches/mise/rust/remote_versions-216de.msgpack.z failed create_dir_all: ~/Library/Caches/mise/rust: Operation not permitted (os error 1)\nDEBUG backend for 'turso' changed from stored 'github:tursodatabase/turso-cli' to registry 'aqua:tursodatabase/turso-cli'\nDEBUG backend for 'turso' changed from stored 'github:tursodatabase/turso-cli' to registry 'aqua:tursodatabase/turso-cli'\nDEBUG GET https://mise-versions.jdx.dev/data/index.v1.json 200 OK\nDEBUG versions index: cannot cache the copy: failed write: ~/Library/Caches/mise/versions-index/index.part-79107: Operation not permitted (os error 1)\nDEBUG GET https://mise-versions.jdx.dev/data/bun.toml\nDEBUG GET https://mise-versions.jdx.dev/data/bun.toml 200 OK\nWARN  failed to write cache file: /Users/gracefullight/Library/Caches/mise/bun/remote_versions-d6d25.msgpack.z Operation not permitted (os error 1)\nDEBUG config: ~/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/mise.toml\nDEBUG config: ~/workspace/arc/mise.toml\nDEBUG config: ~/.config/mise/config.toml\nError: \n   0: Failed to install tools: core:bun@1.4.4, core:rust@1.95.0\n\n      core:bun@1.4.4: Operation not permitted (os error 1)\n\n      core:rust@1.95.0: Operation not permitted (os error 1)\n\nLocation:\n   src/toolset/toolset_install.rs:605\n\nVersion:\n   2026.10.22 macos-arm64 (2026-10-28)\n\nBacktrace omitted. Run with RUST_BACKTRACE=1 environment variable to display it.\nRun with RUST_BACKTRACE=full to include source snippets.\nDEBUG exiting with code: 1\n",
+  "argv": [
+    "mise",
+    "--verbose",
+    "install",
+    "rust@1.95.0",
+    "bun@1.4.4"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:35:25.639524+00:00",
+  "elapsedSec": 1.8322298330022022,
+  "environment": {
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "CARGO_NET_OFFLINE": "true"
+  }
+}

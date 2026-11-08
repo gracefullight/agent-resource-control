@@ -1,0 +1,13 @@
+{
+  "task": "task-6",
+  "attempt": 4,
+  "status": "ready-for-independent-QA",
+  "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+  "report": ".arc-verify/rust-coverage/integration/repair-4/report.md",
+  "reportSha256": "fcf3f39d1451047be7ecdf05a63dc6d4ddbf548de8b01fab17588233e030de19",
+  "acceptance": ".arc-verify/rust-coverage/integration/repair-4/acceptance.json",
+  "acceptanceSha256": "c5c1526b5c05de759176b0722a5425c618b8c7ed6359ab2158246b8c75c0c0a9",
+  "previousAttempts": "Preserved in integration root, repair-2, repair-3 and all run directories. Current source-bound repair evidence supersedes their task-6 incomplete status, without rewriting them.",
+  "missionComplete": false,
+  "independentQA": "task-7 pending"
+}

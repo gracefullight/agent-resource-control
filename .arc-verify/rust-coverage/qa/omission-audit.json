@@ -1,0 +1,380 @@
+[
+  {
+    "path": "crates/arc-core/src/lib.rs",
+    "start": 115,
+    "end": 176,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(all(test, target_os = \"macos\"))]\nmod tests {\n    use super::*;\n    use std::os::unix::ffi::OsStrExt;\n\n    fn reply(buffer: *mut libc::c_char, length: usize, value: &[u8]) -> usize {\n        if !buffer.is_null() {\n            // SAFETY: the resolver supplied this writable buffer and length.\n            unsafe {\n                std::ptr::copy_nonoverlapping(\n                    value.as_ptr(),\n                    buffer.cast(),\n                    length.min(value.len()),\n                )\n            };\n        }\n        value.len()\n    }\n\n    #[test]\n    fn confstr_preserves_native_bytes_and_retries_a_growing_buffer() {\n        let mut calls = 0;\n        let value = b\"/native/\\xff/\\0\";\n        let path = darwin_runtime_root(|buffer, length| {\n            calls += 1;\n            if calls == 1 {\n                2\n            } else {\n                reply(buffer, length, value)\n            }\n        })\n        .unwrap();\n        assert_eq!(calls, 3);\n        assert_eq!(path.as_os_str().as_bytes(), &value[..value.len() - 1]);\n    }\n\n    #[test]\n    fn confstr_rejects_errors_malformed_paths_and_unstable_lengths() {\n        assert!(darwin_runtime_root(|_, _| 0).is_err());\n        let mut calls = 0;\n        assert!(darwin_runtime_root(|_, _| {\n            calls += 1;\n            if calls == 1 {\n                8\n            } else {\n                0\n            }\n        })\n        .is_err());\n        for value in [\n            b\"\".as_slice(),\n            b\"\\0\",\n            b\"relative\\0\",\n            b\"/no-terminator\",\n            b\"/interior\\0nul\\0\",\n        ] {\n            assert!(darwin_runtime_root(|buffer, length| reply(buffer, length, value)).is_err());\n        }\n        assert!(darwin_runtime_root(|_, length| length + 1).is_err());\n        assert!(darwin_runtime_root(|_, _| usize::MAX).is_err());\n    }\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 71,
+    "end": 72,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    injection: Option<Injection>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 73,
+    "end": 74,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    observer: Option<tokio::sync::watch::Sender<u64>>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 79,
+    "end": 85,
+    "reason": "cfg false when test is disabled",
+    "source": "        #[cfg(test)]\n        if let Some(injection) = &mut self.injection {\n            if injection.remaining != 0 && injection.after_accepts == 0 {\n                injection.remaining -= 1;\n                return Err(io::Error::from_raw_os_error(injection.errno));\n            }\n        }"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 87,
+    "end": 90,
+    "reason": "cfg false when test is disabled",
+    "source": "        #[cfg(test)]\n        if let Some(injection) = &mut self.injection {\n            injection.after_accepts = injection.after_accepts.saturating_sub(1);\n        }"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 94,
+    "end": 104,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(crate) fn injected(errno: i32, remaining: usize) -> Self {\n        Self {\n            injection: Some(Injection {\n                errno,\n                remaining,\n                after_accepts: 0,\n            }),\n            observer: None,\n        }\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 106,
+    "end": 110,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(crate) fn after_accepts(mut self, count: usize) -> Self {\n        self.injection.as_mut().unwrap().after_accepts = count;\n        self\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 112,
+    "end": 117,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(crate) fn observe(&mut self) -> tokio::sync::watch::Receiver<u64> {\n        let (sender, receiver) = tokio::sync::watch::channel(0);\n        self.observer = Some(sender);\n        receiver\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 120,
+    "end": 123,
+    "reason": "cfg false when test is disabled",
+    "source": "        #[cfg(test)]\n        if let Some(observer) = &self.observer {\n            observer.send_replace(_recovery.retries);\n        }"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 127,
+    "end": 132,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nstruct Injection {\n    errno: i32,\n    remaining: usize,\n    after_accepts: usize,\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/accept_recovery.rs",
+    "start": 134,
+    "end": 174,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[tokio::test(start_paused = true)]\n    async fn retry_policy_caps_backoff_and_saturates_without_a_fatal_threshold() {\n        let mut recovery = Recovery::default();\n        for i in 0..100_000 {\n            let before = Instant::now();\n            assert!(recovery.failed(&io::Error::from_raw_os_error(libc::EMFILE)));\n            let delay = recovery.retry_at.unwrap() - before;\n            assert_eq!(delay.as_millis(), (5u128 << i.min(5)).min(100));\n            tokio::time::advance(delay).await;\n        }\n        assert_eq!(recovery.resource_pressure, 100_000);\n        assert_eq!(recovery.retries, 100_000);\n        assert_eq!(recovery.backoff_high_water_ms, 100);\n        recovery.accepted();\n        assert_eq!(recovery.consecutive, 0);\n        assert!(recovery.retry_at.is_none());\n        recovery.errors = u64::MAX;\n        recovery.consecutive = u64::MAX;\n        assert!(recovery.failed(&io::Error::from_raw_os_error(libc::ECONNABORTED)));\n        assert_eq!(recovery.errors, u64::MAX);\n        assert_eq!(recovery.consecutive, u64::MAX);\n        for code in [libc::EBADF, libc::EINVAL, libc::ENOTSOCK, libc::EOPNOTSUPP] {\n            assert!(!recovery.failed(&io::Error::from_raw_os_error(code)));\n        }\n        for code in [\n            libc::EINTR,\n            libc::EAGAIN,\n            libc::EPROTO,\n            libc::ENFILE,\n            libc::ENOBUFS,\n            libc::ENOMEM,\n            libc::EACCES,\n        ] {\n            assert!(recovery.failed(&io::Error::from_raw_os_error(code)));\n        }\n    }\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker.rs",
+    "start": 5,
+    "end": 7,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\n#[path = \"db_worker/tests.rs\"]\nmod tests;"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker.rs",
+    "start": 316,
+    "end": 320,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\npub(crate) struct WorkerTestHooks {\n    pub started: std::sync::mpsc::SyncSender<()>,\n    pub release: std::sync::mpsc::Receiver<()>,\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker.rs",
+    "start": 322,
+    "end": 330,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\npub(crate) fn start_with_test_hooks(\n    connection: Connection,\n    config: DbConfig,\n    metrics: Arc<RuntimeMetrics>,\n    hooks: WorkerTestHooks,\n) -> Result<DbWorker, DbError> {\n    DbWorker::start_inner(connection, config, metrics, execution::Hooks::gate(hooks))\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 6,
+    "end": 7,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    progress: Option<std::sync::mpsc::SyncSender<()>>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 42,
+    "end": 45,
+    "reason": "cfg false when test is disabled",
+    "source": "                        #[cfg(test)]\n                        if let Some(sender) = active.progress.as_ref() {\n                            let _ = sender.try_send(());\n                        }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 59,
+    "end": 60,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    let observed = _hooks.lock_probe.clone();"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 64,
+    "end": 67,
+    "reason": "cfg false when test is disabled",
+    "source": "            #[cfg(test)]\n            if let Some(sender) = observed.as_ref() {\n                let _ = sender.try_send(());\n            }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 111,
+    "end": 112,
+    "reason": "cfg false when test is disabled",
+    "source": "                    #[cfg(test)]\n                    progress: hooks.expensive.clone(),"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 139,
+    "end": 150,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    if let Some(exit) = hooks.exit.take() {\n        let _ = exit.started.try_send(());\n        let end = Instant::now() + Duration::from_secs(1);\n        loop {\n            match exit.release.recv_timeout(Duration::from_millis(5)) {\n                Ok(()) | Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => break,\n                Err(std::sync::mpsc::RecvTimeoutError::Timeout) if Instant::now() < end => (),\n                Err(std::sync::mpsc::RecvTimeoutError::Timeout) => break,\n            }\n        }\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 169,
+    "end": 170,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    let expensive = hooks.expensive.take().is_some();"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 171,
+    "end": 172,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    let lock_probe = hooks.lock_probe.take().is_some();"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 176,
+    "end": 184,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    if expensive {\n        query(connection, shared, || {\n            connection.query_row(\n            \"WITH RECURSIVE work(n) AS (VALUES(0) UNION ALL SELECT n+1 FROM work WHERE n<1000000000) SELECT sum(n) FROM work\",\n            [], |row| row.get::<_, i64>(0),\n        )\n        })?;\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 185,
+    "end": 191,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    if lock_probe {\n        // Fixed write fixture to provoke a WAL writer lock without exposing SQL.\n        query(connection, shared, || {\n            connection.execute_batch(\"BEGIN IMMEDIATE; ROLLBACK;\")\n        })?;\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 249,
+    "end": 250,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(super) gate: Option<WorkerTestHooks>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 251,
+    "end": 252,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(super) expensive: Option<std::sync::mpsc::SyncSender<()>>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 253,
+    "end": 254,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(super) park: Option<WorkerTestHooks>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 255,
+    "end": 256,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(super) lock_probe: Option<std::sync::mpsc::SyncSender<()>>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 257,
+    "end": 258,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(super) exit: Option<WorkerTestHooks>,"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 262,
+    "end": 268,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(super) fn gate(hooks: WorkerTestHooks) -> Self {\n        Self {\n            gate: Some(hooks),\n            ..Self::default()\n        }\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 271,
+    "end": 285,
+    "reason": "cfg false when test is disabled",
+    "source": "        #[cfg(test)]\n        if let Some(hooks) = self.park.take() {\n            let _ = hooks.started.try_send(());\n            let end = Instant::now() + Duration::from_secs(2);\n            while !_shared.stopping.load(Ordering::Acquire) && Instant::now() < end {\n                // recv_timeout uses thread::park internally and could consume\n                // the very unpark token this race fixture is meant to prove.\n                match hooks.release.try_recv() {\n                    Ok(()) | Err(std::sync::mpsc::TryRecvError::Disconnected) => break,\n                    Err(std::sync::mpsc::TryRecvError::Empty) => {\n                        thread::sleep(Duration::from_millis(1))\n                    }\n                }\n            }\n        }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 289,
+    "end": 302,
+    "reason": "cfg false when test is disabled",
+    "source": "        #[cfg(test)]\n        if let Some(hooks) = self.gate.take() {\n            let _ = hooks.started.try_send(());\n            loop {\n                check(_shared)?;\n                match hooks.release.recv_timeout(Duration::from_millis(5)) {\n                    Ok(()) => break,\n                    Err(std::sync::mpsc::RecvTimeoutError::Timeout) => (),\n                    Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => {\n                        return Err(DbError::Cancelled)\n                    }\n                }\n            }\n        }"
+  },
+  {
+    "path": "crates/arc-daemon/src/db_worker/execution.rs",
+    "start": 307,
+    "end": 341,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod race_tests {\n    use super::*;\n\n    #[test]\n    fn stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt() {\n        let mut connection = Connection::open_in_memory().unwrap();\n        let shared = Arc::new(Shared {\n            stopping: AtomicBool::new(false),\n            active: Mutex::new(Some(Active {\n                cancelled: Arc::new(AtomicBool::new(false)),\n                deadline: Instant::now() + Duration::from_secs(1),\n                progress: None,\n            })),\n        });\n        install_progress(&mut connection, Arc::clone(&shared)).unwrap();\n        let interrupt = connection.get_interrupt_handle();\n        let result = query(&connection, &shared, || {\n            // query has performed its final precheck; stop lands before SQL.\n            shared.stopping.store(true, Ordering::Release);\n            interrupt.interrupt();\n            let error = connection.query_row(\n                \"WITH RECURSIVE work(n) AS (VALUES(0) UNION ALL SELECT n+1 FROM work WHERE n<1000000000) SELECT sum(n) FROM work\",\n                [], |row| row.get::<_, i64>(0),\n            ).unwrap_err();\n            assert_eq!(\n                error.sqlite_error_code(),\n                Some(rusqlite::ErrorCode::OperationInterrupted)\n            );\n            Err::<(), _>(error)\n        });\n        assert!(matches!(result, Err(DbError::Stopping)));\n        connection.close().unwrap();\n    }\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/instance.rs",
+    "start": 226,
+    "end": 441,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests {\n    use super::*;\n    use std::os::unix::fs::{DirBuilderExt, PermissionsExt};\n    use std::sync::atomic::{AtomicU64, Ordering};\n\n    fn lock_path(path: &Path) -> PathBuf {\n        path.to_owned()\n    }\n\n    fn scratch(_name: &str) -> PathBuf {\n        static COUNTER: AtomicU64 = AtomicU64::new(0);\n        let directory = arc_core::runtime_root().unwrap().join(format!(\n            \"i{:x}-{:x}\",\n            std::process::id(),\n            COUNTER.fetch_add(1, Ordering::Relaxed)\n        ));\n        fs::DirBuilder::new()\n            .mode(0o700)\n            .create(&directory)\n            .unwrap();\n        directory.join(\"arc.sock\")\n    }\n\n    fn cleanup(socket: &Path) {\n        let _ = fs::remove_dir_all(socket.parent().unwrap());\n    }\n\n    fn hold_lock_with_owner(path: &Path, owner: Owner) -> File {\n        fs::write(\n            path,\n            format!(\"pid={}\\nstart_time={}\\n\", owner.pid, owner.start_time),\n        )\n        .unwrap();\n        fs::set_permissions(path, fs::Permissions::from_mode(0o600)).unwrap();\n        let file = OpenOptions::new()\n            .read(true)\n            .write(true)\n            .open(path)\n            .unwrap();\n        file.try_lock().unwrap();\n        file\n    }\n\n    #[test]\n    fn a_live_duplicate_is_rejected() {\n        let socket = scratch(\"duplicate\");\n        let first = InstanceLock::acquire(&socket).unwrap();\n        match InstanceLock::acquire(&socket) {\n            Err(InstanceError::Duplicate { .. }) => {}\n            Err(other) => panic!(\"expected duplicate, got {other}\"),\n            Ok(_) => panic!(\"a second lock must not be granted\"),\n        }\n        drop(first);\n        cleanup(&socket);\n    }\n\n    #[test]\n    fn a_mismatched_start_time_is_recovered_without_killing_anyone() {\n        let socket = scratch(\"mismatch\");\n        let path = lock_path(&socket);\n        let actual = platform::process_start_time(std::process::id()).unwrap();\n        let held = hold_lock_with_owner(\n            &path,\n            Owner {\n                pid: std::process::id(),\n                start_time: actual.wrapping_add(1),\n            },\n        );\n        let recovered = InstanceLock::acquire(&socket).unwrap();\n        assert_eq!(\n            read_owner(&File::open(lock_path(&socket)).unwrap()),\n            Some(Owner {\n                pid: std::process::id(),\n                start_time: actual,\n            })\n        );\n        drop(recovered);\n        drop(held);\n        cleanup(&socket);\n    }\n\n    #[test]\n    fn a_dead_pid_is_recovered_without_killing_anyone() {\n        let socket = scratch(\"dead\");\n        let path = lock_path(&socket);\n        let held = hold_lock_with_owner(\n            &path,\n            Owner {\n                pid: 1_000_000_000,\n                start_time: 1,\n            },\n        );\n        let recovered = InstanceLock::acquire(&socket).unwrap();\n        assert_eq!(\n            read_owner(&File::open(lock_path(&socket)).unwrap()),\n            Some(Owner {\n                pid: std::process::id(),\n                start_time: platform::process_start_time(std::process::id()).unwrap(),\n            })\n        );\n        drop(recovered);\n        drop(held);\n        cleanup(&socket);\n    }\n\n    #[test]\n    fn dropping_a_stale_holder_preserves_its_successors_lock() {\n        let socket = scratch(\"successor\");\n        let stale = InstanceLock::acquire(&socket).unwrap();\n        write_owner(\n            &stale._file,\n            Owner {\n                pid: 1_000_000_000,\n                start_time: 1,\n            },\n        )\n        .unwrap();\n        let successor = InstanceLock::acquire(&socket).unwrap();\n        drop(stale);\n        assert!(matches!(\n            InstanceLock::acquire(&socket),\n            Err(InstanceError::Duplicate { .. })\n        ));\n        drop(successor);\n        cleanup(&socket);\n    }\n\n    #[test]\n    fn a_stale_inode_never_unlinks_the_successors_lock_file() {\n        // Reproduces the losing side of two concurrent recoveries: this\n        // acquirer judged inode A stale, but before it unlinked the pathname\n        // another recoverer replaced A with its own locked inode B.\n        let socket = scratch(\"replaced\");\n        let path = lock_path(&socket);\n        fs::write(&path, \"pid=1000000000\\nstart_time=1\\n\").unwrap();\n        let judged_stale = File::open(&path).unwrap();\n        fs::remove_file(&path).unwrap();\n        let successor = InstanceLock::acquire(&socket).unwrap();\n\n        assert!(!remove_if_same_inode(&path, &judged_stale).unwrap());\n        assert_eq!(\n            read_owner(&File::open(&path).unwrap()),\n            Some(Owner {\n                pid: std::process::id(),\n                start_time: platform::process_start_time(std::process::id()).unwrap(),\n            })\n        );\n        assert!(matches!(\n            InstanceLock::acquire(&socket),\n            Err(InstanceError::Duplicate { .. })\n        ));\n        drop(successor);\n        cleanup(&socket);\n    }\n\n    #[test]\n    fn a_stale_inode_still_named_by_the_path_is_unlinked() {\n        let socket = scratch(\"unchanged\");\n        let path = lock_path(&socket);\n        fs::write(&path, \"pid=1000000000\\nstart_time=1\\n\").unwrap();\n        let judged_stale = File::open(&path).unwrap();\n\n        assert!(remove_if_same_inode(&path, &judged_stale).unwrap());\n        assert!(!path.exists());\n        assert!(!remove_if_same_inode(&path, &judged_stale).unwrap());\n        cleanup(&socket);\n    }\n\n    #[test]\n    fn unsafe_anchor_entries_are_rejected_without_repair_or_writes() {\n        use std::os::unix::fs::symlink;\n        // The sandbox strips setuid on real files; exercise that policy bit\n        // directly as well as checking modes the filesystem retains below.\n        for mode in [0o644, 0o660, 0o1600, 0o2600, 0o4600] {\n            assert!(!private_lock_attributes(true, 42, mode, 42));\n        }\n        assert!(!private_lock_attributes(true, 42, 0o600, 43));\n        assert!(!private_lock_attributes(false, 42, 0o600, 42));\n        for mode in [0o644, 0o660, 0o1600] {\n            let path = scratch(\"unsafe\");\n            fs::write(&path, b\"protected owner record\").unwrap();\n            fs::set_permissions(&path, fs::Permissions::from_mode(mode)).unwrap();\n            let before = fs::symlink_metadata(&path).unwrap();\n            assert!(\n                InstanceLock::acquire(&path).is_err(),\n                \"requested mode {mode:o}, actual mode {:o}\",\n                before.mode() & 0o7777\n            );\n            let after = fs::symlink_metadata(&path).unwrap();\n            assert_eq!(\n                (before.ino(), before.uid(), before.mode()),\n                (after.ino(), after.uid(), after.mode())\n            );\n            assert_eq!(fs::read(&path).unwrap(), b\"protected owner record\");\n            cleanup(&path);\n        }\n        let path = scratch(\"entry\");\n        let target = path.with_file_name(\"target\");\n        fs::write(&target, b\"symlink target\").unwrap();\n        fs::set_permissions(&target, fs::Permissions::from_mode(0o600)).unwrap();\n        symlink(&target, &path).unwrap();\n        assert!(InstanceLock::acquire(&path).is_err());\n        assert_eq!(fs::read_link(&path).unwrap(), target);\n        assert_eq!(fs::read(&target).unwrap(), b\"symlink target\");\n        fs::remove_file(&path).unwrap();\n        fs::create_dir(&path).unwrap();\n        assert!(InstanceLock::acquire(&path).is_err());\n        assert!(path.is_dir());\n        fs::remove_dir(&path).unwrap();\n        let name = std::ffi::CString::new(path.as_os_str().as_encoded_bytes()).unwrap();\n        assert_eq!(unsafe { libc::mkfifo(name.as_ptr(), 0o600) }, 0);\n        assert!(InstanceLock::acquire(&path).is_err());\n        cleanup(&path);\n    }\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/lifecycle.rs",
+    "start": 261,
+    "end": 263,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\n#[path = \"database_failure_tests.rs\"]\nmod failure_tests;"
+  },
+  {
+    "path": "crates/arc-daemon/src/lifecycle.rs",
+    "start": 265,
+    "end": 303,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn database_contention_and_unavailability_are_not_integrity_failures() {\n        for code in [\n            rusqlite::ffi::SQLITE_BUSY,\n            rusqlite::ffi::SQLITE_LOCKED,\n            rusqlite::ffi::SQLITE_INTERRUPT,\n        ] {\n            assert!(matches!(\n                database_failure(DbError::Sql(rusqlite::Error::SqliteFailure(\n                    rusqlite::ffi::Error::new(code),\n                    None\n                ))),\n                DoctorOutcome::Busy\n            ));\n        }\n        for error in [\n            DbError::Busy,\n            DbError::Stopping,\n            DbError::Cancelled,\n            DbError::Deadline,\n            DbError::WorkerLost,\n            DbError::ShutdownDeadline,\n            DbError::Io(io::Error::other(\"worker failed\")),\n        ] {\n            assert!(matches!(database_failure(error), DoctorOutcome::Busy));\n        }\n        assert!(matches!(\n            database_failure(DbError::Sql(rusqlite::Error::SqliteFailure(\n                rusqlite::ffi::Error::new(rusqlite::ffi::SQLITE_CORRUPT),\n                None\n            ))),\n            DoctorOutcome::IntegrityFailed\n        ));\n    }\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/limits.rs",
+    "start": 114,
+    "end": 156,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn limits_reject_invalid_config_and_profiles() {\n        for profile in [\n            None,\n            Some(std::ffi::OsStr::new(\"\")),\n            Some(std::ffi::OsStr::new(\"test\")),\n        ] {\n            RuntimeLimits::from_profile(profile)\n                .unwrap()\n                .validate()\n                .unwrap();\n        }\n        assert!(RuntimeLimits::from_profile(Some(std::ffi::OsStr::new(\"unbounded\"))).is_err());\n        for limits in [\n            RuntimeLimits {\n                requests: NonZeroUsize::new(65).unwrap(),\n                ..RuntimeLimits::default()\n            },\n            RuntimeLimits {\n                header_timeout: Duration::ZERO,\n                ..RuntimeLimits::default()\n            },\n            RuntimeLimits {\n                frame_timeout: Duration::MAX,\n                ..RuntimeLimits::default()\n            },\n            RuntimeLimits {\n                db_busy_timeout: Duration::from_secs(2),\n                ..RuntimeLimits::default()\n            },\n            RuntimeLimits {\n                connections: NonZeroUsize::new(usize::MAX).unwrap(),\n                ..RuntimeLimits::default()\n            },\n        ] {\n            assert!(limits.validate().is_err());\n        }\n    }\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/main.rs",
+    "start": 19,
+    "end": 20,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod lifecycle_tests;"
+  },
+  {
+    "path": "crates/arc-daemon/src/main.rs",
+    "start": 21,
+    "end": 23,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\n#[allow(dead_code)] // The standalone transport target uses the remaining test helpers.\nmod transport_test_support;"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_metrics.rs",
+    "start": 167,
+    "end": 168,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    changed: tokio::sync::Notify,"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_metrics.rs",
+    "start": 182,
+    "end": 183,
+    "reason": "cfg false when test is disabled",
+    "source": "            #[cfg(test)]\n            changed: tokio::sync::Notify::new(),"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_metrics.rs",
+    "start": 232,
+    "end": 233,
+    "reason": "cfg false when test is disabled",
+    "source": "        #[cfg(test)]\n        self.changed.notify_waiters();"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_metrics.rs",
+    "start": 236,
+    "end": 247,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(crate) async fn wait_for(&self, predicate: impl Fn(&Snapshot) -> bool) {\n        loop {\n            let notified = self.changed.notified();\n            tokio::pin!(notified);\n            notified.as_mut().enable();\n            if predicate(&self.snapshot()) {\n                return;\n            }\n            notified.await;\n        }\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_metrics.rs",
+    "start": 265,
+    "end": 276,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests {\n    use super::*;\n\n    #[test]\n    fn lifetime_counters_saturate_instead_of_wrapping() {\n        let metrics = RuntimeMetrics::new(&RuntimeLimits::default());\n        metrics.counters[Counter::Accepted as usize].store(u64::MAX, SeqCst);\n        metrics.increment(Counter::Accepted);\n        assert_eq!(metrics.snapshot().counter(Counter::Accepted), u64::MAX);\n    }\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_report.rs",
+    "start": 24,
+    "end": 27,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    pub(crate) fn read_only_for_test(path: &Path) -> Self {\n        Self(Some(File::open(path).unwrap()))\n    }"
+  },
+  {
+    "path": "crates/arc-daemon/src/runtime_report.rs",
+    "start": 162,
+    "end": 164,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\n#[path = \"runtime_report_tests.rs\"]\nmod tests;"
+  },
+  {
+    "path": "crates/arc-daemon/src/server.rs",
+    "start": 300,
+    "end": 308,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\npub(crate) async fn serve_with_worker(\n    socket: PathBuf,\n    limits: crate::limits::RuntimeLimits,\n    metrics: Arc<crate::runtime_metrics::RuntimeMetrics>,\n    worker: crate::db_worker::DbWorker,\n) -> Result<(), Box<dyn Error>> {\n    crate::lifecycle::supervise(socket, limits, metrics, worker).await\n}"
+  },
+  {
+    "path": "crates/arc-daemon/src/server.rs",
+    "start": 310,
+    "end": 312,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\n#[path = \"server_tests.rs\"]\nmod tests;"
+  },
+  {
+    "path": "crates/arc-detector/src/lib.rs",
+    "start": 70,
+    "end": 71,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests;"
+  },
+  {
+    "path": "crates/arc-detector/src/lib.rs",
+    "start": 73,
+    "end": 74,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod coverage_tests;"
+  },
+  {
+    "path": "crates/arc-ipc/src/lib.rs",
+    "start": 363,
+    "end": 364,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests;"
+  },
+  {
+    "path": "crates/arc-storage/src/migration.rs",
+    "start": 148,
+    "end": 149,
+    "reason": "cfg false when test is disabled",
+    "source": "    #[cfg(test)]\n    tests::observe(tests::Stage::Locked, &transaction);"
+  },
+  {
+    "path": "crates/arc-storage/src/migration.rs",
+    "start": 163,
+    "end": 164,
+    "reason": "cfg false when test is disabled",
+    "source": "        #[cfg(test)]\n        tests::observe(tests::Stage::BeforeCommit, &transaction);"
+  },
+  {
+    "path": "crates/arc-storage/src/migration.rs",
+    "start": 176,
+    "end": 177,
+    "reason": "cfg false when test is disabled",
+    "source": "#[cfg(test)]\nmod tests;"
+  }
+]

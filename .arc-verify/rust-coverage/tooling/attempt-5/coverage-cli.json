@@ -1,0 +1,17 @@
+{
+  "exit": 0,
+  "stdout": "bun test v1.4.4 (38afee6c8)\n",
+  "stderr": "\nscripts/coverage/coverage-cli.test.ts:\n(pass) root entry point executes the real six-crate coverage gate [78094.57ms]\n\n 1 pass\n 0 fail\n 4 expect() calls\nRan 1 test across 1 file. [78.14s]\n",
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/coverage-cli.test.ts"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:42:57.800494+00:00",
+  "elapsedSec": 78.14907004099223,
+  "environment": {
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "CARGO_NET_OFFLINE": "true"
+  }
+}

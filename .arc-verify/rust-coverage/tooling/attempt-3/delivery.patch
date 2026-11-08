@@ -1,0 +1,2827 @@
+diff --git a/.arc-verify/rust-coverage/contract/accounting.json b/.arc-verify/rust-coverage/contract/accounting.json
+new file mode 100644
+index 0000000..8887ec9
+--- /dev/null
++++ b/.arc-verify/rust-coverage/contract/accounting.json
+@@ -0,0 +1,77 @@
++{
++  "schemaVersion": 1,
++  "acceptedBaselineHead": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
++  "acceptedBaselineTree": "8db02719b5bd06d888729ca337f9bf8887991515",
++  "actorSnapshotCommit": "d3c62cb034707d8cdbb30ba3ab51a392e92a6cce",
++  "actorSnapshotTree": "8db02719b5bd06d888729ca337f9bf8887991515",
++  "crates": [
++    "arc-core",
++    "arc-detector",
++    "arc-storage",
++    "arc-ipc",
++    "arc-daemon",
++    "arc-cli"
++  ],
++  "threshold": {
++    "percent": 80,
++    "scope": "each crate",
++    "status": "new engineering target, not a measured baseline or SRS threshold",
++    "comparison": "BigInt(covered) * 100 >= BigInt(total) * 80"
++  },
++  "pins": {
++    "rust": "1.95.0",
++    "bun": "1.4.4",
++    "cargo-llvm-cov": "0.6.21",
++    "llvm": "llvm-tools-preview from Rust 1.95.0"
++  },
++  "toolCompatibility": "pending real instrumentation; provisioning blocked in Actor environment",
++  "source": {
++    "roots": "all six crates/*/src trees",
++    "canonical": "realpath, workspace-relative slash paths, SHA-256 file bytes",
++    "inputs": "Cargo.toml, Cargo.lock, rust-toolchain.toml, mise.toml, package.json, every crates/ file, scripts/coverage/ file, contract/accounting.json and any root .cargo config/build.rs",
++    "baselineMeaning": "accepted committed source only; Actor task edits remain local until integrated"
++  },
++  "accounting": {
++    "lineUnit": "unique canonical source file plus LLVM LCOV DA line number",
++    "merge": "union of mapped DA line numbers; hit if any compilation instance has positive hits; never average binaries or count repeated modules twice",
++    "zeroHit": "retain every zero-hit production DA line",
++    "testOnly": "omit src items whose cfg expression is provably false with test disabled; omit files reachable exclusively through test-only modules or Cargo integration-test roots",
++    "production": "retain all production modules, including source recompiled using path attributes in test targets",
++    "unknown": "reject unclassified source, unknown LCOV files outside explicitly recognized integration-test directories, missing production files, malformed records and any crate with zero denominator",
++    "inactive": "host compiler cfg controls executable mapping; inactive platform source stays inventoried and is unmeasured, never represented as covered",
++    "noMappedLines": "a present production file may have zero DA lines; all files must be present and every crate needs positive total",
++    "upstreamFilters": "Disable cargo-llvm-cov default filename filters; ignore only exact non-workspace dependency package roots from locked Cargo metadata, Rust sysroot and its compiler source hash. Retain path-included production modules even when recorded paths contain tests/../src.",
++    "recordValidation": "Before canonical merging require exactly one safe nonnegative integer LF/LH per record; LF equals unique DA entries and LH equals positive-hit entries. Reject duplicate DA, duplicate/missing summaries, inconsistent counts and summaries outside SF, including test-only records."
++  },
++  "profiles": {
++    "target": "fresh UUID run target/arc-coverage/<run-id>",
++    "filename": "arc-%p-%m.profraw",
++    "children": "existing integration child binaries inherit instrumentation; extra real arcctl help and daemon startup-failure probes record PIDs",
++    "mergeProof": "exact equality between fresh raw profile inventory and pinned cargo-llvm-cov llvm-profdata input list, including explicit child PIDs"
++  },
++  "reports": {
++    "directory": ".arc-verify/rust-coverage/baseline/runs/<run-id>",
++    "raw": "raw.lcov",
++    "source": "inputs.json and source-inventory.json",
++    "summary": "summary.json with schemaVersion=1, sourceHash, rawSha256, runId, acceptedBaseline, host, versions, six crates and per-file mapped/uncovered/omitted lines",
++    "profiles": "profiles.json with binary, PID, raw filenames, hashes and exact merge list",
++    "commands": "numbered command JSON receipts with argv, cwd, times, PID, exit, stdout and stderr",
++    "verdict": "receipt.json for every attempt, including prerequisites failure; latest.json always overwritten with current outcome",
++    "freshness": "new run-specific path, report mtime after collection start, and identical before/after full input hashes"
++  },
++  "failurePolicy": "nonzero for missing/mismatched tools, failed tests, child-profile failure, missing/stale/malformed reports, missing crates/files or any below-target crate; no implicit installs and no prior passing-report fallback",
++  "platformBoundaries": {
++    "executedHost": "aarch64-apple-darwin prerequisite checks only; no actual measurement yet",
++    "supportedGateHosts": [
++      "macOS",
++      "Linux"
++    ],
++    "inactiveInventory": [
++      "arc-core/src/lib.rs: non-macOS runtime path, Windows LOCALAPPDATA branch, non-macOS XDG branch",
++      "arc-daemon/src/platform.rs: Linux peer credentials and other-Unix unsupported fallback"
++    ],
++    "desktop": "incomplete",
++    "native Windows": "incomplete",
++    "remaining Phase 0": "incomplete"
++  }
++}
+diff --git a/.arc-verify/rust-coverage/contract/accounting.md b/.arc-verify/rust-coverage/contract/accounting.md
+new file mode 100644
+index 0000000..9dab24d
+--- /dev/null
++++ b/.arc-verify/rust-coverage/contract/accounting.md
+@@ -0,0 +1,39 @@
++# Rust coverage accounting contract
++
++The accepted committed baseline is `fbe76a5f15101ad415f355ef06f1deeb1f97d568`, tree `8db02719b5bd06d888729ca337f9bf8887991515`. The Actor started at isolated snapshot `d3c62cb034707d8cdbb30ba3ab51a392e92a6cce` with that same input tree. New tooling in this worktree is an uncommitted Actor-local change, not part of the accepted baseline. All measurements bind to actual input bytes as well as this provenance.
++
++The mandatory crates, in output order, are arc-core, arc-detector, arc-storage, arc-ipc, arc-daemon and arc-cli. Each must reach 80% production-source line coverage. This is a new engineering target, not an observed baseline or SRS threshold. Integer counts decide acceptance: `covered * 100 >= total * 80` using BigInt. Printed decimal rounding never decides acceptance; a high workspace average cannot compensate for one failing crate.
++
++## Scope and denominator
++
++Inventory every Rust file beneath the six `src` roots. Resolve external module declarations from production crate roots and integration-test roots, including explicit path attributes. A file reached by any production module is production even if integration tests also compile it using a path attribute. A file reached only from test modules is test-only. Unknown/unclassified files fail closed; filenames alone never decide exclusions.
++
++Within a production file, tokenize comments, strings, raw strings and character literals before balancing Rust delimiters. Omit only whole items/statements/fields whose cfg expression is provably false with `test` disabled. The implementation handles the repository's `cfg(test)` and `cfg(all(test, ...))` forms and leaves unknown platform or feature predicates in production scope. `any(test, target_os=...)` remains production. Shared-line items are rejected as ambiguous, rather than dropping production lines. The source-inventory report lists the exact omitted line ranges and reason. This is a bounded lexical classifier for this repository, not a general Rust compiler parser; unsupported module layouts must fail and be implemented before acceptance.
++
++Disable the tool's default filename filters because a path-included production module can have `tests/../src` in its recorded filename. Filter only exact non-workspace dependency roots from locked Cargo metadata, the Rust sysroot and compiler-source hash; record those roots in `non-workspace-roots.json`. No production filename is filtered.
++
++An LLVM LCOV DA entry defines an instrumentable line. Canonicalize source aliases through realpath, then merge by workspace-relative path and line. Repeated compilations or module instances contribute one denominator entry; that line is covered when any instance has positive hits. Retain every mapped zero-hit production line. Remove test-only mapped lines and integration-test sources from both numerator and denominator. Never add assertion/helper lines to dilute the denominator. Do not exclude difficult production functions, modules, errors or platform paths. No coverage-only production cfg is enabled.
++
++Before merging, validate every individual LCOV record, including test-only records. Require exactly one nonnegative safe-integer `LF` and `LH`: `LF` must equal its unique DA line count, and `LH` must equal the number of DA entries with positive hits. Reject duplicate DA line numbers, duplicate/missing summaries, nonnumeric or unsafe values, and summaries outside a source record. Validate original records before canonical union so a later compilation cannot hide an inconsistent earlier denominator.
++
++Every production file must appear in the report. A present declarations-only file can have no DA entries, but every crate must have a positive denominator. Missing production files, unknown mapped paths outside the recognized integration-test trees, invalid or incomplete LCOV, out-of-range lines, unsafe/noninteger counts and missing/zero-denominator crates fail. Inactive whole-file platform modules will require an explicit reviewed inventory if introduced; they cannot silently disappear.
++
++## Execution and freshness
++
++The root command is exactly `bun run test:coverage`, backed by `bun scripts/coverage/run.ts`. It never installs tools and never invokes CLI/harness acceptance tests recursively. Provision separately with `mise run coverage:provision`: Rust 1.95.0, matching llvm-tools-preview, Bun 1.4.4, `cargo +1.95.0 install cargo-llvm-cov --version 0.6.21 --locked`, and `cargo +1.95.0 fetch --locked`. No JavaScript dependencies or lockfile are needed. The upstream pinned [release documentation](https://github.com/taiki-e/cargo-llvm-cov/blob/v0.6.21/README.md) describes LLVM tooling and report commands. Compatibility remains unverified until a real instrumentation run succeeds; the Actor's attempted provisioning failed.
++
++Use `rustup run 1.95.0` for gate tool checks so a missing toolchain component cannot trigger implicit rustup synchronization. Check exact Bun, Rust and cargo-llvm-cov versions and LLVM's version against rustc. Reject unreviewed Rust/LLVM wrapper or flag overrides. Run one workspace/all-targets instrumented test pass with locked offline dependencies, no cfg(coverage), a new run target and `%p-%m` profile filenames. Existing CLI/daemon integration tests retain their subprocess ownership and coordination. Additional real binary probes (`arcctl --help` and a daemon startup rejection before admission) identify concrete child PIDs and require nonempty matching profiles. Compare the entire fresh raw-profile inventory against the pinned tool's actual llvm-profdata merge input list; each child's profile must be in that list.
++
++Reports are immutable per UUID run under `baseline/runs/`. They include raw LCOV, six crate summaries, per-file mapped/omitted/uncovered line numbers, raw-profile hashes, child PID proof, exact commands, versions, platform and exit receipts. The latest pointer records every outcome, including failure. A fresh filename, report timestamp and equal before/after input hashes prevent reuse. Fingerprints include all crate files (sources, tests, manifests, migrations), Cargo.lock, Rust/Bun configs, root package.json, the machine-readable accounting contract, any root .cargo config/build.rs and coverage implementation/tests. Changes during the run invalidate it. A failed current test or prerequisite exits nonzero before report evaluation; an old passing report cannot rescue it.
++
++## Verification and boundaries
++
++Controlled fixtures are synthetic LCOV/process inputs, never product measurements. `gate.test.ts` executes a fixture subprocess and checks the exact failure diagnostic for failed tests, absent/mismatched tools, absent/stale/malformed reports, source drift, missing files/crates and per-crate threshold failure despite an above-target workspace average. Accounting fixtures check canonical repeated-instance union, zero-hit retention, test-only omission and the exact 80% boundary. `coverage-cli.test.ts` executes the actual root command. `harness.test.ts` executes the unchanged harness with no skip flags. `preservation.test.ts` compares protected bytes against accepted HEAD and checks existing Rust tokens/assertions. `evidence.test.ts` recomputes the latest report from source-bound raw data. Cargo fmt/clippy/workspace tests remain separate native commands.
++
++Measurement, when available, covers only the executed host's active cfg. Host prerequisite inspection reports aarch64-apple-darwin. `arc-core/src/lib.rs` has inactive non-macOS runtime, Windows LOCALAPPDATA and XDG branches; `arc-daemon/src/platform.rs` has Linux credentials and a fallback. They remain visible unmeasured platform obligations, not exclusions selected to pass 80%. Native Windows is not a supported gate host because current CLI/daemon use Unix sockets. Linux requires its own measured run. Stable-toolchain doc-test coverage is not collected by cargo-llvm-cov; workspace unit, integration and executable child paths are included.
++
++- desktop: incomplete
++- native Windows: incomplete
++- remaining Phase 0: incomplete
++
++The harness and `0001_phase0.sql` must remain byte-identical to accepted HEAD. Test expansion belongs to the assigned library/process Actors. Independent oma-qa review belongs to the separate reviewer; this implementation's own checks are not that review.
+diff --git a/.arc-verify/rust-coverage/contract/preservation-references.json b/.arc-verify/rust-coverage/contract/preservation-references.json
+new file mode 100644
+index 0000000..6fbda01
+--- /dev/null
++++ b/.arc-verify/rust-coverage/contract/preservation-references.json
+@@ -0,0 +1,472 @@
++{
++  "baselineHead": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
++  "baselineTree": "8db02719b5bd06d888729ca337f9bf8887991515",
++  "protected": {
++    "scripts/harness/validate.sh": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
++    "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
++  },
++  "files": [
++    {
++      "path": "crates/arc-cli/src/classify.rs",
++      "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
++      "productionTokenHash": "65a9e56668ba826fecfda11b77ba2617735039463813da7a952bdf09b43532fc",
++      "tokenHash": "65a9e56668ba826fecfda11b77ba2617735039463813da7a952bdf09b43532fc"
++    },
++    {
++      "path": "crates/arc-cli/src/doctor.rs",
++      "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
++      "productionTokenHash": "4fd2d9f9b8b166e498d36a25cf5a3dbb91241fbb47310f25312623355fc9d806",
++      "tokenHash": "4fd2d9f9b8b166e498d36a25cf5a3dbb91241fbb47310f25312623355fc9d806"
++    },
++    {
++      "path": "crates/arc-cli/src/main.rs",
++      "sha256": "62005310d32c69f201a4f7798492418c03d3338fc6a940024b98d3c0fdda897b",
++      "productionTokenHash": "101649c80d647adcb866eda261d25d6d01da181ae07cf0ba9667ca593e4a5545",
++      "tokenHash": "101649c80d647adcb866eda261d25d6d01da181ae07cf0ba9667ca593e4a5545"
++    },
++    {
++      "path": "crates/arc-cli/tests/binary.rs",
++      "sha256": "b0c93d83c0f61d43f16dca3addb6bcc598a766cea66a2180e73adaf491eb7e2a",
++      "productionTokenHash": "db1e3bafd510d7a9183c14ee9e74146a005e7102037384fbc7041c6ba5f40826",
++      "tokenHash": "db1e3bafd510d7a9183c14ee9e74146a005e7102037384fbc7041c6ba5f40826"
++    },
++    {
++      "path": "crates/arc-cli/tests/classification.rs",
++      "sha256": "0ec64a81cc16f936d5b189be760b58eaf88e6ddafffa611782209de1e399af54",
++      "productionTokenHash": "a5c60ad81dbf1f4f91bbb2520d75e5d1dec06c1bd4d87c3022f9e2853dcc8e4b",
++      "tokenHash": "a5c60ad81dbf1f4f91bbb2520d75e5d1dec06c1bd4d87c3022f9e2853dcc8e4b"
++    },
++    {
++      "path": "crates/arc-cli/tests/schema.rs",
++      "sha256": "fa95e1e54c01293f31daf0958f4542fa0559f6406a19377b65b763666feee707",
++      "productionTokenHash": "a8b13c0b0a249bb8fec11aac03b02e4bb4436ffff68e0e6ba81ef51100728210",
++      "tokenHash": "a8b13c0b0a249bb8fec11aac03b02e4bb4436ffff68e0e6ba81ef51100728210"
++    },
++    {
++      "path": "crates/arc-core/src/lib.rs",
++      "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
++      "productionTokenHash": "b7ce0c50984b09fda689c71a416e0d9cc7e57f7b5eb7c8142f88677974f9a5c6",
++      "tokenHash": "84d66db6b68d4432248ab64461df9de70dfd65df32028923cbd3132323455442"
++    },
++    {
++      "path": "crates/arc-core/tests/runtime.rs",
++      "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
++      "productionTokenHash": "120adebdde2db7f5c148ee13c6293ec5c4c1b4fdca1fe4b359a269a0a7d3efdf",
++      "tokenHash": "120adebdde2db7f5c148ee13c6293ec5c4c1b4fdca1fe4b359a269a0a7d3efdf"
++    },
++    {
++      "path": "crates/arc-daemon/src/accept_recovery.rs",
++      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
++      "productionTokenHash": "05558383d71fb0bfe3af89132c3bbb899cafb35d71115c43b1fd303442209895",
++      "tokenHash": "316518311f3885661a854a5b87432b7103c909df421e3a986321522aede4f1b8"
++    },
++    {
++      "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
++      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
++      "productionTokenHash": "f1a3028f9d57f6a6b420c4c240eb6d9144ed899c06d31282d0a2289c7cbabfcc",
++      "tokenHash": "f1a3028f9d57f6a6b420c4c240eb6d9144ed899c06d31282d0a2289c7cbabfcc"
++    },
++    {
++      "path": "crates/arc-daemon/src/admission.rs",
++      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
++      "productionTokenHash": "0a89d9b7b353c3c94a661ae7c066a428ecd862e9d5072bfe8973ff21d15857af",
++      "tokenHash": "0a89d9b7b353c3c94a661ae7c066a428ecd862e9d5072bfe8973ff21d15857af"
++    },
++    {
++      "path": "crates/arc-daemon/src/connection.rs",
++      "sha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
++      "productionTokenHash": "b22cc4bc8bd0acad47c949791e7d070971972930822bb0320ac629db2e58abcd",
++      "tokenHash": "b22cc4bc8bd0acad47c949791e7d070971972930822bb0320ac629db2e58abcd"
++    },
++    {
++      "path": "crates/arc-daemon/src/database_failure_tests.rs",
++      "sha256": "4851a2c1f7630492d9878c624fd5590cffaf1dc79dfacde74fa1dac57351183d",
++      "productionTokenHash": "e073a157a2e3f541eab5b2221d212a37f09f5b6d96faa81db4219e276f0ca269",
++      "tokenHash": "e073a157a2e3f541eab5b2221d212a37f09f5b6d96faa81db4219e276f0ca269"
++    },
++    {
++      "path": "crates/arc-daemon/src/db_worker.rs",
++      "sha256": "7784ea662d806d458fe9c878cdf0a127a64c34d5c6bf290d962fd54eb1e5223d",
++      "productionTokenHash": "5aea34b9e9a4bea7e24ed3e9600471e762d6ef10c9dc205ae4ec2b47d94962d5",
++      "tokenHash": "471c4f5250f96f8b11dd0da86896dfdb59a8b42ffb52c6d1b1cdb4a402d3ffee"
++    },
++    {
++      "path": "crates/arc-daemon/src/db_worker/execution.rs",
++      "sha256": "ef135ed9b956b12cdea1ca93f3bc2260897d78d25b4a732577ed250875753ff0",
++      "productionTokenHash": "c03dbcfd2485807e3e1edf3d460b075143d5cdc2f3147336fbaeeb8a0bae9522",
++      "tokenHash": "18efd1f31c9a33303dee0116ab0e5bf12ca5cf31be7bd8a5f304ac759b17287a"
++    },
++    {
++      "path": "crates/arc-daemon/src/db_worker/schema_tests.rs",
++      "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
++      "productionTokenHash": "d02617292829e608447dbfaba55372a106bf6a186ca621cb190f884500c6be26",
++      "tokenHash": "d02617292829e608447dbfaba55372a106bf6a186ca621cb190f884500c6be26"
++    },
++    {
++      "path": "crates/arc-daemon/src/db_worker/tests.rs",
++      "sha256": "ad4d62631f91287b298ae5314930f82a96f69d2facfa8d13d2837104827e2728",
++      "productionTokenHash": "98a7894c009a7122af995853dcfc45ff45dec32cdeda0ebf1083854dec8341c8",
++      "tokenHash": "98a7894c009a7122af995853dcfc45ff45dec32cdeda0ebf1083854dec8341c8"
++    },
++    {
++      "path": "crates/arc-daemon/src/instance.rs",
++      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
++      "productionTokenHash": "f820813751e30d4930b6f1d619df2bb025adb43482ef1196833d239c1a0871ff",
++      "tokenHash": "26d6a4f27b09c0f14628c5b1a8c6787154b36bf96cf528dff7edb4943cd65538"
++    },
++    {
++      "path": "crates/arc-daemon/src/lifecycle.rs",
++      "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
++      "productionTokenHash": "156ff82d35b01b26d5903760c00eca4abdfc80e9b5bb3f0e4542775a706a5402",
++      "tokenHash": "e7a9e366348ec5e2f1809dab890564d5ec16b97626616eb10384b438a5f068e7"
++    },
++    {
++      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
++      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
++      "productionTokenHash": "8566fa125ba135c3c8ec2e9acf53566ac9ec5e38f6a909fa7e5bbc6f282f7064",
++      "tokenHash": "8566fa125ba135c3c8ec2e9acf53566ac9ec5e38f6a909fa7e5bbc6f282f7064"
++    },
++    {
++      "path": "crates/arc-daemon/src/limits.rs",
++      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
++      "productionTokenHash": "96ac23dae2890cceee51d5f48a36f8535f7bc36aaaa7f6d60e4cd0ee4daa80b2",
++      "tokenHash": "c45f4560685e2fafa175bf870c09457f01e8bf6279e36716199fd302ad4ca8d8"
++    },
++    {
++      "path": "crates/arc-daemon/src/main.rs",
++      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
++      "productionTokenHash": "cacae7f162f93ae5c2960f00291682c8727ec8e91eda9b7016439be320bcdada",
++      "tokenHash": "f4501fab4c520b79f8c7557e4841974d08162cb8463ef2cae2f4ee7997d32e32"
++    },
++    {
++      "path": "crates/arc-daemon/src/platform.rs",
++      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
++      "productionTokenHash": "9a3fb6dcb804c5a3a92cb55b888835364d2a66618e6b259c03295591a3d1e740",
++      "tokenHash": "9a3fb6dcb804c5a3a92cb55b888835364d2a66618e6b259c03295591a3d1e740"
++    },
++    {
++      "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
++      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
++      "productionTokenHash": "d57a71edd0f585af3815bafa314d87fd6e1d917b0e1c251eb10f7ca00b1dd8b7",
++      "tokenHash": "d57a71edd0f585af3815bafa314d87fd6e1d917b0e1c251eb10f7ca00b1dd8b7"
++    },
++    {
++      "path": "crates/arc-daemon/src/runtime_metrics.rs",
++      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
++      "productionTokenHash": "ccee4857a9fd06d49bb219c4a4b26c98d340cd3d8161dc9281d025a16458f2e9",
++      "tokenHash": "527f46f03a0e87150e126e59793de6356e3c0b43a1b4d035804e441cde56f28a"
++    },
++    {
++      "path": "crates/arc-daemon/src/runtime_report.rs",
++      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
++      "productionTokenHash": "10c6ec8673377b33b1b1f025e0dcae06affd9378c910238e3409ff3f6aeb9da0",
++      "tokenHash": "db1ba6b1dce7023d5c7d323d56184548f738e19da4dad31f7819a2c645ac3c28"
++    },
++    {
++      "path": "crates/arc-daemon/src/runtime_report_tests.rs",
++      "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
++      "productionTokenHash": "d50ed11f23dbd57a395a833e054aca321157ce375ca101bef29e392a4c4f19bf",
++      "tokenHash": "d50ed11f23dbd57a395a833e054aca321157ce375ca101bef29e392a4c4f19bf"
++    },
++    {
++      "path": "crates/arc-daemon/src/server.rs",
++      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
++      "productionTokenHash": "b991ba098b9b119160231e88fb259769a7e7b2a23814ed08f7fbf9df40018ed7",
++      "tokenHash": "3e8f883c7dd7b2387c6e493c92032c1d538e097bec46a7d9f27b7de8557fd769"
++    },
++    {
++      "path": "crates/arc-daemon/src/server_tests.rs",
++      "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
++      "productionTokenHash": "2b3a3ebc3000f16ab8d35a7acf7b1b3cc2724c77c697acf5bab05f090529ecd7",
++      "tokenHash": "2b3a3ebc3000f16ab8d35a7acf7b1b3cc2724c77c697acf5bab05f090529ecd7"
++    },
++    {
++      "path": "crates/arc-daemon/src/transport.rs",
++      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
++      "productionTokenHash": "5d3d60051007785c8348d635a337d72e55d39e84eccfb8b318893fe5bcfd0b4a",
++      "tokenHash": "5d3d60051007785c8348d635a337d72e55d39e84eccfb8b318893fe5bcfd0b4a"
++    },
++    {
++      "path": "crates/arc-daemon/src/transport_test_support.rs",
++      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
++      "productionTokenHash": "218663d51475deeb1603a2f9f1686b97eaef0ad0ee4b7bfc72e473ac1a9d03f0",
++      "tokenHash": "218663d51475deeb1603a2f9f1686b97eaef0ad0ee4b7bfc72e473ac1a9d03f0"
++    },
++    {
++      "path": "crates/arc-daemon/src/transport_tests.rs",
++      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
++      "productionTokenHash": "7ace60711dcb7fd7842710f770b13a2e9c35044775971ef3c1d3317c908bec57",
++      "tokenHash": "7ace60711dcb7fd7842710f770b13a2e9c35044775971ef3c1d3317c908bec57"
++    },
++    {
++      "path": "crates/arc-daemon/tests/bounded.rs",
++      "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
++      "productionTokenHash": "34d2008e999f9e723f76abf88e74f297c5b6182915873f949a48d700d9ed19fe",
++      "tokenHash": "34d2008e999f9e723f76abf88e74f297c5b6182915873f949a48d700d9ed19fe"
++    },
++    {
++      "path": "crates/arc-daemon/tests/classification.rs",
++      "sha256": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
++      "productionTokenHash": "c951c1f71810915502c623ce3c82e93fb85b4d092f7d06b62a7d2154c1ed9beb",
++      "tokenHash": "c951c1f71810915502c623ce3c82e93fb85b4d092f7d06b62a7d2154c1ed9beb"
++    },
++    {
++      "path": "crates/arc-daemon/tests/classification/boundaries.rs",
++      "sha256": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
++      "productionTokenHash": "f5089ac1837421990bc5a7d276cc90b0ac662abbe030278779b0904f2bc63b3c",
++      "tokenHash": "f5089ac1837421990bc5a7d276cc90b0ac662abbe030278779b0904f2bc63b3c"
++    },
++    {
++      "path": "crates/arc-daemon/tests/classification/privacy.rs",
++      "sha256": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
++      "productionTokenHash": "7a5051a2fc965396b97341b07d221385773e5dbcfe4609f5c579b283fd5d456a",
++      "tokenHash": "7a5051a2fc965396b97341b07d221385773e5dbcfe4609f5c579b283fd5d456a"
++    },
++    {
++      "path": "crates/arc-daemon/tests/classification/saturation.rs",
++      "sha256": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
++      "productionTokenHash": "103f9fe9541a6e6de9ee63d64beacc67104ca43fac3198e0a7719fc8d103eeb0",
++      "tokenHash": "103f9fe9541a6e6de9ee63d64beacc67104ca43fac3198e0a7719fc8d103eeb0"
++    },
++    {
++      "path": "crates/arc-daemon/tests/db_worker_unit.rs",
++      "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
++      "productionTokenHash": "3390b914656dbf89fc2247ba820011fdd5352c7131e0583c64b1626daa87fbd6",
++      "tokenHash": "3390b914656dbf89fc2247ba820011fdd5352c7131e0583c64b1626daa87fbd6"
++    },
++    {
++      "path": "crates/arc-daemon/tests/resident.rs",
++      "sha256": "46401f275d7aaaf051503332f6f2e1a268c934b3060e0bd70c4e9ec741304013",
++      "productionTokenHash": "a03978485b35fe2c4d08dc30dbb1cfce6824c1a884ee2d87128e3e7ccc92b69e",
++      "tokenHash": "a03978485b35fe2c4d08dc30dbb1cfce6824c1a884ee2d87128e3e7ccc92b69e"
++    },
++    {
++      "path": "crates/arc-daemon/tests/resident/coordination.rs",
++      "sha256": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
++      "productionTokenHash": "43fef2d453dbe25fc53ee6a5a8efeaca43920053683fea39e3df6dc2ae71dfeb",
++      "tokenHash": "43fef2d453dbe25fc53ee6a5a8efeaca43920053683fea39e3df6dc2ae71dfeb"
++    },
++    {
++      "path": "crates/arc-daemon/tests/resident/identity.rs",
++      "sha256": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
++      "productionTokenHash": "f56d96276c00c6b4a2ae4078b9f85642747bfb20efdc93b6d495e88758004865",
++      "tokenHash": "f56d96276c00c6b4a2ae4078b9f85642747bfb20efdc93b6d495e88758004865"
++    },
++    {
++      "path": "crates/arc-daemon/tests/resident/lifecycle.rs",
++      "sha256": "ce417b8adb49af65ff79605bdddb7879896eafc363b00a11b38045f8768c5934",
++      "productionTokenHash": "fe8a64fdddd478c9e30c2e1e76fd5014dac4bc47e71f2f818c090b0c301f1652",
++      "tokenHash": "fe8a64fdddd478c9e30c2e1e76fd5014dac4bc47e71f2f818c090b0c301f1652"
++    },
++    {
++      "path": "crates/arc-daemon/tests/resident/provisioning.rs",
++      "sha256": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
++      "productionTokenHash": "dbd32d808a71e0e51756746fcd0862955e3266e7f813772a4b2843dd4db5051e",
++      "tokenHash": "dbd32d808a71e0e51756746fcd0862955e3266e7f813772a4b2843dd4db5051e"
++    },
++    {
++      "path": "crates/arc-daemon/tests/resident/schema.rs",
++      "sha256": "eeea4387e63373ccac880325a2bf1ca80da2907011c76dec1468b796ffaa3030",
++      "productionTokenHash": "f916b4d53cbed1428ab50b3206aca826dd90e614ead8f69fb34383cbe754badf",
++      "tokenHash": "f916b4d53cbed1428ab50b3206aca826dd90e614ead8f69fb34383cbe754badf"
++    },
++    {
++      "path": "crates/arc-daemon/tests/startup.rs",
++      "sha256": "992be2ff74b1d10cceababaa6cb726732ef0726a9b64c2f5901a71f6bcc33745",
++      "productionTokenHash": "e601d68087e260201652bd0f6adf80261484ae2cce4fdc404a3b0729c5cf0787",
++      "tokenHash": "e601d68087e260201652bd0f6adf80261484ae2cce4fdc404a3b0729c5cf0787"
++    },
++    {
++      "path": "crates/arc-daemon/tests/support/admission_load.rs",
++      "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
++      "productionTokenHash": "30a0f72e7a37b824e018d4ae70a98130b58bf84ae04603725a8d286cb6cd80f0",
++      "tokenHash": "30a0f72e7a37b824e018d4ae70a98130b58bf84ae04603725a8d286cb6cd80f0"
++    },
++    {
++      "path": "crates/arc-daemon/tests/support/deadline_recovery.rs",
++      "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
++      "productionTokenHash": "f3c8e502f1102a39e23ea57c23066078a2442cb2cd6c64d9426c616647a091af",
++      "tokenHash": "f3c8e502f1102a39e23ea57c23066078a2442cb2cd6c64d9426c616647a091af"
++    },
++    {
++      "path": "crates/arc-daemon/tests/support/measurements.rs",
++      "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
++      "productionTokenHash": "e1960bf6cb26246e80a429010bb358d54090545f8003bbb39e2278cd513a34f0",
++      "tokenHash": "e1960bf6cb26246e80a429010bb358d54090545f8003bbb39e2278cd513a34f0"
++    },
++    {
++      "path": "crates/arc-daemon/tests/support/mod.rs",
++      "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
++      "productionTokenHash": "3f4e8c02657eb890c9feede2e93a839b86117b4610174a5bc403859941b98636",
++      "tokenHash": "3f4e8c02657eb890c9feede2e93a839b86117b4610174a5bc403859941b98636"
++    },
++    {
++      "path": "crates/arc-daemon/tests/support/native.rs",
++      "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
++      "productionTokenHash": "a840fe29f572f68cdd84d81305d68b4f8ce49edeeaeeae3a66f10a08943e267b",
++      "tokenHash": "a840fe29f572f68cdd84d81305d68b4f8ce49edeeaeeae3a66f10a08943e267b"
++    },
++    {
++      "path": "crates/arc-daemon/tests/support/runtime.rs",
++      "sha256": "f7a22c665f955457d9c753f487c8e40afa17e0a7c98e874bd405361788960f44",
++      "productionTokenHash": "3bff389a08244d47a84f6659fc861e89a0b29406e3e3755613d8ac3289e03298",
++      "tokenHash": "3bff389a08244d47a84f6659fc861e89a0b29406e3e3755613d8ac3289e03298"
++    },
++    {
++      "path": "crates/arc-daemon/tests/transport_unit.rs",
++      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
++      "productionTokenHash": "93a98f6b5929f830b512924338dc99e0bf3e85d68ee3ceb620c4dda0c84f11f7",
++      "tokenHash": "93a98f6b5929f830b512924338dc99e0bf3e85d68ee3ceb620c4dda0c84f11f7"
++    },
++    {
++      "path": "crates/arc-daemon/tests/worker_runtime.rs",
++      "sha256": "8e9dcd0f00ffa0ffce506f12f5effbaa346571647a03022b5d54a423360a27b8",
++      "productionTokenHash": "36cacefa85e653d1283574a19903957ff68e4856d91632b0fedefbb786f1ab60",
++      "tokenHash": "36cacefa85e653d1283574a19903957ff68e4856d91632b0fedefbb786f1ab60"
++    },
++    {
++      "path": "crates/arc-detector/src/budget.rs",
++      "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
++      "productionTokenHash": "875a41d1f1c00a10144670878a61860c7e0dee7688b351cc6ab8a688daa72516",
++      "tokenHash": "875a41d1f1c00a10144670878a61860c7e0dee7688b351cc6ab8a688daa72516"
++    },
++    {
++      "path": "crates/arc-detector/src/lexer.rs",
++      "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
++      "productionTokenHash": "b1e53f516b6095e09beef0fe21e199c9fa3b516e518bcad57efc345e417d3213",
++      "tokenHash": "b1e53f516b6095e09beef0fe21e199c9fa3b516e518bcad57efc345e417d3213"
++    },
++    {
++      "path": "crates/arc-detector/src/lib.rs",
++      "sha256": "b7a913d6be3eb2ca600a0234cd0977e4eb14da7777e6c33433208c5cfc206a74",
++      "productionTokenHash": "7bbae77eee84ccf5a83ff1ae9fdd8556f240b2dd253d0accd24de69d3f6d93f2",
++      "tokenHash": "8c025793a30a4fb934881c6b3d0ea8f8968da2c4bf91f77dd516b1149ff80f6c"
++    },
++    {
++      "path": "crates/arc-detector/src/parser.rs",
++      "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
++      "productionTokenHash": "1b9f74cb740c253422513797a380771f057ccd15053a8be4e602615ca089cdd4",
++      "tokenHash": "1b9f74cb740c253422513797a380771f057ccd15053a8be4e602615ca089cdd4"
++    },
++    {
++      "path": "crates/arc-detector/src/rules.rs",
++      "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
++      "productionTokenHash": "6dbf4ae36fc80fef2ba238b6a35d2ad8341bc1a007efa48c4f79d9954d3634bd",
++      "tokenHash": "6dbf4ae36fc80fef2ba238b6a35d2ad8341bc1a007efa48c4f79d9954d3634bd"
++    },
++    {
++      "path": "crates/arc-detector/src/tests.rs",
++      "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
++      "productionTokenHash": "e52dbd3ffac16d03b04cb186117a0aab602f0cafde0955002dd7d46362f93468",
++      "tokenHash": "e52dbd3ffac16d03b04cb186117a0aab602f0cafde0955002dd7d46362f93468"
++    },
++    {
++      "path": "crates/arc-detector/src/types.rs",
++      "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
++      "productionTokenHash": "41c58d4329e550ce6b1ff3c068497fb6c3622aa6114be3e195488c38526d9857",
++      "tokenHash": "41c58d4329e550ce6b1ff3c068497fb6c3622aa6114be3e195488c38526d9857"
++    },
++    {
++      "path": "crates/arc-detector/tests/support/contract.rs",
++      "sha256": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
++      "productionTokenHash": "8822b3b96d5f67771e04748e5604588da63a3505755584228b33f24c9dba0fc3",
++      "tokenHash": "8822b3b96d5f67771e04748e5604588da63a3505755584228b33f24c9dba0fc3"
++    },
++    {
++      "path": "crates/arc-detector/tests/support/ssh.rs",
++      "sha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
++      "productionTokenHash": "41fc85908524c489cefb11dc1847b84a23d4b4bd0eec49d09b295c82514d405a",
++      "tokenHash": "41fc85908524c489cefb11dc1847b84a23d4b4bd0eec49d09b295c82514d405a"
++    },
++    {
++      "path": "crates/arc-ipc/src/lib.rs",
++      "sha256": "57807b93f06693000117ca9ae12738e63e38ddfd8629b16aff3829ec17df7064",
++      "productionTokenHash": "63200080610340cf9b11490eeb699341a43411301b49f382dbf71a8c70714ee0",
++      "tokenHash": "315d92989557f8ceab51d26b9a644778146d5c1d4347fffaffe4a6f22f621415"
++    },
++    {
++      "path": "crates/arc-ipc/src/schema.rs",
++      "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
++      "productionTokenHash": "5e38e8ba78368c5bd44a3b341e735162a773df7dc2f9c1b715b646a4576dd9c4",
++      "tokenHash": "5e38e8ba78368c5bd44a3b341e735162a773df7dc2f9c1b715b646a4576dd9c4"
++    },
++    {
++      "path": "crates/arc-ipc/src/tests/dispatch.rs",
++      "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
++      "productionTokenHash": "fafe8498ee89d0af5288d36ebd727bf114a05c419d9c04fd639d9f3a837f4d34",
++      "tokenHash": "fafe8498ee89d0af5288d36ebd727bf114a05c419d9c04fd639d9f3a837f4d34"
++    },
++    {
++      "path": "crates/arc-ipc/src/tests/framing.rs",
++      "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
++      "productionTokenHash": "f7b542d5f64884ca21981448eb098dffcf085849d01d0a06d62aa54f08a15658",
++      "tokenHash": "f7b542d5f64884ca21981448eb098dffcf085849d01d0a06d62aa54f08a15658"
++    },
++    {
++      "path": "crates/arc-ipc/src/tests/mod.rs",
++      "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
++      "productionTokenHash": "0ffcf555dc6163bcfaca636def2f5682177a05623fc9d294fab12a3bd9153352",
++      "tokenHash": "0ffcf555dc6163bcfaca636def2f5682177a05623fc9d294fab12a3bd9153352"
++    },
++    {
++      "path": "crates/arc-ipc/src/tests/schema.rs",
++      "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
++      "productionTokenHash": "e2fabf4ba26362aff3b7299fedef70c3aa42b18f4edb291a42be48e44394b1e5",
++      "tokenHash": "e2fabf4ba26362aff3b7299fedef70c3aa42b18f4edb291a42be48e44394b1e5"
++    },
++    {
++      "path": "crates/arc-ipc/tests/classification.rs",
++      "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
++      "productionTokenHash": "85d1e4cb03895bbbe735f13a00504e1ed67d32a17c5fd35200cbc97df2d60d42",
++      "tokenHash": "85d1e4cb03895bbbe735f13a00504e1ed67d32a17c5fd35200cbc97df2d60d42"
++    },
++    {
++      "path": "crates/arc-storage/src/history.rs",
++      "sha256": "31bd31276df810465752cc9e1492f3c90dabde0f1209e99ae6b5ce9ccfc02a5f",
++      "productionTokenHash": "dcc7524b14172abf69f09d99c95a0530fda743546d6cdbf8268020c8f1854286",
++      "tokenHash": "dcc7524b14172abf69f09d99c95a0530fda743546d6cdbf8268020c8f1854286"
++    },
++    {
++      "path": "crates/arc-storage/src/lib.rs",
++      "sha256": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b",
++      "productionTokenHash": "dbe5896ebea4ed6d20042e2cb59bd5e33fbd3ea224e7ec7fb7ea7cd721195571",
++      "tokenHash": "dbe5896ebea4ed6d20042e2cb59bd5e33fbd3ea224e7ec7fb7ea7cd721195571"
++    },
++    {
++      "path": "crates/arc-storage/src/migration.rs",
++      "sha256": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533",
++      "productionTokenHash": "811e7d23321d9fdfe5fe661b43cf4a389e3ce10469ff3e2548d607bb576f1b11",
++      "tokenHash": "14a4765fd302596c0de329bbe3670f7df5d052c9137cb17df118d5a94e3f1f01"
++    },
++    {
++      "path": "crates/arc-storage/src/migration/tests.rs",
++      "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
++      "productionTokenHash": "968f13deb3a067b00e45cf32c870d51d263e13a80b2679b2d5ae4d87138cf871",
++      "tokenHash": "968f13deb3a067b00e45cf32c870d51d263e13a80b2679b2d5ae4d87138cf871"
++    },
++    {
++      "path": "crates/arc-storage/src/migration/tests/acceptance.rs",
++      "sha256": "60bd1084d6954b6ee47d8176620d702b705d922831937ac84e666007453ea10f",
++      "productionTokenHash": "de0350dccbdfa77da1af6b0200724ec7f4b965e215045f27999e0782358a7b8a",
++      "tokenHash": "de0350dccbdfa77da1af6b0200724ec7f4b965e215045f27999e0782358a7b8a"
++    },
++    {
++      "path": "crates/arc-storage/src/migration/tests/concurrency.rs",
++      "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
++      "productionTokenHash": "112837f8630c1120290a32d99bdfe525030eec98edb6708a146742a632085fa1",
++      "tokenHash": "112837f8630c1120290a32d99bdfe525030eec98edb6708a146742a632085fa1"
++    },
++    {
++      "path": "crates/arc-storage/src/migration/tests/rejection.rs",
++      "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
++      "productionTokenHash": "0cfdf2e63636dbd2573599ea15a78f23e8f4b4f335ed391e86b97079c76cae11",
++      "tokenHash": "0cfdf2e63636dbd2573599ea15a78f23e8f4b4f335ed391e86b97079c76cae11"
++    },
++    {
++      "path": "crates/arc-storage/tests/nfr010.rs",
++      "sha256": "8deb51c680ba8c103649f54f68ef82f6421de3189628112269951c7ade6bcf61",
++      "productionTokenHash": "7eb07578353acfa898ea26121879adc934ca087546a4ac6d1961afb557c2e3a3",
++      "tokenHash": "7eb07578353acfa898ea26121879adc934ca087546a4ac6d1961afb557c2e3a3"
++    }
++  ]
++}
+diff --git a/.arc-verify/rust-coverage/contract/source-inventory.json b/.arc-verify/rust-coverage/contract/source-inventory.json
+new file mode 100644
+index 0000000..f3ab7bb
+--- /dev/null
++++ b/.arc-verify/rust-coverage/contract/source-inventory.json
+@@ -0,0 +1,1386 @@
++[
++  {
++    "path": "crates/arc-cli/src/classify.rs",
++    "crate": "arc-cli",
++    "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
++    "lines": 86,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-cli/src/doctor.rs",
++    "crate": "arc-cli",
++    "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
++    "lines": 86,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-cli/src/main.rs",
++    "crate": "arc-cli",
++    "sha256": "62005310d32c69f201a4f7798492418c03d3338fc6a940024b98d3c0fdda897b",
++    "lines": 181,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-core/src/lib.rs",
++    "crate": "arc-core",
++    "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
++    "lines": 177,
++    "omitted": [
++      115,
++      116,
++      117,
++      118,
++      119,
++      120,
++      121,
++      122,
++      123,
++      124,
++      125,
++      126,
++      127,
++      128,
++      129,
++      130,
++      131,
++      132,
++      133,
++      134,
++      135,
++      136,
++      137,
++      138,
++      139,
++      140,
++      141,
++      142,
++      143,
++      144,
++      145,
++      146,
++      147,
++      148,
++      149,
++      150,
++      151,
++      152,
++      153,
++      154,
++      155,
++      156,
++      157,
++      158,
++      159,
++      160,
++      161,
++      162,
++      163,
++      164,
++      165,
++      166,
++      167,
++      168,
++      169,
++      170,
++      171,
++      172,
++      173,
++      174,
++      175,
++      176
++    ],
++    "spans": [
++      {
++        "start": 115,
++        "end": 176,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
++    "lines": 156,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/accept_recovery.rs",
++    "crate": "arc-daemon",
++    "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
++    "lines": 175,
++    "omitted": [
++      71,
++      72,
++      73,
++      74,
++      79,
++      80,
++      81,
++      82,
++      83,
++      84,
++      85,
++      87,
++      88,
++      89,
++      90,
++      94,
++      95,
++      96,
++      97,
++      98,
++      99,
++      100,
++      101,
++      102,
++      103,
++      104,
++      106,
++      107,
++      108,
++      109,
++      110,
++      112,
++      113,
++      114,
++      115,
++      116,
++      117,
++      120,
++      121,
++      122,
++      123,
++      127,
++      128,
++      129,
++      130,
++      131,
++      132,
++      134,
++      135,
++      136,
++      137,
++      138,
++      139,
++      140,
++      141,
++      142,
++      143,
++      144,
++      145,
++      146,
++      147,
++      148,
++      149,
++      150,
++      151,
++      152,
++      153,
++      154,
++      155,
++      156,
++      157,
++      158,
++      159,
++      160,
++      161,
++      162,
++      163,
++      164,
++      165,
++      166,
++      167,
++      168,
++      169,
++      170,
++      171,
++      172,
++      173,
++      174
++    ],
++    "spans": [
++      {
++        "start": 71,
++        "end": 72,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 73,
++        "end": 74,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 79,
++        "end": 85,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 87,
++        "end": 90,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 94,
++        "end": 104,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 106,
++        "end": 110,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 112,
++        "end": 117,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 120,
++        "end": 123,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 127,
++        "end": 132,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 134,
++        "end": 174,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/admission.rs",
++    "crate": "arc-daemon",
++    "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
++    "lines": 145,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/connection.rs",
++    "crate": "arc-daemon",
++    "sha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
++    "lines": 173,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/database_failure_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "4851a2c1f7630492d9878c624fd5590cffaf1dc79dfacde74fa1dac57351183d",
++    "lines": 359,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/db_worker.rs",
++    "crate": "arc-daemon",
++    "sha256": "7784ea662d806d458fe9c878cdf0a127a64c34d5c6bf290d962fd54eb1e5223d",
++    "lines": 331,
++    "omitted": [
++      5,
++      6,
++      7,
++      316,
++      317,
++      318,
++      319,
++      320,
++      322,
++      323,
++      324,
++      325,
++      326,
++      327,
++      328,
++      329,
++      330
++    ],
++    "spans": [
++      {
++        "start": 5,
++        "end": 7,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 316,
++        "end": 320,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 322,
++        "end": 330,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/db_worker/execution.rs",
++    "crate": "arc-daemon",
++    "sha256": "ef135ed9b956b12cdea1ca93f3bc2260897d78d25b4a732577ed250875753ff0",
++    "lines": 342,
++    "omitted": [
++      6,
++      7,
++      42,
++      43,
++      44,
++      45,
++      59,
++      60,
++      64,
++      65,
++      66,
++      67,
++      111,
++      112,
++      139,
++      140,
++      141,
++      142,
++      143,
++      144,
++      145,
++      146,
++      147,
++      148,
++      149,
++      150,
++      169,
++      170,
++      171,
++      172,
++      176,
++      177,
++      178,
++      179,
++      180,
++      181,
++      182,
++      183,
++      184,
++      185,
++      186,
++      187,
++      188,
++      189,
++      190,
++      191,
++      249,
++      250,
++      251,
++      252,
++      253,
++      254,
++      255,
++      256,
++      257,
++      258,
++      262,
++      263,
++      264,
++      265,
++      266,
++      267,
++      268,
++      271,
++      272,
++      273,
++      274,
++      275,
++      276,
++      277,
++      278,
++      279,
++      280,
++      281,
++      282,
++      283,
++      284,
++      285,
++      289,
++      290,
++      291,
++      292,
++      293,
++      294,
++      295,
++      296,
++      297,
++      298,
++      299,
++      300,
++      301,
++      302,
++      307,
++      308,
++      309,
++      310,
++      311,
++      312,
++      313,
++      314,
++      315,
++      316,
++      317,
++      318,
++      319,
++      320,
++      321,
++      322,
++      323,
++      324,
++      325,
++      326,
++      327,
++      328,
++      329,
++      330,
++      331,
++      332,
++      333,
++      334,
++      335,
++      336,
++      337,
++      338,
++      339,
++      340,
++      341
++    ],
++    "spans": [
++      {
++        "start": 6,
++        "end": 7,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 42,
++        "end": 45,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 59,
++        "end": 60,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 64,
++        "end": 67,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 111,
++        "end": 112,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 139,
++        "end": 150,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 169,
++        "end": 170,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 171,
++        "end": 172,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 176,
++        "end": 184,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 185,
++        "end": 191,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 249,
++        "end": 250,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 251,
++        "end": 252,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 253,
++        "end": 254,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 255,
++        "end": 256,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 257,
++        "end": 258,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 262,
++        "end": 268,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 271,
++        "end": 285,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 289,
++        "end": 302,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 307,
++        "end": 341,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/db_worker/schema_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
++    "lines": 77,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/db_worker/tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "ad4d62631f91287b298ae5314930f82a96f69d2facfa8d13d2837104827e2728",
++    "lines": 426,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/instance.rs",
++    "crate": "arc-daemon",
++    "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
++    "lines": 442,
++    "omitted": [
++      226,
++      227,
++      228,
++      229,
++      230,
++      231,
++      232,
++      233,
++      234,
++      235,
++      236,
++      237,
++      238,
++      239,
++      240,
++      241,
++      242,
++      243,
++      244,
++      245,
++      246,
++      247,
++      248,
++      249,
++      250,
++      251,
++      252,
++      253,
++      254,
++      255,
++      256,
++      257,
++      258,
++      259,
++      260,
++      261,
++      262,
++      263,
++      264,
++      265,
++      266,
++      267,
++      268,
++      269,
++      270,
++      271,
++      272,
++      273,
++      274,
++      275,
++      276,
++      277,
++      278,
++      279,
++      280,
++      281,
++      282,
++      283,
++      284,
++      285,
++      286,
++      287,
++      288,
++      289,
++      290,
++      291,
++      292,
++      293,
++      294,
++      295,
++      296,
++      297,
++      298,
++      299,
++      300,
++      301,
++      302,
++      303,
++      304,
++      305,
++      306,
++      307,
++      308,
++      309,
++      310,
++      311,
++      312,
++      313,
++      314,
++      315,
++      316,
++      317,
++      318,
++      319,
++      320,
++      321,
++      322,
++      323,
++      324,
++      325,
++      326,
++      327,
++      328,
++      329,
++      330,
++      331,
++      332,
++      333,
++      334,
++      335,
++      336,
++      337,
++      338,
++      339,
++      340,
++      341,
++      342,
++      343,
++      344,
++      345,
++      346,
++      347,
++      348,
++      349,
++      350,
++      351,
++      352,
++      353,
++      354,
++      355,
++      356,
++      357,
++      358,
++      359,
++      360,
++      361,
++      362,
++      363,
++      364,
++      365,
++      366,
++      367,
++      368,
++      369,
++      370,
++      371,
++      372,
++      373,
++      374,
++      375,
++      376,
++      377,
++      378,
++      379,
++      380,
++      381,
++      382,
++      383,
++      384,
++      385,
++      386,
++      387,
++      388,
++      389,
++      390,
++      391,
++      392,
++      393,
++      394,
++      395,
++      396,
++      397,
++      398,
++      399,
++      400,
++      401,
++      402,
++      403,
++      404,
++      405,
++      406,
++      407,
++      408,
++      409,
++      410,
++      411,
++      412,
++      413,
++      414,
++      415,
++      416,
++      417,
++      418,
++      419,
++      420,
++      421,
++      422,
++      423,
++      424,
++      425,
++      426,
++      427,
++      428,
++      429,
++      430,
++      431,
++      432,
++      433,
++      434,
++      435,
++      436,
++      437,
++      438,
++      439,
++      440,
++      441
++    ],
++    "spans": [
++      {
++        "start": 226,
++        "end": 441,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/lifecycle_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
++    "lines": 434,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/lifecycle.rs",
++    "crate": "arc-daemon",
++    "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
++    "lines": 304,
++    "omitted": [
++      261,
++      262,
++      263,
++      265,
++      266,
++      267,
++      268,
++      269,
++      270,
++      271,
++      272,
++      273,
++      274,
++      275,
++      276,
++      277,
++      278,
++      279,
++      280,
++      281,
++      282,
++      283,
++      284,
++      285,
++      286,
++      287,
++      288,
++      289,
++      290,
++      291,
++      292,
++      293,
++      294,
++      295,
++      296,
++      297,
++      298,
++      299,
++      300,
++      301,
++      302,
++      303
++    ],
++    "spans": [
++      {
++        "start": 261,
++        "end": 263,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 265,
++        "end": 303,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/limits.rs",
++    "crate": "arc-daemon",
++    "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
++    "lines": 157,
++    "omitted": [
++      114,
++      115,
++      116,
++      117,
++      118,
++      119,
++      120,
++      121,
++      122,
++      123,
++      124,
++      125,
++      126,
++      127,
++      128,
++      129,
++      130,
++      131,
++      132,
++      133,
++      134,
++      135,
++      136,
++      137,
++      138,
++      139,
++      140,
++      141,
++      142,
++      143,
++      144,
++      145,
++      146,
++      147,
++      148,
++      149,
++      150,
++      151,
++      152,
++      153,
++      154,
++      155,
++      156
++    ],
++    "spans": [
++      {
++        "start": 114,
++        "end": 156,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/main.rs",
++    "crate": "arc-daemon",
++    "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
++    "lines": 80,
++    "omitted": [
++      19,
++      20,
++      21,
++      22,
++      23
++    ],
++    "spans": [
++      {
++        "start": 19,
++        "end": 20,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 21,
++        "end": 23,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/platform.rs",
++    "crate": "arc-daemon",
++    "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
++    "lines": 122,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
++    "lines": 252,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/runtime_metrics.rs",
++    "crate": "arc-daemon",
++    "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
++    "lines": 277,
++    "omitted": [
++      167,
++      168,
++      182,
++      183,
++      232,
++      233,
++      236,
++      237,
++      238,
++      239,
++      240,
++      241,
++      242,
++      243,
++      244,
++      245,
++      246,
++      247,
++      265,
++      266,
++      267,
++      268,
++      269,
++      270,
++      271,
++      272,
++      273,
++      274,
++      275,
++      276
++    ],
++    "spans": [
++      {
++        "start": 167,
++        "end": 168,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 182,
++        "end": 183,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 232,
++        "end": 233,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 236,
++        "end": 247,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 265,
++        "end": 276,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/runtime_report_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "187258ebf060f10985c556c4f546423b9543cca79ca099e78c3d0464b9ea4c3e",
++    "lines": 122,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/runtime_report.rs",
++    "crate": "arc-daemon",
++    "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
++    "lines": 165,
++    "omitted": [
++      24,
++      25,
++      26,
++      27,
++      162,
++      163,
++      164
++    ],
++    "spans": [
++      {
++        "start": 24,
++        "end": 27,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 162,
++        "end": 164,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/server_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
++    "lines": 404,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/server.rs",
++    "crate": "arc-daemon",
++    "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
++    "lines": 313,
++    "omitted": [
++      300,
++      301,
++      302,
++      303,
++      304,
++      305,
++      306,
++      307,
++      308,
++      310,
++      311,
++      312
++    ],
++    "spans": [
++      {
++        "start": 300,
++        "end": 308,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 310,
++        "end": 312,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-daemon/src/transport_test_support.rs",
++    "crate": "arc-daemon",
++    "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
++    "lines": 63,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/transport_tests.rs",
++    "crate": "arc-daemon",
++    "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
++    "lines": 475,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-daemon/src/transport.rs",
++    "crate": "arc-daemon",
++    "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
++    "lines": 170,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-detector/src/budget.rs",
++    "crate": "arc-detector",
++    "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
++    "lines": 73,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-detector/src/lexer.rs",
++    "crate": "arc-detector",
++    "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
++    "lines": 181,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-detector/src/lib.rs",
++    "crate": "arc-detector",
++    "sha256": "b7a913d6be3eb2ca600a0234cd0977e4eb14da7777e6c33433208c5cfc206a74",
++    "lines": 72,
++    "omitted": [
++      70,
++      71
++    ],
++    "spans": [
++      {
++        "start": 70,
++        "end": 71,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-detector/src/parser.rs",
++    "crate": "arc-detector",
++    "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
++    "lines": 135,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-detector/src/rules.rs",
++    "crate": "arc-detector",
++    "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
++    "lines": 263,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-detector/src/tests.rs",
++    "crate": "arc-detector",
++    "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
++    "lines": 305,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-detector/src/types.rs",
++    "crate": "arc-detector",
++    "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
++    "lines": 154,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-ipc/src/lib.rs",
++    "crate": "arc-ipc",
++    "sha256": "57807b93f06693000117ca9ae12738e63e38ddfd8629b16aff3829ec17df7064",
++    "lines": 365,
++    "omitted": [
++      363,
++      364
++    ],
++    "spans": [
++      {
++        "start": 363,
++        "end": 364,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-ipc/src/schema.rs",
++    "crate": "arc-ipc",
++    "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
++    "lines": 79,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-ipc/src/tests/dispatch.rs",
++    "crate": "arc-ipc",
++    "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
++    "lines": 72,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-ipc/src/tests/framing.rs",
++    "crate": "arc-ipc",
++    "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
++    "lines": 123,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-ipc/src/tests/mod.rs",
++    "crate": "arc-ipc",
++    "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
++    "lines": 10,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-ipc/src/tests/schema.rs",
++    "crate": "arc-ipc",
++    "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
++    "lines": 155,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-storage/src/history.rs",
++    "crate": "arc-storage",
++    "sha256": "31bd31276df810465752cc9e1492f3c90dabde0f1209e99ae6b5ce9ccfc02a5f",
++    "lines": 139,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-storage/src/lib.rs",
++    "crate": "arc-storage",
++    "sha256": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b",
++    "lines": 51,
++    "omitted": [],
++    "spans": [],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-storage/src/migration.rs",
++    "crate": "arc-storage",
++    "sha256": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533",
++    "lines": 178,
++    "omitted": [
++      148,
++      149,
++      163,
++      164,
++      176,
++      177
++    ],
++    "spans": [
++      {
++        "start": 148,
++        "end": 149,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 163,
++        "end": 164,
++        "reason": "cfg false when test is disabled"
++      },
++      {
++        "start": 176,
++        "end": 177,
++        "reason": "cfg false when test is disabled"
++      }
++    ],
++    "testOnly": false
++  },
++  {
++    "path": "crates/arc-storage/src/migration/tests.rs",
++    "crate": "arc-storage",
++    "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
++    "lines": 150,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-storage/src/migration/tests/acceptance.rs",
++    "crate": "arc-storage",
++    "sha256": "60bd1084d6954b6ee47d8176620d702b705d922831937ac84e666007453ea10f",
++    "lines": 192,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-storage/src/migration/tests/concurrency.rs",
++    "crate": "arc-storage",
++    "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
++    "lines": 162,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  },
++  {
++    "path": "crates/arc-storage/src/migration/tests/rejection.rs",
++    "crate": "arc-storage",
++    "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
++    "lines": 174,
++    "omitted": [],
++    "spans": [],
++    "testOnly": true
++  }
++]
+diff --git a/.gitignore b/.gitignore
+index f4743f7..1b15ec8 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -24,6 +24,9 @@ build/
+ *.egg-info/
+ *.tsbuildinfo
+ coverage/
++!/scripts/coverage/
++!/scripts/coverage/*.ts
++!/scripts/coverage/provision.sh
+ .idea/
+ .vscode/
+ *.swp
+diff --git a/mise.toml b/mise.toml
+index 6e0a112..be57055 100644
+--- a/mise.toml
++++ b/mise.toml
+@@ -1,2 +1,10 @@
+ [tools]
+ rust = "1.95.0"
++bun = "1.4.4"
++
++# Provisioning is explicit; verification never installs prerequisites.
++[tasks."coverage:provision"]
++run = "bash scripts/coverage/provision.sh"
++
++[tasks."test:coverage"]
++run = "bun run test:coverage"
+diff --git a/package.json b/package.json
+new file mode 100644
+index 0000000..c365a6b
+--- /dev/null
++++ b/package.json
+@@ -0,0 +1,7 @@
++{
++  "name": "arc-verification",
++  "private": true,
++  "scripts": {
++    "test:coverage": "bun scripts/coverage/run.ts"
++  }
++}
+diff --git a/rust-toolchain.toml b/rust-toolchain.toml
+index 12dd525..946e8b5 100644
+--- a/rust-toolchain.toml
++++ b/rust-toolchain.toml
+@@ -1,4 +1,4 @@
+ [toolchain]
+ channel = "1.95.0"
+ profile = "minimal"
+-components = ["rustfmt", "clippy"]
++components = ["rustfmt", "clippy", "llvm-tools-preview"]
+diff --git a/scripts/coverage/acceptance.ts b/scripts/coverage/acceptance.ts
+new file mode 100644
+index 0000000..23f95f2
+--- /dev/null
++++ b/scripts/coverage/acceptance.ts
+@@ -0,0 +1,18 @@
++import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
++import { resolve } from "node:path";
++import { command } from "./commands";
++import { inputIdentity } from "./source";
++import { EVIDENCE } from "./config";
++export const root=resolve(import.meta.dir,"../..");
++export async function realAcceptance(name:string,argv:string[]) {
++  const dir=resolve(root,EVIDENCE,"tooling/acceptance",`${name}-${crypto.randomUUID()}`);
++  mkdirSync(dir,{recursive:true});
++  const before=inputIdentity(root);
++  const env={...process.env};delete env.SKIP_COVERAGE;
++  const result=await command(argv,dir,root,env,115000);
++  const after=inputIdentity(root);
++  writeFileSync(resolve(dir,"binding.json"),JSON.stringify({name,sourceHash:before.sha256,afterHash:after.sha256,unchanged:before.sha256===after.sha256,exit:result.exit,argv},null,2)+"\n");
++  if(before.sha256!==after.sha256) throw Error(`${name}: source changed during acceptance`);
++  if(result.exit!==0) throw Error(`${name}: command exited ${result.exit}\n${result.stdout}\n${result.stderr}\nReceipt: ${dir}`);
++  return result;
++}
+diff --git a/scripts/coverage/accounting.test.ts b/scripts/coverage/accounting.test.ts
+new file mode 100644
+index 0000000..3f79f86
+--- /dev/null
++++ b/scripts/coverage/accounting.test.ts
+@@ -0,0 +1,75 @@
++import { test, expect } from "bun:test";
++import { account } from "./accounting";
++import { analyzeSource, tokens, sourceInventory } from "./source";
++import { fixture } from "./fixtures";
++import { resolve } from "node:path";
++
++test("repeated compilation unions source lines instead of averaging binaries",()=>{
++  const f=fixture();
++  const result=account(f.lcov+f.record(f.inventory[0].path,[0,0,0,0,1]),f.inventory,f.root);
++  expect(result.crates[0]).toMatchObject({covered:5,total:5,pass:true});
++  expect(result.crates[1]).toMatchObject({covered:4,total:5});
++});
++test("zero-hit lines survive; per-file uncovered numbers are stable",()=>{
++  const f=fixture(), result=account(f.lcov,f.inventory,f.root);
++  expect(result.files[0].uncovered).toEqual([5]);expect(result.files[0].total).toBe(5);
++});
++test("test-only lines/files never dilute production denominator",()=>{
++  const f=fixture();f.inventory[0].omitted=[1,2];
++  f.inventory.push({...f.inventory[0],path:"crates/arc-core/src/test_fixture.rs",testOnly:true});
++  const result=account(f.lcov,f.inventory,f.root);
++  expect(result.crates[0]).toMatchObject({covered:2,total:3,pass:false});
++  expect(result.files).toHaveLength(6);
++});
++test("canonical aliases merge and never duplicate denominators",()=>{
++  const f=fixture();
++  const alias=f.record("crates/arc-core/src/../src/lib.rs",[0,0,0,0,1]);
++  expect(account(f.lcov+alias,f.inventory,f.root).crates[0].total).toBe(5);
++});
++test("unknown paths, zero denominators and malformed hits fail closed",()=>{
++  const f=fixture();
++  expect(()=>account(f.lcov.replace("DA:1,1","DA:1,-1"),f.inventory,f.root)).toThrow("MALFORMED_REPORT");
++  expect(()=>account(f.lcov+f.record("Cargo.toml"),f.inventory,f.root)).toThrow("UNMAPPED_FILE");
++  expect(()=>account(f.lcov,f.inventory.filter(x=>x.crate!=="arc-core"),f.root)).toThrow();
++  expect(()=>account(f.inventory.map(x=>f.record(x.path,[])).join(""),f.inventory,f.root)).toThrow("MISSING_CRATE");
++});
++test("cfg omission handles nested Rust comments, literals and test-only statements",()=>{
++  const source=`fn production() { let s = r#"{ // not code }"#; }\n#[cfg(all(test, target_os = "macos"))]\nmod tests { /* { /* nested */ } */ fn example() { let c = '}'; } }\nfn retained() {}\n#[cfg(test)]\nfn helper() { let s = "}"; }\n`;
++  const a=analyzeSource(source);
++  expect([...a.omitted]).toEqual([2,3,5,6]);
++  expect(tokens(source).find(x=>x.text==='r#"{ // not code }"#')).toBeDefined();
++});
++test("test combined with any platform condition is not blanket-excluded",()=>{
++  const a=analyzeSource('#[cfg(any(test, target_os = "linux"))]\nfn still_production() {}\n#[cfg(not(test))]\nfn production_only() {}');
++  expect(a.omitted.size).toBe(0);
++});
++test("external cfg test module keeps its declared path; arbitrary filenames are not exclusions",()=>{
++  const a=analyzeSource('#[cfg(test)]\n#[path = "other.rs"]\nmod tests;\nmod tests_in_production;');
++  expect(a.modules).toEqual([{name:"tests",path:"other.rs",testOnly:true},{name:"tests_in_production",path:undefined,testOnly:false}]);
++});
++test("live inventory classifies all six crate roots and test-only module trees",()=>{
++  const inventory=sourceInventory(resolve(import.meta.dir,"../.."));
++  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(6);
++  expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport_tests.rs")?.testOnly).toBe(true);
++  expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport.rs")?.testOnly).toBe(false);
++});
++
++test("record summaries must match DA lines before repeated instances merge",()=>{
++  const f=fixture();
++  const raw=f.lcov.replaceAll(/^(?:LF|LH):[^\n]*\n/gm,"");
++  for(const summary of ["LF:100\nLH:1", "LF:5\nLH:5", "LF:-1\nLH:4",
++    "LF:NaN\nLH:4", "LF:5\nLH:Infinity", "LF:9007199254740992\nLH:4",
++    "LF:5\nLH:-1", "LF:5\nLH:4\nLF:5", "LF:5\nLH:4\nLH:4", "LF:5", "LH:4", ""]) {
++    const bad=raw.replaceAll("end_of_record",`${summary}\nend_of_record`);
++    expect(()=>account(bad,f.inventory,f.root)).toThrow("MALFORMED_REPORT");
++  }
++  // Later instances cannot repair an invalid earlier record's denominator.
++  const bad=f.lcov.replace("LF:5","LF:100");
++  expect(()=>account(bad+f.record(f.inventory[0].path,[0,0,0,0,1]),f.inventory,f.root)).toThrow("MALFORMED_REPORT");
++});
++test("duplicate DA entries and summaries outside a record are malformed",()=>{
++  const f=fixture();
++  expect(()=>account(f.lcov.replace("DA:1,1","DA:1,1\nDA:1,0"),f.inventory,f.root)).toThrow("MALFORMED_REPORT");
++  expect(()=>account("LF:5\n"+f.lcov,f.inventory,f.root)).toThrow("MALFORMED_REPORT");
++  expect(()=>account(f.lcov+"LH:4\n",f.inventory,f.root)).toThrow("MALFORMED_REPORT");
++});
+diff --git a/scripts/coverage/accounting.ts b/scripts/coverage/accounting.ts
+new file mode 100644
+index 0000000..72ae13e
+--- /dev/null
++++ b/scripts/coverage/accounting.ts
+@@ -0,0 +1,72 @@
++import { realpathSync } from "node:fs";
++import { resolve, relative } from "node:path";
++import { CRATES } from "./config";
++import type { SourceFile } from "./source";
++
++export type FileCoverage = { path:string; crate:string; covered:number; total:number; uncovered:number[]; mapped:number[]; omitted:number[] };
++export function account(lcov:string, inventory:SourceFile[], root:string, canonical=(p:string)=>realpathSync(resolve(root,p))) {
++  root=realpathSync(root);
++  if(!lcov.trim()) throw Error("MALFORMED_REPORT: empty LCOV");
++  const known=new Map(inventory.map(f=>[f.path,f]));
++  const lines=new Map<string,Map<number,number>>();
++  let current:string|undefined, records=0;
++  let entries=new Map<number,number>();
++  let summaries:Partial<Record<"LF"|"LH",number>>={};
++  for(const row of lcov.split(/\r?\n/)) {
++    if(row.startsWith("SF:")) {
++      if(current) throw Error("MALFORMED_REPORT: unterminated record");
++      entries=new Map(); summaries={};
++      try {current=relative(root,canonical(row.slice(3)));}
++      catch {throw Error(`UNMAPPED_FILE: ${row.slice(3)}`);}
++      if(!known.has(current) && !/^crates\/[^/]+\/tests\//.test(current)) throw Error(`UNMAPPED_FILE: ${current}`);
++      if(known.has(current) && !lines.has(current)) lines.set(current,new Map());
++    } else if(row.startsWith("DA:")) {
++      if(!current) throw Error("MALFORMED_REPORT: DA without SF");
++      const match=row.match(/^DA:([1-9]\d*),(\d+)(?:,[^,]+)?$/);
++      if(!match) throw Error("MALFORMED_REPORT: invalid DA");
++      const n=Number(match[1]), hit=Number(match[2]);
++      if(!Number.isSafeInteger(n)||!Number.isSafeInteger(hit)) throw Error("MALFORMED_REPORT: unsafe integer");
++      const file=known.get(current);
++      if(file && n>file.lines) throw Error(`MALFORMED_REPORT: line out of bounds ${current}:${n}`);
++      if(entries.has(n)) throw Error("MALFORMED_REPORT: duplicate DA line in record");
++      entries.set(n,hit);
++    } else if(/^(?:LF|LH):/.test(row)) {
++      if(!current) throw Error("MALFORMED_REPORT: summary without SF");
++      const match=row.match(/^(LF|LH):(0|[1-9]\d*)$/);
++      if(!match || !Number.isSafeInteger(Number(match[2]))) throw Error("MALFORMED_REPORT: invalid line summary");
++      const key=match[1] as "LF"|"LH";
++      if(summaries[key]!==undefined) throw Error("MALFORMED_REPORT: duplicate line summary");
++      summaries[key]=Number(match[2]);
++    } else if(row==="end_of_record") {
++      if(!current) throw Error("MALFORMED_REPORT: end without SF");
++      const covered=[...entries.values()].filter(hit=>hit>0).length;
++      if(summaries.LF!==entries.size || summaries.LH!==covered) throw Error("MALFORMED_REPORT: LF/LH missing or inconsistent with DA entries");
++      // Validate each original record, including test-only records, before
++      // canonical union can hide an invalid instance's summary or duplicate.
++      const map=lines.get(current);
++      if(map) for(const [n,hit] of entries) map.set(n,Math.max(map.get(n)??0,hit));
++      current=undefined;records++;
++    } else if(row && !/^(?:TN|FN|FNDA|FNF|FNH|BRDA|BRF|BRH):/.test(row)) throw Error(`MALFORMED_REPORT: unknown row ${row}`);
++  }
++  if(current || !records) throw Error("MALFORMED_REPORT: incomplete LCOV");
++  for(const crate of CRATES) {
++    if(!inventory.some(f=>f.crate===crate && !f.testOnly && lines.has(f.path))) throw Error(`MISSING_CRATE: ${crate}`);
++  }
++  const files:FileCoverage[]=[];
++  for(const file of inventory) {
++    if(file.testOnly) continue;
++    const map=lines.get(file.path);
++    if(!map) throw Error(`MISSING_FILE: ${file.path}`);
++    const omitted=new Set(file.omitted);
++    const mapped=[...map.keys()].filter(n=>!omitted.has(n)).sort((a,b)=>a-b);
++    const uncovered=mapped.filter(n=>map.get(n)===0);
++    files.push({path:file.path,crate:file.crate,total:mapped.length,covered:mapped.length-uncovered.length,uncovered,mapped,omitted:file.omitted});
++  }
++  const crates=CRATES.map(crate=>{
++    const own=files.filter(f=>f.crate===crate);
++    const total=own.reduce((n,f)=>n+f.total,0), covered=own.reduce((n,f)=>n+f.covered,0);
++    if(!own.length || !total) throw Error(`MISSING_CRATE: invalid denominator for ${crate}`);
++    return {crate,covered,total,percent:100*covered/total,pass:BigInt(covered)*100n>=BigInt(total)*80n};
++  });
++  return {schemaVersion:1,threshold:80,files,crates,pass:crates.every(c=>c.pass)};
++}
+diff --git a/scripts/coverage/commands.ts b/scripts/coverage/commands.ts
+new file mode 100644
+index 0000000..dc714bf
+--- /dev/null
++++ b/scripts/coverage/commands.ts
+@@ -0,0 +1,20 @@
++import { writeFileSync } from "node:fs";
++import { resolve } from "node:path";
++export type Receipt = {argv:string[];cwd:string;started:string;ended:string;exit:number;stdout:string;stderr:string;pid?:number};
++export async function command(argv:string[],dir:string,cwd:string,env:Record<string,string|undefined>=process.env,timeout=120000):Promise<Receipt> {
++  const started=new Date().toISOString();
++  let receipt:Receipt;
++  try {
++    const child=Bun.spawn(argv,{cwd,env,stdout:"pipe",stderr:"pipe"});
++    const timer=setTimeout(()=>child.kill("SIGTERM"),timeout);
++    const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
++    clearTimeout(timer);
++    receipt={argv,cwd,started,ended:new Date().toISOString(),exit,stdout,stderr,pid:child.pid};
++  } catch(error) {
++    receipt={argv,cwd,started,ended:new Date().toISOString(),exit:127,stdout:"",stderr:String(error)};
++  }
++  const sequence=commandSequence++;
++  writeFileSync(resolve(dir,`${String(sequence).padStart(2,"0")}-command.json`),JSON.stringify(receipt,null,2)+"\n");
++  return receipt;
++}
++let commandSequence=0;
+diff --git a/scripts/coverage/config.ts b/scripts/coverage/config.ts
+new file mode 100644
+index 0000000..3b21837
+--- /dev/null
++++ b/scripts/coverage/config.ts
+@@ -0,0 +1,5 @@
++export const BASELINE = "fbe76a5f15101ad415f355ef06f1deeb1f97d568";
++export const PINS = { bun: "1.4.4", rust: "1.95.0", cargoLlvmCov: "0.6.21" };
++export const CRATES = ["arc-core", "arc-detector", "arc-storage", "arc-ipc", "arc-daemon", "arc-cli"] as const;
++export const EVIDENCE = ".arc-verify/rust-coverage";
++export const PROTECTED = ["scripts/harness/validate.sh", "crates/arc-storage/migrations/0001_phase0.sql"];
+diff --git a/scripts/coverage/coverage-cli.test.ts b/scripts/coverage/coverage-cli.test.ts
+new file mode 100644
+index 0000000..d968658
+--- /dev/null
++++ b/scripts/coverage/coverage-cli.test.ts
+@@ -0,0 +1,10 @@
++import { test, expect } from "bun:test";
++import { readFileSync } from "node:fs";
++import { resolve } from "node:path";
++import { realAcceptance, root } from "./acceptance";
++test("root entry point executes the real six-crate coverage gate",async()=>{
++  const pkg=JSON.parse(readFileSync(resolve(root,"package.json"),"utf8"));
++  expect(pkg.private).toBe(true);expect(pkg.scripts["test:coverage"]).toBe("bun scripts/coverage/run.ts");
++  const result=await realAcceptance("coverage-cli",["bun","run","test:coverage"]);
++  expect(result.stdout).toContain("PASS arc-core:");expect(result.stdout).toContain("PASS arc-cli:");
++},120000);
+diff --git a/scripts/coverage/evidence.test.ts b/scripts/coverage/evidence.test.ts
+new file mode 100644
+index 0000000..4cbf4ee
+--- /dev/null
++++ b/scripts/coverage/evidence.test.ts
+@@ -0,0 +1,27 @@
++import { test, expect } from "bun:test";
++import { readFileSync, existsSync } from "node:fs";
++import { resolve } from "node:path";
++import { root } from "./acceptance";
++import { inputIdentity, hash, sourceInventory } from "./source";
++import { EVIDENCE, CRATES, BASELINE } from "./config";
++import { account } from "./accounting";
++
++test("current successful source-bound coverage contains all crates, files and child profiles",()=>{
++  const load=(path:string)=>JSON.parse(readFileSync(resolve(root,path),"utf8"));
++  const latest=load(`${EVIDENCE}/baseline/latest.json`);
++  expect(latest.pass).toBe(true);expect(latest.sourceHash).toBe(inputIdentity(root).sha256);
++  const report=load(`${latest.directory}/summary.json`), receipt=load(`${latest.directory}/receipt.json`);
++  expect(report.acceptedBaseline).toBe(BASELINE);expect(receipt.pass).toBe(true);expect(receipt.exit).toBe(0);
++  const raw=readFileSync(resolve(root,latest.directory,"raw.lcov"),"utf8");
++  expect(hash(raw)).toBe(report.rawSha256);
++  const recomputed=account(raw,sourceInventory(root),root);
++  expect(recomputed.crates).toEqual(report.crates);expect(recomputed.files).toEqual(report.files);
++  expect(report.crates.map((x:any)=>x.crate)).toEqual([...CRATES]);expect(recomputed.pass).toBe(true);
++  const profiles=load(`${latest.directory}/profiles.json`);
++  for(const child of profiles.childProof) {
++    expect(child.profiles.length).toBeGreaterThan(0);
++    for(const profile of child.profiles) expect(profiles.merge).toContain(resolve(profiles.target,profile));
++  }
++  expect(profiles.childProof.map((c:any)=>c.binary)).toEqual(["arcctl","arc-daemon"]);
++  expect(existsSync(resolve(root,latest.directory,"uncovered.md"))).toBe(true);
++});
+diff --git a/scripts/coverage/fixture-runner.ts b/scripts/coverage/fixture-runner.ts
+new file mode 100644
+index 0000000..8000c53
+--- /dev/null
++++ b/scripts/coverage/fixture-runner.ts
+@@ -0,0 +1,20 @@
++// Subprocess boundary for deterministic gate tests. The real root command has
++// no fixture mode, environment override or alternate implementation path.
++import { readFileSync } from "node:fs";
++import { validateReport, enforce, requireExit, requireVersion } from "./gate";
++import { command } from "./commands";
++try {
++  const args=JSON.parse(readFileSync(process.argv[2],"utf8"));
++  if(args.mode==="tool") {
++    const receipt=await command(["/arc-fixture-intentionally-missing-tool"],args.root,args.root);
++    requireExit(receipt.exit,"MISSING_TOOL");
++  } else if(args.mode==="test") {
++    const receipt=await command([process.execPath,"-e","process.exit(23)"],args.root,args.root);
++    requireExit(receipt.exit,"TEST_FAILURE");
++  } else if(args.mode==="version") {
++    requireVersion("0.0.0","0.6.21","cargo-llvm-cov");
++  } else {
++    enforce(validateReport(args));
++  }
++  console.log("PASS controlled fixture");
++} catch(error) {console.error(String(error));process.exitCode=1;}
+diff --git a/scripts/coverage/fixtures.ts b/scripts/coverage/fixtures.ts
+new file mode 100644
+index 0000000..478e422
+--- /dev/null
++++ b/scripts/coverage/fixtures.ts
+@@ -0,0 +1,19 @@
++// Controlled LCOV/process fixtures. These are never production measurements.
++import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { CRATES } from "./config";
++import type { SourceFile } from "./source";
++export function fixture() {
++  const root=mkdtempSync(join(tmpdir(),"arc-coverage-fixture-"));
++  const inventory:SourceFile[]=CRATES.map(crate=>{
++    const path=`crates/${crate}/src/lib.rs`;
++    mkdirSync(join(root,`crates/${crate}/src`),{recursive:true});
++    writeFileSync(join(root,path),"fixture\n".repeat(5));
++    return {path,crate,sha256:"fixture",lines:6,omitted:[],testOnly:false,spans:[]};
++  });
++  const record=(path:string,hits=[1,1,1,1,0])=>`SF:${join(root,path)}\n${hits.map((n,i)=>`DA:${i+1},${n}`).join("\n")}\nLF:${hits.length}\nLH:${hits.filter(n=>n>0).length}\nend_of_record\n`;
++  const lcov=inventory.map(f=>record(f.path)).join("");
++  const path=join(root,"report.lcov");writeFileSync(path,lcov);
++  return {root,inventory,record,lcov,path};
++}
+diff --git a/scripts/coverage/gate.test.ts b/scripts/coverage/gate.test.ts
+new file mode 100644
+index 0000000..916c2b3
+--- /dev/null
++++ b/scripts/coverage/gate.test.ts
+@@ -0,0 +1,40 @@
++import { test, expect } from "bun:test";
++import { writeFileSync, utimesSync, unlinkSync } from "node:fs";
++import { join } from "node:path";
++import { fixture } from "./fixtures";
++
++async function check(change:(args:any,f:ReturnType<typeof fixture>)=>void,diagnostic?:string) {
++  const f=fixture();
++  const args:any={...f,started:Date.now()-1000,before:"current-source",after:"current-source",testExit:0};
++  // A separate old passing report must never be consulted as fallback.
++  writeFileSync(join(f.root,"old-passing-report.lcov"),f.lcov);
++  change(args,f);
++  const input=join(f.root,"input.json");writeFileSync(input,JSON.stringify(args));
++  const child=Bun.spawn([process.execPath,join(import.meta.dir,"fixture-runner.ts"),input],{stdout:"pipe",stderr:"pipe"});
++  const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
++  if(diagnostic) {expect(exit).not.toBe(0);expect(stderr).toContain(diagnostic);expect(stdout).not.toContain("PASS");}
++  else {expect(exit).toBe(0);expect(stdout).toContain("PASS");}
++}
++test("exact 80% succeeds",()=>check(()=>{}));
++test("failed subprocess tests cannot reuse old passing artifacts",()=>check(a=>{a.mode="test"},"TEST_FAILURE: exited 23"));
++test("test exit is checked before report validity",()=>check(a=>{a.testExit=7;a.path="missing"},"TEST_FAILURE: exited 7"));
++test("missing tool returns nonzero",()=>check(a=>{a.mode="tool"},"MISSING_TOOL: exited 127"));
++test("mismatched tool returns nonzero",()=>check(a=>{a.mode="version"},"TOOL_VERSION"));
++test("missing report returns nonzero",()=>check((_,f)=>unlinkSync(f.path),"MISSING_REPORT"));
++test("stale report returns nonzero",()=>check((a,f)=>{utimesSync(f.path,1,1);a.started=Date.now()},"STALE_REPORT"));
++test("source changed during measurement returns nonzero",()=>check(a=>{a.after="changed"},"STALE_REPORT"));
++test("malformed report returns nonzero",()=>check((_,f)=>writeFileSync(f.path,"not lcov"),"MALFORMED_REPORT"));
++test("missing crate returns nonzero",()=>check((_,f)=>writeFileSync(f.path,f.inventory.slice(1).map(x=>f.record(x.path)).join("")),"MISSING_CRATE"));
++test("missing production file returns nonzero",()=>check(a=>{a.inventory.push({...a.inventory[0],path:"crates/arc-core/src/missing.rs"})},"MISSING_FILE"));
++test("one failing crate fails despite high workspace average",()=>check((_,f)=>{
++  writeFileSync(f.path,f.inventory.map((x,i)=>f.record(x.path,i===0?[1,1,1,0,0]:[1,1,1,1,1])).join(""));
++},"BELOW_THRESHOLD: arc-core 3/5"));
++test("a displayed 80.00% below the exact boundary fails",()=>check((a,f)=>{
++  a.inventory=a.inventory.map((x:any)=>({...x,lines:100002}));
++  writeFileSync(f.path,f.inventory.map(x=>f.record(x.path,Array.from({length:100001},(_,i)=>i<80000?1:0))).join(""));
++},"BELOW_THRESHOLD"));
++
++test("inconsistent LF/LH cannot inflate coverage to a passing verdict",()=>check((_,f)=>{
++  const bad=f.inventory.map(x=>f.record(x.path,[1]).replace("LF:1","LF:100")).join("");
++  writeFileSync(f.path,bad);
++},"MALFORMED_REPORT"));
+diff --git a/scripts/coverage/gate.ts b/scripts/coverage/gate.ts
+new file mode 100644
+index 0000000..1c5652a
+--- /dev/null
++++ b/scripts/coverage/gate.ts
+@@ -0,0 +1,26 @@
++import { existsSync, readFileSync, statSync } from "node:fs";
++import { account } from "./accounting";
++import { hash, type SourceFile } from "./source";
++
++export function requireExit(code:number,label:string) {
++  if(code!==0) throw Error(`${label}: exited ${code}`);
++}
++export function requireVersion(actual:string,wanted:string,label:string) {
++  if(actual.trim()!==wanted) throw Error(`TOOL_VERSION: ${label}: expected ${wanted}, got ${actual.trim()}`);
++}
++export function freshReport(path:string,started:number) {
++  if(!existsSync(path)) throw Error(`MISSING_REPORT: ${path}`);
++  if(statSync(path).mtimeMs<started) throw Error(`STALE_REPORT: ${path}`);
++  return readFileSync(path,"utf8");
++}
++export function validateReport(args:{path:string;started:number;before:string;after:string;inventory:SourceFile[];root:string;testExit:number}) {
++  requireExit(args.testExit,"TEST_FAILURE");
++  if(args.before!==args.after) throw Error("STALE_REPORT: source/configuration changed during measurement");
++  const raw=freshReport(args.path,args.started);
++  const result=account(raw,args.inventory,args.root);
++  return {...result,sourceHash:args.before,rawSha256:hash(raw)};
++}
++export function enforce(result:{crates:{crate:string;covered:number;total:number;pass:boolean}[]}) {
++  const failed=result.crates.filter(c=>!c.pass);
++  if(failed.length) throw Error(`BELOW_THRESHOLD: ${failed.map(c=>`${c.crate} ${c.covered}/${c.total}`).join(", ")} (requires 80% per crate)`);
++}
+diff --git a/scripts/coverage/harness.test.ts b/scripts/coverage/harness.test.ts
+new file mode 100644
+index 0000000..1c97f4a
+--- /dev/null
++++ b/scripts/coverage/harness.test.ts
+@@ -0,0 +1,10 @@
++import { test, expect } from "bun:test";
++import { realAcceptance, root } from "./acceptance";
++import { checkPreservation } from "./preservation";
++test("real unchanged harness passes with zero violations and no skip flags",async()=>{
++  checkPreservation(root);
++  const result=await realAcceptance("harness",["./scripts/harness/validate.sh"]);
++  expect(result.stdout).toContain("All checks passed (0 violations)");
++  expect(result.stdout).toContain("Coverage thresholds met");
++  expect(result.stderr).not.toContain("skipping coverage gate");
++},120000);
+diff --git a/scripts/coverage/preservation.test.ts b/scripts/coverage/preservation.test.ts
+new file mode 100644
+index 0000000..9e9d931
+--- /dev/null
++++ b/scripts/coverage/preservation.test.ts
+@@ -0,0 +1,9 @@
++import { test, expect } from "bun:test";
++import { resolve } from "node:path";
++import { checkPreservation } from "./preservation";
++import { BASELINE } from "./config";
++test("accepted baseline protected bytes, production tokens and existing assertions survive",()=>{
++  const result=checkPreservation(resolve(import.meta.dir,"../.."));
++  expect(result.baselineHead).toBe(BASELINE);expect(result.pass).toBe(true);
++  expect(result.existingRustFiles).toBeGreaterThan(0);
++});
+diff --git a/scripts/coverage/preservation.ts b/scripts/coverage/preservation.ts
+new file mode 100644
+index 0000000..d2c2a4a
+--- /dev/null
++++ b/scripts/coverage/preservation.ts
+@@ -0,0 +1,45 @@
++import { readFileSync } from "node:fs";
++import { resolve } from "node:path";
++import { BASELINE, PROTECTED } from "./config";
++import { hash, tokens, analyzeSource, sourceInventory } from "./source";
++
++function git(root:string,args:string[]) {
++  const p=Bun.spawnSync(["git",...args],{cwd:root,stdout:"pipe",stderr:"pipe"});
++  if(p.exitCode) throw Error(`PRESERVATION: git ${args.join(" ")}: ${p.stderr}`);
++  return p.stdout.toString();
++}
++function productionTokens(source:string) {
++  const omitted=analyzeSource(source).omitted;
++  return tokens(source).filter(t=>!omitted.has(t.line)).map(t=>t.text);
++}
++export function preservationReferences(root:string) {
++  const files=git(root,["ls-tree","-r","--name-only",BASELINE,"--","crates"]).trim().split("\n");
++  return {
++    baselineHead:BASELINE,baselineTree:git(root,["rev-parse",`${BASELINE}^{tree}`]).trim(),
++    protected:Object.fromEntries(PROTECTED.map(p=>[p,hash(git(root,["show",`${BASELINE}:${p}`]))])),
++    files:files.filter(p=>p.endsWith(".rs")).map(path=>{
++      const source=git(root,["show",`${BASELINE}:${path}`]);
++      return {path,sha256:hash(source),tokens:tokens(source).map(t=>t.text),productionTokenHash:hash(JSON.stringify(productionTokens(source)))};
++    }),
++  };
++}
++export function checkPreservation(root:string) {
++  const refs=preservationReferences(root);
++  const production=new Set(sourceInventory(root).filter(f=>!f.testOnly).map(f=>f.path));
++  for(const [path,expected] of Object.entries(refs.protected)) {
++    if(hash(readFileSync(resolve(root,path)))!==expected) throw Error(`PRESERVATION: protected bytes changed: ${path}`);
++  }
++  // Existing tokens must be an ordered subsequence: additions of tests are
++  // allowed, but deleting/changing existing assertion or helper tokens is not.
++  // The independent reviewer also checks additions for weakened assertions.
++  for(const file of refs.files) {
++    const source=readFileSync(resolve(root,file.path),"utf8"), current=tokens(source).map(t=>t.text);
++    let index=0;
++    for(const token of current) if(token===file.tokens[index]) index++;
++    if(index!==file.tokens.length) throw Error(`PRESERVATION: existing Rust tokens changed or removed: ${file.path}`);
++    if(production.has(file.path)) {
++      if(hash(JSON.stringify(productionTokens(source)))!==file.productionTokenHash) throw Error(`PRESERVATION: production tokens changed: ${file.path}`);
++    }
++  }
++  return {baselineHead:refs.baselineHead,baselineTree:refs.baselineTree,protected:refs.protected,existingRustFiles:refs.files.length,pass:true};
++}
+diff --git a/scripts/coverage/provision.sh b/scripts/coverage/provision.sh
+new file mode 100644
+index 0000000..7e4583b
+--- /dev/null
++++ b/scripts/coverage/provision.sh
+@@ -0,0 +1,7 @@
++#!/usr/bin/env bash
++set -euo pipefail
++# Separate setup, never called by the gate. Exact release + upstream Cargo.lock.
++mise install
++rustup component add llvm-tools-preview --toolchain 1.95.0
++cargo +1.95.0 install cargo-llvm-cov --version 0.6.21 --locked
++cargo +1.95.0 fetch --locked
+diff --git a/scripts/coverage/run.ts b/scripts/coverage/run.ts
+new file mode 100644
+index 0000000..7373941
+--- /dev/null
++++ b/scripts/coverage/run.ts
+@@ -0,0 +1,112 @@
++import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, statSync } from "node:fs";
++import { resolve, relative, join, dirname } from "node:path";
++import { BASELINE, PINS, EVIDENCE, CRATES } from "./config";
++import { hash, sourceInventory, inputIdentity, walk } from "./source";
++import { requireExit, requireVersion, validateReport, enforce } from "./gate";
++import { command, type Receipt } from "./commands";
++
++const root=resolve(import.meta.dir,"../..");
++const id=`${new Date().toISOString().replace(/[:.]/g,"-")}-${crypto.randomUUID()}`;
++const dir=resolve(root,EVIDENCE,"baseline/runs",id);
++mkdirSync(dir,{recursive:true});
++const save=(name:string,value:unknown)=>writeFileSync(resolve(dir,name),JSON.stringify(value,null,2)+"\n");
++const receipts:Receipt[]=[];
++const env={...process.env,RUSTUP_TOOLCHAIN:PINS.rust,CARGO_NET_OFFLINE:"true",CARGO_TERM_COLOR:"never"};
++const rust=["rustup","run",PINS.rust];
++async function run(argv:string[],label:string,extra:Record<string,string>={},expected=0,timeout=120000) {
++  const receipt=await command(argv,dir,root,{...env,...extra},timeout); receipts.push(receipt);
++  if(receipt.exit!==expected) throw Error(`${label}: exited ${receipt.exit}; ${receipt.stderr.trim()}`);
++  return receipt;
++}
++let input:ReturnType<typeof inputIdentity>|undefined;
++let inventory:ReturnType<typeof sourceInventory>|undefined;
++let measured=false;
++try {
++  console.log("Coverage: checking pinned tools (setup: mise run coverage:provision)");
++  input=inputIdentity(root); inventory=sourceInventory(root);
++  save("inputs.json",input);save("source-inventory.json",inventory);
++  requireVersion(Bun.version,PINS.bun,"Bun");
++  const rustc=await run([...rust,"rustc","-Vv"],"MISSING_TOOL rustc");
++  if(!rustc.stdout.includes(`release: ${PINS.rust}\n`)) throw Error("TOOL_VERSION: Rust release mismatch");
++  const host=rustc.stdout.match(/^host: (.+)$/m)?.[1];
++  if(!host || !/(apple-darwin|unknown-linux)/.test(host)) throw Error(`PLATFORM: unsupported measurement host ${host}`);
++  const cov=await run([...rust,"cargo","llvm-cov","--version"],"MISSING_TOOL cargo-llvm-cov");
++  requireVersion(cov.stdout,`cargo-llvm-cov ${PINS.cargoLlvmCov}`,"cargo-llvm-cov");
++  const sysroot=(await run([...rust,"rustc","--print","sysroot"],"MISSING_TOOL sysroot")).stdout.trim();
++  const llvm=resolve(sysroot,"lib/rustlib",host,"bin");
++  const versions:Record<string,string>={bun:Bun.version,rustc:rustc.stdout,cargoLlvmCov:cov.stdout,host};
++  for(const name of ["llvm-cov","llvm-profdata"]) {
++    if(!existsSync(join(llvm,name))) throw Error(`MISSING_TOOL: ${name}; run mise run coverage:provision`);
++    const receipt=await run([join(llvm,name),"--version"],`MISSING_TOOL ${name}`);
++    const rustLlvm=rustc.stdout.match(/LLVM version: (\S+)/)?.[1];
++    if(!rustLlvm || !receipt.stdout.includes(rustLlvm)) throw Error(`TOOL_VERSION: ${name} must match Rust LLVM ${rustLlvm}`);
++    versions[name]=receipt.stdout;
++  }
++  save("versions.json",versions);
++  const overrides=["RUSTFLAGS","CARGO_ENCODED_RUSTFLAGS","LLVM_COV_FLAGS","LLVM_PROFDATA_FLAGS","RUSTC_WRAPPER","RUSTC_WORKSPACE_WRAPPER","CARGO_BUILD_TARGET",
++    ...Object.keys(process.env).filter(k=>/^CARGO_(?:PROFILE_|TARGET_.*RUSTFLAGS)/.test(k))];
++  for(const name of overrides) {
++    if(process.env[name]) throw Error(`CONFIGURATION: unset ${name} for the pinned measurement`);
++  }
++  const metadata=JSON.parse((await run([...rust,"cargo","metadata","--format-version","1","--locked","--offline"],"METADATA_FAILURE")).stdout);
++  const names=metadata.packages.filter((p:any)=>metadata.workspace_members.includes(p.id)).map((p:any)=>p.name).sort();
++  if(JSON.stringify(names)!==JSON.stringify([...CRATES].sort())) throw Error("MISSING_CRATE: workspace members differ from accounting contract");
++  save("metadata.json",metadata);
++  // Disable the tool's broad tests-directory filter: path-included production
++  // modules may contain tests/../src in their recorded filename. Only exact
++  // non-workspace dependency and compiler-source roots are filtered upstream.
++  const escape=(s:string)=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
++  const dependencyRoots=metadata.packages.filter((p:any)=>!metadata.workspace_members.includes(p.id)).map((p:any)=>dirname(p.manifest_path));
++  for(const dep of dependencyRoots) if(root===dep || root.startsWith(dep+"/")) throw Error(`CONFIGURATION: dependency root overlaps workspace ${dep}`);
++  const compilerHash=rustc.stdout.match(/^commit-hash: (.+)$/m)?.[1];
++  const ignoredRoots=[sysroot,`/rustc/${compilerHash}`,...dependencyRoots];
++  const ignore=ignoredRoots.map(p=>`^${escape(p)}(/|$)`).join("|");
++  save("non-workspace-roots.json",ignoredRoots);
++  // A new run owns its target and profiles; no prior artifact can satisfy it.
++  const target=resolve(root,"target/arc-coverage",id);mkdirSync(target,{recursive:true});
++  const coverageEnv={CARGO_LLVM_COV_TARGET_DIR:target,LLVM_PROFILE_FILE_NAME:"arc-%p-%m.profraw",CARGO_LLVM_COV_DENY_WARNINGS:"1",LLVM_COV:join(llvm,"llvm-cov"),LLVM_PROFDATA:join(llvm,"llvm-profdata")};
++  console.log("Coverage: running workspace unit, integration and child-binary tests");
++  await run([...rust,"cargo","llvm-cov","--workspace","--all-targets","--locked","--offline","--no-clean","--no-report","--no-cfg-coverage","--no-cfg-coverage-nightly"],"TEST_FAILURE",coverageEnv,0,120000);
++  // Explicit binary probes supply independently identifiable child PIDs/profile
++  // files in addition to the existing integration suites' inherited profiles.
++  const childProof=[];
++  for(const [binary,args,expected,extra] of [
++    ["arcctl",["--help"],0,{}],
++    ["arc-daemon",[],1,{ARC_SOCKET_PATH:"relative-invalid-coverage-socket",ARC_DB_PATH:join(dir,"probe.sqlite3")}],
++  ] as [string,string[],number,Record<string,string>][]) {
++    const receipt=await run([join(target,"debug",binary),...args],`CHILD_FAILURE ${binary}`,{...coverageEnv,...extra,LLVM_PROFILE_FILE:join(target,"arc-%p-%m.profraw")},expected);
++    const profiles=readdirSync(target).filter(p=>p.startsWith(`arc-${receipt.pid}-`)&&p.endsWith(".profraw"));
++    if(!profiles.length) throw Error(`CHILD_PROFILE: no profile for ${binary} pid ${receipt.pid}`);
++    for(const profile of profiles) if(!statSync(join(target,profile)).size) throw Error(`CHILD_PROFILE: empty ${profile}`);
++    childProof.push({binary,pid:receipt.pid,profiles,exit:receipt.exit});
++  }
++  const profiles=readdirSync(target).filter(p=>p.endsWith(".profraw")).sort();
++  if(!profiles.length) throw Error("MISSING_REPORT: no raw profiles");
++  console.log("Coverage: merging fresh execution profiles and validating reports");
++  const report=join(dir,"raw.lcov"), started=Date.now();
++  await run([...rust,"cargo","llvm-cov","report","--lcov","--output-path",report,"--failure-mode","any","--disable-default-ignore-filename-regex","--ignore-filename-regex",ignore,"--verbose"],"REPORT_FAILURE",coverageEnv);
++  // The pinned tool writes the exact llvm-profdata -f input list. Check that
++  // every collected profile, including explicit child PIDs, entered this merge.
++  const lists=readdirSync(target).filter(p=>p.endsWith("-profraw-list"));
++  if(lists.length!==1) throw Error("CHILD_PROFILE: missing merge input list");
++  const merge=readFileSync(join(target,lists[0]),"utf8").trim().split("\n").sort();
++  if(JSON.stringify(merge)!==JSON.stringify(profiles.map(p=>join(target,p)).sort())) throw Error("CHILD_PROFILE: merge input mismatch");
++  save("profiles.json",{target,childProof,merge,profiles:profiles.map(p=>({path:p,sha256:hash(readFileSync(join(target,p))),size:statSync(join(target,p)).size}))});
++  const after=inputIdentity(root);
++  const result=validateReport({path:report,started,before:input.sha256,after:after.sha256,inventory,root,testExit:0});
++  measured=true;
++  save("summary.json",{...result,runId:id,acceptedBaseline:BASELINE,host,inputs:input,versions,childProof});
++  writeFileSync(join(dir,"uncovered.md"),result.files.map(f=>`${f.path}: ${f.covered}/${f.total}; uncovered: ${f.uncovered.join(", ")||"none"}`).join("\n")+"\n");
++  for(const crate of result.crates) console.log(`${crate.pass?"PASS":"FAIL"} ${crate.crate}: ${crate.covered}/${crate.total} production lines (${crate.percent.toFixed(2)}%; requires 80%)`);
++  console.log(`Coverage reports: ${relative(root,dir)}`);
++  enforce(result);
++  save("receipt.json",{schemaVersion:1,runId:id,pass:true,exit:0,acceptedBaseline:BASELINE,sourceHash:input.sha256,receipts});
++  writeFileSync(resolve(root,EVIDENCE,"baseline/latest.json"),JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input.sha256,pass:true})+"\n");
++} catch(error) {
++  const message=String(error);
++  save("receipt.json",{schemaVersion:1,runId:id,pass:false,exit:1,error:message,acceptedBaseline:BASELINE,sourceHash:input?.sha256,receipts});
++  writeFileSync(resolve(root,EVIDENCE,"baseline/latest.json"),JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input?.sha256,pass:false})+"\n");
++  console.error(`Coverage unavailable or failed: ${message}\nEvidence: ${relative(root,dir)}`);
++  if(!measured) for(const crate of CRATES) console.error(`UNAVAILABLE ${crate}: no valid current measurement`);
++  process.exitCode=1;
++}
+diff --git a/scripts/coverage/source.ts b/scripts/coverage/source.ts
+new file mode 100644
+index 0000000..b4b45c0
+--- /dev/null
++++ b/scripts/coverage/source.ts
+@@ -0,0 +1,160 @@
++import { readdirSync, readFileSync, realpathSync, existsSync } from "node:fs";
++import { resolve, relative, dirname, basename, join } from "node:path";
++import { createHash } from "node:crypto";
++import { CRATES } from "./config";
++
++export const hash = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
++export function walk(root: string): string[] {
++  return readdirSync(root, { withFileTypes: true }).sort((a,b) => a.name.localeCompare(b.name))
++    .flatMap(e => e.isDirectory() ? walk(join(root,e.name)) : [join(root,e.name)]);
++}
++type Token = { text: string; start: number; end: number; line: number };
++// Skip Rust comments and literals, retaining literal text as one opaque token.
++// Positions stay in the original source; braces inside text never affect balancing.
++export function tokens(source: string): Token[] {
++  const result: Token[] = [];
++  let i = 0, line = 1;
++  const advance = (end: number) => { line += (source.slice(i,end).match(/\n/g) ?? []).length; i = end; };
++  while (i < source.length) {
++    if (/\s/.test(source[i])) { advance(i+1); continue; }
++    if (source.startsWith("//",i)) { const end=source.indexOf("\n",i); advance(end<0?source.length:end); continue; }
++    if (source.startsWith("/*",i)) {
++      let end=i+2, depth=1;
++      while(end<source.length && depth) {
++        if(source.startsWith("/*",end)) {depth++;end+=2;}
++        else if(source.startsWith("*/",end)) {depth--;end+=2;} else end++;
++      }
++      if(depth) throw Error("SOURCE: unclosed block comment");
++      advance(end); continue;
++    }
++    const start=i, startLine=line;
++    const raw=source.slice(i).match(/^(?:br|r)(#*)"/);
++    if(raw) {
++      const end=source.indexOf('"'+raw[1],i+raw[0].length);
++      if(end<0) throw Error("SOURCE: unclosed raw string");
++      advance(end+1+raw[1].length);
++    } else if(source[i]==='"' || (source[i]==="'" && /^'(?:\\.|[^'\\\n])'/.test(source.slice(i)))) {
++      const quote=source[i]; let end=i+1;
++      while(end<source.length) { if(source[end]==="\\") {end+=2;continue;} if(source[end++]===quote) break; }
++      advance(end);
++    } else {
++      const word=source.slice(i).match(/^[A-Za-z_][A-Za-z_0-9]*/);
++      advance(i+(word?.[0].length ?? 1));
++    }
++    result.push({text:source.slice(start,i),start,end:i,line:startLine});
++  }
++  return result;
++}
++function closing(ts: Token[], start: number): number {
++  const pairs: Record<string,string> = {"[":"]","(":")","{":"}"};
++  const end=pairs[ts[start]?.text];
++  if(!end) throw Error("SOURCE: expected opening delimiter");
++  for(let i=start+1;i<ts.length;i++) {
++    if(pairs[ts[i].text]) {i=closing(ts,i);continue;}
++    if(ts[i].text===end) return i;
++  }
++  throw Error("SOURCE: unbalanced delimiters");
++}
++// Three-valued cfg evaluation: only predicates provably false without `test`
++// are omitted. Platform/features stay unknown and therefore in production scope.
++function cfgWithoutTest(ts: string[]): boolean | undefined {
++  if(ts.length===1 && ts[0]==="test") return false;
++  if(["all","any","not"].includes(ts[0]) && ts[1]==="(" && ts.at(-1)===")") {
++    const args: string[][]=[]; let depth=0, start=2;
++    for(let i=2;i<ts.length-1;i++) {
++      if(ts[i]==="(") depth++; if(ts[i]===")") depth--;
++      if(ts[i]==="," && depth===0) {args.push(ts.slice(start,i));start=i+1;}
++    }
++    if(start<ts.length-1) args.push(ts.slice(start,-1));
++    const values=args.map(cfgWithoutTest);
++    if(ts[0]==="not") return values.length===1 && values[0]!==undefined ? !values[0] : undefined;
++    if(ts[0]==="all") return values.includes(false)?false:values.every(x=>x===true)?true:undefined;
++    return values.includes(true)?true:values.every(x=>x===false)?false:undefined;
++  }
++  return undefined;
++}
++export function analyzeSource(source: string) {
++  const ts=tokens(source), omitted=new Set<number>();
++  const modules: {name:string;path?:string;testOnly:boolean}[]=[];
++  const spans: {start:number;end:number;reason:string}[]=[];
++  let attrs: string[][]=[], attrStart=0;
++  for(let i=0;i<ts.length;i++) {
++    if(ts[i].text==="#" && ts[i+1]?.text==="[") {
++      const end=closing(ts,i+1);
++      if(!attrs.length) attrStart=i;
++      attrs.push(ts.slice(i+2,end).map(t=>t.text)); i=end; continue;
++    }
++    const testOnly=attrs.some(a=>a[0]==="cfg" && cfgWithoutTest(a.slice(2,-1))===false);
++    if(ts[i].text==="mod" && ts[i+2]?.text===";") {
++      const path=attrs.find(a=>a[0]==="path")?.[2];
++      modules.push({name:ts[i+1].text,path:path?JSON.parse(path):undefined,testOnly});
++    }
++    if(testOnly) {
++      let end=i, angles=0;
++      for(;end<ts.length;end++) {
++        const t=ts[end].text;
++        if(t==="{") {end=closing(ts,end);break;}
++        if(t==="<") angles++;
++        if(t===">" && ts[end-1]?.text!=="-" && angles) angles--;
++        if(t===";" || (t==="," && !angles)) break;
++        if(t==="[" || t==="(") end=closing(ts,end);
++      }
++      if(end>=ts.length) throw Error("SOURCE: unsupported test-only item");
++      if(ts[attrStart-1]?.line===ts[attrStart].line || ts[end+1]?.line===ts[end].line) {
++        throw Error(`SOURCE: test-only item at ${ts[attrStart].line}-${ts[end].line} shares a line with other code; line accounting is ambiguous`);
++      }
++      spans.push({start:ts[attrStart].line,end:ts[end].line,reason:"cfg false when test is disabled"});
++      for(let l=ts[attrStart].line;l<=ts[end].line;l++) omitted.add(l);
++      // External test module declarations are recorded above; inline children
++      // cannot be production when their enclosing item is disabled.
++      i=end;
++    }
++    // Visibility can appear between the attributes and the item keyword.
++    if(!["pub","crate"].includes(ts[i].text) && !(ts[i].text==="(" && ts[i-1]?.text==="pub")) attrs=[];
++    if(ts[i].text==="(" && ts[i-1]?.text==="pub") i=closing(ts,i);
++  }
++  return {omitted,modules,spans};
++}
++export type SourceFile = { path:string; crate:string; sha256:string; lines:number; omitted:number[]; testOnly:boolean; spans:ReturnType<typeof analyzeSource>["spans"] };
++export function sourceInventory(root: string): SourceFile[] {
++  const files=CRATES.flatMap(crate=>walk(resolve(root,"crates",crate,"src"))).filter(p=>p.endsWith(".rs"));
++  const testFiles=CRATES.flatMap(crate=>{
++    const dir=resolve(root,"crates",crate,"tests");
++    return existsSync(dir)?walk(dir).filter(p=>p.endsWith(".rs")):[];
++  });
++  const analyses=new Map([...files,...testFiles].map(p=>[realpathSync(p),analyzeSource(readFileSync(p,"utf8"))]));
++  const production=new Set<string>(), tests=new Set<string>();
++  function visit(file:string,test:boolean,entry=false) {
++    file=realpathSync(file); const seen=test?tests:production;
++    if(seen.has(file)) return; seen.add(file);
++    const info=analyses.get(file);
++    if(!info && test && /^crates\/[^/]+\/tests\//.test(relative(root,file))) return;
++    if(!info) throw Error(`SOURCE: module outside src: ${file}`);
++    if(!test && !files.includes(file)) throw Error(`SOURCE: production module outside inventoried src: ${file}`);
++    for(const mod of info.modules) {
++      const base=entry || ["main.rs","lib.rs","mod.rs"].includes(basename(file))?dirname(file):file.slice(0,-3);
++      const candidates=mod.path?[resolve(dirname(file),mod.path)]:[resolve(base,mod.name+".rs"),resolve(base,mod.name,"mod.rs")];
++      const child=candidates.find(existsSync);
++      if(!child) throw Error(`SOURCE: missing module ${file}: ${mod.name}`);
++      visit(child,test||mod.testOnly);
++    }
++  }
++  for(const crate of CRATES) for(const entry of ["lib.rs","main.rs"]) {
++    const p=resolve(root,"crates",crate,"src",entry); if(existsSync(p)) visit(p,false,true);
++  }
++  for(const file of testFiles.filter(p=>dirname(p)===resolve(root,"crates",relative(root,p).split("/")[1],"tests"))) visit(file,true,true);
++  return files.map(file=>{
++    const path=relative(root,file), info=analyses.get(realpathSync(file))!;
++    if(!production.has(realpathSync(file)) && !tests.has(realpathSync(file))) throw Error(`SOURCE: unclassified src file ${path}`);
++    const text=readFileSync(file,"utf8");
++    return {path,crate:path.split("/")[1],sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file))};
++  }).sort((a,b)=>a.path.localeCompare(b.path));
++}
++export function inputIdentity(root:string) {
++  const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json",
++    ".arc-verify/rust-coverage/contract/accounting.json",
++    ...[".cargo/config",".cargo/config.toml","build.rs"].filter(p=>existsSync(resolve(root,p))),
++    ...walk(resolve(root,"crates")).map(p=>relative(root,p)),...walk(resolve(root,"scripts/coverage")).map(p=>relative(root,p))];
++  const files=Object.fromEntries([...new Set(paths)].sort().map(p=>[p,hash(readFileSync(resolve(root,p)))]));
++  return {sha256:hash(JSON.stringify(files)),files};
++}

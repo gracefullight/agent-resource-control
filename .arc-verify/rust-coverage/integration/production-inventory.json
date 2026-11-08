@@ -1,0 +1,948 @@
+{
+  "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108",
+  "run": {
+    "runId": "2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9",
+    "sourceHash": "1e72b4b53e0a75d24aeb349a1744e99bc590ca72e1e43350c0a844a0eb4c3108",
+    "pass": true
+  },
+  "files": [
+    {
+      "path": "crates/arc-cli/src/classify.rs",
+      "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 67,
+      "covered": 67,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-cli/src/doctor.rs",
+      "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 62,
+      "covered": 60,
+      "uncovered": [
+        16,
+        40
+      ],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-cli/src/main.rs",
+      "sha256": "62005310d32c69f201a4f7798492418c03d3338fc6a940024b98d3c0fdda897b",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 84,
+      "covered": 76,
+      "uncovered": [
+        131,
+        135,
+        156,
+        159,
+        165,
+        166,
+        167,
+        168
+      ],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-core/src/lib.rs",
+      "sha256": "eda11556d6311a28d4a074e2f19c4282043a12dc9c38761ad262e77ba19d1435",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 64,
+      "covered": 64,
+      "uncovered": [],
+      "omittedTestSpans": [
+        {
+          "start": 115,
+          "end": 176,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery_tests.rs",
+      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/accept_recovery.rs",
+      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 38,
+      "covered": 38,
+      "uncovered": [],
+      "omittedTestSpans": [
+        {
+          "start": 71,
+          "end": 72,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 73,
+          "end": 74,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 79,
+          "end": 85,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 87,
+          "end": 90,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 94,
+          "end": 104,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 106,
+          "end": 110,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 112,
+          "end": 117,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 120,
+          "end": 123,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 127,
+          "end": 132,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 134,
+          "end": 174,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/admission.rs",
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 86,
+      "covered": 83,
+      "uncovered": [
+        50,
+        103,
+        104
+      ],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/connection.rs",
+      "sha256": "8dc08ced1aaebfcb3d79053b774e293a9590ee59c61e3a6a5fef6355f57e4539",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 105,
+      "covered": 98,
+      "uncovered": [
+        90,
+        99,
+        119,
+        126,
+        154,
+        155,
+        157
+      ],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/database_failure_tests.rs",
+      "sha256": "4851a2c1f7630492d9878c624fd5590cffaf1dc79dfacde74fa1dac57351183d",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker.rs",
+      "sha256": "7784ea662d806d458fe9c878cdf0a127a64c34d5c6bf290d962fd54eb1e5223d",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 188,
+      "covered": 156,
+      "uncovered": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        57,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        68,
+        136,
+        137,
+        138,
+        139,
+        155,
+        223,
+        238,
+        239,
+        266,
+        269,
+        270,
+        271,
+        301
+      ],
+      "omittedTestSpans": [
+        {
+          "start": 5,
+          "end": 7,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 316,
+          "end": 320,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 322,
+          "end": 330,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/execution.rs",
+      "sha256": "ef135ed9b956b12cdea1ca93f3bc2260897d78d25b4a732577ed250875753ff0",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 163,
+      "covered": 155,
+      "uncovered": [
+        72,
+        128,
+        201,
+        202,
+        204,
+        210,
+        242,
+        243
+      ],
+      "omittedTestSpans": [
+        {
+          "start": 6,
+          "end": 7,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 42,
+          "end": 45,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 59,
+          "end": 60,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 64,
+          "end": 67,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 111,
+          "end": 112,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 139,
+          "end": 150,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 169,
+          "end": 170,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 171,
+          "end": 172,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 176,
+          "end": 184,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 185,
+          "end": 191,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 249,
+          "end": 250,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 251,
+          "end": 252,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 253,
+          "end": 254,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 255,
+          "end": 256,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 257,
+          "end": 258,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 262,
+          "end": 268,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 271,
+          "end": 285,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 289,
+          "end": 302,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 307,
+          "end": 341,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/schema_tests.rs",
+      "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/tests.rs",
+      "sha256": "ad4d62631f91287b298ae5314930f82a96f69d2facfa8d13d2837104827e2728",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/instance.rs",
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 124,
+      "covered": 110,
+      "uncovered": [
+        34,
+        40,
+        41,
+        42,
+        43,
+        45,
+        101,
+        104,
+        105,
+        106,
+        148,
+        155,
+        156,
+        174
+      ],
+      "omittedTestSpans": [
+        {
+          "start": 226,
+          "end": 441,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle.rs",
+      "sha256": "2e025c3713b3a7432e8a75ba34c5ecbbabcaa3fe04f5c09d86afbb60fe7a46d3",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 187,
+      "covered": 182,
+      "uncovered": [
+        187,
+        244,
+        245,
+        246,
+        256
+      ],
+      "omittedTestSpans": [
+        {
+          "start": 261,
+          "end": 263,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 265,
+          "end": 303,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/limits.rs",
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 78,
+      "covered": 78,
+      "uncovered": [],
+      "omittedTestSpans": [
+        {
+          "start": 114,
+          "end": 156,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/main.rs",
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 41,
+      "covered": 41,
+      "uncovered": [],
+      "omittedTestSpans": [
+        {
+          "start": 19,
+          "end": 20,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 21,
+          "end": 23,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 35,
+      "covered": 30,
+      "uncovered": [
+        49,
+        50,
+        51,
+        52,
+        93
+      ],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/report_lifecycle_tests.rs",
+      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_metrics.rs",
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 114,
+      "covered": 114,
+      "uncovered": [],
+      "omittedTestSpans": [
+        {
+          "start": 167,
+          "end": 168,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 182,
+          "end": 183,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 232,
+          "end": 233,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 236,
+          "end": 247,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 265,
+          "end": 276,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report_tests.rs",
+      "sha256": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/runtime_report.rs",
+      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 104,
+      "covered": 97,
+      "uncovered": [
+        86,
+        87,
+        88,
+        89,
+        133,
+        134,
+        135
+      ],
+      "omittedTestSpans": [
+        {
+          "start": 24,
+          "end": 27,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 162,
+          "end": 164,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/server_tests.rs",
+      "sha256": "863b2e96dab7b91982699da78af73617572994afcec858d69c419beeccb740dc",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/server.rs",
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 219,
+      "covered": 207,
+      "uncovered": [
+        35,
+        73,
+        158,
+        228,
+        229,
+        230,
+        231,
+        251,
+        252,
+        276,
+        277,
+        295
+      ],
+      "omittedTestSpans": [
+        {
+          "start": 300,
+          "end": 308,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 310,
+          "end": 312,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_test_support.rs",
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-daemon/src/transport.rs",
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 131,
+      "covered": 118,
+      "uncovered": [
+        53,
+        56,
+        60,
+        78,
+        79,
+        95,
+        98,
+        102,
+        139,
+        140,
+        154,
+        155,
+        156
+      ],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-detector/src/budget.rs",
+      "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 49,
+      "covered": 49,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-detector/src/coverage_tests.rs",
+      "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-detector/src/lexer.rs",
+      "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 126,
+      "covered": 126,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-detector/src/lib.rs",
+      "sha256": "5fa33846ff3f6ed68b81c787a2f77fcf790935c29a978b7ffe4633185e653614",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 44,
+      "covered": 44,
+      "uncovered": [],
+      "omittedTestSpans": [
+        {
+          "start": 70,
+          "end": 71,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 73,
+          "end": 74,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-detector/src/parser.rs",
+      "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 103,
+      "covered": 102,
+      "uncovered": [
+        98
+      ],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-detector/src/rules.rs",
+      "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 224,
+      "covered": 224,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-detector/src/tests.rs",
+      "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-detector/src/types.rs",
+      "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 32,
+      "covered": 32,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-ipc/src/lib.rs",
+      "sha256": "57807b93f06693000117ca9ae12738e63e38ddfd8629b16aff3829ec17df7064",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 176,
+      "covered": 176,
+      "uncovered": [],
+      "omittedTestSpans": [
+        {
+          "start": 363,
+          "end": 364,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-ipc/src/schema.rs",
+      "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 39,
+      "covered": 39,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-ipc/src/tests/dispatch.rs",
+      "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-ipc/src/tests/framing.rs",
+      "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-ipc/src/tests/mod.rs",
+      "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-ipc/src/tests/schema.rs",
+      "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-storage/src/history.rs",
+      "sha256": "31bd31276df810465752cc9e1492f3c90dabde0f1209e99ae6b5ce9ccfc02a5f",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 100,
+      "covered": 100,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-storage/src/lib.rs",
+      "sha256": "8a8702d70c4b37e87a9b34d854842655bc03526a6abce33de15a1a4812d90a5b",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 29,
+      "covered": 29,
+      "uncovered": [],
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-storage/src/migration.rs",
+      "sha256": "1bbb1b34993c69bde0ffd6c2a39c60fa282c0a19b56c7f44b43d27f2f64ee533",
+      "classification": "production",
+      "accounted": true,
+      "mapped": 98,
+      "covered": 97,
+      "uncovered": [
+        116
+      ],
+      "omittedTestSpans": [
+        {
+          "start": 148,
+          "end": 149,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 163,
+          "end": 164,
+          "reason": "cfg false when test is disabled"
+        },
+        {
+          "start": 176,
+          "end": 177,
+          "reason": "cfg false when test is disabled"
+        }
+      ]
+    },
+    {
+      "path": "crates/arc-storage/src/migration/tests.rs",
+      "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-storage/src/migration/tests/acceptance.rs",
+      "sha256": "60bd1084d6954b6ee47d8176620d702b705d922831937ac84e666007453ea10f",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-storage/src/migration/tests/concurrency.rs",
+      "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    },
+    {
+      "path": "crates/arc-storage/src/migration/tests/rejection.rs",
+      "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+      "classification": "test-only module tree",
+      "accounted": true,
+      "mapped": null,
+      "covered": null,
+      "uncovered": null,
+      "omittedTestSpans": []
+    }
+  ],
+  "productionFiles": 29,
+  "missingProductionFiles": [],
+  "zeroMappedProductionFiles": [],
+  "host": "aarch64-apple-darwin",
+  "inactive": [
+    {
+      "path": "crates/arc-core/src/lib.rs",
+      "branches": [
+        "non-macOS runtime_root env::temp_dir",
+        "non-macOS instance_anchor /tmp",
+        "Windows LOCALAPPDATA",
+        "non-macOS/non-Windows XDG/home database directory"
+      ],
+      "reason": "Rust target_os cfg is inactive on aarch64-apple-darwin; inventoried, unmeasured, never counted covered."
+    },
+    {
+      "path": "crates/arc-daemon/src/platform.rs",
+      "branches": [
+        "Linux SO_PEERCRED peer credentials",
+        "Linux /proc/<pid>/stat start-time parser",
+        "non-Linux/non-macOS Unsupported fallbacks"
+      ],
+      "reason": "Rust target_os cfg is inactive on aarch64-apple-darwin; inventoried, unmeasured, never counted covered."
+    }
+  ],
+  "lineDenominator": "Canonical production LLVM-mapped line union, test-only spans omitted. Non-mapped comments/declarations/inactive branches are not covered claims; all mapped zero hits retained.",
+  "obligations": {
+    "desktop": "incomplete",
+    "native Windows": "incomplete",
+    "remaining Phase 0": "incomplete"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "exit": 1,
+  "stdout": "Coverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\n",
+  "stderr": "$ bun scripts/coverage/run.ts\nCoverage unavailable or failed: Error: TEST_FAILURE: exited 1; error: --no-report may not be used together with --no-clean\nEvidence: .arc-verify/rust-coverage/baseline/runs/2026-11-07T23-36-04-291Z-0c463aa3-3a1c-4cf1-bf0e-51c096a22ce7\nUNAVAILABLE arc-core: no valid current measurement\nUNAVAILABLE arc-detector: no valid current measurement\nUNAVAILABLE arc-storage: no valid current measurement\nUNAVAILABLE arc-ipc: no valid current measurement\nUNAVAILABLE arc-daemon: no valid current measurement\nUNAVAILABLE arc-cli: no valid current measurement\nerror: script \"test:coverage\" exited with code 1\n",
+  "argv": [
+    "bun",
+    "run",
+    "test:coverage"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:36:04.251659+00:00",
+  "elapsedSec": 2.9817932499863673,
+  "environment": {
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "CARGO_NET_OFFLINE": "true"
+  }
+}

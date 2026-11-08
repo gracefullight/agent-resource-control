@@ -1,0 +1,7 @@
+{
+  "name": "arc-verification",
+  "private": true,
+  "scripts": {
+    "test:coverage": "bun scripts/coverage/run.ts"
+  }
+}

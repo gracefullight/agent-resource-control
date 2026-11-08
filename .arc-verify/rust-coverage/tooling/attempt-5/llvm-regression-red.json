@@ -1,0 +1,17 @@
+{
+  "exit": 1,
+  "stdout": "bun test v1.4.4 (38afee6c8)\n",
+  "stderr": "\nscripts/coverage/accounting.test.ts:\n(pass) repeated compilation unions source lines instead of averaging binaries [7.16ms]\n(pass) zero-hit lines survive; per-file uncovered numbers are stable [3.78ms]\n(pass) test-only lines/files never dilute production denominator [2.24ms]\n(pass) canonical aliases merge and never duplicate denominators [2.62ms]\n(pass) unknown paths, zero denominators and malformed hits fail closed [4.31ms]\n(pass) cfg omission handles nested Rust comments, literals and test-only statements [2.00ms]\n(pass) test combined with any platform condition is not blanket-excluded [0.23ms]\n(pass) external cfg test module keeps its declared path; arbitrary filenames are not exclusions [0.07ms]\n(pass) live inventory classifies all six crate roots and test-only module trees [70.97ms]\n(pass) record summaries must match DA lines before repeated instances merge [3.42ms]\n(pass) duplicate DA entries and summaries outside a record are malformed [2.22ms]\n38 |       if(summaries[key]!==undefined) throw Error(\"MALFORMED_REPORT: duplicate line summary\");\n39 |       summaries[key]=Number(match[2]);\n40 |     } else if(row===\"end_of_record\") {\n41 |       if(!current) throw Error(\"MALFORMED_REPORT: end without SF\");\n42 |       const covered=[...entries.values()].filter(hit=>hit>0).length;\n43 |       if(summaries.LF!==entries.size || summaries.LH!==covered) throw Error(\"MALFORMED_REPORT: LF/LH missing or inconsistent with DA entries\");\n                                                                                                                                                  ^\nerror: MALFORMED_REPORT: LF/LH missing or inconsistent with DA entries\n      at account (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/scripts/coverage/accounting.ts:43:142)\n      at <anonymous> (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/scripts/coverage/accounting.test.ts:88:16)\n(fail) LLVM function summaries require corroboration by the complete segment-derived line map [2.99ms]\n\n 11 pass\n 1 fail\n 35 expect() calls\nRan 12 tests across 1 file. [157.00ms]\n",
+  "argv": [
+    "bun",
+    "test",
+    "scripts/coverage/accounting.test.ts"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:39:39.970078+00:00",
+  "elapsedSec": 0.1692521249933634,
+  "environment": {
+    "RUSTUP_TOOLCHAIN": "1.95.0",
+    "CARGO_NET_OFFLINE": "true"
+  }
+}

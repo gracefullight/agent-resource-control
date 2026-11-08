@@ -1,0 +1,14 @@
+{
+  "savedMaxDurationSec": 86400,
+  "savedMaxRuns": 200,
+  "savedMaxRetries": 3,
+  "attempt": 2,
+  "maxParallel": 3,
+  "newActors": 0,
+  "budgetReset": false,
+  "cpus": 8,
+  "memoryBytes": 17179869184,
+  "diskAvailableGiB": 104,
+  "perCommandTimeoutSec": 120,
+  "scope": "Recovery of task-1; no mission state mutation"
+}

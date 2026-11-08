@@ -239,3 +239,15 @@ fn timeout_is_bounded_with_no_retry_or_partial_result() {
     assert_failure(&output, "IPC_ERROR");
     assert!(start.elapsed() < Duration::from_secs(7));
 }
+
+#[test]
+fn error_with_success_payload_is_rejected_before_error_mapping() {
+    let fixture = Fixture::new();
+    let output = fixture.peer(&["classify", "--json", "cargo test"], |request, stream| {
+        let mut response = Response::error(request.request_id, "INVALID_REQUEST");
+        response.result = Some(valid());
+        arc_ipc::write_response(stream, &response).unwrap();
+    });
+    assert_failure(&output, "IPC_ERROR");
+    assert!(!String::from_utf8_lossy(&output.stderr).contains("Pass exactly one"));
+}

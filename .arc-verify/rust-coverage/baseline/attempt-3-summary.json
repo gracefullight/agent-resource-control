@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-07T23:29:42.274131+00:00",
+  "attempt": 3,
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "sourceHash": "ecd38f7d15137942dbdee81dc996386cb4f8347ca8644cdcf62c1de9b2b28027",
+  "latest": {
+    "runId": "2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-25-58-673Z-bba4a1f0-a653-43fe-af1f-bf290a351aa7",
+    "sourceHash": "ecd38f7d15137942dbdee81dc996386cb4f8347ca8644cdcf62c1de9b2b28027",
+    "pass": false
+  },
+  "measured": false,
+  "compatibilityVerified": false,
+  "coverage": [
+    {
+      "crate": "arc-core",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable"
+    },
+    {
+      "crate": "arc-detector",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable"
+    },
+    {
+      "crate": "arc-storage",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable"
+    },
+    {
+      "crate": "arc-ipc",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable"
+    },
+    {
+      "crate": "arc-daemon",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable"
+    },
+    {
+      "crate": "arc-cli",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable"
+    }
+  ],
+  "uncoveredLines": null,
+  "childProfileMergeProof": null,
+  "threshold": 80,
+  "thresholdStatus": "new engineering target, not measured baseline or SRS threshold",
+  "prerequisites": [
+    "cargo-llvm-cov 0.6.21 absent",
+    "Rust 1.95.0 llvm-tools-preview absent",
+    "locked offline fetch missing anstyle-wincon 3.0.11"
+  ],
+  "desktop": "incomplete",
+  "native Windows": "incomplete",
+  "remaining Phase 0": "incomplete"
+}

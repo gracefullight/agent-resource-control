@@ -1,0 +1,347 @@
+{
+  "scope": ".arc-verify/rust-coverage/qa",
+  "sourceHash": "cf31468e23ac45fee3e5f04704e19d4b89f9b56365ef516b9daa9ebc6c9833d8",
+  "precedingArtifactsUnchanged": 793,
+  "files": [
+    {
+      "path": ".arc-verify/rust-coverage/qa/.gitignore",
+      "bytes": 205,
+      "sha256": "b5b5604effcb35691ad720f7960b193b5187dcf8554b7ecc6f025eed7175ea3c"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/driver-probes.json",
+      "bytes": 2780,
+      "sha256": "650f0a275073fb83397284a076284d2f01a8063f020414433a55943d85afcbc6"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/driver-probes.py",
+      "bytes": 8410,
+      "sha256": "aa63d376883892e24d128ec6acd77e057de90d4e4f0283dc8903925fcc78650a"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/evidence-catalog.json",
+      "bytes": 143884,
+      "sha256": "dc49067a5a513215c8fed74f83f346c7ec5c09684ca75a8e983ff57adf8386d2"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/implementation.diff",
+      "bytes": 98059,
+      "sha256": "fe022cfbcfadb49038f34159b3b5f12db8bbd6382a036fe9410541922c6900f7"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/integrated-files.json",
+      "bytes": 165781,
+      "sha256": "50fb921513ea0b2a60e780a1d4ad68e5dc441ca9f5c91ec722829302a7c391c8"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/limits.json",
+      "bytes": 626,
+      "sha256": "bc7ce1023dd8d7798dddd8dfbb482887c92ec9d9963ea2ac3ecd08dc759d2927"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/omission-audit.json",
+      "bytes": 32166,
+      "sha256": "b3abda1c2a4bd980eff400103db06347fbb9ad8cdd06c78aaa3a47534ae80626"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/ownership-preservation.json",
+      "bytes": 378,
+      "sha256": "2423770a1f60d6ec001cd9bbe20ddf65b1e474eefbe17e472e857c838318b7fc"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/real-children/coverage-lifecycle.json",
+      "bytes": 6751,
+      "sha256": "a0c709d14212c9174eb3e8648106e923da7fecdab949183729189b44d91c7269"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/00-command.json",
+      "bytes": 2875,
+      "sha256": "4073070ea4f114edf66dc32a798c0e7b0e446d51b0a9d6d1266ec2cc116258a5"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/01-command.json",
+      "bytes": 30435,
+      "sha256": "ff17efb70d1926acbbdb4c0ee5c2c0b436f1e75b9bc5ad91f27ad3c47b4d771d"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/02-command.json",
+      "bytes": 455,
+      "sha256": "00d8628834a5ad24b80c0abce59c5dba70dcad05032895913901505e0a00594c"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/03-command.json",
+      "bytes": 653,
+      "sha256": "68f134e07b757cca63179e7664c430dac0d6c028ae4d35c6e12ffc784e849217"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/04-command.json",
+      "bytes": 381,
+      "sha256": "7166bf40d73dde578ba3663864742d612be4e0dbb01b29a4f269cf0cf87de571"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-bad-child-exit.json",
+      "bytes": 3334,
+      "sha256": "180fa0b3ff929755e54e0d6f303c31e0e527ba542566bb2960eff32469ceabbe"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-changed-config.json",
+      "bytes": 3442,
+      "sha256": "09e61e8b5f6d765acf7ce50bf61a027fe3142f0ea1cc733c9f7d53a7194161ba"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-bad-child-exit.json",
+      "bytes": 4413,
+      "sha256": "027c671ddbc9684d4fee60887f9d3f9852ac548e289cb950c6e6444afe853266"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-changed-config.json",
+      "bytes": 4521,
+      "sha256": "519b2d0c5d07ef14e5ddf400c564b71b36c7cf1ae5e1ed5a650a431d64f85d35"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-empty-child-profile.json",
+      "bytes": 4427,
+      "sha256": "e1be68d7eb6e3a326fa16cd21c64f0c791f419efd1a5985a24291ac915307a83"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-failed-export.json",
+      "bytes": 4467,
+      "sha256": "67b5c53dd3f81d299f55549f3f8ed8f9deeb02503896fa2e4e1215f8a89f82d8"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-failed-tests.json",
+      "bytes": 4393,
+      "sha256": "6e22811075272d76a080f5eed21e7b3c83d8c7d2e83fb7b6efd4b107eaf805f9"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-malformed-json.json",
+      "bytes": 4493,
+      "sha256": "2ca2308a79994e9c2a225c2d8ae0638a1e5a35aec2b145ce3d67f00a6db34e99"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-malformed-lcov.json",
+      "bytes": 4473,
+      "sha256": "a922c833d2324aac9f16cf00e92a93b9372b96c6f7bb6c6c8e7212a30e14bcce"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-merge-mismatch.json",
+      "bytes": 4488,
+      "sha256": "8bdba13f80f31af04e559c56a6b1ad7c8ba077d19ee7869e6bffa1a70e9c7e92"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-missing-child-profile.json",
+      "bytes": 4442,
+      "sha256": "ea3366585b7db9425445b698d5bd096ea99b6f272d8e6e8c91df0dfada567ab0"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-missing-json.json",
+      "bytes": 4758,
+      "sha256": "2094cce0735095fcf56fa7cb4de6f8508bab1e86124dd97ffbf337a019194ce2"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-missing-lcov.json",
+      "bytes": 4758,
+      "sha256": "b1ae29b006c5c472c4a885fa1a5fa19378c5a96aca7c0c16db69fa6a5a1f40f9"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-missing-merge-list.json",
+      "bytes": 4508,
+      "sha256": "83513f870b94c7eb119f85db40df1fdc41596d2a9a7e7d5db23eaeb0faa68ff0"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-missing-tool.json",
+      "bytes": 4319,
+      "sha256": "7014eb4d28b50cdafdd005e110e9117c50f121ed5c0842517adaccb443c1d5e3"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-one-crate-below.json",
+      "bytes": 4658,
+      "sha256": "d7075b5ccc824d48b93332bc451151714de01ff777c6d23f470e1700d2cb8a80"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-positive-80.json",
+      "bytes": 4425,
+      "sha256": "93eb72055b523d367d10b0d3df136b59e1aec100648f45b065c2de1ad6566a42"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-stale-json.json",
+      "bytes": 4746,
+      "sha256": "e55aaa2eb7a537af82b5d0f163c9c8350cd3c6f1300230c7bc8b714e420deb0b"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-stale-lcov.json",
+      "bytes": 4746,
+      "sha256": "6609ce51bfe556bc8f85257351fed9107e5451235e2d3a045d2379860ca97461"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-complete-prior-wrong-tool-version.json",
+      "bytes": 4391,
+      "sha256": "ddfbe89d935746017340af180b6ecf1e31cc2ce69bdfe7e1af7ce566302c9c3d"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-empty-child-profile.json",
+      "bytes": 3348,
+      "sha256": "7be066e6d0330b1406f896df37382144a22015c0459454a0f0faedd1a9b1e482"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-failed-export.json",
+      "bytes": 3388,
+      "sha256": "fc37a66ad02aa636ecf70df80abd9dcec81baad765f758e7ff63d5f8298bfd46"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-failed-tests.json",
+      "bytes": 3314,
+      "sha256": "2496791ef0fe11dc8ebc7600dc586068d6c613b7f2b4992f60cdce8f32a594c9"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-malformed-json.json",
+      "bytes": 3414,
+      "sha256": "e8fa305338abd1c6a3891eda6bdebf4e30d45d528cd96b9c1a4df93b107409d3"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-malformed-lcov.json",
+      "bytes": 3394,
+      "sha256": "b4a06e421236897a99dda89e93ee4e86c696730245fa49b0fab462c3872418af"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-merge-mismatch.json",
+      "bytes": 3409,
+      "sha256": "020b50f9e0fc1233aab297fd10c6011ce8099bc8f23aa47a559d8d037923bb3b"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-missing-child-profile.json",
+      "bytes": 3363,
+      "sha256": "e98e4a65da36f5bf934850eb6177f6bc28839523dd70fb5613093b5169596dfe"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-missing-json.json",
+      "bytes": 3679,
+      "sha256": "ca7013defba8143f4df6c32844312164d2c2c555cc0880a6c1402670ccc1d07b"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-missing-lcov.json",
+      "bytes": 3679,
+      "sha256": "d9cfbd13a0085ae3609e7cf0398af5ae132d31434153849228f7704e6772d5cb"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-missing-merge-list.json",
+      "bytes": 3429,
+      "sha256": "76a8a9134ecb36c2afffbe8cc4571b53021942153d48a65355098352557302f0"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-missing-tool.json",
+      "bytes": 3240,
+      "sha256": "fa12b7cba2da57aabdf55d0e865d75668cdd64d7209d5ea344dfa82ee6cbfcc1"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-one-crate-below.json",
+      "bytes": 3579,
+      "sha256": "41b88a0b723a3eb6bdd214585174972ed8539c1e8598c8342b05fba53aebb84e"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-positive-80.json",
+      "bytes": 3346,
+      "sha256": "94fcf3130b62ae538b8aac7f1d62b93318fc00af530d6e966ce45df033316072"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-probes-stderr-final.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-probes-stdout-final.txt",
+      "bytes": 397,
+      "sha256": "8d651e584546b1d586595c0cf2fc87fb170431e01e6f41c1dab86cc4568c94a6"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-stale-json.json",
+      "bytes": 3667,
+      "sha256": "1f6457b3a4d2d8499df7ff45b041479f5eb2362fcb0c4af0dada004d17672fa8"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-stale-lcov.json",
+      "bytes": 3667,
+      "sha256": "f9c830a374364bfcad233128bd59f4e74df1fefd0ac15d844e85bdfb85be0eec"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/driver-wrong-tool-version.json",
+      "bytes": 3312,
+      "sha256": "a547637e20c2fa8bb06cd26652812f9bb4929e1565b137533f5c84cabfb4119d"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/native-reexport.json",
+      "bytes": 11676,
+      "sha256": "e1135619d8c46e22336caabbd859bb58a82d4e6da4060172220ca98b32ba7a34"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/native-show-dump.json",
+      "bytes": 57542,
+      "sha256": "8433e27f26c0b75a019418a663275f900e07f6c90fc3c2441efbe741000dc5c4"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/native-show-example-corrected.json",
+      "bytes": 53410,
+      "sha256": "36de91ff69a83a30111dadf9ce1439498633957ad6e590d03bd25ebb298d124a"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/native-show-example.json",
+      "bytes": 11720,
+      "sha256": "bce18c5703d759bab637a140eb8732410e821a4bdcd0bfc2fa2fa7373129ea51"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/native-show.json",
+      "bytes": 1754910,
+      "sha256": "0d3ed3c36bb96fc3cd9e9c3dd0d1967e794c5ef1bb29f5eb310e285f5b3efbbb"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/real-child-merge.json",
+      "bytes": 18686,
+      "sha256": "9fc697e347e97793c477e0ddc064f9ce2a0053454c539cd297c043676df4c4d8"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/real-children.json",
+      "bytes": 5847,
+      "sha256": "a6c833bf771e7806e10c5d168ae21b5cd817ee3d3f171d220037eff9b134232a"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/reconcile-stderr-final.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/reconcile-stderr.txt",
+      "bytes": 656,
+      "sha256": "f1876b1a3966e3c4647cf268144e20eee37fb195ae152fce7006d7ad13889146"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/reconcile-stdout-final.txt",
+      "bytes": 324,
+      "sha256": "98af26f2cc1bb074403d95774082974d9af64b77dbde2f899a20c2fa2dc38fc8"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/receipts/reconcile-stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/reconcile.py",
+      "bytes": 12681,
+      "sha256": "7acdfdb7f34a4c9d8634741cf86f85246ba533bb7fe5e94ab3cbe628c79e2533"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/reconciliation.json",
+      "bytes": 65813,
+      "sha256": "9d771968d9c6aebb776e424e61021dd657aafa4f572b8c219ff9f2221cd00c6e"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/review.json",
+      "bytes": 9073,
+      "sha256": "d3cc0e61cc294b21f766849a15cd031f8bef642595951162b85e7f5353df4782"
+    },
+    {
+      "path": ".arc-verify/rust-coverage/qa/review.md",
+      "bytes": 17740,
+      "sha256": "cb2fa49fb7c1475c19e41633f0a99d73d0aeb64f9b64c0882a76a9ee61663883"
+    }
+  ]
+}

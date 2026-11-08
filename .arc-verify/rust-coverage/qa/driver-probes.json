@@ -1,0 +1,128 @@
+[
+  {
+    "case": "positive-80",
+    "exit": 0,
+    "expectedDiagnostic": null,
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "failed-tests",
+    "exit": 1,
+    "expectedDiagnostic": "TEST_FAILURE: exited 23",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "wrong-tool-version",
+    "exit": 1,
+    "expectedDiagnostic": "TOOL_VERSION",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "missing-tool",
+    "exit": 1,
+    "expectedDiagnostic": "MISSING_TOOL",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "bad-child-exit",
+    "exit": 1,
+    "expectedDiagnostic": "CHILD_FAILURE arcctl: exited 8",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "missing-child-profile",
+    "exit": 1,
+    "expectedDiagnostic": "CHILD_PROFILE: no profile",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "empty-child-profile",
+    "exit": 1,
+    "expectedDiagnostic": "CHILD_PROFILE: empty",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "missing-merge-list",
+    "exit": 1,
+    "expectedDiagnostic": "CHILD_PROFILE: missing merge input list",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "merge-mismatch",
+    "exit": 1,
+    "expectedDiagnostic": "CHILD_PROFILE: merge input mismatch",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "failed-export",
+    "exit": 1,
+    "expectedDiagnostic": "REPORT_FAILURE: exited 24",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "missing-lcov",
+    "exit": 1,
+    "expectedDiagnostic": "MISSING_REPORT",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "missing-json",
+    "exit": 1,
+    "expectedDiagnostic": "MISSING_REPORT",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "stale-lcov",
+    "exit": 1,
+    "expectedDiagnostic": "STALE_REPORT",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "stale-json",
+    "exit": 1,
+    "expectedDiagnostic": "STALE_REPORT",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "changed-config",
+    "exit": 1,
+    "expectedDiagnostic": "STALE_REPORT: source/configuration changed",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "one-crate-below",
+    "exit": 1,
+    "expectedDiagnostic": "BELOW_THRESHOLD",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "malformed-lcov",
+    "exit": 1,
+    "expectedDiagnostic": "MALFORMED_REPORT",
+    "assertionsPass": true,
+    "synthetic": true
+  },
+  {
+    "case": "malformed-json",
+    "exit": 1,
+    "expectedDiagnostic": "JSON Parse error",
+    "assertionsPass": true,
+    "synthetic": true
+  }
+]

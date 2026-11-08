@@ -1,0 +1,787 @@
+diff --git a/.gitignore b/.gitignore
+index f4743f7..1b15ec8 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -24,6 +24,9 @@ build/
+ *.egg-info/
+ *.tsbuildinfo
+ coverage/
++!/scripts/coverage/
++!/scripts/coverage/*.ts
++!/scripts/coverage/provision.sh
+ .idea/
+ .vscode/
+ *.swp
+diff --git a/mise.toml b/mise.toml
+index 6e0a112..be57055 100644
+--- a/mise.toml
++++ b/mise.toml
+@@ -1,2 +1,10 @@
+ [tools]
+ rust = "1.95.0"
++bun = "1.4.4"
++
++# Provisioning is explicit; verification never installs prerequisites.
++[tasks."coverage:provision"]
++run = "bash scripts/coverage/provision.sh"
++
++[tasks."test:coverage"]
++run = "bun run test:coverage"
+diff --git a/package.json b/package.json
+new file mode 100644
+index 0000000..c365a6b
+--- /dev/null
++++ b/package.json
+@@ -0,0 +1,7 @@
++{
++  "name": "arc-verification",
++  "private": true,
++  "scripts": {
++    "test:coverage": "bun scripts/coverage/run.ts"
++  }
++}
+diff --git a/rust-toolchain.toml b/rust-toolchain.toml
+index 12dd525..946e8b5 100644
+--- a/rust-toolchain.toml
++++ b/rust-toolchain.toml
+@@ -1,4 +1,4 @@
+ [toolchain]
+ channel = "1.95.0"
+ profile = "minimal"
+-components = ["rustfmt", "clippy"]
++components = ["rustfmt", "clippy", "llvm-tools-preview"]
+diff --git a/scripts/coverage/acceptance.ts b/scripts/coverage/acceptance.ts
+new file mode 100644
+index 0000000..23f95f2
+--- /dev/null
++++ b/scripts/coverage/acceptance.ts
+@@ -0,0 +1,18 @@
++import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
++import { resolve } from "node:path";
++import { command } from "./commands";
++import { inputIdentity } from "./source";
++import { EVIDENCE } from "./config";
++export const root=resolve(import.meta.dir,"../..");
++export async function realAcceptance(name:string,argv:string[]) {
++  const dir=resolve(root,EVIDENCE,"tooling/acceptance",`${name}-${crypto.randomUUID()}`);
++  mkdirSync(dir,{recursive:true});
++  const before=inputIdentity(root);
++  const env={...process.env};delete env.SKIP_COVERAGE;
++  const result=await command(argv,dir,root,env,115000);
++  const after=inputIdentity(root);
++  writeFileSync(resolve(dir,"binding.json"),JSON.stringify({name,sourceHash:before.sha256,afterHash:after.sha256,unchanged:before.sha256===after.sha256,exit:result.exit,argv},null,2)+"\n");
++  if(before.sha256!==after.sha256) throw Error(`${name}: source changed during acceptance`);
++  if(result.exit!==0) throw Error(`${name}: command exited ${result.exit}\n${result.stdout}\n${result.stderr}\nReceipt: ${dir}`);
++  return result;
++}
+diff --git a/scripts/coverage/accounting.test.ts b/scripts/coverage/accounting.test.ts
+new file mode 100644
+index 0000000..9a62499
+--- /dev/null
++++ b/scripts/coverage/accounting.test.ts
+@@ -0,0 +1,55 @@
++import { test, expect } from "bun:test";
++import { account } from "./accounting";
++import { analyzeSource, tokens, sourceInventory } from "./source";
++import { fixture } from "./fixtures";
++import { resolve } from "node:path";
++
++test("repeated compilation unions source lines instead of averaging binaries",()=>{
++  const f=fixture();
++  const result=account(f.lcov+f.record(f.inventory[0].path,[0,0,0,0,1]),f.inventory,f.root);
++  expect(result.crates[0]).toMatchObject({covered:5,total:5,pass:true});
++  expect(result.crates[1]).toMatchObject({covered:4,total:5});
++});
++test("zero-hit lines survive; per-file uncovered numbers are stable",()=>{
++  const f=fixture(), result=account(f.lcov,f.inventory,f.root);
++  expect(result.files[0].uncovered).toEqual([5]);expect(result.files[0].total).toBe(5);
++});
++test("test-only lines/files never dilute production denominator",()=>{
++  const f=fixture();f.inventory[0].omitted=[1,2];
++  f.inventory.push({...f.inventory[0],path:"crates/arc-core/src/test_fixture.rs",testOnly:true});
++  const result=account(f.lcov,f.inventory,f.root);
++  expect(result.crates[0]).toMatchObject({covered:2,total:3,pass:false});
++  expect(result.files).toHaveLength(6);
++});
++test("canonical aliases merge and never duplicate denominators",()=>{
++  const f=fixture();
++  const alias=f.record("crates/arc-core/src/../src/lib.rs",[0,0,0,0,1]);
++  expect(account(f.lcov+alias,f.inventory,f.root).crates[0].total).toBe(5);
++});
++test("unknown paths, zero denominators and malformed hits fail closed",()=>{
++  const f=fixture();
++  expect(()=>account(f.lcov.replace("DA:1,1","DA:1,-1"),f.inventory,f.root)).toThrow("MALFORMED_REPORT");
++  expect(()=>account(f.lcov+f.record("Cargo.toml"),f.inventory,f.root)).toThrow("UNMAPPED_FILE");
++  expect(()=>account(f.lcov,f.inventory.filter(x=>x.crate!=="arc-core"),f.root)).toThrow();
++  expect(()=>account(f.lcov.replaceAll(/DA:[^\n]+\n/g,""),f.inventory,f.root)).toThrow("MISSING_CRATE");
++});
++test("cfg omission handles nested Rust comments, literals and test-only statements",()=>{
++  const source=`fn production() { let s = r#"{ // not code }"#; }\n#[cfg(all(test, target_os = "macos"))]\nmod tests { /* { /* nested */ } */ fn example() { let c = '}'; } }\nfn retained() {}\n#[cfg(test)]\nfn helper() { let s = "}"; }\n`;
++  const a=analyzeSource(source);
++  expect([...a.omitted]).toEqual([2,3,5,6]);
++  expect(tokens(source).find(x=>x.text==='r#"{ // not code }"#')).toBeDefined();
++});
++test("test combined with any platform condition is not blanket-excluded",()=>{
++  const a=analyzeSource('#[cfg(any(test, target_os = "linux"))]\nfn still_production() {}\n#[cfg(not(test))]\nfn production_only() {}');
++  expect(a.omitted.size).toBe(0);
++});
++test("external cfg test module keeps its declared path; arbitrary filenames are not exclusions",()=>{
++  const a=analyzeSource('#[cfg(test)]\n#[path = "other.rs"]\nmod tests;\nmod tests_in_production;');
++  expect(a.modules).toEqual([{name:"tests",path:"other.rs",testOnly:true},{name:"tests_in_production",path:undefined,testOnly:false}]);
++});
++test("live inventory classifies all six crate roots and test-only module trees",()=>{
++  const inventory=sourceInventory(resolve(import.meta.dir,"../.."));
++  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(6);
++  expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport_tests.rs")?.testOnly).toBe(true);
++  expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport.rs")?.testOnly).toBe(false);
++});
+diff --git a/scripts/coverage/accounting.ts b/scripts/coverage/accounting.ts
+new file mode 100644
+index 0000000..4bb5209
+--- /dev/null
++++ b/scripts/coverage/accounting.ts
+@@ -0,0 +1,55 @@
++import { realpathSync } from "node:fs";
++import { resolve, relative } from "node:path";
++import { CRATES } from "./config";
++import type { SourceFile } from "./source";
++
++export type FileCoverage = { path:string; crate:string; covered:number; total:number; uncovered:number[]; mapped:number[]; omitted:number[] };
++export function account(lcov:string, inventory:SourceFile[], root:string, canonical=(p:string)=>realpathSync(resolve(root,p))) {
++  root=realpathSync(root);
++  if(!lcov.trim()) throw Error("MALFORMED_REPORT: empty LCOV");
++  const known=new Map(inventory.map(f=>[f.path,f]));
++  const lines=new Map<string,Map<number,number>>();
++  let current:string|undefined, records=0;
++  for(const row of lcov.split(/\r?\n/)) {
++    if(row.startsWith("SF:")) {
++      if(current) throw Error("MALFORMED_REPORT: unterminated record");
++      try {current=relative(root,canonical(row.slice(3)));}
++      catch {throw Error(`UNMAPPED_FILE: ${row.slice(3)}`);}
++      if(!known.has(current) && !/^crates\/[^/]+\/tests\//.test(current)) throw Error(`UNMAPPED_FILE: ${current}`);
++      if(known.has(current) && !lines.has(current)) lines.set(current,new Map());
++    } else if(row.startsWith("DA:")) {
++      if(!current) throw Error("MALFORMED_REPORT: DA without SF");
++      const match=row.match(/^DA:([1-9]\d*),(\d+)(?:,[^,]+)?$/);
++      if(!match) throw Error("MALFORMED_REPORT: invalid DA");
++      const n=Number(match[1]), hit=Number(match[2]);
++      if(!Number.isSafeInteger(n)||!Number.isSafeInteger(hit)) throw Error("MALFORMED_REPORT: unsafe integer");
++      const file=known.get(current);
++      if(file && n>file.lines) throw Error(`MALFORMED_REPORT: line out of bounds ${current}:${n}`);
++      const map=lines.get(current); if(map) map.set(n,Math.max(map.get(n)??0,hit));
++    } else if(row==="end_of_record") {
++      if(!current) throw Error("MALFORMED_REPORT: end without SF");
++      current=undefined;records++;
++    } else if(row && !/^(?:TN|FN|FNDA|FNF|FNH|LF|LH|BRDA|BRF|BRH):/.test(row)) throw Error(`MALFORMED_REPORT: unknown row ${row}`);
++  }
++  if(current || !records) throw Error("MALFORMED_REPORT: incomplete LCOV");
++  for(const crate of CRATES) {
++    if(!inventory.some(f=>f.crate===crate && !f.testOnly && lines.has(f.path))) throw Error(`MISSING_CRATE: ${crate}`);
++  }
++  const files:FileCoverage[]=[];
++  for(const file of inventory) {
++    if(file.testOnly) continue;
++    const map=lines.get(file.path);
++    if(!map) throw Error(`MISSING_FILE: ${file.path}`);
++    const omitted=new Set(file.omitted);
++    const mapped=[...map.keys()].filter(n=>!omitted.has(n)).sort((a,b)=>a-b);
++    const uncovered=mapped.filter(n=>map.get(n)===0);
++    files.push({path:file.path,crate:file.crate,total:mapped.length,covered:mapped.length-uncovered.length,uncovered,mapped,omitted:file.omitted});
++  }
++  const crates=CRATES.map(crate=>{
++    const own=files.filter(f=>f.crate===crate);
++    const total=own.reduce((n,f)=>n+f.total,0), covered=own.reduce((n,f)=>n+f.covered,0);
++    if(!own.length || !total) throw Error(`MISSING_CRATE: invalid denominator for ${crate}`);
++    return {crate,covered,total,percent:100*covered/total,pass:BigInt(covered)*100n>=BigInt(total)*80n};
++  });
++  return {schemaVersion:1,threshold:80,files,crates,pass:crates.every(c=>c.pass)};
++}
+diff --git a/scripts/coverage/commands.ts b/scripts/coverage/commands.ts
+new file mode 100644
+index 0000000..dc714bf
+--- /dev/null
++++ b/scripts/coverage/commands.ts
+@@ -0,0 +1,20 @@
++import { writeFileSync } from "node:fs";
++import { resolve } from "node:path";
++export type Receipt = {argv:string[];cwd:string;started:string;ended:string;exit:number;stdout:string;stderr:string;pid?:number};
++export async function command(argv:string[],dir:string,cwd:string,env:Record<string,string|undefined>=process.env,timeout=120000):Promise<Receipt> {
++  const started=new Date().toISOString();
++  let receipt:Receipt;
++  try {
++    const child=Bun.spawn(argv,{cwd,env,stdout:"pipe",stderr:"pipe"});
++    const timer=setTimeout(()=>child.kill("SIGTERM"),timeout);
++    const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
++    clearTimeout(timer);
++    receipt={argv,cwd,started,ended:new Date().toISOString(),exit,stdout,stderr,pid:child.pid};
++  } catch(error) {
++    receipt={argv,cwd,started,ended:new Date().toISOString(),exit:127,stdout:"",stderr:String(error)};
++  }
++  const sequence=commandSequence++;
++  writeFileSync(resolve(dir,`${String(sequence).padStart(2,"0")}-command.json`),JSON.stringify(receipt,null,2)+"\n");
++  return receipt;
++}
++let commandSequence=0;
+diff --git a/scripts/coverage/config.ts b/scripts/coverage/config.ts
+new file mode 100644
+index 0000000..3b21837
+--- /dev/null
++++ b/scripts/coverage/config.ts
+@@ -0,0 +1,5 @@
++export const BASELINE = "fbe76a5f15101ad415f355ef06f1deeb1f97d568";
++export const PINS = { bun: "1.4.4", rust: "1.95.0", cargoLlvmCov: "0.6.21" };
++export const CRATES = ["arc-core", "arc-detector", "arc-storage", "arc-ipc", "arc-daemon", "arc-cli"] as const;
++export const EVIDENCE = ".arc-verify/rust-coverage";
++export const PROTECTED = ["scripts/harness/validate.sh", "crates/arc-storage/migrations/0001_phase0.sql"];
+diff --git a/scripts/coverage/coverage-cli.test.ts b/scripts/coverage/coverage-cli.test.ts
+new file mode 100644
+index 0000000..d968658
+--- /dev/null
++++ b/scripts/coverage/coverage-cli.test.ts
+@@ -0,0 +1,10 @@
++import { test, expect } from "bun:test";
++import { readFileSync } from "node:fs";
++import { resolve } from "node:path";
++import { realAcceptance, root } from "./acceptance";
++test("root entry point executes the real six-crate coverage gate",async()=>{
++  const pkg=JSON.parse(readFileSync(resolve(root,"package.json"),"utf8"));
++  expect(pkg.private).toBe(true);expect(pkg.scripts["test:coverage"]).toBe("bun scripts/coverage/run.ts");
++  const result=await realAcceptance("coverage-cli",["bun","run","test:coverage"]);
++  expect(result.stdout).toContain("PASS arc-core:");expect(result.stdout).toContain("PASS arc-cli:");
++},120000);
+diff --git a/scripts/coverage/evidence.test.ts b/scripts/coverage/evidence.test.ts
+new file mode 100644
+index 0000000..4cbf4ee
+--- /dev/null
++++ b/scripts/coverage/evidence.test.ts
+@@ -0,0 +1,27 @@
++import { test, expect } from "bun:test";
++import { readFileSync, existsSync } from "node:fs";
++import { resolve } from "node:path";
++import { root } from "./acceptance";
++import { inputIdentity, hash, sourceInventory } from "./source";
++import { EVIDENCE, CRATES, BASELINE } from "./config";
++import { account } from "./accounting";
++
++test("current successful source-bound coverage contains all crates, files and child profiles",()=>{
++  const load=(path:string)=>JSON.parse(readFileSync(resolve(root,path),"utf8"));
++  const latest=load(`${EVIDENCE}/baseline/latest.json`);
++  expect(latest.pass).toBe(true);expect(latest.sourceHash).toBe(inputIdentity(root).sha256);
++  const report=load(`${latest.directory}/summary.json`), receipt=load(`${latest.directory}/receipt.json`);
++  expect(report.acceptedBaseline).toBe(BASELINE);expect(receipt.pass).toBe(true);expect(receipt.exit).toBe(0);
++  const raw=readFileSync(resolve(root,latest.directory,"raw.lcov"),"utf8");
++  expect(hash(raw)).toBe(report.rawSha256);
++  const recomputed=account(raw,sourceInventory(root),root);
++  expect(recomputed.crates).toEqual(report.crates);expect(recomputed.files).toEqual(report.files);
++  expect(report.crates.map((x:any)=>x.crate)).toEqual([...CRATES]);expect(recomputed.pass).toBe(true);
++  const profiles=load(`${latest.directory}/profiles.json`);
++  for(const child of profiles.childProof) {
++    expect(child.profiles.length).toBeGreaterThan(0);
++    for(const profile of child.profiles) expect(profiles.merge).toContain(resolve(profiles.target,profile));
++  }
++  expect(profiles.childProof.map((c:any)=>c.binary)).toEqual(["arcctl","arc-daemon"]);
++  expect(existsSync(resolve(root,latest.directory,"uncovered.md"))).toBe(true);
++});
+diff --git a/scripts/coverage/fixture-runner.ts b/scripts/coverage/fixture-runner.ts
+new file mode 100644
+index 0000000..8000c53
+--- /dev/null
++++ b/scripts/coverage/fixture-runner.ts
+@@ -0,0 +1,20 @@
++// Subprocess boundary for deterministic gate tests. The real root command has
++// no fixture mode, environment override or alternate implementation path.
++import { readFileSync } from "node:fs";
++import { validateReport, enforce, requireExit, requireVersion } from "./gate";
++import { command } from "./commands";
++try {
++  const args=JSON.parse(readFileSync(process.argv[2],"utf8"));
++  if(args.mode==="tool") {
++    const receipt=await command(["/arc-fixture-intentionally-missing-tool"],args.root,args.root);
++    requireExit(receipt.exit,"MISSING_TOOL");
++  } else if(args.mode==="test") {
++    const receipt=await command([process.execPath,"-e","process.exit(23)"],args.root,args.root);
++    requireExit(receipt.exit,"TEST_FAILURE");
++  } else if(args.mode==="version") {
++    requireVersion("0.0.0","0.6.21","cargo-llvm-cov");
++  } else {
++    enforce(validateReport(args));
++  }
++  console.log("PASS controlled fixture");
++} catch(error) {console.error(String(error));process.exitCode=1;}
+diff --git a/scripts/coverage/fixtures.ts b/scripts/coverage/fixtures.ts
+new file mode 100644
+index 0000000..80f7f8b
+--- /dev/null
++++ b/scripts/coverage/fixtures.ts
+@@ -0,0 +1,19 @@
++// Controlled LCOV/process fixtures. These are never production measurements.
++import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { CRATES } from "./config";
++import type { SourceFile } from "./source";
++export function fixture() {
++  const root=mkdtempSync(join(tmpdir(),"arc-coverage-fixture-"));
++  const inventory:SourceFile[]=CRATES.map(crate=>{
++    const path=`crates/${crate}/src/lib.rs`;
++    mkdirSync(join(root,`crates/${crate}/src`),{recursive:true});
++    writeFileSync(join(root,path),"fixture\n".repeat(5));
++    return {path,crate,sha256:"fixture",lines:6,omitted:[],testOnly:false,spans:[]};
++  });
++  const record=(path:string,hits=[1,1,1,1,0])=>`SF:${join(root,path)}\n${hits.map((n,i)=>`DA:${i+1},${n}`).join("\n")}\nend_of_record\n`;
++  const lcov=inventory.map(f=>record(f.path)).join("");
++  const path=join(root,"report.lcov");writeFileSync(path,lcov);
++  return {root,inventory,record,lcov,path};
++}
+diff --git a/scripts/coverage/gate.test.ts b/scripts/coverage/gate.test.ts
+new file mode 100644
+index 0000000..f7ec62e
+--- /dev/null
++++ b/scripts/coverage/gate.test.ts
+@@ -0,0 +1,35 @@
++import { test, expect } from "bun:test";
++import { writeFileSync, utimesSync, unlinkSync } from "node:fs";
++import { join } from "node:path";
++import { fixture } from "./fixtures";
++
++async function check(change:(args:any,f:ReturnType<typeof fixture>)=>void,diagnostic?:string) {
++  const f=fixture();
++  const args:any={...f,started:Date.now()-1000,before:"current-source",after:"current-source",testExit:0};
++  // A separate old passing report must never be consulted as fallback.
++  writeFileSync(join(f.root,"old-passing-report.lcov"),f.lcov);
++  change(args,f);
++  const input=join(f.root,"input.json");writeFileSync(input,JSON.stringify(args));
++  const child=Bun.spawn([process.execPath,join(import.meta.dir,"fixture-runner.ts"),input],{stdout:"pipe",stderr:"pipe"});
++  const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);
++  if(diagnostic) {expect(exit).not.toBe(0);expect(stderr).toContain(diagnostic);expect(stdout).not.toContain("PASS");}
++  else {expect(exit).toBe(0);expect(stdout).toContain("PASS");}
++}
++test("exact 80% succeeds",()=>check(()=>{}));
++test("failed subprocess tests cannot reuse old passing artifacts",()=>check(a=>{a.mode="test"},"TEST_FAILURE: exited 23"));
++test("test exit is checked before report validity",()=>check(a=>{a.testExit=7;a.path="missing"},"TEST_FAILURE: exited 7"));
++test("missing tool returns nonzero",()=>check(a=>{a.mode="tool"},"MISSING_TOOL: exited 127"));
++test("mismatched tool returns nonzero",()=>check(a=>{a.mode="version"},"TOOL_VERSION"));
++test("missing report returns nonzero",()=>check((_,f)=>unlinkSync(f.path),"MISSING_REPORT"));
++test("stale report returns nonzero",()=>check((a,f)=>{utimesSync(f.path,1,1);a.started=Date.now()},"STALE_REPORT"));
++test("source changed during measurement returns nonzero",()=>check(a=>{a.after="changed"},"STALE_REPORT"));
++test("malformed report returns nonzero",()=>check((_,f)=>writeFileSync(f.path,"not lcov"),"MALFORMED_REPORT"));
++test("missing crate returns nonzero",()=>check((_,f)=>writeFileSync(f.path,f.inventory.slice(1).map(x=>f.record(x.path)).join("")),"MISSING_CRATE"));
++test("missing production file returns nonzero",()=>check(a=>{a.inventory.push({...a.inventory[0],path:"crates/arc-core/src/missing.rs"})},"MISSING_FILE"));
++test("one failing crate fails despite high workspace average",()=>check((_,f)=>{
++  writeFileSync(f.path,f.inventory.map((x,i)=>f.record(x.path,i===0?[1,1,1,0,0]:[1,1,1,1,1])).join(""));
++},"BELOW_THRESHOLD: arc-core 3/5"));
++test("a displayed 80.00% below the exact boundary fails",()=>check((a,f)=>{
++  a.inventory=a.inventory.map((x:any)=>({...x,lines:100002}));
++  writeFileSync(f.path,f.inventory.map(x=>f.record(x.path,Array.from({length:100001},(_,i)=>i<80000?1:0))).join(""));
++},"BELOW_THRESHOLD"));
+diff --git a/scripts/coverage/gate.ts b/scripts/coverage/gate.ts
+new file mode 100644
+index 0000000..1c5652a
+--- /dev/null
++++ b/scripts/coverage/gate.ts
+@@ -0,0 +1,26 @@
++import { existsSync, readFileSync, statSync } from "node:fs";
++import { account } from "./accounting";
++import { hash, type SourceFile } from "./source";
++
++export function requireExit(code:number,label:string) {
++  if(code!==0) throw Error(`${label}: exited ${code}`);
++}
++export function requireVersion(actual:string,wanted:string,label:string) {
++  if(actual.trim()!==wanted) throw Error(`TOOL_VERSION: ${label}: expected ${wanted}, got ${actual.trim()}`);
++}
++export function freshReport(path:string,started:number) {
++  if(!existsSync(path)) throw Error(`MISSING_REPORT: ${path}`);
++  if(statSync(path).mtimeMs<started) throw Error(`STALE_REPORT: ${path}`);
++  return readFileSync(path,"utf8");
++}
++export function validateReport(args:{path:string;started:number;before:string;after:string;inventory:SourceFile[];root:string;testExit:number}) {
++  requireExit(args.testExit,"TEST_FAILURE");
++  if(args.before!==args.after) throw Error("STALE_REPORT: source/configuration changed during measurement");
++  const raw=freshReport(args.path,args.started);
++  const result=account(raw,args.inventory,args.root);
++  return {...result,sourceHash:args.before,rawSha256:hash(raw)};
++}
++export function enforce(result:{crates:{crate:string;covered:number;total:number;pass:boolean}[]}) {
++  const failed=result.crates.filter(c=>!c.pass);
++  if(failed.length) throw Error(`BELOW_THRESHOLD: ${failed.map(c=>`${c.crate} ${c.covered}/${c.total}`).join(", ")} (requires 80% per crate)`);
++}
+diff --git a/scripts/coverage/harness.test.ts b/scripts/coverage/harness.test.ts
+new file mode 100644
+index 0000000..1c97f4a
+--- /dev/null
++++ b/scripts/coverage/harness.test.ts
+@@ -0,0 +1,10 @@
++import { test, expect } from "bun:test";
++import { realAcceptance, root } from "./acceptance";
++import { checkPreservation } from "./preservation";
++test("real unchanged harness passes with zero violations and no skip flags",async()=>{
++  checkPreservation(root);
++  const result=await realAcceptance("harness",["./scripts/harness/validate.sh"]);
++  expect(result.stdout).toContain("All checks passed (0 violations)");
++  expect(result.stdout).toContain("Coverage thresholds met");
++  expect(result.stderr).not.toContain("skipping coverage gate");
++},120000);
+diff --git a/scripts/coverage/preservation.test.ts b/scripts/coverage/preservation.test.ts
+new file mode 100644
+index 0000000..9e9d931
+--- /dev/null
++++ b/scripts/coverage/preservation.test.ts
+@@ -0,0 +1,9 @@
++import { test, expect } from "bun:test";
++import { resolve } from "node:path";
++import { checkPreservation } from "./preservation";
++import { BASELINE } from "./config";
++test("accepted baseline protected bytes, production tokens and existing assertions survive",()=>{
++  const result=checkPreservation(resolve(import.meta.dir,"../.."));
++  expect(result.baselineHead).toBe(BASELINE);expect(result.pass).toBe(true);
++  expect(result.existingRustFiles).toBeGreaterThan(0);
++});
+diff --git a/scripts/coverage/preservation.ts b/scripts/coverage/preservation.ts
+new file mode 100644
+index 0000000..d2c2a4a
+--- /dev/null
++++ b/scripts/coverage/preservation.ts
+@@ -0,0 +1,45 @@
++import { readFileSync } from "node:fs";
++import { resolve } from "node:path";
++import { BASELINE, PROTECTED } from "./config";
++import { hash, tokens, analyzeSource, sourceInventory } from "./source";
++
++function git(root:string,args:string[]) {
++  const p=Bun.spawnSync(["git",...args],{cwd:root,stdout:"pipe",stderr:"pipe"});
++  if(p.exitCode) throw Error(`PRESERVATION: git ${args.join(" ")}: ${p.stderr}`);
++  return p.stdout.toString();
++}
++function productionTokens(source:string) {
++  const omitted=analyzeSource(source).omitted;
++  return tokens(source).filter(t=>!omitted.has(t.line)).map(t=>t.text);
++}
++export function preservationReferences(root:string) {
++  const files=git(root,["ls-tree","-r","--name-only",BASELINE,"--","crates"]).trim().split("\n");
++  return {
++    baselineHead:BASELINE,baselineTree:git(root,["rev-parse",`${BASELINE}^{tree}`]).trim(),
++    protected:Object.fromEntries(PROTECTED.map(p=>[p,hash(git(root,["show",`${BASELINE}:${p}`]))])),
++    files:files.filter(p=>p.endsWith(".rs")).map(path=>{
++      const source=git(root,["show",`${BASELINE}:${path}`]);
++      return {path,sha256:hash(source),tokens:tokens(source).map(t=>t.text),productionTokenHash:hash(JSON.stringify(productionTokens(source)))};
++    }),
++  };
++}
++export function checkPreservation(root:string) {
++  const refs=preservationReferences(root);
++  const production=new Set(sourceInventory(root).filter(f=>!f.testOnly).map(f=>f.path));
++  for(const [path,expected] of Object.entries(refs.protected)) {
++    if(hash(readFileSync(resolve(root,path)))!==expected) throw Error(`PRESERVATION: protected bytes changed: ${path}`);
++  }
++  // Existing tokens must be an ordered subsequence: additions of tests are
++  // allowed, but deleting/changing existing assertion or helper tokens is not.
++  // The independent reviewer also checks additions for weakened assertions.
++  for(const file of refs.files) {
++    const source=readFileSync(resolve(root,file.path),"utf8"), current=tokens(source).map(t=>t.text);
++    let index=0;
++    for(const token of current) if(token===file.tokens[index]) index++;
++    if(index!==file.tokens.length) throw Error(`PRESERVATION: existing Rust tokens changed or removed: ${file.path}`);
++    if(production.has(file.path)) {
++      if(hash(JSON.stringify(productionTokens(source)))!==file.productionTokenHash) throw Error(`PRESERVATION: production tokens changed: ${file.path}`);
++    }
++  }
++  return {baselineHead:refs.baselineHead,baselineTree:refs.baselineTree,protected:refs.protected,existingRustFiles:refs.files.length,pass:true};
++}
+diff --git a/scripts/coverage/provision.sh b/scripts/coverage/provision.sh
+new file mode 100644
+index 0000000..7e4583b
+--- /dev/null
++++ b/scripts/coverage/provision.sh
+@@ -0,0 +1,7 @@
++#!/usr/bin/env bash
++set -euo pipefail
++# Separate setup, never called by the gate. Exact release + upstream Cargo.lock.
++mise install
++rustup component add llvm-tools-preview --toolchain 1.95.0
++cargo +1.95.0 install cargo-llvm-cov --version 0.6.21 --locked
++cargo +1.95.0 fetch --locked
+diff --git a/scripts/coverage/run.ts b/scripts/coverage/run.ts
+new file mode 100644
+index 0000000..7373941
+--- /dev/null
++++ b/scripts/coverage/run.ts
+@@ -0,0 +1,112 @@
++import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, statSync } from "node:fs";
++import { resolve, relative, join, dirname } from "node:path";
++import { BASELINE, PINS, EVIDENCE, CRATES } from "./config";
++import { hash, sourceInventory, inputIdentity, walk } from "./source";
++import { requireExit, requireVersion, validateReport, enforce } from "./gate";
++import { command, type Receipt } from "./commands";
++
++const root=resolve(import.meta.dir,"../..");
++const id=`${new Date().toISOString().replace(/[:.]/g,"-")}-${crypto.randomUUID()}`;
++const dir=resolve(root,EVIDENCE,"baseline/runs",id);
++mkdirSync(dir,{recursive:true});
++const save=(name:string,value:unknown)=>writeFileSync(resolve(dir,name),JSON.stringify(value,null,2)+"\n");
++const receipts:Receipt[]=[];
++const env={...process.env,RUSTUP_TOOLCHAIN:PINS.rust,CARGO_NET_OFFLINE:"true",CARGO_TERM_COLOR:"never"};
++const rust=["rustup","run",PINS.rust];
++async function run(argv:string[],label:string,extra:Record<string,string>={},expected=0,timeout=120000) {
++  const receipt=await command(argv,dir,root,{...env,...extra},timeout); receipts.push(receipt);
++  if(receipt.exit!==expected) throw Error(`${label}: exited ${receipt.exit}; ${receipt.stderr.trim()}`);
++  return receipt;
++}
++let input:ReturnType<typeof inputIdentity>|undefined;
++let inventory:ReturnType<typeof sourceInventory>|undefined;
++let measured=false;
++try {
++  console.log("Coverage: checking pinned tools (setup: mise run coverage:provision)");
++  input=inputIdentity(root); inventory=sourceInventory(root);
++  save("inputs.json",input);save("source-inventory.json",inventory);
++  requireVersion(Bun.version,PINS.bun,"Bun");
++  const rustc=await run([...rust,"rustc","-Vv"],"MISSING_TOOL rustc");
++  if(!rustc.stdout.includes(`release: ${PINS.rust}\n`)) throw Error("TOOL_VERSION: Rust release mismatch");
++  const host=rustc.stdout.match(/^host: (.+)$/m)?.[1];
++  if(!host || !/(apple-darwin|unknown-linux)/.test(host)) throw Error(`PLATFORM: unsupported measurement host ${host}`);
++  const cov=await run([...rust,"cargo","llvm-cov","--version"],"MISSING_TOOL cargo-llvm-cov");
++  requireVersion(cov.stdout,`cargo-llvm-cov ${PINS.cargoLlvmCov}`,"cargo-llvm-cov");
++  const sysroot=(await run([...rust,"rustc","--print","sysroot"],"MISSING_TOOL sysroot")).stdout.trim();
++  const llvm=resolve(sysroot,"lib/rustlib",host,"bin");
++  const versions:Record<string,string>={bun:Bun.version,rustc:rustc.stdout,cargoLlvmCov:cov.stdout,host};
++  for(const name of ["llvm-cov","llvm-profdata"]) {
++    if(!existsSync(join(llvm,name))) throw Error(`MISSING_TOOL: ${name}; run mise run coverage:provision`);
++    const receipt=await run([join(llvm,name),"--version"],`MISSING_TOOL ${name}`);
++    const rustLlvm=rustc.stdout.match(/LLVM version: (\S+)/)?.[1];
++    if(!rustLlvm || !receipt.stdout.includes(rustLlvm)) throw Error(`TOOL_VERSION: ${name} must match Rust LLVM ${rustLlvm}`);
++    versions[name]=receipt.stdout;
++  }
++  save("versions.json",versions);
++  const overrides=["RUSTFLAGS","CARGO_ENCODED_RUSTFLAGS","LLVM_COV_FLAGS","LLVM_PROFDATA_FLAGS","RUSTC_WRAPPER","RUSTC_WORKSPACE_WRAPPER","CARGO_BUILD_TARGET",
++    ...Object.keys(process.env).filter(k=>/^CARGO_(?:PROFILE_|TARGET_.*RUSTFLAGS)/.test(k))];
++  for(const name of overrides) {
++    if(process.env[name]) throw Error(`CONFIGURATION: unset ${name} for the pinned measurement`);
++  }
++  const metadata=JSON.parse((await run([...rust,"cargo","metadata","--format-version","1","--locked","--offline"],"METADATA_FAILURE")).stdout);
++  const names=metadata.packages.filter((p:any)=>metadata.workspace_members.includes(p.id)).map((p:any)=>p.name).sort();
++  if(JSON.stringify(names)!==JSON.stringify([...CRATES].sort())) throw Error("MISSING_CRATE: workspace members differ from accounting contract");
++  save("metadata.json",metadata);
++  // Disable the tool's broad tests-directory filter: path-included production
++  // modules may contain tests/../src in their recorded filename. Only exact
++  // non-workspace dependency and compiler-source roots are filtered upstream.
++  const escape=(s:string)=>s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
++  const dependencyRoots=metadata.packages.filter((p:any)=>!metadata.workspace_members.includes(p.id)).map((p:any)=>dirname(p.manifest_path));
++  for(const dep of dependencyRoots) if(root===dep || root.startsWith(dep+"/")) throw Error(`CONFIGURATION: dependency root overlaps workspace ${dep}`);
++  const compilerHash=rustc.stdout.match(/^commit-hash: (.+)$/m)?.[1];
++  const ignoredRoots=[sysroot,`/rustc/${compilerHash}`,...dependencyRoots];
++  const ignore=ignoredRoots.map(p=>`^${escape(p)}(/|$)`).join("|");
++  save("non-workspace-roots.json",ignoredRoots);
++  // A new run owns its target and profiles; no prior artifact can satisfy it.
++  const target=resolve(root,"target/arc-coverage",id);mkdirSync(target,{recursive:true});
++  const coverageEnv={CARGO_LLVM_COV_TARGET_DIR:target,LLVM_PROFILE_FILE_NAME:"arc-%p-%m.profraw",CARGO_LLVM_COV_DENY_WARNINGS:"1",LLVM_COV:join(llvm,"llvm-cov"),LLVM_PROFDATA:join(llvm,"llvm-profdata")};
++  console.log("Coverage: running workspace unit, integration and child-binary tests");
++  await run([...rust,"cargo","llvm-cov","--workspace","--all-targets","--locked","--offline","--no-clean","--no-report","--no-cfg-coverage","--no-cfg-coverage-nightly"],"TEST_FAILURE",coverageEnv,0,120000);
++  // Explicit binary probes supply independently identifiable child PIDs/profile
++  // files in addition to the existing integration suites' inherited profiles.
++  const childProof=[];
++  for(const [binary,args,expected,extra] of [
++    ["arcctl",["--help"],0,{}],
++    ["arc-daemon",[],1,{ARC_SOCKET_PATH:"relative-invalid-coverage-socket",ARC_DB_PATH:join(dir,"probe.sqlite3")}],
++  ] as [string,string[],number,Record<string,string>][]) {
++    const receipt=await run([join(target,"debug",binary),...args],`CHILD_FAILURE ${binary}`,{...coverageEnv,...extra,LLVM_PROFILE_FILE:join(target,"arc-%p-%m.profraw")},expected);
++    const profiles=readdirSync(target).filter(p=>p.startsWith(`arc-${receipt.pid}-`)&&p.endsWith(".profraw"));
++    if(!profiles.length) throw Error(`CHILD_PROFILE: no profile for ${binary} pid ${receipt.pid}`);
++    for(const profile of profiles) if(!statSync(join(target,profile)).size) throw Error(`CHILD_PROFILE: empty ${profile}`);
++    childProof.push({binary,pid:receipt.pid,profiles,exit:receipt.exit});
++  }
++  const profiles=readdirSync(target).filter(p=>p.endsWith(".profraw")).sort();
++  if(!profiles.length) throw Error("MISSING_REPORT: no raw profiles");
++  console.log("Coverage: merging fresh execution profiles and validating reports");
++  const report=join(dir,"raw.lcov"), started=Date.now();
++  await run([...rust,"cargo","llvm-cov","report","--lcov","--output-path",report,"--failure-mode","any","--disable-default-ignore-filename-regex","--ignore-filename-regex",ignore,"--verbose"],"REPORT_FAILURE",coverageEnv);
++  // The pinned tool writes the exact llvm-profdata -f input list. Check that
++  // every collected profile, including explicit child PIDs, entered this merge.
++  const lists=readdirSync(target).filter(p=>p.endsWith("-profraw-list"));
++  if(lists.length!==1) throw Error("CHILD_PROFILE: missing merge input list");
++  const merge=readFileSync(join(target,lists[0]),"utf8").trim().split("\n").sort();
++  if(JSON.stringify(merge)!==JSON.stringify(profiles.map(p=>join(target,p)).sort())) throw Error("CHILD_PROFILE: merge input mismatch");
++  save("profiles.json",{target,childProof,merge,profiles:profiles.map(p=>({path:p,sha256:hash(readFileSync(join(target,p))),size:statSync(join(target,p)).size}))});
++  const after=inputIdentity(root);
++  const result=validateReport({path:report,started,before:input.sha256,after:after.sha256,inventory,root,testExit:0});
++  measured=true;
++  save("summary.json",{...result,runId:id,acceptedBaseline:BASELINE,host,inputs:input,versions,childProof});
++  writeFileSync(join(dir,"uncovered.md"),result.files.map(f=>`${f.path}: ${f.covered}/${f.total}; uncovered: ${f.uncovered.join(", ")||"none"}`).join("\n")+"\n");
++  for(const crate of result.crates) console.log(`${crate.pass?"PASS":"FAIL"} ${crate.crate}: ${crate.covered}/${crate.total} production lines (${crate.percent.toFixed(2)}%; requires 80%)`);
++  console.log(`Coverage reports: ${relative(root,dir)}`);
++  enforce(result);
++  save("receipt.json",{schemaVersion:1,runId:id,pass:true,exit:0,acceptedBaseline:BASELINE,sourceHash:input.sha256,receipts});
++  writeFileSync(resolve(root,EVIDENCE,"baseline/latest.json"),JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input.sha256,pass:true})+"\n");
++} catch(error) {
++  const message=String(error);
++  save("receipt.json",{schemaVersion:1,runId:id,pass:false,exit:1,error:message,acceptedBaseline:BASELINE,sourceHash:input?.sha256,receipts});
++  writeFileSync(resolve(root,EVIDENCE,"baseline/latest.json"),JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input?.sha256,pass:false})+"\n");
++  console.error(`Coverage unavailable or failed: ${message}\nEvidence: ${relative(root,dir)}`);
++  if(!measured) for(const crate of CRATES) console.error(`UNAVAILABLE ${crate}: no valid current measurement`);
++  process.exitCode=1;
++}
+diff --git a/scripts/coverage/source.ts b/scripts/coverage/source.ts
+new file mode 100644
+index 0000000..b4b45c0
+--- /dev/null
++++ b/scripts/coverage/source.ts
+@@ -0,0 +1,160 @@
++import { readdirSync, readFileSync, realpathSync, existsSync } from "node:fs";
++import { resolve, relative, dirname, basename, join } from "node:path";
++import { createHash } from "node:crypto";
++import { CRATES } from "./config";
++
++export const hash = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
++export function walk(root: string): string[] {
++  return readdirSync(root, { withFileTypes: true }).sort((a,b) => a.name.localeCompare(b.name))
++    .flatMap(e => e.isDirectory() ? walk(join(root,e.name)) : [join(root,e.name)]);
++}
++type Token = { text: string; start: number; end: number; line: number };
++// Skip Rust comments and literals, retaining literal text as one opaque token.
++// Positions stay in the original source; braces inside text never affect balancing.
++export function tokens(source: string): Token[] {
++  const result: Token[] = [];
++  let i = 0, line = 1;
++  const advance = (end: number) => { line += (source.slice(i,end).match(/\n/g) ?? []).length; i = end; };
++  while (i < source.length) {
++    if (/\s/.test(source[i])) { advance(i+1); continue; }
++    if (source.startsWith("//",i)) { const end=source.indexOf("\n",i); advance(end<0?source.length:end); continue; }
++    if (source.startsWith("/*",i)) {
++      let end=i+2, depth=1;
++      while(end<source.length && depth) {
++        if(source.startsWith("/*",end)) {depth++;end+=2;}
++        else if(source.startsWith("*/",end)) {depth--;end+=2;} else end++;
++      }
++      if(depth) throw Error("SOURCE: unclosed block comment");
++      advance(end); continue;
++    }
++    const start=i, startLine=line;
++    const raw=source.slice(i).match(/^(?:br|r)(#*)"/);
++    if(raw) {
++      const end=source.indexOf('"'+raw[1],i+raw[0].length);
++      if(end<0) throw Error("SOURCE: unclosed raw string");
++      advance(end+1+raw[1].length);
++    } else if(source[i]==='"' || (source[i]==="'" && /^'(?:\\.|[^'\\\n])'/.test(source.slice(i)))) {
++      const quote=source[i]; let end=i+1;
++      while(end<source.length) { if(source[end]==="\\") {end+=2;continue;} if(source[end++]===quote) break; }
++      advance(end);
++    } else {
++      const word=source.slice(i).match(/^[A-Za-z_][A-Za-z_0-9]*/);
++      advance(i+(word?.[0].length ?? 1));
++    }
++    result.push({text:source.slice(start,i),start,end:i,line:startLine});
++  }
++  return result;
++}
++function closing(ts: Token[], start: number): number {
++  const pairs: Record<string,string> = {"[":"]","(":")","{":"}"};
++  const end=pairs[ts[start]?.text];
++  if(!end) throw Error("SOURCE: expected opening delimiter");
++  for(let i=start+1;i<ts.length;i++) {
++    if(pairs[ts[i].text]) {i=closing(ts,i);continue;}
++    if(ts[i].text===end) return i;
++  }
++  throw Error("SOURCE: unbalanced delimiters");
++}
++// Three-valued cfg evaluation: only predicates provably false without `test`
++// are omitted. Platform/features stay unknown and therefore in production scope.
++function cfgWithoutTest(ts: string[]): boolean | undefined {
++  if(ts.length===1 && ts[0]==="test") return false;
++  if(["all","any","not"].includes(ts[0]) && ts[1]==="(" && ts.at(-1)===")") {
++    const args: string[][]=[]; let depth=0, start=2;
++    for(let i=2;i<ts.length-1;i++) {
++      if(ts[i]==="(") depth++; if(ts[i]===")") depth--;
++      if(ts[i]==="," && depth===0) {args.push(ts.slice(start,i));start=i+1;}
++    }
++    if(start<ts.length-1) args.push(ts.slice(start,-1));
++    const values=args.map(cfgWithoutTest);
++    if(ts[0]==="not") return values.length===1 && values[0]!==undefined ? !values[0] : undefined;
++    if(ts[0]==="all") return values.includes(false)?false:values.every(x=>x===true)?true:undefined;
++    return values.includes(true)?true:values.every(x=>x===false)?false:undefined;
++  }
++  return undefined;
++}
++export function analyzeSource(source: string) {
++  const ts=tokens(source), omitted=new Set<number>();
++  const modules: {name:string;path?:string;testOnly:boolean}[]=[];
++  const spans: {start:number;end:number;reason:string}[]=[];
++  let attrs: string[][]=[], attrStart=0;
++  for(let i=0;i<ts.length;i++) {
++    if(ts[i].text==="#" && ts[i+1]?.text==="[") {
++      const end=closing(ts,i+1);
++      if(!attrs.length) attrStart=i;
++      attrs.push(ts.slice(i+2,end).map(t=>t.text)); i=end; continue;
++    }
++    const testOnly=attrs.some(a=>a[0]==="cfg" && cfgWithoutTest(a.slice(2,-1))===false);
++    if(ts[i].text==="mod" && ts[i+2]?.text===";") {
++      const path=attrs.find(a=>a[0]==="path")?.[2];
++      modules.push({name:ts[i+1].text,path:path?JSON.parse(path):undefined,testOnly});
++    }
++    if(testOnly) {
++      let end=i, angles=0;
++      for(;end<ts.length;end++) {
++        const t=ts[end].text;
++        if(t==="{") {end=closing(ts,end);break;}
++        if(t==="<") angles++;
++        if(t===">" && ts[end-1]?.text!=="-" && angles) angles--;
++        if(t===";" || (t==="," && !angles)) break;
++        if(t==="[" || t==="(") end=closing(ts,end);
++      }
++      if(end>=ts.length) throw Error("SOURCE: unsupported test-only item");
++      if(ts[attrStart-1]?.line===ts[attrStart].line || ts[end+1]?.line===ts[end].line) {
++        throw Error(`SOURCE: test-only item at ${ts[attrStart].line}-${ts[end].line} shares a line with other code; line accounting is ambiguous`);
++      }
++      spans.push({start:ts[attrStart].line,end:ts[end].line,reason:"cfg false when test is disabled"});
++      for(let l=ts[attrStart].line;l<=ts[end].line;l++) omitted.add(l);
++      // External test module declarations are recorded above; inline children
++      // cannot be production when their enclosing item is disabled.
++      i=end;
++    }
++    // Visibility can appear between the attributes and the item keyword.
++    if(!["pub","crate"].includes(ts[i].text) && !(ts[i].text==="(" && ts[i-1]?.text==="pub")) attrs=[];
++    if(ts[i].text==="(" && ts[i-1]?.text==="pub") i=closing(ts,i);
++  }
++  return {omitted,modules,spans};
++}
++export type SourceFile = { path:string; crate:string; sha256:string; lines:number; omitted:number[]; testOnly:boolean; spans:ReturnType<typeof analyzeSource>["spans"] };
++export function sourceInventory(root: string): SourceFile[] {
++  const files=CRATES.flatMap(crate=>walk(resolve(root,"crates",crate,"src"))).filter(p=>p.endsWith(".rs"));
++  const testFiles=CRATES.flatMap(crate=>{
++    const dir=resolve(root,"crates",crate,"tests");
++    return existsSync(dir)?walk(dir).filter(p=>p.endsWith(".rs")):[];
++  });
++  const analyses=new Map([...files,...testFiles].map(p=>[realpathSync(p),analyzeSource(readFileSync(p,"utf8"))]));
++  const production=new Set<string>(), tests=new Set<string>();
++  function visit(file:string,test:boolean,entry=false) {
++    file=realpathSync(file); const seen=test?tests:production;
++    if(seen.has(file)) return; seen.add(file);
++    const info=analyses.get(file);
++    if(!info && test && /^crates\/[^/]+\/tests\//.test(relative(root,file))) return;
++    if(!info) throw Error(`SOURCE: module outside src: ${file}`);
++    if(!test && !files.includes(file)) throw Error(`SOURCE: production module outside inventoried src: ${file}`);
++    for(const mod of info.modules) {
++      const base=entry || ["main.rs","lib.rs","mod.rs"].includes(basename(file))?dirname(file):file.slice(0,-3);
++      const candidates=mod.path?[resolve(dirname(file),mod.path)]:[resolve(base,mod.name+".rs"),resolve(base,mod.name,"mod.rs")];
++      const child=candidates.find(existsSync);
++      if(!child) throw Error(`SOURCE: missing module ${file}: ${mod.name}`);
++      visit(child,test||mod.testOnly);
++    }
++  }
++  for(const crate of CRATES) for(const entry of ["lib.rs","main.rs"]) {
++    const p=resolve(root,"crates",crate,"src",entry); if(existsSync(p)) visit(p,false,true);
++  }
++  for(const file of testFiles.filter(p=>dirname(p)===resolve(root,"crates",relative(root,p).split("/")[1],"tests"))) visit(file,true,true);
++  return files.map(file=>{
++    const path=relative(root,file), info=analyses.get(realpathSync(file))!;
++    if(!production.has(realpathSync(file)) && !tests.has(realpathSync(file))) throw Error(`SOURCE: unclassified src file ${path}`);
++    const text=readFileSync(file,"utf8");
++    return {path,crate:path.split("/")[1],sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file))};
++  }).sort((a,b)=>a.path.localeCompare(b.path));
++}
++export function inputIdentity(root:string) {
++  const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json",
++    ".arc-verify/rust-coverage/contract/accounting.json",
++    ...[".cargo/config",".cargo/config.toml","build.rs"].filter(p=>existsSync(resolve(root,p))),
++    ...walk(resolve(root,"crates")).map(p=>relative(root,p)),...walk(resolve(root,"scripts/coverage")).map(p=>relative(root,p))];
++  const files=Object.fromEntries([...new Set(paths)].sort().map(p=>[p,hash(readFileSync(resolve(root,p)))]));
++  return {sha256:hash(JSON.stringify(files)),files};
++}

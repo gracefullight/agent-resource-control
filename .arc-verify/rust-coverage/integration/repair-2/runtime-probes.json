@@ -1,0 +1,149 @@
+{
+  "createdAt": 1794097729.0494568,
+  "missionLimits": {
+    "maxDurationSec": 86400,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "maxParallel": 3,
+    "restart": false
+  },
+  "verificationTimeoutMs": 120000,
+  "childTimeoutMs": 115000,
+  "largeTracked": [
+    [
+      16687482,
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json"
+    ],
+    [
+      16687310,
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json"
+    ],
+    [
+      16599361,
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-55-08-154Z-6f5fd9eb-ae8f-402b-988a-10873cad858a/raw.json"
+    ],
+    [
+      16357680,
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-40-54-943Z-14242ab5-17e2-4b4d-a853-e0ce9047404d/raw.json"
+    ],
+    [
+      16357547,
+      ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-42-57-893Z-acb0fb6d-78cf-4df8-bfdc-c971e85992db/raw.json"
+    ],
+    [
+      16357218,
+      ".arc-verify/rust-coverage/tooling/attempt-5/llvm-export.json"
+    ],
+    [
+      5815014,
+      ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/raw.json"
+    ],
+    [
+      5793434,
+      ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-57-50-650Z/raw.json"
+    ],
+    [
+      5123927,
+      ".arc-verify/rust-coverage/process/child-only.lcov"
+    ]
+  ],
+  "probes": [
+    {
+      "locale": null,
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json",
+      "size": 16687482,
+      "pattern": "lin_api_[A-Za-z0-9]{20,}",
+      "duration": 0.2023282079899218,
+      "exit": 1
+    },
+    {
+      "locale": null,
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json",
+      "size": 16687482,
+      "pattern": "API_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]",
+      "duration": 0.1690132500079926,
+      "exit": 1
+    },
+    {
+      "locale": null,
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json",
+      "size": 16687482,
+      "pattern": "Bearer\\s+[A-Za-z0-9\\._\\-]{32,}",
+      "duration": 0.1700732920144219,
+      "exit": 1
+    },
+    {
+      "locale": null,
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json",
+      "size": 16687310,
+      "pattern": "lin_api_[A-Za-z0-9]{20,}",
+      "duration": 0.19725879200268537,
+      "exit": 1
+    },
+    {
+      "locale": null,
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json",
+      "size": 16687310,
+      "pattern": "API_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]",
+      "duration": 0.1702958329988178,
+      "exit": 1
+    },
+    {
+      "locale": null,
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json",
+      "size": 16687310,
+      "pattern": "Bearer\\s+[A-Za-z0-9\\._\\-]{32,}",
+      "duration": 0.16894283299916424,
+      "exit": 1
+    },
+    {
+      "locale": "C",
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json",
+      "size": 16687482,
+      "pattern": "lin_api_[A-Za-z0-9]{20,}",
+      "duration": 0.18629883401445113,
+      "exit": 1
+    },
+    {
+      "locale": "C",
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json",
+      "size": 16687482,
+      "pattern": "API_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]",
+      "duration": 0.16722974998992868,
+      "exit": 1
+    },
+    {
+      "locale": "C",
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-21-41-715Z-10939bf9-c091-4b7c-aa7d-ddb7b20e17f9/raw.json",
+      "size": 16687482,
+      "pattern": "Bearer\\s+[A-Za-z0-9\\._\\-]{32,}",
+      "duration": 0.16566916601732373,
+      "exit": 1
+    },
+    {
+      "locale": "C",
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json",
+      "size": 16687310,
+      "pattern": "lin_api_[A-Za-z0-9]{20,}",
+      "duration": 0.18654470902401954,
+      "exit": 1
+    },
+    {
+      "locale": "C",
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json",
+      "size": 16687310,
+      "pattern": "API_KEY\\s*=\\s*[\"\\x27][A-Za-z0-9_\\-]{16,}[\"\\x27]",
+      "duration": 0.1666531669907272,
+      "exit": 1
+    },
+    {
+      "locale": "C",
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-14-55-025Z-6ea2f6cd-40bf-4140-bd3d-c87cebbbd4b9/raw.json",
+      "size": 16687310,
+      "pattern": "Bearer\\s+[A-Za-z0-9\\._\\-]{32,}",
+      "duration": 0.23180945898639038,
+      "exit": 1
+    }
+  ],
+  "host": "Darwin"
+}

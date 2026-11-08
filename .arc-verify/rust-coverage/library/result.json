@@ -1,0 +1,78 @@
+{
+  "status": "partial",
+  "actorId": "library-coverage",
+  "taskId": "task-3",
+  "attempt": 1,
+  "missionId": "7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f",
+  "summary": "22 additive test items; 82 focused tests pass; four-library diagnostic exceeds 80% in each crate; shared root command reproduces process-owned CLI schema WouldBlock failure.",
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "baselineTree": "8db02719b5bd06d888729ca337f9bf8887991515",
+  "snapshotCommit": "6175ac9ba822ca20c0529394cd22e0ac8a4b9d48",
+  "snapshotTree": "23e3dd57a4929d7c30e17472121d015b3ea95f83",
+  "localHead": "6175ac9ba822ca20c0529394cd22e0ac8a4b9d48",
+  "sourceHash": "a0df31d544fe0afd0425baf8cf8d20b74a2c0a94c8a39073e41b28bc1f3b8cd5",
+  "changedFiles": [
+    "crates/arc-core/tests/coverage.rs",
+    "crates/arc-detector/src/coverage_tests.rs",
+    "crates/arc-detector/src/lib.rs",
+    "crates/arc-storage/tests/coverage.rs",
+    "crates/arc-ipc/tests/coverage.rs",
+    ".arc-verify/rust-coverage/library/"
+  ],
+  "generatedSharedOutputs": [
+    ".arc-verify/rust-coverage/baseline/latest.json",
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-56-10-265Z-ba083afa-69e1-4dfa-972f-a2698fb48c04/",
+    ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-59-16-087Z-c03595ea-3a4f-4616-abe8-82f405ed9781/"
+  ],
+  "ownedCrates": [
+    {
+      "crate": "arc-core",
+      "total": 64,
+      "covered": 64,
+      "percent": 100,
+      "pass": true
+    },
+    {
+      "crate": "arc-detector",
+      "total": 578,
+      "covered": 577,
+      "percent": 99.82698961937716,
+      "pass": true
+    },
+    {
+      "crate": "arc-storage",
+      "total": 227,
+      "covered": 226,
+      "percent": 99.55947136563877,
+      "pass": true
+    },
+    {
+      "crate": "arc-ipc",
+      "total": 215,
+      "covered": 215,
+      "percent": 100,
+      "pass": true
+    }
+  ],
+  "workspaceGatePassed": false,
+  "unresolved": [
+    "Shared bun run test:coverage fails at process-owned crates/arc-cli/tests/schema.rs:57:67 and :73:19; both attempts reproduce WouldBlock.",
+    "Integrated native workspace test, unchanged full harness and independent QA remain for the Chief.",
+    "desktop: incomplete; native Windows: incomplete; remaining Phase 0: incomplete."
+  ],
+  "artifacts": [
+    ".arc-verify/rust-coverage/library/report.md",
+    ".arc-verify/rust-coverage/library/delivery-source.json",
+    ".arc-verify/rust-coverage/library/tests.patch",
+    ".arc-verify/rust-coverage/library/command-index.json",
+    ".arc-verify/rust-coverage/library/line-delta.json",
+    ".arc-verify/rust-coverage/library/libraries-2026-11-07T23-59-54-881Z/summary.json",
+    ".arc-verify/rust-coverage/library/failed-final-workspace-receipt.json"
+  ],
+  "skills": [
+    "oma-backend"
+  ],
+  "interfacesChanged": false,
+  "productionExclusionsAdded": false,
+  "protectedBytesPreserved": true
+}

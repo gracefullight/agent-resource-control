@@ -1,0 +1,16 @@
+{
+  "exit": 0,
+  "stdout": "",
+  "stderr": "info: component llvm-tools is up to date\n",
+  "argv": [
+    "rustup",
+    "component",
+    "add",
+    "llvm-tools-preview",
+    "--toolchain",
+    "1.95.0"
+  ],
+  "started": "2026-11-07T23:34:38.552852+00:00",
+  "elapsedSec": 0.07833691700943746,
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace"
+}

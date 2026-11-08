@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "status": "blocked",
+  "measured": false,
+  "acceptedBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "actorSnapshot": "d3c62cb034707d8cdbb30ba3ab51a392e92a6cce",
+  "initialRunDirectory": ".arc-verify/rust-coverage/baseline/runs/2026-11-07T23-08-34-417Z-421dd953-9d83-47b9-811b-b3717df56556",
+  "sourceHash": "18e8aef0aa7a817e3e8c4f6650936133d0b6e54a4acbf8ca5eda2c22ba99e5fe",
+  "exit": 1,
+  "failure": "Error: MISSING_TOOL cargo-llvm-cov: exited 101; error: no such command: `llvm-cov`\n\nhelp: view all installed commands with `cargo --list`\nhelp: find a package to install `llvm-cov` with `cargo search cargo-llvm-cov`",
+  "crates": [
+    {
+      "crate": "arc-core",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable: prerequisite failed"
+    },
+    {
+      "crate": "arc-detector",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable: prerequisite failed"
+    },
+    {
+      "crate": "arc-storage",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable: prerequisite failed"
+    },
+    {
+      "crate": "arc-ipc",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable: prerequisite failed"
+    },
+    {
+      "crate": "arc-daemon",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable: prerequisite failed"
+    },
+    {
+      "crate": "arc-cli",
+      "covered": null,
+      "total": null,
+      "percent": null,
+      "status": "unavailable: prerequisite failed"
+    }
+  ],
+  "rawMeasurement": "not produced; instrumentation could not start",
+  "uncoveredLines": "unavailable; no fabricated zero-hit or baseline values",
+  "compatibility": "0.6.21 pin selected, real Rust 1.95.0 compatibility unverified",
+  "childProfileProof": "unavailable; instrumented binaries did not run"
+}

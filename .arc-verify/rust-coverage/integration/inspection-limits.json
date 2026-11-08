@@ -1,0 +1,23 @@
+{
+  "serena": "No matching tools exposed in ALL_TOOLS; direct supplied-path reads, no native project search.",
+  "globalGitStatus": "av.yaml: Operation not permitted; scoped status/diff succeeded; global cleanliness unverified.",
+  "processInspection": {
+    "argv": [
+      "ps",
+      "-axo",
+      "pid,ppid,etime,command"
+    ],
+    "outcome": "zsh: operation not permitted: ps",
+    "limitation": "No process-list verification claimed; owned child exits are recorded by the subprocess handles."
+  },
+  "whitespace": {
+    "scope": "Full staged integration evidence",
+    "exit": 2,
+    "diagnostic": "Raw workspace test stdout ends with a captured blank line; raw log retained byte-for-byte. Code-only check passed."
+  },
+  "skills": [
+    "oma-dev-workflow"
+  ],
+  "network": "No installations or downloads. Locked offline dependency fetch succeeded.",
+  "delegation": "No new Actors; independent oma-qa remains task-7."
+}

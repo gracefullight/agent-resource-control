@@ -1,0 +1,13 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "-p",
+    "arc-daemon",
+    "--bin",
+    "arc-daemon",
+    "runtime_report::tests::invalid_report_names"
+  ],
+  "exit": 0,
+  "elapsedSeconds": 3.1955270767211914
+}

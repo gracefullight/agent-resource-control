@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "git",
+    "diff",
+    "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+    "--",
+    "crates",
+    "Cargo.toml",
+    "Cargo.lock"
+  ],
+  "exit": 0,
+  "diffBytes": 0,
+  "stderr": "",
+  "unchanged": true
+}

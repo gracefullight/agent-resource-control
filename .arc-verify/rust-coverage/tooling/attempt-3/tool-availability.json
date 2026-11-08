@@ -1,0 +1,16 @@
+{
+  "exit": 101,
+  "stdout": "",
+  "stderr": "error: no such command: `llvm-cov`\n\nhelp: view all installed commands with `cargo --list`\nhelp: find a package to install `llvm-cov` with `cargo search cargo-llvm-cov`\n",
+  "argv": [
+    "rustup",
+    "run",
+    "1.95.0",
+    "cargo",
+    "llvm-cov",
+    "--version"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:24:39.120236+00:00",
+  "elapsedSec": 0.07763299997895956
+}

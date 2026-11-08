@@ -1,0 +1,42 @@
+   Compiling arc-cli v0.1.0 (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.agent-valley/parallel/workspaces/daa81f71b962cfea-8f9ba36d8e59dd86-1/crates/arc-cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.55s
+     Running unittests src/main.rs (target/debug/deps/arcctl-7bac95b2d513d7e6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/binary.rs (target/debug/deps/binary-c4318fd78e2e57e4)
+
+running 3 tests
+test arcctl_binary_is_built_next_to_the_test_harness ... ok
+test no_arguments_names_both_commands_and_exits_nonzero ... ok
+test legacy_usage_errors_and_version_keep_their_exit_contract ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s
+
+     Running tests/classification.rs (target/debug/deps/classification-35dcc4179b109df1)
+
+running 5 tests
+test error_with_success_payload_is_rejected_before_error_mapping ... ok
+test help_usage_privacy_and_absent_daemon ... ok
+test literal_payloads_and_options_are_preserved_in_one_request ... ok
+test peer_failures_are_typed_correlated_and_never_reflected ... ok
+test timeout_is_bounded_with_no_retry_or_partial_result ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.52s
+
+     Running tests/schema.rs (target/debug/deps/schema-9c1d820c7031fcf4)
+
+running 8 tests
+test doctor_help_explains_schema_scope_and_prestartup_stderr ... ok
+test schema_error_without_details_never_claims_verified_compatibility ... ok
+test actual_cli_reports_verified_production_and_two_version_fixture_success ... ok
+test new_client_old_daemon_labels_unavailable_details_without_claiming_verification ... ok
+test unavailable_and_malformed_present_details_fail_without_legacy_fallback ... ok
+test inconsistent_or_unknown_success_envelopes_cannot_claim_schema_compatibility ... ok
+test integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories ... ok
+test every_schema_failure_survives_error_envelope_with_actionable_reason ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+

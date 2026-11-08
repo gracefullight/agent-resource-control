@@ -1,0 +1,152 @@
+
+running 2 tests
+test tests::confstr_preserves_native_bytes_and_retries_a_growing_buffer ... ok
+test tests::confstr_rejects_errors_malformed_paths_and_unstable_lengths ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test database_path_probe ... ok
+test database_override_precedes_missing_platform_directory ... ok
+test database_override_preserves_non_utf8_path_bytes ... ok
+test absent_and_empty_home_fail_after_empty_database_override ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 3 tests
+test configuration_probe ... ok
+test native_default_is_independent_of_child_tmpdir ... ok
+test nonempty_socket_override_and_empty_override_policy_are_preserved ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+running 13 tests
+test coverage_tests::unquoted_control_words_cannot_be_mistaken_for_executable_names ... ok
+test tests::ipv6_destination_numeric_validation_and_loopback_conservatism ... ok
+test coverage_tests::empty_nested_shell_retains_unknown_in_compound_commands ... ok
+test coverage_tests::ssh_ambiguous_destination_and_option_boundaries_stay_conservative ... ok
+test tests::ssh_post_destination_work_checks_refuse_before_overrun ... ok
+test tests::work_counter_refuses_before_operations_and_never_wraps ... ok
+test tests::malformed_payloads_are_not_analysis_requests ... ok
+test tests::syntax_quotes_aggregation_and_ssh_negative_matrix ... ok
+test tests::delivered_contract_matrix ... ok
+test tests::production_work_exhaustion_trace ... ok
+test tests::input_unicode_tokens_invocations_and_depth_boundaries ... ok
+test tests::ssh_post_destination_matrix ... ok
+test tests::bounded_deterministic_arbitrary_unicode_inputs_never_panic ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 19 tests
+test tests::dispatch::unknown_operation_is_unsupported ... ok
+test tests::framing::multiple_json_values_are_rejected ... ok
+test tests::framing::a_framed_array_is_rejected_without_reaching_a_handler ... ok
+test tests::dispatch::hello_and_health_do_not_require_the_database ... ok
+test tests::dispatch::legacy_doctor_requires_ok_integrity_and_one_migration ... ok
+test tests::framing::an_object_request_still_decodes_after_a_rejected_array ... ok
+test tests::framing::frame_round_trips_one_json_object ... ok
+test tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds ... ok
+test tests::framing::non_object_roots_are_rejected ... ok
+test tests::framing::oversize_declared_length_is_rejected_without_reading_the_body ... ok
+test tests::framing::responses_are_objects_too ... ok
+test tests::framing::writing_non_object_messages_is_rejected_before_emitting_a_frame ... ok
+test tests::framing::zero_length_is_rejected_without_reading_a_body ... ok
+test tests::schema::legacy_absence_and_null_decode_but_missing_present_fields_are_invalid ... ok
+test tests::schema::every_incompatibility_keeps_diagnostic_result_and_prevents_legacy_success ... ok
+test tests::schema::present_but_inconsistent_details_never_fall_back_to_legacy_success ... ok
+test tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema ... ok
+test tests::schema::modern_version_two_succeeds_but_legacy_count_check_rejects_without_falsifying_count ... ok
+test tests::schema::legacy_request_and_decoder_accept_new_production_report_with_truthful_count ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test ssh_option_values_are_not_forwarding_flags ... ok
+test malformed_payload_version_priority_and_legacy_envelopes ... ok
+test ssh_post_destination_typed_dispatch ... ok
+test classification_contract_dispatch_never_calls_doctor ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 9 tests
+test failing_doctor_returns_only_integrity_error_with_request_correlation ... ok
+test fragmented_and_interrupted_reads_recover_without_consuming_the_next_frame ... ok
+test failed_serialization_emits_nothing_and_framed_decode_keeps_type_errors ... ok
+test exchange_writes_one_request_and_reads_one_correlated_response ... ok
+test ipc_errors_keep_display_and_source_chains ... ok
+test header_body_and_flush_failures_preserve_the_original_io_error ... ok
+test closed_truncated_and_io_failures_remain_distinct ... ok
+test frame_error_messages_and_sources_describe_each_failure ... ok
+test outbound_frame_boundaries_reject_before_writing_and_accept_the_exact_limit ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 18 tests
+test migration::tests::concurrency::interrupted_child ... ok
+test migration::tests::acceptance::malformed_registry_is_rejected_before_any_sql ... ok
+test migration::tests::acceptance::initial_sql_failure_rolls_back_every_pending_object ... ok
+test migration::tests::acceptance::later_failure_rolls_back_prior_migration_history_in_same_batch ... ok
+test migration::tests::acceptance::sql_failure_rolls_back_schema_application_data_history_and_witness ... ok
+test migration::tests::rejection::assessment_reuses_existing_transaction_without_committing_it ... ok
+test migration::tests::concurrency::concurrent_upgraders_serialize_and_reread_after_lock_acquisition ... ok
+test migration::tests::rejection::known_prefix_defect_takes_precedence_over_future_history ... ok
+test migration::tests::acceptance::fixture_initialization_additive_upgrade_reopen_and_idempotency ... ok
+test migration::tests::rejection::checksum_defects_in_every_known_entry_leave_all_state_unchanged ... ok
+test migration::tests::concurrency::process_interruption_before_commit_rolls_back_and_recovers ... ok
+test migration::tests::acceptance::production_legacy_history_is_read_only_then_stamped_atomically ... ok
+test migration::tests::rejection::unreadable_layout_stays_a_typed_sql_error ... ok
+test migration::tests::rejection::numeric_version_order_ignores_history_insertion_and_timestamp_order ... ok
+test migration::tests::rejection::unsupported_newer_history_and_witness_and_downgrade_are_rejected ... ok
+test migration::tests::rejection::empty_arc_objects_or_history_and_nonzero_witness_are_never_fresh ... ok
+test migration::tests::rejection::missing_history_table_rows_gaps_and_trailing_entry_are_rejected ... ok
+test migration::tests::rejection::invalid_history_ids_types_duplicates_and_witness_are_rejected ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+
+running 6 tests
+test incompatible_schema_messages_preserve_recovery_guidance_and_versions ... ok
+test migration_errors_keep_diagnostics_and_sources ... ok
+test invalid_database_locations_preserve_caller_files ... ok
+test a_memory_uri_cannot_satisfy_the_required_wal_mode ... ok
+test view_named_history_is_invalid_and_assessment_is_read_only ... ok
+test invalid_utf8_history_is_rejected_without_rewriting_bytes ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 4 tests
+test migration_failure_rolls_back_all_new_tables ... ok
+test foreign_keys_and_unique_resource_identity_are_enforced ... ok
+test nfr010_wal_migration_survives_close_and_reopen_without_cleanup ... ok
+test mismatched_checksum_is_rejected_without_reapplying_migration ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

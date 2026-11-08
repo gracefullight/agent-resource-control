@@ -1,0 +1,41 @@
+{
+  "case": "missing-child-profile",
+  "argv": [
+    "/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin/bun",
+    "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/fixtures/missing-child-profile/scripts/coverage/run.ts"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/.arc-verify/rust-coverage/qa/fixtures/missing-child-profile",
+  "started": "2026-11-08T00:55:37.463211+00:00",
+  "ended": "2026-11-08T00:55:40.635415+00:00",
+  "exit": 1,
+  "stdout": "Coverage: checking pinned tools (setup: mise run coverage:provision)\nCoverage: running workspace unit, integration and child-binary tests\n",
+  "stderr": "Coverage unavailable or failed: Error: CHILD_PROFILE: no profile for arcctl pid 1876\nEvidence: .arc-verify/rust-coverage/baseline/runs/2026-11-08T00-55-37-484Z-9170c1db-1f7f-4a42-852d-e24fb5dc35fd\nUNAVAILABLE arc-core: no valid current measurement\nUNAVAILABLE arc-detector: no valid current measurement\nUNAVAILABLE arc-storage: no valid current measurement\nUNAVAILABLE arc-ipc: no valid current measurement\nUNAVAILABLE arc-daemon: no valid current measurement\nUNAVAILABLE arc-cli: no valid current measurement\n",
+  "expectedDiagnostic": "CHILD_PROFILE: no profile",
+  "assertionsPass": true,
+  "latest": {
+    "runId": "2026-11-08T00-55-37-484Z-9170c1db-1f7f-4a42-852d-e24fb5dc35fd",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T00-55-37-484Z-9170c1db-1f7f-4a42-852d-e24fb5dc35fd",
+    "sourceHash": "e2f8adf67fef1d79c89d18fe69bb7fbb96ff674eb1190ebbc55b1d55dce0fb22",
+    "pass": false
+  },
+  "copiedScripts": {
+    "provision.sh": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+    "fixtures.ts": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+    "commands.ts": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+    "source.ts": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+    "preservation.test.ts": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+    "gate.ts": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+    "gate.test.ts": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+    "preservation.ts": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+    "fixture-runner.ts": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+    "evidence.test.ts": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8",
+    "acceptance.ts": "0c8118159e6cd79521fe3690d9c43034b06c574da5059e57604ce67644b3dc74",
+    "accounting.test.ts": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882",
+    "harness.test.ts": "ddcd1f5d60bb801c062b8055d3c7be6e3dc11f51eda257138de6d5eba50cb747",
+    "config.ts": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+    "coverage-cli.test.ts": "ccc0b50855a881c4b5158c592b313f4a1a908db2837904dc98797d6c2456b23a",
+    "accounting.ts": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+    "run.ts": "9d661c8bddfcb884d8489545d616a9ec0c16566f5c2439e9708031a9a74e73a6"
+  },
+  "synthetic": true
+}

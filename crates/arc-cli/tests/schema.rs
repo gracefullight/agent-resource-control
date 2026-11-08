@@ -48,6 +48,9 @@ fn cli(result: Value, error: Option<&str>) -> Output {
                 Err(error) => panic!("{error}"),
             }
         };
+        // macOS accepted sockets inherit O_NONBLOCK from the listener.
+        // The framed reader needs blocking I/O with the deadlines below.
+        stream.set_nonblocking(false).unwrap();
         stream
             .set_read_timeout(Some(Duration::from_secs(5)))
             .unwrap();
@@ -225,4 +228,12 @@ fn doctor_help_explains_schema_scope_and_prestartup_stderr() {
     assert!(text.contains("database integrity and schema compatibility"));
     assert!(text.contains("inspect its stderr"));
     assert!(!text.contains('\u{1b}'));
+}
+
+#[test]
+fn schema_error_without_details_never_claims_verified_compatibility() {
+    let output = cli(legacy(1), Some("SCHEMA_INCOMPATIBLE"));
+    assert_eq!(output.status.code(), Some(1));
+    assert!(output.stdout.is_empty());
+    assert_eq!(output.stderr, b"SCHEMA_DETAILS_UNAVAILABLE\n");
 }

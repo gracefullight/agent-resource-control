@@ -1,0 +1,12 @@
+{
+  "name": "coverage-cli",
+  "sourceHash": "ecd38f7d15137942dbdee81dc996386cb4f8347ca8644cdcf62c1de9b2b28027",
+  "afterHash": "ecd38f7d15137942dbdee81dc996386cb4f8347ca8644cdcf62c1de9b2b28027",
+  "unchanged": true,
+  "exit": 1,
+  "argv": [
+    "bun",
+    "run",
+    "test:coverage"
+  ]
+}

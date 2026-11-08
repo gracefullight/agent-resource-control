@@ -1,0 +1,13 @@
+{
+  "exit": 0,
+  "stdout": "coverage:provision\ntest:coverage\n",
+  "stderr": "mise WARN  tracking config: failed to ln -sf /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace/mise.toml /Users/gracefullight/.local/state/mise/tracked-configs/9d56bf54552db382: Operation not permitted (os error 1)\n",
+  "argv": [
+    "mise",
+    "tasks",
+    "--all"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:24:39.090166+00:00",
+  "elapsedSec": 0.029279417009092867
+}

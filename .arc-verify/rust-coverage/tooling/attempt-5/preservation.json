@@ -1,0 +1,34 @@
+{
+  "acceptedHead": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+  "files": [
+    {
+      "path": "scripts/harness/validate.sh",
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "acceptedSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "byteIdentical": true
+    },
+    {
+      "path": "crates/arc-storage/migrations/0001_phase0.sql",
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "acceptedSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "byteIdentical": true
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "acceptedSha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "byteIdentical": true
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "acceptedSha256": "29102331f1c741eb89f2c98a7e706388b12137afb76cae9e60ea5b5f839f074d",
+      "byteIdentical": true
+    }
+  ],
+  "rustDiffEmpty": true,
+  "diffExit": 0,
+  "existingAssertions": "preservation.test.ts passed against accepted HEAD; no Rust file changed",
+  "commandsUnchanged": true,
+  "skipFlagsUsed": false
+}

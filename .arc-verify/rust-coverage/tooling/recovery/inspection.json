@@ -1,0 +1,77 @@
+{
+  "at": "2026-11-07T23:18:57.614791+00:00",
+  "receipts": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "exit": 0,
+      "stdout": "fbe76a5f15101ad415f355ef06f1deeb1f97d568\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        ".gitignore",
+        "package.json",
+        "mise.toml",
+        "rust-toolchain.toml",
+        "scripts/coverage",
+        ".arc-verify/rust-coverage/contract",
+        ".arc-verify/rust-coverage/baseline",
+        ".arc-verify/rust-coverage/tooling"
+      ],
+      "exit": 0,
+      "stdout": "M  .gitignore\nM  mise.toml\nA  package.json\nM  rust-toolchain.toml\nA  scripts/coverage/acceptance.ts\nA  scripts/coverage/accounting.test.ts\nA  scripts/coverage/accounting.ts\nA  scripts/coverage/commands.ts\nA  scripts/coverage/config.ts\nA  scripts/coverage/coverage-cli.test.ts\nA  scripts/coverage/evidence.test.ts\nA  scripts/coverage/fixture-runner.ts\nA  scripts/coverage/fixtures.ts\nA  scripts/coverage/gate.test.ts\nA  scripts/coverage/gate.ts\nA  scripts/coverage/harness.test.ts\nA  scripts/coverage/preservation.test.ts\nA  scripts/coverage/preservation.ts\nA  scripts/coverage/provision.sh\nA  scripts/coverage/run.ts\nA  scripts/coverage/source.ts\n?? .arc-verify/rust-coverage/baseline/\n?? .arc-verify/rust-coverage/contract/\n?? .arc-verify/rust-coverage/tooling/\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+        "--",
+        "Cargo.toml",
+        "Cargo.lock",
+        "crates",
+        "scripts/harness/validate.sh"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "check-ignore",
+        "-v",
+        "--",
+        "scripts/coverage/run.ts"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "protected": {
+    "scripts/harness/validate.sh": {
+      "sha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
+      "bytes": 20351,
+      "byteIdenticalToAcceptedHead": true
+    },
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "bytes": 3917,
+      "byteIdenticalToAcceptedHead": true
+    }
+  },
+  "globalStatusAccessDenial": "av.yaml: Operation not permitted",
+  "deniedPathBypassed": false,
+  "serena": "Not exposed in current tool inventory; known-path reads only",
+  "otherActorsEdited": false
+}

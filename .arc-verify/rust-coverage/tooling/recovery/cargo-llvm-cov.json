@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "cargo",
+    "+1.95.0",
+    "install",
+    "cargo-llvm-cov",
+    "--version",
+    "0.6.21",
+    "--locked"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-07T23:17:34.949028+00:00",
+  "exit": 101,
+  "stdout": "",
+  "stderr": "    Updating crates.io index\nwarning: failed to write cache, path: /Users/gracefullight/.cargo/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ca/rg/cargo-llvm-cov, error: Operation not permitted (os error 1)\n Downloading crates ...\n  Downloaded cargo-llvm-cov v0.6.21\n Downloading crates ...\n  Downloaded cargo-llvm-cov v0.6.21\nerror: failed to open `/Users/gracefullight/.cargo/registry/cache/index.crates.io-1949cf8c6b5b557f/cargo-llvm-cov-0.6.21.crate`\n\nCaused by:\n  Operation not permitted (os error 1)\n",
+  "elapsedSeconds": 4.570931041991571
+}

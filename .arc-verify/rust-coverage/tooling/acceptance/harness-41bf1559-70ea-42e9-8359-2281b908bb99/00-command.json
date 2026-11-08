@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "./scripts/harness/validate.sh"
+  ],
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/7ba9fc0c-c37e-4d8d-aba6-3e98de6cc13f/workspace",
+  "started": "2026-11-08T00:34:48.665Z",
+  "ended": "2026-11-08T00:36:43.669Z",
+  "exit": 143,
+  "stdout": "\u001b[0;34m[validate]\u001b[0m Mode: all-tracked\n\u001b[0;34m[validate]\u001b[0m Files to check: 3702\n\u001b[0;34m[validate]\u001b[0m Check 1/5: Hardcoded secrets\n",
+  "stderr": "",
+  "pid": 20597
+}

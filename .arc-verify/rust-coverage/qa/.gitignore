@@ -1,0 +1,6 @@
+# Retained local diagnostic runtime data; reproducible from the review scripts.
+/fixtures/
+/native-reexport.json
+/real-children/native-export.json
+/real-children/profiles/
+/real-children/children.profdata

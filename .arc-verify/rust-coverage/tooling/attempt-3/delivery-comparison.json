@@ -1,0 +1,370 @@
+{
+  "at": "2026-11-07T23:26:37.347101+00:00",
+  "deliveryTree": "02f7d32a1f9087ac9af58d3d81c993da024ad6a8",
+  "fileCount": 17,
+  "allActualNonemptyContentsMatch": true,
+  "intentToAddUsed": false,
+  "patchSha256": "d07c6185c77f80f9fb237c7d89e3daa24b1477cb27f31dc4c9906518bc6f6405",
+  "files": [
+    {
+      "path": "scripts/coverage/acceptance.ts",
+      "bytes": 1077,
+      "sha256": "f7a715a6b1b0f479b36ce3443d1eb688f19e18ee6ff3619d053a5cb316964fa2",
+      "indexBytes": 1077,
+      "indexSha256": "f7a715a6b1b0f479b36ce3443d1eb688f19e18ee6ff3619d053a5cb316964fa2",
+      "deliveryTreeBytes": 1077,
+      "deliveryTreeSha256": "f7a715a6b1b0f479b36ce3443d1eb688f19e18ee6ff3619d053a5cb316964fa2",
+      "contentsMatch": true,
+      "originalBytes": 1077,
+      "originalSha256": "f7a715a6b1b0f479b36ce3443d1eb688f19e18ee6ff3619d053a5cb316964fa2",
+      "changedThisAttempt": false,
+      "lines": 18,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/accounting.test.ts",
+      "bytes": 4645,
+      "sha256": "bf7eddd1ee3db03cef8e5d9bb71e188b8d374fea045ce9b4a0710ecd866744db",
+      "indexBytes": 4645,
+      "indexSha256": "bf7eddd1ee3db03cef8e5d9bb71e188b8d374fea045ce9b4a0710ecd866744db",
+      "deliveryTreeBytes": 4645,
+      "deliveryTreeSha256": "bf7eddd1ee3db03cef8e5d9bb71e188b8d374fea045ce9b4a0710ecd866744db",
+      "contentsMatch": true,
+      "originalBytes": 3460,
+      "originalSha256": "d652162583eed3beaecbd09636434158cf913cb19d417c1e77c142243df0ed77",
+      "changedThisAttempt": true,
+      "lines": 75,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/accounting.ts",
+      "bytes": 4348,
+      "sha256": "621a38a25fb9031fe9279d04a33ed4bf35576fd2646877659e268982899c4750",
+      "indexBytes": 4348,
+      "indexSha256": "621a38a25fb9031fe9279d04a33ed4bf35576fd2646877659e268982899c4750",
+      "deliveryTreeBytes": 4348,
+      "deliveryTreeSha256": "621a38a25fb9031fe9279d04a33ed4bf35576fd2646877659e268982899c4750",
+      "contentsMatch": true,
+      "originalBytes": 3250,
+      "originalSha256": "55138c261280a50c393a671cd4b3c3fd4488b9ab363d69ae2c1c4c3f1ed64194",
+      "changedThisAttempt": true,
+      "lines": 72,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/commands.ts",
+      "bytes": 1142,
+      "sha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+      "indexBytes": 1142,
+      "indexSha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+      "deliveryTreeBytes": 1142,
+      "deliveryTreeSha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+      "contentsMatch": true,
+      "originalBytes": 1142,
+      "originalSha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+      "changedThisAttempt": false,
+      "lines": 20,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/config.ts",
+      "bytes": 418,
+      "sha256": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+      "indexBytes": 418,
+      "indexSha256": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+      "deliveryTreeBytes": 418,
+      "deliveryTreeSha256": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+      "contentsMatch": true,
+      "originalBytes": 418,
+      "originalSha256": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+      "changedThisAttempt": false,
+      "lines": 5,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/coverage-cli.test.ts",
+      "bytes": 626,
+      "sha256": "64b2a3d47b106da5f695d7362162ae25c506bd4f519a7a79fcad3b04d9776282",
+      "indexBytes": 626,
+      "indexSha256": "64b2a3d47b106da5f695d7362162ae25c506bd4f519a7a79fcad3b04d9776282",
+      "deliveryTreeBytes": 626,
+      "deliveryTreeSha256": "64b2a3d47b106da5f695d7362162ae25c506bd4f519a7a79fcad3b04d9776282",
+      "contentsMatch": true,
+      "originalBytes": 626,
+      "originalSha256": "64b2a3d47b106da5f695d7362162ae25c506bd4f519a7a79fcad3b04d9776282",
+      "changedThisAttempt": false,
+      "lines": 10,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/evidence.test.ts",
+      "bytes": 1701,
+      "sha256": "863773e541e0427c137e986b498fc72c10a15e15c0cbc18eb29b74d82ea4a0ef",
+      "indexBytes": 1701,
+      "indexSha256": "863773e541e0427c137e986b498fc72c10a15e15c0cbc18eb29b74d82ea4a0ef",
+      "deliveryTreeBytes": 1701,
+      "deliveryTreeSha256": "863773e541e0427c137e986b498fc72c10a15e15c0cbc18eb29b74d82ea4a0ef",
+      "contentsMatch": true,
+      "originalBytes": 1701,
+      "originalSha256": "863773e541e0427c137e986b498fc72c10a15e15c0cbc18eb29b74d82ea4a0ef",
+      "changedThisAttempt": false,
+      "lines": 27,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/fixture-runner.ts",
+      "bytes": 978,
+      "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "indexBytes": 978,
+      "indexSha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "deliveryTreeBytes": 978,
+      "deliveryTreeSha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "contentsMatch": true,
+      "originalBytes": 978,
+      "originalSha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "changedThisAttempt": false,
+      "lines": 20,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/fixtures.ts",
+      "bytes": 1052,
+      "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "indexBytes": 1052,
+      "indexSha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "deliveryTreeBytes": 1052,
+      "deliveryTreeSha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "contentsMatch": true,
+      "originalBytes": 999,
+      "originalSha256": "6ac3606a5f0389fa15617be5e375d4c50cf910c5b1c987ab1b4124f92e447daa",
+      "changedThisAttempt": true,
+      "lines": 19,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/gate.test.ts",
+      "bytes": 3030,
+      "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "indexBytes": 3030,
+      "indexSha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "deliveryTreeBytes": 3030,
+      "deliveryTreeSha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "contentsMatch": true,
+      "originalBytes": 2798,
+      "originalSha256": "9550550dee65a609069e6ec2d124ac88eb2f3d4215e19bd709756f97a72e4d64",
+      "changedThisAttempt": true,
+      "lines": 40,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/gate.ts",
+      "bytes": 1455,
+      "sha256": "b5e69c6c5f13f922e7495391aa4d77653445c197ff7748b87e937872fef9ead6",
+      "indexBytes": 1455,
+      "indexSha256": "b5e69c6c5f13f922e7495391aa4d77653445c197ff7748b87e937872fef9ead6",
+      "deliveryTreeBytes": 1455,
+      "deliveryTreeSha256": "b5e69c6c5f13f922e7495391aa4d77653445c197ff7748b87e937872fef9ead6",
+      "contentsMatch": true,
+      "originalBytes": 1455,
+      "originalSha256": "b5e69c6c5f13f922e7495391aa4d77653445c197ff7748b87e937872fef9ead6",
+      "changedThisAttempt": false,
+      "lines": 26,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/harness.test.ts",
+      "bytes": 551,
+      "sha256": "22307fd93cebef7bb72090b2be34c23859fee8d872157b93b56518da43e1cd70",
+      "indexBytes": 551,
+      "indexSha256": "22307fd93cebef7bb72090b2be34c23859fee8d872157b93b56518da43e1cd70",
+      "deliveryTreeBytes": 551,
+      "deliveryTreeSha256": "22307fd93cebef7bb72090b2be34c23859fee8d872157b93b56518da43e1cd70",
+      "contentsMatch": true,
+      "originalBytes": 551,
+      "originalSha256": "22307fd93cebef7bb72090b2be34c23859fee8d872157b93b56518da43e1cd70",
+      "changedThisAttempt": false,
+      "lines": 10,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/preservation.test.ts",
+      "bytes": 469,
+      "sha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+      "indexBytes": 469,
+      "indexSha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+      "deliveryTreeBytes": 469,
+      "deliveryTreeSha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+      "contentsMatch": true,
+      "originalBytes": 469,
+      "originalSha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+      "changedThisAttempt": false,
+      "lines": 9,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/preservation.ts",
+      "bytes": 2529,
+      "sha256": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+      "indexBytes": 2529,
+      "indexSha256": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+      "deliveryTreeBytes": 2529,
+      "deliveryTreeSha256": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+      "contentsMatch": true,
+      "originalBytes": 2529,
+      "originalSha256": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+      "changedThisAttempt": false,
+      "lines": 45,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/provision.sh",
+      "bytes": 283,
+      "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "indexBytes": 283,
+      "indexSha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "deliveryTreeBytes": 283,
+      "deliveryTreeSha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "contentsMatch": true,
+      "originalBytes": 283,
+      "originalSha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "changedThisAttempt": false,
+      "lines": 7,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/run.ts",
+      "bytes": 9147,
+      "sha256": "4dd717b32ea2d9d38371e006dbb6aca0061de7fb9724445759436935a824ec88",
+      "indexBytes": 9147,
+      "indexSha256": "4dd717b32ea2d9d38371e006dbb6aca0061de7fb9724445759436935a824ec88",
+      "deliveryTreeBytes": 9147,
+      "deliveryTreeSha256": "4dd717b32ea2d9d38371e006dbb6aca0061de7fb9724445759436935a824ec88",
+      "contentsMatch": true,
+      "originalBytes": 9147,
+      "originalSha256": "4dd717b32ea2d9d38371e006dbb6aca0061de7fb9724445759436935a824ec88",
+      "changedThisAttempt": false,
+      "lines": 112,
+      "within500Lines": true
+    },
+    {
+      "path": "scripts/coverage/source.ts",
+      "bytes": 8807,
+      "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "indexBytes": 8807,
+      "indexSha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "deliveryTreeBytes": 8807,
+      "deliveryTreeSha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "contentsMatch": true,
+      "originalBytes": 8807,
+      "originalSha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "changedThisAttempt": false,
+      "lines": 160,
+      "within500Lines": true
+    }
+  ],
+  "patchPayloads": [
+    {
+      "path": "scripts/coverage/acceptance.ts",
+      "patchPayloadBytes": 1077,
+      "patchPayloadSha256": "f7a715a6b1b0f479b36ce3443d1eb688f19e18ee6ff3619d053a5cb316964fa2",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/accounting.test.ts",
+      "patchPayloadBytes": 4645,
+      "patchPayloadSha256": "bf7eddd1ee3db03cef8e5d9bb71e188b8d374fea045ce9b4a0710ecd866744db",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/accounting.ts",
+      "patchPayloadBytes": 4348,
+      "patchPayloadSha256": "621a38a25fb9031fe9279d04a33ed4bf35576fd2646877659e268982899c4750",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/commands.ts",
+      "patchPayloadBytes": 1142,
+      "patchPayloadSha256": "0adccd656cb9fb1362fc0b89de2fb153e0267bb19ff6d8c5f791c7dd66603bea",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/config.ts",
+      "patchPayloadBytes": 418,
+      "patchPayloadSha256": "8c0ad9a1f878350b45689da8ba09b556d99d8f671761dd104edbdc1a0d083464",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/coverage-cli.test.ts",
+      "patchPayloadBytes": 626,
+      "patchPayloadSha256": "64b2a3d47b106da5f695d7362162ae25c506bd4f519a7a79fcad3b04d9776282",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/evidence.test.ts",
+      "patchPayloadBytes": 1701,
+      "patchPayloadSha256": "863773e541e0427c137e986b498fc72c10a15e15c0cbc18eb29b74d82ea4a0ef",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/fixture-runner.ts",
+      "patchPayloadBytes": 978,
+      "patchPayloadSha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/fixtures.ts",
+      "patchPayloadBytes": 1052,
+      "patchPayloadSha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/gate.test.ts",
+      "patchPayloadBytes": 3030,
+      "patchPayloadSha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/gate.ts",
+      "patchPayloadBytes": 1455,
+      "patchPayloadSha256": "b5e69c6c5f13f922e7495391aa4d77653445c197ff7748b87e937872fef9ead6",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/harness.test.ts",
+      "patchPayloadBytes": 551,
+      "patchPayloadSha256": "22307fd93cebef7bb72090b2be34c23859fee8d872157b93b56518da43e1cd70",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/preservation.test.ts",
+      "patchPayloadBytes": 469,
+      "patchPayloadSha256": "2bbeeed7b6ec52c4ae347f14338d3ddb558fa3d1463aa274a85d6dddf3e27445",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/preservation.ts",
+      "patchPayloadBytes": 2529,
+      "patchPayloadSha256": "085208a0d2e43fb4673c3bd9eb5d160931517137897a4c5fd9c42947d73a7141",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/provision.sh",
+      "patchPayloadBytes": 283,
+      "patchPayloadSha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/run.ts",
+      "patchPayloadBytes": 9147,
+      "patchPayloadSha256": "4dd717b32ea2d9d38371e006dbb6aca0061de7fb9724445759436935a824ec88",
+      "matchesActual": true
+    },
+    {
+      "path": "scripts/coverage/source.ts",
+      "patchPayloadBytes": 8807,
+      "patchPayloadSha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "matchesActual": true
+    }
+  ],
+  "patchContainsAll17ActualBodies": true
+}

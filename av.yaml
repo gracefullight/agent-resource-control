@@ -4,7 +4,7 @@ actor:
   type: codex
   timeout: 1800
 chief:
-  review_vendor: prefer
+  review_vendor: off  # only codex has quota on this host; opencode/qwen reviews hang or answer prose
   memory: true
   routing:
     min_samples: 3

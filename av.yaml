@@ -2,7 +2,7 @@ workspace:
   root: /Users/gracefullight/workspace/arc
 actor:
   type: codex
-  timeout: 3600  # harness rewrites and coverage runs exceed 30 minutes for one Actor attempt
+  timeout: 7200  # a fresh isolated clone rebuilds cargo; full gate collection with coverage exceeds 60 minutes
 chief:
   review_vendor: off  # only codex has quota on this host; opencode/qwen reviews hang or answer prose
   memory: true
@@ -11,3 +11,4 @@ chief:
     min_success_rate: 0.5
     candidates:
       - actor_type: codex
+      - actor_type: claude  # takes over while codex cools down after a timeout

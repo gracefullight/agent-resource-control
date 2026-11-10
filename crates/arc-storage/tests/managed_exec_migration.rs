@@ -99,15 +99,16 @@ fn snapshot(c: &Connection) -> Snapshot {
 fn assert_current(c: &Connection) {
     let assessment = assess_schema(c).unwrap();
     assert_eq!(assessment.status, SchemaStatus::Compatible);
-    assert_eq!(assessment.applied_version, Some(2));
-    assert_eq!(assessment.supported_version, 2);
-    assert_eq!(assessment.schema_migrations, 2);
+    assert_eq!(assessment.applied_version, Some(3));
+    assert_eq!(assessment.supported_version, 3);
+    assert_eq!(assessment.schema_migrations, 3);
     assert!(assessment.history_verified);
-    assert_eq!(MIGRATIONS.len(), 2);
+    assert_eq!(MIGRATIONS.len(), 3);
     assert_eq!(MIGRATIONS[0].id, "0001_phase0");
     assert_eq!(MIGRATIONS[1].id, "0002_managed_exec");
+    assert_eq!(MIGRATIONS[2].id, "0003_traffic");
     let entries = history(c);
-    assert_eq!(entries.len(), 2);
+    assert_eq!(entries.len(), 3);
     for (entry, migration) in entries.iter().zip(MIGRATIONS) {
         assert_eq!(entry.0, migration.id);
         assert!(entry.1 > 0);
@@ -117,7 +118,11 @@ fn assert_current(c: &Connection) {
         entries[0].2,
         "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
     );
-    assert_eq!(snapshot(c).witness, 2);
+    assert_eq!(
+        entries[1].2,
+        "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814"
+    );
+    assert_eq!(snapshot(c).witness, 3);
 }
 
 #[test]
@@ -162,6 +167,9 @@ fn current_registry_default_open_preserves_wal_inventory_history_and_reopen() {
             "resource_objects",
             "resource_samples",
             "schema_migrations",
+            "sqlite_sequence",
+            "traffic_entries",
+            "traffic_tombstones",
             "vendors",
         ]
     );
@@ -215,7 +223,7 @@ fn legacy_v1_without_witness_is_read_only_then_upgrades_without_rewriting_histor
     let assessment = assess_schema(&c).unwrap();
     assert_eq!(assessment.status, SchemaStatus::UpgradeRequired);
     assert_eq!(assessment.applied_version, Some(1));
-    assert_eq!(assessment.supported_version, 2);
+    assert_eq!(assessment.supported_version, 3);
     assert_eq!(assessment.schema_migrations, 1);
     assert!(assessment.history_verified);
     assert_eq!(snapshot(&c), before);
@@ -242,14 +250,15 @@ fn current_schema_rejects_invalid_history_and_witness_without_mutation() {
     for (sql, expected) in [
         ("PRAGMA user_version=0", SchemaStatus::InvalidHistory),
         ("PRAGMA user_version=1", SchemaStatus::InvalidHistory),
-        ("PRAGMA user_version=3", SchemaStatus::UnsupportedNewer),
+        ("PRAGMA user_version=2", SchemaStatus::InvalidHistory),
+        ("PRAGMA user_version=4", SchemaStatus::UnsupportedNewer),
         ("DELETE FROM schema_migrations WHERE id='0001_phase0'", SchemaStatus::MissingHistory),
         ("DELETE FROM schema_migrations", SchemaStatus::MissingHistory),
         ("UPDATE schema_migrations SET checksum='invalid' WHERE id='0002_managed_exec'", SchemaStatus::ChecksumMismatch),
         ("UPDATE schema_migrations SET id='invalid' WHERE id='0002_managed_exec'", SchemaStatus::InvalidHistory),
         ("UPDATE schema_migrations SET id='0002_other' WHERE id='0002_managed_exec'", SchemaStatus::InvalidHistory),
         ("INSERT INTO schema_migrations VALUES ('0002_duplicate', 123, 'untrusted')", SchemaStatus::InvalidHistory),
-        ("INSERT INTO schema_migrations VALUES ('0003_future', 123, 'untrusted'); PRAGMA user_version=3", SchemaStatus::UnsupportedNewer),
+        ("INSERT INTO schema_migrations VALUES ('0004_future', 123, 'untrusted'); PRAGMA user_version=4", SchemaStatus::UnsupportedNewer),
     ] {
         let database = Database::new();
         let c = database.open();
@@ -258,7 +267,7 @@ fn current_schema_rejects_invalid_history_and_witness_without_mutation() {
         let assessment = assess_schema(&c).unwrap();
         assert_eq!(assessment.status, expected, "{sql}");
         assert!(!assessment.history_verified, "{sql}");
-        assert_eq!(assessment.supported_version, 2);
+        assert_eq!(assessment.supported_version, 3);
         assert_eq!(snapshot(&c), before, "assessment changed database: {sql}");
         c.close().unwrap();
         let error = open_and_migrate(&database.0).unwrap_err();
@@ -273,12 +282,103 @@ fn current_schema_rejects_invalid_history_and_witness_without_mutation() {
             "{sql}"
         );
         if expected == SchemaStatus::UnsupportedNewer {
-            assert!(error.to_string().contains("schema version 3 (supported 2)"));
+            assert!(error.to_string().contains("schema version 4 (supported 3)"));
         }
         assert_eq!(
             snapshot(&Connection::open(&database.0).unwrap()),
             before,
             "rejected migration changed database: {sql}"
         );
+    }
+}
+
+fn initialize_v2(c: &Connection) {
+    for migration in &MIGRATIONS[..2] {
+        c.execute_batch(migration.sql).unwrap();
+        c.execute(
+            "INSERT INTO schema_migrations VALUES (?1, 123, ?2)",
+            (migration.id, checksum(migration.sql)),
+        )
+        .unwrap();
+    }
+    c.execute_batch("PRAGMA user_version=2; INSERT INTO jobs (id,job_class,locality,enforcement,state,created_at) VALUES ('legacy','BUILD','HOST_LOCAL','OBSERVE','NEW',5); INSERT INTO permits (id,job_id,state,cpu_cores_est,memory_bytes_est,reserved_at) VALUES ('legacy-permit','legacy','RELEASED',1.5,1024,6);").unwrap();
+}
+
+#[test]
+fn version_two_upgrade_preserves_existing_jobs_permits_and_both_checksums() {
+    let db = Database::new();
+    let c = Connection::open(&db.0).unwrap();
+    initialize_v2(&c);
+    let old_history = history(&c);
+    assert_eq!(
+        old_history[0].2,
+        "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+    );
+    assert_eq!(
+        old_history[1].2,
+        "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814"
+    );
+    assert_eq!(
+        assess_schema(&c).unwrap().status,
+        SchemaStatus::UpgradeRequired
+    );
+    c.close().unwrap();
+    let c = db.open();
+    assert_current(&c);
+    assert_eq!(history(&c)[..2], old_history);
+    let permit: (String, String, f64, i64, Option<i64>, Option<i64>) = c.query_row(
+        "SELECT job_id,state,cpu_cores_est,memory_bytes_est,cpu_millis_est,generation FROM permits WHERE id='legacy-permit'", [],
+        |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?, r.get(4)?, r.get(5)?)),
+    ).unwrap();
+    assert_eq!(
+        permit,
+        ("legacy".into(), "RELEASED".into(), 1.5, 1024, None, None)
+    );
+    let upgraded = snapshot(&c);
+    c.close().unwrap();
+    assert_eq!(snapshot(&db.open()), upgraded);
+}
+
+#[test]
+fn version_three_failure_rolls_back_ddl_history_and_witness() {
+    let db = Database::new();
+    let c = Connection::open(&db.0).unwrap();
+    initialize_v2(&c);
+    // Force the migration to fail after both ALTERs have executed.
+    c.execute_batch("CREATE TABLE traffic_entries (original TEXT); INSERT INTO traffic_entries VALUES ('preserve')").unwrap();
+    let before = snapshot(&c);
+    c.close().unwrap();
+    assert!(open_and_migrate(&db.0).is_err());
+    let c = Connection::open(&db.0).unwrap();
+    assert_eq!(snapshot(&c), before);
+    let columns: Vec<String> = c
+        .prepare("PRAGMA table_info(permits)")
+        .unwrap()
+        .query_map([], |r| r.get(1))
+        .unwrap()
+        .collect::<Result<_, _>>()
+        .unwrap();
+    assert!(!columns.contains(&"cpu_millis_est".to_owned()));
+    assert!(!columns.contains(&"generation".to_owned()));
+}
+
+#[test]
+fn version_two_checksum_mismatch_never_applies_traffic_migration() {
+    for id in ["0001_phase0", "0002_managed_exec"] {
+        let db = Database::new();
+        let c = Connection::open(&db.0).unwrap();
+        initialize_v2(&c);
+        c.execute(
+            "UPDATE schema_migrations SET checksum='invalid' WHERE id=?1",
+            [id],
+        )
+        .unwrap();
+        let before = snapshot(&c);
+        c.close().unwrap();
+        assert!(open_and_migrate(&db.0)
+            .unwrap_err()
+            .to_string()
+            .contains("checksum"));
+        assert_eq!(snapshot(&Connection::open(&db.0).unwrap()), before);
     }
 }

@@ -6,6 +6,7 @@ members = [
     "crates/arc-ipc",
     "crates/arc-daemon",
     "crates/arc-cli",
+    "crates/arc-traffic",
 ]
 resolver = "2"
 
@@ -18,6 +19,7 @@ arc-core = { path = "crates/arc-core" }
 arc-detector = { path = "crates/arc-detector" }
 arc-ipc = { path = "crates/arc-ipc" }
 arc-storage = { path = "crates/arc-storage" }
+arc-traffic = { path = "crates/arc-traffic" }
 clap = { version = "4.6", features = ["derive"] }
 libc = "0.2"
 rusqlite = { version = "0.41", features = ["bundled"] }

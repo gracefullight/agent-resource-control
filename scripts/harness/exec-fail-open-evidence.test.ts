@@ -3,11 +3,24 @@ import "./exec-fail-open-compact-flow.test";
 import { test, expect } from "bun:test";
 import { readFileSync, writeFileSync, symlinkSync } from "node:fs";
 import { resolve } from "node:path";
-import { root, context, canonicalBytes, validateIndex, validateCommon, reference, directory } from "./exec-fail-open-inputs";
+import { root, context, canonicalBytes, boundJSON, validateIndex, validateCommon, reference, directory } from "./exec-fail-open-inputs";
+import { gitBytes } from "../coverage/hygiene";
 import { validateEvidence, validateReviewOutcome, validateVerdict } from "./exec-fail-open-evidence";
 import { fixtureFirstRun } from "./exec-fail-open-fixture";
-test("sealed current evidence binds independent QA and final decision without requiring a terminal sink", () => {
-  expect(validateEvidence(root).passed).toBe(true);
+test("retained final and independent QA bind the historical source, not current acceptance", () => {
+  const ctx = context(root, "retained"), path = `${directory}/final.json`;
+  const bytes = canonicalBytes(root, path);
+  expect(bytes.equals(gitBytes(root, ["show", `4d2f71c1a1482925f6c9918296d7ceb3435b7592:${path}`]))).toBe(true);
+  const final = JSON.parse(bytes.toString());
+  validateCommon(final, ctx, "final-decision");
+  const gates = boundJSON(root, final.gates), qa = boundJSON(root, final.review);
+  validateCommon(gates, ctx, "implementation-gates", "backend");
+  validateCommon(qa, ctx, "independent-review", "reviewer");
+  validateReviewOutcome(qa); validateVerdict(final);
+  expect(qa.report).toEqual(final.reviewReport);
+  expect(canonicalBytes(root, final.reviewReport.path).length).toBeGreaterThan(200);
+  expect(reference(root, final.reviewReport.path)).toEqual(final.reviewReport);
+  expect(() => validateEvidence(root)).toThrow("stale receipt inputs/git");
 }, 3600000);
 test("fixture first pass validates gates and final before real terminal observations and preserves all predecessors", () => {
   fixtureFirstRun((dir, refs, terminal) => {

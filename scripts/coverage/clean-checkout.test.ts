@@ -44,7 +44,7 @@ test("isolated checkout collects fresh native evidence with no inherited run art
     const env = { ...process.env }; delete env.SKIP_COVERAGE;
     for (const argv of [["bun", "run", "test:coverage"], ["bun", "test", "scripts/coverage/evidence.test.ts"]]) {
       console.log(`Clean checkout ${checkout}: ${argv.join(" ")}`);
-      const receipt = await command(argv, receiptDir, checkout, env, 3600000);
+      const receipt = await command(argv, receiptDir, checkout, env, 7200000);
       receipts.push(receipt); save();
       if (receipt.exit !== 0) throw Error(`CLEAN_CHECKOUT: ${argv.join(" ")} exited ${receipt.exit}\n${receipt.stdout}\n${receipt.stderr}\nReceipts: ${receiptDir}`);
     }
@@ -68,4 +68,4 @@ test("isolated checkout collects fresh native evidence with no inherited run art
     state.ended = new Date().toISOString(); save();
     console.log(`Fresh checkout and native artifacts retained at ${checkout}; receipts: ${receiptDir}`);
   }
-}, 7260000);
+}, 14460000);

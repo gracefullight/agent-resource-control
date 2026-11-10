@@ -10,7 +10,8 @@
     "arc-storage",
     "arc-ipc",
     "arc-daemon",
-    "arc-cli"
+    "arc-cli",
+    "arc-traffic"
   ],
   "threshold": {
     "percent": 80,
@@ -26,7 +27,7 @@
   },
   "toolCompatibility": "Every gate run verifies exact pinned tools and matching LLVM versions. A completed instrumented test/report run, with numbered receipts and versions.json, establishes compatibility; provisioning alone does not.",
   "source": {
-    "roots": "all six crates/*/src trees",
+    "roots": "all seven current crates/*/src trees; immutable historical baselines contain six",
     "canonical": "realpath, workspace-relative slash paths, SHA-256 file bytes",
     "inputs": "Cargo.toml, Cargo.lock, rust-toolchain.toml, mise.toml, package.json, every crates/ file, scripts/coverage/ file, contract/accounting.json and any root .cargo config/build.rs",
     "baselineMeaning": "accepted committed source only; Actor task edits remain local until integrated"
@@ -53,7 +54,7 @@
     "directory": ".arc-verify/rust-coverage/baseline/runs/<run-id>",
     "raw": "raw.lcov and raw.json: both native exports from the same fresh profile merge; neither is rewritten",
     "source": "inputs.json and source-inventory.json",
-    "summary": "summary.json with schemaVersion=1, sourceHash, rawSha256, llvmSha256, runId, acceptedBaseline, host, versions, six crates and per-file mapped/uncovered/omitted lines",
+    "summary": "summary.json with schemaVersion=1, sourceHash, rawSha256, llvmSha256, runId, acceptedBaseline, host, versions, seven current crates and per-file mapped/uncovered/omitted lines",
     "profiles": "profiles.json with binary, PID, raw filenames, hashes and exact merge list",
     "commands": "numbered command JSON receipts with argv, cwd, times, PID, exit, stdout and stderr",
     "verdict": "receipt.json for every attempt, including prerequisites failure; latest.json always overwritten with current outcome",

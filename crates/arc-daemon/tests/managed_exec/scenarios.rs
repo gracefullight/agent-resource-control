@@ -199,7 +199,7 @@ fn status_discovery_labels_and_missing_id_never_launch() {
     assert_eq!(
         String::from_utf8(out.stdout).unwrap(),
         format!(
-            "Job: {}\nState: spawn failed\nRegistered (Unix ms): 200\nUpdated (Unix ms): 4000000000475\nReason: OBSERVED_SPAWN_FAILURE\nLast known: true\nJob: {}\nState: starting\nRegistered (Unix ms): 100\nUpdated (Unix ms): 4000000000350\nReason: REGISTERED_NOT_CLAIMED\nLast known: true\nScheduling: not implemented\n",
+            "Job: {}\nState: spawn failed\nRegistered (Unix ms): 200\nUpdated (Unix ms): 4000000000475\nReason: OBSERVED_SPAWN_FAILURE\nLast known: true\nJob: {}\nState: registered\nRegistered (Unix ms): 100\nUpdated (Unix ms): 4000000000350\nReason: REGISTERED_NOT_CLAIMED\nLast known: true\nScheduling: see job status <JOB_ID> for details\n",
             failed_id.as_str(), protocol::id(90).as_str()
         )
     );

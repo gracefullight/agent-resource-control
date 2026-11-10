@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "actorId": "independent-reviewer",
+  "missionId": "af4d6fdb-505c-4e6d-8cc2-c5d58682b3ea",
+  "sourceHash": "a341230f980efb1c4fc4aa0bc03b6992b9486111ddc9ae95a7dc948c10f9262d",
+  "observedAt": "2026-11-10T18:34:30.033002+00:00",
+  "applicable": false,
+  "inventoryVerified": true,
+  "allQualified": true,
+  "targets": null,
+  "configuration": {
+    "path": "av.yaml",
+    "access": "denied",
+    "error": "cat: av.yaml: Operation not permitted",
+    "receipt": {
+      "path": "target/traffic/commands/task10-repair-av-9902d3a7-a4ad-49ae-9922-2b28b620e1ee/receipt.json",
+      "sha256": "dc80e1bb1fb9a6bc83194b9e863489f9dfc440ecef10f394a15de5daaa50edee"
+    }
+  },
+  "savedMission": {
+    "path": "/Users/gracefullight/workspace/arc/.agent-valley/missions/af4d6fdb-505c-4e6d-8cc2-c5d58682b3ea.json",
+    "sha256AtInspection": "3f49d060e0aa88a44f6ffb361e68ade3376946572280e2405493c0a5918ff597",
+    "observationPolicy": "absent",
+    "validatorResult": "not applicable: no container or service observation policy configured",
+    "receipt": {
+      "path": "target/traffic/commands/task10-repair-target-inventory-de95fb00-6cce-426e-b9f7-01114f4d04df/receipt.json",
+      "sha256": "6a02e0f7109f785166eac7f46d41cca3e62a7f0c07fdc77407f3437933eb1ee9"
+    }
+  },
+  "dockerDiscovery": {
+    "receipt": {
+      "path": "target/traffic/commands/task10-docker-6ad2de39-5fb2-442f-bed3-3ea7268f810c/receipt.json",
+      "sha256": "a55e6c57263779305db6dfaa43ca0e7290a8b43699a0303ef19f2d2457e5058e"
+    },
+    "available": true,
+    "listedContainers": 2,
+    "listedStatuses": [
+      "exited",
+      "exited"
+    ],
+    "mappingToConfiguredTargets": "unknown",
+    "targetHealthAndRecentErrors": "not verified",
+    "observedDuring": "first QA attempt, not a current mission qualification"
+  },
+  "reason": "No container or service observation policy is configured in the saved mission. Target observation is not applicable. av.yaml remains unreadable, so its contents and any actual configured targets remain unknown.",
+  "nextAction": "If a target observation policy is later configured, restore supported noninteractive configuration access and inspect each configured target read-only; otherwise no target observation is required for this mission.",
+  "verificationScope": "Saved mission observation policy only; both contract booleans mean that the not-applicable policy check passed, not that actual configuration inventory or target health was observed.",
+  "actualConfigurationInventoryVerified": false,
+  "actualTargetHealthAndRecentErrorsVerified": false
+}

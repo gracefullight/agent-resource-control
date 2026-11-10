@@ -1,0 +1,48 @@
+# Task 5 attempt 9: target-policy and coverage verification
+
+Status: **partial**. The target-policy repair and focused validator fixtures pass. The full historical suite, coverage gate, full harness and live coverage-evidence check failed as described below. This is not a passing coverage gate or a Traffic mission acceptance result.
+
+## Source and ownership
+
+The accepted committed baseline is `4d2f71c1a1482925f6c9918296d7ceb3435b7592`, tree `4455896fdf976244313a70a9fa38b730b344b411`. This Actor's initial snapshot and checked-out HEAD are `77b6414f4b6c709e6bf9b9437fba670c3621261a`, tree `5e7a6eae625def95da07ae2e3e12ab648ee4935d`; the snapshot includes earlier work absent from the committed baseline. The supplied snapshot ref resolves to that commit in the mission source repository. The worker ref was not available there during collection. The changes in this attempt are uncommitted Actor-local edits; verify their delivered bytes in the integrated worktree.
+
+The source hash captured before and after every final command below is `206215c69655f8a813570cb95e0147d4b9110b2c62ad03ad6ba8913d2d324c6b`. It covers the current Traffic input inventory, including the uncommitted tooling edits; it is not the Git tree hash. Changed paths are `scripts/coverage/traffic-targets.ts`, `scripts/harness/traffic-targets.test.ts`, and this report. No product file, Cargo manifest or lockfile, historical receipt, `av.yaml`, or `scripts/harness/validate.sh` was edited. No dependency was added. Skills used: `oma-backend` and `oma-dev-workflow`. Serena was not exposed; named paths were read directly. Git status reported `av.yaml: Operation not permitted`; that file was not read or bypassed. Scoped status excluding it showed only the two tooling edits before this report.
+
+## Repair and integration interface
+
+- Target policy normalization now checks the outer saved row, its `operatingPolicy`, nested `mission`, and nested `mission.operatingPolicy`. Inconsistent identities, malformed policy scopes and multiple policy entries fail closed. A nested configured policy cannot be treated as absent.
+- The target test and standalone collector read the actual saved mission, or the file named by `ARC_TRAFFIC_MISSION_PATH`, and verify its mission ID. With no explicit path they locate the saved mission in an ancestor `.agent-valley/missions/` directory. A missing or malformed saved mission fails. Configured policies still require readable matching `av.yaml`, verified current target observations and the existing report validation. The supplied mission has no observation policy: both live paths report not applicable without reading `av.yaml` or claiming that any container, service, health or logs were observed.
+- The retained accounting contract includes seven current crates and an 80% production-line floor for each. Historical accounting remains six crates. Focused fixtures retain missing-crate, below-floor, malformed report, historical manifest and migration protections. The existing measurement handoff in `scripts/coverage/traffic-evidence-contract.md` follows the operator's 10:15:58 UTC note: actual process observations and hashed raw logs are required, while the earlier 23-event mechanism is not imposed on task 7. The actual macOS measurement, unfiltered final Traffic evidence and independent QA belong to tasks 7, 9 and 11.
+- The fixed final contract separately asks for `.arc-verify/traffic/targets.json` fields `inventoryVerified` and `allQualified`. The operator's no-policy instruction requires a not-applicable result without a claim that an inventory or target health was observed. The Chief must reconcile those requirements in final verification without fabricating a target observation; this task did not modify the contract or create a target report.
+
+## Authenticated historical inputs
+
+The task-12 report `.arc-verify/traffic/predecessor-recovery.md` matched its recorded SHA-256 `84089fa14b68fe66cecab34b582c856bb28fa7292cdd43faf7b08539b893c554`. The 26 archive files, 13 frozen inputs and eight original-location copies were checked against the report before transfer from the retained task-5 workspace and verified again at their destinations: 47 files copied, none overwritten. The transfer log is `target/traffic/task5-attempt9/restore.log`, SHA-256 `111536645b142ef196fa65a09637ba0adcf7389cfbbfe0952ff29d61bdd6a39d`. These ignored files need hash-verified transfer to the integrated worktree; Git delivery does not transfer them.
+
+`target/exec-fail-open/task16-attempt3/nested-fixture-dependencies.json` remains unavailable. Its recorded expected SHA-256 is `30eaa9b742c41d7b990ea0d9ae0b6a8e5dad62ac7b1ec9b389088694169c725f`. No replacement was fabricated.
+
+## Checks on the Actor snapshot plus uncommitted edits
+
+The following command receipts, raw stdout and stderr are under `target/traffic/commands/`. Each receipt records exact argv, exit, timing, source identity, raw-output hashes and a 7,200,000 ms allowance. The last Traffic evidence command is fixture-only; its one filtered live test is not a final Traffic gate.
+
+| Command | Actual result | Receipt and SHA-256 |
+| --- | --- | --- |
+| `bun test scripts/coverage/traffic-accounting.test.ts scripts/coverage/accounting.test.ts scripts/coverage/gate.test.ts scripts/coverage/preservation.test.ts scripts/harness/exec-fail-open-preservation.test.ts scripts/harness/traffic-targets.test.ts` | 45 passed; 0 failed | `target/traffic/commands/task5-attempt9-final-focused-f72f1fa0-8b9c-4fd2-b976-5dee237e8141/receipt.json` — `10c120443558cf449c9c3c818376003826090e85b5d26bac60fcd3026d048a22` |
+| `bun test scripts/harness/traffic-evidence.test.ts --test-name-pattern fixture` | 8 passed; 1 live test filtered | `target/traffic/commands/task5-attempt9-final-evidence-fixtures-813501e6-8b50-4fec-9123-27ee8951254b/receipt.json` — `69f06e6dd96171a20256171de6e448a086e8514b6da870e0be3e054de39584cc` |
+| `bun scripts/coverage/traffic-targets.ts` | passed; not applicable, no policy | `target/traffic/commands/task5-attempt9-final-target-collector-36e6c173-ae60-429d-b9d8-65d908bb1640/receipt.json` — `a1b9218d1742516f2d83c72ff80bb790823124236368a8dc34c2c88da1a38132` |
+| `bun test scripts/harness/exec-fail-open-evidence.test.ts` | 18 passed; 4 failed; unfiltered | `target/traffic/commands/task5-attempt9-final-historical-31625609-7caf-4082-b47d-7d248bfbed97/receipt.json` — `765aedfd634040e7dea21d21d258993a26a7cafbc861458e9c60d785bc8bb4f3` |
+| `bun run test:coverage` | failed daemon tests; no valid coverage percentages | `target/traffic/commands/task5-attempt9-final-coverage-4c0925dd-1b00-41cd-b04a-c779ec50f476/receipt.json` — `3124802da3a68325e560526b5c9c23559293d8cd2eed4a25331e210282f1bad4` |
+| `./scripts/harness/validate.sh` | first four checks passed; coverage check failed; no skips | `target/traffic/commands/task5-attempt9-final-harness-b1458ea7-9bf2-44be-9b6f-87ff3b394e0a/receipt.json` — `39fc212fa1e52c044e6504f096aa69c667df797a61bbd30eca825b481ba6a79c` |
+| `bun test scripts/coverage/evidence.test.ts` | failed after the harness because latest coverage did not pass | `target/traffic/commands/task5-attempt9-final-coverage-live-501c183b-9541-449c-87ef-730fc25ccc7c/receipt.json` — `896a4b66d70e341dec3dde1c0ae468f30f49522aeefb3cc4a1ee54dfef27779c` |
+
+The initial regression run with the new tests and old validator failed on nested policy detection, nested inventory matching and the actual saved-mission shape. Its raw log is `target/traffic/task5-attempt9/targets-red.log`, SHA-256 `fca22527d020a5b3ca53c6c80e7272c8363367c7e3b7b1bb06c8dc3cba303cac`. The final focused run passed after the repair.
+
+The historical suite's two correction-rotation tests and production-archive test failed on the missing nested manifest. `sealed current evidence binds independent QA and final decision without requiring a terminal sink` failed with `EXEC_FAIL_OPEN: stale receipt inputs/git`. Historical stderr is `target/traffic/commands/task5-attempt9-final-historical-31625609-7caf-4082-b47d-7d248bfbed97/stderr.log`, SHA-256 `2bc696a2cc65965e640f589523ba3c35077664da348e47c2aeaadee915926fc3`.
+
+The coverage collection reached daemon unit tests and reported 45 passed and 16 failed, with zero ignored and zero filtered in that test binary. Schema version 3 was returned where the tests expected 2, including `crates/arc-daemon/src/db_worker/tests.rs:35` and `:219`, `crates/arc-daemon/src/database_failure_tests.rs:351`, and `crates/arc-daemon/src/server_tests.rs:82`. The task 7 owner must update the affected product-owned expectations while preserving their assertions. The native test stdout is `target/traffic/native-coverage/cdebc69a-551d-4e7b-ac09-261d52625579/stdout.log`, SHA-256 `500a414b1a1b54b84b248a2535907a57e6036dbef6eb92307aa0cfe419acc9bf`. The harness independently reached the same coverage failure. No per-crate production-line result was produced.
+
+## Remaining work
+
+Transfer the authenticated ignored inputs, recover the exact missing manifest, and reconcile the stale historical receipt inputs before rerunning the complete historical suite in the integrated worktree. Task 7 must address daemon schema expectations and coordinate the storage upgrade-test uniqueness assertion described in the retained handoff. After integration, rerun focused fixtures, the coverage gate, the full no-skip harness and live source-bound evidence. Tasks 9 and 11 must collect the actual two-directory macOS measurement and independent `oma-qa`; this report does not establish scheduler behavior. Desktop, native Windows, vendor hooks, broader detection and remaining scheduling policy remain outstanding.
+
+Mission evidence budget: `00018` files, `0000189239` decimal bytes. Capture: `target/traffic/task5-attempt9/budget.json`.

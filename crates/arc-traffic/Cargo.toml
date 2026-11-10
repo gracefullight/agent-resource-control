@@ -1,0 +1,8 @@
+[package]
+name = "arc-traffic"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+arc-detector.workspace = true
+serde.workspace = true

@@ -22,7 +22,9 @@ pub(crate) enum Failure {
     InvalidReply,
     InvalidEndpoint,
     Local,
+    Witness,
     Cancelled,
+    Unsupported,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -117,13 +119,15 @@ fn call_with<S: TrackedStream>(
     request.payload = payload;
     let mut uncertain = false;
     let mut busy = false;
-    for _ in 0..3 {
+    let mut attempts = 0;
+    loop {
         if cancelled() {
             return Err(Failure::Cancelled);
         }
         if Instant::now() >= deadline {
             break;
         }
+        attempts += 1;
         let attempt_deadline = deadline.min(Instant::now() + Duration::from_millis(600));
         let mut stream = match connect(attempt_deadline) {
             Ok(stream) => stream,
@@ -141,6 +145,9 @@ fn call_with<S: TrackedStream>(
                         });
                     }
                     ConnectFailure::Endpoint => (),
+                }
+                if attempts >= 3 {
+                    break;
                 }
                 continue;
             }
@@ -163,6 +170,30 @@ fn call_with<S: TrackedStream>(
                     (arc_ipc::STATUS_ERROR, None, Some(e)) if e.code == arc_ipc::ERROR_DB_BUSY => {
                         uncertain = true;
                         busy = true;
+                        // A responsive but saturated worker is not an outage.
+                        // Back off and retry the same request within the shared
+                        // deadline rather than failing open after three replies.
+                        let remaining = deadline.saturating_duration_since(Instant::now());
+                        std::thread::sleep(remaining.min(Duration::from_millis(20)));
+                        continue;
+                    }
+                    (arc_ipc::STATUS_ERROR, None, Some(e))
+                        if operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES
+                            && e.code == arc_ipc::ERROR_UNSUPPORTED_CAPABILITY =>
+                    {
+                        return Err(Failure::Unsupported)
+                    }
+                    (arc_ipc::STATUS_ERROR, None, Some(e))
+                        if operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB
+                            && request.payload.get("action").and_then(Value::as_str)
+                                == Some("STATUS_V2")
+                            && matches!(
+                                e.code.as_str(),
+                                arc_ipc::ERROR_INVALID_REQUEST
+                                    | arc_ipc::ERROR_UNSUPPORTED_CAPABILITY
+                            ) =>
+                    {
+                        return Err(Failure::Unsupported)
                     }
                     (arc_ipc::STATUS_ERROR, None, Some(e)) if !e.code.is_empty() => {
                         return Err(if e.code == arc_ipc::ERROR_PROTOCOL_INCOMPATIBLE {
@@ -184,6 +215,9 @@ fn call_with<S: TrackedStream>(
                 return Err(Failure::InvalidReply);
             }
             Err(_) => (), // timeout, reset, EOF and partial disconnected frames
+        }
+        if attempts >= 3 {
+            break;
         }
     }
     if cancelled() {

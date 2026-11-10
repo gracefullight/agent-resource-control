@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "sourceHash": "a341230f980efb1c4fc4aa0bc03b6992b9486111ddc9ae95a7dc948c10f9262d",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "command": {
+    "path": "target/traffic/commands/task9-attempt3-cli-fd97a3cb-c4af-4a70-a104-6dc1046afefb/receipt.json",
+    "sha256": "17da639ccb554dd8491d705f2bc19a1dacbbeef0c3c313cc2c0415580d686874"
+  },
+  "test": "measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full",
+  "bypass": {
+    "invocations": [
+      1,
+      1
+    ],
+    "peakConcurrentBuilds": 2
+  },
+  "independentDirectoriesVerified": true,
+  "platform": "macOS",
+  "scheduled": {
+    "completionOutcomes": [
+      "EXITED:0",
+      "EXITED:0"
+    ],
+    "completionOutcomesRecorded": true,
+    "firstPermitReleasedAtMs": 1794334228721,
+    "invocations": [
+      1,
+      1
+    ],
+    "peakConcurrentBuilds": 1,
+    "queueWaitMs": 184,
+    "queueWaitRecorded": true,
+    "queuedBeforeFirstRelease": true,
+    "queuedPollSocketsObserved": 2,
+    "secondCargoLaunchedAtMs": 1794334228744,
+    "secondGrantAtMs": 1794334228736,
+    "secondStartedAfterRelease": true
+  },
+  "queueNotice": {
+    "text": "QUEUED\nWaiting to start.",
+    "assertion": "Second CLI stderr was checked before the first permit was released."
+  },
+  "ordering": {
+    "assertion": "The queued CLI stayed runnable and at least two admission-poll socket lifetimes were observed while the first permit was held; SQLite recorded release before the second grant and the Cargo launch followed release."
+  },
+  "bypassWhileFull": {
+    "classification": [
+      "REMOTE",
+      "UNKNOWN"
+    ],
+    "assertion": "Both bypass commands left the active permit count and reservations unchanged while the second build was queued."
+  }
+}

@@ -10,15 +10,22 @@ test("help, fallback diagnostics, native semantics and unmeasured scope match ac
   expect(checkDocs(root).passed).toBe(true);
 });
 test("stale prerequisites, persistence promises, secret diagnostics and missing scope are rejected", () => {
-  for (const mutate of [
-    (x: ReturnType<typeof input>) => { x.main = x.main.replace("still attempts", "never attempts"); },
-    (x: ReturnType<typeof input>) => { x.main = x.main.replace("If the daemon is unavailable or tracking is unconfirmed due to an outage or exhausted DB_BUSY retries, ARC still attempts the command once.", "If the daemon is unavailable or tracking cannot be confirmed, ARC still attempts the command once."); },
-    (x: ReturnType<typeof input>) => { x.main = x.main.replace("invalid protocol replies, local preparation failures and ", ""); },
-    (x: ReturnType<typeof input>) => { x.main = x.main.replace("invalid protocol replies, ", ""); },
-    (x: ReturnType<typeof input>) => { x.main = x.main.replace("local preparation failures and ", ""); },
-    (x: ReturnType<typeof input>) => { x.doc += "\nRegistration must be confirmed before spawn."; },
-    (x: ReturnType<typeof input>) => { x.doc += "\nThe record is saved."; },
-    (x: ReturnType<typeof input>) => { x.copy += 'eprintln!("{argv:?}");'; },
-    (x: ReturnType<typeof input>) => { x.claims = x.claims.replace("vendor hooks", "hooks"); },
-  ]) { const value = input(); mutate(value); expect(() => checkDocs(root, value)).toThrow(); }
+  const mutations: [(x: ReturnType<typeof input>) => void, string][] = [
+    [(x) => { x.main = x.main.replace("still attempts", "never attempts"); }, "help differs"],
+    [(x) => { x.main = x.main.replace("If the daemon is unavailable or tracking is unconfirmed due to an outage or exhausted DB_BUSY retries, ARC still attempts the command once.", "If the daemon is unavailable or tracking cannot be confirmed, ARC still attempts the command once."); }, "help differs"],
+    [(x) => { x.main = x.main.replace("invalid protocol replies, local preparation failures and ", ""); }, "help differs"],
+    [(x) => { x.main = x.main.replace("invalid protocol replies, ", ""); }, "help differs"],
+    [(x) => { x.main = x.main.replace("local preparation failures and ", ""); }, "help differs"],
+    [(x) => { x.doc += "\nRegistration must be confirmed before spawn."; }, "stale prerequisite or persistence claim"],
+    [(x) => { x.doc += "\nThe record is saved."; }, "stale prerequisite or persistence claim"],
+    [(x) => { x.copy += 'eprintln!("{argv:?}");'; }, "secret-bearing wrapper diagnostic"],
+    [(x) => { x.claims = x.claims.replaceAll("vendor hooks", "hooks"); }, "outstanding scope missing vendor hooks"],
+  ];
+  for (const [mutate, expected] of mutations) {
+    const value = input(), before = JSON.stringify(value);
+    expect(checkDocs(root, value).passed).toBe(true);
+    mutate(value);
+    expect(JSON.stringify(value)).not.toBe(before);
+    expect(() => checkDocs(root, value)).toThrow(expected);
+  }
 });

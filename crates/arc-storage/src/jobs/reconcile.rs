@@ -19,10 +19,21 @@ pub enum ReconcileResult {
 pub struct ReconcileEvidence {
     job_id: JobId,
     revision: u64,
+    observer: ProcessIdentity,
+    observer_status: IdentityStatus,
     identity: ProcessIdentity,
     target: T,
     status: IdentityStatus,
     observed_at_ms: u64,
+}
+impl ReconcileEvidence {
+    /// A recovery scan may skip live or uncertain entries without rewriting
+    /// their lifecycle revisions. Applying a ready observation still rechecks
+    /// the snapshot and Traffic state inside the write transaction.
+    pub fn traffic_recovery_ready(&self) -> bool {
+        let gone = |status| matches!(status, IdentityStatus::Missing | IdentityStatus::Mismatch);
+        self.target == T::Child && gone(self.observer_status) && gone(self.status)
+    }
 }
 #[cfg(test)]
 pub(super) fn simulated(job: &JobSnapshot, status: IdentityStatus, now: u64) -> ReconcileEvidence {
@@ -30,17 +41,37 @@ pub(super) fn simulated(job: &JobSnapshot, status: IdentityStatus, now: u64) -> 
     evidence.status = status;
     evidence
 }
+#[cfg(test)]
+pub(super) fn simulated_pair(
+    job: &JobSnapshot,
+    observer_status: IdentityStatus,
+    child_status: IdentityStatus,
+    now: u64,
+) -> ReconcileEvidence {
+    let mut evidence = observe(job, now);
+    evidence.observer_status = observer_status;
+    evidence.status = child_status;
+    evidence
+}
 pub fn observe(job: &JobSnapshot, now: u64) -> ReconcileEvidence {
     let (target, identity) = job
         .child
         .as_ref()
         .map_or((T::Observer, &job.observer), |c| (T::Child, c));
+    let observer_status = probe_live(&job.observer);
+    let status = if target == T::Observer {
+        observer_status
+    } else {
+        probe_live(identity)
+    };
     ReconcileEvidence {
         job_id: job.job_id.clone(),
         revision: job.revision,
+        observer: job.observer.clone(),
+        observer_status,
         identity: identity.clone(),
         target,
-        status: probe_live(identity),
+        status,
         observed_at_ms: now,
     }
 }
@@ -61,7 +92,10 @@ pub fn apply_observation(
     } else {
         Some(&job.observer)
     };
-    if job.revision != evidence.revision || identity != Some(&evidence.identity) {
+    if job.revision != evidence.revision
+        || job.observer != evidence.observer
+        || identity != Some(&evidence.identity)
+    {
         return Ok(ReconcileResult::Stale);
     }
     valid_now(evidence.observed_at_ms, Some(&job))?;
@@ -72,12 +106,26 @@ pub fn apply_observation(
         evidence.status,
         evidence.observed_at_ms,
     );
-    if job == prior {
+    let changed = job != prior;
+    if changed {
+        job.updated_at_ms = evidence.observed_at_ms;
+        job.revision += 1;
+        codec::write(&tx, &job, false)?;
+    }
+    let recovered = if evidence.target == T::Child {
+        super::traffic::reconcile_exited_child(
+            &tx,
+            &job,
+            evidence.observer_status,
+            evidence.status,
+            evidence.observed_at_ms,
+        )?
+    } else {
+        false
+    };
+    if !changed && !recovered {
         return Ok(ReconcileResult::Unchanged(Box::new(job)));
     }
-    job.updated_at_ms = evidence.observed_at_ms;
-    job.revision += 1;
-    codec::write(&tx, &job, false)?;
     tx.commit()?;
     Ok(ReconcileResult::Applied(Box::new(job)))
 }

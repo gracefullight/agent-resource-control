@@ -3,8 +3,8 @@ import { readFileSync, writeFileSync, mkdtempSync, mkdirSync, rmSync, existsSync
 import { resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
-import { root, context, reference, directory, canonicalBytes, boundJSON } from "./exec-fail-open-inputs";
-import { validateGates, validateGateData, validateFloors } from "./exec-fail-open-gates";
+import { root, context, reference, directory, canonicalBytes, boundJSON, validateCommon } from "./exec-fail-open-inputs";
+import { validateGates, validateGateData, validateFloors, validatePriorArchive } from "./exec-fail-open-gates";
 import { rejectFutureReferences, validateGraph, predecessorBindings } from "./exec-fail-open-graph";
 import { fixtureFirstRun, fixtureCatalog } from "./exec-fail-open-fixture";
 import { validateCommand } from "./exec-fail-open-receipts";
@@ -76,8 +76,27 @@ test("predecessor read guard uses exact successor paths and restores nested root
   } finally { rmSync(otherRoot, { recursive: true, force: true }); }
 });
 
-test("current native command receipts, timings, preservation and six coverage floors pass", () => {
-  expect(validateGates(root).passed).toBe(true);
+test("retained native receipts bind their historical source and cannot satisfy the live gate", () => {
+  const ctx = context(root, "retained"), live = context(root);
+  const gates = JSON.parse(canonicalBytes(root, `${directory}/implementation/gates.json`).toString());
+  expect(ctx.sourceHash).not.toBe(live.sourceHash);
+  expect(() => validateCommon(gates, ctx, "implementation-gates", "backend")).not.toThrow();
+  expect(() => validateCommon(gates, live, "implementation-gates", "backend")).toThrow("stale receipt inputs/git");
+  expect(() => validateGates(root)).toThrow("stale receipt inputs/git");
+  validatePriorArchive(root, gates);
+  expect(gates.commands).toHaveLength(11);
+  for (const ref of gates.commands) {
+    const command = boundJSON(root, ref);
+    validateCommon(command, ctx, "command", "backend");
+    expect(command.status).toBe("passed");
+    expect(command.sourceHashAfter).toBe(ctx.sourceHash);
+  }
+  for (const [ref, kind] of [[gates.timings, "native-timing"], [gates.historical, "historical-fixture"],
+    [gates.preservation, "preservation"]] as const)
+    validateCommon(boundJSON(root, ref), ctx, kind, "backend");
+  expect(() => validateFloors(gates.coverage.crates, "historical-fixture")).not.toThrow();
+  expect(() => validateFloors(gates.coverage.crates)).toThrow("missing");
+  expect(() => validateCommon({ ...gates, sourceHash: "0".repeat(64) }, ctx, "implementation-gates", "backend")).toThrow("stale");
 }, 3600000);
 test("fixture graph constructs gates before successors and rejects cycles, future inputs and fake production receipts", () => {
   fixtureFirstRun((dir, refs, terminal) => {
@@ -130,11 +149,16 @@ test("measured-target arithmetic rejects overshoots, replay, altered exits and r
   const value = { passed: true, invocations: 1, recoveryInvocations: 1, observedExit: 17, elapsedToInvocationMs: 1800 };
   expect(() => validateInvocationNumbers(value)).not.toThrow();
   for (const patch of [{ elapsedToInvocationMs: 2000.001 }, { invocations: 2 }, { recoveryInvocations: 2 }, { observedExit: 0 }, { elapsedToInvocationMs: NaN }]) expect(() => validateInvocationNumbers({ ...value, ...patch })).toThrow();
-  const names = ["arc-core", "arc-detector", "arc-storage", "arc-ipc", "arc-daemon", "arc-cli"];
+  const names = ["arc-core", "arc-detector", "arc-storage", "arc-ipc", "arc-daemon", "arc-cli", "arc-traffic"];
   const floors = names.map(crate => ({ crate, total: 100, covered: 80 }));
   expect(() => validateFloors(floors)).not.toThrow();
   expect(() => validateFloors(floors.slice(1))).toThrow();
   expect(() => validateFloors(floors.map(c => c.crate === "arc-cli" ? { ...c, covered: 79 } : c))).toThrow();
+  const historical = floors.slice(0, -1);
+  expect(() => validateFloors(historical, "historical-fixture")).not.toThrow();
+  expect(() => validateFloors(historical)).toThrow();
+  expect(() => validateFloors(historical.slice(1), "historical-fixture")).toThrow();
+  expect(() => validateFloors(historical.map(c => c.crate === "arc-cli" ? { ...c, covered: 79 } : c), "historical-fixture")).toThrow();
 });
 
 test("complete gate accepts exact predecessor names and rejects actual successors in selected records", () => {

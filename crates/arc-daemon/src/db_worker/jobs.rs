@@ -13,6 +13,7 @@ pub(crate) enum Operation {
     Get(JobId),
     Recent,
     Reconcile(ReconcileEvidence),
+    Traffic(super::traffic::Operation),
 }
 pub(crate) enum Value {
     Start(Result<StartResult, JobError>),
@@ -20,6 +21,7 @@ pub(crate) enum Value {
     Get(Result<Option<JobSnapshot>, JobError>),
     Status(Result<StatusResult, JobError>),
     Reconcile(Result<ReconcileResult, JobError>),
+    Traffic(super::traffic::Value),
 }
 pub(crate) fn now() -> u64 {
     SystemTime::now()
@@ -40,9 +42,16 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
         Operation::Reconcile(evidence) => {
             Value::Reconcile(jobs::apply_observation(connection, &evidence))
         }
+        Operation::Traffic(operation) => {
+            Value::Traffic(super::traffic::execute(connection, operation))
+        }
     }
 }
-async fn call(client: &DbClient, op: Operation, deadline: Instant) -> Result<Value, &'static str> {
+pub(super) async fn call(
+    client: &DbClient,
+    op: Operation,
+    deadline: Instant,
+) -> Result<Value, &'static str> {
     let value = client
         .try_job(deadline, op)
         .map_err(|_| arc_ipc::ERROR_DB_BUSY)?

@@ -56,6 +56,9 @@ pub fn start(
         return Err(JobError::InvalidRequest);
     }
     let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+    if super::traffic::owned(&tx, request.job_id())? {
+        return Err(JobError::InvalidTransition);
+    }
     let existing = get(&tx, request.job_id())?;
     let (job, disposition) = match existing {
         None => {
@@ -189,6 +192,9 @@ pub fn complete(
         return Err(JobError::InvalidRequest);
     }
     let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+    if super::traffic::owned(&tx, &request.job_id)? {
+        return Err(JobError::InvalidTransition);
+    }
     let mut job = get(&tx, &request.job_id)?.ok_or(JobError::InvalidTransition)?;
     if job.observer != request.observer {
         return Err(JobError::Conflict);

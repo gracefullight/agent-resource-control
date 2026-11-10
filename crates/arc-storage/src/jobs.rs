@@ -2,6 +2,7 @@
 //! outside the finite database worker. No operation launches or reserves work.
 mod codec;
 mod reconcile;
+pub mod traffic;
 mod transitions;
 use arc_ipc::jobs::{JobId, JobSnapshot, MAX_TIMESTAMP};
 pub use reconcile::{apply_observation, observe, recent, ReconcileEvidence, ReconcileResult};

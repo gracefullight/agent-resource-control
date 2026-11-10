@@ -14,6 +14,11 @@ pub const MIGRATIONS: &[Migration] = &[
         id: "0002_managed_exec",
         sql: include_str!("../migrations/0002_managed_exec.sql"),
     },
+    Migration {
+        version: 3,
+        id: "0003_traffic",
+        sql: include_str!("../migrations/0003_traffic.sql"),
+    },
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

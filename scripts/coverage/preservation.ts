@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { BASELINE, PROTECTED, HARNESS } from "./config";
 import { checkHarnessStructure } from "./hygiene";
-import { hash, tokens, analyzeSource, sourceInventory } from "./source";
+import { hash, tokens, analyzeSource, historicalSourceInventory } from "./source";
 
 function git(root:string,args:string[]) {
   const p=Bun.spawnSync(["git",...args],{cwd:root,stdout:"pipe",stderr:"pipe"});
@@ -27,7 +27,7 @@ export function preservationReferences(root:string) {
 export function checkHistoricalPreservation(root:string) {
   const refs=preservationReferences(root);
   checkHarnessStructure(root);
-  const production=new Set(sourceInventory(root).filter(f=>!f.testOnly).map(f=>f.path));
+  const production=new Set(historicalSourceInventory(root).filter(f=>!f.testOnly).map(f=>f.path));
   for(const [path,expected] of Object.entries(refs.protected)) {
     if(path!==HARNESS && hash(readFileSync(resolve(root,path)))!==expected) throw Error(`PRESERVATION: protected bytes changed: ${path}`);
   }

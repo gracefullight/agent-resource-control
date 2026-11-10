@@ -42,6 +42,7 @@ pub(crate) async fn handle_connection<D, F>(
     .await;
 }
 
+#[cfg(test)]
 pub(crate) async fn handle_with_jobs<D, F, J, G>(
     stream: UnixStream,
     limits: RuntimeLimits,
@@ -54,6 +55,73 @@ pub(crate) async fn handle_with_jobs<D, F, J, G>(
     F: Future<Output = DoctorOutcome>,
     J: Fn(arc_ipc::jobs::LifecycleRequest, std::time::Instant) -> G,
     G: Future<Output = Result<serde_json::Value, &'static str>>,
+{
+    handle_inner(
+        stream,
+        limits,
+        requests,
+        metrics,
+        doctor,
+        jobs,
+        TrafficHandler {
+            enabled: false,
+            handle: |_, _, _| async { Err(arc_ipc::ERROR_UNSUPPORTED_CAPABILITY) },
+        },
+    )
+    .await;
+}
+
+pub(crate) async fn handle_with_traffic<D, F, J, G, T, H>(
+    stream: UnixStream,
+    limits: RuntimeLimits,
+    requests: Requests,
+    metrics: Arc<RuntimeMetrics>,
+    doctor: D,
+    jobs: J,
+    traffic: T,
+) where
+    D: Fn(std::time::Instant) -> F,
+    F: Future<Output = DoctorOutcome>,
+    J: Fn(arc_ipc::jobs::LifecycleRequest, std::time::Instant) -> G,
+    G: Future<Output = Result<serde_json::Value, &'static str>>,
+    T: Fn(arc_ipc::traffic::JobRequest, u32, std::time::Instant) -> H,
+    H: Future<Output = Result<serde_json::Value, &'static str>>,
+{
+    handle_inner(
+        stream,
+        limits,
+        requests,
+        metrics,
+        doctor,
+        jobs,
+        TrafficHandler {
+            enabled: true,
+            handle: traffic,
+        },
+    )
+    .await;
+}
+
+struct TrafficHandler<T> {
+    enabled: bool,
+    handle: T,
+}
+
+async fn handle_inner<D, F, J, G, T, H>(
+    stream: UnixStream,
+    limits: RuntimeLimits,
+    requests: Requests,
+    metrics: Arc<RuntimeMetrics>,
+    doctor: D,
+    jobs: J,
+    traffic: TrafficHandler<T>,
+) where
+    D: Fn(std::time::Instant) -> F,
+    F: Future<Output = DoctorOutcome>,
+    J: Fn(arc_ipc::jobs::LifecycleRequest, std::time::Instant) -> G,
+    G: Future<Output = Result<serde_json::Value, &'static str>>,
+    T: Fn(arc_ipc::traffic::JobRequest, u32, std::time::Instant) -> H,
+    H: Future<Output = Result<serde_json::Value, &'static str>>,
 {
     loop {
         let start = Instant::now();
@@ -126,9 +194,52 @@ pub(crate) async fn handle_with_jobs<D, F, J, G>(
         } else {
             None
         };
+        let traffic_probe = traffic.enabled
+            && request.protocol_version == PROTOCOL_VERSION
+            && request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES;
+        let probe_valid = traffic_probe && arc_ipc::traffic::decode_probe(&request.payload).is_ok();
+        let traffic_job = if traffic.enabled
+            && request.protocol_version == PROTOCOL_VERSION
+            && request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB
+        {
+            Some(arc_ipc::traffic::decode_job(&request.payload))
+        } else {
+            None
+        };
         // Neither the body nor payload enters the worker or survives an await.
         request.payload = serde_json::Value::Null;
-        let response = if let Some(input) = lifecycle {
+        let response = if traffic_probe {
+            if probe_valid {
+                Response::ok(
+                    &request.request_id,
+                    serde_json::to_value(arc_ipc::traffic::Capabilities::supported())
+                        .expect("serializable capability"),
+                )
+            } else {
+                Response::error(&request.request_id, ERROR_INVALID_REQUEST)
+            }
+        } else if let Some(input) = traffic_job {
+            match (input, crate::platform::peer_pid(&stream)) {
+                (Err(code), _) => Response::error(&request.request_id, code),
+                (_, Err(_)) => Response::error(&request.request_id, ERROR_INVALID_REQUEST),
+                (Ok(input), Ok(peer)) => {
+                    let deadline = std::time::Instant::now() + limits.db_response_timeout;
+                    match timeout_at(
+                        Instant::from_std(deadline),
+                        (traffic.handle)(input, peer, deadline),
+                    )
+                    .await
+                    {
+                        Ok(Ok(value)) => Response::ok(&request.request_id, value),
+                        Ok(Err(code)) => Response::error(&request.request_id, code),
+                        Err(_) => {
+                            metrics.increment(Counter::DbTimeouts);
+                            Response::error(&request.request_id, ERROR_DB_BUSY)
+                        }
+                    }
+                }
+            }
+        } else if let Some(input) = lifecycle {
             match input {
                 Err(code) => Response::error(&request.request_id, code),
                 Ok(input) => {

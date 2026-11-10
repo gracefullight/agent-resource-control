@@ -1,0 +1,195 @@
+{
+  "schemaVersion": 1,
+  "actorId": "independent-reviewer",
+  "skill": "oma-qa",
+  "complete": true,
+  "goalBlockerCount": 0,
+  "productDefectCount": 0,
+  "reviewStatus": "completed",
+  "head": "4d2f71c1a1482925f6c9918296d7ceb3435b7592",
+  "sourceHash": "a341230f980efb1c4fc4aa0bc03b6992b9486111ddc9ae95a7dc948c10f9262d",
+  "reportSha256": "a8c95dea394a3d991c64c9eccb1e4bf1c6b9807fe4f590f3e23c53337a95f0e3",
+  "commands": [
+    {
+      "path": "target/traffic/commands/task10-policy-64acdfc1-3d81-457d-91c6-2730ac756572/receipt.json",
+      "sha256": "d4a884ef33826c9524dbbc8db64e7342854762d1d075f28d920d1da37b6fd7f9"
+    },
+    {
+      "path": "target/traffic/commands/task10-storage-179560e1-dac9-4160-b29a-d920c4c33521/receipt.json",
+      "sha256": "9c1201a00cdb47fcd45a8f1e8871253776bc2261507323ca586196e6a10e1565"
+    },
+    {
+      "path": "target/traffic/commands/task10-ipc-99a70d77-d615-4b34-8d83-c45c475d23f5/receipt.json",
+      "sha256": "56da79dfb9b7ebab865a18bc8c5e947209e6a86fcaa6b6ec5933e9135f34dc13"
+    },
+    {
+      "path": "target/traffic/commands/task10-migration-1153fb5d-c878-46ca-9343-a5a1ed53bdd1/receipt.json",
+      "sha256": "c918855e0b8a9168c3c872dd57c4f71c77f973f8fbb674f934ee7fe025697b2b"
+    },
+    {
+      "path": "target/traffic/commands/task10-daemon-worker-76f5979b-2de3-4206-bcdd-ca622a0e2da2/receipt.json",
+      "sha256": "446d2813fb58bb13286ff115dd10c6343a058c12094efbe8e7c0aa6eda2dbfe1"
+    },
+    {
+      "path": "target/traffic/commands/task10-cli-eb63f893-4330-43fb-bcf0-77243e4f90dd/receipt.json",
+      "sha256": "c0475e98c9195092e3ddb73059f17ffb2cd3b02b682a99f6feadde232251ad76"
+    },
+    {
+      "path": "target/traffic/commands/task10-observed-build-99541546-7827-4888-8805-b1440339e15d/receipt.json",
+      "sha256": "ef4bcf7e71a8941751b2bd2475355d3f9541c9eec948f076827c2cf359a37b38"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-policy-706f133d-2e30-4dd9-b626-73f0a1bd12de/receipt.json",
+      "sha256": "45f54a6b2528a7b16ba10bf2e956a3dd70646bd60aa7b936cca1553d5a9be773"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-storage-7fc3233e-8d16-4a2c-971a-164cdee77294/receipt.json",
+      "sha256": "8cf522da6ca1617c648992d35f408b14ab4366540a3130453eb1d4626b783077"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-ipc-9fff76b9-feff-4c44-9692-6208c19013df/receipt.json",
+      "sha256": "98fb65210c0251f4dcf8ca1ea467414ef421cb7ab0f0c009fae6a68495ec7b2f"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-worker-a3664eee-242a-4fe8-bac5-d1dfa9b25941/receipt.json",
+      "sha256": "6d6418223cfa4fe26fbed901329cbdfb7f95c44357bebc4b5cbb730bbf6598e6"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-cli-13507f05-b5f5-4cd4-931a-50244e85ff49/receipt.json",
+      "sha256": "61fbe867246a4f2c21aea07c9ca3725f138818c2a26f57c432629209fcc3516c"
+    }
+  ],
+  "otherCommands": [
+    {
+      "path": "target/traffic/commands/task10-fmt-03ca0c25-5baf-477a-abcc-8d1c5323879a/receipt.json",
+      "sha256": "0b98abb187cb08b2561bd568a734dc3dd79c7ad426f44b5317e9b88583913e9d"
+    },
+    {
+      "path": "target/traffic/commands/task10-live-coverage-1e334965-7b5e-41e0-9a0c-09ee879d9c76/receipt.json",
+      "sha256": "1affa8322072128a2b89f7d4ce20d985efd3f6405d1e76e349b3b9c56a64b08a"
+    },
+    {
+      "path": "target/traffic/commands/task10-targets-dc721898-6d04-462b-b942-131361536c76/receipt.json",
+      "sha256": "c3c4aa37c2214f22ca0de11a3ace72bc96f65461108f0a9e13321c99f18e4890"
+    },
+    {
+      "path": "target/traffic/commands/task10-inventory-e03cdb43-002f-4613-964f-7a9b82d2dfff/receipt.json",
+      "sha256": "2e9d5ccd56a8fbda60a4a53bf431bcb064d2aaf493b230ac577d7b306ad25bdf"
+    },
+    {
+      "path": "target/traffic/commands/task10-av-704d5a50-6190-4809-a34d-bc81c5ac4257/receipt.json",
+      "sha256": "2ae97fb3e2a69fde576eb2dc01d01d2056bd9e2f52eff836ffa4ac7a6db2df55"
+    },
+    {
+      "path": "target/traffic/commands/task10-docker-6ad2de39-5fb2-442f-bed3-3ea7268f810c/receipt.json",
+      "sha256": "a55e6c57263779305db6dfaa43ca0e7290a8b43699a0303ef19f2d2457e5058e"
+    },
+    {
+      "path": "target/traffic/commands/task10-receipts-18b64e17-ebcf-4158-a2cf-b15e09937f38/receipt.json",
+      "sha256": "ff0af3d12eda3f4bf52ad0b836f2a37cbe151313359a4c74bcb5b62c3c98d6d8"
+    },
+    {
+      "path": "target/traffic/commands/task10-daemon-39f44d66-f380-4993-8190-49c64088e151/receipt.json",
+      "sha256": "2bc48ff52e53ae33a9b167ef767aac412c4876ab312fa151af7d0d4337123a46"
+    },
+    {
+      "path": "target/traffic/commands/task10-migration-diff-9a3cdb5f-5471-4ea2-8e02-f611db8e55a4/receipt.json",
+      "sha256": "dd254aa212cd9165d5324c416846725d1723cdee6aa9eeee6f00b3c449a2e6e0"
+    },
+    {
+      "path": "target/traffic/commands/task10-final-evidence-d6a2f94f-94fc-4b00-9d04-fa9f94b9c06b/receipt.json",
+      "sha256": "b1081e4ab03ade94be871a2e71b53c73269bbc386f73179f024d3d6640f0e438"
+    },
+    {
+      "path": "target/traffic/commands/task10-final-evidence-contract-06db5d74-6e6f-4a16-a064-2439fc67ffd7/receipt.json",
+      "sha256": "5e5e3e4189d8289629ad29a2dad4c81a9e1ab00f9694c90b4bfe38c12adcc33a"
+    },
+    {
+      "path": "target/traffic/commands/task10-targets-contract-be61d4d8-42f6-41de-8f89-f60785f48847/receipt.json",
+      "sha256": "fdf63e15d9841ed3044acfeec7bf3c92bebb53a8a86d1663d3c7447065c4617a"
+    },
+    {
+      "path": "target/traffic/commands/task10-coverage-contract-1e335c27-d91b-4698-b187-e9449613ffac/receipt.json",
+      "sha256": "fedff8c1e2bf59d6ce0b0169da8325eb576e543513622bba25f7caf323639d7c"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-target-inventory-de95fb00-6cce-426e-b9f7-01114f4d04df/receipt.json",
+      "sha256": "6a02e0f7109f785166eac7f46d41cca3e62a7f0c07fdc77407f3437933eb1ee9"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-av-9902d3a7-a4ad-49ae-9922-2b28b620e1ee/receipt.json",
+      "sha256": "dc80e1bb1fb9a6bc83194b9e863489f9dfc440ecef10f394a15de5daaa50edee"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-target-check-0920f869-158f-4094-a783-3c4f1e93f481/receipt.json",
+      "sha256": "4fe9b5ded045820301b21558e6826825103b8e8035e622d7ede2a04ee7aa0980"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-live-coverage-ff3c7d49-82c2-475e-b821-59d1685741b3/receipt.json",
+      "sha256": "cbb3057d3fb1ccb2f5de7536cb95125c69a29bfc14cd8ac4b135e500d2f3be07"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-receipts-d579056f-d7eb-47f0-8d00-b47256e758af/receipt.json",
+      "sha256": "13a863d219e1ef1e4a2c5842e851a8e4b1889ad3878f2811e09a8e9f4e3c9e0a"
+    },
+    {
+      "path": "target/traffic/commands/task10-repair-final-contract-c4fa9b9f-3ead-449b-9819-3291e9b8200f/receipt.json",
+      "sha256": "6a0392b8406ae302169d410e91a6a56e803309987015165eb754ae74baa5fb97"
+    },
+    {
+      "path": "target/traffic/commands/task11-qa-components-a39983c6-3f30-493e-aa63-f892774d329d/receipt.json",
+      "sha256": "69837f9fcd4eef704cd88156dea6ab9c8a655a9b486d5f37f3fc93d001a3d116"
+    },
+    {
+      "path": "target/traffic/commands/task11-qa-prior-7fea002e-09e1-49f1-8e1e-e9457ac1aa58/receipt.json",
+      "sha256": "d6ef1933b56064cbc57fce6f627fe10df8c54e6fee7eaa60109dc99cc6f92baf"
+    },
+    {
+      "path": "target/traffic/commands/task11-qa-discovery-evidence-763dfac0-1e28-45d0-96aa-76d8e9e6a426/receipt.json",
+      "sha256": "c3660a9158462253ff9407b43cc9b15712d413b3f9118f67625c84236142d435"
+    },
+    {
+      "path": "target/traffic/commands/task11-qa-discovery-targets-a471d9f4-a77d-498c-b66c-1197f9424d8d/receipt.json",
+      "sha256": "f298ca7823db5c021034b220e42b084171f579463f1091de36ef6964958345c2"
+    },
+    {
+      "path": "target/traffic/commands/task11-qa-discovery-coverage-61eaa3e8-ea0e-48e9-82b2-1fb79f484670/receipt.json",
+      "sha256": "3fc04c0ef474b244285be4acc7749885ef581a60527cc25289ae2e951eba2b0b"
+    },
+    {
+      "path": "target/traffic/commands/task11-attempt2-pre-evidence-2ee34dc1-57dd-4b39-b5fc-5810a25c13db/receipt.json",
+      "sha256": "9ebf5ede96dc3562ab06c812b8f9df175a18a2b3b8e6d9ca6e5f7a3abff26255"
+    },
+    {
+      "path": "target/traffic/commands/task11-attempt2-pre-targets-c769e2b0-059d-4255-a136-777d56fb5d4c/receipt.json",
+      "sha256": "50d413402f87aed0209d83194b5d12cd33926f583b2b5d8790f17fd6dbb23c36"
+    }
+  ],
+  "findings": [],
+  "verificationGaps": [],
+  "targets": {
+    "path": ".arc-verify/traffic/targets.json",
+    "sha256": "6309f97ca93e2a75cabf3a62b668c921090a8c8464fa3d21a7a7aa7391d9b6d3"
+  },
+  "observation": {
+    "path": "target/traffic/task10-independent-observation.json",
+    "sha256": "93e56de124132c59c42d1941738f2b5174ad0751c258e45e6db298b872f80a79"
+  },
+  "createdAt": "2026-11-10T18:28:38.755576+00:00",
+  "completeDefinition": "The independent review and its focused reproduction are finished; this does not assert that the mission verification contract passed.",
+  "verificationStatus": "completed",
+  "verdict": "PASS",
+  "updatedAt": "2026-11-10T18:46:56.939077+00:00",
+  "discoveryConfiguration": {
+    "path": "bunfig.toml",
+    "sha256": "31d5bf1e58da7f75b44f0f016a34fb414be1188f93afec731104ba42999c5f22",
+    "note": "Not included in trafficInputs source hash; separately bound here."
+  },
+  "pendingFinalReplay": {
+    "reason": "Chief will replay both exact checks after the final report update; prior passing receipts bind an earlier report version.",
+    "commands": [
+      "bun test scripts/harness/traffic-evidence.test.ts",
+      "bun test scripts/harness/traffic-targets.test.ts"
+    ]
+  }
+}

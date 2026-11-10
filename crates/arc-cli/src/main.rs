@@ -51,7 +51,8 @@ Fallback applies to tracking outages. Invalid protocol replies and local prepara
 Your shell handles quoting before ARC receives arguments.
 ARC does not interpret pipes, redirections, substitutions or shell operators.
 If the daemon is unavailable or tracking is unconfirmed due to an outage or exhausted DB_BUSY retries, ARC still attempts the command once.
-Registration, claim and retries share one pre-spawn metadata budget of at most two seconds.
+Each admission exchange has a bounded outage budget; a healthy queued job waits for a permit.
+Direct local cargo build, cargo test, cargo clippy and cargo fmt jobs use the default Traffic windows and resource reservations when the daemon supports Traffic.
 Cancellation, invalid arguments, invalid protocol replies, local preparation failures and explicit authenticated rejection do not start a child.
 Tracking diagnostics go to stderr; the child keeps its native streams, exit status and terminal behavior.
 Stopping the daemon does not stop the running child.
@@ -59,7 +60,7 @@ Use arcctl job status to list last-known lifecycle records.
 Use arcctl job status <JOB_ID> to observe a record after daemon recovery; this may update the lifecycle record.
 A reference does not confirm a saved record. A missing record does not show whether the command ran.
 Daemon recovery never replays the command. Do not launch another copy to recover tracking.
-Desktop integration, native Windows acceptance, vendor hooks and scheduling remain outstanding.")]
+Desktop integration, native Windows acceptance, vendor hooks and other scheduling policies remain outstanding.")]
     Exec {
         #[arg(required = true, num_args = 1.., last = true, value_name = "PROGRAM")]
         argv: Vec<std::ffi::OsString>,

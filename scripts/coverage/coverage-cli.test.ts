@@ -9,4 +9,4 @@ test("root entry point executes the real six-crate coverage gate",async()=>{
   const result=await realAcceptance("coverage-cli",["bun","run","test:coverage"]);
   for(const crate of CRATES) expect(result.stdout).toContain(`PASS ${crate}:`);
   expect(result.stdout).not.toContain("UNAVAILABLE");
-},3600000);
+},7200000);

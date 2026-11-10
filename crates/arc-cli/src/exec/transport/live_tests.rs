@@ -200,3 +200,20 @@ fn live_cancellation_is_observed_while_waiting_and_at_expired_admission() {
     );
     tx.send(()).unwrap();
 }
+
+#[test]
+fn transient_database_contention_retries_past_three_replies() {
+    let calls = Arc::new(AtomicUsize::new(0));
+    let observed = calls.clone();
+    let peer = Peer::new(7, move |stream, request| {
+        let number = observed.fetch_add(1, Ordering::SeqCst);
+        let response = if number < 6 {
+            Response::error(request.request_id, arc_ipc::ERROR_DB_BUSY)
+        } else {
+            Response::ok(request.request_id, Value::Bool(true))
+        };
+        arc_ipc::write_response(stream, &response).unwrap();
+    });
+    assert_eq!(peer.call(), Ok(Value::Bool(true)));
+    assert_eq!(calls.load(Ordering::SeqCst), 7);
+}

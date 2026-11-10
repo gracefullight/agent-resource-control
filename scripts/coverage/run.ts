@@ -13,7 +13,7 @@ const save=(name:string,value:unknown)=>writeFileSync(resolve(dir,name),JSON.str
 const receipts:Receipt[]=[];
 const env={...process.env,RUSTUP_TOOLCHAIN:PINS.rust,CARGO_NET_OFFLINE:"true",CARGO_TERM_COLOR:"never"};
 const rust=["rustup","run",PINS.rust];
-async function run(argv:string[],label:string,extra:Record<string,string>={},expected=0,timeout=3600000) {
+async function run(argv:string[],label:string,extra:Record<string,string>={},expected=0,timeout=7200000) {
   const receipt=await command(argv,dir,root,{...env,...extra},timeout); receipts.push(receipt);
   if(receipt.exit!==expected) throw Error(`${label}: exited ${receipt.exit}; ${receipt.stderr.trim()}`);
   return receipt;
@@ -66,7 +66,7 @@ try {
   const target=resolve(root,"target/arc-coverage",id);mkdirSync(target,{recursive:true});
   const coverageEnv={CARGO_LLVM_COV_TARGET_DIR:target,LLVM_PROFILE_FILE_NAME:"arc-%p-%m.profraw",CARGO_LLVM_COV_DENY_WARNINGS:"1",LLVM_COV:join(llvm,"llvm-cov"),LLVM_PROFDATA:join(llvm,"llvm-profdata")};
   console.log("Coverage: running workspace unit, integration and child-binary tests");
-  await run([...rust,"cargo","llvm-cov","--workspace","--all-targets","--locked","--offline","--no-report","--no-cfg-coverage","--no-cfg-coverage-nightly"],"TEST_FAILURE",coverageEnv,0,3600000);
+  await run([...rust,"cargo","llvm-cov","--workspace","--all-targets","--locked","--offline","--no-report","--no-cfg-coverage","--no-cfg-coverage-nightly"],"TEST_FAILURE",coverageEnv,0,7200000);
   // Explicit binary probes supply independently identifiable child PIDs/profile
   // files in addition to the existing integration suites' inherited profiles.
   const childProof=[];

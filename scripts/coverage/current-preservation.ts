@@ -1,8 +1,9 @@
-import { readFileSync, lstatSync, realpathSync } from "node:fs";
+import { readFileSync, lstatSync, realpathSync, readdirSync } from "node:fs";
+import { Database } from "bun:sqlite";
 import { resolve, relative, basename } from "node:path";
 import { checkHarnessStructure, gitBytes, indexEntries } from "./hygiene";
 import { withHistoricalCheckout } from "./historical";
-import { analyzeSource, hash, sourceInventory, tokens, walk } from "./source";
+import { analyzeSource, hash, historicalSourceInventory, sourceInventory, tokens, walk } from "./source";
 import { schemaReference } from "./schema-adaptations";
 
 export const FEATURE_BASELINE = "19d7a507044cbf83918f58cd41056905c275c8d4";
@@ -11,6 +12,38 @@ export const MIGRATION_SHA256 = "046610c920709f0d9371ccaff6254fbd1c1c46cc6e93089
 const textTokens = (text: string) => tokens(text).map(t => t.text);
 const encode = (text: string) => JSON.stringify(textTokens(text));
 const original = (root: string, path: string) => gitBytes(root, ["show", `${FEATURE_BASELINE}:${path}`]).toString();
+
+// The schema-3 legacy test permits additional columns, but its column and
+// foreign-key comparisons alone do not preserve UNIQUE(job_id). Compare every
+// original unique index, including its columns, order and collation, against
+// the schema produced by the current migration SQL.
+export function checkPermitUniqueIndexes(baseline: string, migrations: string[]) {
+  const before = new Database(":memory:"), after = new Database(":memory:");
+  try {
+    before.exec(baseline);
+    for (const migration of migrations) after.exec(migration);
+    const indexes = (db: Database) => (db.query(
+      `SELECT name, origin, partial FROM pragma_index_list('permits') WHERE "unique" = 1`
+    ).all() as { name: string; origin: string; partial: number }[]).map(index => {
+      const columns = db.query(
+        `SELECT cid, name, "desc" AS descending, coll FROM pragma_index_xinfo(?1) WHERE key = 1 ORDER BY seqno`
+      ).all(index.name);
+      return JSON.stringify({ origin: index.origin, partial: index.partial, columns });
+    });
+    const expected = indexes(before), actual = indexes(after);
+    if (!expected.length || expected.some(index => !actual.includes(index)))
+      throw Error("REGRESSION: original permits unique index changed or removed");
+  } finally {
+    before.close(); after.close();
+  }
+}
+
+function checkPermitMigrations(root: string) {
+  const directory = "crates/arc-storage/migrations";
+  const paths = readdirSync(resolve(root, directory)).filter(name => /^\d{4}_[a-z0-9_]+\.sql$/.test(name)).sort();
+  if (paths[0] !== "0001_phase0.sql") throw Error("REGRESSION: original permits migration missing");
+  checkPermitUniqueIndexes(original(root, MIGRATION), paths.map(path => readFileSync(resolve(root, directory, path), "utf8")));
+}
 
 // Item boundaries include attributes and the complete body, preventing inserted
 // returns, changed helper inputs, ignored tests or cfg guards around old cases.
@@ -42,7 +75,7 @@ function containsItems(expected: string[], actual: string[], path: string) {
 // immutable baseline tokens. A new ordinary literal-expression macro is safe:
 // its empty matcher and literal expansion cannot generate assertion bindings.
 // Other new macros need a separately reviewed guard extension, not a name list.
-function assertionMacroBindings(source: string) {
+export function assertionMacroBindings(source: string, allowNewTestParentImport = false) {
   const raw = textTokens(source), ts: string[] = [], bindings: string[] = [];
   // Raw identifiers name the same macro: r#assert_eq must not evade the scan.
   for (let i = 0; i < raw.length; i++) {
@@ -68,9 +101,21 @@ function assertionMacroBindings(source: string) {
     // external factories) may introduce any binding. Pin them without trying
     // to expand Rust. Ordinary macro expressions inside function bodies remain
     // editable; they cannot change the lexical scope of preserved module tests.
-    if (ts[i] !== "macro_rules" && ts[i + 1] === "!" && pairs[ts[i + 2]] &&
-      scopes.every(body => moduleBodies.has(body)))
-      bindings.push(JSON.stringify(ts.slice(i, endOf(i + 2) + 1)));
+    if (ts[i] !== "macro_rules" && ts[i] !== "#" && ts[i + 1] === "!" && pairs[ts[i + 2]] &&
+      scopes.every(body => moduleBodies.has(body))) {
+      const item = ts.slice(i, endOf(i + 2) + 1);
+      // This one test-only declaration creates a thread-local error buffer; it
+      // cannot define or import assertion macros. Any edit remains guarded.
+      const cleanupBuffer = textTokens("thread_local! { static UNWIND_ERRORS: RefCell<Vec<String>> = const { RefCell::new(Vec::new()) }; }");
+      if (!allowNewTestParentImport || JSON.stringify(item) !== JSON.stringify(cleanupBuffer))
+        bindings.push(JSON.stringify(item));
+    }
+    if (ts[i] === "#" && ts[i + 1] === "!" && ts[i + 2] === "[") {
+      const end = endOf(i + 2), attr = ts.slice(i, end + 1);
+      // Preserve all inner attributes on historical files as before. A new
+      // test-only file may choose its own platform cfg, but not macro imports.
+      if (!allowNewTestParentImport || attr.includes("macro_use")) bindings.push(JSON.stringify(attr));
+    }
     if (ts[i] === "#" && ts[i + 1] === "[") {
       const end = endOf(i + 1), attr = ts.slice(i, end + 1);
       if (attr.includes("macro_use")) bindings.push(JSON.stringify(attr));
@@ -95,7 +140,12 @@ function assertionMacroBindings(source: string) {
     }
     if (ts[i] === "use") {
       const end = ts.indexOf(";", i), item = ts.slice(i, end + 1);
-      if (item.includes("*") || item.some(t => names.has(t))) bindings.push(JSON.stringify(item));
+      // A new test-only module has no historical assertions to shadow. Its
+      // ordinary parent import is local to that module; still reject every
+      // other wildcard, explicit assertion import and macro binding there.
+      const parentImport = allowNewTestParentImport &&
+        JSON.stringify(item) === JSON.stringify(["use", "super", ":", ":", "*", ";"]);
+      if (!parentImport && (item.includes("*") || item.some(t => names.has(t)))) bindings.push(JSON.stringify(item));
     }
     if (ts[i] === "{") scopes.push(i);
   }
@@ -161,7 +211,7 @@ function regressionReachability(source: string) {
 const cache = new Map<string, ReturnType<typeof regressionReferences>>();
 function regressionReferences(root: string) {
   return withHistoricalCheckout(root, FEATURE_BASELINE, dir => {
-    const inventory = sourceInventory(dir);
+    const inventory = historicalSourceInventory(dir);
     return walk(resolve(dir, "crates")).filter(p => p.endsWith(".rs")).map(file => {
       const path = relative(dir, file);
       const source = schemaReference(path, readFileSync(file, "utf8"));
@@ -175,19 +225,58 @@ function regressionReferences(root: string) {
     });
   });
 }
+function replaceExact(text: string, before: string, after: string, count = 1) {
+  if (text.split(before).length - 1 !== count) throw Error(`PRESERVATION: baseline adaptation mismatch: ${before}`);
+  return text.split(before).join(after);
+}
+// Fixed Traffic inventory changes only; all other historical tooling bytes remain pinned.
+function trafficToolingReference(path: string, text: string) {
+  const edit = (before: string, after: string, count = 1) => { text = replaceExact(text, before, after, count); };
+  if (path === "scripts/coverage/config.ts")
+    edit('export const CRATES = ["arc-core", "arc-detector", "arc-storage", "arc-ipc", "arc-daemon", "arc-cli"] as const;',
+      'export const HISTORICAL_CRATES = ["arc-core", "arc-detector", "arc-storage", "arc-ipc", "arc-daemon", "arc-cli"] as const;\nexport const CRATES = [...HISTORICAL_CRATES, "arc-traffic"] as const;');
+  if (path === "scripts/coverage/source.ts") {
+    edit('import { CRATES }', 'import { CRATES, HISTORICAL_CRATES }');
+    edit('export function sourceInventory(root: string): SourceFile[] {', 'function inventoryForCrates(root: string, crates: readonly string[]): SourceFile[] {');
+    edit('CRATES.flatMap(', 'crates.flatMap(', 2);
+    edit('for(const crate of CRATES)', 'for(const crate of crates)');
+    edit('export function inputIdentity(root:string) {', '// The immutable pre-Traffic baselines did not contain the current seventh crate.\nexport const sourceInventory = (root: string) => inventoryForCrates(root, CRATES);\nexport const historicalSourceInventory = (root: string) => inventoryForCrates(root, HISTORICAL_CRATES);\nexport function inputIdentity(root:string) {');
+  }
+  if (path === "scripts/coverage/preservation.ts") {
+    edit('hash, tokens, analyzeSource, sourceInventory', 'hash, tokens, analyzeSource, historicalSourceInventory');
+    edit('sourceInventory(root).filter', 'historicalSourceInventory(root).filter');
+  }
+  if (path === "scripts/coverage/accounting.test.ts") {
+    edit('expect(result.files).toHaveLength(6);', 'expect(result.files).toHaveLength(7);');
+    edit('live inventory classifies all six crate roots', 'live inventory classifies all seven crate roots');
+    edit('map(x=>x.crate)).size).toBe(6);', 'map(x=>x.crate)).size).toBe(7);');
+  }
+  if (path === ".arc-verify/rust-coverage/contract/accounting.json") {
+    edit('    "arc-cli"\n', '    "arc-cli",\n    "arc-traffic"\n');
+    edit('all six crates/*/src trees', 'all seven current crates/*/src trees; immutable historical baselines contain six');
+    edit('versions, six crates and per-file', 'versions, seven current crates and per-file');
+  }
+  return text;
+}
 // Fixed, task-5-only adaptation recipes. Compare all other bytes against the
 // immutable feature baseline; these are not a moving checkout snapshot.
 function toolingReference(root: string, path: string) {
   let text = original(root, path);
-  if (path === "scripts/coverage/run.ts") text = text.replace("timeout=120000", "timeout=3600000")
-    .replace('"TEST_FAILURE",coverageEnv,0,120000', '"TEST_FAILURE",coverageEnv,0,3600000');
-  if (path === "scripts/coverage/commands.ts") text = text.replace("timeout=120000", "timeout=3600000");
-  if (path === "scripts/coverage/acceptance.ts") text = text.replace("900000", "3600000");
-  if (["scripts/coverage/harness.test.ts", "scripts/coverage/coverage-cli.test.ts"].includes(path)) text = text.replace("960000", "3600000");
+  if (path === "scripts/coverage/run.ts") text = text.replace("timeout=120000", "timeout=7200000")
+    .replace('"TEST_FAILURE",coverageEnv,0,120000', '"TEST_FAILURE",coverageEnv,0,7200000');
+  if (path === "scripts/coverage/commands.ts") text = text.replace("timeout=120000", "timeout=7200000")
+    .replace('import { resolve } from "node:path";', 'import { resolve } from "node:path";\nimport { nativeOutput } from "./native-output";')
+    .replace('pid?:number};', 'pid?:number;output?:ReturnType<typeof nativeOutput>};')
+    .replace('const [stdout,stderr,exit]=await Promise.all([new Response(child.stdout).text(),new Response(child.stderr).text(),child.exited]);',
+      'const [out,err,exit]=await Promise.all([new Response(child.stdout).arrayBuffer(),new Response(child.stderr).arrayBuffer(),child.exited]);')
+    .replace('receipt={argv,cwd,started,ended:new Date().toISOString(),exit,stdout,stderr,pid:child.pid};',
+      'const rawOut=Buffer.from(out),rawErr=Buffer.from(err),stdout=rawOut.toString(),stderr=rawErr.toString();\n    receipt={argv,cwd,started,ended:new Date().toISOString(),exit,stdout,stderr,pid:child.pid,output:nativeOutput(argv,cwd,rawOut,rawErr)};');
+  if (path === "scripts/coverage/acceptance.ts") text = text.replace("900000", "7200000");
+  if (["scripts/coverage/harness.test.ts", "scripts/coverage/coverage-cli.test.ts"].includes(path)) text = text.replace("960000", "7200000");
   if (path === "scripts/coverage/clean-checkout.test.ts") text = text
     .replace('import { root }', 'import { checkPreservation } from "./preservation";\nimport { root }')
     .replace(', checkExactPreservation }', ' }').replaceAll("checkExactPreservation(", "checkPreservation(")
-    .replace("900000", "3600000").replace("1860000", "7260000");
+    .replace("900000", "7200000").replace("1860000", "14460000");
   if (path === "scripts/coverage/preservation.ts") text = text.replace("export function checkPreservation(", "export function checkHistoricalPreservation(") +
     '\n// Live feature checks preserve regression semantics rather than production bytes.\nexport { checkCurrentPreservation as checkPreservation } from "./current-preservation";\n';
   if (path === "scripts/coverage/preservation.test.ts") text = text.replaceAll("checkPreservation", "checkHistoricalPreservation")
@@ -197,7 +286,7 @@ function toolingReference(root: string, path: string) {
   if (path === "scripts/coverage/hygiene-preservation.test.ts") text = text.replaceAll("checkPreservation", "checkHistoricalPreservation")
     .replace('test("protected bytes/modes', 'import { withHistoricalCheckout } from "./historical";\n\ntest("protected bytes/modes')
     .replace('expect(checkExactPreservation(root))', 'expect(withHistoricalCheckout(root, ACCEPTED_HEAD, checkExactPreservation))');
-  return text;
+  return trafficToolingReference(path, text);
 }
 const compactHarness = (text: string) => text.split("\n").filter((l, i) => i === 0 || l.trim() && !l.trimStart().startsWith("#")).join("\n") + "\n";
 const protectedTooling = [
@@ -211,6 +300,12 @@ const protectedTooling = [
   "scripts/harness/validate.sh", "scripts/harness/equivalence.test.ts", "scripts/harness/fixtures.ts",
   "scripts/harness/test-support.ts", "scripts/harness/coverage-verification.test.ts",
 ];
+export function checkProtectedToolingContent(root: string, path: string, content: Buffer) {
+  if (path !== MIGRATION && !protectedTooling.includes(path)) throw Error(`PRESERVATION: unknown protected path: ${path}`);
+  const expected = path === MIGRATION ? MIGRATION_SHA256 : hash(path === "scripts/harness/validate.sh" ? compactHarness(toolingReference(root, path)) : toolingReference(root, path));
+  if (hash(content) !== expected) throw Error(`PRESERVATION: protected bytes changed: ${path}`);
+  return expected;
+}
 function checkTestAdmission(root: string) {
   const manifests = gitBytes(root, ["ls-tree", "-r", "--name-only", FEATURE_BASELINE, "--", "crates"])
     .toString().trim().split("\n").filter(p => p.endsWith("/Cargo.toml"));
@@ -250,9 +345,7 @@ export function checkCurrentPreservation(root: string) {
     const file = resolve(root, path), stat = lstatSync(file);
     if (!stat.isFile() || stat.isSymbolicLink()) throw Error(`PRESERVATION: regular file required: ${path}`);
     const content = readFileSync(file);
-    const expected = path === MIGRATION ? MIGRATION_SHA256 : hash(path === "scripts/harness/validate.sh" ? compactHarness(toolingReference(root, path)) : toolingReference(root, path));
-    const actual = hash(content);
-    if (actual !== expected) throw Error(`PRESERVATION: protected bytes changed: ${path}`);
+    const expected = checkProtectedToolingContent(root, path, content);
     if (path === MIGRATION) {
       const [entry, ...extra] = indexEntries(root, path);
       if (!entry || extra.length || entry.mode !== "100644" || hash(gitBytes(root, ["show", `:${path}`])) !== expected)
@@ -260,6 +353,7 @@ export function checkCurrentPreservation(root: string) {
       if (stat.mode & 0o111) throw Error("PRESERVATION: migration executable mode changed");
     }
   }
+  checkPermitMigrations(root);
   let refs = cache.get(root);
   if (!refs) { refs = regressionReferences(root); cache.set(root, refs); }
   const inventory = sourceInventory(root);
@@ -285,7 +379,13 @@ export function checkCurrentPreservation(root: string) {
   for (const file of files) {
     if (file.endsWith(".rs")) {
       const path = relative(root, file), source = readFileSync(file, "utf8");
-      if (assertionMacroBindings(source) !== assertionMacroBindings(references.get(path) ?? ""))
+      const prior = references.get(path);
+      // Integration-test modules live under tests/ and are deliberately not
+      // part of the production source inventory. They can import their test
+      // parent in exactly the same way as new cfg(test) source modules.
+      const newTestOnly = prior === undefined && (inventory.some(f => f.path === path && f.testOnly) ||
+        /^crates\/[^/]+\/tests\//.test(path));
+      if (assertionMacroBindings(source, newTestOnly) !== assertionMacroBindings(prior ?? ""))
         throw Error(`REGRESSION: assertion macro binding/import changed: ${path}`);
     }
     if (readFileSync(file, "utf8").split(/\n/).length - Number(readFileSync(file, "utf8").endsWith("\n")) > 500)

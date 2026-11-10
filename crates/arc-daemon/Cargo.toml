@@ -8,6 +8,7 @@ serde.workspace = true
 arc-core.workspace = true
 arc-ipc.workspace = true
 arc-storage.workspace = true
+arc-traffic.workspace = true
 libc.workspace = true
 rusqlite = { workspace = true, features = ["hooks"] }
 serde_json.workspace = true

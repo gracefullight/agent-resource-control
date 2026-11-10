@@ -79,6 +79,7 @@ dependencies = [
  "arc-core",
  "arc-ipc",
  "arc-storage",
+ "arc-traffic",
  "libc",
  "rusqlite",
  "serde",
@@ -100,6 +101,7 @@ version = "0.1.0"
 dependencies = [
  "arc-core",
  "arc-detector",
+ "arc-traffic",
  "serde",
  "serde_json",
 ]
@@ -110,11 +112,20 @@ version = "0.1.0"
 dependencies = [
  "arc-core",
  "arc-ipc",
+ "arc-traffic",
  "libc",
  "rusqlite",
  "serde",
  "serde_json",
  "sha2",
+]
+
+[[package]]
+name = "arc-traffic"
+version = "0.1.0"
+dependencies = [
+ "arc-detector",
+ "serde",
 ]
 
 [[package]]

@@ -6,6 +6,7 @@
 
 pub mod jobs;
 mod schema;
+pub mod traffic;
 pub use schema::{
     SchemaReport, SchemaStatus, ERROR_SCHEMA_DETAILS_UNAVAILABLE, ERROR_SCHEMA_INCOMPATIBLE,
 };
@@ -42,13 +43,24 @@ pub const ERROR_INTEGRITY_FAILED: &str = "INTEGRITY_FAILED";
 pub const ERROR_DB_BUSY: &str = "DB_BUSY";
 
 /// One request object.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct Request {
     pub protocol_version: u32,
     pub request_id: String,
     pub operation: String,
     #[serde(default)]
     pub payload: Value,
+}
+
+impl fmt::Debug for Request {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter
+            .debug_struct("Request")
+            .field("request_id", &self.request_id)
+            .field("operation", &self.operation)
+            .field("payload", &Redacted)
+            .finish()
+    }
 }
 
 impl Request {
@@ -68,7 +80,7 @@ impl Request {
 }
 
 /// One response object.
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, PartialEq, Serialize, Deserialize)]
 pub struct Response {
     pub protocol_version: u32,
     pub request_id: String,
@@ -77,6 +89,26 @@ pub struct Response {
     pub result: Option<Value>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub error: Option<ErrorBody>,
+}
+
+impl fmt::Debug for Response {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter
+            .debug_struct("Response")
+            .field("request_id", &self.request_id)
+            .field("status", &self.status)
+            .field("result", &Redacted)
+            .finish()
+    }
+}
+
+/// Never inspect or format an envelope's unvalidated JSON value for Debug.
+struct Redacted;
+
+impl fmt::Debug for Redacted {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("<redacted>")
+    }
 }
 
 impl Response {

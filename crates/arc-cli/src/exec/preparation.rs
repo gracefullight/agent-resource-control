@@ -80,20 +80,28 @@ pub(super) fn prepare_with(
 }
 
 pub(super) fn stopped(failure: Failure) -> std::process::ExitCode {
-    match failure {
-        Failure::Cancelled => eprintln!("NOT_STARTED\nExecution cancelled. No child was started."),
-        Failure::Rejected => {
-            eprintln!("NOT_STARTED\nARC rejected execution. No child was started.")
-        }
-        Failure::Protocol => eprintln!(
+    let message = match failure {
+        Failure::Cancelled => "NOT_STARTED\nExecution cancelled. No child was started.",
+        Failure::Rejected => "NOT_STARTED\nARC rejected execution. No child was started.",
+        Failure::Protocol => {
             "PROTOCOL_INCOMPATIBLE\nNOT_STARTED\nProtocol 1 is required. No child was started."
-        ),
-        Failure::InvalidReply => {
-            eprintln!("IPC_ERROR\nNOT_STARTED\nInvalid lifecycle reply. No child was started.")
         }
-        _ => eprintln!("NOT_STARTED\nLocal execution preparation failed. No child was started."),
-    }
+        Failure::InvalidReply => {
+            "IPC_ERROR\nNOT_STARTED\nInvalid lifecycle reply. No child was started."
+        }
+        Failure::Witness => {
+            "SPAWN_FAILED\nNo child was started because its recovery witness could not be written."
+        }
+        _ => "NOT_STARTED\nLocal execution preparation failed. No child was started.",
+    };
+    best_effort(message);
     std::process::ExitCode::FAILURE
+}
+
+pub(super) fn best_effort(message: &str) {
+    let mut diagnostics = Diagnostics::default();
+    diagnostics.emit(format_args!("{message}"));
+    diagnostics.finish();
 }
 pub(super) fn uncertain(diagnostics: &mut Diagnostics, job_id: &JobId) {
     diagnostics.emit(format_args!("TRACKING_UNCERTAIN\nCommand started. Lifecycle recording is unconfirmed.\nReference: {}\nAfter daemon recovery, inspect arcctl job status {}.\nA missing record does not show whether the command ran. Do not launch another copy to recover tracking.", job_id.as_str(), job_id.as_str()));

@@ -6,6 +6,60 @@
 
 use std::{io, os::fd::AsRawFd};
 
+/// Identify the process that opened an authenticated local socket.
+pub fn peer_pid(stream: &(impl AsRawFd + ?Sized)) -> io::Result<u32> {
+    #[cfg(target_os = "macos")]
+    {
+        let mut pid: libc::pid_t = 0;
+        let mut len = std::mem::size_of_val(&pid) as libc::socklen_t;
+        // SAFETY: pid and len are writable and the descriptor is a live socket.
+        if unsafe {
+            libc::getsockopt(
+                stream.as_raw_fd(),
+                libc::SOL_LOCAL,
+                libc::LOCAL_PEERPID,
+                (&mut pid as *mut libc::pid_t).cast(),
+                &mut len,
+            )
+        } != 0
+            || len as usize != std::mem::size_of_val(&pid)
+            || pid <= 0
+        {
+            return Err(io::Error::last_os_error());
+        }
+        Ok(pid as u32)
+    }
+    #[cfg(target_os = "linux")]
+    {
+        let mut credentials: libc::ucred = unsafe { std::mem::zeroed() };
+        let mut len = std::mem::size_of_val(&credentials) as libc::socklen_t;
+        // SAFETY: credentials and len are writable and the descriptor is a live socket.
+        if unsafe {
+            libc::getsockopt(
+                stream.as_raw_fd(),
+                libc::SOL_SOCKET,
+                libc::SO_PEERCRED,
+                (&mut credentials as *mut libc::ucred).cast(),
+                &mut len,
+            )
+        } != 0
+            || len as usize != std::mem::size_of_val(&credentials)
+            || credentials.pid <= 0
+        {
+            return Err(io::Error::last_os_error());
+        }
+        Ok(credentials.pid as u32)
+    }
+    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
+    {
+        let _ = stream;
+        Err(io::Error::new(
+            io::ErrorKind::Unsupported,
+            "peer identity unavailable",
+        ))
+    }
+}
+
 /// Verify the peer of an accepted Unix socket connection is this user.
 pub fn ensure_same_user(stream: &(impl AsRawFd + ?Sized)) -> io::Result<()> {
     #[cfg(target_os = "linux")]

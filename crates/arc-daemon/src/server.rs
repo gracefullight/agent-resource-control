@@ -280,10 +280,13 @@ pub fn bind_socket(socket: &Path) -> io::Result<UnixListener> {
 }
 
 /// Serve with validated finite limits and one owned SQLite worker.
-pub async fn serve(connection: Connection, socket: PathBuf) -> Result<(), Box<dyn Error>> {
+pub async fn serve(mut connection: Connection, socket: PathBuf) -> Result<(), Box<dyn Error>> {
     let profile = std::env::var_os("ARC_IPC_PROFILE");
     let limits = crate::limits::RuntimeLimits::from_profile(profile.as_deref())?;
     let metrics = Arc::new(crate::runtime_metrics::RuntimeMetrics::new(&limits));
+    // Recovery is performed before worker accounting and never launches work.
+    // A busy or unavailable scan is retried on admission.
+    let _ = crate::db_worker::traffic::recover_at_start(&mut connection);
     let worker = crate::db_worker::DbWorker::start(
         connection,
         crate::db_worker::DbConfig {

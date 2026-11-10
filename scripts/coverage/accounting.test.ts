@@ -19,7 +19,7 @@ test("test-only lines/files never dilute production denominator",()=>{
   f.inventory.push({...f.inventory[0],path:"crates/arc-core/src/test_fixture.rs",testOnly:true});
   const result=account(f.lcov,f.inventory,f.root);
   expect(result.crates[0]).toMatchObject({covered:2,total:3,pass:false});
-  expect(result.files).toHaveLength(6);
+  expect(result.files).toHaveLength(7);
 });
 test("canonical aliases merge and never duplicate denominators",()=>{
   const f=fixture();
@@ -47,9 +47,9 @@ test("external cfg test module keeps its declared path; arbitrary filenames are 
   const a=analyzeSource('#[cfg(test)]\n#[path = "other.rs"]\nmod tests;\nmod tests_in_production;');
   expect(a.modules).toEqual([{name:"tests",path:"other.rs",testOnly:true},{name:"tests_in_production",path:undefined,testOnly:false}]);
 });
-test("live inventory classifies all six crate roots and test-only module trees",()=>{
+test("live inventory classifies all seven crate roots and test-only module trees",()=>{
   const inventory=sourceInventory(resolve(import.meta.dir,"../.."));
-  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(6);
+  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(7);
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport_tests.rs")?.testOnly).toBe(true);
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport.rs")?.testOnly).toBe(false);
 });

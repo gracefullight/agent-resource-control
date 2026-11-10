@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "status": "task9-complete",
+  "sourceHash": "a341230f980efb1c4fc4aa0bc03b6992b9486111ddc9ae95a7dc948c10f9262d",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "coveragePassed": true,
+  "fullHarnessPassed": true,
+  "commands": [
+    {
+      "path": "target/traffic/commands/task9-attempt3-fmt-feb6ce1f-c80e-44b3-b46b-9905566b8cf0/receipt.json",
+      "sha256": "efa3c34220a30fe672346477fba7604630791e6873a8d8078aaf1cac5acb7ce9"
+    },
+    {
+      "path": "target/traffic/commands/task9-attempt3-clippy-e778a629-3807-4e0b-98c0-918450452d7b/receipt.json",
+      "sha256": "1668602c580fb60711575559825adff75b136b7fdb21f40fe510ec6ad64ef132"
+    },
+    {
+      "path": "target/traffic/commands/task9-attempt3-workspace-e9d1dddb-4aab-48f3-b233-9d660b7fcee2/receipt.json",
+      "sha256": "57db046355c3cb38c6b2be2471af28be949d51f8427e395d69fe8370262b9316"
+    },
+    {
+      "path": "target/traffic/commands/task9-attempt3-cli-fd97a3cb-c4af-4a70-a104-6dc1046afefb/receipt.json",
+      "sha256": "17da639ccb554dd8491d705f2bc19a1dacbbeef0c3c313cc2c0415580d686874"
+    },
+    {
+      "path": "target/traffic/commands/task9-attempt3-coverage-dc382ec3-83e0-4a6f-a16b-5c7afb91c217/receipt.json",
+      "sha256": "2a02d3a77417a74df84340ca001f1fd0532180669ed2b3298bfe1ec14cc0206f"
+    },
+    {
+      "path": "target/traffic/commands/task9-attempt3-harness-7449cf31-aa32-43ec-a8c3-da9513c7df97/receipt.json",
+      "sha256": "75c3b2856274658612c57dd7030b1a3af7a27fa18180059785ca5992de35e1ae"
+    },
+    {
+      "path": "target/traffic/commands/task9-attempt3-coverage-live-36322407-3512-4b55-ae1e-32bac78c8b53/receipt.json",
+      "sha256": "22efedb2a8395280012cb2ded9a1d0501e191744121763b62b69cca3571fe3a9"
+    }
+  ],
+  "coverageRunId": "2026-11-10T18-11-25-620Z-c442a24d-4eb6-4858-a57d-4cb0f246487f",
+  "fullHarnessCoverageRunId": "2026-11-10T18-15-29-335Z-44bc92dc-50df-4327-884d-466f6549b27c",
+  "measurement": {
+    "path": ".arc-verify/traffic/mac-acceptance.json",
+    "sha256": "338d247e5b725f1dbbf60d741d21d4fc790b71dd5660479ac51bfcfda613333b"
+  },
+  "componentValidation": {
+    "path": "target/traffic/commands/task9-attempt3-components-8175b28e-adc3-4b5e-97fe-55e56cf0e5c6/receipt.json",
+    "sha256": "4f50bad6238792087341027d2163d9048bcfd2bc91f6c39f9c5ae2a7e91235f5"
+  },
+  "historicalProtection": {
+    "passed": true,
+    "passedTests": 90,
+    "failedTests": 0,
+    "tests": 90,
+    "files": 16,
+    "command": {
+      "path": "target/traffic/commands/task9-attempt3-historical-3c4faabb-9e18-45df-a91f-85f14d938a69/receipt.json",
+      "sha256": "74b7e5ebed74bf6acd517e19da6d5e1c8c1c4b9e80f755833cfcdc0bcd7462b9"
+    }
+  },
+  "evidenceBudget": {
+    "files": 19,
+    "bytes": 199278,
+    "indexed": 19
+  },
+  "unresolved": [
+    "Independent oma-qa and the unfiltered final Traffic evidence test belong to later tasks."
+  ],
+  "finalComponentValidation": {
+    "path": "target/traffic/commands/task9-attempt3-final-components-e482aa98-d9c4-4ed7-bf69-ac81cd322879/receipt.json",
+    "sha256": "a8b7e9ee1953f14eeba8718cfa2debc984fa3b067e6c5e17ee7984a635feac31"
+  },
+  "auxiliaryChecks": {
+    "targetPolicy": {
+      "path": "target/traffic/commands/task9-attempt3-targets-8ccb6f84-ac20-4f79-9601-391aa55d4886/receipt.json",
+      "sha256": "59261f7bdcac41880be983557988cdb0aee06ba54d39fe81cf7d4c5b9c9aec62",
+      "result": "not applicable: no observation policy configured"
+    },
+    "fixtureEvidence": {
+      "path": "target/traffic/commands/task9-attempt3-evidence-fixtures-ad329f06-7789-4d4c-ab68-dc88085f20c5/receipt.json",
+      "sha256": "519904c672e7f48cb2f41e693761512459ff6f0b55e62059d43195b9cc4fa72b",
+      "passedTests": 8,
+      "filteredLiveTests": 1
+    }
+  }
+}

@@ -3,7 +3,9 @@ mod descriptors;
 mod preparation;
 mod signals;
 mod terminal;
+mod traffic;
 pub(crate) mod transport;
+mod witness;
 use arc_core::process_identity::random_job_id;
 use arc_ipc::jobs::{
     CompleteRequest, CompleteResult, JobId, Outcome, ProcessIdentity, SpawnReason, StartRequest,
@@ -86,7 +88,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         return preparation::stopped(transport::Failure::Local);
     };
     let classification = arc_detector::classify_argv(&argv);
-    let tracking = match preparation::prepare(
+    let tracking = match traffic::prepare(
         &socket,
         &job_id,
         &observer,
@@ -100,18 +102,59 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     let mut command = Command::new(&argv[0]);
     use std::os::unix::process::CommandExt;
     command.args(&argv[1..]);
+    if let traffic::Mode::Scheduled { context, .. } = &tracking {
+        command.env(traffic::CONTEXT_ENV, context.as_str());
+    }
     if !shared_job {
         command.process_group(0);
     }
     signals.prepare_child(&mut command);
     descriptors::restore_in_child(&mut command);
+    match &tracking {
+        traffic::Mode::Scheduled { witness, .. } | traffic::Mode::Uncertain(witness) => {
+            witness.install(&mut command);
+        }
+        _ => (),
+    }
     let spawned = match preparation::admit(|| !signals.admit_spawn(), || command.spawn()) {
         Ok(spawned) => spawned,
-        Err(error) => return preparation::stopped(error),
+        Err(error) => {
+            match &tracking {
+                traffic::Mode::Scheduled {
+                    generation,
+                    witness,
+                    ..
+                } => {
+                    witness.finish_unspawned(|| {
+                        traffic::cancel(&socket, &job_id, &observer, Some(*generation))
+                    });
+                }
+                traffic::Mode::Uncertain(witness) => {
+                    witness.finish_unspawned(|| traffic::cancel(&socket, &job_id, &observer, None));
+                }
+                _ => (),
+            }
+            return preparation::stopped(error);
+        }
     };
     let mut child = match spawned {
         Ok(child) => child,
         Err(error) if error.kind() == io::ErrorKind::Interrupted && signals.interrupted() => {
+            match &tracking {
+                traffic::Mode::Scheduled {
+                    generation,
+                    witness,
+                    ..
+                } => {
+                    witness.finish_unspawned(|| {
+                        traffic::cancel(&socket, &job_id, &observer, Some(*generation))
+                    });
+                }
+                traffic::Mode::Uncertain(witness) => {
+                    witness.finish_unspawned(|| traffic::cancel(&socket, &job_id, &observer, None));
+                }
+                _ => (),
+            }
             return preparation::stopped(transport::Failure::Cancelled);
         }
         Err(error) => {
@@ -124,28 +167,60 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 }
                 _ => SpawnReason::Other,
             };
-            if tracking == preparation::Tracking::Managed {
-                let _ = complete(
-                    &socket,
-                    &job_id,
-                    &observer,
-                    Outcome::SpawnFailed {
-                        reason,
-                        os_code: error.raw_os_error(),
-                    },
-                );
+            let outcome = Outcome::SpawnFailed {
+                reason,
+                os_code: error.raw_os_error(),
+            };
+            match &tracking {
+                traffic::Mode::Legacy(preparation::Tracking::Managed) => {
+                    let _ = complete(&socket, &job_id, &observer, outcome);
+                }
+                traffic::Mode::Scheduled {
+                    generation,
+                    witness,
+                    ..
+                } => {
+                    witness.finish_spawn_failed(&outcome, || {
+                        traffic::complete_or_warn(
+                            &socket,
+                            &job_id,
+                            &observer,
+                            *generation,
+                            outcome.clone(),
+                        )
+                    });
+                }
+                traffic::Mode::Uncertain(witness) => {
+                    witness.finish_spawn_failed(&outcome, || {
+                        traffic::fallback(&socket, &job_id, &observer, None, Some(outcome.clone()))
+                    });
+                }
+                _ => (),
             }
-            eprintln!("SPAWN_FAILED\nNo child was started. Check the executable and execution permissions.");
+            preparation::best_effort("SPAWN_FAILED\nNo child was started. Check the executable and execution permissions.");
             return ExitCode::FAILURE;
         }
     };
     signals.attach(child.id());
-    let mut diagnostics = preparation::started(tracking, &job_id);
+    let mut diagnostics = match &tracking {
+        traffic::Mode::Legacy(mode) => preparation::started(*mode, &job_id),
+        traffic::Mode::Uncertain(_) => {
+            preparation::started(preparation::Tracking::Uncertain, &job_id)
+        }
+        traffic::Mode::Scheduled { waited, .. } => {
+            let mut diagnostics = preparation::Diagnostics::default();
+            if *waited {
+                diagnostics.emit(format_args!("STARTED\nCommand started."));
+            }
+            diagnostics
+        }
+    };
     // Do not reap before capture: native identity remains available for a fast
     // exit's zombie, without pretending it is a currently running process.
-    let attached = tracking == preparation::Tracking::Managed
-        && ProcessIdentity::capture(child.id())
-            .ok()
+    let child_identity = ProcessIdentity::capture(child.id()).ok();
+    let attached = match &tracking {
+        traffic::Mode::Legacy(preparation::Tracking::Managed) => child_identity
+            .clone()
             .and_then(|identity| {
                 start_until(
                     &socket,
@@ -159,8 +234,19 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 )
                 .ok()
             })
-            .is_some();
-    if tracking == preparation::Tracking::Managed && !attached {
+            .is_some(),
+        traffic::Mode::Scheduled { generation, .. } => {
+            child_identity.clone().is_some_and(|identity| {
+                traffic::attach(&socket, &job_id, &observer, *generation, identity)
+            })
+        }
+        traffic::Mode::Uncertain(_) => {
+            let _ = traffic::fallback(&socket, &job_id, &observer, child_identity.clone(), None);
+            true
+        }
+        _ => true,
+    };
+    if !attached {
         preparation::uncertain(&mut diagnostics, &job_id);
     }
     let status = loop {
@@ -183,9 +269,30 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
             core_dumped: status.core_dumped(),
         },
     };
-    if tracking == preparation::Tracking::Managed
-        && complete(&socket, &job_id, &observer, outcome).is_err()
-    {
+    let completed = match &tracking {
+        traffic::Mode::Legacy(preparation::Tracking::Managed) => {
+            complete(&socket, &job_id, &observer, outcome).is_ok()
+        }
+        traffic::Mode::Scheduled {
+            generation,
+            witness,
+            ..
+        } => {
+            let completed = traffic::complete(&socket, &job_id, &observer, *generation, outcome);
+            if completed {
+                witness.discard();
+            }
+            completed
+        }
+        traffic::Mode::Uncertain(witness) => {
+            if traffic::fallback(&socket, &job_id, &observer, None, Some(outcome)) {
+                witness.discard();
+            }
+            true
+        }
+        _ => true,
+    };
+    if !completed {
         let observed = status.code().map_or_else(
             || {
                 format!(

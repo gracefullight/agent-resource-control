@@ -90,16 +90,16 @@ export function observedGit(root: string, input = currentInputs(root)) {
     headDiffSha256: gitDiff(root, baseline, head), baselineInputsSha256: inputComparison(root, baseline, input.files),
     originInputsSha256: inputComparison(root, head, input.files) };
 }
-function validateGitBinding(root: string, origin: any, current: ReturnType<typeof observedGit>) {
+function validateGitBinding(root: string, origin: any, current: ReturnType<typeof observedGit>, files: ReturnType<typeof currentInputs>["files"]) {
   requireValue(origin && /^[a-f0-9]{40}$/.test(origin.head) && /^[a-f0-9]{40}$/.test(origin.tree) && origin.baselineTree === baselineTree &&
     digest(origin.headDiffSha256) && digest(origin.baselineInputsSha256) && digest(origin.originInputsSha256), "missing origin revision/source provenance");
   requireValue(gitBytes(root, ["rev-parse", `${baseline}^{tree}`]).toString().trim() === baselineTree, "accepted baseline tree differs");
   const originTree = spawnSync("git", ["rev-parse", "--verify", `${origin.head}^{tree}`], { cwd: root, encoding: "utf8" });
   requireValue(originTree.status === 0 && originTree.stdout.trim() === origin.tree, "origin revision unavailable or tree differs");
   requireValue(spawnSync("git", ["merge-base", "--is-ancestor", baseline, origin.head], { cwd: root }).status === 0, "origin revision not descended from accepted baseline");
-  const inputs = currentInputs(root);
   requireValue(origin.baselineInputsSha256 === current.baselineInputsSha256 && origin.headDiffSha256 === gitDiff(root, baseline, origin.head) &&
-    origin.originInputsSha256 === inputComparison(root, origin.head, inputs.files), "stale receipt inputs/git or origin delivery differs");
+    origin.baselineInputsSha256 === inputComparison(root, baseline, files) &&
+    origin.originInputsSha256 === inputComparison(root, origin.head, files), "stale receipt inputs/git or origin delivery differs");
 }
 export function tools() {
   return Object.fromEntries([["cargo", ["cargo", "--version"]], ["rustc", ["rustc", "--version"]], ["bun", ["bun", "--version"]], ["cargoLlvmCov", ["cargo", "llvm-cov", "--version"]]].map(([name, args]) => {
@@ -113,17 +113,30 @@ export function nativeHost() {
   requireValue(r.status === 0, "rust host probe failed");
   return { platform: platform(), release: release(), arch: arch(), hostname: hostname(), rustHost: r.stdout.match(/^host: (.+)$/m)?.[1] };
 }
-export function context(root: string) {
-  const input = currentInputs(root);
-  const value = { schemaVersion: 1, baselineHead: baseline, baselineTree, sourceHash: input.sha256,
-    currentInputs: input.files, observedGit: observedGit(root, input), host: nativeHost(), tools: tools() };
+export function context(root: string, source: "live" | "retained" = "live") {
+  let value: any;
+  if (source === "retained") {
+    // This context is for inspecting the accepted historical receipt only.
+    // Production collection and acceptance always use the live default.
+    const path = `${directory}/implementation/gates.json`;
+    const bytes = canonicalBytes(root, path);
+    requireValue(bytes.equals(gitBytes(root, ["show", `4d2f71c1a1482925f6c9918296d7ceb3435b7592:${path}`])), "retained gates differ from accepted baseline");
+    const gates = JSON.parse(bytes.toString());
+    requireValue(hash(JSON.stringify(gates.currentInputs)) === gates.sourceHash, "retained source inventory digest differs");
+    value = { schemaVersion: 1, baselineHead: baseline, baselineTree, sourceHash: gates.sourceHash,
+      currentInputs: gates.currentInputs, observedGit: gates.observedGit, host: gates.host, tools: gates.tools };
+  } else {
+    const input = currentInputs(root);
+    value = { schemaVersion: 1, baselineHead: baseline, baselineTree, sourceHash: input.sha256,
+      currentInputs: input.files, observedGit: observedGit(root, input), host: nativeHost(), tools: tools() };
+  }
   return Object.defineProperty(value, "validationRoot", { value: root, enumerable: false }) as typeof value & { validationRoot: string };
 }
 export function validateCommon(value: any, ctx: ReturnType<typeof context>, kind: string, actor?: string) {
   requireValue(!value?.fixtureOnly, "fixture evidence is inadmissible for production acceptance");
   requireValue(value?.schemaVersion === 1 && value.kind === kind && value.baselineHead === baseline && value.baselineTree === baselineTree, "wrong receipt contract/baseline");
   requireValue(value.sourceHash === ctx.sourceHash && equal(value.currentInputs, ctx.currentInputs) && hash(JSON.stringify(value.currentInputs)) === value.sourceHash, "stale receipt inputs/git");
-  validateGitBinding(ctx.validationRoot, value.observedGit, ctx.observedGit);
+  validateGitBinding(ctx.validationRoot, value.observedGit, ctx.observedGit, ctx.currentInputs);
   requireValue(ctx.host.platform === "darwin" && equal(value.host, ctx.host) && equal(value.tools, ctx.tools), "native host/tools mismatch");
   requireValue(!actor || value.actorId === actor, "receipt actor mismatch");
   if (actor) requireValue(value.skill === (actor === "reviewer" ? "oma-qa" : "oma-backend"), "receipt skill mismatch");

@@ -1,14 +1,16 @@
 import { reachableEvidence } from "./exec-fail-open-traversal";
 import { predecessorReads } from "./exec-fail-open-reads";
 import { productionRecipe, type EvidenceRecipe } from "./exec-fail-open-recipe";
-import { requireValue, equal, boundJSON, reference, directory, canonicalBytes, hash } from "./exec-fail-open-inputs";
+import { requireValue, equal, boundJSON, reference, directory, canonicalBytes, hash, baseline, baselineTree } from "./exec-fail-open-inputs";
 import { rejectFutureReferences, predecessorBindings } from "./exec-fail-open-graph";
-import { CRATES } from "../coverage/config";
+import { CRATES, HISTORICAL_CRATES } from "../coverage/config";
 import { canonicalArchive, attempt13Path, attempt13Sha256, persistent4Path, persistent4Sha256 } from "./exec-fail-open-compact";
 import { commandOutput } from "./exec-fail-open-receipts";
 import { readFileSync, realpathSync } from "node:fs";
-export function validateFloors(crates: any[]) {
-  requireValue(Array.isArray(crates) && equal(crates.map((c: any) => c.crate), [...CRATES]) && crates.every((c: any) => Number.isSafeInteger(c.total) && Number.isSafeInteger(c.covered) && c.total > 0 && c.covered >= 0 && c.covered <= c.total && BigInt(c.covered)*100n >= BigInt(c.total)*80n), "crate coverage below 80 percent or missing");
+export function validateFloors(crates: any[], inventory: "current" | "historical-fixture" = "current") {
+  requireValue(inventory === "current" || inventory === "historical-fixture", "invalid coverage inventory");
+  const expected = inventory === "current" ? CRATES : HISTORICAL_CRATES;
+  requireValue(Array.isArray(crates) && equal(crates.map((c: any) => c.crate), [...expected]) && crates.every((c: any) => Number.isSafeInteger(c.total) && Number.isSafeInteger(c.covered) && c.total > 0 && c.covered >= 0 && c.covered <= c.total && BigInt(c.covered)*100n >= BigInt(c.total)*80n), "crate coverage below 80 percent or missing");
 }
 export function validateFailedAttempt(root: string, recipe: EvidenceRecipe, ctx: any, receipt: any) {
   requireValue(Number.isSafeInteger(receipt.exit) && receipt.exit !== 0 && receipt.status === "failed", "attempt is not a failed command");
@@ -80,11 +82,14 @@ function validatePredecessors(root: string, gates: any, boundReference: { path: 
   const coverage = gates.coverage;
   const { report, profiles } = recipe.collection(coverage?.runId);
   requireValue(coverage.sourceHash === report.sourceHash && equal(coverage.crates, report.crates) && equal(coverage.childProof, profiles.childProof) && coverage.profilesChecked === profiles.profiles.length && coverage.independentlyRecomputed === true, "coverage accounting/profile mismatch");
-  requireValue(equal(report.crates.map((c: any) => c.crate), [...CRATES]) && report.crates.every((c: any) => c.total > 0 && BigInt(c.covered)*100n >= BigInt(c.total)*80n), "crate coverage below 80 percent");
+  // Only the explicitly isolated first-run fixture represents the old
+  // six-crate contract. Real collections are recomputed against live inputs
+  // and always require the current seven-crate inventory.
+  const inventory = ctx.fixtureOnly === true && ctx.baselineHead === baseline && ctx.baselineTree === baselineTree ? "historical-fixture" : "current";
+  validateFloors(report.crates, inventory);
   requireValue(coverage.summary?.path === `.arc-verify/rust-coverage/baseline/runs/${coverage.runId}/summary.json` && hash(canonicalBytes(root, coverage.summary.path)) === coverage.summary.sha256, "coverage summary digest mismatch");
   const latest = JSON.parse(canonicalBytes(root, ".arc-verify/rust-coverage/baseline/latest.json").toString());
   requireValue(latest.pass === true, "live coverage pointer failed"); recipe.collection(latest.runId);
-  validateFloors(report.crates);
   const contract = JSON.parse(canonicalBytes(root, `${directory}/contract.json`).toString());
   predecessorBindings(contract.receiptDependencyGraph.nodes, "gates", {
     inputs: { sha256: ctx.sourceHash }, "prerequisite-observations": { sha256: hash(JSON.stringify([gates.commands, gates.timings, gates.historical, gates.preservation, gates.coverage])) },

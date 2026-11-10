@@ -7,6 +7,8 @@ pub(crate) mod jobs;
 #[cfg(test)]
 #[path = "db_worker/tests.rs"]
 mod tests;
+#[path = "db_worker/traffic.rs"]
+pub(crate) mod traffic;
 
 use arc_ipc::DoctorReport;
 use rusqlite::{Connection, InterruptHandle};

@@ -4,7 +4,22 @@ import { resolve, dirname } from "node:path";
 import { withHistoricalCheckout } from "../coverage/historical";
 import { root } from "./exec-fail-open-inputs";
 import { baseline } from "./exec-fail-open-history";
-import { checkFailOpenPreservation } from "./exec-fail-open-preservation";
+import { checkFailOpenPreservation, checkHistoricalManifest } from "./exec-fail-open-preservation";
+import { gitBytes } from "../coverage/hygiene";
+
+test("only the three exact Traffic workspace dependencies adapt historical manifests", () => {
+  for (const crate of ["arc-daemon", "arc-storage", "arc-ipc"]) {
+    const path = `crates/${crate}/Cargo.toml`;
+    const original = gitBytes(root, ["show", `${baseline}:${path}`]).toString();
+    const current = readFileSync(resolve(root, path), "utf8");
+    expect(() => checkHistoricalManifest(path, original, current)).not.toThrow();
+    expect(() => checkHistoricalManifest(path, original, current.replace("version.workspace = true", "version = \"9.0.0\""))).toThrow("manifest/migration changed");
+    expect(() => checkHistoricalManifest(path, original, current.replace("arc-traffic.workspace = true", "arc-traffic = { workspace = true, optional = true }"))).toThrow("manifest/migration changed");
+    expect(() => checkHistoricalManifest(path, original, current + "arc-traffic.workspace = true\n")).toThrow("manifest/migration changed");
+  }
+  const path = "crates/arc-core/Cargo.toml", original = gitBytes(root, ["show", `${baseline}:${path}`]).toString();
+  expect(() => checkHistoricalManifest(path, original, original.replace("[dependencies]\n", "[dependencies]\narc-traffic.workspace = true\n"))).toThrow("manifest/migration changed");
+});
 function fixture(run: (dir: string) => void) {
   withHistoricalCheckout(root, baseline, dir => {
     for (const path of ["crates", "scripts/coverage", "scripts/harness", ".arc-verify/rust-coverage/contract/accounting.json", ".arc-verify/exec-fail-open/contract.json", ".arc-verify/exec-fail-open/contract.md", ".arc-verify/exec-fail-open/design-contract.md"]) {
@@ -26,6 +41,12 @@ test("deletion, disabled assertions, widened historical routes and accounting/mi
     ["crates/arc-daemon/tests/managed_exec/historical.rs", 'mode == "before-register"', 'mode != "never"'],
     ["crates/arc-daemon/tests/managed_exec.rs", 'mod fail_open;', '#[cfg(any())]\nmod fail_open;'],
     ["crates/arc-storage/migrations/0001_phase0.sql", "CREATE", "--changed\nCREATE"],
+    ["crates/arc-storage/src/migration/tests/acceptance.rs", "original_permit_columns.len() + 2", "original_permit_columns.len() + 0"],
+    ["crates/arc-storage/src/migration/tests/acceptance.rs", 'if object.1 != "permits"', 'if true'],
+    ["crates/arc-storage/tests/nfr010.rs", "assert_eq!(count, 3);", "assert_eq!(count, 2);"],
+    ["crates/arc-storage/src/jobs/tests/migration.rs", "applied_version, Some(3)", "applied_version, Some(2)"],
+    ["crates/arc-storage/tests/managed_exec_migration.rs", 'assert_eq!(MIGRATIONS[2].id, "0003_traffic");', ""],
+    ["crates/arc-storage/src/jobs/traffic/tests/admission.rs", "use super::*;", "use super::*;\nuse std::assert;"],
     ["scripts/coverage/accounting.ts", "BigInt(total)*80n", "BigInt(total)*1n"],
     ["crates/arc-daemon/tests/managed_exec/fail_open.rs", "child_command(&f, wrapped)", "std::process::Command::new(super::historical::negative_control_binary())"],
     [".arc-verify/exec-fail-open/contract.json", "00773c69a8e5e7fd417fd5cc78d03e222364f609", "19d7a507044cbf83918f58cd41056905c275c8d4"],

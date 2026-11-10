@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, realpathSync, existsSync } from "node:fs";
 import { resolve, relative, dirname, basename, join } from "node:path";
 import { createHash } from "node:crypto";
-import { CRATES } from "./config";
+import { CRATES, HISTORICAL_CRATES } from "./config";
 
 export const hash = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
 export function walk(root: string): string[] {
@@ -116,9 +116,9 @@ export function analyzeSource(source: string) {
   return {omitted,modules,spans};
 }
 export type SourceFile = { path:string; crate:string; sha256:string; lines:number; omitted:number[]; testOnly:boolean; spans:ReturnType<typeof analyzeSource>["spans"] };
-export function sourceInventory(root: string): SourceFile[] {
-  const files=CRATES.flatMap(crate=>walk(resolve(root,"crates",crate,"src"))).filter(p=>p.endsWith(".rs"));
-  const testFiles=CRATES.flatMap(crate=>{
+function inventoryForCrates(root: string, crates: readonly string[]): SourceFile[] {
+  const files=crates.flatMap(crate=>walk(resolve(root,"crates",crate,"src"))).filter(p=>p.endsWith(".rs"));
+  const testFiles=crates.flatMap(crate=>{
     const dir=resolve(root,"crates",crate,"tests");
     return existsSync(dir)?walk(dir).filter(p=>p.endsWith(".rs")):[];
   });
@@ -139,7 +139,7 @@ export function sourceInventory(root: string): SourceFile[] {
       visit(child,test||mod.testOnly);
     }
   }
-  for(const crate of CRATES) for(const entry of ["lib.rs","main.rs"]) {
+  for(const crate of crates) for(const entry of ["lib.rs","main.rs"]) {
     const p=resolve(root,"crates",crate,"src",entry); if(existsSync(p)) visit(p,false,true);
   }
   for(const file of testFiles.filter(p=>dirname(p)===resolve(root,"crates",relative(root,p).split("/")[1],"tests"))) visit(file,true,true);
@@ -150,6 +150,9 @@ export function sourceInventory(root: string): SourceFile[] {
     return {path,crate:path.split("/")[1],sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file))};
   }).sort((a,b)=>a.path.localeCompare(b.path));
 }
+// The immutable pre-Traffic baselines did not contain the current seventh crate.
+export const sourceInventory = (root: string) => inventoryForCrates(root, CRATES);
+export const historicalSourceInventory = (root: string) => inventoryForCrates(root, HISTORICAL_CRATES);
 export function inputIdentity(root:string) {
   const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json",
     ".arc-verify/rust-coverage/contract/accounting.json",

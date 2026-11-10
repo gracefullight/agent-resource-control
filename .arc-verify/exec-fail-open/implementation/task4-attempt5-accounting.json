@@ -1,0 +1,2038 @@
+{
+  "schemaVersion": 1,
+  "baselineHead": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+  "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+  "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3",
+  "currentInputs": {
+    ".arc-verify/exec-fail-open/claims-review.md": {
+      "sha256": "1e5acbb46ab202e963c0560e54c9ce7b265d7c85755b653d651c48d9f066d8b3",
+      "mode": 420
+    },
+    ".arc-verify/exec-fail-open/contract.json": {
+      "sha256": "474fbf2004483dfd56d3858c689dd77674c3dab008d34f8fa28b121dee524ff3",
+      "mode": 420
+    },
+    ".arc-verify/exec-fail-open/contract.md": {
+      "sha256": "bb25c8603508ef555e786a4c0acc72b43f28e260d24f5b7c0400309d5375d6ed",
+      "mode": 420
+    },
+    ".arc-verify/rust-coverage/contract/accounting.json": {
+      "sha256": "850f59740a644f3807b104bd6471a028bc625b10ca322cc2379f4c4eed0d14bb",
+      "mode": 420
+    },
+    ".gitignore": {
+      "sha256": "c38ed4c5d6f44c8efb96edfbcd33ec8464423c56598d148c4bec90366e78aa88",
+      "mode": 420
+    },
+    "Cargo.lock": {
+      "sha256": "cf2c459f1af04632d571d21c16961c328c43424939b7b3c5176695de6881fa7f",
+      "mode": 420
+    },
+    "Cargo.toml": {
+      "sha256": "36231fcca8a23d18329a44d3440a30f23bf550ee31f7f540eb02f8a88a6614cd",
+      "mode": 420
+    },
+    "README.md": {
+      "sha256": "20daf6024c582bcbeb2d64e4596a3124f44125a3cdecc641d3da4556f6afe5f6",
+      "mode": 420
+    },
+    "crates/arc-cli/Cargo.toml": {
+      "sha256": "6f195995dbbdc42e85628ee09763cdb268d14e3d98d15579b68bb558b581cb33",
+      "mode": 420
+    },
+    "crates/arc-cli/src/classify.rs": {
+      "sha256": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+      "mode": 420
+    },
+    "crates/arc-cli/src/doctor.rs": {
+      "sha256": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec.rs": {
+      "sha256": "355e1b6c4fbd823a72d63cd1029da47343c372415dccac1132c1e7468be0f955",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/descriptors.rs": {
+      "sha256": "059437b7c7fa2cbe19eeb2d70d286043e59e2d5aaca6c1b481eb7b06e1d1d668",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/preparation.rs": {
+      "sha256": "08febe91f0b976559c669f7e3866976e4073a13d06834610f1daf0de107bb4fd",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/signals.rs": {
+      "sha256": "9be11a96aa76a80ae364f3352d84e9b3ac9b3ae0ec5cab75efa075ff0620ff1e",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/signals/handoff.rs": {
+      "sha256": "a48d58a0c973accc674a4cd4a6c941cdb3b94268f3330e54c30c45bb1acb1176",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/signals/tests.rs": {
+      "sha256": "d7744025d5dc7759db58ae41f3ac862331c347b606aeda280dbba7734268e23d",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/terminal.rs": {
+      "sha256": "c3a5c74713d36c1fde3a332563d5cdb4260aa341a86e50573587f9eb95a882df",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/transport.rs": {
+      "sha256": "34a636d5a67c58a4bde633a15600095bcfac2d64dafe4f66d1b9714938514451",
+      "mode": 420
+    },
+    "crates/arc-cli/src/exec/transport/tests.rs": {
+      "sha256": "83757a11e06321cd40be4f877a7c6ba8fba0543612317db4037cff97a73940f3",
+      "mode": 420
+    },
+    "crates/arc-cli/src/job.rs": {
+      "sha256": "d96ef24bf66f511ef5b1030a5a08d3197f96e9c083fbec6366671160cdcf689b",
+      "mode": 420
+    },
+    "crates/arc-cli/src/main.rs": {
+      "sha256": "9f2a9a2e635aaab068659a4319886862ca7af09c5f48fe05cdc71bb7b0ce8c03",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/binary.rs": {
+      "sha256": "fcdf17704312c735e33af4b8cc9947abbecc06ef1205f3a81c551fe0c9fe8da3",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/classification.rs": {
+      "sha256": "0ba8a5ffcb0cdd54d5299941d61926e8bf4f5b358764219a25c4a205efbd6515",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/fixtures/child.rs": {
+      "sha256": "85121952a46c37c0577cfaf96561fe17a9b25e4c4b06f62396fdfda5961ee53a",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/fixtures/pipeline.rs": {
+      "sha256": "42074f27e690c995aa27dd7629f3a32499a9bf8453e0b7e18b749771e4dbea86",
+      "mode": 420
+    },
+    "crates/arc-cli/tests/schema.rs": {
+      "sha256": "d63b9f3ec80835ede61caf740c5a632a54df91d600a35b019fcff7270eb29a5a",
+      "mode": 420
+    },
+    "crates/arc-core/Cargo.toml": {
+      "sha256": "2f28861717fe5aefb8f1124157aa9d8b1ba1cdbabc9593bde7749a03cb3822fd",
+      "mode": 420
+    },
+    "crates/arc-core/src/lib.rs": {
+      "sha256": "9a1d25ac424d2a9d19edf296f7eb0b276de9550392b2eaa107c89f09cb29f95c",
+      "mode": 420
+    },
+    "crates/arc-core/src/process_identity.rs": {
+      "sha256": "1c7c7a5e9dce3941541ca0646a22aaab1713f3047334eebc7e533d0110ad8f56",
+      "mode": 420
+    },
+    "crates/arc-core/tests/coverage.rs": {
+      "sha256": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+      "mode": 420
+    },
+    "crates/arc-core/tests/identity.rs": {
+      "sha256": "449db78dbdcd3dcda98ea8af3fe2ea7b54d40a571496b5c832e2707093a18f07",
+      "mode": 420
+    },
+    "crates/arc-core/tests/runtime.rs": {
+      "sha256": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+      "mode": 420
+    },
+    "crates/arc-daemon/Cargo.toml": {
+      "sha256": "13c2ae685dcc69ffa1465f42095b64457a21ee3ce4418506eb259ddf41cac29e",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/accept_recovery.rs": {
+      "sha256": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/accept_recovery_tests.rs": {
+      "sha256": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/admission.rs": {
+      "sha256": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/connection.rs": {
+      "sha256": "0a3cedf6b9b1103e2aa2d79d02302a1c2eee754c8b44c37169431ce82d330289",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/database_failure_tests.rs": {
+      "sha256": "37e68da1595953b59a7eed778bbfb0930a5299eef6edd89747299c572d7ac0cf",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker.rs": {
+      "sha256": "9956e9b3b28f8ea1d58f9a08b42c2df0ada9b7dfc8d61710b06cf0cb7aaa2b69",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/execution.rs": {
+      "sha256": "aa2d4c01fbb7b2b1a5ca9220eca4315fefab5a1ea0817a6af6cb2fd79500861b",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/jobs.rs": {
+      "sha256": "37423dee5cd9827f79e69d505e4f7f50745c39d571f6421fa8051f702e36cc6d",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/jobs_tests.rs": {
+      "sha256": "023ca7117c76443d568d324acc7c2a86e57099620f5e87373a638de5feb1cfcd",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/schema_tests.rs": {
+      "sha256": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/db_worker/tests.rs": {
+      "sha256": "b7971fc13ca4aeb8793bbd48a811b1630be5c508dbb105b2396e39f4d164b203",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/instance.rs": {
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/lifecycle.rs": {
+      "sha256": "70692d247d8245e075e961dd20fe72485eed4eda1b0884f088a3ad688c2c4bb2",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/lifecycle_tests.rs": {
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/limits.rs": {
+      "sha256": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/main.rs": {
+      "sha256": "5d709825a6d5ca2cd003864460e1cc1f5fc185e83e9211ccdb2a35f0d5a7cd4b",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/platform.rs": {
+      "sha256": "20f383e53f94e4180e0e3165c57edf1f4c0d9d5c9f1d4343053efb2cb1b5b7e5",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/report_lifecycle_tests.rs": {
+      "sha256": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_metrics.rs": {
+      "sha256": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_report.rs": {
+      "sha256": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/runtime_report_tests.rs": {
+      "sha256": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/server.rs": {
+      "sha256": "769a8182a539869eabe4bc62b76f0ab25c33f6823a47afb9f982122a965d4bcd",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/server_tests.rs": {
+      "sha256": "8b80eea5299aa13380524705726c3ffc249bc1878ed89b82fd7fdad4ada9ccf3",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport.rs": {
+      "sha256": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport_test_support.rs": {
+      "sha256": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "mode": 420
+    },
+    "crates/arc-daemon/src/transport_tests.rs": {
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/bounded.rs": {
+      "sha256": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification.rs": {
+      "sha256": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/boundaries.rs": {
+      "sha256": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/privacy.rs": {
+      "sha256": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/classification/saturation.rs": {
+      "sha256": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/db_worker_unit.rs": {
+      "sha256": "32b93430b4ee67a46b9765159ffc2d5537f59e1926255c673d4c4b5506c90be9",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec.rs": {
+      "sha256": "a62a98b684eadd577612345eb67fef9c9515c49ccb2f5fb9ce4c389689aede0f",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/cli.rs": {
+      "sha256": "c03114f3c3a8e5e853d953f5080fa0e4d5cec87ce01ae23cdb575e04d4df3c71",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/fail_open.rs": {
+      "sha256": "5ddc6c705aa6f68f60f126473990073d66e1cc64ec78bc636a798db5605385b4",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/fallback_descriptors.rs": {
+      "sha256": "b6ae1eb6bc486a5e2838efb9c24618a50108ddbce6f123c4cdbf1741107167a6",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/fallback_environment.rs": {
+      "sha256": "f778416771edac2fcc692f570b92480cb5ea908e25af88b69a21e749e131fd72",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/fallback_pipeline.rs": {
+      "sha256": "788038622ea39f8ffb6bce41f618aa942cb3d5dc3ff630c9f99f48e42b834dde",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/fallback_sigstate.rs": {
+      "sha256": "1e90f5157b6d252b73cf0f4bc5d32d33895b95cafb56fb8ffdfc684b672bb7b7",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/fallback_terminal.rs": {
+      "sha256": "73856787381954a0c6de1df38726c17de5f450dca2cda01006e5415f4c492e31",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/fault.rs": {
+      "sha256": "ff241df411924913490d9348d90d0c3a7d991127812332c9175289fbca756356",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/historical.rs": {
+      "sha256": "3ad844276c8ed77abc7e688f717bb0050be53a26e2bf09e56cdc0ef7b8fbca19",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/pipeline.py": {
+      "sha256": "9df7d5ed99f58994d2306de910aa5526032d8a5e2a9340be5fbdb5c25398869a",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/pipeline.rs": {
+      "sha256": "323b7242497904e88ba7112c9c3e5b15039bdc361982e29410d67f1d513ce0c2",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/protocol.rs": {
+      "sha256": "957693d38491c0842f6a6ab6731ef15d089ad6a998d94e9cbbcb3488289064d7",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/retries.rs": {
+      "sha256": "88ae6d517a6f3fde9049cf0b7ce98fce370980f973025a32d55a335786c16f9e",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/runtime_environment_probe.rs": {
+      "sha256": "519e6ee322c32a57feb329b99a039df1e34a8e8c6f8b31b53c04e7f3611f7336",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/scenarios.rs": {
+      "sha256": "53e410aa82c29cbddcf42d21fa03c89d968b3f29552246a9974ee72871d715eb",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/managed_exec/terminal.rs": {
+      "sha256": "7be8b6c5c1eb5570abb0e2d788851ff8dffb980c5b04dd359c77c838ccf8ab6f",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident.rs": {
+      "sha256": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/coordination.rs": {
+      "sha256": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/coverage.rs": {
+      "sha256": "27502ce76b66ede028c87af92c6f398a8e359478da0eacce03e841526e97ea07",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/identity.rs": {
+      "sha256": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/lifecycle.rs": {
+      "sha256": "117b2f20381392c8235f91d4a8a802ca0782ec589c75d8727482b440758efb0a",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/provisioning.rs": {
+      "sha256": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/resident/schema.rs": {
+      "sha256": "d26766b77f79df97987f3fa91ed10128eccbfc936ece9492574f71b3c8d35522",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/startup.rs": {
+      "sha256": "e1f88c56c83c7fa5371eccfb7d50accd6a6126d6336a0a8b05b6be6d06171792",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/admission_load.rs": {
+      "sha256": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/deadline_recovery.rs": {
+      "sha256": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/measurements.rs": {
+      "sha256": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/mod.rs": {
+      "sha256": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/native.rs": {
+      "sha256": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/support/runtime.rs": {
+      "sha256": "3e8dfc30ba02774c8c35ed448fb9c5b9756466924fa60da82076edaad02f8ba8",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/transport_unit.rs": {
+      "sha256": "43dd4f3d92807d03a97a0f1fa1d1a569e064cf373d1eca4d3d3fd8fb0952fd4b",
+      "mode": 420
+    },
+    "crates/arc-daemon/tests/worker_runtime.rs": {
+      "sha256": "8e9dcd0f00ffa0ffce506f12f5effbaa346571647a03022b5d54a423360a27b8",
+      "mode": 420
+    },
+    "crates/arc-detector/Cargo.toml": {
+      "sha256": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab",
+      "mode": 420
+    },
+    "crates/arc-detector/src/argv.rs": {
+      "sha256": "202d315b3e649883c68dbcba609e5e46568fa87368a074922107e486030cbe0e",
+      "mode": 420
+    },
+    "crates/arc-detector/src/budget.rs": {
+      "sha256": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+      "mode": 420
+    },
+    "crates/arc-detector/src/coverage_tests.rs": {
+      "sha256": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+      "mode": 420
+    },
+    "crates/arc-detector/src/lexer.rs": {
+      "sha256": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+      "mode": 420
+    },
+    "crates/arc-detector/src/lib.rs": {
+      "sha256": "09b1158588d228d699517374002d66b1bfeda82b94b90ad8b17212b6b8a3d6c9",
+      "mode": 420
+    },
+    "crates/arc-detector/src/parser.rs": {
+      "sha256": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+      "mode": 420
+    },
+    "crates/arc-detector/src/rules.rs": {
+      "sha256": "d6bc178db0e330b4f0fd72f4df6fc612ff0258c737a2ee4dccca475ba892f253",
+      "mode": 420
+    },
+    "crates/arc-detector/src/tests.rs": {
+      "sha256": "21c5eb2fd0bda0ec994389cabcbe5664752618b17f6c6ea5fc176029884674ae",
+      "mode": 420
+    },
+    "crates/arc-detector/src/types.rs": {
+      "sha256": "9a882ebafc075ed3057387fc8856715acf6ca18d4ccda2698f0cafdee64264bd",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/argv.rs": {
+      "sha256": "84b2856f8fa4e381637799b7a93887cd1256b43ebe773b96d0b60251039fc741",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/support/contract.rs": {
+      "sha256": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+      "mode": 420
+    },
+    "crates/arc-detector/tests/support/ssh.rs": {
+      "sha256": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+      "mode": 420
+    },
+    "crates/arc-ipc/Cargo.toml": {
+      "sha256": "46b6a44cdec04ac4de97acfd9b856091d125c0a37e7bc1145cc3d27fb6c08816",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs.rs": {
+      "sha256": "c75464c6cd8239c862ba100a501975b2189ae37aa6202a0931f7875432619a3e",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs/types.rs": {
+      "sha256": "9459b9a22f0e3cd2ca2c921e5039117007adc928354587612759ad840380ff7b",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/jobs/validation.rs": {
+      "sha256": "ac9eda72ed28c82d28f646e00b0b66327f516e39769160b297b787eab4ebc11a",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/lib.rs": {
+      "sha256": "5b667c7e97df90007ed8f273358e09b8541e5fdebc9da6e020f87ba0144e1c43",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/schema.rs": {
+      "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/dispatch.rs": {
+      "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/framing.rs": {
+      "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/mod.rs": {
+      "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+      "mode": 420
+    },
+    "crates/arc-ipc/src/tests/schema.rs": {
+      "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/classification.rs": {
+      "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/coverage.rs": {
+      "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+      "mode": 420
+    },
+    "crates/arc-ipc/tests/jobs.rs": {
+      "sha256": "f2e3334034e79234afbdf6f0a7b6566609ab6b52c3ca4a3ddfd582a00debc754",
+      "mode": 420
+    },
+    "crates/arc-storage/Cargo.toml": {
+      "sha256": "a39d67610202aa6798357bb640cfb97847bcf6e7ceb78b9cf3abe17f02845747",
+      "mode": 420
+    },
+    "crates/arc-storage/migrations/0001_phase0.sql": {
+      "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "mode": 420
+    },
+    "crates/arc-storage/migrations/0002_managed_exec.sql": {
+      "sha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+      "mode": 420
+    },
+    "crates/arc-storage/src/history.rs": {
+      "sha256": "6b9739f7b354724a1793c3ba58581a90ebe1de9ef294ee50e5cd1e0ccb73bb23",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs.rs": {
+      "sha256": "198dbe9897b9ab270f46930467ef3ed48600307a57174a1dd62536b8496e4368",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/codec.rs": {
+      "sha256": "cab00f289829e63019d1d8c86e2cdd986060317cc3b1050b08c6a22955c2796f",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/reconcile.rs": {
+      "sha256": "2232fc199f0e1dac573017d4e92ef7fcde02689268111bfcd218a47a38186d00",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests.rs": {
+      "sha256": "b5711683f20897812b86a0d0b37f1198ecb8f3379fa59119b56ebc3e83d83098",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/migration.rs": {
+      "sha256": "7a7222f07c8d19e0003764056cb75ad1e88a5d4f6b65c292720b165d34b4624b",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/recovery.rs": {
+      "sha256": "3d6dd5dd75ed704df242ecc232a94b38d65ced376233306e75b965a67f582e47",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/regression.rs": {
+      "sha256": "7ea3f59e27a5f08da6a34bc01af1345a1475420f555303e39b7fa138713939c7",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/tests/transitions.rs": {
+      "sha256": "525be0baaab7ec0d0a9499676d26a24a91af31d2fa2129fe35917deabb98e3bd",
+      "mode": 420
+    },
+    "crates/arc-storage/src/jobs/transitions.rs": {
+      "sha256": "e746d99e944903392a688aedf7ab9efd6621d879f169c1fa8065abb7477e8193",
+      "mode": 420
+    },
+    "crates/arc-storage/src/lib.rs": {
+      "sha256": "5796cabfc0608d5a4fc8d54d608a024aabda8f053576763469f5c72010a369bd",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration.rs": {
+      "sha256": "e33a0ec9b3e1c9afab08e1bfa69b1988588729a4b3fe9942477a9cf34bb6551b",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests.rs": {
+      "sha256": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/acceptance.rs": {
+      "sha256": "e763fd6cbf586e1eda83d8207d20765d986304d432cdb4d3a8ab4104b4e25404",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/concurrency.rs": {
+      "sha256": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+      "mode": 420
+    },
+    "crates/arc-storage/src/migration/tests/rejection.rs": {
+      "sha256": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/coverage.rs": {
+      "sha256": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/fixtures/0001_fixture.sql": {
+      "sha256": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/fixtures/0002_additive.sql": {
+      "sha256": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/managed_exec_migration.rs": {
+      "sha256": "ef48c032591ad3bceadf546ae75d3f2954a552a1e628da3052a2f246ccfa8b71",
+      "mode": 420
+    },
+    "crates/arc-storage/tests/nfr010.rs": {
+      "sha256": "b7db33dab1d8d0d1a503f2cb40f92f345840d0a454d0f1dc29a02d6c7356cf56",
+      "mode": 420
+    },
+    "docs/managed-exec.md": {
+      "sha256": "604d1a670d022d087dbe1bdb2128562eff084080b7d7052c25e136a69f682257",
+      "mode": 420
+    },
+    "docs/rust-coverage.md": {
+      "sha256": "55d2cabc9f3431330e6f98e48ef912b4f8da89b4c80fdd016a4305efdd531486",
+      "mode": 420
+    },
+    "mise.toml": {
+      "sha256": "5af71f4d3bb6e8da776de80f1252a0601ecde35114b18a0cc87946c74c1e7600",
+      "mode": 420
+    },
+    "package.json": {
+      "sha256": "d9f600d7586838dc24ca522ecb30a93f3da6b430712cc911a1de4145706eb9c0",
+      "mode": 420
+    },
+    "rust-toolchain.toml": {
+      "sha256": "f6d2a8e736e4a30b034416cc5c00fcac466d708e385e61b07285949f7074d823",
+      "mode": 420
+    },
+    "scripts/coverage/acceptance.ts": {
+      "sha256": "64d745b2a59e5dfcebab1fb2dc5adc3d777a7fd53a0f6c185f099790b1bd8d68",
+      "mode": 420
+    },
+    "scripts/coverage/accounting.test.ts": {
+      "sha256": "c9ca3390bb612943a7ba29f4917314a5f5fa5f26ed4a0fbfcb8356ca277c8882",
+      "mode": 420
+    },
+    "scripts/coverage/accounting.ts": {
+      "sha256": "80fee69473ed65d9a16f11c614743223feeaa23ef0ac31570d8acd740c97b6e1",
+      "mode": 420
+    },
+    "scripts/coverage/clean-checkout.test.ts": {
+      "sha256": "0a991995293be5f2ff4dac9c653ecace05cc2f962c7ec108e3e1eaa4ad45f579",
+      "mode": 420
+    },
+    "scripts/coverage/commands.ts": {
+      "sha256": "c37ef4a710a8b8280c6a67b90deba9f81447234b77164c2efb823d2e9481f40a",
+      "mode": 420
+    },
+    "scripts/coverage/config.ts": {
+      "sha256": "3510d64cae2a45ed4a40cbe073a7c4ad6cf12424c8ce15368b92c2eedc96b52a",
+      "mode": 420
+    },
+    "scripts/coverage/coverage-cli.test.ts": {
+      "sha256": "4ee19897c0ee5882a88d0a47752e3013e04085ccdbae1e268a5dac3c15eee463",
+      "mode": 420
+    },
+    "scripts/coverage/current-preservation.ts": {
+      "sha256": "2ec0a7cf1b48bb565492286c7856c728e3e3f3fc24f1fbd8c2e08d4f3bb47f72",
+      "mode": 420
+    },
+    "scripts/coverage/evidence.test.ts": {
+      "sha256": "211c300429c1ddc217bece5bc4742e05074e1a6ce9636ae4391e5e4b31e8f3d8",
+      "mode": 420
+    },
+    "scripts/coverage/fixture-runner.ts": {
+      "sha256": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "mode": 420
+    },
+    "scripts/coverage/fixtures.ts": {
+      "sha256": "8b8c6cbf0581e98ce9bc05fb1ec05ccd5a73884a828d33b8e7437c40e9fd466d",
+      "mode": 420
+    },
+    "scripts/coverage/gate.test.ts": {
+      "sha256": "1d6f838ea56afa72638ee6522330457e5a850cca19a7e907642c7d5436580dda",
+      "mode": 420
+    },
+    "scripts/coverage/gate.ts": {
+      "sha256": "72a2c41de3c469827c2c3d1d86028fa902b9d0fdb4c57501a147405148678e29",
+      "mode": 420
+    },
+    "scripts/coverage/harness.test.ts": {
+      "sha256": "13d763c0cf4820043e07e4360ae813d3666c099801958bd473d53726b73f5c7f",
+      "mode": 420
+    },
+    "scripts/coverage/historical.ts": {
+      "sha256": "2625971b6fc5e0dc3f8892e485c61180a15ac16b8e43f71a1a69940d3075cedf",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene-preservation.test.ts": {
+      "sha256": "0bef64f36a7198ebd402cf9d4e86290a0a1e23120cffa7b92ec19232f17a1f53",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene.test.ts": {
+      "sha256": "f1be90fc767c35d51758b68672afb34f224bd2d37ee67864a388ac12bbf5692c",
+      "mode": 420
+    },
+    "scripts/coverage/hygiene.ts": {
+      "sha256": "19a40f1a88691ad425531378acb609885552b22e6add55474a189c536aa03ceb",
+      "mode": 420
+    },
+    "scripts/coverage/preservation.test.ts": {
+      "sha256": "9a353997b7734fe2f06861b29fc8c8e3bd83a37fa4a26140ba5f4b3b283f5df3",
+      "mode": 420
+    },
+    "scripts/coverage/preservation.ts": {
+      "sha256": "68a9bb1856541af2e2043047e5cc528671961fbb70110b93a68706ea5726c2bb",
+      "mode": 420
+    },
+    "scripts/coverage/provision.sh": {
+      "sha256": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "mode": 420
+    },
+    "scripts/coverage/run.ts": {
+      "sha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da",
+      "mode": 420
+    },
+    "scripts/coverage/schema-adaptations.ts": {
+      "sha256": "50d0907d63848f4fa05ff0f0fb8bc6548829c2edd17ee048929eb5577e1c4b9a",
+      "mode": 420
+    },
+    "scripts/coverage/source.ts": {
+      "sha256": "b09fadb42ab753c3dc78dd8db6d661b68033b4de8e70ab8382e3f111b769b062",
+      "mode": 420
+    },
+    "scripts/harness/benchmark.ts": {
+      "sha256": "51518f03d04be5fe48e903a55e8c7a1c59015881c479bb1212b1955dd6c9da6e",
+      "mode": 420
+    },
+    "scripts/harness/coverage-verification.test.ts": {
+      "sha256": "f2925f1d7002b8d597a44f96ea3f4fa564ca4035bc83a01d74ba02e8f0bdabcb",
+      "mode": 420
+    },
+    "scripts/harness/equivalence.test.ts": {
+      "sha256": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25",
+      "mode": 420
+    },
+    "scripts/harness/evidence-budget.test.ts": {
+      "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-assemble.ts": {
+      "sha256": "6b7a4c72b95b1559d440885cccc11da4d20663d1a265fa1f1089d6dcd57ffb21",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-coverage.ts": {
+      "sha256": "9c106b7f31ab77d903187d000086bd3fe7d469b2ac46fcf029ff560aba44e6dc",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-docs.test.ts": {
+      "sha256": "73fd468d211d366b77cacbc00a93f1d76a3684dd7b41b7e514d12a717810f518",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-docs.ts": {
+      "sha256": "be2d0464399b064473b9e436694694cb485aaf1a5d7d8be98ae3ef6f1545ec8e",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-evidence.test.ts": {
+      "sha256": "b64a769a73250eae3e8d7f072f8d7d6939361bb1b746524565d76b8dfc3a7e4c",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-evidence.ts": {
+      "sha256": "abd9228d71de9f87d7363bf61a281f9cf9db0820f632dbac98dc5b9f6db6c5d1",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-fixture-recipe.ts": {
+      "sha256": "b0e40bc27e3cf1eb79e229d5ab7c737fe92b3f62914afb28e500ca846aa88e1e",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-fixture.ts": {
+      "sha256": "1cf7278d66196753f3798edaa282de8a94a2e695f6e53a2fb84037bfefc54ec7",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-gates.test.ts": {
+      "sha256": "4b1308b81c9f8ef020136d74142a813c0d3b60b958aa879c13f089f79f67a0d5",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-gates.ts": {
+      "sha256": "1ffb374f65c9467bd38e970e01e73960925e3d1ea4b9506a7050c18b494d3da8",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-graph.ts": {
+      "sha256": "9c45bc12453138250ede52bee24731fc65a69587004d69b4ce266556fe983124",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-history.ts": {
+      "sha256": "7b0c1cf9cdbe5859fd1835715a84f2d479819f7dc57859e29a8a2eebcca0f868",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-inputs.ts": {
+      "sha256": "0da2e1a14867ae0a9225c1b31b195fb8e7ac5658c89ace32d21c06a86c0efebf",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-native.ts": {
+      "sha256": "3185ab78bb09e261301b78f1e1a4a54eda53f6d55bcc0a93cd5145131caf4075",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-preservation.test.ts": {
+      "sha256": "880c6e1cfb134d928bba8613086d0927cc2615acd248f4bebc7eb3ab939b0be5",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-preservation.ts": {
+      "sha256": "09a34897c4a6ac0055e5a0de895d6325ff2e2bf87fd49aabae2dee1ada9c3afa",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-reads.ts": {
+      "sha256": "c94af99fa07083169cccb1eab4d27b9745e048abffa4f825d6368608f9a67bdd",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-receipts.ts": {
+      "sha256": "f57f88cafaf8c4e1c48601bb311666225eefe2dbd4230c23af1d116899c32d32",
+      "mode": 420
+    },
+    "scripts/harness/exec-fail-open-recipe.ts": {
+      "sha256": "78ab6738877f4a98458fe03718653b1bf8e7649941f2809034e5b4ac2e41005b",
+      "mode": 420
+    },
+    "scripts/harness/fixtures.ts": {
+      "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a",
+      "mode": 420
+    },
+    "scripts/harness/gc.sh": {
+      "sha256": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73",
+      "mode": 493
+    },
+    "scripts/harness/managed-exec-coverage-fixture.ts": {
+      "sha256": "ae98744754f2783b92360828121ebe6fd5176a29868f0cc1df8d879654e8523a",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-coverage-identity.test.ts": {
+      "sha256": "cb039d12dd70e2e38da3df5c9f8da8371c1951d32b4e14011745ee57d48ad986",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-evidence.test.ts": {
+      "sha256": "eec3076e8bd7bd27e7c7e79780b45f367adb4e09363efb76100affd9fbd9faec",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-evidence.ts": {
+      "sha256": "26fc4bc8ac8010036cdc781bf52b3d1c3cd37f3281f9be6faaf4b49e15e152c8",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-immutability.test.ts": {
+      "sha256": "0065d0bdcbc96900c42168b14a0ae0e9b8802bd4944dfe2b1b424d14a8b94aca",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec-test-output.ts": {
+      "sha256": "1c67e7c1f094b40c58bd2f93c0d48d18e1050075457a5562ebcc077f8f54e9c3",
+      "mode": 420
+    },
+    "scripts/harness/managed-exec.test.ts": {
+      "sha256": "1119fbf513db7076f17a32ac6d83664c0b51c7833a626602a225fe09659711a1",
+      "mode": 420
+    },
+    "scripts/harness/performance.test.ts": {
+      "sha256": "f86aff9d4083375d7ed1ac5558ad5cda291a7227fc5c4213271fc02408ffc242",
+      "mode": 420
+    },
+    "scripts/harness/test-support.ts": {
+      "sha256": "79ea2475d8cfca56619cfa1d450f81a995f44405bcf27a553bd5e0108a2d3b3a",
+      "mode": 420
+    },
+    "scripts/harness/validate.sh": {
+      "sha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+      "mode": 493
+    }
+  },
+  "observedGit": {
+    "head": "79e211b56cd86b697dc2a739952d1f2b11d158ac",
+    "tree": "88b713d4494e9499f3b0f1590b0f1a5bb593f870",
+    "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+    "diffSha256": "bbb730d3ab449263805a4194beaf146c33a8df89c23e85a3fcee94df39c1c766"
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local",
+    "rustHost": "aarch64-apple-darwin"
+  },
+  "tools": {
+    "cargo": {
+      "path": "/Users/gracefullight/.cargo/bin/rustup",
+      "version": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)",
+      "exit": 0
+    },
+    "rustc": {
+      "path": "/Users/gracefullight/.cargo/bin/rustup",
+      "version": "rustc 1.95.0 (59807616e 2026-04-14)",
+      "exit": 0
+    },
+    "bun": {
+      "path": "/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin/bun",
+      "version": "1.4.4",
+      "exit": 0
+    },
+    "cargoLlvmCov": {
+      "path": "/Users/gracefullight/.cargo/bin/rustup",
+      "version": "cargo-llvm-cov 0.6.21",
+      "exit": 0
+    }
+  },
+  "kind": "independent-production-accounting",
+  "actorId": "backend",
+  "skill": "oma-backend",
+  "recorded": "2026-11-09T00:25:11.414Z",
+  "passed": true,
+  "beforeAfterSourceEqual": true,
+  "runs": [
+    {
+      "collectingCheckout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-5",
+      "runId": "2026-11-09T00-19-03-421Z-5791146a-38c3-4d9f-a8a2-e3a3bac12f63",
+      "sourceHash": "b809b46edbbd6831bdbfbec4b5e014979c8defc5803e3ead40132bd81e86b985",
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-19-03-421Z-5791146a-38c3-4d9f-a8a2-e3a3bac12f63/summary.json",
+        "sha256": "88e57d5470bc808489184abfeb2f1429593cb51c2400193af3c149e71d7dcd9c"
+      },
+      "rawLcov": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-19-03-421Z-5791146a-38c3-4d9f-a8a2-e3a3bac12f63/raw.lcov",
+        "sha256": "7e44ffe65b29bbc85c1863d1c4ab2b992a401e92320280cf1a987d2b9177285b"
+      },
+      "rawLLVM": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-19-03-421Z-5791146a-38c3-4d9f-a8a2-e3a3bac12f63/raw.json",
+        "sha256": "8ca014f91a45efbfa8172736946a1dd3276889e0e7d3675d8c4ea0ad0c73ff46"
+      },
+      "profileManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-19-03-421Z-5791146a-38c3-4d9f-a8a2-e3a3bac12f63/profiles.json",
+        "sha256": "319e652d1cad4f711e16e47b9fb435bf1e0b334b8af0c9a2f08c9f2f6763b9be"
+      },
+      "profileCount": 1390,
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 3250,
+          "profiles": [
+            "arc-3250-16827096385338229284_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 3251,
+          "profiles": [
+            "arc-3251-10115768598024021439_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true,
+          "coveredTimes100": 24700,
+          "totalTimes80": 20480,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 609,
+          "total": 610,
+          "percent": 99.8360655737705,
+          "pass": true,
+          "coveredTimes100": 60900,
+          "totalTimes80": 48800,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 653,
+          "total": 674,
+          "percent": 96.88427299703264,
+          "pass": true,
+          "coveredTimes100": 65300,
+          "totalTimes80": 53920,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 387,
+          "total": 393,
+          "percent": 98.47328244274809,
+          "pass": true,
+          "coveredTimes100": 38700,
+          "totalTimes80": 31440,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1628,
+          "total": 1746,
+          "percent": 93.24169530355097,
+          "pass": true,
+          "coveredTimes100": 162800,
+          "totalTimes80": 139680,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 828,
+          "total": 933,
+          "percent": 88.7459807073955,
+          "pass": true,
+          "coveredTimes100": 82800,
+          "totalTimes80": 74640,
+          "exactIntegerPass": true
+        }
+      ],
+      "independentlyRecomputed": true
+    },
+    {
+      "collectingCheckout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-5",
+      "runId": "2026-11-09T00-05-40-332Z-8a5e0fcf-d626-4fd7-98fa-8cee13767613",
+      "sourceHash": "b809b46edbbd6831bdbfbec4b5e014979c8defc5803e3ead40132bd81e86b985",
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-05-40-332Z-8a5e0fcf-d626-4fd7-98fa-8cee13767613/summary.json",
+        "sha256": "b7fd184d9725fb3cefbca1be47c55e76c8a3273f22f9757a35c17fdadf822e30"
+      },
+      "rawLcov": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-05-40-332Z-8a5e0fcf-d626-4fd7-98fa-8cee13767613/raw.lcov",
+        "sha256": "abdf2dac55271343ae33b3dd0632103c8e41c6f8ab60e9a65f32003e3e856222"
+      },
+      "rawLLVM": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-05-40-332Z-8a5e0fcf-d626-4fd7-98fa-8cee13767613/raw.json",
+        "sha256": "1fd29ef58440bdafff3af33a2333fc59647616d6068b0ab5443b8d61b1e82969"
+      },
+      "profileManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-05-40-332Z-8a5e0fcf-d626-4fd7-98fa-8cee13767613/profiles.json",
+        "sha256": "d613c0c2ed54ce279b73464585a59fc2111be66ff2099de802ed7151058e8abd"
+      },
+      "profileCount": 1390,
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 61186,
+          "profiles": [
+            "arc-61186-16827096385338229284_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 61187,
+          "profiles": [
+            "arc-61187-10115768598024021439_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true,
+          "coveredTimes100": 24700,
+          "totalTimes80": 20480,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 609,
+          "total": 610,
+          "percent": 99.8360655737705,
+          "pass": true,
+          "coveredTimes100": 60900,
+          "totalTimes80": 48800,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 653,
+          "total": 674,
+          "percent": 96.88427299703264,
+          "pass": true,
+          "coveredTimes100": 65300,
+          "totalTimes80": 53920,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 387,
+          "total": 393,
+          "percent": 98.47328244274809,
+          "pass": true,
+          "coveredTimes100": 38700,
+          "totalTimes80": 31440,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1628,
+          "total": 1746,
+          "percent": 93.24169530355097,
+          "pass": true,
+          "coveredTimes100": 162800,
+          "totalTimes80": 139680,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 828,
+          "total": 933,
+          "percent": 88.7459807073955,
+          "pass": true,
+          "coveredTimes100": 82800,
+          "totalTimes80": 74640,
+          "exactIntegerPass": true
+        }
+      ],
+      "independentlyRecomputed": true
+    },
+    {
+      "collectingCheckout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-5",
+      "runId": "2026-11-09T00-21-58-285Z-7fb9b753-a0e5-4a79-890b-bf52eca59c70",
+      "sourceHash": "b809b46edbbd6831bdbfbec4b5e014979c8defc5803e3ead40132bd81e86b985",
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-21-58-285Z-7fb9b753-a0e5-4a79-890b-bf52eca59c70/summary.json",
+        "sha256": "91b3bb9c3b9ac87dbe6d9beeb4f9858fb0f3ca1a48c7fabc830ba79a91811a80"
+      },
+      "rawLcov": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-21-58-285Z-7fb9b753-a0e5-4a79-890b-bf52eca59c70/raw.lcov",
+        "sha256": "4600170699b87bd298fee1c4750262a53af0749b1668e21b1964b6d8b9132d5b"
+      },
+      "rawLLVM": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-21-58-285Z-7fb9b753-a0e5-4a79-890b-bf52eca59c70/raw.json",
+        "sha256": "43840dee985e9ea76dba808e2cff83ee42865e8210a357bd8b156a63aea906fe"
+      },
+      "profileManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-21-58-285Z-7fb9b753-a0e5-4a79-890b-bf52eca59c70/profiles.json",
+        "sha256": "8aa9da3956f34799243be54c5eeb4e5be978bb781aa21a6066b80cae31e92442"
+      },
+      "profileCount": 1390,
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 9763,
+          "profiles": [
+            "arc-9763-16827096385338229284_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 9764,
+          "profiles": [
+            "arc-9764-10115768598024021439_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true,
+          "coveredTimes100": 24700,
+          "totalTimes80": 20480,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 609,
+          "total": 610,
+          "percent": 99.8360655737705,
+          "pass": true,
+          "coveredTimes100": 60900,
+          "totalTimes80": 48800,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 653,
+          "total": 674,
+          "percent": 96.88427299703264,
+          "pass": true,
+          "coveredTimes100": 65300,
+          "totalTimes80": 53920,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 387,
+          "total": 393,
+          "percent": 98.47328244274809,
+          "pass": true,
+          "coveredTimes100": 38700,
+          "totalTimes80": 31440,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1628,
+          "total": 1746,
+          "percent": 93.24169530355097,
+          "pass": true,
+          "coveredTimes100": 162800,
+          "totalTimes80": 139680,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 828,
+          "total": 933,
+          "percent": 88.7459807073955,
+          "pass": true,
+          "coveredTimes100": 82800,
+          "totalTimes80": 74640,
+          "exactIntegerPass": true
+        }
+      ],
+      "independentlyRecomputed": true
+    },
+    {
+      "collectingCheckout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-5",
+      "runId": "2026-11-09T00-08-37-069Z-e3d709ad-3116-4a6f-b9e7-a6e63a5ade3d",
+      "sourceHash": "b809b46edbbd6831bdbfbec4b5e014979c8defc5803e3ead40132bd81e86b985",
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-08-37-069Z-e3d709ad-3116-4a6f-b9e7-a6e63a5ade3d/summary.json",
+        "sha256": "e7f50727e370f730f4a74b6ae2af0e262be06b74045d97d92138d2390c0961d0"
+      },
+      "rawLcov": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-08-37-069Z-e3d709ad-3116-4a6f-b9e7-a6e63a5ade3d/raw.lcov",
+        "sha256": "4bd620525b06cd5c49c5d1c48cf6ca81ff0bee6dddc7cc8a7c950c54fe42450b"
+      },
+      "rawLLVM": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-08-37-069Z-e3d709ad-3116-4a6f-b9e7-a6e63a5ade3d/raw.json",
+        "sha256": "7d43a35810cad2aa57553681095426154d3479c53c320a4e3a9b1dbf86fc0004"
+      },
+      "profileManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-09T00-08-37-069Z-e3d709ad-3116-4a6f-b9e7-a6e63a5ade3d/profiles.json",
+        "sha256": "39a6c7b675e02f8629903e7fdde3758cc413edd0159db41b427fb600242e6479"
+      },
+      "profileCount": 1390,
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 67903,
+          "profiles": [
+            "arc-67903-16827096385338229284_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 67904,
+          "profiles": [
+            "arc-67904-10115768598024021439_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true,
+          "coveredTimes100": 24700,
+          "totalTimes80": 20480,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 609,
+          "total": 610,
+          "percent": 99.8360655737705,
+          "pass": true,
+          "coveredTimes100": 60900,
+          "totalTimes80": 48800,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 653,
+          "total": 674,
+          "percent": 96.88427299703264,
+          "pass": true,
+          "coveredTimes100": 65300,
+          "totalTimes80": 53920,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 387,
+          "total": 393,
+          "percent": 98.47328244274809,
+          "pass": true,
+          "coveredTimes100": 38700,
+          "totalTimes80": 31440,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1629,
+          "total": 1746,
+          "percent": 93.29896907216495,
+          "pass": true,
+          "coveredTimes100": 162900,
+          "totalTimes80": 139680,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 828,
+          "total": 933,
+          "percent": 88.7459807073955,
+          "pass": true,
+          "coveredTimes100": 82800,
+          "totalTimes80": 74640,
+          "exactIntegerPass": true
+        }
+      ],
+      "independentlyRecomputed": true
+    }
+  ],
+  "cleanRuns": [
+    {
+      "result": {
+        "path": "target/evidence-hygiene/clean-checkout/runs/9a74bae8-d210-45a3-b7f9-6458cb75c665/result.json",
+        "sha256": "987956d5b561d8550357db5b1d2ffdb591d4280bcc72adf444e3bba3853b97a2"
+      },
+      "collectingCheckout": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-TcNEte",
+      "checkoutAlias": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-TcNEte",
+      "runId": "2026-11-09T00-15-55-128Z-19da715f-27ed-480a-9ed0-8a776d191f1d",
+      "sourceHash": "b809b46edbbd6831bdbfbec4b5e014979c8defc5803e3ead40132bd81e86b985",
+      "rawLcovSha256": "1ea1fabc61a56f75a0d62795fe967560951d0bce009d95d7cef365616f3b22d5",
+      "rawLLVMSha256": "2765d10e6f0a0f6f1331bd942f71660ce51b7853354130790128258175ccdc55",
+      "profileCount": 1390,
+      "childProof": [
+        {
+          "binary": "arcctl",
+          "pid": 98417,
+          "profiles": [
+            "arc-98417-16827096385338229284_0.profraw"
+          ],
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 98418,
+          "profiles": [
+            "arc-98418-10115768598024021439_0.profraw"
+          ],
+          "exit": 1
+        }
+      ],
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true,
+          "coveredTimes100": 24700,
+          "totalTimes80": 20480,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 609,
+          "total": 610,
+          "percent": 99.8360655737705,
+          "pass": true,
+          "coveredTimes100": 60900,
+          "totalTimes80": 48800,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 653,
+          "total": 674,
+          "percent": 96.88427299703264,
+          "pass": true,
+          "coveredTimes100": 65300,
+          "totalTimes80": 53920,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 387,
+          "total": 393,
+          "percent": 98.47328244274809,
+          "pass": true,
+          "coveredTimes100": 38700,
+          "totalTimes80": 31440,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 1629,
+          "total": 1746,
+          "percent": 93.29896907216495,
+          "pass": true,
+          "coveredTimes100": 162900,
+          "totalTimes80": 139680,
+          "exactIntegerPass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 828,
+          "total": 933,
+          "percent": 88.7459807073955,
+          "pass": true,
+          "coveredTimes100": 82800,
+          "totalTimes80": 74640,
+          "exactIntegerPass": true
+        }
+      ],
+      "independentlyRecomputedInCollectingCheckout": true
+    }
+  ],
+  "nativeRuns": [
+    {
+      "pid": 54783,
+      "observations": [
+        {
+          "path": "target/exec-fail-open/native/54783/terminal-1.json",
+          "sha256": "0d4d8a3590303771072c50bcd94ab29e37ff5ee898bb0fc6977f237957d9402a"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/stall-register.json",
+          "sha256": "6da5145471b0c94ce379f0f14a8d5daac869d46eb0b51a7f50bbefd5a6d5d25f"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/absent.json",
+          "sha256": "6afc11e51adf1abf8cb2f3f5f469c6e68c25f209042758f5563951c202512a2d"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/stall-claim.json",
+          "sha256": "dcebcd1df85708d1936c6c59e8a639b2111707533b50aca5b49ee617ac4ffd5f"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/busy-claim.json",
+          "sha256": "d8a70d62d0bf2c0b5bb4dc1b4a8b0fdeb52260b320f3941491be56f7321c124e"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/nonlaunch.json",
+          "sha256": "888b7617e60bc9a041b1d0442433c690af4d16e5d62edf82a6dfa5f3cb1caba6"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/committed-register.json",
+          "sha256": "78c01589e2e968324918a8a503b965cf497b134993b9e6c9ca2740618771547c"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/busy-register.json",
+          "sha256": "f9bc557312b387e7c9cf8d3dff2581b419ecd8db9efc84ad26788fb9a897805d"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/disconnect-before-read.json",
+          "sha256": "f36ec319ed565fdce5b673d64be28b1e70e111a4bad388b193052f6630a802f7"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/cancellation.json",
+          "sha256": "1bc917ef80fd6ad0b48ba81e3ef2ec00c7a3851fcec026121ea74e772f146a04"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/sigstate.json",
+          "sha256": "848bfcff3a50d25b5eb9becf5f4fb7248dbbb5d4a15fc801cdcfe740b1cb9d8b"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/descriptors.json",
+          "sha256": "7cdb7e32e3e6c294207c4201b6b971f60aed79e540483fda19b1615f24d3f125"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/shared-budget.json",
+          "sha256": "e674b80c8a2cba300f9521cbf0233c619dd61e6c574fdccb7594b358b398c4c8"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/disconnect-claim.json",
+          "sha256": "a12a68fb55b4768915f396640c747d6e1fd8a37b6693787e423dc0bc4c7d96a0"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/refused.json",
+          "sha256": "0a86479a43709d7a0b2072037b0ead34d7add238af97b90e75a829f48727e011"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/terminal-4.json",
+          "sha256": "86af9c936a3de4245f50d7b60b26fef68d3a4334d6b8bc1b55342362ab328cae"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/committed-claim.json",
+          "sha256": "8dab6aa0524bef6c6fd44bad1b9e4818fe0288d3f88e7fc4b9e3a4979e9aac6e"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/terminal-3.json",
+          "sha256": "dc5a8f9b064368adfdbbe0d919ee3f62b2aa3f4a4aa00d88f6d7ed8d0cc2a73d"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/negative-control.json",
+          "sha256": "d77d9f749e4f2a90cb17ef2cbc2711f06226dfac038196081453a74c47f02eb0"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/signals.json",
+          "sha256": "10d7bfd834a219f91bdcb139de8b4952a87b4f9096a157a29c6edaafd53c3b86"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/environment-negative-controls.json",
+          "sha256": "23dd62e8cc6a4a0d726f9fc087d177a7201157af291d479cfec36bd3954e63c5"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/environment.json",
+          "sha256": "f52e29336b5be82ff4168b8a062bcbcc00f9530efbce5782055ef20ff92bf901"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/disconnect-register.json",
+          "sha256": "beba16f49a9edd9e558cf842ffe7b57c58db3e03f8466f538e1b5140a052b2a1"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/pipeline.json",
+          "sha256": "1231c45ca631c3e58b4cbd5c03b2ada1250e1497c34c346cc7323318fed6ff74"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/terminal-2.json",
+          "sha256": "5648c280dcd865c74b23869050b8885200dcb11403c4d7f210e009441a7d9080"
+        },
+        {
+          "path": "target/exec-fail-open/native/54783/partial-register.json",
+          "sha256": "c3a6d236b2ced0d78f9ea0dff126f6b19bd6c9224485584df2931b4fa1ca7c0a"
+        }
+      ],
+      "timedCases": 13,
+      "maximumMs": 1817.4135420000002,
+      "allPassed": true,
+      "allTimedExactlyOnceExit17NoReplay": true
+    },
+    {
+      "pid": 8167,
+      "observations": [
+        {
+          "path": "target/exec-fail-open/native/8167/terminal-1.json",
+          "sha256": "364d7f445271db927f4e706a3b838ab4cb8d73966eb9251dfa76e07c8b0a9f8e"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/stall-register.json",
+          "sha256": "5cfda5163537ac9b8cb86461efe353e0ece9fc2ad5c59cdedcdf7cddd9c64104"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/absent.json",
+          "sha256": "f5ef652bf80c1c9b33ae2ea0a6e4e07b293f03135b083ca6860b85f37ae1d32f"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/stall-claim.json",
+          "sha256": "5b067595dad3d1211221f5e4382e7804b8a38b51f63db1d701e15236671bc5ed"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/busy-claim.json",
+          "sha256": "dc871a124afded1901779f6d340ecf575f0b979b33ca0afc18bfc3759b00424e"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/nonlaunch.json",
+          "sha256": "bc81fd0da8cb8834774967bca53f4e38e4e3e0c06695cbf464081825ad7d8b54"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/committed-register.json",
+          "sha256": "d51572183e78b8a488fd0287f01b958ec15778cb94bfa521c6103df2c3788a1c"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/busy-register.json",
+          "sha256": "841f5cb9ae0f959a117de0ba92a91dc068e87882cd3ccfad77ab0e05d0d0ce87"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/disconnect-before-read.json",
+          "sha256": "7deaaed385a43400ec10103754cb9dfea82e1544bcff0b0b1f74764e20aa6167"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/cancellation.json",
+          "sha256": "dd5242bdbf2287485a398f60dab3e859299ba20216c82501ab51fe831a0487b7"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/sigstate.json",
+          "sha256": "8f8d8a24fba2f0651ac440d1411c1f132e9dd66240ec8420959eb3f8c60cd1ea"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/descriptors.json",
+          "sha256": "32da0d7523f29d7f57a206ce0863ad819234f4b8dd7cb96b8fef41ffca63e05f"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/shared-budget.json",
+          "sha256": "1e6d08cf4937b089d9b0b99a2164d55c625dcbcd3c6ea0e021b3904c4799d8f5"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/disconnect-claim.json",
+          "sha256": "1355f27734fb001ff6ab02cb536f87caab89a36fbb4d6f9cd6a21c87b60e3cb8"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/refused.json",
+          "sha256": "f0dd52ed2476b509a061681059d2357548f468bd0a176471f81c33819f3120f9"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/terminal-4.json",
+          "sha256": "dd4b6d133ae2c5caa95ca40eab7289b528e68f95d954c125294e8516750d81d8"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/committed-claim.json",
+          "sha256": "b7e1bca970e00c729e595203960de67c1f7e71b7b9db7c5b39abd295625eeea8"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/terminal-3.json",
+          "sha256": "9bca3e09c318461f7a29d97df7e6a875fe11e781dd26cec40ad351bf66590ac9"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/negative-control.json",
+          "sha256": "24859555bcd78094d2ae03cfc7ceacb230365b5732428b1a3abb4c028c00db8f"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/signals.json",
+          "sha256": "214ed9225b20ec7a29847143a19ee42fa3ffe80b5be3a6e309fd4acd799364a9"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/environment-negative-controls.json",
+          "sha256": "e6f8b6284f8c7cee08e711fcacfb4e453f779542fdbf8eb9a4211c4536c865a0"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/environment.json",
+          "sha256": "76cbcd49c8932285e16958b0fab615d7e3ed00229d8329c0e80f3706b55aaa30"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/disconnect-register.json",
+          "sha256": "da1c231a666d2f89b8357723860b4e00e91c73601e80efd5e30468ccfe6f320d"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/pipeline.json",
+          "sha256": "955eeae6673aba511196ee125df4cae172341a0f5b2e75b16e85395b9adf201a"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/terminal-2.json",
+          "sha256": "37d80dc65f3b27e389b4b93b83a40b508d3a1c8f8aa4ffb3a19d38c86c9f7af0"
+        },
+        {
+          "path": "target/exec-fail-open/native/8167/partial-register.json",
+          "sha256": "e7998e2f8fa6b56c4c4e6e6c7b908d0ac6ee31d98c775adaf1130e2008710272"
+        }
+      ],
+      "timedCases": 13,
+      "maximumMs": 1816.850375,
+      "allPassed": true,
+      "allTimedExactlyOnceExit17NoReplay": true
+    },
+    {
+      "pid": 1812,
+      "observations": [
+        {
+          "path": "target/exec-fail-open/native/1812/terminal-1.json",
+          "sha256": "812fb4727d7f2054be36d13d6fa13516a75216f44c4be54a5aa92c314c953aae"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/stall-register.json",
+          "sha256": "d686be3e8582875a5ed4232e9cec13747945e8f170741550a940a15bd57ea483"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/absent.json",
+          "sha256": "65626045fc996c2825f9f4cd363a76d0866bf2a29022e9f9e508080b0c02476a"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/stall-claim.json",
+          "sha256": "4a4b3810945d50688f476011090bec0b606a4dabda6fd4e8594376cc2f10b8d9"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/busy-claim.json",
+          "sha256": "e7744b343c9ff6a6f799daa38d3ac7bb6eb735441288c4367df06b8614ecefbf"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/nonlaunch.json",
+          "sha256": "7dff75878e9565a46b2a9ae40362b9c31f0970428e020bb7dfe53f36d34617c4"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/committed-register.json",
+          "sha256": "1bb27b31718fbece91f3d656d7da88833d4ccb8fd0d39412bfb79b0fb8d5ea34"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/busy-register.json",
+          "sha256": "aac40538da2d584c4d32b728ec71c06ae817608d230c69f4fa4eb30f3a9bcbf8"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/disconnect-before-read.json",
+          "sha256": "217ab10524ab110c21413e64c682d4c2ba41af32bad925c22170978ce0078dc3"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/cancellation.json",
+          "sha256": "ea6a85c1adf411f96513d21543fa07750db8675afe21b6545318508f208263a7"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/sigstate.json",
+          "sha256": "788186f605fcbdb1f38a213cffb1860cbff31067e315b82bc488ae9303908d4c"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/descriptors.json",
+          "sha256": "60b2cad0bceb6b5e69be6e6dc5501a3e233ef5dd14daca96372593c3f08398f7"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/shared-budget.json",
+          "sha256": "f642fc0bb67ac1c7317dd08449d8a45269686b8860c1022856acdeab594d2bd1"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/disconnect-claim.json",
+          "sha256": "3d37955814a9e8235e91a8968b2a88cc00af57d4ef5b899ab2fced48f631065e"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/refused.json",
+          "sha256": "8811b09b22d9fe56c7826e11c0cd21e6b6f107fa1654ec7b6c6d60212d3b868f"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/terminal-4.json",
+          "sha256": "0cd5e4f0a59e43084de05637cd64a3b4cb695497b38671db0f5b4f22b953d047"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/committed-claim.json",
+          "sha256": "6ee950a61ff882f4f531d8c369838ffae7860225c1554111bcf55770c50ddc4c"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/terminal-3.json",
+          "sha256": "def6d47ae89f7534842e2e7b7f3c1fec6c5d556db2b205247e276555645e2b64"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/negative-control.json",
+          "sha256": "ea665ad709e70dc2e6af91bc9d4dbd80605c155faa27ac2229993863dbc028f0"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/signals.json",
+          "sha256": "3d04d0c167b73f186c78c8255c49d1a4d0043dd975e26a1b556c65bde8b3df73"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/environment-negative-controls.json",
+          "sha256": "a19f80b045a8b38796d8501933e2423132fa0296650ccf26437298d39f3af62e"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/environment.json",
+          "sha256": "db1af3b2445faef7a7c9f536bfdd4bde41695686c5e518bd21b892ef182114fe"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/disconnect-register.json",
+          "sha256": "df706652f1a6cae63118f47f95271e3a834691960b222df3ada01fcca6cfa871"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/pipeline.json",
+          "sha256": "71b6b57151d056eeac423a2e37bc5774c4983d0f3a41bab4562c27ce5a9cafa7"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/terminal-2.json",
+          "sha256": "83e5ef1c0e51c53d85ffa6ec8a202c4ba7ab6f0aab852df7b8daefbe0914cbd4"
+        },
+        {
+          "path": "target/exec-fail-open/native/1812/partial-register.json",
+          "sha256": "10c55c114164d2432192fac9981cf2dc640ea93dce78b5bce9900af8a094ac2c"
+        }
+      ],
+      "timedCases": 13,
+      "maximumMs": 1820.7816249999998,
+      "allPassed": true,
+      "allTimedExactlyOnceExit17NoReplay": true
+    },
+    {
+      "pid": 66287,
+      "observations": [
+        {
+          "path": "target/exec-fail-open/native/66287/terminal-1.json",
+          "sha256": "bb46a3d22b31ac57c7055b0cf30ddd9ab54fe11e3077b8fab7bc5720454a0f98"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/stall-register.json",
+          "sha256": "2ca497a69246160d5bcad3646fde4747871f7ae1a478ba6d87157bd3c063db36"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/absent.json",
+          "sha256": "d513fe102a077321b6801a17765240efada368e46bd696ee7ee5c30838af76a8"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/stall-claim.json",
+          "sha256": "033636a0aac888b388ef72cd1b47ac78e7df5b6606a68a89c8f3117276d9172c"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/busy-claim.json",
+          "sha256": "5ac8972368fd062197de5bc6e215f618f54db67d1d66a466f7bfbb90ae544df0"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/nonlaunch.json",
+          "sha256": "b3c09c643ce07409f40762bbb6e6384423d65534c176c0d3897239becefb6b28"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/committed-register.json",
+          "sha256": "d073f5636fa8680d3580587557ffd5dd7112fc95f7e924798e3b21d69feecd99"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/busy-register.json",
+          "sha256": "c825e47e6d24f0f00b2949177aa99f85acbd86260ee8ec1cf4e03aacbe5f492a"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/disconnect-before-read.json",
+          "sha256": "a56d7c3fb32e58e7622470f8833d34a267cdf2767056fbd78014a0ef84c472ff"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/cancellation.json",
+          "sha256": "fb51088d8ad45e32e23170eb3d4150d54f38e8cd09e38cfda94fad5cc4aadd4e"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/sigstate.json",
+          "sha256": "afa7b7618ee8b656fc11636831410751b7fd96e1c718810b4f2374e2a73ee405"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/descriptors.json",
+          "sha256": "69fa3b77dd590125caf1aca5cc96e01913b248ac37b734a822d9272f88b2b35c"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/shared-budget.json",
+          "sha256": "3c3be767d4ceab2b1754041c312c3c869c099a9543778631c5b51a7959232754"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/disconnect-claim.json",
+          "sha256": "b10ff220754945dbc23d637ca1264b4c8080a2bdedd58e497d8b957c0de9b846"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/refused.json",
+          "sha256": "8ee82a6f9653fc87c489960a57140e353af8bef6acd9e52dfc1a1a2acc2a444a"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/terminal-4.json",
+          "sha256": "16de08a6d7deb7e13702843a847f1dfa145d83a2a9c6697b7da9adffa381ff0c"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/committed-claim.json",
+          "sha256": "634a7ad80308d01ba2211e2e91d78e7136c452d6a7d6a663ea060d9439f55171"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/terminal-3.json",
+          "sha256": "34912698d9bd3182a1a211f16b6309e24263648d47c2356abdf9ad748599bd79"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/negative-control.json",
+          "sha256": "f6af9311a89d7de795d516d72d907a2bad3c1b288e132a5fbcb1348a7f2b775c"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/signals.json",
+          "sha256": "df1fa6318b49f467de902aefb5ad8d8165a230bd0984487b180735149df6198c"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/environment-negative-controls.json",
+          "sha256": "fa8c810d378d58c78c2cc9f37d1f2a5d85ee84248d29b0fc3275f88cd525b025"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/environment.json",
+          "sha256": "78fc9ff79ef1f0ee2da3129f3ca7f9e9874e50916972bb4026f91adfac508fb5"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/disconnect-register.json",
+          "sha256": "0ed24a9492cc3577ebd70e7db6751816118aa9eab8b1564f2e4d58d6024d7c7f"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/pipeline.json",
+          "sha256": "6ed2320e02d86850de5879837c0be65a173979a9f034b07cde8eeb738d7af103"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/terminal-2.json",
+          "sha256": "45efd4c58eec6d8d6797908b5f062507687e72e55e6b59590df9de1287ecf5ff"
+        },
+        {
+          "path": "target/exec-fail-open/native/66287/partial-register.json",
+          "sha256": "5d1cccc39d3b6e90a72f3d6c6e151455c001ed5e40876a5aa40f100bbee3e49d"
+        }
+      ],
+      "timedCases": 13,
+      "maximumMs": 1816.6209580000002,
+      "allPassed": true,
+      "allTimedExactlyOnceExit17NoReplay": true
+    },
+    {
+      "pid": 59770,
+      "observations": [
+        {
+          "path": "target/exec-fail-open/native/59770/terminal-1.json",
+          "sha256": "189aa3a0a9ef0560b10e3f32aa0d05f98e33702bf38d030c7d7810fa2cd4b499"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/stall-register.json",
+          "sha256": "1f1792af83fa47e4de2bfda8738099a7e658569a055bbbe419d7c941d9e9fbb5"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/absent.json",
+          "sha256": "3bd5b0bd93b72512e13356941d66a5639e3ddfd91366f6d6d94541849abd18a5"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/stall-claim.json",
+          "sha256": "fa66016a073b6d80a1242115e24c22c7460bc2d32f469853bbbc661f22c2b3fc"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/busy-claim.json",
+          "sha256": "2d47d76037bd23e643a7e059ed6b98f2057129bc8e0a7d6403219aec9086a7ff"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/nonlaunch.json",
+          "sha256": "5cdd0409103a462e0e514f99adb74e431e16709b7b441095e50ddc12b424fb16"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/committed-register.json",
+          "sha256": "03b90014150bcb1696abd80b394c5e9e5b0c2213feae75ecf32d091dcad63495"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/busy-register.json",
+          "sha256": "29b396412f2b4996ea77bb50fb91d0d9f4688b4f4014cc9002bba7af187ae16b"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/disconnect-before-read.json",
+          "sha256": "9727d59b8a6e470df40e4f48a15db3becef79e1bc5166224f14d076e1c2ba3da"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/cancellation.json",
+          "sha256": "830383af5b7ab70f1b547eb99ee1e814a0d05c8f5ae27d72a5d51392ebd65c2d"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/sigstate.json",
+          "sha256": "72ce7823ca5c0ea4d54978c7f9a8cc321e9508c35d5a28b7654a3f123882ac60"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/descriptors.json",
+          "sha256": "e8f2c154b5240e7beba1250d9ca3a17735c4be9f21267d3d2e8acde2704dacb1"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/shared-budget.json",
+          "sha256": "e23e54961912abdcb6dee14ebf638febcf9bae7163e53772b28885425662fb63"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/disconnect-claim.json",
+          "sha256": "f91ea955c46dcf5971b248249199a046689c148946a6a2a8aebc7f243ccdd718"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/refused.json",
+          "sha256": "f2424277598c21bbe7c510498cf6c813dbb5673a42618e5983e284953d74685e"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/terminal-4.json",
+          "sha256": "5ec01cbc17b25453eca541d93a03a2d159abd04a0b3033bb4d55e6ac1cd6fb7c"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/committed-claim.json",
+          "sha256": "113c5fc97e693da97bf9c39ddfec9bd1aca9248f550bd04180ef2ea16452e480"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/terminal-3.json",
+          "sha256": "86f3bfef248e4dbae241f77dec01eeef3d86dc46ab8d22d9ef58823a44f282e5"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/negative-control.json",
+          "sha256": "865f36480a877cf851a7d7b80392c2408ec61c368a67202042e1e886b559e427"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/signals.json",
+          "sha256": "3bd184cd722bf22f1f3539cda1cfe1da55820cbee76c704b7145d57b8b99bc9e"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/environment-negative-controls.json",
+          "sha256": "ae0d09454ac51efb34e0b6b18e06aadf5e8896757b365af52439d9928f4e3d84"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/environment.json",
+          "sha256": "3aeb0bd9aec42ba4e2477c842273e666aea7885e04bc2350c4a97d1ad2705082"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/disconnect-register.json",
+          "sha256": "98a43fd35c0b4606d5989a4e3d6fe16f663c4d627b0ed9e7657d0349e4d73d47"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/pipeline.json",
+          "sha256": "36ac868b8c9d6fb52280ba66f16c8f7c9c16d62e2029eda88d0e95759e8d98a4"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/terminal-2.json",
+          "sha256": "6910cea303acf4bf9138be078e4ca194a9e83b5d9947a54561da604b6e0ec448"
+        },
+        {
+          "path": "target/exec-fail-open/native/59770/partial-register.json",
+          "sha256": "3e0e9dd9a320a12f9b4dd0bacb381a1f43e739b65a903de57c74d2e8ef984aea"
+        }
+      ],
+      "timedCases": 13,
+      "maximumMs": 1821.3561249999998,
+      "allPassed": true,
+      "allTimedExactlyOnceExit17NoReplay": true
+    }
+  ],
+  "sourceLineCap": {
+    "checked": 190,
+    "maximum": 474,
+    "violations": []
+  },
+  "generatedEvidence": {
+    "manifest": {
+      "path": "target/exec-fail-open/generated.json",
+      "sha256": "d2e323cc95e6be24261487d551225802713c8aca7e814e2bfeb861078d043f41"
+    },
+    "entries": [
+      {
+        "command": 6,
+        "path": ".arc-verify/harness-speed/coverage-verification.json",
+        "localCopy": "target/exec-fail-open/generated/6/.arc-verify/harness-speed/coverage-verification.json",
+        "sha256": "8b098b62a64ef2db33d31b6ad3b241294a1ed502c0c8f8d2cdc6ca21a788b815",
+        "restoredSha256": "642bcb40919503c84a8429933a7a6a18108e59d31435146d668ab8f1b60ab64a"
+      },
+      {
+        "command": 6,
+        "path": ".arc-verify/harness-speed/equivalence.json",
+        "localCopy": "target/exec-fail-open/generated/6/.arc-verify/harness-speed/equivalence.json",
+        "sha256": "43b06baaccdf57e88aadb611df1423201f39b9411bc6f137a6143b1d536fd6fd",
+        "restoredSha256": "a1c5a7e0bbf25f969b22e254a19b1eb7cc38f06c9d78b440a88e652958842f9f"
+      },
+      {
+        "command": 6,
+        "path": ".arc-verify/harness-speed/invocations.json",
+        "localCopy": "target/exec-fail-open/generated/6/.arc-verify/harness-speed/invocations.json",
+        "sha256": "c31b2277a880bbae2c36ce2692c82b78795ca2e94c7dc34f62220d8fccbf9496",
+        "restoredSha256": "b0ee9d0adc6e3ab2df689b10fec22b2a1716abfb4a178dc20adf87d7f5e3cca6"
+      }
+    ]
+  },
+  "scope": "Recomputed by backend using unchanged nativeCollection/accounting from actual LCOV, LLVM exports and every recorded raw profile in each actual collecting checkout. Independent QA remains separate.",
+  "assemblyFinding": {
+    "status": "source defect reported to Chief; outside task-4 source ownership",
+    "source": "scripts/harness/exec-fail-open-assemble.ts:62",
+    "guard": "scripts/harness/exec-fail-open-reads.ts:12",
+    "historicalLeaf": ".arc-verify/exec-fail-open/implementation/commands/focused-cli-final.json",
+    "diagnostic": "EXEC_FAIL_OPEN: gates attempted successor read: .arc-verify/exec-fail-open/implementation/commands/focused-cli-final.json",
+    "initialAttempt": {
+      "argv": [
+        "bun",
+        "target/exec-fail-open/assemble-local.ts"
+      ],
+      "toolSessionId": 19788,
+      "toolSessionIsNotOsPid": true,
+      "exit": 1,
+      "elapsedMs": null,
+      "elapsedReason": "Tool output returned session/completion chunks; no complete process elapsed receipt was recorded for the initial orchestration command. The actual bounded reproduction is independently captured below.",
+      "retainedLeafArchive": "target/exec-fail-open/assembly/first-assembly-failure"
+    },
+    "reproduction": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt5-assembly-failure.json",
+      "sha256": "0652990723a716942d7d3d47d99bb53e5d31483d8c651340023c1a85b78a7317"
+    },
+    "resolution": "No source edited and no native collection repeated. Retain every historical command receipt. Compose the gate receipt from maintained capture/assembler leaf outputs, then validate every predecessor using unchanged validateGateData/validateGates and execute the exact gate test command. Local native leaf references preserve original hashes.",
+    "recorded": "2026-11-09T00:27:46.030882+00:00"
+  }
+}

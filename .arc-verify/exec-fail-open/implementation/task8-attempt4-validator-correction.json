@@ -1,0 +1,368 @@
+{
+  "schemaVersion": 1,
+  "kind": "task8-reviewed-pin-correction",
+  "actorId": "backend",
+  "skill": "oma-backend",
+  "taskId": "task-8",
+  "attempt": 4,
+  "recordedAt": "2026-11-08T23:59:39.328368+00:00",
+  "status": "scoped-repair-complete-awaiting-independent-review",
+  "baselineHead": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+  "host": {
+    "system": "Darwin",
+    "node": "Eunkwangui-MacBookPro.local",
+    "release": "27.2.0",
+    "version": "Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000",
+    "machine": "arm64",
+    "processor": "arm"
+  },
+  "budgets": {
+    "missionMaxDurationSec": 86400,
+    "perCheckTimeoutMs": 3600000,
+    "reset": false,
+    "injectedAbsoluteDeadline": null
+  },
+  "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3",
+  "sourceInputCount": 213,
+  "inputInventory": {
+    "path": "target/exec-fail-open/task8-attempt4/current-inputs.json",
+    "sha256": "58d80ff72e4973aa06e44c4dc96dd93ea0fc45c64bcbdbae20b3c1dcd5dce15f"
+  },
+  "observedGit": {
+    "head": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+    "tree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+    "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+    "diffSha256": "68244ed025e9d11ac8370c7f5e6c9bf858682666850485df9c4d5dc3d9fe3906"
+  },
+  "sourceChanges": [
+    {
+      "path": "scripts/harness/exec-fail-open-preservation.test.ts",
+      "beforeSha256": "525378c071940cfb9e0eb35abdffcfa06cbd9a47dadacac7b71d94adc05f5f6e",
+      "afterSha256": "880c6e1cfb134d928bba8613086d0927cc2615acd248f4bebc7eb3ab939b0be5",
+      "patch": {
+        "path": "target/exec-fail-open/task8-attempt4/exec-fail-open-preservation.test.ts.patch",
+        "sha256": "c06522a90516e8ab181cf29c3eba43b68996c61f4f7e182a634c601ba9841d7a"
+      }
+    },
+    {
+      "path": "scripts/harness/exec-fail-open-preservation.ts",
+      "beforeSha256": "33d415a57ed69e743c267b83623ff940836e6f5efe22df684668c0b46bec8d90",
+      "afterSha256": "09a34897c4a6ac0055e5a0de895d6325ff2e2bf87fd49aabae2dee1ada9c3afa",
+      "patch": {
+        "path": "target/exec-fail-open/task8-attempt4/exec-fail-open-preservation.ts.patch",
+        "sha256": "998295e43231742965a2f2324a77756221b3ae40a61589b512a83687f6a906c5"
+      }
+    }
+  ],
+  "productionValidatorDiff": "one reviewed fixture SHA-256 literal; strict equality and all other bytes unchanged",
+  "reviewedFixture": {
+    "path": "crates/arc-daemon/tests/managed_exec/fallback_environment.rs",
+    "sha256": "f778416771edac2fcc692f570b92480cb5ea908e25af88b69a21e749e131fd72"
+  },
+  "runtimeProbe": {
+    "path": "crates/arc-daemon/tests/managed_exec/runtime_environment_probe.rs",
+    "sha256": "519e6ee322c32a57feb329b99a039df1e34a8e8c6f8b31b53c04e7f3611f7336"
+  },
+  "retainedCorrectiveReceipt": {
+    "path": ".arc-verify/exec-fail-open/implementation/task8-attempt2-correction.json",
+    "sha256": "3ffa6df0d3c810a5b38f1d0a64e7b147f17147a0192bbd45f8a1cea403ab02f6"
+  },
+  "retainedHandoff": {
+    "path": ".arc-verify/exec-fail-open/implementation/task8-attempt3-handoff.json",
+    "sha256": "3927fe54b4b346a0c6a2c02366df6f1bfebb002d3eda776a692b073f4792a8df"
+  },
+  "retainedArtifactVerification": {
+    "path": "target/exec-fail-open/task8-attempt4/retained-verification.json",
+    "sha256": "d9e648df4bd177103124174dafbba04fccddc8d06c6eb2392f2661704e29e674"
+  },
+  "retainedNativeEvidence": [
+    {
+      "command": "green-final-ordinary-managed",
+      "environment": {
+        "path": "target/exec-fail-open/native/32521/environment.json",
+        "sha256": "ffee49d51f96586f61a3fba3ea1b4722206e656665ee8a35df3352cc3fa64edb",
+        "size": 357670
+      },
+      "negativeControls": {
+        "path": "target/exec-fail-open/native/32521/environment-negative-controls.json",
+        "sha256": "b319d316f5c827f50e91adedcaf6d16d114bb69ec8b7c5b624d28b63a7be00a8",
+        "size": 698
+      },
+      "outageCases": 13,
+      "negativeCases": 8,
+      "runtimeMarkerInput": false,
+      "maxParentSpawnToInvocationMs": 1813.487083
+    },
+    {
+      "command": "green-instrumented-managed",
+      "environment": {
+        "path": "target/exec-fail-open/native/31339/environment.json",
+        "sha256": "2e708402967233225a034bf2d452fb905bd57ab854a80090c64f7a3fb40d72f3",
+        "size": 394023
+      },
+      "negativeControls": {
+        "path": "target/exec-fail-open/native/31339/environment-negative-controls.json",
+        "sha256": "ab98d35c9857932944685e0a042a9a90a4e53f04899f267fb162d1fa4f218e9b",
+        "size": 743
+      },
+      "outageCases": 13,
+      "negativeCases": 8,
+      "runtimeMarkerInput": true,
+      "maxParentSpawnToInvocationMs": 1816.647417
+    }
+  ],
+  "retainedEvidenceScope": "Original 62238c2ce55acf00c179e38527c0de31e1d7dd78bd2ee6fadec390a9c9c00e57; not final-gate proof for amended validators",
+  "commands": [
+    {
+      "name": "preservation-red",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/exec-fail-open-preservation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 45065,
+      "startedAt": "2026-11-08T23:56:56.472358+00:00",
+      "finishedAt": "2026-11-08T23:57:19.237076+00:00",
+      "elapsedMs": 22764.376,
+      "timeoutMs": 3600000,
+      "exitCode": 1,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt4/preservation-red.stdout",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt4/preservation-red.stderr",
+          "sha256": "19df01f4c755e4a91fd4cf885f1cb4b0853cd281238c210728181c89f40aa5da"
+        }
+      ],
+      "sourceHash": "62238c2ce55acf00c179e38527c0de31e1d7dd78bd2ee6fadec390a9c9c00e57"
+    },
+    {
+      "name": "preservation-green",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/exec-fail-open-preservation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 46694,
+      "startedAt": "2026-11-08T23:57:31.021425+00:00",
+      "finishedAt": "2026-11-08T23:58:33.735885+00:00",
+      "elapsedMs": 62714.119,
+      "timeoutMs": 3600000,
+      "exitCode": 0,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt4/preservation-green.stdout",
+          "sha256": "674f98d91dfbc02484a3456ac46f6ea55a4419d8ba436ae2124053270b8468f3"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt4/preservation-green.stderr",
+          "sha256": "ca7cb7274642bcb0deebb621af39ace560ed231573b083e0ea6515c61e6c3241"
+        }
+      ],
+      "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3"
+    },
+    {
+      "name": "docs",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/exec-fail-open-docs.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 51103,
+      "startedAt": "2026-11-08T23:58:38.938145+00:00",
+      "finishedAt": "2026-11-08T23:58:39.020798+00:00",
+      "elapsedMs": 82.417,
+      "timeoutMs": 3600000,
+      "exitCode": 0,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt4/docs.stdout",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt4/docs.stderr",
+          "sha256": "93b892596fb295cab639790bea7dd1abb81be04c74229406490c6d94ae0906a7"
+        }
+      ],
+      "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3"
+    },
+    {
+      "name": "scoped-diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "scripts/harness/exec-fail-open-preservation.ts",
+        "scripts/harness/exec-fail-open-preservation.test.ts",
+        ".arc-verify/exec-fail-open/implementation-notes.md"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 51105,
+      "startedAt": "2026-11-08T23:58:39.095407+00:00",
+      "finishedAt": "2026-11-08T23:58:39.122003+00:00",
+      "elapsedMs": 26.308,
+      "timeoutMs": 3600000,
+      "exitCode": 0,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt4/scoped-diff.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt4/scoped-diff.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3"
+    },
+    {
+      "name": "validator-diff",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "--check",
+        "target/exec-fail-open/task8-attempt4/exec-fail-open-preservation.ts.before",
+        "scripts/harness/exec-fail-open-preservation.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 51108,
+      "startedAt": "2026-11-08T23:58:39.195303+00:00",
+      "finishedAt": "2026-11-08T23:58:39.209717+00:00",
+      "elapsedMs": 14.098,
+      "timeoutMs": 3600000,
+      "exitCode": 1,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt4/validator-diff.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt4/validator-diff.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3"
+    },
+    {
+      "name": "test-diff",
+      "argv": [
+        "git",
+        "diff",
+        "--no-index",
+        "--check",
+        "target/exec-fail-open/task8-attempt4/exec-fail-open-preservation.test.ts.before",
+        "scripts/harness/exec-fail-open-preservation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 51109,
+      "startedAt": "2026-11-08T23:58:39.282360+00:00",
+      "finishedAt": "2026-11-08T23:58:39.296714+00:00",
+      "elapsedMs": 14.065,
+      "timeoutMs": 3600000,
+      "exitCode": 1,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt4/test-diff.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt4/test-diff.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3"
+    },
+    {
+      "name": "final-scoped-diff",
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "scripts/harness/exec-fail-open-preservation.ts",
+        "scripts/harness/exec-fail-open-preservation.test.ts",
+        ".arc-verify/exec-fail-open/implementation-notes.md",
+        ".arc-verify/exec-fail-open/implementation/task8-attempt4-validator-correction.json"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 51180,
+      "startedAt": "2026-11-08T23:59:39.404903+00:00",
+      "finishedAt": "2026-11-08T23:59:39.418512+00:00",
+      "elapsedMs": 13.344,
+      "timeoutMs": 3600000,
+      "exitCode": 0,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt4/final-scoped-diff.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt4/final-scoped-diff.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "sourceHash": "691e213bc85144f5079f80f39e91100a146013855db66ddb80d9f4dc85aeaaf3"
+    }
+  ],
+  "noIndexExitExplanation": "Exit 1 with empty stdout/stderr means differences under --no-index; scoped tracked diff exits 0. Exact before-source bytes independently match recorded hashes.",
+  "controls": {
+    "integratedPositivePassed": true,
+    "temporaryPositiveBeforeAndAfterPassed": true,
+    "allElevenExistingMutationCasesPreserved": true,
+    "eachExistingMutationRestorationPassed": true,
+    "newMutation": "replace expected/actual environment byte equality with expected/expected",
+    "requiredDiagnostic": "EXEC_FAIL_OPEN: historical helper changed: crates/arc-daemon/tests/managed_exec/fallback_environment.rs",
+    "fixtureSpecificRejectionPassed": true,
+    "exactBufferRestorationPassed": true,
+    "completeEnvironmentFilteringIntroduced": false
+  },
+  "C1": {
+    "disposition": "retained clarification unchanged; fresh docs check passed",
+    "help": "crates/arc-cli/src/main.rs:44",
+    "document": "docs/managed-exec.md:11",
+    "helpBinding": {
+      "path": "crates/arc-cli/src/main.rs",
+      "sha256": "9f2a9a2e635aaab068659a4319886862ca7af09c5f48fe05cdc71bb7b0ce8c03"
+    },
+    "documentBinding": {
+      "path": "docs/managed-exec.md",
+      "sha256": "604d1a670d022d087dbe1bdb2128562eff084080b7d7052c25e136a69f682257"
+    }
+  },
+  "notes": {
+    "path": ".arc-verify/exec-fail-open/implementation-notes.md",
+    "sha256": "b03c61b8a877df711c70589a7607a5266160f2f797f4fa7ec2a5b9ef39b1db5f"
+  },
+  "priorEvidenceFilesUnchangedBeforeAppend": 113,
+  "originalNotesPrefix": {
+    "length": 26988,
+    "sha256": "f2bcc0f64c42242b41c7ca09eeb529fc1d2347e7cc2151f934ea837abd5f900e"
+  },
+  "evidenceInventoryAfter": 114,
+  "finalGatesPassed": false,
+  "fullCollectorsRerun": false,
+  "independentReview": "pending downstream; supplied technical review consumed as assignment input",
+  "nextOwner": "task-4 backend/oma-backend after independent acceptance; then task-6 oma-qa and task-7",
+  "outstanding": [
+    "all six coverage floors",
+    "full no-skip harness",
+    "live verification after final collector",
+    "independent acceptance",
+    "desktop",
+    "native Windows",
+    "vendor hooks",
+    "scheduling"
+  ],
+  "runner": {
+    "path": "target/exec-fail-open/task8-attempt4/check.py",
+    "sha256": "e32c743aa6a30ab9f8495380c5ccd0a63638d465942eb903ff26c6b239912d13"
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "actorId": "technical-director",
+  "skill": "oma-backend",
+  "sourceHash": "3d51ee23c34f602cf6bc5bb4ca6faf7d626aa7f5bcfc7347210e338dd3a0df17",
+  "kind": "failed-coverage-collections",
+  "collections": [
+    {
+      "scope": "collecting-checkout",
+      "checkout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+      "runId": "2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907",
+      "sourceHash": "87d3d251201b17156117af3451678d52c0c46df054a9be814e0cda9a6932dcb1",
+      "inputManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/inputs.json",
+        "sha256": "3f4887e05ef8a60b3acfc410e1121395c039bb75ccd56eb366a5b3f2863d1e51"
+      },
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/receipt.json",
+        "sha256": "176cba61411f54167f5bd7e16011a220ee35cb8073f0442e1a396c4b2f2289ad"
+      },
+      "failedCommands": [
+        {
+          "receipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/06-command.json",
+            "sha256": "99bd2161ed5cec0dea8f15f5b6b0233118f8180ddab71c937c5a9059e2f00e8e"
+          },
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+          "exit": 1,
+          "failedTests": [
+            "fallback_environment::every_outage_preserves_the_complete_native_environment_byte_for_byte"
+          ],
+          "assertions": [
+            "crates/arc-daemon/tests/managed_exec/fallback_environment.rs:63:9:"
+          ],
+          "managedExecResult": [
+            "test result: FAILED. 34 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 60.92s"
+          ]
+        }
+      ],
+      "summaryPresent": false,
+      "lcovPresent": false,
+      "llvmExportPresent": false,
+      "partialProfiles": {
+        "count": 1113,
+        "bytes": 381329376,
+        "localManifest": {
+          "path": "target/exec-fail-open/task4-partial-profiles-2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907.json",
+          "sha256": "15a53b516742111005dc6d1ef63065e5ca56caca861c430e8c55c605b3940a26"
+        },
+        "accountingOrMergeVerified": false
+      },
+      "measurement": "UNAVAILABLE"
+    },
+    {
+      "scope": "collecting-checkout",
+      "checkout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+      "runId": "2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa",
+      "sourceHash": "87d3d251201b17156117af3451678d52c0c46df054a9be814e0cda9a6932dcb1",
+      "inputManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/inputs.json",
+        "sha256": "3f4887e05ef8a60b3acfc410e1121395c039bb75ccd56eb366a5b3f2863d1e51"
+      },
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/receipt.json",
+        "sha256": "2e6f27a4c89a689e9ad7cab3a09df950eaa47757e7f64cebdd62a5341857a6f4"
+      },
+      "failedCommands": [
+        {
+          "receipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/06-command.json",
+            "sha256": "7c7f6d640ade7453ffec203c282b26084af4206bf4bc57dd64f684352ab7ea02"
+          },
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+          "exit": 1,
+          "failedTests": [
+            "fallback_environment::every_outage_preserves_the_complete_native_environment_byte_for_byte"
+          ],
+          "assertions": [
+            "crates/arc-daemon/tests/managed_exec/fallback_environment.rs:63:9:"
+          ],
+          "managedExecResult": [
+            "test result: FAILED. 34 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 60.69s"
+          ]
+        }
+      ],
+      "summaryPresent": false,
+      "lcovPresent": false,
+      "llvmExportPresent": false,
+      "partialProfiles": {
+        "count": 1113,
+        "bytes": 381329376,
+        "localManifest": {
+          "path": "target/exec-fail-open/task4-partial-profiles-2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa.json",
+          "sha256": "e04d17579bb6636203f380d89f576e1a535a49ee7d8bd06340e0c6be7a015311"
+        },
+        "accountingOrMergeVerified": false
+      },
+      "measurement": "UNAVAILABLE"
+    },
+    {
+      "scope": "collecting-checkout",
+      "checkout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+      "runId": "2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b",
+      "sourceHash": "87d3d251201b17156117af3451678d52c0c46df054a9be814e0cda9a6932dcb1",
+      "inputManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/inputs.json",
+        "sha256": "3f4887e05ef8a60b3acfc410e1121395c039bb75ccd56eb366a5b3f2863d1e51"
+      },
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/receipt.json",
+        "sha256": "24c101e69f5b0d297112a7289b749e3e97c7f681eae411b670da1c32e6381f4b"
+      },
+      "failedCommands": [
+        {
+          "receipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/06-command.json",
+            "sha256": "e399672eb022646821ef6da307f40fd7e4677100abec401082f8ca2a3a89bb41"
+          },
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+          "exit": 1,
+          "failedTests": [
+            "fallback_environment::every_outage_preserves_the_complete_native_environment_byte_for_byte"
+          ],
+          "assertions": [
+            "crates/arc-daemon/tests/managed_exec/fallback_environment.rs:63:9:"
+          ],
+          "managedExecResult": [
+            "test result: FAILED. 34 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 61.08s"
+          ]
+        }
+      ],
+      "summaryPresent": false,
+      "lcovPresent": false,
+      "llvmExportPresent": false,
+      "partialProfiles": {
+        "count": 1113,
+        "bytes": 381329376,
+        "localManifest": {
+          "path": "target/exec-fail-open/task4-partial-profiles-2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b.json",
+          "sha256": "bbad5a2ee95d78c02a7c40a9043c837abdd802ac500e6ac55598d00a024f3e3b"
+        },
+        "accountingOrMergeVerified": false
+      },
+      "measurement": "UNAVAILABLE"
+    },
+    {
+      "scope": "collecting-checkout",
+      "checkout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+      "runId": "2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69",
+      "sourceHash": "87d3d251201b17156117af3451678d52c0c46df054a9be814e0cda9a6932dcb1",
+      "inputManifest": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/inputs.json",
+        "sha256": "3f4887e05ef8a60b3acfc410e1121395c039bb75ccd56eb366a5b3f2863d1e51"
+      },
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/receipt.json",
+        "sha256": "3ca6d4657355d3104c5ddbffbf5ff9dfe5f13041f01a662f3da2d80362d5fffd"
+      },
+      "failedCommands": [
+        {
+          "receipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/06-command.json",
+            "sha256": "b4229da25cac2e5aa527a306f9fa69253bf9e5a8c6d2d3c86e9193092b465acd"
+          },
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+          "exit": 1,
+          "failedTests": [
+            "fallback_environment::every_outage_preserves_the_complete_native_environment_byte_for_byte"
+          ],
+          "assertions": [
+            "crates/arc-daemon/tests/managed_exec/fallback_environment.rs:63:9:"
+          ],
+          "managedExecResult": [
+            "test result: FAILED. 34 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 60.75s"
+          ]
+        }
+      ],
+      "summaryPresent": false,
+      "lcovPresent": false,
+      "llvmExportPresent": false,
+      "partialProfiles": {
+        "count": 1113,
+        "bytes": 381329376,
+        "localManifest": {
+          "path": "target/exec-fail-open/task4-partial-profiles-2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69.json",
+          "sha256": "5c96aab1696b2102e27f6b22474a39079cb5a5f91cbfa0eb65bfa4e05cb4ad8f"
+        },
+        "accountingOrMergeVerified": false
+      },
+      "measurement": "UNAVAILABLE"
+    },
+    {
+      "scope": "clean-index-fixture",
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn",
+      "runId": "2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235",
+      "sourceHash": "87d3d251201b17156117af3451678d52c0c46df054a9be814e0cda9a6932dcb1",
+      "inputManifest": {
+        "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/.arc-verify/rust-coverage/baseline/runs/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/inputs.json",
+        "sha256": "3f4887e05ef8a60b3acfc410e1121395c039bb75ccd56eb366a5b3f2863d1e51"
+      },
+      "receipt": {
+        "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/.arc-verify/rust-coverage/baseline/runs/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/receipt.json",
+        "sha256": "7277afa63344921bf2cfcce8da2d85a75103861584849d645d074728c09c3612"
+      },
+      "failedCommands": [
+        {
+          "receipt": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/.arc-verify/rust-coverage/baseline/runs/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/06-command.json",
+            "sha256": "d235a79402c2858c6bee08b9f87d2682e6fae1b333f234b54ba999e5effe9861"
+          },
+          "argv": [
+            "rustup",
+            "run",
+            "1.95.0",
+            "cargo",
+            "llvm-cov",
+            "--workspace",
+            "--all-targets",
+            "--locked",
+            "--offline",
+            "--no-report",
+            "--no-cfg-coverage",
+            "--no-cfg-coverage-nightly"
+          ],
+          "cwd": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn",
+          "exit": 1,
+          "failedTests": [
+            "fallback_environment::every_outage_preserves_the_complete_native_environment_byte_for_byte"
+          ],
+          "assertions": [
+            "crates/arc-daemon/tests/managed_exec/fallback_environment.rs:63:9:"
+          ],
+          "managedExecResult": [
+            "test result: FAILED. 34 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 79.26s"
+          ]
+        }
+      ],
+      "summaryPresent": false,
+      "lcovPresent": false,
+      "llvmExportPresent": false,
+      "partialProfiles": {
+        "count": 1113,
+        "bytes": 381329376,
+        "localManifest": {
+          "path": "target/exec-fail-open/task4-partial-profiles-2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235.json",
+          "sha256": "11c46ac4d3e8d3e299dd4575f69aad768b9a51ec4c417129fc6c8d942799dbc1"
+        },
+        "accountingOrMergeVerified": false
+      },
+      "measurement": "UNAVAILABLE"
+    }
+  ],
+  "cleanCheckoutReceipts": [
+    {
+      "receipt": {
+        "path": "target/evidence-hygiene/clean-checkout/runs/05d12c91-e5d9-4a96-9f2c-00ae491a2bbd/result.json",
+        "sha256": "98929473181d80ec83b88339ab6f39f90cf0ed05c770aa5ef8461db635fef541"
+      },
+      "snapshotTree": "84e38c3df48fc0bdd9a2526da594ffdd1ccd9f72",
+      "sourceHash": "87d3d251201b17156117af3451678d52c0c46df054a9be814e0cda9a6932dcb1",
+      "pass": false,
+      "precollection": {
+        "priorArtifacts": [],
+        "targetAbsent": true,
+        "runsAbsent": true,
+        "runtimeLatestAbsent": true,
+        "sourceIdentityMatches": true
+      },
+      "checkout": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn"
+    }
+  ],
+  "latest": {
+    "path": ".arc-verify/rust-coverage/baseline/latest.json",
+    "sha256": "cbccc7edadd104cc4e3a3e5561c2367b2e97e8490323c7041ffcaed3a9a027de"
+  },
+  "latestData": {
+    "runId": "2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69",
+    "directory": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69",
+    "sourceHash": "87d3d251201b17156117af3451678d52c0c46df054a9be814e0cda9a6932dcb1",
+    "pass": false
+  },
+  "liveEvidenceCommand": {
+    "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-live.json",
+    "sha256": "847095637222e8ea8f8a44fb2b8e1024145e9642555ca9d3dc325df760203081"
+  },
+  "liveAfterFinalCollector": true,
+  "independentlyRecomputed": false,
+  "crateFloorStatus": {
+    "arc-core": "UNAVAILABLE",
+    "arc-detector": "UNAVAILABLE",
+    "arc-storage": "UNAVAILABLE",
+    "arc-ipc": "UNAVAILABLE",
+    "arc-daemon": "UNAVAILABLE",
+    "arc-cli": "UNAVAILABLE"
+  }
+}

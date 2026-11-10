@@ -1,0 +1,182 @@
+{
+  "host": {
+    "recordedAt": "2026-11-08T23:04:55.610036+00:00",
+    "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "architecture": "arm64",
+    "logicalCpuCount": 8,
+    "diskBytes": {
+      "total": 494384795648,
+      "used": 448099995648,
+      "free": 46284800000
+    },
+    "memoryBytes": 17179869184,
+    "rlimits": {
+      "RLIMIT_CPU": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "RLIMIT_AS": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "RLIMIT_NPROC": [
+        2666,
+        4000
+      ],
+      "RLIMIT_NOFILE": [
+        1048576,
+        9223372036854775807
+      ]
+    },
+    "limits": {
+      "maxDurationSec": 86400,
+      "maxParallel": 3,
+      "maxRuns": 200,
+      "maxRetries": 3,
+      "retryDelayMs": 1000,
+      "verificationCheckTimeoutMs": 3600000,
+      "absoluteDeadline": "not supplied; no reset or substitute invented",
+      "actualConcurrency": 1
+    },
+    "actorId": "technical-director",
+    "skill": "oma-architecture"
+  },
+  "actorId": "technical-director",
+  "skill": "oma-architecture",
+  "scope": "actual integrated prerequisite and direct gate attempts; not backend acceptance receipts",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:55.628948+00:00",
+      "ended": "2026-11-08T23:04:55.658583+00:00",
+      "elapsedMs": 29.631332989083603,
+      "pid": 67043,
+      "exit": 0,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:55.658708+00:00",
+      "ended": "2026-11-08T23:04:55.692784+00:00",
+      "elapsedMs": 34.10200000507757,
+      "pid": 67044,
+      "exit": 0,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:55.692924+00:00",
+      "ended": "2026-11-08T23:04:55.700822+00:00",
+      "elapsedMs": 7.933500019134954,
+      "pid": 67045,
+      "exit": 0,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "1.4.4\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:55.700978+00:00",
+      "ended": "2026-11-08T23:04:55.736897+00:00",
+      "elapsedMs": 35.95170902553946,
+      "pid": 67046,
+      "exit": 0,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "cargo-llvm-cov 0.6.21\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustup",
+        "component",
+        "list",
+        "--installed"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:55.737037+00:00",
+      "ended": "2026-11-08T23:04:55.766799+00:00",
+      "elapsedMs": 29.792708985041827,
+      "pid": 67047,
+      "exit": 0,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nllvm-tools-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-only"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:55.766931+00:00",
+      "ended": "2026-11-08T23:04:55.781700+00:00",
+      "elapsedMs": 14.806582999881357,
+      "pid": 67048,
+      "exit": 0,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:55.781825+00:00",
+      "ended": "2026-11-08T23:04:56.184362+00:00",
+      "elapsedMs": 402.5784170080442,
+      "pid": 67049,
+      "exit": 0,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:56.184503+00:00",
+      "ended": "2026-11-08T23:04:56.368203+00:00",
+      "elapsedMs": 183.74200002290308,
+      "pid": 67052,
+      "exit": 101,
+      "timeoutAllowanceMs": 3600000,
+      "stdout": "",
+      "stderr": "error: failed to open: /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/target/debug/.cargo-lock\n\nCaused by:\n  Operation not permitted (os error 1)\n"
+    }
+  ]
+}

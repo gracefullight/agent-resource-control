@@ -11,47 +11,216 @@ use std::{
     time::{Duration, Instant},
 };
 
+/// Errors are local decisions, never peer-provided diagnostic text.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub(crate) enum Failure {
+    Unavailable,
+    Uncertain,
+    Busy,
+    Rejected,
+    Protocol,
+    InvalidReply,
+    InvalidEndpoint,
+    Local,
+    Cancelled,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum ConnectFailure {
+    Endpoint,
+    InvalidEndpoint,
+    Local,
+}
+
+// The same classifier handles direct connect and deferred SO_ERROR. Only
+// recognized endpoint failures permit fallback; unknown errors stay local.
+// Descriptor creation and setup always use local_failure instead.
+fn endpoint_failure(error: io::Error) -> ConnectFailure {
+    if matches!(
+        error.raw_os_error(),
+        Some(libc::ENOTDIR | libc::ENOTSOCK | libc::ELOOP | libc::ENAMETOOLONG | libc::EPROTOTYPE)
+    ) {
+        return ConnectFailure::InvalidEndpoint;
+    }
+    if matches!(
+        error.raw_os_error(),
+        Some(
+            libc::EACCES
+                | libc::EPERM
+                | libc::ENOENT
+                | libc::ECONNREFUSED
+                | libc::ETIMEDOUT
+                | libc::EHOSTUNREACH
+                | libc::EHOSTDOWN
+                | libc::ENETUNREACH
+                | libc::ENETDOWN
+                | libc::ENETRESET
+                | libc::ECONNRESET
+                | libc::ECONNABORTED
+                | libc::EPIPE
+                | libc::ENOTCONN
+                | libc::EAGAIN
+                | libc::EINTR
+                | libc::EINPROGRESS
+                | libc::EALREADY
+        )
+    ) {
+        ConnectFailure::Endpoint
+    } else {
+        ConnectFailure::Local
+    }
+}
+
+fn local_failure(_: io::Error) -> ConnectFailure {
+    ConnectFailure::Local
+}
+
+trait TrackedStream: Read + Write {
+    fn sent(&self) -> bool;
+}
+
+// Read-only status and post-spawn metadata retain their existing bounded API.
 pub(crate) fn call(socket: &Path, operation: &str, payload: Value) -> Result<Value, ()> {
-    let deadline = Instant::now() + Duration::from_secs(2);
+    call_until(
+        socket,
+        operation,
+        payload,
+        Instant::now() + Duration::from_secs(2),
+        &|| false,
+    )
+    .map_err(|_| ())
+}
+pub(crate) fn call_until(
+    socket: &Path,
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+) -> Result<Value, Failure> {
+    call_with(
+        operation,
+        payload,
+        deadline,
+        cancelled,
+        |attempt_deadline| DeadlineStream::connect(socket, attempt_deadline, cancelled),
+    )
+}
+
+fn call_with<S: TrackedStream>(
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    mut connect: impl FnMut(Instant) -> Result<S, ConnectFailure>,
+) -> Result<Value, Failure> {
     let mut request = Request::new(super::super::request_id(), operation);
     request.payload = payload;
+    let mut uncertain = false;
+    let mut busy = false;
     for _ in 0..3 {
+        if cancelled() {
+            return Err(Failure::Cancelled);
+        }
         if Instant::now() >= deadline {
             break;
         }
         let attempt_deadline = deadline.min(Instant::now() + Duration::from_millis(600));
-        if let Ok(mut stream) = DeadlineStream::connect(socket, attempt_deadline) {
-            if let Ok(response) = arc_ipc::exchange(&mut stream, &request) {
-                if response.protocol_version != PROTOCOL_VERSION
-                    || response.request_id != request.request_id
-                {
-                    return Err(());
+        let mut stream = match connect(attempt_deadline) {
+            Ok(stream) => stream,
+            Err(error) => {
+                if cancelled() {
+                    return Err(Failure::Cancelled);
                 }
-                if response.status == STATUS_OK && response.error.is_none() {
-                    return response.result.ok_or(());
+                match error {
+                    ConnectFailure::Local => return Err(Failure::Local),
+                    ConnectFailure::InvalidEndpoint => {
+                        return Err(if uncertain {
+                            Failure::Uncertain
+                        } else {
+                            Failure::InvalidEndpoint
+                        });
+                    }
+                    ConnectFailure::Endpoint => (),
                 }
-                if response
-                    .error
-                    .as_ref()
-                    .is_none_or(|e| e.code != arc_ipc::ERROR_DB_BUSY)
-                {
-                    return Err(());
+                continue;
+            }
+        };
+        let response = arc_ipc::exchange(&mut stream, &request);
+        uncertain |= stream.sent();
+        if cancelled() {
+            return Err(Failure::Cancelled);
+        }
+        match response {
+            Ok(response) => {
+                if response.protocol_version != PROTOCOL_VERSION {
+                    return Err(Failure::Protocol);
+                }
+                if response.request_id != request.request_id {
+                    return Err(Failure::InvalidReply);
+                }
+                match (response.status.as_str(), response.result, response.error) {
+                    (STATUS_OK, Some(value), None) => return Ok(value),
+                    (arc_ipc::STATUS_ERROR, None, Some(e)) if e.code == arc_ipc::ERROR_DB_BUSY => {
+                        uncertain = true;
+                        busy = true;
+                    }
+                    (arc_ipc::STATUS_ERROR, None, Some(e)) if !e.code.is_empty() => {
+                        return Err(if e.code == arc_ipc::ERROR_PROTOCOL_INCOMPATIBLE {
+                            Failure::Protocol
+                        } else {
+                            Failure::Rejected
+                        });
+                    }
+                    _ => return Err(Failure::InvalidReply),
                 }
             }
+            Err(
+                arc_ipc::IpcError::Json(_)
+                | arc_ipc::IpcError::NotAnObject
+                | arc_ipc::IpcError::Frame(
+                    arc_ipc::FrameError::EmptyFrame | arc_ipc::FrameError::TooLarge { .. },
+                ),
+            ) => {
+                return Err(Failure::InvalidReply);
+            }
+            Err(_) => (), // timeout, reset, EOF and partial disconnected frames
         }
     }
-    Err(())
+    if cancelled() {
+        return Err(Failure::Cancelled);
+    }
+    Err(if busy {
+        Failure::Busy
+    } else if uncertain {
+        Failure::Uncertain
+    } else {
+        Failure::Unavailable
+    })
 }
-struct DeadlineStream {
+struct DeadlineStream<'a> {
     stream: UnixStream,
     deadline: Instant,
+    cancelled: &'a dyn Fn() -> bool,
+    sent: bool,
 }
-impl DeadlineStream {
-    fn connect(path: &Path, deadline: Instant) -> io::Result<Self> {
+impl<'a> DeadlineStream<'a> {
+    fn connect(
+        path: &Path,
+        deadline: Instant,
+        cancelled: &'a dyn Fn() -> bool,
+    ) -> Result<Self, ConnectFailure> {
+        Self::connect_with_auth(path, deadline, cancelled, peer::ensure_same_user)
+    }
+    fn connect_with_auth(
+        path: &Path,
+        deadline: Instant,
+        cancelled: &'a dyn Fn() -> bool,
+        authenticate: impl FnOnce(&UnixStream) -> io::Result<()>,
+    ) -> Result<Self, ConnectFailure> {
         let mut address: libc::sockaddr_un = unsafe { std::mem::zeroed() };
         let bytes = path.as_os_str().as_bytes();
         if bytes.len() >= address.sun_path.len() || bytes.contains(&0) {
-            return Err(io::ErrorKind::InvalidInput.into());
+            return Err(ConnectFailure::InvalidEndpoint);
         }
         address.sun_family = libc::AF_UNIX as _;
         for (to, from) in address.sun_path.iter_mut().zip(bytes) {
@@ -66,33 +235,59 @@ impl DeadlineStream {
         // SAFETY: adopt only a new live descriptor, before any fallible setup.
         let fd = unsafe { libc::socket(libc::AF_UNIX, libc::SOCK_STREAM, 0) };
         if fd < 0 {
-            return Err(io::Error::last_os_error());
+            return Err(ConnectFailure::Local);
         }
         let stream = unsafe { UnixStream::from_raw_fd(fd) };
-        stream.set_nonblocking(true)?;
+        stream.set_nonblocking(true).map_err(local_failure)?;
         if unsafe { libc::fcntl(fd, libc::F_SETFD, libc::FD_CLOEXEC) } < 0 {
-            return Err(io::Error::last_os_error());
+            return Err(ConnectFailure::Local);
         }
         let connected =
             unsafe { libc::connect(fd, (&address as *const libc::sockaddr_un).cast(), length) };
         if connected < 0 {
             let error = io::Error::last_os_error();
             if error.raw_os_error() != Some(libc::EINPROGRESS) {
-                return Err(error);
+                return Err(endpoint_failure(error));
             }
         }
-        let result = Self { stream, deadline };
+        let result = Self {
+            stream,
+            deadline,
+            cancelled,
+            sent: false,
+        };
         if connected < 0 {
-            result.ready(libc::POLLOUT)?;
+            result.ready(libc::POLLOUT).map_err(|error| {
+                if matches!(
+                    error.kind(),
+                    io::ErrorKind::TimedOut | io::ErrorKind::ConnectionAborted
+                ) {
+                    ConnectFailure::Endpoint
+                } else {
+                    ConnectFailure::Local
+                }
+            })?;
         }
-        if let Some(error) = result.stream.take_error()? {
-            return Err(error);
+        if let Some(error) = result.stream.take_error().map_err(local_failure)? {
+            return Err(endpoint_failure(error));
         }
-        result.stream.peer_addr()?;
+        result.stream.peer_addr().map_err(|error| {
+            if error.kind() == io::ErrorKind::NotConnected {
+                ConnectFailure::Endpoint
+            } else {
+                ConnectFailure::Local
+            }
+        })?;
+        // The daemon also checks its accepted peer. Check the server before
+        // sending any lifecycle bytes or accepting any response as definitive.
+        authenticate(&result.stream).map_err(|_| ConnectFailure::Endpoint)?;
         Ok(result)
     }
     fn ready(&self, events: i16) -> io::Result<()> {
         loop {
+            if (self.cancelled)() {
+                return Err(io::ErrorKind::ConnectionAborted.into());
+            }
             let remaining = self.deadline.saturating_duration_since(Instant::now());
             if remaining.is_zero() {
                 return Err(io::ErrorKind::TimedOut.into());
@@ -103,7 +298,8 @@ impl DeadlineStream {
                 revents: 0,
             };
             // SAFETY: poll receives one live descriptor and valid writable storage.
-            let result = unsafe { libc::poll(&mut fd, 1, remaining.as_millis().max(1) as i32) };
+            let result =
+                unsafe { libc::poll(&mut fd, 1, remaining.as_millis().clamp(1, 25) as i32) };
             if result > 0 {
                 return Ok(());
             }
@@ -113,7 +309,12 @@ impl DeadlineStream {
         }
     }
 }
-impl Read for DeadlineStream {
+impl TrackedStream for DeadlineStream<'_> {
+    fn sent(&self) -> bool {
+        self.sent
+    }
+}
+impl Read for DeadlineStream<'_> {
     fn read(&mut self, bytes: &mut [u8]) -> io::Result<usize> {
         loop {
             self.ready(libc::POLLIN)?;
@@ -128,7 +329,7 @@ impl Read for DeadlineStream {
         }
     }
 }
-impl Write for DeadlineStream {
+impl Write for DeadlineStream<'_> {
     fn write(&mut self, bytes: &[u8]) -> io::Result<usize> {
         loop {
             self.ready(libc::POLLOUT)?;
@@ -138,7 +339,12 @@ impl Write for DeadlineStream {
                         e.kind(),
                         io::ErrorKind::WouldBlock | io::ErrorKind::Interrupted
                     ) => {}
-                other => return other,
+                other => {
+                    if matches!(other, Ok(n) if n > 0) {
+                        self.sent = true;
+                    }
+                    return other;
+                }
             }
         }
     }
@@ -146,3 +352,15 @@ impl Write for DeadlineStream {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod access_tests;
+#[cfg(test)]
+mod historical_integrity;
+#[cfg(test)]
+mod historical_tests;
+#[cfg(test)]
+mod live_tests;
+mod peer;
+#[cfg(test)]
+mod repair_tests;

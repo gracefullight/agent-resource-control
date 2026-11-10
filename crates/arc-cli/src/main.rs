@@ -41,6 +41,8 @@ struct Cli {
 enum Command {
     /// Run a program and its arguments directly.
     #[command(override_usage = "arcctl exec -- <PROGRAM> [ARG...]")]
+    #[command(long_about = "Run a program and its arguments directly.
+Fallback applies to tracking outages. Invalid protocol replies and local preparation failures stop execution before a child starts.")]
     #[command(after_help = "Examples:
   arcctl exec -- cargo test
   arcctl exec -- printf '%s\\n' 'two words'
@@ -48,11 +50,16 @@ enum Command {
 
 Your shell handles quoting before ARC receives arguments.
 ARC does not interpret pipes, redirections, substitutions or shell operators.
-Start arc-daemon before managed execution.
+If the daemon is unavailable or tracking is unconfirmed due to an outage or exhausted DB_BUSY retries, ARC still attempts the command once.
+Registration, claim and retries share one pre-spawn metadata budget of at most two seconds.
+Cancellation, invalid arguments, invalid protocol replies, local preparation failures and explicit authenticated rejection do not start a child.
+Tracking diagnostics go to stderr; the child keeps its native streams, exit status and terminal behavior.
 Stopping the daemon does not stop the running child.
-Use arcctl job status to find lifecycle IDs.
-Use arcctl job status <JOB_ID> to inspect an existing job without launching it.
-Lifecycle tracking is available; Phase 1 scheduling is not implemented.")]
+Use arcctl job status to list last-known lifecycle records.
+Use arcctl job status <JOB_ID> to observe a record after daemon recovery; this may update the lifecycle record.
+A reference does not confirm a saved record. A missing record does not show whether the command ran.
+Daemon recovery never replays the command. Do not launch another copy to recover tracking.
+Desktop integration, native Windows acceptance, vendor hooks and scheduling remain outstanding.")]
     Exec {
         #[arg(required = true, num_args = 1.., last = true, value_name = "PROGRAM")]
         argv: Vec<std::ffi::OsString>,

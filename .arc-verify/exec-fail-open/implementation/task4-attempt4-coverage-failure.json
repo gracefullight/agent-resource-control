@@ -1,0 +1,26 @@
+{
+  "actorId": "technical-director",
+  "sourceHash": "3d51ee23c34f602cf6bc5bb4ca6faf7d626aa7f5bcfc7347210e338dd3a0df17",
+  "coverageRun": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907",
+  "failedCommand": {
+    "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/06-command.json",
+    "sha256": "99bd2161ed5cec0dea8f15f5b6b0233118f8180ddab71c937c5a9059e2f00e8e"
+  },
+  "failedTest": "fallback_environment::every_outage_preserves_the_complete_native_environment_byte_for_byte",
+  "assertionPath": "crates/arc-daemon/tests/managed_exec/fallback_environment.rs:63",
+  "outcome": "34 passed, 1 failed, 0 ignored in managed_exec instrumented harness; collection aborted before export",
+  "directVsWrappedEnvironmentDifferences": [
+    {
+      "key": "__LLVM_PROFILE_RT_INIT_ONCE",
+      "directPresent": false,
+      "wrappedPresent": true,
+      "directLength": null,
+      "wrappedLength": 27,
+      "wrappedSha256": "57062764bde19e854395155b534e823c38dc6fc2cf3cc9cdc3ef4e7537fc56bf"
+    }
+  ],
+  "verifiedObservation": "Only __LLVM_PROFILE_RT_INIT_ONCE differs; no values from the host environment were read. The test explicitly env_clear()s a synthetic environment and compares native Python with instrumented arcctl launching Python.",
+  "interpretation": "LLVM profiling runtime adds its initialization marker before the wrapped command. This is an instrumentation/test boundary conflict, not proof of an ordinary execution environment regression. Current required collection nevertheless fails.",
+  "ownership": "Backend/task-3 owns implementation/tests; no repair or assertion change made by Technical Director. Chief must coordinate recovery within original goal and unchanged gates. Backend collector identity remains required; both dispatch attempts failed as retained.",
+  "coverage": "UNAVAILABLE for all six crates; no valid current LCOV/LLVM export or profile-floor recomputation; no below-80 count invented."
+}

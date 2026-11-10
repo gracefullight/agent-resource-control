@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "evidenceKind": "invocation-scaling",
-  "runId": "b4784ac8-3f46-4997-a2a8-54f20b0481f4",
+  "runId": "5a256a17-ac25-4e1b-9c9e-17c0b821bda0",
   "acceptedHead": "f85ae0430038cc3d7a6125f650872dbfce6b5529",
   "acceptedTree": "b7e6c535d7e0b963e6af9bc15d7645ad0f7cded2",
   "oracleSha256": "93140173df8b8bd28b067aff68301134b0398b643240b0b1e6a13da4487ebe33",
   "candidateScriptPath": "scripts/harness/validate.sh",
   "candidateScriptSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
   "integratedSourceIdentity": {
-    "head": "19d7a507044cbf83918f58cd41056905c275c8d4",
-    "sha256": "d19e6601e51da06559fb425b11f485112de500629e674add388d90580ef108d4",
+    "head": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+    "sha256": "becb23046f98e4c91d3ae93eb8afd834a6bcac5c0fc5786e6ca0b926e305e688",
     "entries": [
       {
         "path": "scripts/coverage/acceptance.ts",
@@ -152,6 +152,176 @@
         "sha256": "132f56350764dbf9c0de247b03c3fa7f6c313e742c0a8ffbf637a955e659aac4"
       },
       {
+        "path": "scripts/harness/exec-fail-open-assemble.ts",
+        "mode": 420,
+        "sha256": "6ceb1cdf015112af8db02241ecf9d6b6cf9d9708894f9c4ba950c79b9b5139e6"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-collection.ts",
+        "mode": 420,
+        "sha256": "218773e9fa512d6d0836d05f8c64800542b3f6abd5d843de454c88b7a165c8a5"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-compact-archive-fixture.ts",
+        "mode": 420,
+        "sha256": "684e0a68877615a6a9df450fc8fb1155f7cff65b86615d8a2caa6a0ea4f4b5ff"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-compact-fixture.ts",
+        "mode": 420,
+        "sha256": "36f3789bf622b264835ae44167eb4f74e1beb16ba861fb16c501051b40210a97"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-compact-flow.test.ts",
+        "mode": 420,
+        "sha256": "0100e15acf62f51fe3b361dcbbbbf93a92e153b78962bc798a591d9120e5318a"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-compact-historical-fixture.ts",
+        "mode": 420,
+        "sha256": "3e200b840307e56e9609a32303a187198ad4937fae671457a3085da7e819364c"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-compact.test.ts",
+        "mode": 420,
+        "sha256": "550abee9cebd2d8bd44bd3d3f96c477eb10e5e8f528c28bc2cca081881b02960"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-compact.ts",
+        "mode": 420,
+        "sha256": "2506da9d9e0e98786011a22d93c89ff44cd070d2eb16755e7ac23eca519ddf21"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-container.ts",
+        "mode": 420,
+        "sha256": "55f5c561d07760669465b4375444e18667f6e5dde957153c785c669ebb107ae9"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-coverage.ts",
+        "mode": 420,
+        "sha256": "9c106b7f31ab77d903187d000086bd3fe7d469b2ac46fcf029ff560aba44e6dc"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-cross-workspace.test.ts",
+        "mode": 420,
+        "sha256": "08960e1251a08ca38b7c6f8902aaa3ff907228144cc2bcbb24fa570b056d8c73"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-docs.test.ts",
+        "mode": 420,
+        "sha256": "1aca30a037970c8be9d5e0f0457b739c193281b2e499d140b0efaf304e70cf6f"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-docs.ts",
+        "mode": 420,
+        "sha256": "9c378b9652fef20e749c11f010e57e2f242407ac712888f3ae1982ee35916e10"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-evidence.test.ts",
+        "mode": 420,
+        "sha256": "e80d7fb4cfc6fc02799e4a7a2abfc65d5215909165aeeba1e0b3225fa5f9b8de"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-evidence.ts",
+        "mode": 420,
+        "sha256": "f2636e60d7394b3501aedea61f0858bdb5afd2e73c6fe8830cfc4b920febc3f9"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-fixture-recipe.ts",
+        "mode": 420,
+        "sha256": "ef74d0cb89f644bc6d6ae8cf29ae7d0fcd35515547e8b858a3b93b9b9403ef47"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-fixture.ts",
+        "mode": 420,
+        "sha256": "400e5c07dbc6b1b6af28d42fa62ff2bb5dd3510a5aba454a52af3dc8cffe3766"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-gates.test.ts",
+        "mode": 420,
+        "sha256": "285b801002f7353e3c02b3c8945ee7c38029f9920f5aa839a7d81d0efc97ef3f"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-gates.ts",
+        "mode": 420,
+        "sha256": "efc6940cafa655c0e866860b2c7011a5a5c4d4057a044452acef77cfbe395750"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-graph.ts",
+        "mode": 420,
+        "sha256": "686646f98da85c6f6ab849948928f7022b9f654772db8413073fa4f1384c4703"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-history.ts",
+        "mode": 420,
+        "sha256": "7b0c1cf9cdbe5859fd1835715a84f2d479819f7dc57859e29a8a2eebcca0f868"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-inputs.ts",
+        "mode": 420,
+        "sha256": "39b11148697fad3f74ca0283cec32cff0a082f2e7a800a1e48f906c727e431be"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-inventory.ts",
+        "mode": 420,
+        "sha256": "850b09a8344eddb1ae88cdc631901169531679eec78c3baa06e233afeae508ea"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-native-extra.test.ts",
+        "mode": 420,
+        "sha256": "fa46ee051edce290cdb9335d1f3960d03568af688093adf3904d251bebaba7a9"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-native-extra.ts",
+        "mode": 420,
+        "sha256": "6f46a9d88d3936fbe36eb5bc755050a57da38e8b3e870c7e867d21490bbfa694"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-native.ts",
+        "mode": 420,
+        "sha256": "32984a10708e8aaa96da4c393f6aee0a86fd521451bacaca4dbef7adea7a9daf"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-preservation.test.ts",
+        "mode": 420,
+        "sha256": "f9ffc317d4e3f276b41a907418cadf83e4082fe6289f8a9fc5d4a668c6c2af14"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-preservation.ts",
+        "mode": 420,
+        "sha256": "50d55b593d341b6aa82764aab63225ef472e6496048ef4a1a3692521dfacfb21"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-reads.ts",
+        "mode": 420,
+        "sha256": "eff4cc4af024b2f2321027e9565fa256e355b171a466b080f0a3ab00722302c8"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-receipts.test.ts",
+        "mode": 420,
+        "sha256": "27c55e724809e03fac732a71fd934200976b2667dc8db18531352bb1515c3cd7"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-receipts.ts",
+        "mode": 420,
+        "sha256": "4c91573842927cf1ad14225ebae304a19858cf6d50f8b37cf24d31ec930dada5"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-recipe.test.ts",
+        "mode": 420,
+        "sha256": "834be9e1b667897c30bf465e2fd22c6a0c5f37458d068a5f40c21f82e41a78af"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-recipe.ts",
+        "mode": 420,
+        "sha256": "d39ae3a938c5efdb65e9f2886a1b2edf60e796ac4a88e8ceb95051435e88e15e"
+      },
+      {
+        "path": "scripts/harness/exec-fail-open-traversal.ts",
+        "mode": 420,
+        "sha256": "42ccba51be85fdc21a3fc1b50ab0aabd661692ed6507286a18ca2705fdaa1a28"
+      },
+      {
         "path": "scripts/harness/fixtures.ts",
         "mode": 420,
         "sha256": "7659bf31f6a1510f35a4af67985645cfc444211972b0c6d94fe27aa7195df31a"
@@ -214,7 +384,7 @@
     ]
   },
   "sourceScope": "current working harness and coverage sources",
-  "sourceRevision": "19d7a507044cbf83918f58cd41056905c275c8d4",
+  "sourceRevision": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
   "host": {
     "platform": "darwin",
     "release": "27.2.0",
@@ -272,15 +442,15 @@
       "count": 2,
       "original": 38,
       "candidate": 20,
-      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-91yQjb",
-      "traceSha256": "dabe9f837af888ab253ebe33785f00458b50c90d7147de35a8f5ffb9025d0aac"
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-MjlGok",
+      "traceSha256": "3beaa6ee7b0c1bff2eb2a137cb4f6e7899e8bbf74ba4de661bd23c95e66e6df0"
     },
     {
       "count": 80,
       "original": 1520,
       "candidate": 20,
-      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-FSa55O",
-      "traceSha256": "9e35365725cc53e65f6fafeea2cab869b329a9cf2aa3f88110965e1f29c5a46e"
+      "diagnostics": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-harness-fixture-0NxcYo",
+      "traceSha256": "fbbe5aaeb894c2cded755e59032db76ba40d1eab6fd1310d95ecf869aa3673ae"
     }
   ]
 }

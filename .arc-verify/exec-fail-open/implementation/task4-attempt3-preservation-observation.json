@@ -1,0 +1,41 @@
+{
+  "scope": "read-only inventory; not executable preservation acceptance",
+  "checks": {
+    "actor": {
+      "head": "2b07c2b4b81236f69c1b5ad52204cbfb17892a5f",
+      "tree": "385bb15ac5db16de9a48728285745299627c9b44",
+      "migration": {
+        "worktree": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "index": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "baseline": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "indexEntry": "100644 8d8e5d5eb4ea9706119c054dc77cdacbdb3725e8 0\tcrates/arc-storage/migrations/0001_phase0.sql"
+      },
+      "stagedPaths": [],
+      "trackedEvidenceCount": 76,
+      "presentEvidenceCount": 79,
+      "sourceLineInventory": {
+        "count": 188,
+        "max": 474,
+        "over500": []
+      }
+    },
+    "integrated": {
+      "head": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+      "tree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+      "migration": {
+        "worktree": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "index": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "baseline": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "indexEntry": "100644 8d8e5d5eb4ea9706119c054dc77cdacbdb3725e8 0\tcrates/arc-storage/migrations/0001_phase0.sql"
+      },
+      "stagedPaths": [],
+      "trackedEvidenceCount": 0,
+      "presentEvidenceCount": 76,
+      "sourceLineInventory": {
+        "count": 188,
+        "max": 474,
+        "over500": []
+      }
+    }
+  }
+}

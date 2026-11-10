@@ -1,0 +1,136 @@
+{
+  "actorId": "technical-director",
+  "skill": "oma-architecture",
+  "taskId": "task-4",
+  "attempt": 2,
+  "recordedAt": "2026-11-08T23:02:21.125200+00:00",
+  "scope": "delivery integrity and blocker diagnostics only; no acceptance suite pass",
+  "checks": [
+    {
+      "argv": [
+        "bun",
+        "-e",
+        "import {validateGates} from \"./scripts/harness/exec-fail-open-gates.ts\"; validateGates(process.cwd());"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:02:20.792006+00:00",
+      "ended": "2026-11-08T23:02:21.031272+00:00",
+      "elapsedMs": 239.0255829959642,
+      "exit": 1,
+      "stdout": "",
+      "stderr": " 8 | import { baseline, baselineTree } from \"./exec-fail-open-history\";\n 9 | export { baseline, baselineTree, hash };\n10 | export const directory = \".arc-verify/exec-fail-open\";\n11 | export const root = resolve(import.meta.dir, \"../..\");\n12 | export const equal = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);\n13 | export function requireValue(ok: unknown, message: string): asserts ok { if (!ok) throw Error(`EXEC_FAIL_OPEN: ${message}`); }\n                                                                                             ^\nerror: EXEC_FAIL_OPEN: receipt actor mismatch\n      at requireValue (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2/scripts/harness/exec-fail-open-inputs.ts:13:89)\n      at validateCommon (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2/scripts/harness/exec-fail-open-inputs.ts:72:3)\n      at validatePredecessors (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2/scripts/harness/exec-fail-open-gates.ts:21:10)\n      at predecessorReads (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2/scripts/harness/exec-fail-open-reads.ts:7:16)\n      at /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2/[eval]:1:74\n\nBun v1.4.4 (macOS arm64)\n",
+      "interpretation": "Expected diagnostic on actual blocked receipt; confirms Actor/interface conflict, not a passing gate."
+    },
+    {
+      "check": "attempt-1 report/gate preservation",
+      "outcome": "byte-identical to attempt-2 initial HEAD c72beda4a3e04c69919fa7725cda4786fa77fd6e"
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        ".arc-verify/exec-fail-open"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:02:21.060475+00:00",
+      "ended": "2026-11-08T23:02:21.074926+00:00",
+      "elapsedMs": 14.454375021159649,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "bun",
+        "-e",
+        "import {currentInputs} from \"./scripts/harness/exec-fail-open-inputs.ts\"; console.log(currentInputs(process.cwd()).sha256)"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:02:21.074964+00:00",
+      "ended": "2026-11-08T23:02:21.125138+00:00",
+      "elapsedMs": 50.21354099153541,
+      "exit": 0,
+      "stdout": "3d51ee23c34f602cf6bc5bb4ca6faf7d626aa7f5bcfc7347210e338dd3a0df17\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "add",
+        "--",
+        ".arc-verify/exec-fail-open/implementation/gates.json",
+        ".arc-verify/exec-fail-open/implementation/task4-attempt1-gates.json",
+        ".arc-verify/exec-fail-open/implementation/task4-attempt1-technical-verification.md",
+        ".arc-verify/exec-fail-open/implementation/task4-attempt2-preflight.json",
+        ".arc-verify/exec-fail-open/implementation/task4-attempt2-source.json",
+        ".arc-verify/exec-fail-open/implementation/task4-attempt2-validation.json",
+        ".arc-verify/exec-fail-open/technical-verification.md"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:02:21.126443+00:00",
+      "ended": "2026-11-08T23:02:21.150228+00:00",
+      "elapsedMs": 23.79520799149759,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "ls-files",
+        "-z",
+        "--",
+        ".arc-verify/exec-fail-open"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:02:21.150256+00:00",
+      "ended": "2026-11-08T23:02:21.161201+00:00",
+      "elapsedMs": 10.972625022986904,
+      "exit": 0,
+      "stdout": ".arc-verify/exec-fail-open/claims-review.md\u0000.arc-verify/exec-fail-open/contract.json\u0000.arc-verify/exec-fail-open/contract.md\u0000.arc-verify/exec-fail-open/design-contract.md\u0000.arc-verify/exec-fail-open/implementation-notes.md\u0000.arc-verify/exec-fail-open/implementation/commands/delivery-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/delivery-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/delivery-docs-preservation.json\u0000.arc-verify/exec-fail-open/implementation/commands/delivery-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/delivery-validator-regressions.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-cli-busy.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-cli-final.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-clippy-busy.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-docs-preservation-busy.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-docs-preservation.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-managed-busy.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/focused-validator-regressions.json\u0000.arc-verify/exec-fail-open/implementation/commands/handoff-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/handoff-managed-events.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair2-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair2-validator-regressions.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair3-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair3-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair3-validator-regressions.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair4-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair4-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair4-docs-preservation.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair4-fmt.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair4-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair4-validator-regressions.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair5-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair5-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair5-docs-preservation.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair5-fmt.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair5-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair5-validator-regressions.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair6-green.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair6-red.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair7-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair7-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair7-docs-preservation.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair7-fmt.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair7-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair8-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair8-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair8-docs-preservation.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair8-fmt.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair8-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/repair8-validator-regressions.json\u0000.arc-verify/exec-fail-open/implementation/commands/stable-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/stable-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/stable-docs-preservation.json\u0000.arc-verify/exec-fail-open/implementation/commands/stable-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/task3-cli.json\u0000.arc-verify/exec-fail-open/implementation/commands/task3-managed.json\u0000.arc-verify/exec-fail-open/implementation/commands/task4-clippy.json\u0000.arc-verify/exec-fail-open/implementation/commands/task4-fmt.json\u0000.arc-verify/exec-fail-open/implementation/commands/task4-workspace.json\u0000.arc-verify/exec-fail-open/implementation/gates.json\u0000.arc-verify/exec-fail-open/implementation/repair-native-timings.json\u0000.arc-verify/exec-fail-open/implementation/repair5-native-timings.json\u0000.arc-verify/exec-fail-open/implementation/repair7-native-timings.json\u0000.arc-verify/exec-fail-open/implementation/repair8-native-timings.json\u0000.arc-verify/exec-fail-open/implementation/task4-attempt1-gates.json\u0000.arc-verify/exec-fail-open/implementation/task4-attempt1-technical-verification.md\u0000.arc-verify/exec-fail-open/implementation/task4-attempt2-preflight.json\u0000.arc-verify/exec-fail-open/implementation/task4-attempt2-source.json\u0000.arc-verify/exec-fail-open/implementation/task4-attempt2-validation.json\u0000.arc-verify/exec-fail-open/implementation/task4-native-isolated.json\u0000.arc-verify/exec-fail-open/implementation/task4-preflight.json\u0000.arc-verify/exec-fail-open/implementation/task4-source.json\u0000.arc-verify/exec-fail-open/technical-verification.md\u0000",
+      "stderr": ""
+    }
+  ],
+  "sourceUnchangedSinceFreshObservation": true,
+  "productFilesChanged": [],
+  "deliveredPaths": [
+    ".arc-verify/exec-fail-open/implementation/gates.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt1-gates.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt1-technical-verification.md",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt2-preflight.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt2-source.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt2-validation.json",
+    ".arc-verify/exec-fail-open/technical-verification.md"
+  ],
+  "artifacts": {
+    ".arc-verify/exec-fail-open/implementation/gates.json": {
+      "sha256": "f723227be6a384490876320fe0e1007771fe57b474934e97fcb4f2298e5ae5a9",
+      "bytes": 37602
+    },
+    ".arc-verify/exec-fail-open/implementation/task4-attempt1-gates.json": {
+      "sha256": "1a9924770c124c4c426adc36a83a735062838f113b657868495394b93fe7a10a",
+      "bytes": 41071
+    },
+    ".arc-verify/exec-fail-open/implementation/task4-attempt1-technical-verification.md": {
+      "sha256": "63782211bfb4ecaedaa4c1a849cd88cd3a84be54df528e46502b2a8d06006a88",
+      "bytes": 8652
+    },
+    ".arc-verify/exec-fail-open/implementation/task4-attempt2-preflight.json": {
+      "sha256": "bf8d851e7e7bb35ae68061cd50c18afb882799d67e200fc0c5ab03180d770009",
+      "bytes": 17318
+    },
+    ".arc-verify/exec-fail-open/implementation/task4-attempt2-source.json": {
+      "sha256": "6e603acbd3595fd4dbb18485f9a417d363acd77338973b76f9d98ef89a9d5c26",
+      "bytes": 73708
+    },
+    ".arc-verify/exec-fail-open/technical-verification.md": {
+      "sha256": "12848bee10e8451af755ad4a2a853a5628a65604e31874263b390950a7c0fc12",
+      "bytes": 8100
+    }
+  },
+  "trackedEvidenceFiles": 76,
+  "presentEvidenceFiles": 76,
+  "stagedChangesMatchOwnership": true
+}

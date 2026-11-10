@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "baselineHead": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+  "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+  "sourceHash": "d972e5fea9b335296a3eb9eac3cb935e6ed927eb5d52b3e2f766f85072fafcb5",
+  "observedGit": {
+    "head": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+    "tree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+    "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+    "diffSha256": "c7e8cf82815fe8821732fc55fa187f9b2885abaea90653a8de8926c4f82054af"
+  },
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local",
+    "rustHost": "aarch64-apple-darwin"
+  },
+  "tools": {
+    "cargo": {
+      "path": "/Users/gracefullight/.cargo/bin/rustup",
+      "version": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)",
+      "exit": 0
+    },
+    "rustc": {
+      "path": "/Users/gracefullight/.cargo/bin/rustup",
+      "version": "rustc 1.95.0 (59807616e 2026-04-14)",
+      "exit": 0
+    },
+    "bun": {
+      "path": "/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin/bun",
+      "version": "1.4.4",
+      "exit": 0
+    },
+    "cargoLlvmCov": {
+      "path": "/Users/gracefullight/.cargo/bin/rustup",
+      "version": "cargo-llvm-cov 0.6.21",
+      "exit": 0
+    }
+  },
+  "kind": "focused-native-timing",
+  "actorId": "backend",
+  "skill": "oma-backend",
+  "scope": "task-3 focused development, not final workspace acceptance",
+  "commandReceipt": {
+    "path": ".arc-verify/exec-fail-open/implementation/commands/repair5-managed.json",
+    "sha256": "3e77d6fbe4a3019b8f920e5597ec2d9bc6b1b6283e83628b26452909a3a4bbea"
+  },
+  "cases": [
+    {
+      "scenario": "absent",
+      "elapsedMs": 9.615250000000001,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/absent.json",
+        "sha256": "852fc83d73a821783f7b693b1743872599e2bbb97894c4f68a102f5f19f4676c"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "busy-claim",
+      "elapsedMs": 16.694958,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/busy-claim.json",
+        "sha256": "4f5cc09b7223fe115f3b488b1050eaab8149ebda58b4e6e591a1677aad8160fa"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "busy-register",
+      "elapsedMs": 14.223291000000001,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/busy-register.json",
+        "sha256": "5c709c71a481d1f2625e280378cbec3aaf664a1528317aeacb2a3568376fc6a3"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "committed-claim",
+      "elapsedMs": 19.823917,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/committed-claim.json",
+        "sha256": "a7f7ca655a7e236375c29ec5d990a84c094ecc4b4742026a3affea5f5bc1d3e0"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "committed-register",
+      "elapsedMs": 15.586457999999999,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/committed-register.json",
+        "sha256": "aab3e20894284c2126f7508870de5450070c30f1a62e71f1f56fa68c9dc6ad9c"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "disconnect-before-read",
+      "elapsedMs": 14.206833,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/disconnect-before-read.json",
+        "sha256": "b22ddbc6e1449914a430a42e41c34061cbaa39b03bb7e33df23552d97e0ff1bd"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "disconnect-claim",
+      "elapsedMs": 17.168,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/disconnect-claim.json",
+        "sha256": "9f0c351bc6fca5a9f2e5b6f279f3a98a776df58fda37f5a970b017a4561bd128"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "disconnect-register",
+      "elapsedMs": 12.679834,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/disconnect-register.json",
+        "sha256": "ce7f5afe0802cd2fa821f684a35ff87124ab32b3fa835604ede286c084588ea5"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "partial-register",
+      "elapsedMs": 1815.3676249999999,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/partial-register.json",
+        "sha256": "71c4b0d58e1488290df2bc55094706632a4f6b322a2056e66a70bcf066f45983"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "refused",
+      "elapsedMs": 9.532375,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/refused.json",
+        "sha256": "0c858bcb725f119293faa02fb0fe7f65bd278d2c31e5e5f14ddef0610280fdd5"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "shared-budget",
+      "elapsedMs": 1810.496584,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/shared-budget.json",
+        "sha256": "ea665a9af354ab90f0bc8017da99cd447431c8392e0a9262f56e7ceb65e9e7e4"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "stall-claim",
+      "elapsedMs": 1814.648625,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/stall-claim.json",
+        "sha256": "8d210d2aa1c3b884ad647826856b8dfc8914209f572f8f168dec7825dd88e787"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    },
+    {
+      "scenario": "stall-register",
+      "elapsedMs": 1815.895292,
+      "invocations": 1,
+      "afterRecovery": 1,
+      "exit": 17,
+      "test": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+      "observation": {
+        "path": "target/exec-fail-open/native/45277/stall-register.json",
+        "sha256": "674dd36fb1551d54878b014dc22fb839941711725760f11619c036c9f7ac1d28"
+      },
+      "boundary": "parent Instant before wrapper spawn to child control handshake; includes startup and observer overhead"
+    }
+  ],
+  "maximumMs": 1815.895292,
+  "targetMs": 2000,
+  "passed": true
+}

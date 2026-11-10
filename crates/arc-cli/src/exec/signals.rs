@@ -4,6 +4,9 @@ use std::{
     os::unix::process::ExitStatusExt,
     sync::atomic::{AtomicI32, AtomicU32, Ordering},
 };
+// SPAWNING retains cancellation until fork; the child checks its inherited copy.
+const PREPARING: i32 = 0;
+const SPAWNING: i32 = -2;
 static CHILD: AtomicI32 = AtomicI32::new(-1);
 static PENDING: AtomicU32 = AtomicU32::new(0);
 static CONTINUE_CHILD: AtomicI32 = AtomicI32::new(0);
@@ -25,7 +28,7 @@ extern "C" fn receive(signal: i32) {
     } else if signal != libc::SIGCHLD {
         if child > 0 {
             unsafe { libc::kill(child, signal) };
-        } else if child == 0 {
+        } else if child == PREPARING || child == SPAWNING {
             PENDING.fetch_or(1u32 << signal, Ordering::SeqCst);
         }
     }
@@ -48,6 +51,25 @@ impl Drop for Mask {
         unsafe { libc::sigprocmask(libc::SIG_SETMASK, &self.0, std::ptr::null_mut()) };
     }
 }
+// New diagnostic threads inherit this blocked mask, leaving the supervising
+// thread as the sole recipient of child and forwarding notifications.
+pub(super) fn with_blocked_signals<T>(f: impl FnOnce() -> T) -> io::Result<T> {
+    struct ThreadMask(libc::sigset_t);
+    impl Drop for ThreadMask {
+        fn drop(&mut self) {
+            unsafe { libc::pthread_sigmask(libc::SIG_SETMASK, &self.0, std::ptr::null_mut()) };
+        }
+    }
+    let mut set = unsafe { std::mem::zeroed() };
+    let mut old = unsafe { std::mem::zeroed() };
+    unsafe { libc::sigfillset(&mut set) };
+    let error = unsafe { libc::pthread_sigmask(libc::SIG_BLOCK, &set, &mut old) };
+    if error != 0 {
+        return Err(io::Error::from_raw_os_error(error));
+    }
+    let _mask = ThreadMask(old);
+    Ok(f())
+}
 pub(crate) struct Signals {
     prior: Vec<(i32, libc::sigaction)>,
     shared_job: bool,
@@ -55,9 +77,9 @@ pub(crate) struct Signals {
 impl Signals {
     pub(crate) fn install(shared_job: bool) -> io::Result<Self> {
         let _mask = Mask::block();
-        CHILD.store(0, Ordering::SeqCst);
+        CHILD.store(PREPARING, Ordering::SeqCst);
         PENDING.store(0, Ordering::SeqCst);
-        CONTINUE_CHILD.store(0, Ordering::SeqCst);
+        CONTINUE_CHILD.store(PREPARING, Ordering::SeqCst);
         let mut guard = Self {
             prior: Vec::new(),
             shared_job,
@@ -100,26 +122,32 @@ impl Signals {
     }
     pub(crate) fn prepare_child(&self, command: &mut std::process::Command) {
         use std::os::unix::process::CommandExt;
-        // Copy saved actions before fork, including inherited ignore. The
-        // executed target retains the caller's state rather than our handlers.
-        let actions = [libc::SIGCHLD, libc::SIGCONT].map(|signal| {
-            (
-                signal,
-                self.prior
-                    .iter()
-                    .find(|(s, _)| *s == signal)
-                    .expect("installed supervision action")
-                    .1,
-            )
-        });
-        // SAFETY: only sigaction and errno inspection run after fork. Leave
-        // the inherited mask unchanged; exec applies its normal handler reset.
+        let actions = self.prior.clone();
+        // SAFETY: only lock-free atomics, signal syscalls and errno inspection
+        // run after fork. No allocation or parent synchronization is needed.
         unsafe {
             command.pre_exec(move || {
+                let mut all = std::mem::zeroed();
+                let mut original = std::mem::zeroed();
+                libc::sigfillset(&mut all);
+                if libc::sigprocmask(libc::SIG_BLOCK, &all, &mut original) != 0 {
+                    return Err(io::Error::last_os_error());
+                }
+                // A signal handled before fork is copied into the child. Reject
+                // execution even if it arrived after the parent's admission.
+                if PENDING.load(Ordering::SeqCst) != 0 {
+                    return Err(io::Error::from_raw_os_error(libc::EINTR));
+                }
+                // Once a child exists, shared-group terminal delivery belongs
+                // to it. Restore native dispositions before unblocking, closing
+                // the quiet-handler interval before exec resets caught actions.
                 for (signal, action) in &actions {
                     if libc::sigaction(*signal, action, std::ptr::null_mut()) != 0 {
                         return Err(io::Error::last_os_error());
                     }
+                }
+                if libc::sigprocmask(libc::SIG_SETMASK, &original, std::ptr::null_mut()) != 0 {
+                    return Err(io::Error::last_os_error());
                 }
                 Ok(())
             });
@@ -128,11 +156,25 @@ impl Signals {
     pub(crate) fn interrupted(&self) -> bool {
         PENDING.load(Ordering::SeqCst) != 0
     }
+    pub(crate) fn admit_spawn(&self) -> bool {
+        let _mask = Mask::block();
+        if self.interrupted() {
+            return false;
+        }
+        // Keep recording through fork: admission is not proof of child creation.
+        // The child checks its snapshot; attachment discards shared terminal
+        // sightings because an existing group member received them from the OS.
+        CHILD.store(SPAWNING, Ordering::SeqCst);
+        true
+    }
     pub(crate) fn attach(&self, pid: u32) {
         let _mask = Mask::block();
         CHILD.store(pid as i32, Ordering::SeqCst);
         let pending = PENDING.swap(0, Ordering::SeqCst);
-        for signal in NONTERMINAL.into_iter().chain(TERMINAL) {
+        for signal in NONTERMINAL
+            .into_iter()
+            .chain(TERMINAL.into_iter().filter(|_| !self.shared_job))
+        {
             if pending & (1u32 << signal) != 0 {
                 unsafe { libc::kill(pid as i32, signal) };
             }
@@ -210,11 +252,17 @@ impl Signals {
     pub(crate) fn reaped(&self) {
         let _mask = Mask::block();
         CHILD.store(-1, Ordering::SeqCst);
-        CONTINUE_CHILD.store(0, Ordering::SeqCst);
+        CONTINUE_CHILD.store(PREPARING, Ordering::SeqCst);
         PENDING.store(0, Ordering::SeqCst);
     }
 }
-extern "C" fn quiet(_: i32) {}
+extern "C" fn quiet(signal: i32) {
+    // Before fork cancellation must survive admission. After fork, the child's
+    // copy is independent and group signals have native single delivery there.
+    if matches!(CHILD.load(Ordering::SeqCst), PREPARING | SPAWNING) {
+        PENDING.fetch_or(1u32 << signal, Ordering::SeqCst);
+    }
+}
 impl Drop for Signals {
     fn drop(&mut self) {
         let _mask = Mask::block();

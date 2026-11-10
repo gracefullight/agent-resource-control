@@ -1,0 +1,89 @@
+{
+  "recordedAt": "2026-11-08T23:08:58.661210+00:00",
+  "actorId": "technical-director",
+  "sourceHash": "3d51ee23c34f602cf6bc5bb4ca6faf7d626aa7f5bcfc7347210e338dd3a0df17",
+  "observedGit": {
+    "head": "2b07c2b4b81236f69c1b5ad52204cbfb17892a5f",
+    "tree": "385bb15ac5db16de9a48728285745299627c9b44",
+    "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+    "diffSha256": "3e82e9dd060c1a29dcc9cb28523c4eb8d30e178916fb9c89f44a7c62392cc053"
+  },
+  "checkedSourceFiles": 188,
+  "maximumLines": 474,
+  "violations": [],
+  "largestFiles": [
+    {
+      "path": "crates/arc-daemon/src/transport_tests.rs",
+      "lines": 474,
+      "sha256": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b"
+    },
+    {
+      "path": "crates/arc-cli/src/exec/signals/tests.rs",
+      "lines": 467,
+      "sha256": "d7744025d5dc7759db58ae41f3ac862331c347b606aeda280dbba7734268e23d"
+    },
+    {
+      "path": "scripts/harness/validate.sh",
+      "lines": 453,
+      "sha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1"
+    },
+    {
+      "path": "crates/arc-daemon/src/instance.rs",
+      "lines": 441,
+      "sha256": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af"
+    },
+    {
+      "path": "crates/arc-daemon/src/lifecycle_tests.rs",
+      "lines": 433,
+      "sha256": "b17b666695426d85c21d28f71b45d12e6d256454724809f3a53d939591a82b0e"
+    },
+    {
+      "path": "crates/arc-daemon/tests/managed_exec/fallback_terminal.rs",
+      "lines": 429,
+      "sha256": "73856787381954a0c6de1df38726c17de5f450dca2cda01006e5415f4c492e31"
+    },
+    {
+      "path": "crates/arc-daemon/src/db_worker/tests.rs",
+      "lines": 425,
+      "sha256": "b7971fc13ca4aeb8793bbd48a811b1630be5c508dbb105b2396e39f4d164b203"
+    },
+    {
+      "path": "crates/arc-daemon/tests/resident.rs",
+      "lines": 425,
+      "sha256": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486"
+    }
+  ],
+  "indexState": [
+    ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-clippy.json",
+    ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-fmt.json",
+    ".arc-verify/exec-fail-open/implementation/gates.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt2-gates.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt2-technical-verification.md",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt3-commands.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt3-gates.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt3-preflight.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt3-preservation-observation.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt3-source.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt3-technical-verification.md",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt3-validation.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt4-command-index.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt4-dispatch.json",
+    ".arc-verify/exec-fail-open/implementation/task4-attempt4-preflight.json",
+    ".arc-verify/exec-fail-open/technical-verification.md"
+  ],
+  "indexScope": "Only assigned .arc-verify/exec-fail-open/implementation/ and technical-verification.md staged; existing product input files already tracked at snapshot HEAD. No commit performed. Clean-checkout checks execute later using actual index.",
+  "passed": true,
+  "commandReceipt": {
+    "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-protections.json",
+    "sha256": "32612f57374e4fb9e9711ea2bcaa188ad5a099832928b9a1269bedee315bea56"
+  },
+  "topLevelTests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "coverageInventory": {
+    "requiredFiles": 9,
+    "nonCollectingFilesExecuted": 5,
+    "collectingLiveFilesSeparatelyExecuted": 4
+  }
+}

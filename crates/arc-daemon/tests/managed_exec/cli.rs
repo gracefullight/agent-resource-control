@@ -201,7 +201,7 @@ fn spawn_failure_quick_exit_help_and_status_have_static_diagnostics() {
     f.assert_cli();
     daemon.stop(libc::SIGTERM);
     f.report();
-    let out = command(&f)
+    let out = super::historical::after_shutdown(command(&f))
         .args(["exec", "--", "/usr/bin/true"])
         .output()
         .unwrap();

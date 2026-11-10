@@ -1,0 +1,152 @@
+[
+  {
+    "name": "task4-attempt4-fmt",
+    "argv": [
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-fmt.json",
+      "sha256": "138a736b6504fdf5b1f7bc04891af73506b08e0a5c5e1c09d6d214b7d54b723b"
+    },
+    "exit": 0
+  },
+  {
+    "name": "task4-attempt4-clippy",
+    "argv": [
+      "cargo",
+      "clippy",
+      "--workspace",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-clippy.json",
+      "sha256": "187a1ffae2f0d93873a546a59fa4be471c00ee20b359c97a5bcc979d74970f09"
+    },
+    "exit": 0
+  },
+  {
+    "name": "task4-attempt4-workspace",
+    "argv": [
+      "cargo",
+      "test",
+      "--workspace"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-workspace.json",
+      "sha256": "c49fbe03ff5058fe46f19c59dfd9a31c4ef96fd7748fd186546892c76a5b8b8d"
+    },
+    "exit": 0
+  },
+  {
+    "name": "task4-attempt4-coverage",
+    "argv": [
+      "bun",
+      "run",
+      "test:coverage"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-coverage.json",
+      "sha256": "faa677d735bbdccc3b3c98ec6c745e26ea44203feb913d6e1363c8e92b0a0beb"
+    },
+    "exit": 1
+  },
+  {
+    "name": "task4-attempt4-harness",
+    "argv": [
+      "./scripts/harness/validate.sh"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-harness.json",
+      "sha256": "55418b32a61cbee16f2c98c0b479ef5f2c9b9d54537337b375dce51727065689"
+    },
+    "exit": 1
+  },
+  {
+    "name": "task4-attempt4-protections",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/harness/managed-exec.test.ts",
+      "scripts/harness/coverage-verification.test.ts",
+      "scripts/harness/equivalence.test.ts",
+      "scripts/harness/exec-fail-open-preservation.test.ts"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-protections.json",
+      "sha256": "32612f57374e4fb9e9711ea2bcaa188ad5a099832928b9a1269bedee315bea56"
+    },
+    "exit": 0
+  },
+  {
+    "name": "task4-attempt4-clean-checkout",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/clean-checkout.test.ts"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-clean-checkout.json",
+      "sha256": "9a2759494cf482f67c89a789d29413c41e34abb853fd86f2e2c3aa3cf3098f7b"
+    },
+    "exit": 1
+  },
+  {
+    "name": "task4-attempt4-coverage-cli",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/coverage-cli.test.ts"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-coverage-cli.json",
+      "sha256": "9b8241b83cff812164743a2ef52e6af144004dfa5d92579647d26e17b986fba3"
+    },
+    "exit": 1
+  },
+  {
+    "name": "task4-attempt4-coverage-harness",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/harness.test.ts"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-coverage-harness.json",
+      "sha256": "8b12983605212147d8cb1b55d48623d8684cdef7b0f0fdfb639e790829bbe6e9"
+    },
+    "exit": 1
+  },
+  {
+    "name": "task4-attempt4-live",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/evidence.test.ts"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-live.json",
+      "sha256": "847095637222e8ea8f8a44fb2b8e1024145e9642555ca9d3dc325df760203081"
+    },
+    "exit": 1
+  },
+  {
+    "name": "task4-attempt4-docs",
+    "argv": [
+      "bun",
+      "test",
+      "scripts/harness/exec-fail-open-docs.test.ts"
+    ],
+    "ref": {
+      "path": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-docs.json",
+      "sha256": "15d255e92ae032001e1d27957cfdf8ac65381c09e3c6ab540f26861d54689e65"
+    },
+    "exit": 0
+  }
+]

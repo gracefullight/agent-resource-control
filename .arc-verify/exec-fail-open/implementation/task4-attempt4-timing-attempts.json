@@ -1,0 +1,1147 @@
+{
+  "sourceHash": "3d51ee23c34f602cf6bc5bb4ca6faf7d626aa7f5bcfc7347210e338dd3a0df17",
+  "actorId": "technical-director",
+  "scope": "All emitted measurements during the exact serial schedule, including clean-index fixture; raw reports retained in collecting paths, never copied as current native proof.",
+  "matrices": [
+    {
+      "scope": "collecting-checkout",
+      "folder": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/exec-fail-open/native/13331",
+      "cases": [
+        {
+          "scenario": "absent",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/absent.json",
+            "sha256": "5f2ec46a8c4b9b1522d7d3c8966850ad94a8ce4c687b5b5812d1228fd99a416f"
+          },
+          "elapsedToInvocationMs": 9.762125,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "busy-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/busy-claim.json",
+            "sha256": "27aa8fb1bcd70c14f692b1984db18df8a46705e693fbc6f6b3b43834b633ff07"
+          },
+          "elapsedToInvocationMs": 17.239708,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "busy-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/busy-register.json",
+            "sha256": "01f86c5faf7c76c2f6130f69e4a84b80435097fac212e395a0b2aa39954cf1c1"
+          },
+          "elapsedToInvocationMs": 14.048708,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "committed-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/committed-claim.json",
+            "sha256": "d949b141b70f86cf402deb76ec836f4edfcf5d8d76cf82e5a28c31a499d1e337"
+          },
+          "elapsedToInvocationMs": 18.527874999999998,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "committed-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/committed-register.json",
+            "sha256": "e2065cc0b0446df9077f00e3068749dc3955facf1b33ce025f443c7366a5b18b"
+          },
+          "elapsedToInvocationMs": 24.552208,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "disconnect-before-read",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/disconnect-before-read.json",
+            "sha256": "daa8319b36861511d301e9969b1dca3b9fa16f96eda7ad0bac0740a79a1b38b1"
+          },
+          "elapsedToInvocationMs": 13.711917,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "disconnect-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/disconnect-claim.json",
+            "sha256": "716126c9aeeeee383e1c573509e8b98b7d15411d809444b6f12afc4eb85b883c"
+          },
+          "elapsedToInvocationMs": 18.174459,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "disconnect-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/disconnect-register.json",
+            "sha256": "539433c8dbe7ed28699d8f19e15b94d89e91756fe2a86ea3214efb4bca46a39d"
+          },
+          "elapsedToInvocationMs": 14.024625,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "partial-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/partial-register.json",
+            "sha256": "eaaa843132d4625e36e3274b6e338409235ecc85f99c62103797dbb0ef7e6206"
+          },
+          "elapsedToInvocationMs": 1812.544041,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "refused",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/refused.json",
+            "sha256": "ba4a99adaece42f8ab10b219390d296eb44383afb5778b811d4f282e4db48699"
+          },
+          "elapsedToInvocationMs": 9.530792,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "shared-budget",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/shared-budget.json",
+            "sha256": "bd2ac7666029ff37236a9042a3fcc6c662a38fbf8cec267d4c71c1ae9cb662eb"
+          },
+          "elapsedToInvocationMs": 1813.926125,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "stall-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/stall-claim.json",
+            "sha256": "ed0f616450dcb49c96525a944d115a463542d0de0f1e0b4d0d929ccfa3a8dd66"
+          },
+          "elapsedToInvocationMs": 1812.858,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        },
+        {
+          "scenario": "stall-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/13331/stall-register.json",
+            "sha256": "c5df24372b4a0a255603deae0e17b589c4e038d2bd4cdbe9cdd7a3f0fe462acc"
+          },
+          "elapsedToInvocationMs": 1815.677166,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-21-52-965Z-d26e084e-0c4b-4401-ae1f-f4475ad4f73b/debug/arcctl",
+          "candidateSha256": "483640a2e779ce09c6b81114bea9fde8f4c58a9df0aebcf685f934a582491698"
+        }
+      ],
+      "maxElapsedToInvocationMs": 1815.677166,
+      "failedMeasurements": []
+    },
+    {
+      "scope": "collecting-checkout",
+      "folder": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/exec-fail-open/native/19522",
+      "cases": [
+        {
+          "scenario": "absent",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/absent.json",
+            "sha256": "43ba74ba39b15bf49986205c27ecbb18c6c056c06fcb0cd694e4fa3d5e9eb9d5"
+          },
+          "elapsedToInvocationMs": 9.758790999999999,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "busy-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/busy-claim.json",
+            "sha256": "64005dd7bdd5ef104017fd5ef2410f173aafc1e18c42c4393e9ba9fd52655b00"
+          },
+          "elapsedToInvocationMs": 17.03275,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "busy-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/busy-register.json",
+            "sha256": "6294b219e6f3f197ecf9930171ca6572b31fe54017fa55b037a221f3c4b40f9d"
+          },
+          "elapsedToInvocationMs": 14.242041,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "committed-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/committed-claim.json",
+            "sha256": "cb5021e2b239ffa04917f311c3d1c2fa32bc022be288483d5d703bfb49bc371a"
+          },
+          "elapsedToInvocationMs": 19.4365,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "committed-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/committed-register.json",
+            "sha256": "ac1d479258e76c2a7c7a78399156b049c6514cc7006738ffe30568a8e1fa9f8f"
+          },
+          "elapsedToInvocationMs": 17.284000000000002,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "disconnect-before-read",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/disconnect-before-read.json",
+            "sha256": "6c9ee5efb8441411e1aab3476f0e2f47e12f3696679a3910ab7415726ba63e69"
+          },
+          "elapsedToInvocationMs": 13.952499999999999,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "disconnect-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/disconnect-claim.json",
+            "sha256": "2f9be1f906db609e1479b84095fba3db5ccd55927221c819e371b043a670e92f"
+          },
+          "elapsedToInvocationMs": 17.275042,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "disconnect-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/disconnect-register.json",
+            "sha256": "754c32db26328ba53bcb6c44e0e18819bdd35ddef55de1aec6bcfe6538e0cb8b"
+          },
+          "elapsedToInvocationMs": 14.303167,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "partial-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/partial-register.json",
+            "sha256": "7a2e67b173a781311278fe30cdf233ed1aa1fb3246797b15cf78e497385856bc"
+          },
+          "elapsedToInvocationMs": 1816.545417,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "refused",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/refused.json",
+            "sha256": "c444e09a3db113dff680eac28e37e3c8780f1fbfddc6e53f99ee5056684e4d5d"
+          },
+          "elapsedToInvocationMs": 9.644917,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "shared-budget",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/shared-budget.json",
+            "sha256": "9823ea8f85fc127948980def9f422e5e321c7fc5147a4c062b81a9a72aa4d812"
+          },
+          "elapsedToInvocationMs": 1815.838083,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "stall-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/stall-claim.json",
+            "sha256": "56896e44a25f100f4e1ddafb1a7b68ee9d0c2105667595d209109837a18a4468"
+          },
+          "elapsedToInvocationMs": 1817.1536669999998,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        },
+        {
+          "scenario": "stall-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/19522/stall-register.json",
+            "sha256": "0ede5747e27402aad6ba5df01b8dcb4255de7792c26480c7953c35d9c45a3b88"
+          },
+          "elapsedToInvocationMs": 1813.635916,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-24-07-640Z-9f672b9f-7ab3-441d-a50e-ad6a3d58ca69/debug/arcctl",
+          "candidateSha256": "9d7dc9ec2b41dda5fbbe2de66e05ffe3fbdc3298aafde163c0122151d6aece68"
+        }
+      ],
+      "maxElapsedToInvocationMs": 1817.1536669999998,
+      "failedMeasurements": []
+    },
+    {
+      "scope": "collecting-checkout",
+      "folder": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/exec-fail-open/native/70900",
+      "cases": [
+        {
+          "scenario": "absent",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/absent.json",
+            "sha256": "d2d7ce9a3d2c4d034744021c67dc7a4a6a63b04b3b71f941cce19c3ddd4f696b"
+          },
+          "elapsedToInvocationMs": 9.766834000000001,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "busy-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/busy-claim.json",
+            "sha256": "b9f888bffbdbc0974656a04560812d76400cc1ee39a69ed0a21b8696b9744efb"
+          },
+          "elapsedToInvocationMs": 17.064542,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "busy-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/busy-register.json",
+            "sha256": "2f98d9ea58457336f76d01c9af96ee4676f87ee5b5ec9afb49f0f0fa2eb086c4"
+          },
+          "elapsedToInvocationMs": 13.821667,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "committed-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/committed-claim.json",
+            "sha256": "62f35340742fa82331b09b725e16378a0f46da5c64b55eb21697d31700b644f1"
+          },
+          "elapsedToInvocationMs": 17.239583,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "committed-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/committed-register.json",
+            "sha256": "30d3230c73f59be0794f7e71bea038d7c8dc0038c7b3bc719fad3274f681ec0c"
+          },
+          "elapsedToInvocationMs": 16.881667,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "disconnect-before-read",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/disconnect-before-read.json",
+            "sha256": "597a9a714cf328983de979862d1fe97087a57a50178123ddca2cf4b53e11948b"
+          },
+          "elapsedToInvocationMs": 12.633833000000001,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "disconnect-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/disconnect-claim.json",
+            "sha256": "0eccf408d6894fb8dc4ba446815ddc21c713be476e0ba4bc573db44e82a16fd0"
+          },
+          "elapsedToInvocationMs": 17.531000000000002,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "disconnect-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/disconnect-register.json",
+            "sha256": "5622d2c7cb9fd03d5d71a4622218560e4f70520c6998ff2232bf4d1a67a230ec"
+          },
+          "elapsedToInvocationMs": 12.699250000000001,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "partial-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/partial-register.json",
+            "sha256": "a2156173d224b788d5699e95842d8ca3120f8df9188503de11db3efd751c8cf4"
+          },
+          "elapsedToInvocationMs": 1814.468041,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "refused",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/refused.json",
+            "sha256": "d6ec88a2df70bc06291cdb21fffe626b2c035d2f25e5eddcf887ccaf6f11c411"
+          },
+          "elapsedToInvocationMs": 9.629166999999999,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "shared-budget",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/shared-budget.json",
+            "sha256": "bee9a96fb3a2a66ef605a725bf65986c7c26f9f0e85afc419c6d37a46beef1f5"
+          },
+          "elapsedToInvocationMs": 1815.54675,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "stall-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/stall-claim.json",
+            "sha256": "56b4d259b952da317c722f44cdce00289dd13f566533d723debca5aa6cbc6923"
+          },
+          "elapsedToInvocationMs": 1812.694583,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        },
+        {
+          "scenario": "stall-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/70900/stall-register.json",
+            "sha256": "36db35e472b939c90f7305723fb14c4567f5bc47f4ad14c5b4263940a239c05a"
+          },
+          "elapsedToInvocationMs": 1812.775125,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/debug/arcctl",
+          "candidateSha256": "faa997a7dd834c8c86183de38f314d0a911429f7bdc1d607b9bd58c391a4bc75"
+        }
+      ],
+      "maxElapsedToInvocationMs": 1815.54675,
+      "failedMeasurements": []
+    },
+    {
+      "scope": "collecting-checkout",
+      "folder": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/exec-fail-open/native/75756",
+      "cases": [
+        {
+          "scenario": "absent",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/absent.json",
+            "sha256": "a52c0495ccf33250b664c71e1450cec5bc0cd7c775a45a3c9e8046f84b93d0dd"
+          },
+          "elapsedToInvocationMs": 12.2585,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "busy-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/busy-claim.json",
+            "sha256": "6ae773a423defd1245bc955edd87f88610f2da40c7742e39643471a4af6ce0c7"
+          },
+          "elapsedToInvocationMs": 16.792,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "busy-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/busy-register.json",
+            "sha256": "e1665e2a4a78c3e931e3732b5889e7b9aabc858a8f71c4f654879dd7425b71ee"
+          },
+          "elapsedToInvocationMs": 14.205499999999999,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "committed-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/committed-claim.json",
+            "sha256": "18e5fdbae80330a841672374d997abfa90533c332613c7022f3ab8c49c8a6d90"
+          },
+          "elapsedToInvocationMs": 20.058209,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "committed-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/committed-register.json",
+            "sha256": "c1b41856778c9ff2192509dbe5b4fc81763ee5d782bbaf097d47883eef3b55aa"
+          },
+          "elapsedToInvocationMs": 16.985041,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "disconnect-before-read",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/disconnect-before-read.json",
+            "sha256": "10914dbb9b31d67b39e9c399cbd552e2ffdfb91b6eb62db4759123ddc2e42b39"
+          },
+          "elapsedToInvocationMs": 17.49475,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "disconnect-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/disconnect-claim.json",
+            "sha256": "217a92654ccb9bb46ec97259baf4224285f0a894fe2d93146de30aadb084136e"
+          },
+          "elapsedToInvocationMs": 17.150583,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "disconnect-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/disconnect-register.json",
+            "sha256": "5c911a3b7ddcbe0207b4631d5eafa129059b8df41121549e5e042fc2673f7303"
+          },
+          "elapsedToInvocationMs": 15.652208000000002,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "partial-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/partial-register.json",
+            "sha256": "08bffa5dba42596a2933f79b3e7845f214918ff57290f9a0920f1e632f91d00c"
+          },
+          "elapsedToInvocationMs": 1816.118292,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "refused",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/refused.json",
+            "sha256": "00acc7138da945f68ee73afb043102b2a9f79ca04df581bef32dc6dcdd806f77"
+          },
+          "elapsedToInvocationMs": 9.916209,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "shared-budget",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/shared-budget.json",
+            "sha256": "1c4e6dd6f86e1043bd8a897065632c003cdcff85686d89e59eb7466bc37bfce2"
+          },
+          "elapsedToInvocationMs": 1815.759417,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "stall-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/stall-claim.json",
+            "sha256": "326fcb4f8c11ce53e177695e2bfee3f992ee07d39e789a38aebbd5ac9dc5def2"
+          },
+          "elapsedToInvocationMs": 1816.4082910000002,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        },
+        {
+          "scenario": "stall-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/75756/stall-register.json",
+            "sha256": "e2be2c4edaebb341c4dd70ccee54d4d287c1ccbc7a09fbb640c2d34ae983f6f3"
+          },
+          "elapsedToInvocationMs": 1811.043958,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-11-20-892Z-9c437ff7-b009-468b-8414-d1311cb2f907/debug/arcctl",
+          "candidateSha256": "48f0f9551eeb3f9d5cccf81b381700e1b7360ba9326dc421d5adcecf84df79cd"
+        }
+      ],
+      "maxElapsedToInvocationMs": 1816.4082910000002,
+      "failedMeasurements": []
+    },
+    {
+      "scope": "collecting-checkout",
+      "folder": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/exec-fail-open/native/81565",
+      "cases": [
+        {
+          "scenario": "absent",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/absent.json",
+            "sha256": "7eb67e88b2b923bc35215c04d54f251cd38c6c16e381c219805c73ace0426187"
+          },
+          "elapsedToInvocationMs": 9.719625,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "busy-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/busy-claim.json",
+            "sha256": "0bb220d577529daeb2dfd19e2c25f5e48a66a377587756683d77ee934e6bdcf8"
+          },
+          "elapsedToInvocationMs": 17.258584,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "busy-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/busy-register.json",
+            "sha256": "66faade7154460acb6322106860c84ddfa852a47445903e9a31fb1b2dbbec38a"
+          },
+          "elapsedToInvocationMs": 13.627875,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "committed-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/committed-claim.json",
+            "sha256": "eef54048891bd1233ba798d48bcf32f1dfa72d553b39b4eb2b5e3d869660e824"
+          },
+          "elapsedToInvocationMs": 22.662292,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "committed-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/committed-register.json",
+            "sha256": "f74d8393d85a7ef857f410a121493b4059861412319eb71c4d49983211e6dd25"
+          },
+          "elapsedToInvocationMs": 17.026708000000003,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "disconnect-before-read",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/disconnect-before-read.json",
+            "sha256": "f41c2d7e7ad12e2b304a5b888c934f102c4d071d89bfb8c265d945956634bc46"
+          },
+          "elapsedToInvocationMs": 14.276875,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "disconnect-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/disconnect-claim.json",
+            "sha256": "c271f8d82fa99d8aa1db1caac802c20308f126f3eea31fac3b7a1a3c3695f52c"
+          },
+          "elapsedToInvocationMs": 17.100333,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "disconnect-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/disconnect-register.json",
+            "sha256": "da610b6acc8c02d7ce1ae3ee51ab07734693591bb54cd345564b966d42ab9db4"
+          },
+          "elapsedToInvocationMs": 14.289583,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "partial-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/partial-register.json",
+            "sha256": "15e927aad3c15da453eb5de7bbf2df37a98f9c91e515e82f72d28edbf35e6886"
+          },
+          "elapsedToInvocationMs": 1815.907416,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "refused",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/refused.json",
+            "sha256": "8f1a635ed763899c1863e1784fdfe6776248f9e2e0b5ae949ba5a39e303d9fcd"
+          },
+          "elapsedToInvocationMs": 9.704334,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "shared-budget",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/shared-budget.json",
+            "sha256": "5f156bc07d807b35bbfccc40e31f79e6d4bd49dffdfc197da5e969466f7d7979"
+          },
+          "elapsedToInvocationMs": 1816.893375,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "stall-claim",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/stall-claim.json",
+            "sha256": "96ad2f24e4feacd627b4ed61f098785bc7eba7de0f156cd4304115d810f3c963"
+          },
+          "elapsedToInvocationMs": 1813.085292,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        },
+        {
+          "scenario": "stall-register",
+          "observation": {
+            "path": "target/exec-fail-open/native/81565/stall-register.json",
+            "sha256": "d0943792b665ae66ae4441c9f61639609f86e7563017d67b8322d4eb1b25a41a"
+          },
+          "elapsedToInvocationMs": 1813.4661250000001,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3/target/arc-coverage/2026-11-08T23-13-34-813Z-25e21f42-1131-443a-a038-5371166ec7fa/debug/arcctl",
+          "candidateSha256": "16ef924470735ec7f4ef5da861a1c5a9e9afed8fc1bc89effee19e70380fbe9d"
+        }
+      ],
+      "maxElapsedToInvocationMs": 1816.893375,
+      "failedMeasurements": []
+    },
+    {
+      "scope": "clean-index-fixture",
+      "folder": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653",
+      "cases": [
+        {
+          "scenario": "absent",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/absent.json",
+            "sha256": "d883c5d878fb2e644caedf69a36847abbd84f179a9bc587379ea5f25db88fb09"
+          },
+          "elapsedToInvocationMs": 9.685667,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "busy-claim",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/busy-claim.json",
+            "sha256": "2ebde037916b7fa4262b2d0f2f96d981f32958944748d7980082900a8d01da4b"
+          },
+          "elapsedToInvocationMs": 17.088541,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "busy-register",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/busy-register.json",
+            "sha256": "3b2fbe1dc35c1bff3d88fd95efea22c9d23caf4086473eae9a3bb41f7a3247b7"
+          },
+          "elapsedToInvocationMs": 14.316584,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "committed-claim",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/committed-claim.json",
+            "sha256": "4d4400489f0d8245c656fd40e64126df8f0ba3b7911e6140b21b233a6aee53f9"
+          },
+          "elapsedToInvocationMs": 18.70025,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "committed-register",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/committed-register.json",
+            "sha256": "d4e80efac12688ea36b6b52d3d8ac343da682bd0d20c92a722bab0a0d6e08d87"
+          },
+          "elapsedToInvocationMs": 16.954209000000002,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "disconnect-before-read",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/disconnect-before-read.json",
+            "sha256": "170cb3c6af5c7bc81f3c345f0ba4ce8dd879b1cbaa8361c492703d33303fc512"
+          },
+          "elapsedToInvocationMs": 14.173665999999999,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "disconnect-claim",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/disconnect-claim.json",
+            "sha256": "e568ffdd988d7e9945171511f59f7b39f44a8675988e17df67920fb5feb5bee0"
+          },
+          "elapsedToInvocationMs": 17.060708,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "disconnect-register",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/disconnect-register.json",
+            "sha256": "a3698a7d312b7a34968ca7118159cba7205568bb64d1ad58fc5688e8a96a21fd"
+          },
+          "elapsedToInvocationMs": 14.228292,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "partial-register",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/partial-register.json",
+            "sha256": "c3a0eff35772a82fe65bb02efa6c07031dd9c395764e0ab8ce8acb2ec5e3a1d2"
+          },
+          "elapsedToInvocationMs": 1815.538834,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "refused",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/refused.json",
+            "sha256": "611e078f586547e79f7b4f09eee67c322ae552d2432b57d8e33f2423feea3bad"
+          },
+          "elapsedToInvocationMs": 9.748,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "shared-budget",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/shared-budget.json",
+            "sha256": "d6c357f79cae3ff1ecc3955362dde7b396c83425f0021b1de993f59d013e66be"
+          },
+          "elapsedToInvocationMs": 1814.144709,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "stall-claim",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/stall-claim.json",
+            "sha256": "a1a122e1a625bf6034a1149621b39c2d1d5d75396f1289a11a54a42aded760b5"
+          },
+          "elapsedToInvocationMs": 1814.202834,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        },
+        {
+          "scenario": "stall-register",
+          "observation": {
+            "path": "/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/exec-fail-open/native/8653/stall-register.json",
+            "sha256": "fee553dca876ed3dd3f2c55be0186ba54a7e884940233b669095fef9862afa20"
+          },
+          "elapsedToInvocationMs": 1815.572959,
+          "passed": true,
+          "invocations": 1,
+          "observedExit": 17,
+          "recoveryInvocations": 1,
+          "candidateBinaryPath": "/private/var/folders/r9/0qvpcx794n385zwgzwfvt55h0000gn/T/arc-clean-coverage-GmDppn/target/arc-coverage/2026-11-08T23-19-27-454Z-c1f31306-9db6-4898-b49d-94fbb762f235/debug/arcctl",
+          "candidateSha256": "60ff03af0744e54ddb362fa779d088e31d215a40bab6b4efc9d3784998814c12"
+        }
+      ],
+      "maxElapsedToInvocationMs": 1815.572959,
+      "failedMeasurements": []
+    }
+  ]
+}

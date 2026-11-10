@@ -1,0 +1,355 @@
+{
+  "actorId": "technical-director",
+  "skill": "oma-architecture",
+  "taskId": "task-4",
+  "attempt": 2,
+  "recordedAt": "2026-11-08T23:00:46.660186+00:00",
+  "actorWorkspace": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+  "collectionCheckout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+  "baselineHead": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+  "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+  "snapshotCommit": "c72beda4a3e04c69919fa7725cda4786fa77fd6e",
+  "snapshotTree": "5e937df1445035e27f7d2011e2b16c36d09911c8",
+  "policy": {
+    "maxDurationSec": 86400,
+    "concurrencyLimit": 3,
+    "collectionConcurrency": 1,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "retryDelayMs": 1000,
+    "perCheckTimeoutMs": 3600000,
+    "absoluteMissionDeadline": "not supplied; no new deadline substituted"
+  },
+  "probes": [
+    {
+      "argv": [
+        "date",
+        "-u"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.660410+00:00",
+      "ended": "2026-11-08T23:00:46.666046+00:00",
+      "elapsedMs": 5.658749985741451,
+      "exit": 0,
+      "stdout": "Sun Nov  8 23:00:46 UTC 2026\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uname",
+        "-a"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.666085+00:00",
+      "ended": "2026-11-08T23:00:46.671679+00:00",
+      "elapsedMs": 5.6027499958872795,
+      "exit": 0,
+      "stdout": "Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.ncpu",
+        "hw.memsize"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.671707+00:00",
+      "ended": "2026-11-08T23:00:46.676638+00:00",
+      "elapsedMs": 4.960958001902327,
+      "exit": 0,
+      "stdout": "8\n17179869184\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "df",
+        "-h",
+        "."
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.676681+00:00",
+      "ended": "2026-11-08T23:00:46.681669+00:00",
+      "elapsedMs": 5.013666988816112,
+      "exit": 0,
+      "stdout": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   460Gi   381Gi    43Gi    90%    7.1M  454M    2%   /System/Volumes/Data\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.681704+00:00",
+      "ended": "2026-11-08T23:00:46.690877+00:00",
+      "elapsedMs": 9.208957984810695,
+      "exit": 0,
+      "stdout": "1.4.4\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.690931+00:00",
+      "ended": "2026-11-08T23:00:46.720854+00:00",
+      "elapsedMs": 29.960584011860192,
+      "exit": 0,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.720905+00:00",
+      "ended": "2026-11-08T23:00:46.856903+00:00",
+      "elapsedMs": 136.0307919967454,
+      "exit": 0,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "--version"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.856952+00:00",
+      "ended": "2026-11-08T23:00:46.892329+00:00",
+      "elapsedMs": 35.42016600840725,
+      "exit": 0,
+      "stdout": "cargo-llvm-cov 0.6.21\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustup",
+        "component",
+        "list",
+        "--installed"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.892386+00:00",
+      "ended": "2026-11-08T23:00:46.922834+00:00",
+      "elapsedMs": 30.48641700297594,
+      "exit": 0,
+      "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nllvm-tools-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.922896+00:00",
+      "ended": "2026-11-08T23:00:46.933772+00:00",
+      "elapsedMs": 10.922249988652766,
+      "exit": 0,
+      "stdout": "c72beda4a3e04c69919fa7725cda4786fa77fd6e\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.933835+00:00",
+      "ended": "2026-11-08T23:00:46.947556+00:00",
+      "elapsedMs": 13.759458990534768,
+      "exit": 0,
+      "stdout": "5e937df1445035e27f7d2011e2b16c36d09911c8\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.947611+00:00",
+      "ended": "2026-11-08T23:00:46.993279+00:00",
+      "elapsedMs": 45.70345798856579,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-status",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2",
+      "started": "2026-11-08T23:00:46.993329+00:00",
+      "ended": "2026-11-08T23:00:47.007245+00:00",
+      "elapsedMs": 13.945832994068041,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:00:47.038238+00:00",
+      "ended": "2026-11-08T23:00:47.050784+00:00",
+      "elapsedMs": 12.562041985802352,
+      "exit": 0,
+      "stdout": "00773c69a8e5e7fd417fd5cc78d03e222364f609\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:00:47.050819+00:00",
+      "ended": "2026-11-08T23:00:47.069751+00:00",
+      "elapsedMs": 18.978417007019743,
+      "exit": 0,
+      "stdout": "b98f996caa04fe13eeeeab1072c3c528f6d18c65\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:00:47.069814+00:00",
+      "ended": "2026-11-08T23:00:47.114638+00:00",
+      "elapsedMs": 44.85541698522866,
+      "exit": 0,
+      "stdout": " M crates/arc-cli/src/exec.rs\n M crates/arc-cli/src/exec/signals.rs\n M crates/arc-cli/src/exec/signals/tests.rs\n M crates/arc-cli/src/exec/transport.rs\n M crates/arc-cli/src/main.rs\n M crates/arc-daemon/tests/managed_exec.rs\n M crates/arc-daemon/tests/managed_exec/cli.rs\n M crates/arc-daemon/tests/managed_exec/retries.rs\n M docs/managed-exec.md\n?? .arc-verify/exec-fail-open/\n?? crates/arc-cli/src/exec/preparation.rs\n?? crates/arc-cli/src/exec/signals/handoff.rs\n?? crates/arc-cli/src/exec/transport/\n?? crates/arc-daemon/tests/managed_exec/fail_open.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_descriptors.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_environment.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_pipeline.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_sigstate.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_terminal.rs\n?? crates/arc-daemon/tests/managed_exec/fault.rs\n?? crates/arc-daemon/tests/managed_exec/historical.rs\n?? scripts/harness/exec-fail-open-assemble.ts\n?? scripts/harness/exec-fail-open-coverage.ts\n?? scripts/harness/exec-fail-open-docs.test.ts\n?? scripts/harness/exec-fail-open-docs.ts\n?? scripts/harness/exec-fail-open-evidence.test.ts\n?? scripts/harness/exec-fail-open-evidence.ts\n?? scripts/harness/exec-fail-open-fixture-recipe.ts\n?? scripts/harness/exec-fail-open-fixture.ts\n?? scripts/harness/exec-fail-open-gates.test.ts\n?? scripts/harness/exec-fail-open-gates.ts\n?? scripts/harness/exec-fail-open-graph.ts\n?? scripts/harness/exec-fail-open-history.ts\n?? scripts/harness/exec-fail-open-inputs.ts\n?? scripts/harness/exec-fail-open-native.ts\n?? scripts/harness/exec-fail-open-preservation.test.ts\n?? scripts/harness/exec-fail-open-preservation.ts\n?? scripts/harness/exec-fail-open-reads.ts\n?? scripts/harness/exec-fail-open-receipts.ts\n?? scripts/harness/exec-fail-open-recipe.ts\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-status",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:00:47.114685+00:00",
+      "ended": "2026-11-08T23:00:47.128968+00:00",
+      "elapsedMs": 14.320040994789451,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "add",
+        "--",
+        ".arc-verify/exec-fail-open/technical-verification.md"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:00:47.161592+00:00",
+      "ended": "2026-11-08T23:00:47.172139+00:00",
+      "elapsedMs": 10.569875012151897,
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: Unable to create '/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.git/index.lock': Operation not permitted\n"
+    },
+    {
+      "argv": [
+        "bun",
+        "scripts/harness/exec-fail-open-receipts.ts",
+        "task4-attempt2-integrated-fmt",
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:00:47.172192+00:00",
+      "ended": "2026-11-08T23:00:47.407212+00:00",
+      "elapsedMs": 235.0659999938216,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "62 | }\n63 | export async function capture(argv: string[], name: string, actor = \"backend\") {\n64 |   const before = context(root), started = new Date().toISOString(), start = performance.now();\n65 |   requireValue(argv.length > 0 && /^[a-z0-9-]+$/.test(name), \"invalid capture invocation\");\n66 |   const base = `target/exec-fail-open/commands/${name}-${crypto.randomUUID()}`;\n67 |   mkdirSync(resolve(root, base), { recursive: true });\n       ^\nEPERM: operation not permitted, mkdir '/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/target/exec-fail-open/commands/task4-attempt2-integrated-fmt-3cf2d1d3-b888-4ac8-8b22-d8dbe2218252'\n    path: \"/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/target/exec-fail-open/commands/task4-attempt2-integrated-fmt-3cf2d1d3-b888-4ac8-8b22-d8dbe2218252\",\n syscall: \"mkdir\",\n   errno: -1,\n    code: \"EPERM\"\n\n      at capture (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/scripts/harness/exec-fail-open-receipts.ts:67:3)\n      at /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/scripts/harness/exec-fail-open-receipts.ts:94:24\n\nBun v1.4.4 (macOS arm64)\n"
+    }
+  ],
+  "migrations": {
+    "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-2": {
+      "index": {
+        "exit": 0,
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+      },
+      "baseline": {
+        "exit": 0,
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+      },
+      "worktree": {
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+      }
+    },
+    "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace": {
+      "index": {
+        "exit": 0,
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+      },
+      "baseline": {
+        "exit": 0,
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+      },
+      "worktree": {
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+      }
+    }
+  },
+  "shellResourceLimits": {
+    "0": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "5": [
+      9223372036854775807,
+      9223372036854775807
+    ],
+    "8": [
+      1048576,
+      9223372036854775807
+    ],
+    "7": [
+      2666,
+      4000
+    ]
+  },
+  "environmentLimitNames": []
+}

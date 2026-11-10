@@ -1,0 +1,87 @@
+{
+  "recordedAt": "2026-11-08T23:07:30.606864+00:00",
+  "actorId": "technical-director",
+  "skill": "oma-architecture",
+  "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.agent-valley/parallel/workspaces/a546003e0df37906-8f9ba36d8e59dd86-3",
+  "host": {
+    "system": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "cpus": 8,
+    "memoryBytes": 17179869184,
+    "freeDiskBytes": 46284800000,
+    "rlimits": {
+      "RLIMIT_CPU": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "RLIMIT_AS": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "RLIMIT_NPROC": [
+        2666,
+        4000
+      ],
+      "RLIMIT_NOFILE": [
+        1048576,
+        9223372036854775807
+      ]
+    }
+  },
+  "limits": {
+    "maxDurationSec": 86400,
+    "maxParallel": 3,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "retryDelayMs": 1000,
+    "perCheckTimeoutMs": 3600000,
+    "absoluteDeadline": "not supplied; retained mission budget, no replacement invented",
+    "actualCheckConcurrency": 1
+  },
+  "tools": {
+    "cargo --version": {
+      "exit": 0,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": ""
+    },
+    "rustc -vV": {
+      "exit": 0,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": ""
+    },
+    "bun --version": {
+      "exit": 0,
+      "stdout": "1.4.4\n",
+      "stderr": ""
+    },
+    "cargo llvm-cov --version": {
+      "exit": 0,
+      "stdout": "cargo-llvm-cov 0.6.21\n",
+      "stderr": ""
+    },
+    "rustup component list --installed": {
+      "exit": 0,
+      "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nllvm-tools-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+      "stderr": ""
+    },
+    "git diff --cached --name-only": {
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "git rev-parse HEAD HEAD^{tree}": {
+      "exit": 0,
+      "stdout": "2b07c2b4b81236f69c1b5ad52204cbfb17892a5f\n385bb15ac5db16de9a48728285745299627c9b44\n",
+      "stderr": ""
+    }
+  },
+  "probes": {
+    "target": "writable; supported checkout operation succeeded",
+    "localIndex": "writable; supported checkout operation succeeded"
+  },
+  "migration": {
+    "worktree": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "index": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "accepted": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  },
+  "resourceEnforcement": "Recorded OS limits and mission metadata; no new CPU/RAM/storage cap installed. Collection commands are serial and each maintained capture allows 3600000ms."
+}

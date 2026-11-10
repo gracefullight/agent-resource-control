@@ -1,12 +1,13 @@
 //! One CLI-owned native child, independent of every metadata retry.
 mod descriptors;
+mod preparation;
 mod signals;
 mod terminal;
 pub(crate) mod transport;
 use arc_core::process_identity::random_job_id;
 use arc_ipc::jobs::{
-    CompleteRequest, CompleteResult, JobId, Outcome, Phase, ProcessIdentity, SpawnReason,
-    StartRequest, StartResult, OPERATION_JOB_COMPLETE, OPERATION_JOB_START,
+    CompleteRequest, CompleteResult, JobId, Outcome, ProcessIdentity, SpawnReason, StartRequest,
+    StartResult, OPERATION_JOB_COMPLETE, OPERATION_JOB_START,
 };
 use serde_json::json;
 use std::{
@@ -15,35 +16,50 @@ use std::{
     os::unix::process::ExitStatusExt,
     path::Path,
     process::{Command, ExitCode},
+    time::{Duration, Instant},
 };
 
 pub(crate) fn invalid() -> ExitCode {
     eprintln!("INVALID_REQUEST\nUse arcctl exec -- <PROGRAM> [ARG...]. No child was started.");
     ExitCode::from(2)
 }
-fn not_started() -> ExitCode {
-    eprintln!("NOT_STARTED\nNo child was started. Check the ARC daemon connection.");
-    ExitCode::FAILURE
-}
-fn start(socket: &Path, input: StartRequest) -> Result<StartResult, ()> {
-    let value = transport::call(socket, OPERATION_JOB_START, json!(input))?;
-    let result: StartResult = serde_json::from_value(value).map_err(|_| ())?;
+fn start_until(
+    socket: &Path,
+    input: StartRequest,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+) -> Result<StartResult, transport::Failure> {
+    use transport::Failure;
+    let value = transport::call_until(
+        socket,
+        OPERATION_JOB_START,
+        json!(input),
+        deadline,
+        cancelled,
+    )?;
+    let result: StartResult = serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
     if result.job.job_id != *input.job_id()
         || result.job.observer != *input.observer()
         || !result.job.is_valid()
     {
-        return Err(());
+        return Err(Failure::InvalidReply);
     }
     match &input {
         StartRequest::Register { classification, .. }
             if result.job.classification != *classification =>
         {
-            return Err(())
+            return Err(Failure::InvalidReply)
         }
         StartRequest::Attach { child, .. } if result.job.child.as_ref() != Some(child) => {
-            return Err(())
+            return Err(Failure::InvalidReply)
         }
         _ => (),
+    }
+    if cancelled() {
+        return Err(Failure::Cancelled);
+    }
+    if Instant::now() >= deadline {
+        return Err(Failure::Uncertain);
     }
     Ok(result)
 }
@@ -54,45 +70,33 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     {
         return invalid();
     }
+    let deadline = Instant::now() + Duration::from_millis(1800);
     let Ok(socket) = arc_core::socket_path() else {
-        return not_started();
+        return preparation::stopped(transport::Failure::Local);
     };
     let shared_job = terminal::shares_job();
     let Ok(signals) = signals::Signals::install(shared_job) else {
-        return not_started();
+        return preparation::stopped(transport::Failure::Local);
     };
     let Ok(observer) = ProcessIdentity::capture(std::process::id()) else {
-        return not_started();
+        return preparation::stopped(transport::Failure::Local);
     };
     let Ok(job_id) = random_job_id().and_then(|s| JobId::try_from(s).map_err(io::Error::other))
     else {
-        return not_started();
+        return preparation::stopped(transport::Failure::Local);
     };
     let classification = arc_detector::classify_argv(&argv);
-    let registered = start(
+    let tracking = match preparation::prepare(
         &socket,
-        StartRequest::Register {
-            job_id: job_id.clone(),
-            observer: observer.clone(),
-            classification,
-        },
-    );
-    if !matches!(registered, Ok(ref r) if r.job.phase == Phase::Registered && r.job.classification == classification)
-    {
-        return not_started();
-    }
-    let claimed = start(
-        &socket,
-        StartRequest::Claim {
-            job_id: job_id.clone(),
-            observer: observer.clone(),
-        },
-    );
-    // An UNCHANGED claim is safe only in this still-live invocation before its
-    // one spawn site. A new invocation always allocates a fresh random key.
-    if !matches!(claimed, Ok(ref r) if r.job.phase == Phase::Launching) || signals.interrupted() {
-        return not_started();
-    }
+        &job_id,
+        &observer,
+        classification,
+        deadline,
+        &signals,
+    ) {
+        Ok(tracking) => tracking,
+        Err(error) => return preparation::stopped(error),
+    };
     let mut command = Command::new(&argv[0]);
     use std::os::unix::process::CommandExt;
     command.args(&argv[1..]);
@@ -101,8 +105,15 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     }
     signals.prepare_child(&mut command);
     descriptors::restore_in_child(&mut command);
-    let mut child = match command.spawn() {
+    let spawned = match preparation::admit(|| !signals.admit_spawn(), || command.spawn()) {
+        Ok(spawned) => spawned,
+        Err(error) => return preparation::stopped(error),
+    };
+    let mut child = match spawned {
         Ok(child) => child,
+        Err(error) if error.kind() == io::ErrorKind::Interrupted && signals.interrupted() => {
+            return preparation::stopped(transport::Failure::Cancelled);
+        }
         Err(error) => {
             let reason = match error.kind() {
                 io::ErrorKind::NotFound => SpawnReason::NotFound,
@@ -113,38 +124,44 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 }
                 _ => SpawnReason::Other,
             };
-            let _ = complete(
-                &socket,
-                &job_id,
-                &observer,
-                Outcome::SpawnFailed {
-                    reason,
-                    os_code: error.raw_os_error(),
-                },
-            );
+            if tracking == preparation::Tracking::Managed {
+                let _ = complete(
+                    &socket,
+                    &job_id,
+                    &observer,
+                    Outcome::SpawnFailed {
+                        reason,
+                        os_code: error.raw_os_error(),
+                    },
+                );
+            }
             eprintln!("SPAWN_FAILED\nNo child was started. Check the executable and execution permissions.");
             return ExitCode::FAILURE;
         }
     };
     signals.attach(child.id());
+    let mut diagnostics = preparation::started(tracking, &job_id);
     // Do not reap before capture: native identity remains available for a fast
     // exit's zombie, without pretending it is a currently running process.
-    let attached = ProcessIdentity::capture(child.id())
-        .ok()
-        .and_then(|identity| {
-            start(
-                &socket,
-                StartRequest::Attach {
-                    job_id: job_id.clone(),
-                    observer: observer.clone(),
-                    child: identity,
-                },
-            )
+    let attached = tracking == preparation::Tracking::Managed
+        && ProcessIdentity::capture(child.id())
             .ok()
-        })
-        .is_some();
-    if !attached {
-        eprintln!("TRACKING_UNCERTAIN\nJob: {}\nLifecycle tracking is uncertain. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str());
+            .and_then(|identity| {
+                start_until(
+                    &socket,
+                    StartRequest::Attach {
+                        job_id: job_id.clone(),
+                        observer: observer.clone(),
+                        child: identity,
+                    },
+                    Instant::now() + Duration::from_secs(2),
+                    &|| false,
+                )
+                .ok()
+            })
+            .is_some();
+    if tracking == preparation::Tracking::Managed && !attached {
+        preparation::uncertain(&mut diagnostics, &job_id);
     }
     let status = loop {
         match signals.wait(&mut child) {
@@ -152,7 +169,8 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
             Err(e) if e.kind() == io::ErrorKind::Interrupted => (),
             Err(_) => {
                 signals.reaped();
-                eprintln!("OUTCOME_UNKNOWN\nJob: {}\nThe child outcome is unknown. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str());
+                diagnostics.emit(format_args!("OUTCOME_UNKNOWN\nThe child outcome is unknown. Do not launch another copy to recover tracking."));
+                diagnostics.finish();
                 return ExitCode::FAILURE;
             }
         }
@@ -165,7 +183,9 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
             core_dumped: status.core_dumped(),
         },
     };
-    if complete(&socket, &job_id, &observer, outcome).is_err() {
+    if tracking == preparation::Tracking::Managed
+        && complete(&socket, &job_id, &observer, outcome).is_err()
+    {
         let observed = status.code().map_or_else(
             || {
                 format!(
@@ -175,8 +195,9 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
             },
             |code| format!("The child exited with code {code}."),
         );
-        eprintln!("COMPLETION_UNCONFIRMED\nJob: {}\n{observed} Recording is unconfirmed. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str());
+        diagnostics.emit(format_args!("COMPLETION_UNCONFIRMED\nJob: {}\n{observed} Recording is unconfirmed. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str()));
     }
+    diagnostics.finish();
     drop(signals);
     if let Some(signal) = status.signal() {
         signals::reraise(signal);

@@ -44,3 +44,22 @@ fn legacy_usage_errors_and_version_keep_their_exit_contract() {
     assert!(output.stderr.is_empty());
     assert_eq!(output.stdout, b"arcctl 0.1.0\n");
 }
+
+#[test]
+fn exec_short_and_long_help_describe_fallback_and_non_launching_outcomes() {
+    for flag in ["-h", "--help"] {
+        let output = Command::new(env!("CARGO_BIN_EXE_arcctl"))
+            .args(["exec", flag])
+            .output()
+            .unwrap();
+        assert!(output.status.success(), "{output:?}");
+        assert!(output.stderr.is_empty());
+        let help = String::from_utf8(output.stdout).unwrap();
+        assert!(help.contains("If the daemon is unavailable or tracking is unconfirmed due to an outage or exhausted DB_BUSY retries, ARC still attempts the command once."), "{help}");
+        assert!(help.contains("Cancellation, invalid arguments, invalid protocol replies, local preparation failures and explicit authenticated rejection do not start a child."), "{help}");
+        assert!(
+            !help.contains("If the daemon is unavailable or tracking cannot be confirmed"),
+            "{help}"
+        );
+    }
+}

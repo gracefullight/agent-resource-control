@@ -1,0 +1,65 @@
+{
+  "recordedAt": "2026-11-08T23:29:28.645458+00:00",
+  "actorId": "technical-director",
+  "skillsUsed": [
+    "oma-architecture",
+    "oma-backend"
+  ],
+  "status": "collection-complete-with-failed-gates",
+  "acceptancePassed": false,
+  "sourceHash": "3d51ee23c34f602cf6bc5bb4ca6faf7d626aa7f5bcfc7347210e338dd3a0df17",
+  "observedGit": {
+    "head": "2b07c2b4b81236f69c1b5ad52204cbfb17892a5f",
+    "tree": "385bb15ac5db16de9a48728285745299627c9b44",
+    "baselineTree": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+    "diffSha256": "3e82e9dd060c1a29dcc9cb28523c4eb8d30e178916fb9c89f44a7c62392cc053"
+  },
+  "gatesSha256": "66845e88a9424c1ca1b85668693db8632620569c2a190c1f103978588a96f4c0",
+  "technicalReportSha256": "4979954efbbc3d4b232ebb81cda44f38a6eb9f9913dcc1351c5f88ef3a92f868",
+  "productionGateValidation": {
+    "receipt": ".arc-verify/exec-fail-open/implementation/commands/task4-attempt4-gate-validation.json",
+    "sha256": "ec83c4f60b1b4ac1eba51cf5708371213aff2ec93b57fee9859ab59f6431af41",
+    "actualExit": 1,
+    "actualError": "EXEC_FAIL_OPEN: receipt actor mismatch",
+    "meaning": "Expected rejection of actual collector identity; not an acceptance pass"
+  },
+  "prerequisiteCommandsExecuted": 11,
+  "successfulCommands": 5,
+  "failedCommands": 6,
+  "workspaceTests": {
+    "passed": 367,
+    "failed": 0,
+    "ignored": 0
+  },
+  "nativeCases": 13,
+  "nativeOrdinaryMaximumMs": 1815.54675,
+  "allMeasuredTimingCases": 78,
+  "allMeasuredMaximumMs": 1817.1536669999998,
+  "failedCoverageCollections": 5,
+  "coverageFloors": "All six UNAVAILABLE; no valid native exports or independent integer recomputation",
+  "liveEvidenceRanAfterLastCollector": true,
+  "migrationSha256": {
+    "worktree": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "index": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "accepted": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  },
+  "sourceFilesOver500Lines": [],
+  "historicalGeneratedOutputsRestoredExact": true,
+  "accessiblePathsChangedOutsideOwnership": [],
+  "unownedDeniedPathExcluded": "av.yaml; not read or bypassed",
+  "trackedEvidenceCountBeforeThisFile": 110,
+  "expectedTrackedEvidenceCountAfterStagingThisFile": 111,
+  "trackedLimit": 150,
+  "indexValidationBeforeThisFile": "Maintained validateIndex passed for all 110 staged regular evidence files and exact worktree/index byte equality. Recheck required after adding this report.",
+  "finalSeal": false,
+  "sourceOrValidatorEdits": false,
+  "remaining": [
+    "Backend-owned fixture repair and genuine backend collection",
+    "all six 80% floors and passing no-skip harness/live evidence",
+    "independent oma-qa and final/terminal receipts",
+    "desktop",
+    "native Windows",
+    "vendor hooks",
+    "scheduling"
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "kind": "task8-ownership-handoff",
+  "actorId": "backend",
+  "skill": "oma-backend",
+  "taskId": "task-8",
+  "attempt": 3,
+  "recordedAt": "2026-11-08T23:53:21.650133+00:00",
+  "status": "blocked",
+  "baselineHead": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+  "sourceHash": "62238c2ce55acf00c179e38527c0de31e1d7dd78bd2ee6fadec390a9c9c00e57",
+  "sourceInputCount": 213,
+  "inputInventory": {
+    "path": "target/exec-fail-open/task8-attempt3/current-inputs.json",
+    "sha256": "0d683202663b1b682ad231629ee26711892f54cfcfb998649ca1c993e0e89367"
+  },
+  "retainedCorrectiveReceipt": {
+    "path": ".arc-verify/exec-fail-open/implementation/task8-attempt2-correction.json",
+    "sha256": "3ffa6df0d3c810a5b38f1d0a64e7b147f17147a0192bbd45f8a1cea403ab02f6"
+  },
+  "ownedSourceChangesThisAttempt": [],
+  "observedSources": [
+    {
+      "path": "crates/arc-daemon/tests/managed_exec/fallback_environment.rs",
+      "sha256": "f778416771edac2fcc692f570b92480cb5ea908e25af88b69a21e749e131fd72"
+    },
+    {
+      "path": "crates/arc-daemon/tests/managed_exec/runtime_environment_probe.rs",
+      "sha256": "519e6ee322c32a57feb329b99a039df1e34a8e8c6f8b31b53c04e7f3611f7336"
+    },
+    {
+      "path": "crates/arc-cli/src/main.rs",
+      "sha256": "9f2a9a2e635aaab068659a4319886862ca7af09c5f48fe05cdc71bb7b0ce8c03"
+    },
+    {
+      "path": "docs/managed-exec.md",
+      "sha256": "604d1a670d022d087dbe1bdb2128562eff084080b7d7052c25e136a69f682257"
+    },
+    {
+      "path": "scripts/harness/exec-fail-open-preservation.ts",
+      "sha256": "33d415a57ed69e743c267b83623ff940836e6f5efe22df684668c0b46bec8d90"
+    },
+    {
+      "path": "scripts/harness/exec-fail-open-preservation.test.ts",
+      "sha256": "525378c071940cfb9e0eb35abdffcfa06cbd9a47dadacac7b71d94adc05f5f6e"
+    }
+  ],
+  "commands": [
+    {
+      "name": "preservation",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/exec-fail-open-preservation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 41294,
+      "startedAt": "2026-11-08T23:52:23.228512+00:00",
+      "elapsedMs": 23830.527,
+      "timeoutMs": 3600000,
+      "exitCode": 1,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt3/preservation.stdout",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt3/preservation.stderr",
+          "sha256": "fd0df31f72342a0663f0172ce090664b17b335241507ee4ec08771edf4c6df05"
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/harness/exec-fail-open-docs.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "pid": 42916,
+      "startedAt": "2026-11-08T23:52:47.059963+00:00",
+      "elapsedMs": 91.388,
+      "timeoutMs": 3600000,
+      "exitCode": 0,
+      "outputs": [
+        {
+          "path": "target/exec-fail-open/task8-attempt3/docs.stdout",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+        },
+        {
+          "path": "target/exec-fail-open/task8-attempt3/docs.stderr",
+          "sha256": "39cd959cd23b8d7f6f6c5c4eda558534e41f7b14f7f1f43bff261d7acd38fae7"
+        }
+      ]
+    }
+  ],
+  "preservationFailure": {
+    "path": "scripts/harness/exec-fail-open-preservation.ts",
+    "pinLine": 77,
+    "rejectionLine": 79,
+    "fixture": "crates/arc-daemon/tests/managed_exec/fallback_environment.rs",
+    "pinnedSha256": "2ff7df390775837e6d4d5094956b880bc128b1b03e8be6b4cc77c4613edd3e50",
+    "reviewedCorrectiveSha256": "f778416771edac2fcc692f570b92480cb5ea908e25af88b69a21e749e131fd72",
+    "diagnostic": "EXEC_FAIL_OPEN: historical helper changed: crates/arc-daemon/tests/managed_exec/fallback_environment.rs",
+    "positiveTestsPassed": false,
+    "tamperTestConclusive": false
+  },
+  "requiredChiefHandoff": {
+    "owner": "Chief-assigned validator owner; not task-8 backend",
+    "reason": "Task-8 explicitly forbids editing validators. No ownership handoff was supplied.",
+    "path": "scripts/harness/exec-fail-open-preservation.ts",
+    "proposedChange": "Amend only the fallback_environment.rs reviewed fixture SHA-256 pin to the corrective digest; retain all protection assertions and historical routing.",
+    "requiredRecheck": [
+      "bun",
+      "test",
+      "scripts/harness/exec-fail-open-preservation.test.ts"
+    ],
+    "requiredEvidence": "Positive clean fixture must pass before tamper results establish mutation-specific rejection.",
+    "downstreamOwner": "task-4: final source-bound gates after acceptance of validator amendment"
+  },
+  "priorEvidenceUnchangedBeforeAppend": true,
+  "retainedSourceAndFiveBinariesVerified": true,
+  "fullCollectorsRerun": false,
+  "finalGatesPassed": false,
+  "evidenceFileCountBefore": 112,
+  "evidenceFileCountAfter": 113,
+  "outstanding": [
+    "Chief-assigned validator amendment",
+    "independent acceptance",
+    "task-4 final gates",
+    "desktop",
+    "native Windows",
+    "vendor hooks",
+    "scheduling"
+  ]
+}

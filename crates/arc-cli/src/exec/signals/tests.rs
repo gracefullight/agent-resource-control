@@ -6,6 +6,10 @@ use std::{
     process::Command,
     time::{Duration, Instant},
 };
+#[path = "diagnostic_tests.rs"]
+mod diagnostic_tests;
+#[path = "handoff.rs"]
+mod handoff;
 static EVENTS: AtomicI32 = AtomicI32::new(-1);
 extern "C" fn event(signal: i32) {
     unsafe {
@@ -100,6 +104,7 @@ fn isolated(name: &str, body: impl FnOnce()) {
 fn isolated_sigchld(name: &str, ignored: bool, body: impl FnOnce()) {
     if std::env::var("ARC_SIGNAL_CASE").as_deref() == Ok(name) {
         body();
+        println!("ARC_SIGNAL_EXECUTED={name}");
         return;
     }
     let mut command = Command::new(std::env::current_exe().unwrap());
@@ -120,6 +125,7 @@ fn isolated_sigchld(name: &str, ignored: bool, body: impl FnOnce()) {
             Ok(())
         });
     }
+    command.process_group(0);
     let mut child = command
         .args(["--exact", name, "--nocapture"])
         .env("ARC_SIGNAL_CASE", name)
@@ -136,6 +142,13 @@ fn isolated_sigchld(name: &str, ignored: bool, body: impl FnOnce()) {
                 "{}{}",
                 String::from_utf8_lossy(&output.stdout),
                 String::from_utf8_lossy(&output.stderr)
+            );
+            assert!(
+                String::from_utf8_lossy(&output.stdout)
+                    .lines()
+                    .any(|line| line == format!("ARC_SIGNAL_EXECUTED={name}")),
+                "isolated test body did not run: {name}\n{}",
+                String::from_utf8_lossy(&output.stdout)
             );
             break;
         }
@@ -386,4 +399,71 @@ fn private_sigcont_preserves_target_disposition_mask_and_restores_guard_on_every
             }
         }
     });
+}
+
+#[test]
+fn shared_job_terminal_cancellation_before_attachment_blocks_spawn_admission() {
+    isolated(
+        "exec::signals::tests::shared_job_terminal_cancellation_before_attachment_blocks_spawn_admission",
+        || {
+            for signal in TERMINAL {
+                let guard = Signals::install(true).unwrap();
+                assert_eq!(unsafe { libc::raise(signal) }, 0);
+                assert!(guard.interrupted());
+                let mut invoked = false;
+                assert!(super::super::preparation::admit(
+                    || !guard.admit_spawn(),
+                    || {
+                        invoked = true;
+                    }
+                )
+                .is_err());
+                assert!(!invoked);
+                drop(guard);
+            }
+        },
+    );
+}
+
+#[test]
+#[should_panic(expected = "isolated test body did not run")]
+fn isolated_rejects_an_empty_exact_selection() {
+    isolated("unregistered_signal_case", || panic!("must not run"));
+}
+
+#[test]
+fn shared_job_terminal_signals_between_spawn_and_attach_arrive_once() {
+    isolated(
+        "exec::signals::tests::shared_job_terminal_signals_between_spawn_and_attach_arrive_once",
+        || {
+            let signals = Signals::install(true).unwrap();
+            assert!(signals.admit_spawn());
+            // target() blocks on the executed child's ready pipe. Both are in the
+            // isolated foreground job's process group, but attachment has not run.
+            let (mut child, events, gate) = target(&signals, false);
+            for signal in TERMINAL {
+                assert_eq!(unsafe { libc::kill(-libc::getpgrp(), signal) }, 0);
+                assert_eq!(read(events), signal);
+            }
+            // Parent sightings after fork are retained until attach, but must
+            // never be forwarded into this shared foreground job a second time.
+            assert!(signals.interrupted());
+            signals.attach(child.0.id());
+            // An acknowledged directed signal is a second barrier after attachment.
+            assert_eq!(unsafe { libc::kill(child.0.id() as i32, libc::SIGUSR1) }, 0);
+            assert_eq!(read(events), libc::SIGUSR1);
+            write(gate, 17);
+            assert_eq!(signals.wait(&mut child.0).unwrap().code(), Some(17));
+            child.1 = true;
+            let mut extra = 0i32;
+            assert_eq!(
+                unsafe { libc::read(events, (&mut extra as *mut i32).cast(), 4) },
+                0,
+                "duplicate terminal delivery"
+            );
+            for fd in [events, gate] {
+                unsafe { libc::close(fd) };
+            }
+        },
+    );
 }

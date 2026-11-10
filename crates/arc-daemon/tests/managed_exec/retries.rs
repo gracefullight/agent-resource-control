@@ -107,7 +107,7 @@ fn cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17() {
         let mut daemon = f.spawn("test");
         let (proxy, path) = Proxy::start(&f, mode);
         let marker = f.root.join("invocations");
-        let mut c = child_command(&f, true);
+        let mut c = super::historical::before_register(child_command(&f, true), mode);
         c.env(arc_core::ARC_SOCKET_PATH, path)
             .env("ARC_FIXTURE_MARKER", &marker)
             .stdin(Stdio::null())

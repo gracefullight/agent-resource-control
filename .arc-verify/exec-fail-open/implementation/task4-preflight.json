@@ -1,0 +1,185 @@
+{
+  "recordedAt": "2026-11-08T22:53:53.728924+00:00",
+  "actorId": "technical-director",
+  "skill": "oma-architecture",
+  "task": "task-4",
+  "attempt": 1,
+  "baselineHead": "00773c69a8e5e7fd417fd5cc78d03e222364f609",
+  "snapshotCommit": "041fd8784d9614b1660b6b25944f21a27a2cc189",
+  "snapshotTree": "e49f22a62e788d07ca92e255a0ce38e7cb5725ac",
+  "policy": {
+    "maxDurationSec": 86400,
+    "concurrencyLimit": 3,
+    "collectionConcurrency": 1,
+    "maxRuns": 200,
+    "maxRetries": 3,
+    "retryDelayMs": 1000,
+    "perCheckTimeoutMs": 3600000,
+    "missionAbsoluteDeadline": "not supplied in assignment; no new deadline substituted"
+  },
+  "probes": [
+    {
+      "argv": [
+        "date",
+        "-u"
+      ],
+      "exit": 0,
+      "stdout": "Sun Nov  8 22:53:53 UTC 2026\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uname",
+        "-a"
+      ],
+      "exit": 0,
+      "stdout": "Darwin Eunkwangui-MacBookPro.local 27.2.0 Darwin Kernel Version 27.2.0: Thu Oct 15 00:02:46 PDT 2026; root:xnu-13432.41.4~25/RELEASE_ARM64_T6000 arm64\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "sysctl",
+        "-n",
+        "hw.ncpu",
+        "hw.memsize"
+      ],
+      "exit": 0,
+      "stdout": "8\n17179869184\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "df",
+        "-h",
+        "."
+      ],
+      "exit": 0,
+      "stdout": "Filesystem      Size    Used   Avail Capacity iused ifree %iused  Mounted on\n/dev/disk3s5   460Gi   381Gi    44Gi    90%    7.0M  464M    1%   /System/Volumes/Data\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "exit": 0,
+      "stdout": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "bun",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "1.4.4\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cargo",
+        "llvm-cov",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "cargo-llvm-cov 0.6.21\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "rustup",
+        "component",
+        "list",
+        "--installed"
+      ],
+      "exit": 0,
+      "stdout": "cargo-aarch64-apple-darwin\nclippy-aarch64-apple-darwin\nllvm-tools-aarch64-apple-darwin\nrust-docs-aarch64-apple-darwin\nrust-std-aarch64-apple-darwin\nrustc-aarch64-apple-darwin\nrustfmt-aarch64-apple-darwin\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "--cached",
+        "--name-status",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "environmentLimitNames": [],
+  "scope": "new isolated collection; native absolute-path reports from earlier Actor not reused",
+  "migration": {
+    "path": "crates/arc-storage/migrations/0001_phase0.sql",
+    "worktreeSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "indexSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+    "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384"
+  },
+  "collectionCheckout": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+  "initialIsolatedChecks": "Initial fmt/clippy/workspace probes bind Actor snapshot only; final mandatory schedule will execute in integrated checkout. No native raw report copy is valid.",
+  "processInventoryFailure": {
+    "argv": [
+      "ps",
+      "-axo",
+      "pid,ppid,etime,command"
+    ],
+    "exit": 1,
+    "stderr": "zsh:1: operation not permitted: ps",
+    "response": "No GUI workaround or alternate process-inventory bypass used."
+  },
+  "integratedIndexPreparation": {
+    "status": "failed-before-mutation",
+    "command": [
+      "git",
+      "add",
+      "--",
+      "intended task-3 paths (102)"
+    ],
+    "exit": 128,
+    "stderr": "fatal: Unable to create integrated mission workspace/.git/index.lock: Operation not permitted",
+    "effect": "Cannot snapshot current integrated task-3 source for mandatory clean-checkout gate. No alternate index or GUI bypass used. Mission index remains unchanged."
+  },
+  "integratedCaptureFailure": {
+    "argv": [
+      "bun",
+      "scripts/harness/exec-fail-open-receipts.ts",
+      "task4-integrated-fmt",
+      "cargo",
+      "fmt",
+      "--all",
+      "--",
+      "--check"
+    ],
+    "exit": 1,
+    "code": "EPERM",
+    "operation": "mkdir",
+    "path": "target/exec-fail-open/commands/task4-integrated-fmt-aae88e2e-6c03-440c-9d14-faebfa5d0555",
+    "effect": "Capture aborted before launching cargo. Integrated checkout cannot create required native evidence directories."
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "actorId": "technical-director",
+  "scope": "Actual local Git resolutions; missing references remain missing, with no replacement revision substituted.",
+  "observations": [
+    {
+      "revision": "00773c69a8e5e7fd417fd5cc78d03e222364f609^{tree}",
+      "exit": 0,
+      "stdout": "b98f996caa04fe13eeeeab1072c3c528f6d18c65",
+      "stderr": ""
+    },
+    {
+      "revision": "refs/agent-valley/task-evidence/a546003e0df37906-8f9ba36d8e59dd86-3/snapshot",
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision"
+    },
+    {
+      "revision": "refs/agent-valley/task-evidence/a546003e0df37906-8f9ba36d8e59dd86-3/worker",
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: Needed a single revision"
+    }
+  ]
+}

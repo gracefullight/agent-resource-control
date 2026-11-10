@@ -1,0 +1,58 @@
+{
+  "status": "prerequisite-observations",
+  "actorId": "technical-director",
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "status",
+        "--short",
+        "--untracked-files=normal",
+        "--",
+        ".",
+        ":!av.yaml"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:36.672482+00:00",
+      "ended": "2026-11-08T23:04:36.725770+00:00",
+      "elapsedMs": 53.11108400928788,
+      "exit": 0,
+      "stdout": " M crates/arc-cli/src/exec.rs\n M crates/arc-cli/src/exec/signals.rs\n M crates/arc-cli/src/exec/signals/tests.rs\n M crates/arc-cli/src/exec/transport.rs\n M crates/arc-cli/src/main.rs\n M crates/arc-daemon/tests/managed_exec.rs\n M crates/arc-daemon/tests/managed_exec/cli.rs\n M crates/arc-daemon/tests/managed_exec/retries.rs\n M docs/managed-exec.md\n?? .arc-verify/exec-fail-open/\n?? crates/arc-cli/src/exec/preparation.rs\n?? crates/arc-cli/src/exec/signals/handoff.rs\n?? crates/arc-cli/src/exec/transport/\n?? crates/arc-daemon/tests/managed_exec/fail_open.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_descriptors.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_environment.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_pipeline.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_sigstate.rs\n?? crates/arc-daemon/tests/managed_exec/fallback_terminal.rs\n?? crates/arc-daemon/tests/managed_exec/fault.rs\n?? crates/arc-daemon/tests/managed_exec/historical.rs\n?? scripts/harness/exec-fail-open-assemble.ts\n?? scripts/harness/exec-fail-open-coverage.ts\n?? scripts/harness/exec-fail-open-docs.test.ts\n?? scripts/harness/exec-fail-open-docs.ts\n?? scripts/harness/exec-fail-open-evidence.test.ts\n?? scripts/harness/exec-fail-open-evidence.ts\n?? scripts/harness/exec-fail-open-fixture-recipe.ts\n?? scripts/harness/exec-fail-open-fixture.ts\n?? scripts/harness/exec-fail-open-gates.test.ts\n?? scripts/harness/exec-fail-open-gates.ts\n?? scripts/harness/exec-fail-open-graph.ts\n?? scripts/harness/exec-fail-open-history.ts\n?? scripts/harness/exec-fail-open-inputs.ts\n?? scripts/harness/exec-fail-open-native.ts\n?? scripts/harness/exec-fail-open-preservation.test.ts\n?? scripts/harness/exec-fail-open-preservation.ts\n?? scripts/harness/exec-fail-open-reads.ts\n?? scripts/harness/exec-fail-open-receipts.ts\n?? scripts/harness/exec-fail-open-recipe.ts\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "git",
+        "add",
+        "--",
+        ".arc-verify/exec-fail-open/technical-verification.md"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:36.725866+00:00",
+      "ended": "2026-11-08T23:04:36.737526+00:00",
+      "elapsedMs": 11.676584021188319,
+      "exit": 128,
+      "stdout": "",
+      "stderr": "fatal: Unable to create '/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/.git/index.lock': Operation not permitted\n"
+    },
+    {
+      "argv": [
+        "bun",
+        "scripts/harness/exec-fail-open-receipts.ts",
+        "task4-attempt3-integrated-fmt",
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace",
+      "started": "2026-11-08T23:04:36.737614+00:00",
+      "ended": "2026-11-08T23:04:37.121293+00:00",
+      "elapsedMs": 383.69350001448765,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "62 | }\n63 | export async function capture(argv: string[], name: string, actor = \"backend\") {\n64 |   const before = context(root), started = new Date().toISOString(), start = performance.now();\n65 |   requireValue(argv.length > 0 && /^[a-z0-9-]+$/.test(name), \"invalid capture invocation\");\n66 |   const base = `target/exec-fail-open/commands/${name}-${crypto.randomUUID()}`;\n67 |   mkdirSync(resolve(root, base), { recursive: true });\n       ^\nEPERM: operation not permitted, mkdir '/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/target/exec-fail-open/commands/task4-attempt3-integrated-fmt-458cf489-5446-42b7-88f3-36917c26d502'\n    path: \"/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/target/exec-fail-open/commands/task4-attempt3-integrated-fmt-458cf489-5446-42b7-88f3-36917c26d502\",\n syscall: \"mkdir\",\n   errno: -1,\n    code: \"EPERM\"\n\n      at capture (/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/scripts/harness/exec-fail-open-receipts.ts:67:3)\n      at /Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/025db4e3-dd16-4743-ba66-93110c401133/workspace/scripts/harness/exec-fail-open-receipts.ts:94:24\n\nBun v1.4.4 (macOS arm64)\n"
+    }
+  ]
+}

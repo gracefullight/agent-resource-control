@@ -9,6 +9,9 @@ docs/plans/
 .migration-backup/
 .qwen/tmp/
 /target/
+/*.profraw
+/*.profdata
+/*.lcov
 .agent-valley/
 .env
 .env.local

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "recordedAtUtc": "2026-11-10T04:27:29.065254+00:00",
+  "acceptedHead": "e0875e7449c4e5d6752dfd1b6508c408ebd42ed3",
+  "currentSourceIdentity": {
+    "sha256": "61a94138b8f0a5696b123ba654e55241d1e23b2d8eee0172e41558690111543f",
+    "fileCount": 185,
+    "harnessSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+    "coverageRunnerSha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da"
+  },
+  "harness": {
+    "startedAtUtc": "2026-11-10T04:24:41.596119+00:00",
+    "skipCoverage": false,
+    "sourceBefore": "61a94138b8f0a5696b123ba654e55241d1e23b2d8eee0172e41558690111543f",
+    "harnessSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+    "coverageRunnerSha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da",
+    "harnessSha256After": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+    "coverageRunnerSha256After": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da",
+    "finishedAtUtc": "2026-11-10T04:27:29.065254+00:00",
+    "sourceAfter": "61a94138b8f0a5696b123ba654e55241d1e23b2d8eee0172e41558690111543f",
+    "output": {
+      "path": ".arc-verify/root-profile-hygiene/harness-output.txt",
+      "sha256": "da5f1f6f1d7256fa52f22f28fe0b8cdd5e0d90c5b591acae77f3d0549cf612eb",
+      "kind": "complete combined stdout and stderr"
+    },
+    "status": "passed",
+    "argv": [
+      "./scripts/harness/validate.sh"
+    ],
+    "exitCode": 0
+  },
+  "coverage": {
+    "startedAtUtc": "2026-11-10T04:24:41.596119+00:00",
+    "skipCoverage": false,
+    "sourceBefore": "61a94138b8f0a5696b123ba654e55241d1e23b2d8eee0172e41558690111543f",
+    "harnessSha256": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+    "coverageRunnerSha256": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da",
+    "harnessSha256After": "6f3eacf963b2c9d7f026f2847f2d37baa861dd4bbf70a5bd33803bbf471d97b1",
+    "coverageRunnerSha256After": "d32ec1940cafd539d10f259cc984ab019b90a54d17cbd49ce0613fc3815203da",
+    "finishedAtUtc": "2026-11-10T04:27:29.065254+00:00",
+    "sourceAfter": "61a94138b8f0a5696b123ba654e55241d1e23b2d8eee0172e41558690111543f",
+    "output": {
+      "path": ".arc-verify/root-profile-hygiene/harness-output.txt",
+      "sha256": "da5f1f6f1d7256fa52f22f28fe0b8cdd5e0d90c5b591acae77f3d0549cf612eb",
+      "kind": "complete combined stdout and stderr"
+    },
+    "status": "passed",
+    "argv": [
+      "bun",
+      "run",
+      "test:coverage"
+    ],
+    "exitCode": 0,
+    "execution": "child of harness; timestamps bound the enclosing harness run",
+    "reason": "Runner receipt and harness coverage step both report success",
+    "runId": "2026-11-10T04-24-48-674Z-c4014030-b332-4718-92ba-1f71581058d7",
+    "receipt": {
+      "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-10T04-24-48-674Z-c4014030-b332-4718-92ba-1f71581058d7/receipt.json",
+      "sha256": "1b2d0b91a82c08883fe16d9e747dea4f3b41ac08cf341ce5e3dfc8eb89fce9f6"
+    },
+    "latest": {
+      "path": ".arc-verify/rust-coverage/baseline/latest.json",
+      "sha256": "6cdc6e156c5154e1aee0eae1c03412777ec28bef88a4a956d375186ace0d1a6b"
+    }
+  }
+}

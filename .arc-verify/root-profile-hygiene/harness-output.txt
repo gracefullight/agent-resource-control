@@ -1,0 +1,25 @@
+[0;34m[validate][0m Mode: all-tracked
+[0;34m[validate][0m Files to check: 3585
+[0;34m[validate][0m Check 1/5: Hardcoded secrets
+[0;32m[ok][0m       No hardcoded secrets found
+[0;34m[validate][0m Check 2/5: Dangerous shell commands
+[0;32m[ok][0m       No dangerous shell commands found
+[0;34m[validate][0m Check 3/5: Architecture layer violations (domain must be pure)
+[0;32m[ok][0m       No architecture layer violations found
+[0;34m[validate][0m Check 4/5: File length cap (CONSTRAINTS.md §5: max 500 lines per file)
+[0;32m[ok][0m       No oversized files found
+[0;34m[validate][0m Check 5/5: Test coverage thresholds
+$ bun scripts/coverage/run.ts
+Coverage: checking pinned tools (setup: mise run coverage:provision)
+Coverage: running workspace unit, integration and child-binary tests
+Coverage: merging fresh execution profiles and validating reports
+PASS arc-core: 247/256 production lines (96.48%; requires 80%)
+PASS arc-detector: 609/610 production lines (99.84%; requires 80%)
+PASS arc-storage: 653/674 production lines (96.88%; requires 80%)
+PASS arc-ipc: 387/393 production lines (98.47%; requires 80%)
+PASS arc-daemon: 1629/1746 production lines (93.30%; requires 80%)
+PASS arc-cli: 968/1100 production lines (88.00%; requires 80%)
+Coverage reports: .arc-verify/rust-coverage/baseline/runs/2026-11-10T04-24-48-674Z-c4014030-b332-4718-92ba-1f71581058d7
+[0;32m[ok][0m       Coverage thresholds met
+
+[0;32m[ok][0m       All checks passed (0 violations).

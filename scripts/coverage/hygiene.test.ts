@@ -6,11 +6,19 @@ import { root } from "./acceptance";
 import { hash } from "./source";
 import { ACCEPTED_HEAD, HYGIENE, gitBytes, auditTrackedEvidence, assertHygiene, isNativeExport } from "./hygiene";
 
+const trackedCoverageFiles = (dir: string) => gitBytes(dir, ["ls-files", "-z"]).toString().split("\0")
+  .filter(path => /\.(profraw|profdata|lcov)$/i.test(path)).sort();
+const assertNoTrackedCoverage = (dir: string) => {
+  const paths = trackedCoverageFiles(dir);
+  if (paths.length) throw Error(`tracked coverage files: ${paths.join(", ")}`);
+};
+
 test("final index has bounded evidence and no prohibited artifact anywhere under .arc-verify", () => {
   const audit = auditTrackedEvidence(root);
   assertHygiene(audit);
   expect(audit.rustCoverage.files).toBeGreaterThan(0);
   expect(audit.prohibited).toEqual([]);
+  expect(() => assertNoTrackedCoverage(root)).not.toThrow();
 });
 
 test("selected contracts and historical evidence retain their bytes and provenance", () => {
@@ -44,6 +52,7 @@ test("ignore probes are deterministic without global excludes and keep durable J
     gitBytes(dir, ["init", "--quiet"]);
     writeFileSync(join(dir, ".gitignore"), readFileSync(resolve(root, ".gitignore")));
     const cases: [string, string][] = [
+      ...["profraw", "profdata", "lcov"].map(ext => [`root-probe.${ext}`, `/*.${ext}`] as [string, string]),
       [".arc-verify/probe/runs/id/summary.json", ".arc-verify/**/runs/"],
       [".arc-verify/runs/id/receipt.json", ".arc-verify/**/runs/"],
       [".arc-verify/probe/nested/profiles/payload", ".arc-verify/**/profiles/"],
@@ -89,6 +98,7 @@ test("index audit catches renamed native exports, directory and extension violat
   try {
     gitBytes(root, ["clone", "--quiet", "--shared", "--no-checkout", root, dir]);
     gitBytes(dir, ["read-tree", "--empty"]);
+    expect(() => assertNoTrackedCoverage(dir)).not.toThrow();
     const files = {
       ".arc-verify/another-area/renamed.txt": { type: "llvm.coverage.json.export", data: [] },
       ".arc-verify/unexpected/opaque": { data: [{ files: [{ filename: "source.rs", segments: [] }] }] },
@@ -107,7 +117,14 @@ test("index audit catches renamed native exports, directory and extension violat
       mkdirSync(dirname(resolve(dir, path)), { recursive: true });
       writeFileSync(resolve(dir, path), JSON.stringify(value));
     }
-    gitBytes(dir, ["add", "--", ".arc-verify"]);
+    const outside = ["root.profraw", "docs/example.profdata", "fixtures/example.lcov"];
+    for (const path of outside) {
+      mkdirSync(dirname(resolve(dir, path)), { recursive: true });
+      writeFileSync(resolve(dir, path), "coverage");
+    }
+    gitBytes(dir, ["add", "--", ".arc-verify", ...outside]);
+    expect(trackedCoverageFiles(dir)).toEqual([...Object.keys(files).filter(path => /\.(profraw|profdata|lcov)$/i.test(path)), ...outside].sort());
+    expect(() => assertNoTrackedCoverage(dir)).toThrow("tracked coverage files");
     const audit = auditTrackedEvidence(dir);
     expect(audit.prohibited.map(e => e.path).sort()).toEqual(Object.keys(files).filter(p => !p.endsWith("evidence-hygiene/summary.json")).sort());
     expect(() => assertHygiene(audit)).toThrow("prohibited tracked artifacts");

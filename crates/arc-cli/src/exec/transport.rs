@@ -60,6 +60,29 @@ pub(crate) fn call_until(
     call_until_tracked(socket, operation, payload, deadline, cancelled, &mut false)
 }
 
+// Recent status shares one deadline across rows. A busy reply for one row
+// must not consume the budget needed to inspect the remaining rows.
+pub(crate) fn call_until_no_busy_retry(
+    socket: &Path,
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+) -> Result<Value, Failure> {
+    call_with_continuity(
+        operation,
+        payload,
+        deadline,
+        cancelled,
+        &mut false,
+        ExchangeOptions {
+            continuity: None,
+            retry_busy: false,
+        },
+        |attempt_deadline| DeadlineStream::connect(socket, attempt_deadline, cancelled),
+    )
+}
+
 pub(super) fn call_until_tracked(
     socket: &Path,
     operation: &str,
@@ -94,7 +117,10 @@ pub(super) fn call_until_with_continuity(
         deadline,
         cancelled,
         possibly_committed,
-        continuity,
+        ExchangeOptions {
+            continuity,
+            retry_busy: true,
+        },
         |attempt_deadline| DeadlineStream::connect(socket, attempt_deadline, cancelled),
     )
 }
@@ -125,9 +151,17 @@ fn call_with_tracked<S: TrackedStream>(
         deadline,
         cancelled,
         possibly_committed,
-        None,
+        ExchangeOptions {
+            continuity: None,
+            retry_busy: true,
+        },
         connect,
     )
+}
+
+struct ExchangeOptions<'a> {
+    continuity: Option<&'a Continuity>,
+    retry_busy: bool,
 }
 
 fn call_with_continuity<S: TrackedStream>(
@@ -136,7 +170,7 @@ fn call_with_continuity<S: TrackedStream>(
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
     possibly_committed: &mut bool,
-    continuity: Option<&Continuity>,
+    options: ExchangeOptions<'_>,
     mut connect: impl FnMut(Instant) -> Result<S, ConnectFailure>,
 ) -> Result<Value, Failure> {
     let mut request = Request::new(super::super::request_id(), operation);
@@ -178,7 +212,7 @@ fn call_with_continuity<S: TrackedStream>(
         };
         let response = arc_ipc::exchange(&mut stream, &request);
         if stream.sent() {
-            if let Some(continuity) = continuity {
+            if let Some(continuity) = options.continuity {
                 continuity.record(stream.peer_identity());
             }
         }
@@ -199,6 +233,9 @@ fn call_with_continuity<S: TrackedStream>(
                 match (response.status.as_str(), response.result, response.error) {
                     (STATUS_OK, Some(value), None) => return Ok(value),
                     (arc_ipc::STATUS_ERROR, None, Some(e)) if e.code == arc_ipc::ERROR_DB_BUSY => {
+                        if !options.retry_busy {
+                            return Err(Failure::Busy);
+                        }
                         uncertain = true;
                         *possibly_committed = true;
                         busy = true;

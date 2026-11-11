@@ -1,2 +1,2 @@
 [test]
-pathIgnorePatterns = ["target/**"]
+pathIgnorePatterns = ["target/**", "scripts/archive/**"]

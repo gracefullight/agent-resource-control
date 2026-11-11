@@ -71,7 +71,7 @@ test('real bun barrier', async () => {
     }
 }
 
-fn real_bun() -> PathBuf {
+pub(super) fn real_bun() -> PathBuf {
     let output = Command::new("bun")
         .args(["-p", "process.execPath"])
         .output()

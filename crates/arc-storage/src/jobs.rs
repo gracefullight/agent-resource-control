@@ -16,6 +16,8 @@ pub enum JobError {
     Conflict,
     InvalidTransition,
     IdentityUnavailable,
+    /// A historical outcome cannot be represented by the Traffic status shape.
+    UnsupportedStatus,
     Busy,
     StorageFailure,
 }
@@ -26,6 +28,7 @@ impl JobError {
             Self::Conflict => "JOB_CONFLICT",
             Self::InvalidTransition => "INVALID_JOB_TRANSITION",
             Self::IdentityUnavailable => "PROCESS_IDENTITY_UNAVAILABLE",
+            Self::UnsupportedStatus => arc_ipc::ERROR_UNSUPPORTED_CAPABILITY,
             Self::Busy => "DB_BUSY",
             Self::StorageFailure => "DB_BUSY",
         }

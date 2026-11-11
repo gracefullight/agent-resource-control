@@ -177,7 +177,7 @@ fn spawn_failure_quick_exit_help_and_status_have_static_diagnostics() {
     assert!(out.status.success());
     assert!(String::from_utf8(out.stdout)
         .unwrap()
-        .contains("State: completed"));
+        .contains("State: succeeded"));
     for args in [
         vec!["exec"],
         vec!["exec", "--bad-secret"],

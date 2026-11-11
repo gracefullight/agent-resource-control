@@ -189,6 +189,13 @@ pub(super) fn result(
         },
         "RUNNING" => Reply::Running {},
         "RETAINED" => Reply::ReservationRetained {},
+        // A completed historical entry cannot answer an owner retry without
+        // its outcome. Reject the transition rather than retrying DB_BUSY.
+        "COMPLETED"
+            if job.outcome.is_none() && crate::jobs::codec::legacy_unknown(connection, id)? =>
+        {
+            return Err(JobError::InvalidTransition);
+        }
         "COMPLETED" => Reply::Completed {
             queue_wait_ms: e
                 .granted_at
@@ -239,6 +246,13 @@ pub fn status(connection: &Connection, id: &JobId) -> JobResult<StatusResult> {
                 .checked_sub(e.queued_at)
                 .ok_or(JobError::StorageFailure)?,
         },
+        // Protocol-1 Traffic COMPLETED requires an outcome, so direct the
+        // caller to the existing lifecycle status for this historical row.
+        "COMPLETED"
+            if job.outcome.is_none() && crate::jobs::codec::legacy_unknown(connection, id)? =>
+        {
+            return Err(JobError::UnsupportedStatus);
+        }
         "COMPLETED" => StatusResult::Completed {
             queue_wait_ms: e
                 .granted_at

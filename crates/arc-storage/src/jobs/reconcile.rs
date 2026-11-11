@@ -84,7 +84,9 @@ pub fn apply_observation(
     let Some(mut job) = get(&tx, &evidence.job_id)? else {
         return Ok(ReconcileResult::NotFound);
     };
-    if job.outcome.is_some() {
+    if job.outcome.is_some()
+        || job.phase == Phase::OutcomeUnknown && codec::legacy_unknown(&tx, &job.job_id)?
+    {
         return Ok(ReconcileResult::Unchanged(Box::new(job)));
     }
     let identity = if evidence.target == T::Child {
@@ -163,10 +165,11 @@ pub(super) fn update_observation(
     }
 }
 pub(super) const RECENT_SQL: &str = "WITH candidates AS MATERIALIZED (
-        SELECT job_id, registered_at_ms, updated_at_ms, reason
+        SELECT job_id, registered_at_ms, updated_at_ms, reason, outcome_kind
         FROM job_lifecycle INDEXED BY idx_jobs_lifecycle_recent
         ORDER BY registered_at_ms DESC, job_id DESC LIMIT 51)
-        SELECT j.id, j.state, d.registered_at_ms, d.updated_at_ms, d.reason
+        SELECT j.id, j.state, d.registered_at_ms, d.updated_at_ms, d.reason,
+               d.outcome_kind, j.exit_code
         FROM candidates d JOIN jobs j ON j.id=d.job_id
         ORDER BY d.registered_at_ms DESC, d.job_id DESC";
 /// Indexed, bounded last-known summaries; no per-row native probes.
@@ -177,13 +180,21 @@ pub fn recent(connection: &Connection, now: u64) -> JobResult<StatusResult> {
         .query_map([], |row| {
             let phase: String = row.get(1)?;
             let reason: String = row.get(4)?;
+            let kind: Option<String> = row.get(5)?;
+            let code: Option<u8> = row.get(6)?;
+            let legacy_unknown = codec::legacy_unknown_state(&phase, kind.as_deref(), code);
+            let phase = codec::phase(&phase, kind.as_deref(), code)?;
             let decode = || -> Option<JobSummary> {
                 Some(JobSummary {
                     job_id: JobId::try_from(row.get::<_, String>(0).ok()?).ok()?,
-                    phase: serde_json::from_value(serde_json::Value::String(phase)).ok()?,
+                    phase,
                     registered_at_ms: u64::try_from(row.get::<_, i64>(2).ok()?).ok()?,
                     updated_at_ms: u64::try_from(row.get::<_, i64>(3).ok()?).ok()?,
-                    reason: serde_json::from_value(serde_json::Value::String(reason)).ok()?,
+                    reason: if legacy_unknown {
+                        R::None
+                    } else {
+                        serde_json::from_value(serde_json::Value::String(reason)).ok()?
+                    },
                 })
             };
             decode().ok_or(rusqlite::Error::InvalidQuery)

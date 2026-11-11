@@ -1,0 +1,1387 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-5",
+  "actorId": "independent_qa",
+  "attempt": 9,
+  "checkedAt": "2026-11-11T15:32:53.477962+00:00",
+  "host": "Darwin",
+  "status": "PASS",
+  "reviewOutcome": "PASS",
+  "reviewResult": "PASS",
+  "verificationCompleteness": "completed for the bounded current local repair/evidence review",
+  "summary": "Independent oma-qa PASS after review of six test-only repairs, fresh local gate evidence and four independently executed mission evidence checks. Final framework acceptance remains pending.",
+  "skillsUsed": [
+    "oma-qa"
+  ],
+  "ownership": {
+    "deliverables": [
+      ".arc-verify/terminal-outcomes/qa.md",
+      ".arc-verify/terminal-outcomes/audit.json"
+    ],
+    "rawArtifactsDirectory": "target/terminal-outcomes/task-5-attempt-9-independent-qa",
+    "productCodeEdited": false,
+    "gatesEdited": false,
+    "missionStateMutated": false,
+    "indexModified": false,
+    "externalDelivery": false
+  },
+  "source": {
+    "acceptedHead": "6b5218cf63b174b7976e52d81d56c7e3bf81112d",
+    "actualHead": "6b5218cf63b174b7976e52d81d56c7e3bf81112d",
+    "collectorSha256": "17fe50cbd7d5f9d332e16616723cc68037b5c111f772a73a0c4abed57afa01a4",
+    "collectorFiles": 249,
+    "manifest": {
+      "path": "target/terminal-outcomes/task-5-attempt-9/input-identity--repair-bun-fixture.stdout.log",
+      "sha256": "41a7cb3508f05d8969d45fdd5f5ed5755bd951846dbd238b50241b1a1645c674",
+      "bytes": 29431
+    },
+    "all249CurrentHashesMatchAfterFinalFreeze": true,
+    "all18AcceptedImplementationHashesMatch": true,
+    "acceptedImplementationCount": 18,
+    "acceptedSourceHashes": [
+      {
+        "path": "crates/arc-cli/src/exec/transport.rs",
+        "sha256": "8f7395f6e5f8569bc803cb2d035ab62d31cb2851356d4c65e1c3eef970b82c8e",
+        "actualSha256": "8f7395f6e5f8569bc803cb2d035ab62d31cb2851356d4c65e1c3eef970b82c8e"
+      },
+      {
+        "path": "crates/arc-cli/src/exec/transport/live_tests.rs",
+        "sha256": "2daa04ef00f3575681d98602c03496773a88af9230892a0fd9c3cc9e929eff7b",
+        "actualSha256": "2daa04ef00f3575681d98602c03496773a88af9230892a0fd9c3cc9e929eff7b"
+      },
+      {
+        "path": "crates/arc-cli/src/job.rs",
+        "sha256": "c2024ede50b9f4073cb7979f5f6292b04365c2a9cba5ac98721240eed7e93ccb",
+        "actualSha256": "c2024ede50b9f4073cb7979f5f6292b04365c2a9cba5ac98721240eed7e93ccb"
+      },
+      {
+        "path": "crates/arc-cli/tests/fixtures/child.rs",
+        "sha256": "42200fb9843827d6e6cc30f6f8aa781472e9da2de86600a7632e74d781276ed0",
+        "actualSha256": "42200fb9843827d6e6cc30f6f8aa781472e9da2de86600a7632e74d781276ed0"
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/cli.rs",
+        "sha256": "806ef1d91cba74e31bef58572dc1fc85f7f6028c5cf726f6eedab5633651c7d5",
+        "actualSha256": "806ef1d91cba74e31bef58572dc1fc85f7f6028c5cf726f6eedab5633651c7d5"
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/retries.rs",
+        "sha256": "890c0346d06e5eee0da81c83fc8212158db40e4324df1b46c0618a9ff064c448",
+        "actualSha256": "890c0346d06e5eee0da81c83fc8212158db40e4324df1b46c0618a9ff064c448"
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli.rs",
+        "sha256": "37c6824feb0c6af95894f203d9f0cde9fa4ad061d6f9e80ee219ee743735d647",
+        "actualSha256": "37c6824feb0c6af95894f203d9f0cde9fa4ad061d6f9e80ee219ee743735d647"
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/status_compat.rs",
+        "sha256": "b8a4f0222b96b233bba8c996de4c67394f0669dbd213f4cf4dc523782dc020d6",
+        "actualSha256": "b8a4f0222b96b233bba8c996de4c67394f0669dbd213f4cf4dc523782dc020d6"
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/status_compat_terminal.rs",
+        "sha256": "510c3d874e5da90436431ef3768890a3ac7e46a006e94778ea14bbb569bdf3a6",
+        "actualSha256": "510c3d874e5da90436431ef3768890a3ac7e46a006e94778ea14bbb569bdf3a6"
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/terminal_outcomes.rs",
+        "sha256": "642a9b3f90ab57d5c8942279b974054bb1ed63d21527568ba0958cc429b94656",
+        "actualSha256": "642a9b3f90ab57d5c8942279b974054bb1ed63d21527568ba0958cc429b94656"
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/terminal_outcomes_historical.rs",
+        "sha256": "75f80c0b75324ff266a8a16edb23b80d71b8b191bd52b9254c26a027126cad99",
+        "actualSha256": "75f80c0b75324ff266a8a16edb23b80d71b8b191bd52b9254c26a027126cad99"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs.rs",
+        "sha256": "7c6201ab8bdcc2be57a856e5ac08cc4381ea46d16d5174fcf2707375f820989e",
+        "actualSha256": "7c6201ab8bdcc2be57a856e5ac08cc4381ea46d16d5174fcf2707375f820989e"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/codec.rs",
+        "sha256": "979fec1eab53b53694dae6420dc3fffb00ab38455d56748f694a37d9f32c0f6c",
+        "actualSha256": "979fec1eab53b53694dae6420dc3fffb00ab38455d56748f694a37d9f32c0f6c"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/reconcile.rs",
+        "sha256": "56904b85a9e2ac21483b4d54a2fd0fade0396d44376bbffd5dbf13549548090e",
+        "actualSha256": "56904b85a9e2ac21483b4d54a2fd0fade0396d44376bbffd5dbf13549548090e"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/tests.rs",
+        "sha256": "7e21ed867beecb4d52807432e5f9cf8b03dbddb0621cdeda701b2ff53d861229",
+        "actualSha256": "7e21ed867beecb4d52807432e5f9cf8b03dbddb0621cdeda701b2ff53d861229"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/tests/terminal_outcomes.rs",
+        "sha256": "bf1ddf8fc0a35cebdaa21b7243df328ce529b61c16c86526b85a7818ebfca237",
+        "actualSha256": "bf1ddf8fc0a35cebdaa21b7243df328ce529b61c16c86526b85a7818ebfca237"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/traffic/store.rs",
+        "sha256": "cb3fe1155e02c15ed30c1c567aa941a2a4e646fbe9eee6e5d2e82f10b0cdc24a",
+        "actualSha256": "cb3fe1155e02c15ed30c1c567aa941a2a4e646fbe9eee6e5d2e82f10b0cdc24a"
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/traffic/tests/admission.rs",
+        "sha256": "16ff9e2b716a0c31061c913c92b16d046b8244189fbd3aeaf5f8664656c72111",
+        "actualSha256": "16ff9e2b716a0c31061c913c92b16d046b8244189fbd3aeaf5f8664656c72111"
+      }
+    ],
+    "repairFiles": [
+      {
+        "path": "crates/arc-daemon/tests/managed_exec.rs",
+        "sha256": "a800d31275f508c798c3816a643bfb7705598a6607b4d5d1e8f7548b086420cf",
+        "bytes": 1714
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/native_python.rs",
+        "sha256": "cfef16f935f769d37d777325d819f92f6531b8f57418b293c174caf8d698158a",
+        "bytes": 1018
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/fallback_descriptors.rs",
+        "sha256": "c406da97101bf1c5a29cbf3dcadfb72c91c38e035a40e36783ea1c6a6cba245a",
+        "bytes": 4808
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/scenarios.rs",
+        "sha256": "3f5c1d3f16414aafce8656b2547aaee09e1b7c8dfa5074356c979f80219b8f89",
+        "bytes": 9420
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/bun_measurement.rs",
+        "sha256": "676d94e956a0904367501a474ed13af6a688f388466dd5fbb9503c2ddd8a3a78",
+        "bytes": 19518
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/semantics/environment.rs",
+        "sha256": "0d247bfa5922ab294fb0cd9f10bbd5f5440d35157862a2b891692dea51e9890d",
+        "bytes": 4086
+      }
+    ],
+    "softwareEvidenceProjectionSha256": "3e3bb9f15b56e08aac4af029587ddc835c05c860ee1f32e359e9656e9d91bdf0",
+    "unchangedSinceIndependentVerdict": true,
+    "priorSourceBindingsSuperseded": true,
+    "globalStatusComplete": false,
+    "globalStatusLimitation": "Inherited av.yaml access denial; no bypass or AV invocation by this reviewer. Current zero-target inventory is operator verified.",
+    "codeIntelligence": {
+      "provider": "serena",
+      "mode": "unavailable",
+      "tools": [],
+      "fallback": "scoped reads of located files; Git byte comparisons; existing mission evidence validator"
+    }
+  },
+  "receiptVerification": {
+    "phase1BindingsChecked": 117,
+    "finalBindingsChecked": 120,
+    "failedBindings": [],
+    "currentGates": {
+      "path": ".arc-verify/terminal-outcomes/gates.json",
+      "sha256": "3a9788af04441d1aafa1ae6f9cebbd29d7baa1cef072893b032d843047890509",
+      "bytes": 131922
+    },
+    "currentGateReport": {
+      "path": ".arc-verify/terminal-outcomes/gates.md",
+      "sha256": "eccb56484a1987fedfb6fe6c75141ea51eb6e598eb5b008492b9652c102acc5c",
+      "bytes": 22260
+    },
+    "phase1Authentication": {
+      "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/phase1-authentication.json",
+      "sha256": "69f6abe19a27923632c25cb1ef78574f5719f217fdf47123528a4240dcb2e516",
+      "bytes": 105745
+    },
+    "phase2Authentication": {
+      "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/phase2-authentication.json",
+      "sha256": "e33e705dd88629314d2ad6e250edce1b65467ff7c4aa90c76610b182aa87d3dc",
+      "bytes": 52833
+    },
+    "method": "Independent regular-file/hash/size authentication of current direct references; all current source hashes checked. Existing mission validator independently recomputed native coverage and archive/baseline checks. Historical accepted evidence retained with original attribution."
+  },
+  "independentVerdict": {
+    "outcome": "PASS",
+    "verdict": {
+      "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/independent-verdict.json",
+      "sha256": "bc061f6704da770125f10e36c6a38c0e194a234f2e1691669831d678297149df",
+      "bytes": 20816
+    },
+    "brief": {
+      "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/independent-verdict.md",
+      "sha256": "b3c025c51984fe759484cf10ac67edc43a50bc3b49f43f98e4ccfb56481b872f",
+      "bytes": 1662
+    },
+    "boundByFrozenGates": true
+  },
+  "independentChecks": [
+    {
+      "label": "independent-mission-evidence-checks",
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/terminal-outcomes.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/97195cbe-3041-4f04-986d-54cce01c0f14/workspace",
+      "startedAt": "2026-11-11T15:28:17.066176+00:00",
+      "timeoutMs": 7200000,
+      "absoluteDeadline": "2026-11-11T20:44:09.825567+00:00",
+      "environmentOverrides": {
+        "CARGO_NET_OFFLINE": "true"
+      },
+      "stdin": "DEVNULL",
+      "startNewSession": true,
+      "tty": false,
+      "running": false,
+      "executionAttribution": "independent_qa task-5 attempt-9; executed by this reviewer",
+      "effectiveBun": "/Users/gracefullight/.local/share/mise/installs/bun/1.4.4/bin/bun",
+      "pid": 33577,
+      "processGroup": 33577,
+      "exitCode": 0,
+      "endedAt": "2026-11-11T15:28:18.657850+00:00",
+      "elapsedSeconds": 1.592,
+      "status": "PASS",
+      "stdout": {
+        "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/evidence-validator.stdout.log",
+        "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+        "bytes": 28
+      },
+      "stderr": {
+        "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/evidence-validator.stderr.log",
+        "sha256": "3f3ebd45004dc12a03ab26fcdfb9a98389a3c0578acd46fe8fee107f10a695d5",
+        "bytes": 546
+      },
+      "processGroupAfter": "ABSENT",
+      "receipt": {
+        "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/evidence-validator.json",
+        "sha256": "59e848f93e316f0011eda172603c7ccc77ea0b64885b1bc8e0059d4bd925e6ab",
+        "bytes": 1393
+      }
+    }
+  ],
+  "focusedEvidenceValidator": {
+    "argv": [
+      "bun",
+      "test",
+      "scripts/coverage/terminal-outcomes.test.ts"
+    ],
+    "status": "PASS",
+    "passed": 4,
+    "failed": 0,
+    "expectations": 439,
+    "receipt": {
+      "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/evidence-validator.json",
+      "sha256": "59e848f93e316f0011eda172603c7ccc77ea0b64885b1bc8e0059d4bd925e6ab",
+      "bytes": 1393
+    },
+    "executedBy": "independent_qa task-5 attempt-9"
+  },
+  "requiredSoftwareGates": {
+    "allRequiredLocalChecksPass": true,
+    "nativeGatesWaived": false,
+    "commands": [
+      {
+        "label": "build",
+        "argv": [
+          "cargo",
+          "build",
+          "--workspace",
+          "--bins"
+        ],
+        "startedAt": "2026-11-11T15:18:24.482153+00:00",
+        "endedAt": "2026-11-11T15:18:24.743039+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/build--repair-bun-fixture.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/build--repair-bun-fixture.stderr.log",
+          "sha256": "d7dae192715495fa89ccbe279af3efb9792c1dae1768228e369035e68a1df673",
+          "bytes": 72
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      },
+      {
+        "label": "fmt",
+        "argv": [
+          "cargo",
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "startedAt": "2026-11-11T15:18:24.784066+00:00",
+        "endedAt": "2026-11-11T15:18:25.514049+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/fmt--repair-bun-fixture.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/fmt--repair-bun-fixture.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      },
+      {
+        "label": "clippy",
+        "argv": [
+          "cargo",
+          "clippy",
+          "--workspace",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "startedAt": "2026-11-11T15:18:25.554569+00:00",
+        "endedAt": "2026-11-11T15:18:26.949379+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/clippy--repair-bun-fixture.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/clippy--repair-bun-fixture.stderr.log",
+          "sha256": "60bdff372191fb52a5a312b9e1a7e68f09b8ef92d2d8080317ca13c25ab6419b",
+          "bytes": 278
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      },
+      {
+        "label": "workspace-tests",
+        "argv": [
+          "cargo",
+          "test",
+          "--workspace"
+        ],
+        "startedAt": "2026-11-11T15:18:33.253517+00:00",
+        "endedAt": "2026-11-11T15:21:56.527763+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/workspace-tests--repair-bun-fixture.stdout.log",
+          "sha256": "b4558b2032503b822f6d65db8f2446b5b76bf2267983bf120325abdf36ed8c41",
+          "bytes": 57844
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/workspace-tests--repair-bun-fixture.stderr.log",
+          "sha256": "24f7b72405c13d87230895d0cca207142b211111df689bdfd918be4b9a3fce05",
+          "bytes": 2859
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      },
+      {
+        "label": "terminal-outcomes",
+        "argv": [
+          "cargo",
+          "test",
+          "-p",
+          "arc-daemon",
+          "--test",
+          "traffic_cli",
+          "terminal_outcomes"
+        ],
+        "startedAt": "2026-11-11T15:18:26.990848+00:00",
+        "endedAt": "2026-11-11T15:18:29.474876+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/terminal-outcomes--repair-bun-fixture.stdout.log",
+          "sha256": "345b68216db48de06b08a5716f043ba06ebdf9141f5e264cf6b90b6511df1096",
+          "bytes": 1028
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/terminal-outcomes--repair-bun-fixture.stderr.log",
+          "sha256": "14be661449cbc2e7f7ad2905bc5b84f8cbf43202ed701b9bdca3e50adb06a1fc",
+          "bytes": 156
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      },
+      {
+        "label": "status-compat",
+        "argv": [
+          "cargo",
+          "test",
+          "-p",
+          "arc-daemon",
+          "--test",
+          "traffic_cli",
+          "status_compat"
+        ],
+        "startedAt": "2026-11-11T15:18:29.515037+00:00",
+        "endedAt": "2026-11-11T15:18:33.215717+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/status-compat--repair-bun-fixture.stdout.log",
+          "sha256": "b976b265a81b18b3f92c43f8f98fa51ba8ac89e7f6129ed4bb35ccbe552754eb",
+          "bytes": 814
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/status-compat--repair-bun-fixture.stderr.log",
+          "sha256": "7bfc0055cad81b705c4089f0819a34667b2001200c40abfa68979af7c2b3d00e",
+          "bytes": 156
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      },
+      {
+        "label": "harness",
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "startedAt": "2026-11-11T15:21:56.573916+00:00",
+        "endedAt": "2026-11-11T15:26:17.784859+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/harness--repair-bun-fixture.stdout.log",
+          "sha256": "8ac1008436339acd5e13f5662380e23b32fb1ce3adf1794b58c62a446e27facc",
+          "bytes": 1527
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/harness--repair-bun-fixture.stderr.log",
+          "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+          "bytes": 30
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      },
+      {
+        "label": "bun-tests",
+        "argv": [
+          "bun",
+          "test"
+        ],
+        "startedAt": "2026-11-11T15:26:29.049078+00:00",
+        "endedAt": "2026-11-11T15:27:22.103682+00:00",
+        "exitCode": 0,
+        "status": "PASS",
+        "timeoutMs": 7200000,
+        "stdout": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/bun-tests.stdout.log",
+          "sha256": "d4d16539b9c124d2391dbf77305b2591ef74bec1fa5452918e2458c2038f4f13",
+          "bytes": 154
+        },
+        "stderr": {
+          "path": "target/terminal-outcomes/task-5-attempt-9/bun-tests.stderr.log",
+          "sha256": "53e99172cf3a97a8db7393a2887c9d50497cb07e293fd35a1febdac12d668472",
+          "bytes": 3858
+        },
+        "executionAttribution": "Root repair owner, task-5 attempt-9; authenticated by this independent reviewer"
+      }
+    ],
+    "verifiedResults": {
+      "workspace": {
+        "passed": 591,
+        "failed": 0,
+        "ignored": 0,
+        "measured": 0,
+        "filtered": 0
+      },
+      "terminalOutcomes": {
+        "passed": 10,
+        "failed": 0,
+        "ignored": 0
+      },
+      "statusCompatibility": {
+        "passed": 7,
+        "failed": 0,
+        "ignored": 0
+      },
+      "managedExec": {
+        "passed": 59,
+        "failed": 0,
+        "ignored": 0
+      },
+      "harness": {
+        "checks": 5,
+        "violations": 0,
+        "coverageSkipped": false
+      },
+      "activeBunSuite": {
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0,
+        "tests": 43,
+        "files": 7
+      },
+      "independentEvidenceChecks": {
+        "passed": 4,
+        "failed": 0,
+        "expectations": 439
+      },
+      "coverageCrates": {
+        "arc-core": {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true,
+          "minimumPercent": 80,
+          "status": "PASS"
+        },
+        "arc-detector": {
+          "crate": "arc-detector",
+          "covered": 706,
+          "total": 711,
+          "percent": 99.29676511954993,
+          "pass": true,
+          "minimumPercent": 80,
+          "status": "PASS"
+        },
+        "arc-storage": {
+          "crate": "arc-storage",
+          "covered": 1811,
+          "total": 1892,
+          "percent": 95.71881606765328,
+          "pass": true,
+          "minimumPercent": 80,
+          "status": "PASS"
+        },
+        "arc-ipc": {
+          "crate": "arc-ipc",
+          "covered": 569,
+          "total": 576,
+          "percent": 98.78472222222223,
+          "pass": true,
+          "minimumPercent": 80,
+          "status": "PASS"
+        },
+        "arc-daemon": {
+          "crate": "arc-daemon",
+          "covered": 2244,
+          "total": 2457,
+          "percent": 91.33089133089133,
+          "pass": true,
+          "minimumPercent": 80,
+          "status": "PASS"
+        },
+        "arc-cli": {
+          "crate": "arc-cli",
+          "covered": 1895,
+          "total": 2255,
+          "percent": 84.03547671840354,
+          "pass": true,
+          "minimumPercent": 80,
+          "status": "PASS"
+        },
+        "arc-traffic": {
+          "crate": "arc-traffic",
+          "covered": 111,
+          "total": 111,
+          "percent": 100,
+          "pass": true,
+          "minimumPercent": 80,
+          "status": "PASS"
+        }
+      }
+    },
+    "nativeCompilationAndExecutionAttribution": "Fresh required Cargo/harness/Bun suites executed by root repair owner; source identities, raw output, and local claims independently authenticated by this reviewer. No native fixture was executed by this reviewer."
+  },
+  "repairReview": {
+    "descriptorFailures": {
+      "cause": "PATH python3 is a Rust mise launcher which reopens closed fd0 before Python; native sys.executable preserves closed fd0.",
+      "resolution": "Resolve os.fsencode(sys.executable) once with standard streams open; use the identical interpreter for direct and wrapped commands.",
+      "assertionsPreserved": true
+    },
+    "bunEnvironmentFailure": {
+      "cause": "PATH Bun launcher inserts process-specific __MISE_SHIM_FALLBACK_CHAIN.pid into otherwise equal direct/wrapped environments.",
+      "resolution": "Reuse canonical process.execPath helper and prepend its native directory to the shared caller PATH; retain bare bun argv and strict environment comparison.",
+      "assertionsPreserved": true
+    },
+    "files": [
+      {
+        "path": "crates/arc-daemon/tests/managed_exec.rs",
+        "sha256": "a800d31275f508c798c3816a643bfb7705598a6607b4d5d1e8f7548b086420cf",
+        "bytes": 1714
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/native_python.rs",
+        "sha256": "cfef16f935f769d37d777325d819f92f6531b8f57418b293c174caf8d698158a",
+        "bytes": 1018
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/fallback_descriptors.rs",
+        "sha256": "c406da97101bf1c5a29cbf3dcadfb72c91c38e035a40e36783ea1c6a6cba245a",
+        "bytes": 4808
+      },
+      {
+        "path": "crates/arc-daemon/tests/managed_exec/scenarios.rs",
+        "sha256": "3f5c1d3f16414aafce8656b2547aaee09e1b7c8dfa5074356c979f80219b8f89",
+        "bytes": 9420
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/bun_measurement.rs",
+        "sha256": "676d94e956a0904367501a474ed13af6a688f388466dd5fbb9503c2ddd8a3a78",
+        "bytes": 19518
+      },
+      {
+        "path": "crates/arc-daemon/tests/traffic_cli/semantics/environment.rs",
+        "sha256": "0d247bfa5922ab294fb0cd9f10bbd5f5440d35157862a2b891692dea51e9890d",
+        "bytes": 4086
+      }
+    ]
+  },
+  "firstPassBlockers": [],
+  "productDefects": [],
+  "resolvedVerificationFindings": [
+    {
+      "finding": "Both named descriptor fixtures failed closed mask 1 in the direct native baseline",
+      "diagnosis": "Rust mise Python launcher reopened fd0",
+      "repair": "Resolve the native interpreter before descriptor closure and use it identically for direct and wrapped execution",
+      "assertionsWeakened": false,
+      "diagnosticEvidence": [
+        {
+          "label": "descriptors-red",
+          "receipt": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-red.json",
+            "sha256": "a30a41f63adac1bbd6c0881eca639d02d51ac942f7ab5841d329eff21d1b8ba5",
+            "bytes": 4027
+          },
+          "exitCode": 101,
+          "status": "FAIL",
+          "stdout": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-red.stdout.log",
+            "sha256": "5feae15af8eb3042631b287d25918b9abe452ee9dd09fe972579d17a0915cdce",
+            "bytes": 514
+          },
+          "stderr": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-red.stderr.log",
+            "sha256": "d5e958f3d0c08bae8106f3f332aeaf053d0c4f52cf7809a6a4133fe17702e836",
+            "bytes": 917
+          }
+        },
+        {
+          "label": "interpreter-probe",
+          "receipt": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/interpreter-probe.json",
+            "sha256": "e7efbf981859d934ef8d9fcf1c5adb9f5f95d37a2d8f02cbb05ba78ee0ed56a7",
+            "bytes": 3954
+          },
+          "exitCode": 0,
+          "status": "PASS",
+          "stdout": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/interpreter-probe.stdout.log",
+            "sha256": "3a71a2179e4d40fb5835722e63a2673f4ffa6277f161d2a4706eb492dcdf4ce6",
+            "bytes": 866
+          },
+          "stderr": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/interpreter-probe.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        },
+        {
+          "label": "descriptors-green",
+          "receipt": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-green.json",
+            "sha256": "3aac77c16ee45e6fc9c895406663610520ee3884eee19645c8a601a5f6ccd798",
+            "bytes": 4034
+          },
+          "exitCode": 0,
+          "status": "PASS",
+          "stdout": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-green.stdout.log",
+            "sha256": "c9b140302073e5c77270f624cf9810f5bf7ac294a33058ebcd2f496deda1a40d",
+            "bytes": 306
+          },
+          "stderr": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-green.stderr.log",
+            "sha256": "ba61fec4715d09371424308372082e14eb62d2397b88be27eed8e3abd4886651",
+            "bytes": 364
+          }
+        }
+      ]
+    },
+    {
+      "finding": "Later local workspace run failed strict Bun environment equality",
+      "diagnosis": "mise launcher added process-specific __MISE_SHIM_FALLBACK_CHAIN.pid",
+      "repair": "Use canonical native Bun directory in the shared caller PATH; keep bare bun argv and full environment equality",
+      "assertionsWeakened": false,
+      "diagnosticEvidence": [
+        {
+          "label": "bun-environment-red",
+          "receipt": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-red.json",
+            "sha256": "3e02ce0933d3e00752f9074b1219e504ae6aab808fa0d99754152974f3a3f5cf",
+            "bytes": 4093
+          },
+          "exitCode": 101,
+          "status": "FAIL",
+          "stdout": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-red.stdout.log",
+            "sha256": "ec914e4140e0214b7eff71aa4d2ee59390265ce983d7d513a8a846fb0f0f6780",
+            "bytes": 315
+          },
+          "stderr": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-red.stderr.log",
+            "sha256": "9ba06aa70f53b667ade2ae96e6371b51af91541a21ed720df804e7a8ee7a3339",
+            "bytes": 6909
+          }
+        },
+        {
+          "label": "bun-environment-green",
+          "receipt": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-green.json",
+            "sha256": "f6743cbd3fa1df62ab07858caee0c70f820a75fdf91aabd0dc6481386109e719",
+            "bytes": 4099
+          },
+          "exitCode": 0,
+          "status": "PASS",
+          "stdout": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-green.stdout.log",
+            "sha256": "9e090d68a27694418fbb986b945a1ed539fdf98ce0c560b5dcbbfc2f379f759a",
+            "bytes": 203
+          },
+          "stderr": {
+            "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-green.stderr.log",
+            "sha256": "2fc64df29d92131b6fc4c37f529897882cb58a9eb5e3470cc480e3c9ca5b49fb",
+            "bytes": 362
+          }
+        }
+      ]
+    }
+  ],
+  "compatibility": {
+    "acceptedBaselineBytesUnchanged": [
+      {
+        "path": "crates/arc-ipc/Cargo.toml",
+        "sha256": "a15a44178c9fc4de1db1884f99b291afdc2c466f178a6031d6df64869e91418d",
+        "baselineSha256": "a15a44178c9fc4de1db1884f99b291afdc2c466f178a6031d6df64869e91418d",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/jobs.rs",
+        "sha256": "dbe38abe6576f24976beae0d5c5061fd8dd69feada62fb599acb33e8090b8b31",
+        "baselineSha256": "dbe38abe6576f24976beae0d5c5061fd8dd69feada62fb599acb33e8090b8b31",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/jobs/types.rs",
+        "sha256": "9459b9a22f0e3cd2ca2c921e5039117007adc928354587612759ad840380ff7b",
+        "baselineSha256": "9459b9a22f0e3cd2ca2c921e5039117007adc928354587612759ad840380ff7b",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/jobs/validation.rs",
+        "sha256": "ac9eda72ed28c82d28f646e00b0b66327f516e39769160b297b787eab4ebc11a",
+        "baselineSha256": "ac9eda72ed28c82d28f646e00b0b66327f516e39769160b297b787eab4ebc11a",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/lib.rs",
+        "sha256": "17ff544a163bf7c831b8f3c84092c03047eb01498a9696c2004fe888229bdf46",
+        "baselineSha256": "17ff544a163bf7c831b8f3c84092c03047eb01498a9696c2004fe888229bdf46",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/schema.rs",
+        "sha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+        "baselineSha256": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/dispatch.rs",
+        "sha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+        "baselineSha256": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/framing.rs",
+        "sha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+        "baselineSha256": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/mod.rs",
+        "sha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+        "baselineSha256": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/tests/schema.rs",
+        "sha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+        "baselineSha256": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/src/traffic.rs",
+        "sha256": "631b0dd348eea62ad4379fa3782fbc6159daa469ba943e4e2e27d79fbcb5657d",
+        "baselineSha256": "631b0dd348eea62ad4379fa3782fbc6159daa469ba943e4e2e27d79fbcb5657d",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/tests/classification.rs",
+        "sha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+        "baselineSha256": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/tests/coverage.rs",
+        "sha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+        "baselineSha256": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/tests/jobs.rs",
+        "sha256": "f2e3334034e79234afbdf6f0a7b6566609ab6b52c3ca4a3ddfd582a00debc754",
+        "baselineSha256": "f2e3334034e79234afbdf6f0a7b6566609ab6b52c3ca4a3ddfd582a00debc754",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-ipc/tests/traffic.rs",
+        "sha256": "b588f33eab97e07e086cd75a842b904661686c00f4e8ba511db9595b47320be3",
+        "baselineSha256": "b588f33eab97e07e086cd75a842b904661686c00f4e8ba511db9595b47320be3",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-storage/migrations/0001_phase0.sql",
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "baselineSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-storage/migrations/0002_managed_exec.sql",
+        "sha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+        "baselineSha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+        "pass": true
+      },
+      {
+        "path": "crates/arc-storage/migrations/0003_traffic.sql",
+        "sha256": "1f4522e3f27c124aea7127d92434c7bd22be36168fef0a4bf665f8cf16debe90",
+        "baselineSha256": "1f4522e3f27c124aea7127d92434c7bd22be36168fef0a4bf665f8cf16debe90",
+        "pass": true
+      },
+      {
+        "path": "Cargo.toml",
+        "sha256": "79eaf16e2fa7d5263b974a6980012115f1c6b11906e1f785dd52fe8c549a3380",
+        "baselineSha256": "79eaf16e2fa7d5263b974a6980012115f1c6b11906e1f785dd52fe8c549a3380",
+        "pass": true
+      },
+      {
+        "path": "Cargo.lock",
+        "sha256": "424e3a77d5c517f2616655c4c1a2c4ce1e2485ce4be2117020271ab92887dd7e",
+        "baselineSha256": "424e3a77d5c517f2616655c4c1a2c4ce1e2485ce4be2117020271ab92887dd7e",
+        "pass": true
+      }
+    ],
+    "protocolPeerFixturesPass": true,
+    "sameDatabaseOldDaemonDowngrade": "UNVERIFIED; retained prior disclosure; no new execution claimed",
+    "externalRustConsumers": "UNVERIFIED; new public error variant can affect exhaustive matches"
+  },
+  "archive": {
+    "archivedFiles": 69,
+    "archivedTestFiles": 28,
+    "historicalValidatorsRun": false,
+    "currentArchiveAndOriginalHashesVerifiedByIndependentEvidenceCheck": true
+  },
+  "containers": {
+    "status": "PASS",
+    "configurationVerified": true,
+    "allTargetsHealthy": true,
+    "targetCount": 0,
+    "targets": [],
+    "note": "OPERATOR (binding) 2026-11-11T14:37:07.811Z: no container or service observation policy is configured, so there are zero targets; configurationVerified and allTargetsHealthy are true over the verified empty inventory.",
+    "inventoryAuthority": "Current binding operator note supplied with this run",
+    "healthAvailabilityRecentErrors": "Not applicable to the configured empty target set; allTargetsHealthy is the vacuous truth over zero targets.",
+    "previousDeniedConfigurationObservations": {
+      "path": "target/terminal-outcomes/task-5-attempt-6/before-gates.json",
+      "sha256": "c168609633c4ec862ff69a5fb94ea4eff26985e767366a6592ec98927ee271f4"
+    },
+    "requiredBySavedFinalVerification": true,
+    "evidence": {
+      "path": "target/terminal-outcomes/task-5-attempt-6/container-inventory-authority.json",
+      "sha256": "15cb2ad2cf8f689e5afc348c6e5fce9a5044355229a4c02f5fee1cce57bf409e",
+      "bytes": 655
+    }
+  },
+  "resources": {
+    "absoluteDeadline": "2026-11-11T20:44:09.825567Z",
+    "perContractCommandAllowanceMs": 7200000,
+    "rootNativeCheckConcurrency": 1,
+    "reviewerNativeFixturesRun": 0,
+    "independentEvidenceCheckProcessGroupAfter": "ABSENT",
+    "buildAuthorization": "Explicit operator authorization retained; native build executed by root repair owner"
+  },
+  "previousReview": {
+    "qa": {
+      "path": "target/terminal-outcomes/task-5-attempt-9/before-qa.md",
+      "sha256": "577364b1dd63549bd2d2548aaba4aaa46bd76ab5550ccb58cd430359c1c118cb",
+      "bytes": 4813
+    },
+    "audit": {
+      "path": "target/terminal-outcomes/task-5-attempt-9/before-audit.json",
+      "sha256": "6c774fa1754f9657f35abceee1e513a01c3e51e4604407d1f5d164a1cf0815b3",
+      "bytes": 102241
+    },
+    "gates": {
+      "path": "target/terminal-outcomes/task-5-attempt-9/before-gates.json",
+      "sha256": "7658b87ada5d36c35093f3f6cca6ec77999b8d6556410ef49f4596b11a63e74b",
+      "bytes": 107579
+    },
+    "gateNarrative": {
+      "path": "target/terminal-outcomes/task-5-attempt-9/before-gates.md",
+      "sha256": "be7410a2d3c536dfc93ebadfe551cbb4d34d6a4470abd3c7d03718506adfc331",
+      "bytes": 16822
+    },
+    "preservedByteForByte": true,
+    "sourceBindingDisposition": "Previous unchanged-source and prior gate/coverage identities are historical. Fresh attempt-9 identity, runtime evidence and frozen reports supersede them.",
+    "retainedDisclosures": "Earlier accepted review and dependency provenance, retired V1/historical validators, unavailable predecessor logs, timing overrun and process-introspection limits remain in the immutable prior audit with original attribution; unchanged historical scopes were not rerun."
+  },
+  "externalVerification": {
+    "status": "PENDING_FRAMEWORK_RERUN",
+    "command": [
+      "cargo",
+      "test",
+      "--workspace"
+    ],
+    "environment": {
+      "CARGO_NET_OFFLINE": "true",
+      "stdin": "ignored",
+      "tty": false,
+      "newProcessGroup": true
+    },
+    "timeoutMs": 7200000,
+    "localReproductionPassedAfterRepair": true,
+    "originalFailureDiagnosed": true,
+    "sourceOrTestRepairClaimed": true,
+    "passClaimed": false,
+    "requiredForFinalMissionAcceptance": true,
+    "owner": "framework verifier",
+    "note": "Named external failures were reproduced and repaired with fresh deterministic local evidence; actual framework rerun remains external and pending."
+  },
+  "originalExternalFailure": {
+    "namedDescriptorFailuresDiagnosedAndRepairedLocally": true,
+    "localWorkspaceAfterRepair": "PASS: 591 passed, zero failed/ignored/filtered",
+    "frameworkRerunStatus": "PENDING",
+    "frameworkPassClaimed": false
+  },
+  "finalMissionAcceptanceSatisfied": false,
+  "acceptance": {
+    "reviewDelivered": true,
+    "firstPassFindingsReported": true,
+    "currentRequiredLocalEvidenceAuthenticated": true,
+    "independentEvidenceChecksPassed": true,
+    "originalAssertionsPreserved": true,
+    "sourceAndInterfacesBound": true,
+    "frozenGatesBound": true,
+    "outOfOwnershipFilesPreserved": true,
+    "G1ZeroTargetInventoryResolved": true,
+    "originalNamedExternalFailureDiagnosedAndRepaired": true,
+    "pendingExternalRerunAccuratelyRetained": true,
+    "finalEvidenceBudgetChecked": true,
+    "task5LocalAcceptanceSatisfied": true,
+    "finalMissionPass": false
+  },
+  "verificationScope": {
+    "boundedTaskReview": "completed",
+    "externalFrameworkVerification": "pending",
+    "finalMissionAcceptance": "partial",
+    "nativeGatesWaived": false,
+    "historicalAcceptedScopes": "Retained prior provenance; no fresh re-audit of dependency logs"
+  },
+  "evidence": {
+    "scope": ".arc-verify/terminal-outcomes",
+    "method": "Exact scoped Git cached/pending union matches actual seven regular files. Final bytes include QA and audit; audit self-size and QA total converge to a fixed point. Audit hash retained separately under ignored target.",
+    "fileLimitExclusive": 30,
+    "byteLimitExclusive": 5000000,
+    "fileCount": 7,
+    "totalBytes": 288934,
+    "directoryInventoryMatchesGitUnion": true,
+    "underFileLimit": true,
+    "underByteLimit": true,
+    "rawLogsHashedUnderTarget": true,
+    "rawLogCount": 52,
+    "rawLogs": [
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/evidence-validator.stderr.log",
+        "sha256": "3f3ebd45004dc12a03ab26fcdfb9a98389a3c0578acd46fe8fee107f10a695d5",
+        "bytes": 546,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9-independent-qa/evidence-validator.stdout.log",
+        "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+        "bytes": 28,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/build--repair-bun-fixture.stderr.log",
+        "sha256": "d7dae192715495fa89ccbe279af3efb9792c1dae1768228e369035e68a1df673",
+        "bytes": 72,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/build--repair-bun-fixture.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/build.stderr.log",
+        "sha256": "fecede7c2157efe2f16c8c8b9dce94b0fb4dd384dca8207046c8bf7636eb0ffe",
+        "bytes": 72,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/build.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-green.stderr.log",
+        "sha256": "2fc64df29d92131b6fc4c37f529897882cb58a9eb5e3470cc480e3c9ca5b49fb",
+        "bytes": 362,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-green.stdout.log",
+        "sha256": "9e090d68a27694418fbb986b945a1ed539fdf98ce0c560b5dcbbfc2f379f759a",
+        "bytes": 203,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-red.stderr.log",
+        "sha256": "9ba06aa70f53b667ade2ae96e6371b51af91541a21ed720df804e7a8ee7a3339",
+        "bytes": 6909,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/bun-environment-red.stdout.log",
+        "sha256": "ec914e4140e0214b7eff71aa4d2ee59390265ce983d7d513a8a846fb0f0f6780",
+        "bytes": 315,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/bun-tests.stderr.log",
+        "sha256": "53e99172cf3a97a8db7393a2887c9d50497cb07e293fd35a1febdac12d668472",
+        "bytes": 3858,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/bun-tests.stdout.log",
+        "sha256": "d4d16539b9c124d2391dbf77305b2591ef74bec1fa5452918e2458c2038f4f13",
+        "bytes": 154,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/clippy--repair-bun-fixture.stderr.log",
+        "sha256": "60bdff372191fb52a5a312b9e1a7e68f09b8ef92d2d8080317ca13c25ab6419b",
+        "bytes": 278,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/clippy--repair-bun-fixture.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/clippy.stderr.log",
+        "sha256": "59fcb6b74d1095b13aff3d6fec6c4b60b024563df97a38caa62dddb33bb520bd",
+        "bytes": 278,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/clippy.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-green.stderr.log",
+        "sha256": "ba61fec4715d09371424308372082e14eb62d2397b88be27eed8e3abd4886651",
+        "bytes": 364,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-green.stdout.log",
+        "sha256": "c9b140302073e5c77270f624cf9810f5bf7ac294a33058ebcd2f496deda1a40d",
+        "bytes": 306,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-red.stderr.log",
+        "sha256": "d5e958f3d0c08bae8106f3f332aeaf053d0c4f52cf7809a6a4133fe17702e836",
+        "bytes": 917,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/descriptors-red.stdout.log",
+        "sha256": "5feae15af8eb3042631b287d25918b9abe452ee9dd09fe972579d17a0915cdce",
+        "bytes": 514,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/fmt--repair-bun-fixture.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/fmt--repair-bun-fixture.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/fmt.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/fmt.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/harness--repair-bun-fixture.stderr.log",
+        "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+        "bytes": 30,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/harness--repair-bun-fixture.stdout.log",
+        "sha256": "8ac1008436339acd5e13f5662380e23b32fb1ce3adf1794b58c62a446e27facc",
+        "bytes": 1527,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/input-identity--repair-bun-fixture.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/input-identity--repair-bun-fixture.stdout.log",
+        "sha256": "41a7cb3508f05d8969d45fdd5f5ed5755bd951846dbd238b50241b1a1645c674",
+        "bytes": 29431,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/input-identity-final.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/input-identity-final.stdout.log",
+        "sha256": "41a7cb3508f05d8969d45fdd5f5ed5755bd951846dbd238b50241b1a1645c674",
+        "bytes": 29431,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/input-identity.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/input-identity.stdout.log",
+        "sha256": "54fcc1264dd739fbda2aa87d78a7d2a32efd8c3ed5a233c9803f17a21ae652c9",
+        "bytes": 29431,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/integrated-identity.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/integrated-identity.stdout.log",
+        "sha256": "4db3ac2342fb5612d6164406b585671c10ad5c9315afdf3e75205807bab31aa5",
+        "bytes": 39041,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/interpreter-probe.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/interpreter-probe.stdout.log",
+        "sha256": "3a71a2179e4d40fb5835722e63a2673f4ffa6277f161d2a4706eb492dcdf4ce6",
+        "bytes": 866,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/status-compat--repair-bun-fixture.stderr.log",
+        "sha256": "7bfc0055cad81b705c4089f0819a34667b2001200c40abfa68979af7c2b3d00e",
+        "bytes": 156,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/status-compat--repair-bun-fixture.stdout.log",
+        "sha256": "b976b265a81b18b3f92c43f8f98fa51ba8ac89e7f6129ed4bb35ccbe552754eb",
+        "bytes": 814,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/status-compat.stderr.log",
+        "sha256": "7bfc0055cad81b705c4089f0819a34667b2001200c40abfa68979af7c2b3d00e",
+        "bytes": 156,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/status-compat.stdout.log",
+        "sha256": "1ab6835b2b1c8a235628ec666971e544682bb6d00fc92b5010d00b720ea64191",
+        "bytes": 814,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/terminal-outcomes--repair-bun-fixture.stderr.log",
+        "sha256": "14be661449cbc2e7f7ad2905bc5b84f8cbf43202ed701b9bdca3e50adb06a1fc",
+        "bytes": 156,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/terminal-outcomes--repair-bun-fixture.stdout.log",
+        "sha256": "345b68216db48de06b08a5716f043ba06ebdf9141f5e264cf6b90b6511df1096",
+        "bytes": 1028,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/terminal-outcomes.stderr.log",
+        "sha256": "14be661449cbc2e7f7ad2905bc5b84f8cbf43202ed701b9bdca3e50adb06a1fc",
+        "bytes": 156,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/terminal-outcomes.stdout.log",
+        "sha256": "9ede67c4c8cb6b488687532112386001b5eb4b84158661fc63286102a595ee9c",
+        "bytes": 1028,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/versions.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/versions.stdout.log",
+        "sha256": "af391a98c2d7b9101502642286da1856f11c77b4fcabc9f09bc8d7910a553d1b",
+        "bytes": 873,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/workspace-tests--repair-bun-fixture.stderr.log",
+        "sha256": "24f7b72405c13d87230895d0cca207142b211111df689bdfd918be4b9a3fce05",
+        "bytes": 2859,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/workspace-tests--repair-bun-fixture.stdout.log",
+        "sha256": "b4558b2032503b822f6d65db8f2446b5b76bf2267983bf120325abdf36ed8c41",
+        "bytes": 57844,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/workspace-tests.stderr.log",
+        "sha256": "68352a620cb9e0447ccb9baf7b6c1a0dde68ba4fb7b19681c3af9ecf26a12fd8",
+        "bytes": 1595,
+        "verified": true
+      },
+      {
+        "path": "target/terminal-outcomes/task-5-attempt-9/workspace-tests.stdout.log",
+        "sha256": "32ea5651904460779ab46e28529afdc6066fddef35a7717f2e5449666be897fd",
+        "bytes": 40279,
+        "verified": true
+      },
+      {
+        "path": "target/traffic/native-coverage/64fe500f-0c4e-4b20-ac90-537696dec926/stderr.log",
+        "sha256": "b2ecc8eedf0c66c60bd803f7323cbd6b0c83d6575c694eaa949e78a0c9a253a5",
+        "bytes": 8273,
+        "verified": true
+      },
+      {
+        "path": "target/traffic/native-coverage/64fe500f-0c4e-4b20-ac90-537696dec926/stdout.log",
+        "sha256": "2baa275f66ffb2189defa2d7cf7c2fcd660c95eb35557be23a7440eb8d525924",
+        "bytes": 57280,
+        "verified": true
+      }
+    ],
+    "trackedFiles": [
+      ".arc-verify/terminal-outcomes/fix.md",
+      ".arc-verify/terminal-outcomes/gates.json",
+      ".arc-verify/terminal-outcomes/gates.md",
+      ".arc-verify/terminal-outcomes/qa-preflight.md",
+      ".arc-verify/terminal-outcomes/status-ux.md"
+    ],
+    "pendingFiles": [
+      ".arc-verify/terminal-outcomes/audit.json",
+      ".arc-verify/terminal-outcomes/qa.md"
+    ],
+    "files": [
+      {
+        "path": ".arc-verify/terminal-outcomes/audit.json",
+        "bytes": 55986,
+        "regular": true,
+        "classification": "pending",
+        "selfHash": "Retained separately in final-evidence.json under ignored target to avoid a self-hash cycle."
+      },
+      {
+        "path": ".arc-verify/terminal-outcomes/fix.md",
+        "sha256": "902cc21f91894f68db2c96fd93aed5f336e245e679e77abeb31f6e103bbd5b37",
+        "bytes": 37412,
+        "regular": true,
+        "classification": "tracked"
+      },
+      {
+        "path": ".arc-verify/terminal-outcomes/gates.json",
+        "sha256": "3a9788af04441d1aafa1ae6f9cebbd29d7baa1cef072893b032d843047890509",
+        "bytes": 131922,
+        "regular": true,
+        "classification": "tracked"
+      },
+      {
+        "path": ".arc-verify/terminal-outcomes/gates.md",
+        "sha256": "eccb56484a1987fedfb6fe6c75141ea51eb6e598eb5b008492b9652c102acc5c",
+        "bytes": 22260,
+        "regular": true,
+        "classification": "tracked"
+      },
+      {
+        "path": ".arc-verify/terminal-outcomes/qa-preflight.md",
+        "sha256": "afb46388a44b4200e8811cf8ec61ab89dba48de9530b7fbdef6aa56b3ef40aa0",
+        "bytes": 19149,
+        "regular": true,
+        "classification": "tracked"
+      },
+      {
+        "path": ".arc-verify/terminal-outcomes/qa.md",
+        "bytes": 5033,
+        "regular": true,
+        "classification": "pending",
+        "sha256": "0c5716a09c95d8a460e62c0eb1344ca9f5ee71b00058e35fff2a739501cf5242"
+      },
+      {
+        "path": ".arc-verify/terminal-outcomes/status-ux.md",
+        "sha256": "30b1ecd5e1b6f5dda899e075ed3cc29b47d49cec86e60785750ad54e92c16bbe",
+        "bytes": 17172,
+        "regular": true,
+        "classification": "tracked"
+      }
+    ]
+  }
+}

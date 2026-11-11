@@ -36,7 +36,14 @@ assert set(r) == {'kind','job'} and r['kind'] == 'FOUND'
 j = r['job']
 assert set(j) == {'job_id','phase','classification','observer','observer_verified_at_ms','child','child_verified_at_ms','observation','reason','outcome','registered_at_ms','launch_claimed_at_ms','completed_at_ms','updated_at_ms','revision'}
 assert j['job_id'] == jid
+if expected == 'COMPLETED': assert j['phase'] == 'COMPLETED'
 assert j['classification'] == {'classification':'UNKNOWN','locality':'UNKNOWN','reason':'UNRESOLVED_COMMAND','uncertainty':'OBSERVE'}
+recent = call('job.status', {'query':'RECENT'})
+assert set(recent) == {'kind','jobs','truncated','observed_at_ms','liveness_fresh'}
+assert recent['kind'] == 'RECENT' and len(recent['jobs']) <= 50
+summary = next(item for item in recent['jobs'] if item['job_id'] == jid)
+assert set(summary) == {'job_id','phase','registered_at_ms','updated_at_ms','reason'}
+if expected == 'COMPLETED': assert summary['phase'] == 'COMPLETED'
 "#;
 
 fn assert_old_bun_status(f: &Fixture, id: &arc_ipc::jobs::JobId, state: &str) {
@@ -302,16 +309,24 @@ fn new_status_client_falls_back_when_a_legacy_daemon_rejects_status_v2() {
         .env(arc_core::ARC_SOCKET_PATH, &path)
         .output()
         .unwrap();
+    let recent = Command::new(binary("arcctl"))
+        .args(["job", "status"])
+        .env(arc_core::ARC_SOCKET_PATH, &path)
+        .output()
+        .unwrap();
     stop.store(true, Ordering::SeqCst);
     server.join().unwrap();
     assert!(status.status.success(), "{status:?}");
     let text = String::from_utf8(status.stdout).unwrap();
     assert!(
-        text.contains("State: completed") && text.contains("Exit code: 17"),
+        text.contains("State: failed") && text.contains("Exit code: 17"),
         "{text}"
     );
+    assert!(recent.status.success(), "{recent:?}");
+    let recent = String::from_utf8(recent.stdout).unwrap();
+    assert!(recent.contains("State: failed"), "{recent}");
     assert_eq!(rejected.load(Ordering::SeqCst), 1);
-    assert_eq!(legacy.load(Ordering::SeqCst), 1);
+    assert_eq!(legacy.load(Ordering::SeqCst), 3);
     assert_eq!(active(&f).1, 0);
     daemon.stop(libc::SIGTERM);
     f.report();

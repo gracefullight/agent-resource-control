@@ -1,6 +1,6 @@
 use super::{
     cli::{binary, child_command, command, recent},
-    protocol,
+    native_python, protocol,
     runtime::Fixture,
     support,
 };
@@ -219,6 +219,7 @@ fn status_discovery_labels_and_missing_id_never_launch() {
 #[test]
 fn native_non_rust_child_observes_literal_closed_standard_descriptors() {
     let _serial = support::serial();
+    let python = native_python::executable();
     let f = Fixture::new();
     let mut daemon = f.spawn("test");
     let source = r#"import fcntl,json,sys
@@ -238,10 +239,10 @@ sys.exit(17)
             let report = f.root.join(format!("native-fds-{mask}-{managed}.json"));
             let mut c = if managed {
                 let mut c = command(&f);
-                c.args(["exec", "--", "python3"]);
+                c.args(["exec", "--"]).arg(&python);
                 c
             } else {
-                std::process::Command::new("python3")
+                std::process::Command::new(&python)
             };
             c.args(["-c", source]).arg(&report).stdin(Stdio::null());
             unsafe {

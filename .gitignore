@@ -27,6 +27,8 @@ build/
 *.egg-info/
 *.tsbuildinfo
 coverage/
+# Archived evidence validators keep their coverage tooling directory tracked.
+!scripts/archive/coverage/
 !/scripts/coverage/
 !/scripts/coverage/*.ts
 !/scripts/coverage/provision.sh

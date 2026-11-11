@@ -244,5 +244,8 @@ fn main() {
         "stdin_open":unsafe {libc::fcntl(0,libc::F_GETFD)} >= 0});
     println!("{metadata}");
     eprintln!("fixture-stderr");
+    if mode == "success" {
+        return;
+    }
     std::process::exit(17);
 }

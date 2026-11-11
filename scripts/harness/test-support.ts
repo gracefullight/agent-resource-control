@@ -5,7 +5,7 @@ import { platform, release, arch, hostname } from "node:os";
 
 export const root = resolve(import.meta.dir, "../..");
 export const acceptedHead = "f85ae0430038cc3d7a6125f650872dbfce6b5529";
-export const evidence = resolve(root, ".arc-verify/harness-speed");
+export const evidence = resolve(root, "target/terminal-outcomes/tooling-fixtures");
 export const timeout = 3600000;
 export const sha = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
 export function sync(argv: string[], cwd = root, stdin?: Buffer) {

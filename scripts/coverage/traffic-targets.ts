@@ -2,7 +2,7 @@ import { spawnSync } from "node:child_process";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { hash } from "./source";
-import { boundBytes, equal, requireTraffic, trafficInputs } from "./traffic-receipts";
+import { boundBytes, equal, requireTraffic, trafficInputs } from "../archive/coverage/traffic-receipts";
 
 type Target = { id: string; kind: "docker" | "kubernetes"; container: string; context?: string; namespace?: string; pod?: string };
 type Result = { status: number | null; stdout: Buffer; stderr: Buffer; error?: unknown };

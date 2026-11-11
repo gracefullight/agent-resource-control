@@ -3,6 +3,7 @@ use super::{
     cli::command,
     fail_open::{arc_stderr, receipt},
     fault::{Fault, MODES},
+    native_python,
     runtime::Fixture,
     support,
 };
@@ -14,6 +15,7 @@ use std::{
 #[test]
 fn fallback_preserves_closed_standard_and_extra_inherited_descriptors() {
     let _serial = support::serial();
+    let python = native_python::executable();
     let source = r#"import fcntl,json,os,sys
 state=[]
 for fd in range(3):
@@ -43,10 +45,10 @@ sys.exit(17)
                 let report = f.root.join(format!("fds-{mask}-{wrapped}.json"));
                 let mut c = if wrapped {
                     let mut c = command(&f);
-                    c.args(["exec", "--", "python3"]);
+                    c.args(["exec", "--"]).arg(&python);
                     c
                 } else {
-                    Command::new("python3")
+                    Command::new(&python)
                 };
                 let marker = f.root.join(format!("calls-{mask}-{wrapped}"));
                 c.args(["-c", source])

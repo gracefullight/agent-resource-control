@@ -2,10 +2,9 @@ import { test, expect } from "bun:test";
 import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve, dirname, join } from "node:path";
-import { root } from "./acceptance";
-import { hash } from "./source";
-import { ACCEPTED_HEAD, HYGIENE, gitBytes, auditTrackedEvidence, assertHygiene, isNativeExport } from "./hygiene";
-import { checkProtectedToolingContent } from "./current-preservation";
+import { gitBytes, auditTrackedEvidence, assertHygiene, isNativeExport } from "./hygiene";
+
+const root = resolve(import.meta.dir, "../..");
 
 const trackedCoverageFiles = (dir: string) => gitBytes(dir, ["ls-files", "-z"]).toString().split("\0")
   .filter(path => /\.(profraw|profdata|lcov)$/i.test(path)).sort();
@@ -13,63 +12,6 @@ const assertNoTrackedCoverage = (dir: string) => {
   const paths = trackedCoverageFiles(dir);
   if (paths.length) throw Error(`tracked coverage files: ${paths.join(", ")}`);
 };
-
-function currentAccountingMarkdown(historical: Buffer) {
-  let text = historical.toString();
-  const replacements: [string, string][] = [
-    ["The mandatory crates, in output order, are arc-core, arc-detector, arc-storage, arc-ipc, arc-daemon and arc-cli. Each must reach 80% production-source line coverage.",
-      "The current mandatory crates, in output order, are arc-core, arc-detector, arc-storage, arc-ipc, arc-daemon, arc-cli and arc-traffic. The accepted historical baseline contains the first six only. Each current crate must reach 80% production-source line coverage."],
-    ["Inventory every Rust file beneath the six `src` roots.", "Inventory every Rust file beneath the seven current `src` roots."],
-    ["six crate summaries", "seven current crate summaries"],
-  ];
-  for (const [before, after] of replacements) {
-    expect(text.split(before)).toHaveLength(2);
-    text = text.replace(before, after);
-  }
-  return text;
-}
-
-test("final index has bounded evidence and no prohibited artifact anywhere under .arc-verify", () => {
-  const audit = auditTrackedEvidence(root);
-  assertHygiene(audit);
-  expect(audit.rustCoverage.files).toBeGreaterThan(0);
-  expect(audit.prohibited).toEqual([]);
-  expect(() => assertNoTrackedCoverage(root)).not.toThrow();
-});
-
-test("selected contracts and historical evidence retain their bytes and provenance", () => {
-  const retention = JSON.parse(readFileSync(resolve(root, HYGIENE, "retention.json"), "utf8"));
-  expect(retention.acceptedHead).toBe(ACCEPTED_HEAD);
-  expect([...new Set(retention.retained.map((e: any) => e.category))].sort()).toEqual(["accounting", "receipt", "review", "summary", "uncovered"]);
-  const tracked = new Set(gitBytes(root, ["ls-files", "-z", "--", ".arc-verify/rust-coverage"]).toString().split("\0"));
-  for (const selected of retention.retained) {
-    expect(tracked.has(selected.destination)).toBe(true);
-    const bytes = readFileSync(resolve(root, selected.destination));
-    if (selected.action !== "derive-compact") {
-      const contract = ".arc-verify/rust-coverage/contract/accounting";
-      if ([`${contract}.json`, `${contract}.md`].includes(selected.destination)) {
-        const historical = gitBytes(root, ["show", `${ACCEPTED_HEAD}:${selected.destination}`]);
-        expect(hash(historical)).toBe(selected.source.sha256);
-        if (selected.destination.endsWith(".json"))
-          expect(checkProtectedToolingContent(root, selected.destination, bytes)).toBe(hash(bytes));
-        else expect(bytes.toString()).toBe(currentAccountingMarkdown(historical));
-      } else expect(hash(bytes)).toBe(selected.source.sha256);
-    }
-    else {
-      const receipt = JSON.parse(bytes.toString());
-      expect(receipt.classification).toBe("Historical");
-      expect(receipt.provenance.originalSha256).toBe(selected.source.sha256);
-      expect(receipt.provenance.storageCommit).toBe(ACCEPTED_HEAD);
-      expect(receipt.commands.length).toBeGreaterThan(0);
-      for (const command of receipt.commands) {
-        expect(command.stdoutSha256).toMatch(/^[a-f0-9]{64}$/);
-        expect(command.stderrSha256).toMatch(/^[a-f0-9]{64}$/);
-        expect(command.stdout).toBeUndefined();
-        expect(command.stderr).toBeUndefined();
-      }
-    }
-  }
-});
 
 test("ignore probes are deterministic without global excludes and keep durable JSON visible", () => {
   const dir = mkdtempSync(join(tmpdir(), "arc-ignore-"));

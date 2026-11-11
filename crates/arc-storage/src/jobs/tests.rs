@@ -16,6 +16,7 @@ use std::{
 mod migration;
 mod recovery;
 mod regression;
+mod terminal_outcomes;
 mod transitions;
 
 struct Database(PathBuf);

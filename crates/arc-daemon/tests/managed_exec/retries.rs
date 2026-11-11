@@ -129,6 +129,13 @@ fn cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17() {
                     assert_eq!(counts[key], 3);
                 }
                 assert_eq!(output.stderr, b"fixture-stderr\n");
+                let (state, code): (String, i64) = rusqlite::Connection::open(&f.database)
+                    .unwrap()
+                    .query_row("SELECT state,exit_code FROM jobs", [], |r| {
+                        Ok((r.get(0)?, r.get(1)?))
+                    })
+                    .unwrap();
+                assert_eq!((state.as_str(), code), ("FAILED", 17));
                 assert_eq!(
                     protocol::status(&f, &recent(&f)).outcome,
                     Some(Outcome::Exited { code: 17 })

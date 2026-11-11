@@ -12,6 +12,8 @@ mod support;
 #[path = "managed_exec/terminal.rs"]
 mod terminal;
 
+#[path = "managed_exec/native_python.rs"]
+mod native_python;
 #[path = "managed_exec/retries.rs"]
 mod retries;
 #[path = "managed_exec/scenarios.rs"]

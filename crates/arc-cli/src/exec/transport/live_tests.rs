@@ -1,4 +1,4 @@
-use super::{call_until, call_until_tracked, Failure};
+use super::{call_until, call_until_no_busy_retry, call_until_tracked, Failure};
 use arc_ipc::{Request, Response};
 use serde_json::Value;
 use std::{
@@ -299,4 +299,28 @@ fn transient_database_contention_retries_past_three_replies() {
     });
     assert_eq!(peer.call(), Ok(Value::Bool(true)));
     assert_eq!(calls.load(Ordering::SeqCst), 7);
+}
+
+#[test]
+fn per_row_busy_reply_leaves_the_next_exchange_available() {
+    let calls = Arc::new(AtomicUsize::new(0));
+    let observed = calls.clone();
+    let peer = Peer::new(2, move |stream, request| {
+        let response = if observed.fetch_add(1, Ordering::SeqCst) == 0 {
+            Response::error(request.request_id, arc_ipc::ERROR_DB_BUSY)
+        } else {
+            Response::ok(request.request_id, Value::Bool(true))
+        };
+        arc_ipc::write_response(stream, &response).unwrap();
+    });
+    let deadline = Instant::now() + Duration::from_secs(5);
+    assert_eq!(
+        call_until_no_busy_retry(&peer.path, "fixture", Value::Null, deadline, &|| false),
+        Err(Failure::Busy)
+    );
+    assert_eq!(
+        call_until(&peer.path, "fixture", Value::Null, deadline, &|| false),
+        Ok(Value::Bool(true))
+    );
+    assert_eq!(calls.load(Ordering::SeqCst), 2);
 }

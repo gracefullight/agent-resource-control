@@ -66,16 +66,27 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
                     }
                     let deadline = Instant::now() + Duration::from_millis(250);
                     for job in jobs {
-                        let state = match traffic_status_until(&job.job_id, deadline) {
-                            TrafficQuery::Unsupported | TrafficQuery::NotFound => {
-                                if job.phase == Phase::Registered {
-                                    "registered"
-                                } else {
-                                    label(job.phase)
+                        let state = if job.phase == Phase::Completed {
+                            // A completed lifecycle has the observed outcome;
+                            // avoid an extra Traffic exchange for each terminal row.
+                            lifecycle_label_until(&job.job_id, deadline)
+                        } else {
+                            match traffic_status_until(&job.job_id, deadline, false) {
+                                TrafficQuery::Unsupported | TrafficQuery::NotFound => {
+                                    if job.phase == Phase::Registered {
+                                        "registered"
+                                    } else {
+                                        label(job.phase)
+                                    }
                                 }
+                                TrafficQuery::Found(status) => traffic_label(&status),
+                                TrafficQuery::Unavailable => match job.phase {
+                                    // The validated lifecycle summary already records
+                                    // these terminal outcomes, even if Traffic is busy.
+                                    Phase::Signaled | Phase::SpawnFailed => label(job.phase),
+                                    _ => "unknown",
+                                },
                             }
-                            TrafficQuery::Found(status) => traffic_label(&status),
-                            TrafficQuery::Unavailable => "unknown",
                         };
                         println!(
                             "Job: {}\nState: {}\nRegistered (Unix ms): {}\nUpdated (Unix ms): {}\nReason: {}\nLast known: true",
@@ -93,8 +104,17 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
                     ExitCode::SUCCESS
                 }
                 StatusResult::Found { job } => {
+                    // A validated recorded outcome remains usable even when
+                    // scheduling status cannot be fetched.
+                    let state = if matches!(selected_traffic, Some(TrafficQuery::Unavailable))
+                        && job.outcome.is_none()
+                    {
+                        "unknown"
+                    } else {
+                        outcome_label(job.phase, job.outcome.as_ref())
+                    };
                     println!("Job: {}\nState: {}\nIdentity: {}\nRegistered (Unix ms): {}\nObserved (Unix ms): {}",
-                    job.job_id.as_str(), if matches!(selected_traffic, Some(TrafficQuery::Unavailable)) { "unknown" } else { label(job.phase) },
+                    job.job_id.as_str(), state,
                     if job.observation.status == ObservationStatus::VerifiedMatch && job.observation.target==ObservationTarget::Child { "verified at observation" } else { "unavailable" },
                     job.registered_at_ms, job.observation.observed_at_ms);
                     println!(
@@ -129,6 +149,28 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
     }
 }
 
+fn lifecycle_label_until(id: &JobId, deadline: Instant) -> &'static str {
+    let Ok(socket) = arc_core::socket_path() else {
+        return "outcome unknown";
+    };
+    let request = StatusRequest::ById { job_id: id.clone() };
+    let Ok(value) = super::exec::transport::call_until_no_busy_retry(
+        &socket,
+        OPERATION_JOB_STATUS,
+        json!(request),
+        deadline,
+        &|| false,
+    ) else {
+        return "outcome unknown";
+    };
+    match serde_json::from_value::<StatusResult>(value) {
+        Ok(StatusResult::Found { job }) if job.is_valid() && job.job_id == *id => {
+            outcome_label(job.phase, job.outcome.as_ref())
+        }
+        _ => "outcome unknown",
+    }
+}
+
 enum TrafficQuery {
     Found(arc_ipc::traffic::StatusResult),
     NotFound,
@@ -137,15 +179,20 @@ enum TrafficQuery {
 }
 
 fn traffic_status(id: &JobId) -> TrafficQuery {
-    traffic_status_until(id, Instant::now() + Duration::from_secs(2))
+    traffic_status_until(id, Instant::now() + Duration::from_secs(2), true)
 }
 
-fn traffic_status_until(id: &JobId, deadline: Instant) -> TrafficQuery {
+fn traffic_status_until(id: &JobId, deadline: Instant, retry_busy: bool) -> TrafficQuery {
     let Ok(socket) = arc_core::socket_path() else {
         return TrafficQuery::Unavailable;
     };
     let request = arc_ipc::traffic::JobRequest::StatusV2 { job_id: id.clone() };
-    let value = match super::exec::transport::call_until(
+    let call = if retry_busy {
+        super::exec::transport::call_until
+    } else {
+        super::exec::transport::call_until_no_busy_retry
+    };
+    let value = match call(
         &socket,
         arc_ipc::traffic::OPERATION_TRAFFIC_JOB,
         json!(request),
@@ -176,7 +223,8 @@ fn traffic_label(status: &arc_ipc::traffic::StatusResult) -> &'static str {
         StatusResult::Reserved { .. } => "starting",
         StatusResult::Running { .. } => "running",
         StatusResult::Completed { outcome, .. } => match outcome {
-            Outcome::Exited { .. } => "completed",
+            Outcome::Exited { code: 0 } => "succeeded",
+            Outcome::Exited { .. } => "failed",
             Outcome::Signaled { .. } => "terminated by signal",
             Outcome::SpawnFailed { .. } => "spawn failed",
         },
@@ -201,7 +249,10 @@ fn render_traffic(id: &JobId, status: arc_ipc::traffic::StatusResult) -> ExitCod
             outcome,
         } => {
             match outcome {
-                Outcome::Exited { code } => println!("State: completed\nExit code: {code}"),
+                Outcome::Exited { code } => println!(
+                    "State: {}\nExit code: {code}",
+                    if code == 0 { "succeeded" } else { "failed" }
+                ),
                 Outcome::Signaled {
                     signal,
                     core_dumped,
@@ -235,9 +286,46 @@ fn label(phase: Phase) -> &'static str {
     match phase {
         Phase::Registered | Phase::Launching => "starting",
         Phase::Running => "running",
-        Phase::Completed => "completed",
+        Phase::Completed => "outcome unknown",
         Phase::Signaled => "terminated by signal",
         Phase::SpawnFailed => "spawn failed",
         Phase::OutcomeUnknown => "outcome unknown",
+    }
+}
+
+fn outcome_label(phase: Phase, outcome: Option<&Outcome>) -> &'static str {
+    match (phase, outcome) {
+        (Phase::Completed, Some(Outcome::Exited { code: 0 })) => "succeeded",
+        (Phase::Completed, Some(Outcome::Exited { .. })) => "failed",
+        _ => label(phase),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn status_labels_require_a_recorded_exit() {
+        assert_eq!(
+            outcome_label(Phase::Completed, Some(&Outcome::Exited { code: 0 })),
+            "succeeded"
+        );
+        assert_eq!(
+            outcome_label(Phase::Completed, Some(&Outcome::Exited { code: 17 })),
+            "failed"
+        );
+        assert_eq!(outcome_label(Phase::Completed, None), "outcome unknown");
+        assert_eq!(label(Phase::OutcomeUnknown), "outcome unknown");
+        assert_eq!(label(Phase::Signaled), "terminated by signal");
+        assert_eq!(label(Phase::SpawnFailed), "spawn failed");
+        assert_eq!(
+            traffic_label(&arc_ipc::traffic::StatusResult::Cancelled {}),
+            "cancelled"
+        );
+        assert_eq!(
+            traffic_label(&arc_ipc::traffic::StatusResult::Unconfirmed {}),
+            "outcome unknown"
+        );
     }
 }

@@ -1,6 +1,12 @@
 #[test]
 fn real_bun_preserves_caller_environment_and_receives_missing_lineage() {
     let _serial = support::serial();
+    // Compare Bun's environment at the native exec boundary. Tool-manager
+    // launchers may add their own per-process environment before starting Bun.
+    let bun = super::bun_measurement::real_bun();
+    let mut paths = vec![bun.parent().unwrap().to_path_buf()];
+    paths.extend(std::env::split_paths(&std::env::var_os("PATH").unwrap()));
+    let path = std::env::join_paths(paths).unwrap();
     let f = Fixture::new();
     let mut daemon = f.spawn("test");
     let project = f.root.join("environment_bun");
@@ -21,7 +27,7 @@ test('environment', () => writeFileSync(process.env.RESULT!, JSON.stringify(Obje
             command
                 .current_dir(&project)
                 .env_clear()
-                .env("PATH", std::env::var_os("PATH").unwrap())
+                .env("PATH", &path)
                 .env("HOME", std::env::var_os("HOME").unwrap())
                 .env(arc_core::ARC_SOCKET_PATH, &f.socket)
                 .env("RESULT", &result)

@@ -1,6 +1,89 @@
 use super::*;
 
 #[test]
+fn historical_completed_without_exit_has_a_non_retryable_status() {
+    let db = Database::new();
+    let mut c = db.open();
+    let policy = Policy::default();
+    for (n, clear_kind) in [(1, true), (2, false)] {
+        let grant = add(&mut c, n, "BUILD", 100 + u64::from(n) * 3, &policy);
+        complete_job(
+            &mut c,
+            n,
+            generation(&grant),
+            Outcome::Exited { code: 17 },
+            101 + u64::from(n) * 3,
+        );
+        c.execute(
+            "UPDATE jobs SET state='COMPLETED',exit_code=NULL WHERE id=?1",
+            [id(n).as_str()],
+        )
+        .unwrap();
+        if clear_kind {
+            c.execute(
+                "UPDATE job_lifecycle SET outcome_kind=NULL WHERE job_id=?1",
+                [id(n).as_str()],
+            )
+            .unwrap();
+        }
+        let job = get(&c, &id(n)).unwrap().unwrap();
+        assert_eq!(job.phase, arc_ipc::jobs::Phase::OutcomeUnknown);
+        assert_eq!(job.outcome, None);
+        assert_eq!(status(&c, &id(n)), Err(JobError::UnsupportedStatus));
+        assert_eq!(
+            JobError::UnsupportedStatus.code(),
+            arc_ipc::ERROR_UNSUPPORTED_CAPABILITY
+        );
+        let observer = identity();
+        let owner = OwnerEvidence::gather(&observer);
+        assert_eq!(
+            poll(
+                &mut c,
+                &Request::Poll {
+                    job_id: id(n),
+                    observer: observer.clone(),
+                },
+                &owner,
+                &policy,
+                &context(n),
+                200,
+            ),
+            Err(JobError::InvalidTransition)
+        );
+        assert_eq!(
+            cancel(
+                &mut c,
+                &Request::Cancel {
+                    job_id: id(n),
+                    observer,
+                    permit_generation: None,
+                },
+                201,
+            ),
+            Err(JobError::InvalidTransition)
+        );
+        assert_eq!(
+            fallback(&mut c, &fallback_request(n, None, None, None), None, 202),
+            Err(JobError::InvalidTransition)
+        );
+        assert_eq!(permit_counts(&c), (i64::from(n), 0));
+    }
+    drop(c);
+    let c = db.open();
+    for n in [1, 2] {
+        assert_eq!(status(&c, &id(n)), Err(JobError::UnsupportedStatus));
+    }
+    // The exception is limited to historical COMPLETED rows. Invalid new
+    // state/outcome combinations must still report a storage failure.
+    c.execute(
+        "UPDATE jobs SET state='FAILED' WHERE id=?1",
+        [id(1).as_str()],
+    )
+    .unwrap();
+    assert_eq!(status(&c, &id(1)), Err(JobError::StorageFailure));
+}
+
+#[test]
 fn durable_fifo_bypass_and_idempotent_completion() {
     let db = Database::new();
     let mut c = db.open();

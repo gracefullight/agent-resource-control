@@ -1,6 +1,8 @@
 use super::{JobError, JobResult};
 use arc_ipc::{
-    jobs::{IdentityObservation, JobId, JobSnapshot, Outcome, ProcessIdentity},
+    jobs::{
+        IdentityObservation, JobId, JobSnapshot, LifecycleReason, Outcome, Phase, ProcessIdentity,
+    },
     Classification,
 };
 use rusqlite::{params, Connection, Row};
@@ -33,6 +35,32 @@ pub(super) fn text(value: &impl Serialize) -> JobResult<String> {
         .and_then(|v| v.as_str().map(str::to_owned))
         .ok_or(JobError::StorageFailure)
 }
+pub(super) fn legacy_unknown_state(state: &str, kind: Option<&str>, code: Option<u8>) -> bool {
+    state == "COMPLETED" && matches!(kind, None | Some("EXITED")) && code.is_none()
+}
+// New storage states remain the protocol-1 COMPLETED phase on the wire.
+pub(super) fn phase(state: &str, kind: Option<&str>, code: Option<u8>) -> rusqlite::Result<Phase> {
+    match (state, kind, code) {
+        ("SUCCEEDED", Some("EXITED"), Some(0)) | ("FAILED", Some("EXITED"), Some(1..=u8::MAX)) => {
+            Ok(Phase::Completed)
+        }
+        ("SUCCEEDED" | "FAILED", _, _) => Err(invalid()),
+        ("COMPLETED", None | Some("EXITED"), None) => Ok(Phase::OutcomeUnknown),
+        _ => serde_json::from_value(serde_json::Value::String(state.to_owned()))
+            .map_err(|_| invalid()),
+    }
+}
+// A protocol-1 snapshot cannot carry a completion timestamp without an outcome.
+// Keep these historical rows distinct from live jobs with an unknown outcome.
+pub(super) fn legacy_unknown(connection: &Connection, id: &JobId) -> JobResult<bool> {
+    Ok(connection.query_row(
+        "SELECT EXISTS(SELECT 1 FROM jobs j JOIN job_lifecycle d ON d.job_id=j.id
+         WHERE j.id=?1 AND j.state='COMPLETED' AND j.exit_code IS NULL
+         AND (d.outcome_kind IS NULL OR d.outcome_kind='EXITED'))",
+        [id.as_str()],
+        |row| row.get(0),
+    )?)
+}
 pub(super) fn decode(row: &Row<'_>) -> rusqlite::Result<JobSnapshot> {
     if timestamp(row, "created_at")? != timestamp(row, "registered_at_ms")? {
         return Err(invalid());
@@ -53,8 +81,17 @@ pub(super) fn decode(row: &Row<'_>) -> rusqlite::Result<JobSnapshot> {
         row.get::<_, Option<String>>("spawn_reason")?,
         row.get::<_, Option<i32>>("os_code")?,
     );
+    let state: String = row.get("state")?;
+    let phase = phase(&state, kind.as_deref(), fields.0)?;
+    let legacy_unknown = legacy_unknown_state(&state, kind.as_deref(), fields.0);
+    // Protocol-1 requires a non-terminal reason for an unknown outcome.
+    // NONE avoids inventing an identity failure while retaining the observation.
     let outcome = match (kind.as_deref(), fields) {
         (None, (None, None, None, None, None)) => None,
+        (Some("EXITED"), (None, None, None, None, None)) if legacy_unknown => None,
+        (None, (Some(code), None, None, None, None)) if state == "COMPLETED" => {
+            Some(Outcome::Exited { code })
+        }
         (Some("EXITED"), (Some(code), None, None, None, None)) => Some(Outcome::Exited { code }),
         (Some("SIGNALED"), (None, Some(signal), Some(core_dumped), None, None)) => {
             Some(Outcome::Signaled {
@@ -72,7 +109,7 @@ pub(super) fn decode(row: &Row<'_>) -> rusqlite::Result<JobSnapshot> {
     };
     Ok(JobSnapshot {
         job_id: JobId::try_from(row.get::<_, String>("id")?).map_err(|_| invalid())?,
-        phase: value(row, "state")?,
+        phase,
         classification: Classification {
             classification: value(row, "job_class")?,
             locality: value(row, "locality")?,
@@ -91,13 +128,25 @@ pub(super) fn decode(row: &Row<'_>) -> rusqlite::Result<JobSnapshot> {
             target: value(row, "observation_target")?,
             status: value(row, "observation_status")?,
             observed_at_ms: timestamp(row, "observation_at_ms")?,
-            reason: value(row, "observation_reason")?,
+            reason: if legacy_unknown {
+                LifecycleReason::None
+            } else {
+                value(row, "observation_reason")?
+            },
         },
-        reason: value(row, "reason")?,
+        reason: if legacy_unknown {
+            LifecycleReason::None
+        } else {
+            value(row, "reason")?
+        },
         outcome,
         registered_at_ms: timestamp(row, "created_at")?,
         launch_claimed_at_ms: optional_timestamp(row, "launch_claimed_at_ms")?,
-        completed_at_ms: optional_timestamp(row, "finished_at")?,
+        completed_at_ms: if legacy_unknown {
+            None
+        } else {
+            optional_timestamp(row, "finished_at")?
+        },
         updated_at_ms: timestamp(row, "updated_at_ms")?,
         revision: timestamp(row, "revision")?,
     })
@@ -106,6 +155,10 @@ pub(super) fn decode(row: &Row<'_>) -> rusqlite::Result<JobSnapshot> {
 pub(super) fn write(connection: &Connection, j: &JobSnapshot, new: bool) -> JobResult<()> {
     if !j.is_valid() {
         return Err(JobError::InvalidRequest);
+    }
+    // A synthetic unknown snapshot must never replace historical terminal data.
+    if !new && j.outcome.is_none() && legacy_unknown(connection, &j.job_id)? {
+        return Err(JobError::InvalidTransition);
     }
     let (kind, code, signal, core_dumped, spawn_reason, os_code) = match &j.outcome {
         None => (None, None, None, None, None, None),
@@ -130,12 +183,17 @@ pub(super) fn write(connection: &Connection, j: &JobSnapshot, new: bool) -> JobR
             *os_code,
         ),
     };
+    let state = match (&j.phase, &j.outcome) {
+        (Phase::Completed, Some(Outcome::Exited { code: 0 })) => "SUCCEEDED".to_owned(),
+        (Phase::Completed, Some(Outcome::Exited { .. })) => "FAILED".to_owned(),
+        _ => text(&j.phase)?,
+    };
     if new {
         connection.execute("INSERT INTO jobs (id,job_class,locality,enforcement,state,created_at) VALUES (?1,?2,?3,'OBSERVE',?4,?5)",
-            params![j.job_id.as_str(), text(&j.classification.classification)?, text(&j.classification.locality)?, text(&j.phase)?, (j.registered_at_ms as i64)])?;
+            params![j.job_id.as_str(), text(&j.classification.classification)?, text(&j.classification.locality)?, state, (j.registered_at_ms as i64)])?;
     } else {
         connection.execute("UPDATE jobs SET state=?2, started_at=coalesce(started_at,?3), finished_at=?4, exit_code=?5 WHERE id=?1",
-            params![j.job_id.as_str(), text(&j.phase)?, j.child_verified_at_ms.map(|v| v as i64), j.completed_at_ms.map(|v| v as i64), code])?;
+            params![j.job_id.as_str(), state, j.child_verified_at_ms.map(|v| v as i64), j.completed_at_ms.map(|v| v as i64), code])?;
     }
     connection.execute("INSERT INTO job_lifecycle (job_id,observer_pid,observer_start_token,observer_boot_id,observer_verified_at_ms,child_pid,child_start_token,child_boot_id,child_verified_at_ms,classification_reason,classification_uncertainty,launch_claimed_at_ms,observation_target,observation_status,observation_at_ms,observation_reason,outcome_kind,signal,core_dumped,spawn_reason,os_code,revision,updated_at_ms,reason,registered_at_ms)
         VALUES (?1,?2,?3,?4,?5,?6,?7,?8,?9,?10,?11,?12,?13,?14,?15,?16,?17,?18,?19,?20,?21,?22,?23,?24,?25) ON CONFLICT(job_id) DO UPDATE SET

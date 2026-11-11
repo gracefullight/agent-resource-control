@@ -300,5 +300,11 @@ mod semantics;
 mod status;
 #[path = "traffic_cli/status_compat.rs"]
 mod status_compat;
+#[path = "traffic_cli/status_compat_terminal.rs"]
+mod status_compat_terminal;
+#[path = "traffic_cli/terminal_outcomes.rs"]
+mod terminal_outcomes;
+#[path = "traffic_cli/terminal_outcomes_historical.rs"]
+mod terminal_outcomes_historical;
 #[path = "traffic_cli/unattached.rs"]
 mod unattached;

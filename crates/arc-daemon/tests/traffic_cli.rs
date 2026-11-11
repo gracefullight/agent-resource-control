@@ -278,6 +278,8 @@ fn cargo_class(class: &str, reason: &str) -> arc_ipc::Classification {
     serde_json::from_value(serde_json::json!({"classification":class,"locality":"HOST_LOCAL","reason":reason,"uncertainty":"NONE"})).unwrap()
 }
 
+#[path = "traffic_cli/bun_measurement.rs"]
+mod bun_measurement;
 #[path = "traffic_cli/cleanup.rs"]
 mod cleanup;
 #[path = "traffic_cli/diagnostics.rs"]

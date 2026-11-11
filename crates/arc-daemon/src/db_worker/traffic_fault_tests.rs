@@ -6,7 +6,10 @@ use crate::{
     runtime_metrics::RuntimeMetrics,
 };
 use arc_ipc::{
-    traffic::{JobRequest, OPERATION_TRAFFIC_CAPABILITIES, OPERATION_TRAFFIC_JOB},
+    traffic::{
+        JobRequest, OPERATION_BUN_CAPABILITIES, OPERATION_BUN_JOB, OPERATION_TRAFFIC_CAPABILITIES,
+        OPERATION_TRAFFIC_JOB,
+    },
     Request, Response,
 };
 use std::{
@@ -28,19 +31,22 @@ use std::{
 #[derive(Clone, Copy)]
 enum Boundary {
     Enqueue,
+    Attach,
     Complete,
 }
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn real_cli_executes_once_when_replies_are_lost_before_and_after_commits() {
-    for boundary in [Boundary::Enqueue, Boundary::Complete] {
-        for after_commit in [false, true] {
-            exercise(boundary, after_commit).await;
+    for program in ["cargo", "bun"] {
+        for boundary in [Boundary::Enqueue, Boundary::Attach, Boundary::Complete] {
+            for after_commit in [false, true] {
+                exercise(program, boundary, after_commit).await;
+            }
         }
     }
 }
 
-async fn exercise(boundary: Boundary, after_commit: bool) {
+async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool) {
     let root = arc_core::runtime_root().unwrap().join(format!(
         "af-{}",
         arc_core::process_identity::random_job_id().unwrap()
@@ -83,22 +89,36 @@ async fn exercise(boundary: Boundary, after_commit: bool) {
             stream.set_nonblocking(false).unwrap();
             let peer = crate::platform::peer_pid(&stream).unwrap();
             let request: Request = arc_ipc::read_message(&mut stream).unwrap();
-            if request.operation == OPERATION_TRAFFIC_CAPABILITIES {
+            let (probe, operation, capability) = if program == "bun" {
+                (
+                    OPERATION_BUN_CAPABILITIES,
+                    OPERATION_BUN_JOB,
+                    arc_ipc::traffic::Capabilities::bun_supported(),
+                )
+            } else {
+                (
+                    OPERATION_TRAFFIC_CAPABILITIES,
+                    OPERATION_TRAFFIC_JOB,
+                    arc_ipc::traffic::Capabilities::supported(),
+                )
+            };
+            if request.operation == probe {
                 arc_ipc::write_response(
                     &mut stream,
                     &Response::ok(
                         request.request_id,
-                        serde_json::to_value(arc_ipc::traffic::Capabilities::supported()).unwrap(),
+                        serde_json::to_value(capability).unwrap(),
                     ),
                 )
                 .unwrap();
                 continue;
             }
-            assert_eq!(request.operation, OPERATION_TRAFFIC_JOB);
-            let job = arc_ipc::traffic::decode_job(&request.payload).unwrap();
+            assert_eq!(request.operation, operation);
+            let job = arc_ipc::traffic::decode_job_for(operation, &request.payload).unwrap();
             let selected = matches!(
                 (&boundary, &job),
                 (Boundary::Enqueue, JobRequest::Enqueue { .. })
+                    | (Boundary::Attach, JobRequest::Attach { .. })
                     | (Boundary::Complete, JobRequest::Complete { .. })
             );
             if selected {
@@ -132,10 +152,15 @@ async fn exercise(boundary: Boundary, after_commit: bool) {
         .parent()
         .unwrap()
         .to_path_buf();
-    symlink(bin.join("arc-exec-fixture"), root.join("cargo")).unwrap();
+    symlink(bin.join("arc-exec-fixture"), root.join(program)).unwrap();
     let marker = root.join("calls");
     let mut cli = Command::new(bin.join("arcctl"))
-        .args(["exec", "--", "cargo", "build"])
+        .args([
+            "exec",
+            "--",
+            program,
+            if program == "bun" { "test" } else { "build" },
+        ])
         .env(arc_core::ARC_SOCKET_PATH, &socket)
         .env("PATH", &root)
         .env("ARC_FIXTURE_MODE", "echo")
@@ -183,6 +208,12 @@ async fn exercise(boundary: Boundary, after_commit: bool) {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn lost_grant_ack_then_cancel_recovers_unspawned_reservation_after_reopen() {
+    for program in ["cargo", "bun"] {
+        cancel_after_lost_grant(program).await;
+    }
+}
+
+async fn cancel_after_lost_grant(program: &'static str) {
     let root = arc_core::runtime_root().unwrap().join(format!(
         "ac-{}",
         arc_core::process_identity::random_job_id().unwrap()
@@ -221,19 +252,32 @@ async fn lost_grant_ack_then_cancel_recovers_unspawned_reservation_after_reopen(
             stream.set_nonblocking(false).unwrap();
             let peer = crate::platform::peer_pid(&stream).unwrap();
             let request: Request = arc_ipc::read_message(&mut stream).unwrap();
-            if request.operation == OPERATION_TRAFFIC_CAPABILITIES {
+            let (probe, operation, capability) = if program == "bun" {
+                (
+                    OPERATION_BUN_CAPABILITIES,
+                    OPERATION_BUN_JOB,
+                    arc_ipc::traffic::Capabilities::bun_supported(),
+                )
+            } else {
+                (
+                    OPERATION_TRAFFIC_CAPABILITIES,
+                    OPERATION_TRAFFIC_JOB,
+                    arc_ipc::traffic::Capabilities::supported(),
+                )
+            };
+            if request.operation == probe {
                 arc_ipc::write_response(
                     &mut stream,
                     &Response::ok(
                         request.request_id,
-                        serde_json::to_value(arc_ipc::traffic::Capabilities::supported()).unwrap(),
+                        serde_json::to_value(capability).unwrap(),
                     ),
                 )
                 .unwrap();
                 continue;
             }
-            assert_eq!(request.operation, OPERATION_TRAFFIC_JOB);
-            let job = arc_ipc::traffic::decode_job(&request.payload).unwrap();
+            assert_eq!(request.operation, operation);
+            let job = arc_ipc::traffic::decode_job_for(operation, &request.payload).unwrap();
             assert!(matches!(job, JobRequest::Enqueue { .. }));
             let reply = runtime
                 .block_on(handle(
@@ -257,10 +301,15 @@ async fn lost_grant_ack_then_cancel_recovers_unspawned_reservation_after_reopen(
         .parent()
         .unwrap()
         .to_path_buf();
-    symlink(bin.join("arc-exec-fixture"), root.join("cargo")).unwrap();
+    symlink(bin.join("arc-exec-fixture"), root.join(program)).unwrap();
     let marker = root.join("calls");
     let mut cli = Command::new(bin.join("arcctl"))
-        .args(["exec", "--", "cargo", "build"])
+        .args([
+            "exec",
+            "--",
+            program,
+            if program == "bun" { "test" } else { "build" },
+        ])
         .env(arc_core::ARC_SOCKET_PATH, &socket)
         .env("PATH", &root)
         .env("ARC_FIXTURE_MODE", "echo")

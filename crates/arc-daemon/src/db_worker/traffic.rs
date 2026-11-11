@@ -41,7 +41,7 @@ pub(crate) enum Operation {
     RecoverUnspawned(Box<traffic::UnspawnedEvidence>),
     RecoverUncertain(Box<traffic::UncertainEvidence>),
     Candidates(u64),
-    Lineage(LineageContext),
+    Lineage(Vec<ProcessIdentity>),
     Status(JobId),
 }
 
@@ -49,7 +49,7 @@ pub(crate) enum Value {
     Reply(Result<serde_json::Value, JobError>),
     Head(Result<Option<Box<JobSnapshot>>, JobError>),
     Candidates(Result<Vec<traffic::RecoveryCandidate>, JobError>),
-    Lineage(Result<Vec<traffic::LineageSnapshot>, JobError>),
+    Lineage(Result<Vec<(traffic::LineageSnapshot, ProcessIdentity)>, JobError>),
     Status(Result<TrafficStatus, JobError>),
     Witness(Result<bool, JobError>),
     Uncertain(Result<traffic::UncertainResult, JobError>),
@@ -63,8 +63,8 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
         Operation::Candidates(after) => {
             Value::Candidates(traffic::recovery_candidates(connection, after, 64))
         }
-        Operation::Lineage(context) => {
-            Value::Lineage(traffic::lineage_snapshots(connection, &context))
+        Operation::Lineage(ancestors) => {
+            Value::Lineage(traffic::lineage_anchors(connection, &ancestors))
         }
         Operation::Status(id) => Value::Status(traffic::status(connection, &id)),
         Operation::ReconcileQueue(observation) => Value::Reply(
@@ -98,12 +98,13 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
                     proof.as_ref(),
                     now,
                 ),
-                JobRequest::Poll { .. } => traffic::poll(
+                JobRequest::Poll { .. } => traffic::poll_with_proof(
                     connection,
                     &request,
                     owner.as_ref().expect("owner evidence"),
                     &arc_traffic::Policy::default(),
                     &context,
+                    proof.as_ref(),
                     now,
                 ),
                 JobRequest::Attach { .. } => traffic::attach(
@@ -265,27 +266,47 @@ async fn lineage_proof(
     request: &JobRequest,
     deadline: Instant,
 ) -> Result<Option<traffic::LineageProof>, &'static str> {
-    let JobRequest::Enqueue {
-        observer,
-        lineage_context: Some(inherited),
-        ..
-    } = request
-    else {
-        return Ok(None);
+    let observer = match request {
+        JobRequest::Enqueue { observer, .. } | JobRequest::Poll { observer, .. } => observer,
+        _ => return Ok(None),
     };
-    let snapshots = match call(client, Operation::Lineage(inherited.clone()), deadline).await? {
+    let ancestors = live_ancestors(observer);
+    if ancestors.is_empty() {
+        return Ok(None);
+    }
+    let snapshots = match call(client, Operation::Lineage(ancestors), deadline).await? {
         Value::Lineage(value) => value.map_err(JobError::code)?,
         _ => return Err(arc_ipc::ERROR_DB_BUSY),
     };
-    Ok(snapshots.into_iter().find_map(|snapshot| {
-        [snapshot.root.child.as_ref(), Some(&snapshot.root.observer)]
-            .into_iter()
-            .flatten()
-            .find_map(|anchor| {
-                is_descendant(observer, anchor)
-                    .then(|| traffic::LineageProof::verified(&snapshot, anchor))
-            })
+    Ok(snapshots.into_iter().find_map(|(snapshot, anchor)| {
+        is_descendant(observer, &anchor).then(|| {
+            traffic::LineageProof::verified_with_recheck(&snapshot, &anchor, is_descendant)
+        })
     }))
+}
+
+/// Capture a bounded chain from the authenticated socket peer. It is only a
+/// candidate lookup: the chosen path is independently checked again at grant.
+fn live_ancestors(observer: &ProcessIdentity) -> Vec<ProcessIdentity> {
+    let mut current = observer.clone();
+    let mut result = Vec::new();
+    for _ in 0..128 {
+        let Ok(pid) = parent_pid(current.pid) else {
+            break;
+        };
+        if pid == 0 || pid == current.pid || probe_live(&current) != IdentityStatus::VerifiedMatch {
+            break;
+        }
+        let Ok(parent) = ProcessIdentity::capture(pid) else {
+            break;
+        };
+        if probe_live(&parent) != IdentityStatus::VerifiedMatch || result.contains(&parent) {
+            break;
+        }
+        result.push(parent.clone());
+        current = parent;
+    }
+    result
 }
 
 /// Status must observe a child before describing it as running. Use the legacy

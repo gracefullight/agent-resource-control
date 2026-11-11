@@ -32,7 +32,7 @@ fn stderr_pipe(broken: bool) -> (Option<File>, File) {
     (Some(reader), writer)
 }
 
-fn queued_cancellation(broken: bool) {
+fn queued_cancellation(broken: bool, program: &str) {
     let _serial = support::serial();
     let f = Fixture::new();
     let mut daemon = f.spawn("test");
@@ -50,7 +50,12 @@ fn queued_cancellation(broken: bool) {
     let mut second = BuildChild::new(
         OwnedChild::new(
             Command::new(binary("arcctl"))
-                .args(["exec", "--", "cargo", "build"])
+                .args([
+                    "exec",
+                    "--",
+                    program,
+                    if program == "bun" { "test" } else { "build" },
+                ])
                 .env(arc_core::ARC_SOCKET_PATH, &f.socket)
                 .env_remove("ARC_TRAFFIC_LINEAGE")
                 .stdin(Stdio::null())
@@ -90,14 +95,19 @@ fn queued_cancellation(broken: bool) {
     f.report();
 }
 
-fn spawn_failure(broken: bool) {
+fn spawn_failure(broken: bool, program: &str) {
     let _serial = support::serial();
     let f = Fixture::new();
     let mut daemon = f.spawn("test");
     let (_reader, writer) = stderr_pipe(broken);
     let mut wrapper = OwnedChild::new(
         Command::new(binary("arcctl"))
-            .args(["exec", "--", "cargo", "build"])
+            .args([
+                "exec",
+                "--",
+                program,
+                if program == "bun" { "test" } else { "build" },
+            ])
             .env(arc_core::ARC_SOCKET_PATH, &f.socket)
             .env("PATH", &f.root)
             .env_remove("ARC_TRAFFIC_LINEAGE")
@@ -121,17 +131,114 @@ fn spawn_failure(broken: bool) {
 
 #[test]
 fn cancellation_with_full_stderr_exits_and_cleans_up() {
-    queued_cancellation(false);
+    queued_cancellation(false, "cargo");
+    queued_cancellation(false, "bun");
 }
 #[test]
 fn cancellation_with_broken_stderr_exits_and_cleans_up() {
-    queued_cancellation(true);
+    queued_cancellation(true, "cargo");
+    queued_cancellation(true, "bun");
 }
 #[test]
 fn spawn_failure_with_full_stderr_exits_and_releases() {
-    spawn_failure(false);
+    spawn_failure(false, "cargo");
+    spawn_failure(false, "bun");
 }
 #[test]
 fn spawn_failure_with_broken_stderr_exits_and_releases() {
-    spawn_failure(true);
+    spawn_failure(true, "cargo");
+    spawn_failure(true, "bun");
 }
+
+#[test]
+fn persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets() {
+    use arc_ipc::{
+        jobs::{JobId, ProcessIdentity},
+        traffic::{JobRequest, JobResult, LineageContext, WaitReason},
+    };
+    use arc_storage::jobs::traffic as store;
+    let _serial = support::serial();
+    for (first_reason, second_reason) in [("CARGO_TEST", "BUN_TEST"), ("BUN_TEST", "CARGO_TEST")] {
+        for scarce in [WaitReason::CpuBudget, WaitReason::MemoryBudget] {
+            let f = Fixture::new();
+            let mut db = arc_storage::open_and_migrate(&f.database).unwrap();
+            let mut policy = arc_traffic::Policy::default();
+            let reservation = policy.test.reservation;
+            policy.test.window = 2;
+            policy.build.reservation = reservation;
+            policy.budget.cpu_millis =
+                reservation.cpu_millis * 2 - u64::from(scarce == WaitReason::CpuBudget);
+            policy.budget.memory_bytes =
+                reservation.memory_bytes * 2 - u64::from(scarce == WaitReason::MemoryBudget);
+            assert_eq!(policy.validate(), Ok(()));
+            let observer = ProcessIdentity::capture(std::process::id()).unwrap();
+            let owner = store::OwnerEvidence::gather(&observer);
+            let id1 = JobId::try_from("1123456789abcdef0123456789abcdef".to_owned()).unwrap();
+            let id2 = JobId::try_from("2123456789abcdef0123456789abcdef".to_owned()).unwrap();
+            let first = JobRequest::Enqueue {
+                job_id: id1.clone(),
+                observer: observer.clone(),
+                classification: cargo_class("TEST", first_reason),
+                lineage_context: None,
+            };
+            let second = JobRequest::Enqueue {
+                job_id: id2.clone(),
+                observer: observer.clone(),
+                classification: cargo_class("TEST", second_reason),
+                lineage_context: None,
+            };
+            let context1 = LineageContext::try_from("a".repeat(64)).unwrap();
+            let context2 = LineageContext::try_from("b".repeat(64)).unwrap();
+            let JobResult::Granted {
+                permit_generation, ..
+            } = store::enqueue(&mut db, &first, &owner, &policy, &context1, None, 100).unwrap()
+            else {
+                panic!("expected first grant")
+            };
+            let before = store::active_reservations(&db).unwrap();
+            assert_eq!((before.test, before.resources), (1, reservation));
+            assert!(
+                matches!(store::enqueue(&mut db, &second, &owner, &policy, &context2, None, 101).unwrap(), JobResult::Queued { reason, .. } if reason == scarce)
+            );
+            assert_eq!(store::active_reservations(&db).unwrap(), before);
+            let cancel = JobRequest::Cancel {
+                job_id: id1,
+                observer: observer.clone(),
+                permit_generation: Some(permit_generation),
+            };
+            assert_eq!(
+                store::confirm_cancel_unspawned(&mut db, &cancel, &owner, 102).unwrap(),
+                JobResult::Cancelled {}
+            );
+            let poll = JobRequest::Poll {
+                job_id: id2.clone(),
+                observer: observer.clone(),
+            };
+            let JobResult::Granted {
+                permit_generation, ..
+            } = store::poll(&mut db, &poll, &owner, &policy, &context2, 103).unwrap()
+            else {
+                panic!("expected grant after release")
+            };
+            assert_eq!(store::active_reservations(&db).unwrap(), before);
+            let cancel = JobRequest::Cancel {
+                job_id: id2,
+                observer,
+                permit_generation: Some(permit_generation),
+            };
+            assert_eq!(
+                store::confirm_cancel_unspawned(&mut db, &cancel, &owner, 104).unwrap(),
+                JobResult::Cancelled {}
+            );
+            assert_eq!(
+                store::active_reservations(&db).unwrap(),
+                arc_traffic::Active::default()
+            );
+        }
+    }
+}
+
+include!("diagnostics/frozen.rs");
+include!("diagnostics/legacy.rs");
+include!("diagnostics/legacy_recovery.rs");
+include!("diagnostics/two_store.rs");

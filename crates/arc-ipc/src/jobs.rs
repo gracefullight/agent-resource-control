@@ -147,8 +147,8 @@ where
 /// failures are static; serde diagnostics must not be exposed to users or logs.
 pub fn decode_start(payload: &serde_json::Value) -> Result<StartRequest, &'static str> {
     let request: StartRequest = decode_payload(payload)?;
-    request
-        .is_valid()
+    (request.is_valid()
+        && !matches!(&request, StartRequest::Register { classification, .. } if classification.reason == crate::Reason::BunTest))
         .then_some(request)
         .ok_or(crate::ERROR_INVALID_REQUEST)
 }

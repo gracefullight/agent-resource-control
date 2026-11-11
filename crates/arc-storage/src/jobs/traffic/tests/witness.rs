@@ -73,6 +73,68 @@ fn witness_recovery_requires_matching_key_and_definitive_owner_evidence() {
 }
 
 #[test]
+fn reused_job_recovers_only_with_its_own_fresh_witness_key() {
+    let db = Database::new();
+    let mut connection = db.open();
+    let policy = Policy::default();
+    add(&mut connection, 1, "BUILD", 10, &policy);
+    let root = lineage_snapshot(&connection, &context(1)).unwrap().unwrap();
+    let proof = LineageProof::verified(&root, &root.root.observer);
+    let nested = request(2, "BUILD", Some(context(99)));
+    let owner = OwnerEvidence::gather(&identity());
+    let reply = enqueue(
+        &mut connection,
+        &nested,
+        &owner,
+        &policy,
+        &context(2),
+        Some(&proof),
+        11,
+    )
+    .unwrap();
+    assert!(matches!(&reply, Reply::Reused { parent_job_id, .. } if *parent_job_id == id(1)));
+    assert_eq!(
+        enqueue(
+            &mut connection,
+            &nested,
+            &owner,
+            &policy,
+            &context(2),
+            Some(&proof),
+            11
+        )
+        .unwrap(),
+        reply
+    );
+    let snapshot = get(&connection, &id(2)).unwrap().unwrap();
+    let old_root_key = WitnessEvidence::simulated(
+        &snapshot,
+        &context(1),
+        &identity(),
+        IdentityStatus::Missing,
+        IdentityStatus::VerifiedMatch,
+        12,
+    );
+    assert!(!recover_witness(&mut connection, &old_root_key).unwrap());
+    assert_eq!(permit_counts(&connection), (1, 1));
+    let own_key = WitnessEvidence::simulated(
+        &snapshot,
+        &context(99),
+        &identity(),
+        IdentityStatus::Missing,
+        IdentityStatus::VerifiedMatch,
+        12,
+    );
+    assert!(recover_witness(&mut connection, &own_key).unwrap());
+    assert!(!recover_witness(&mut connection, &own_key).unwrap());
+    assert_eq!(permit_counts(&connection), (1, 1));
+    complete_job(&mut connection, 1, 1, Outcome::Exited { code: 0 }, 13);
+    assert_eq!(permit_counts(&connection), (1, 1));
+    complete_job(&mut connection, 2, 1, Outcome::Exited { code: 0 }, 14);
+    assert_eq!(permit_counts(&connection), (1, 0));
+}
+
+#[test]
 fn witness_for_an_exited_child_releases_once_and_records_unknown() {
     let db = Database::new();
     let mut connection = db.open();

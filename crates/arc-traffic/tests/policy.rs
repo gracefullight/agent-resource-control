@@ -25,6 +25,7 @@ fn direct_classes_have_independent_windows_and_fixed_reservations() {
     for (args, class) in [
         (vec!["cargo", "build"], TrafficClass::Build),
         (vec!["cargo", "test"], TrafficClass::Test),
+        (vec!["bun", "test"], TrafficClass::Test),
         (vec!["cargo", "clippy"], TrafficClass::Lint),
         (vec!["cargo", "fmt"], TrafficClass::Lint),
     ] {
@@ -54,6 +55,64 @@ fn direct_classes_have_independent_windows_and_fixed_reservations() {
         decision(&["cargo", "test"], active, &policy, true),
         Ok(Decision::Admit { .. })
     ));
+}
+
+#[test]
+fn cargo_and_bun_share_test_window_and_each_global_budget() {
+    for (first, second) in [
+        (["cargo", "test"], ["bun", "test"]),
+        (["bun", "test"], ["cargo", "test"]),
+    ] {
+        let mut policy = Policy::default();
+        let reservation = policy.test.reservation;
+        policy.build.reservation = reservation;
+        let active = Active {
+            test: 1,
+            resources: reservation,
+            ..Active::default()
+        };
+        assert!(matches!(
+            decision(&first, Active::default(), &policy, true),
+            Ok(Decision::Admit {
+                class: TrafficClass::Test,
+                ..
+            })
+        ));
+        assert_eq!(
+            decision(&second, active, &policy, true),
+            Ok(Decision::Wait(WaitReason::ClassWindow))
+        );
+        policy.test.window = 2;
+        policy.budget.cpu_millis = reservation.cpu_millis * 2 - 1;
+        assert_eq!(
+            decision(&second, active, &policy, true),
+            Ok(Decision::Wait(WaitReason::CpuBudget))
+        );
+        policy.budget.cpu_millis = reservation.cpu_millis * 2;
+        policy.budget.memory_bytes = reservation.memory_bytes * 2 - 1;
+        assert_eq!(
+            decision(&second, active, &policy, true),
+            Ok(Decision::Wait(WaitReason::MemoryBudget))
+        );
+        assert!(matches!(
+            decision(&second, Active::default(), &policy, true),
+            Ok(Decision::Admit {
+                class: TrafficClass::Test,
+                ..
+            })
+        ));
+        for args in [
+            vec!["bun", "test", "--watch"],
+            vec!["bun", "test", "--hot"],
+            vec!["bun", "test", "--unknown"],
+            vec!["bun", "run", "test"],
+        ] {
+            assert_eq!(
+                decision(&args, active, &policy, false),
+                Ok(Decision::Bypass(BypassReason::Unknown))
+            );
+        }
+    }
 }
 
 #[test]

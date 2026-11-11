@@ -92,7 +92,24 @@ sys.exit(17)
             }
             assert_eq!(observations[0], observations[1]);
         }
-        fault.finish();
+        let report = fault.finish();
+        let expected_event = match mode {
+            "absent" | "refused" => None,
+            "disconnect-before-read" => Some("accepted-before-read"),
+            "disconnect-register" | "disconnect-claim" => Some("disconnected-before-commit"),
+            "stall-register" | "stall-claim" | "shared-budget" => Some("stalled-before-commit"),
+            "partial-register" => Some("partial-reply-withheld"),
+            "committed-register" | "committed-claim" => Some("backend-ack-withheld"),
+            "busy-register" | "busy-claim" => Some("injected-db-busy"),
+            _ => unreachable!("unknown fault mode: {mode}"),
+        };
+        if let Some(expected) = expected_event {
+            assert!(
+                report.events.iter().any(|event| event["event"] == expected),
+                "fault {mode} was not injected: {:?}",
+                report.events
+            );
+        }
         daemon.stop(libc::SIGTERM);
         f.report();
     }

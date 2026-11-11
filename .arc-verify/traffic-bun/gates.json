@@ -1,0 +1,2051 @@
+{
+  "schemaVersion": 1,
+  "status": "passed",
+  "updatedAt": "2026-11-11T10:50:29.239167+00:00",
+  "acceptedHead": "16772fe2aa350413225f3fb2bb9227d14ae5a6c4",
+  "sourceHash": "cac648d93c9222589275832eaa9138d8f4fbe7241842cc65d570de8bc754d3ec",
+  "platform": "Darwin arm64; Bun 1.4.4; Rust/Cargo 1.95.0; cargo-llvm-cov 0.6.21",
+  "skill": "oma-qa; independent reviewer used oma-qa; implementation and measurement used oma-backend",
+  "commands": [
+    {
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 855.840709,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-fmt-389f4e7d-2993-45a7-b65d-4dac337b8dab/receipt.json",
+        "sha256": "528f371f083a43eb580e74c6956035cdaf093893e846ea771747a1934b4c9398"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task8-attempt8-fmt-389f4e7d-2993-45a7-b65d-4dac337b8dab/stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task8-attempt8-fmt-389f4e7d-2993-45a7-b65d-4dac337b8dab/stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 626.705833,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-clippy-93e519d5-0338-4a59-9250-6b3644b61c61/receipt.json",
+        "sha256": "1083d97dcd76d4120077228e420fd906e3a643ad0c6fd5571de8bda88a40e0a9"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task8-attempt8-clippy-93e519d5-0338-4a59-9250-6b3644b61c61/stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task8-attempt8-clippy-93e519d5-0338-4a59-9250-6b3644b61c61/stderr.log",
+          "sha256": "45f75b19e5718ce74d75d27dc949e2b0cc21908a1e53dca4d31c24e03ebe8e09"
+        }
+      }
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 212862.713958,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-workspace-5962b55c-99cf-4683-916d-326105f42e49/receipt.json",
+        "sha256": "bd8c3a6cbcf347de98cbe5688e8fe59d0bfda269c02f57c7675eba5c82e5a744"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task8-attempt8-workspace-5962b55c-99cf-4683-916d-326105f42e49/stdout.log",
+          "sha256": "5162b8783276342f03f27bfc0671fdde4a55122e2ddc03e11d01fa2699314d0e"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task8-attempt8-workspace-5962b55c-99cf-4683-916d-326105f42e49/stderr.log",
+          "sha256": "6658d9f7285e68139a70b0b2c61f61f95dc0fd07e995d90a02e65cb390bfea64"
+        }
+      }
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-cli",
+        "--tests",
+        "--message-format=json"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 21616.048458,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task14-binary-fd71dd00-00ec-4f21-af9f-7a2b2ca7963d/receipt.json",
+        "sha256": "8dc88026db0d7336a0b304297d5f4afa95708a065b632f01b97cad7df06cb95b"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task14-binary-fd71dd00-00ec-4f21-af9f-7a2b2ca7963d/stdout.log",
+          "sha256": "ad1e0a0df4623b2b5f15d06502c183263e8e07b095972efe7cbbb7ddfd7e3f4b"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task14-binary-fd71dd00-00ec-4f21-af9f-7a2b2ca7963d/stderr.log",
+          "sha256": "59181effa8d6a5a531a90e3df2984fcf52bc04c8ad704241913767bd9bb4d1e6"
+        }
+      }
+    },
+    {
+      "argv": [
+        "cargo",
+        "test",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "traffic_cli",
+        "--message-format=json",
+        "--",
+        "--nocapture"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 79581.894833,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task14-native-e2755f61-17da-4ce2-a553-1b4d8a97d022/receipt.json",
+        "sha256": "6dea42852afc5af6cd9242fcb2a11b850b55997b68d9419ac3450758105689a3"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task14-native-e2755f61-17da-4ce2-a553-1b4d8a97d022/stdout.log",
+          "sha256": "1ad069ff637f32250543ce63b341b453e3bfd9b95aceeb3b4f97cbf5063c59b6"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task14-native-e2755f61-17da-4ce2-a553-1b4d8a97d022/stderr.log",
+          "sha256": "d5e52e970f687cd7f540c3a559ac49753e0d2d6aa0d11ce4394e03b370d1e678"
+        }
+      }
+    },
+    {
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 279296.107708,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-coverage-a10050a9-d7a2-4072-b1cd-3059d07f925f/receipt.json",
+        "sha256": "bc6fcce455bf584b53aa113335068286d866a3d702ff6ada1060c02e5f3396e1"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task8-attempt8-coverage-a10050a9-d7a2-4072-b1cd-3059d07f925f/stdout.log",
+          "sha256": "44a121adb2b188ad0f591116dc446efd867f27a14fb0a272a165d6fb9a96bb93"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task8-attempt8-coverage-a10050a9-d7a2-4072-b1cd-3059d07f925f/stderr.log",
+          "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+        }
+      }
+    },
+    {
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 275640.795167,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-harness-b38c8d13-2c94-4c8b-ae5c-f301943ac234/receipt.json",
+        "sha256": "6f1565e49d24798b111e6b69e88872a407e575e5bfc7d3e12744a8d874cadbf5"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task8-attempt8-harness-b38c8d13-2c94-4c8b-ae5c-f301943ac234/stdout.log",
+          "sha256": "b2451121e9ad93981b7ce792a2afe3605a3fb17b63222dd93aa9593699c140f3"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task8-attempt8-harness-b38c8d13-2c94-4c8b-ae5c-f301943ac234/stderr.log",
+          "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233"
+        }
+      }
+    },
+    {
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/evidence.test.ts"
+      ],
+      "exit": 0,
+      "status": "passed",
+      "elapsedMs": 1134.094917,
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-live-e664bff7-265e-4eca-bd99-88eeddb8d36a/receipt.json",
+        "sha256": "41d7d318ff57d03a5eac78508ba1f9f07394b8ad7d3a436be9c863e875ed2054"
+      },
+      "output": {
+        "stdout": {
+          "path": "target/traffic-bun/commands/task8-attempt8-live-e664bff7-265e-4eca-bd99-88eeddb8d36a/stdout.log",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/commands/task8-attempt8-live-e664bff7-265e-4eca-bd99-88eeddb8d36a/stderr.log",
+          "sha256": "f4f9e8df3e06a1c22658fd69c6643378ea61b033de015cfefe4b33cf24a914e7"
+        }
+      }
+    }
+  ],
+  "coverage": {
+    "thresholdPercent": 80,
+    "standaloneCollection": "2026-11-11T10-39-24-537Z-18a0a958-7809-4df3-8e21-038bf70b651c",
+    "standaloneStatus": "passed",
+    "standaloneCrates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 706,
+        "total": 711,
+        "percent": 99.29676511954993,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 1759,
+        "total": 1840,
+        "percent": 95.59782608695652,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 569,
+        "total": 576,
+        "percent": 98.78472222222223,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 2244,
+        "total": 2457,
+        "percent": 91.33089133089133,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 1833,
+        "total": 2194,
+        "percent": 83.54603463992707,
+        "pass": true
+      },
+      {
+        "crate": "arc-traffic",
+        "covered": 111,
+        "total": 111,
+        "percent": 100,
+        "pass": true
+      }
+    ],
+    "harnessCollection": "2026-11-11T10-44-13-929Z-83ea0e69-53ea-4433-9cef-9d9f43032fc2",
+    "harnessStatus": "passed",
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 706,
+        "total": 711,
+        "percent": 99.29676511954993,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 1759,
+        "total": 1840,
+        "percent": 95.59782608695652,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 569,
+        "total": 576,
+        "percent": 98.78472222222223,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 2243,
+        "total": 2457,
+        "percent": 91.29019129019129,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 1831,
+        "total": 2194,
+        "percent": 83.45487693710119,
+        "pass": true
+      },
+      {
+        "crate": "arc-traffic",
+        "covered": 111,
+        "total": 111,
+        "percent": 100,
+        "pass": true
+      }
+    ]
+  },
+  "restoration": {
+    "status": "passed",
+    "archiveEntries": 26,
+    "frozenInputs": 13,
+    "originalLocationCopies": 8,
+    "restoration": {
+      "path": "target/traffic-bun/commands/task8-attempt8-restore-absolute-61023af8-77fc-4faa-bfcf-1034b932e8d2/receipt.json",
+      "sha256": "e1b89e923fca8f30bb63c3621b59414152e4b80269118455c95c594ca0ca2f3f"
+    },
+    "audit": {
+      "path": "target/traffic-bun/commands/task8-attempt8-audit-2535a523-beca-46e0-bd0f-d3b489cd67dd/receipt.json",
+      "sha256": "f6ef47c9dd78e08e78bfedf01d6187b70e7afc8569b3a8f306226270d315b933"
+    },
+    "recursive": {
+      "path": "target/traffic-bun/commands/task8-attempt8-recursive-db84e8fd-2a64-489a-8384-8b39ac95d254/receipt.json",
+      "sha256": "95db31bee3028acc075e45c0ec338d421cd7b3d8d628054e757a1c774a11192f"
+    },
+    "retainedFixtures": {
+      "path": "target/traffic-bun/commands/task8-attempt8-prerequisites-6aab7501-53e0-48ce-9ed7-2feef5aa46f1/receipt.json",
+      "sha256": "45d1d6af6a442ae9fa583c899f0c6a98a628459d549d457555319acd814a7dd8"
+    }
+  },
+  "independentQA": {
+    "actor": "independent-reviewer",
+    "sourceHash": "cac648d93c9222589275832eaa9138d8f4fbe7241842cc65d570de8bc754d3ec",
+    "explicitPolicyTests": 6,
+    "historicalTransportTests": 9,
+    "trafficCliTests": 63,
+    "manifestFiles": 103,
+    "installed": true,
+    "installation": {
+      "path": "target/traffic-bun/commands/task8-attempt8-qa-install-fb0419f8-a0ca-432f-99c4-959053f9d964/receipt.json",
+      "sha256": "b15b5e79c55e82f0fdf4ebc7b61dac29666c67f887f1469f426278007259919e"
+    },
+    "revalidation": {
+      "path": "target/traffic-bun/commands/task8-attempt8-independent-d73353e9-5763-469e-91a1-49573cca661b/receipt.json",
+      "sha256": "e118e35efaf103c204db6a7a2ac4ede7d90e2e779e4510bf9e129c595343bb2f"
+    }
+  },
+  "blockers": [],
+  "rawEvidence": [
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-fmt-389f4e7d-2993-45a7-b65d-4dac337b8dab/receipt.json",
+      "sha256": "528f371f083a43eb580e74c6956035cdaf093893e846ea771747a1934b4c9398"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-clippy-93e519d5-0338-4a59-9250-6b3644b61c61/receipt.json",
+      "sha256": "1083d97dcd76d4120077228e420fd906e3a643ad0c6fd5571de8bda88a40e0a9"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-workspace-5962b55c-99cf-4683-916d-326105f42e49/receipt.json",
+      "sha256": "bd8c3a6cbcf347de98cbe5688e8fe59d0bfda269c02f57c7675eba5c82e5a744"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-coverage-a10050a9-d7a2-4072-b1cd-3059d07f925f/receipt.json",
+      "sha256": "bc6fcce455bf584b53aa113335068286d866a3d702ff6ada1060c02e5f3396e1"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-harness-b38c8d13-2c94-4c8b-ae5c-f301943ac234/receipt.json",
+      "sha256": "6f1565e49d24798b111e6b69e88872a407e575e5bfc7d3e12744a8d874cadbf5"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-live-e664bff7-265e-4eca-bd99-88eeddb8d36a/receipt.json",
+      "sha256": "41d7d318ff57d03a5eac78508ba1f9f07394b8ad7d3a436be9c863e875ed2054"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-restore-absolute-61023af8-77fc-4faa-bfcf-1034b932e8d2/receipt.json",
+      "sha256": "e1b89e923fca8f30bb63c3621b59414152e4b80269118455c95c594ca0ca2f3f"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-restore-b7f3d62b-e6b1-4b19-83a9-e14c3648e545/receipt.json",
+      "sha256": "7499400d2d546c6000da85e946ad4c737e512dba90414782499dc845499f9792"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-audit-2535a523-beca-46e0-bd0f-d3b489cd67dd/receipt.json",
+      "sha256": "f6ef47c9dd78e08e78bfedf01d6187b70e7afc8569b3a8f306226270d315b933"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-recursive-db84e8fd-2a64-489a-8384-8b39ac95d254/receipt.json",
+      "sha256": "95db31bee3028acc075e45c0ec338d421cd7b3d8d628054e757a1c774a11192f"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-prerequisites-6aab7501-53e0-48ce-9ed7-2feef5aa46f1/receipt.json",
+      "sha256": "45d1d6af6a442ae9fa583c899f0c6a98a628459d549d457555319acd814a7dd8"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-qa-install-fb0419f8-a0ca-432f-99c4-959053f9d964/receipt.json",
+      "sha256": "b15b5e79c55e82f0fdf4ebc7b61dac29666c67f887f1469f426278007259919e"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-preservation-82bdbe22-657d-4244-8177-bc7b1a30dfd0/receipt.json",
+      "sha256": "cf217f3b96d0b7e58902ba6b4ce617fcb82415a5349b016804ebcdbe83971e75"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-measurement-88bc9123-7a18-4991-895b-1f42dc5f289f/receipt.json",
+      "sha256": "d2603833320a683b9e935e8ad8ded4f3308d3f1a8e660fa26a0c4d30fa1fb405"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-independent-d73353e9-5763-469e-91a1-49573cca661b/receipt.json",
+      "sha256": "e118e35efaf103c204db6a7a2ac4ede7d90e2e779e4510bf9e129c595343bb2f"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-validation-1fb83a8a-35c9-4901-9e29-09a8431eba6c/receipt.json",
+      "sha256": "e3d7653126330b5c64c9fb94966c01e2268c380cb9d97b88e9d3c6da1f88ded5"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-av-status-ccbab8a8-fa52-40f7-9667-1c1deccfc9b3/receipt.json",
+      "sha256": "f0cffd07f54629858b677ab686b94b544c313188d856877b7009d290486cff9b"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-final-evidence-03bc6aac-36f6-49f9-a9bd-486c4e2b9157/receipt.json",
+      "sha256": "319d771275830802cbb88f3da673f1fcda8020683bcbccd156f064f9cbfc6fba"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-final-validation-b07f4868-a48f-40ad-997a-17e73fab9de6/receipt.json",
+      "sha256": "2bad5e53997d44526da3ff8dd70b82c999456fb51e95c3194564aef2c7663f5b"
+    }
+  ],
+  "finalEvidenceSuite": {
+    "status": "passed",
+    "exit": 0,
+    "passed": 14,
+    "failed": 0,
+    "assertions": 156,
+    "receipt": {
+      "path": "target/traffic-bun/commands/task8-attempt8-final-evidence-03bc6aac-36f6-49f9-a9bd-486c4e2b9157/receipt.json",
+      "sha256": "319d771275830802cbb88f3da673f1fcda8020683bcbccd156f064f9cbfc6fba"
+    },
+    "output": {
+      "stdout": {
+        "path": "target/traffic-bun/commands/task8-attempt8-final-evidence-03bc6aac-36f6-49f9-a9bd-486c4e2b9157/stdout.log",
+        "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47"
+      },
+      "stderr": {
+        "path": "target/traffic-bun/commands/task8-attempt8-final-evidence-03bc6aac-36f6-49f9-a9bd-486c4e2b9157/stderr.log",
+        "sha256": "7e6bf0e2de058bdcbb535551aae319a1231446bd99aaf2fab4daf417fab6ba76"
+      }
+    }
+  },
+  "historicalTrafficBudget": {
+    "files": 23,
+    "bytes": 242983,
+    "indexed": 23
+  },
+  "attempt2": {
+    "status": "partial",
+    "sourceHash": "20649c7739bb73be67c3855fbe0265c3a5cd2674fcdd84c333dcf8f2a9e806b8",
+    "checks": [
+      {
+        "action": "authenticated predecessor restoration",
+        "status": "passed",
+        "counts": {
+          "archive": 26,
+          "frozen": 13,
+          "originalLocation": 8
+        },
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt2/restore.stdout",
+          "sha256": "e4165a9d3e973ee9d45ea3adee2332adc981bb0b34f5340d7bed4d627d7de550"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt2/restore.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "action": "recursive predecessor archive validation",
+        "status": "passed",
+        "topLevelSelectors": 12,
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt2/recursive.stdout",
+          "sha256": "491fd1e0bb69df263520f8b5d8fd6155e88b8c929a024b4c4a8929730eacc492"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt2/recursive.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "action": "mixed measurement, actual harness inventory and evidence budget revalidation",
+        "status": "passed",
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt2/validation.stdout",
+          "sha256": "4acb5f306464baf7d23467c2f2f7c785fc9c4f46bf9b255529d5ac5bcd81337f"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt2/validation.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "action": "prior standalone coverage and nested collection revalidation",
+        "status": "passed",
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt2/coverage-validation-ok.stdout",
+          "sha256": "35c24b806711b5398fb0a1a245dcbe074ce27fbfd7bd253fe793a49391010367"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt2/coverage-validation-ok.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "action": "retained receipt and raw reference audit",
+        "status": "passed",
+        "references": 49,
+        "output": {
+          "path": "target/traffic-bun/task8-attempt2/retained-audit.json",
+          "sha256": "9442314cb236fc79a65edb3a8c1b6d3d3152b4a571449492bedbd29ab0c2cdf0"
+        }
+      },
+      {
+        "action": "QA handoff audit",
+        "status": "partial",
+        "selectedReplayFilesRehashed": 520,
+        "latestDeclaredHandoffPresent": false,
+        "output": {
+          "path": "target/traffic-bun/task8-attempt2/qa-audit.json",
+          "sha256": "26eced274533c265aa22c102754322d3620e12776585cd5d376ab2f8824adf1e"
+        }
+      },
+      {
+        "argv": [
+          "cargo",
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "status": "passed",
+        "exit": 0,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-attempt2-fmt-2d1c74f5-a4d6-4a11-9d0f-121b352982f3/receipt.json",
+          "sha256": "260b89e9533debf5e38ed4a1fab95c87cf79a534ec92602eb085f96061a3000c"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/evidence.test.ts"
+        ],
+        "status": "passed",
+        "exit": 0,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-attempt2-live-evidence-da29b6ff-8205-4fd7-9f73-4d9b4e7388c7/receipt.json",
+          "sha256": "7d8eaa338a9c608acd208de924241e250a682bcc1e7ed9aa974693521d098587"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/traffic-bun-evidence.test.ts"
+        ],
+        "status": "failed",
+        "exit": 1,
+        "passed": 13,
+        "failed": 1,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-attempt2-final-evidence-35cbda44-e585-4523-b79f-8623b32635d1/receipt.json",
+          "sha256": "941a1fdadc7fec2845b81cbca1f50dd7a49fc3de92e69a5cab36b6a0330bb965"
+        }
+      },
+      {
+        "argv": [
+          "av",
+          "status"
+        ],
+        "status": "failed",
+        "exit": 1,
+        "reason": "EPERM opening av.yaml",
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt2/av-status.stderr",
+          "sha256": "0125d6a07cd1e5813e9a4909322666b45c35df81f9b2973ba073c5452a7d5677"
+        }
+      }
+    ],
+    "failedAttempts": [
+      {
+        "action": "native backend and independent QA dispatch",
+        "reason": "invalid thread-store request: no rollout found for current thread"
+      },
+      {
+        "action": "OMA backend-owner dispatch",
+        "exit": 1,
+        "reason": "EPERM lstat av.yaml"
+      },
+      {
+        "action": "initial standalone coverage audit",
+        "exit": 1,
+        "reason": "imported non-exported commandReceipt; corrected audit passed",
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt2/coverage-validation.stderr",
+          "sha256": "642912af45281a4c7e31d7e0c65bf1af896fcf722ebc49c2b7b2701922352045"
+        }
+      }
+    ],
+    "pending": [
+      "Backend owner splits the two oversized test files without weakening tests.",
+      "Recollect source-bound native measurement and obtain independent review after that source change.",
+      "Recover the declared QA handoff or obtain a new independent source-bound review with installed receipts.",
+      "Rerun required gates in the specified order and final evidence validation.",
+      "Obtain authorized access to configured container targets and collect required read-only observations."
+    ]
+  },
+  "attempt3": {
+    "status": "partial",
+    "sourceHash": "b37a639c46d64dfc71068635603699180ba5dcdd58d38107ff0e2aa1f47e516f",
+    "indexedSourceInputs": 318,
+    "receipts": {
+      "format": {
+        "path": "target/traffic-bun/commands/task8-final-fmt-65fa1afb-f9d4-4e22-8325-2b914b9f5d95/receipt.json",
+        "sha256": "70cfd80ce9ba732f81ad46cb667e737bb4a8c167ec098ae1d133b1ab0215f3a1"
+      },
+      "clippy": {
+        "path": "target/traffic-bun/commands/task8-final-clippy-03d830b5-cd9e-47ae-9b54-aab6cff2599d/receipt.json",
+        "sha256": "b351d38252b9b0ac2724790185441e9197d9ed8c850fd27523edb36b43dbedd0"
+      },
+      "workspaceFailed": {
+        "path": "target/traffic-bun/commands/task8-final-workspace-695c6558-e9c3-49aa-aa78-5aaff3f666ae/receipt.json",
+        "sha256": "96b8878ca1c07e6d48cbd52f2a88d4eb192284a96d8f810029e0442b1d65a01e"
+      },
+      "binary": {
+        "path": "target/traffic-bun/commands/task8-final-binary-f050c7b0-b6dd-4d9d-a18a-693fc8c5f878/receipt.json",
+        "sha256": "205b8cf2d924945dcfab4c1793d7f3a80d7903c07b350c5dbeef86e9545118d2"
+      },
+      "qaValidator": {
+        "path": "target/traffic-bun/commands/task8-attempt3-qa-validator-3e235d7f-3fdd-4d29-b9b5-a7e7c130eaff/receipt.json",
+        "sha256": "c9e376cc1108fd4bf0639e3ef3565c4cfbb959edc4de1456a53150a6732d6adc"
+      },
+      "qaHandoff": {
+        "path": "target/traffic-bun/commands/task8-final-qa-handoff-a57bcfef-0ca6-4400-9bd3-7775cb1ebc60/receipt.json",
+        "sha256": "ca62f0be114fe78a77141e4dc7aa8b8252d90ca145859716afa8bb2a7357c425"
+      },
+      "predecessorAudit": {
+        "path": "target/traffic-bun/commands/task8-attempt3-predecessor-audit-6cebe9c4-e93d-4818-84bb-bcab0b9d580c/receipt.json",
+        "sha256": "4ed4f0dcd7b9683da44b3e1af911dbe566211a2b63f7416e33d21223bf6c33a2"
+      },
+      "isolatedPipeline": {
+        "path": "target/traffic-bun/commands/task8-final-pipeline-4a2daee1-524a-4f77-b930-ee6bc6e81822/receipt.json",
+        "sha256": "3fc40fcfcc503f0f7940702d3831a49620386cdb14dd67115c856c313176c39b"
+      },
+      "secondWorkspaceFailed": {
+        "path": "target/traffic-bun/commands/task8-quiet-workspace-b1932985-07e0-4a0e-8807-59311ad9d90b/receipt.json",
+        "sha256": "271a518bc881fea71702ae6bca4e128a4996272a923142c6af55f674ebdbdc6f"
+      },
+      "supersededNative": {
+        "path": "target/traffic-bun/commands/task8-final-native-b2df2437-9c73-47c0-aae4-b38c0721b702/receipt.json",
+        "sha256": "82ac971f09b7e550ae39ec981a2f1155f3979bc879f8160bb5d6651c588e5bcc"
+      },
+      "repairedFmt": {
+        "path": "target/traffic-bun/commands/task8-repaired-fmt-57a8ae80-6623-4444-a76d-71a23c868cc9/receipt.json",
+        "sha256": "8bc2276e0c733f717bc0f740ad0910c48a9e1392510e15db1f53fee4cdfe4d22"
+      },
+      "repairedQaValidator": {
+        "path": "target/traffic-bun/commands/task8-repaired-qa-validator-c8cc7a6a-1a93-4c4e-815e-b6ac526594e0/receipt.json",
+        "sha256": "b9ee2466c977068494204661fa01c10ea75d4b6490927b4d5683ecf76feec731"
+      },
+      "repairedQaPolicy": {
+        "path": "target/traffic-bun/commands/qa-final2-policy-ffe06b1d-160a-4b37-ac12-e83c2ecd5f7c/receipt.json",
+        "sha256": "f2f225f4eb9322419503b16ce9f512aff2291d841a9925221e124bd9498c4a75"
+      },
+      "repairedClippy": {
+        "path": "target/traffic-bun/commands/task8-repaired-clippy-70525450-1399-4d0b-8236-121d88fc1ab0/receipt.json",
+        "sha256": "ddcfe38da7c5d525ff32feb8574b4e1229a4337155f36f27808cb0cac6a934db"
+      },
+      "repairedWorkspace": {
+        "path": "target/traffic-bun/commands/task8-repaired-workspace-13b61151-892f-414e-a991-a5d8982c45b6/receipt.json",
+        "sha256": "16d2cc4a6e2974cf63674e3fe3c3f876fb2b497cddaae58c8150575e640b71a0"
+      },
+      "repairedBinary": {
+        "path": "target/traffic-bun/commands/task8-repaired-binary-d48a3104-c827-4686-80b9-7d4c45ad1976/receipt.json",
+        "sha256": "c52dbb6136fb008c44bd238913259f6de01a2f0f46bbb00883d9535a6319d06a"
+      },
+      "repairedNative": {
+        "path": "target/traffic-bun/commands/task8-repaired-native-fbeb041f-20bf-43ab-b8b1-87189c253cbf/receipt.json",
+        "sha256": "9549ab8473eb0e95de33a6de9842dd33ba2f863072da9d0f5330b000072a5d8e"
+      },
+      "repairedCoverage": {
+        "path": "target/traffic-bun/commands/task8-repaired-coverage-600ca9eb-5bea-4bdb-89f7-502d9461fcc3/receipt.json",
+        "sha256": "28453244721c20fef7335f18c733f153a55a1e06923fe6ff5bbab1c3cfb75558"
+      },
+      "repairedHarness": {
+        "path": "target/traffic-bun/commands/task8-repaired-harness-27c4e1fc-964e-48ad-8233-47b94454acd5/receipt.json",
+        "sha256": "04e464eb122b31dde8bb1c773955c285ae6ff8141c1ebad24812b080714c4434"
+      },
+      "repairedLiveEvidence": {
+        "path": "target/traffic-bun/commands/task8-repaired-live-7e1ba474-1591-47ec-b331-99e2684209f4/receipt.json",
+        "sha256": "0781c4ab899c5c1b31a7b5d6a0e3b79eba56dd25db712993ccc3f1c848b5fbb7"
+      },
+      "finalEvidenceTimeout": {
+        "path": "target/traffic-bun/commands/task8-repaired-final-evidence-420ef926-3cb1-4d61-9b10-704905cacc78/receipt.json",
+        "sha256": "ff9174c8c4f85aa0d4e70b40e1434cdf2635a339e89c13b339ee59a0e725ae15"
+      },
+      "timeoutFmt": {
+        "path": "target/traffic-bun/commands/task8-timeout-fmt-9eb2a4e8-c007-4e3c-86af-9f5447d19dc6/receipt.json",
+        "sha256": "9751adfa196ac479e3b6e9e756d7dbf91a00c97262a21a1204b850f388de4cbc"
+      },
+      "timeoutClippy": {
+        "path": "target/traffic-bun/commands/task8-timeout-clippy-65641634-dfe8-4376-8ced-8c9e184163b1/receipt.json",
+        "sha256": "6766f57fd8c6a2e065eee68e9fdbb3d425632b375df22386729b493b5bff9a23"
+      },
+      "timeoutQaPolicy": {
+        "path": "target/traffic-bun/commands/qa-final3-policy-f827994d-32a2-4595-afff-c9f3f4ab7ea8/receipt.json",
+        "sha256": "e781a37c848d192acbc3870143e5396456ff7f5cfd16b540b27067c8a05f0408"
+      },
+      "timeoutWorkspace": {
+        "path": "target/traffic-bun/commands/task8-timeout-workspace-9fadcad4-7a07-4dad-b7e1-7445c25dfb6e/receipt.json",
+        "sha256": "6a5afd035df24bafae98dbad5d91061787b4a9e2c003f82f6df5f16e0a2f7742"
+      },
+      "timeoutBinary": {
+        "path": "target/traffic-bun/commands/task8-timeout-binary-39f6978a-ada8-42e5-88ad-97d4e2b67648/receipt.json",
+        "sha256": "9aed13155c2b2856f2231c03c6eda2aab6872e6db68fd4572fc71df0ae6a32e8"
+      },
+      "timeoutNative": {
+        "path": "target/traffic-bun/commands/task8-timeout-native-dbf0def9-c7c1-4df2-9c2d-1360c9ff0927/receipt.json",
+        "sha256": "40c95d1445e5008844d63fe148ec7d9813194efb5e2ffbc3c447c53982d0f161"
+      }
+    },
+    "artifacts": {
+      "access": {
+        "path": "target/traffic-bun/task8-attempt3-access/access.json",
+        "sha256": "54d41cac93898c956b7692fdbda27ef30ffd7443ec1258d1b56c7982c34429f5"
+      },
+      "baseline": {
+        "path": "target/traffic-bun/task8-attempt3-baseline.json",
+        "sha256": "207331dfcf9f3376396edd75bed4a9da135c6289390baedb0acdddbd2ceb4a4c"
+      },
+      "restoreStdout": {
+        "path": "target/traffic-bun/task8-attempt3-archive-yt71yw21/restore.stdout",
+        "sha256": "62e976f02181391a4d3cfa69a00ee2e8a15bc491b823d5eb16125951e994cf5f"
+      },
+      "recursiveStdout": {
+        "path": "target/traffic-bun/task8-attempt3-archive-yt71yw21/recursive.stdout",
+        "sha256": "491fd1e0bb69df263520f8b5d8fd6155e88b8c929a024b4c4a8929730eacc492"
+      },
+      "compactStderr": {
+        "path": "target/traffic-bun/task8-attempt3-archive-yt71yw21/compact.stderr",
+        "sha256": "3ed03a47fe4573a5001a0a90be432260db20b70664980c9b2fa2b1b92034503c"
+      },
+      "archiveRecords": {
+        "path": "target/traffic-bun/task8-attempt3-archive-yt71yw21/records.jsonl",
+        "sha256": "fe7787e0ad9c981bea62b9001b4f8c79c5ab6fcbb4caf30dbbfbb7297031b4d3"
+      },
+      "repairedQaManifest": {
+        "path": "target/traffic-bun/qa-final-ffe06b1d/manifest.json",
+        "sha256": "051adef70d3f3f8a5e7a445110d6cf3a9ea67b662917789837e4f728b889d56b"
+      },
+      "repairedQaHelper": {
+        "path": "target/traffic-bun/qa-final-ffe06b1d/handoff.ts",
+        "sha256": "8b4b03b4f8f601a6438b71a08d1dc110075cf52c772df86fe6b8a57c26c535a9"
+      },
+      "faultGreenStdout": {
+        "path": "target/traffic-bun/fault-repair-evidence/green.stdout.log",
+        "sha256": "bacd1a2676b7a59ae12ff545948f4bf131f4c78d16f788e18821fd1971ecc00d"
+      },
+      "faultGreenStderr": {
+        "path": "target/traffic-bun/fault-repair-evidence/green.stderr.log",
+        "sha256": "30eee2f2a96ccd13af087bef9ca8d1b56890b131c61e818cc80661573844f991"
+      },
+      "descriptorStdout": {
+        "path": "target/traffic-bun/fault-repair-evidence/descriptors-final.stdout.log",
+        "sha256": "c743c2bdd7ea8764862057cff30d1789d6873727889b1b0ad2445f04f15d9686"
+      },
+      "descriptorStderr": {
+        "path": "target/traffic-bun/fault-repair-evidence/descriptors-final.stderr.log",
+        "sha256": "6f0297d910dc31a6f0809cfdbb8bade8dc817656faaac06a1579131555100478"
+      },
+      "redTranscript": {
+        "path": "target/traffic-bun/fault-repair-evidence/red-transcript.txt",
+        "sha256": "b7a4af2442767598ca0a07b3e09c699e528341d44678c982352c9028dafb6991",
+        "kind": "transcript-not-raw-process-output"
+      },
+      "harnessEligibility": {
+        "path": "target/traffic-bun/task8-attempt3-access/eligibility.json",
+        "sha256": "a4d034e5e2c2be859e560de5d798e3dab31087a2a3611d22b9f60be1c43d197b"
+      },
+      "timeoutQaManifest": {
+        "path": "target/traffic-bun/qa-final-f827994d/manifest.json",
+        "sha256": "1e3f34d2523cb242ffdc7685fbc4bd2cb179037497bbf20094a557e5323bed25"
+      },
+      "timeoutQaHelper": {
+        "path": "target/traffic-bun/qa-final-f827994d/handoff.ts",
+        "sha256": "025e02fb866f4fe26c666f1990b5f8808405244953b57adb3cca0964f8e7cc09"
+      },
+      "currentBudgetObservation": {
+        "path": "target/traffic-bun/task8-final-budget.json",
+        "sha256": "dfbd8c1cb87c08dc6604b926c6706cda26600166ad2f3e1e711f5c73461a1cca"
+      }
+    },
+    "failedAttempts": [
+      {
+        "check": "workspace",
+        "exit": 101,
+        "reason": "managed pipeline stop/resume comparison failed; cause not established"
+      },
+      {
+        "check": "earlier source-bound workspace capture",
+        "exit": 1,
+        "reason": "source changed during command while QA manifest repair was being integrated"
+      },
+      {
+        "check": "quiet workspace",
+        "exit": 101,
+        "reason": "descriptor fault peer received an empty pre-frame disconnect"
+      },
+      {
+        "check": "final Bun evidence",
+        "exit": 1,
+        "reason": "live validation exceeded Bun default 5000 ms per-test timeout"
+      }
+    ],
+    "pending": [
+      "finish standalone coverage and run separate harness and live coverage evidence",
+      "run final evidence validation",
+      "obtain access to scheduler configuration and configured container targets",
+      "resolve incomplete harness scan of tracked av.yaml"
+    ],
+    "sourceChangeInProgress": false,
+    "previousSourceHash": "4a1044b16416eddc54c672cc34effc86e161d693751d13633d07dcdf979992c2",
+    "workspaceTests": {
+      "passed": 565,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "mixedWaitMs": {
+      "cargoFirst": 52,
+      "bunFirst": 46
+    },
+    "independentReview": {
+      "status": "completed",
+      "missionVerdict": "NOT_ASSESSED",
+      "reportSuperseded": {
+        "formerPath": ".arc-verify/traffic-bun/qa.md",
+        "formerSha256": "b41de97180434629968db64ec1ad36b73ba858a8afbc6b381a0a1bbb695967e1",
+        "availableAtFormerPath": false,
+        "note": "The former path now holds a later QA artifact; the former bytes were not revalidated in this attempt."
+      },
+      "receiptSuperseded": {
+        "formerPath": ".arc-verify/traffic-bun/qa.json",
+        "formerSha256": "c003c0385e94467f82e9122ea67ff08f0c6c277d59e59e83c62d3ca28cd056f2",
+        "availableAtFormerPath": false,
+        "note": "The former path now holds a later QA artifact; the former bytes were not revalidated in this attempt."
+      }
+    },
+    "coverage": {
+      "runId": "2026-11-11T05-32-22-384Z-d0c903d5-6cff-4ac3-b3cb-a700b7844116",
+      "status": "passed",
+      "productionLinePercent": {
+        "arc-core": 96.48,
+        "arc-detector": 99.3,
+        "arc-storage": 95.6,
+        "arc-ipc": 98.78,
+        "arc-daemon": 91.25,
+        "arc-cli": 83.5,
+        "arc-traffic": 100.0
+      }
+    },
+    "harness": {
+      "processExit": 0,
+      "reportedViolations": 0,
+      "scopeComplete": false,
+      "inaccessibleTrackedPath": "av.yaml",
+      "runId": "2026-11-11T05-37-32-952Z-ab22f7e3-21ae-4e41-b8cb-fe28d66c89f6",
+      "actualTrackedInventory": {
+        "path": "target/traffic-bun/commands/task8-repaired-harness-27c4e1fc-964e-48ad-8233-47b94454acd5/tracked-actual.txt",
+        "sha256": "dc97a356574915d288ca4f2618bcb06a9b1ae90e891aae843d478db45afc928e"
+      },
+      "productionLinePercent": {
+        "arc-core": 96.48,
+        "arc-detector": 99.3,
+        "arc-storage": 95.6,
+        "arc-ipc": 98.78,
+        "arc-daemon": 91.29,
+        "arc-cli": 83.45,
+        "arc-traffic": 100.0
+      }
+    },
+    "liveCoverageEvidence": {
+      "passed": 1,
+      "failed": 0,
+      "assertions": 5670
+    },
+    "preTimeoutSourceHash": "1a29609559c4141fb1d2ac41e9a5e6bb393e373febab336f9597169b6b1ebb3d",
+    "coverageInProgress": {
+      "runId": "2026-11-11T05-48-25-146Z-2262df10-11e1-4a87-9d14-3203759a5a8c",
+      "observation": {
+        "path": "target/traffic-bun/task8-timeout-coverage-progress.json",
+        "sha256": "2b68a37b5effe4b438b7e97e15dbae18c3edaf11eeea5ff7626c4f1330de1e52"
+      },
+      "status": "running; no final receipt at observation time"
+    }
+  },
+  "attempt4": {
+    "status": "partial",
+    "sourceHash": "02506ddc0356dbddfe90de84a76e2df2fffd922fc5c0ef4f9e56462f69b433fe",
+    "checks": {
+      "transportFailed": {
+        "path": "target/traffic-bun/commands/task8-attempt4-transport-801e0102-ca45-45a2-b0c2-a7692076dbb0/receipt.json",
+        "sha256": "14494cb79ee57590811ddccafd6450778a08723b9c62dc9affefce41cdfc0156"
+      },
+      "transportRepaired": {
+        "path": "target/traffic-bun/commands/task8-attempt4-transport-repair-ca4251ba-697e-4f8e-9b56-8b23f4979a74/receipt.json",
+        "sha256": "7a35b53b2c28e4fedff2c90d2920829ac13364cf67d702ea5d215e5911f37923"
+      },
+      "recursive": {
+        "path": "target/traffic-bun/commands/task8-attempt4-recursive-c0e1c4f0-9df2-4053-bb25-4b00df7513ca/receipt.json",
+        "sha256": "30300ccb665af385af36f62b55a1d300afe76008b314bc232386162e6d4eaf62"
+      },
+      "fmt": {
+        "path": "target/traffic-bun/commands/task8-attempt4-fmt-bed5b722-c03d-4158-83a8-2bca91aff7fa/receipt.json",
+        "sha256": "4bb6212f5756acf8fae773c5c7c0cc771ac371335cd0fca447918cc2228b9fd8"
+      },
+      "clippy": {
+        "path": "target/traffic-bun/commands/task8-attempt4-clippy-f040f5f0-f534-429a-94e1-da783049a322/receipt.json",
+        "sha256": "5f736731adf11c2995193e97ee0b4a2c0dd57475447144763ba41de1c25cee1d"
+      },
+      "restoreStdout": {
+        "path": "target/traffic-bun/task8-attempt4/restore.stdout",
+        "sha256": "acf9a8568305cbdea6b99fae75ca11d55b8c242ea6d1c2340933c6ecfa9a7d35"
+      },
+      "restoreStderr": {
+        "path": "target/traffic-bun/task8-attempt4/restore.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "qaCheckStdout": {
+        "path": "target/traffic-bun/task8-attempt4/qa-current-check.stdout",
+        "sha256": "bdff46f675d1c10ae5bdd92a7ed46cab503c57c6cea84d77708900272621fe38"
+      },
+      "qaSpawnStderr": {
+        "path": "target/traffic-bun/task8-attempt4/qa-spawn.stderr",
+        "sha256": "aacd73b9c76f0f1f4099465110ab47759206135fd5a62f5b901eae8e2adfff5b"
+      },
+      "avStatus": {
+        "path": "target/traffic-bun/task8-attempt4/av-status.json",
+        "sha256": "de826cc46df14403e15852084d79a7ec5962ee1935e1e09db5dbc8429ffba1b5"
+      },
+      "compact": {
+        "path": "target/traffic-bun/commands/task8-attempt4-compact-25600b2f-32df-4294-8ef3-48371ffdddd3/receipt.json",
+        "sha256": "dd3d12313250a69294463e3c9f54805b5a2aec8e47c252f58ad021a7ec319f98"
+      },
+      "compactFlow": {
+        "path": "target/traffic-bun/commands/task8-attempt4-compact-flow-8321ffec-0134-410b-a4b8-41fb186db2df/receipt.json",
+        "sha256": "a96992356e9de0b5f659fab7e6fb1f137a37e80b3fa5b7f0ae7413fdb91abc46"
+      },
+      "workspace": {
+        "path": "target/traffic-bun/commands/task8-attempt4-workspace-06b72d0c-10c8-4870-80bd-02e1f0d9a624/receipt.json",
+        "sha256": "5fb6db269b3ba0e1fec7fb2703761d13f2f9cb7ef846e32d04967ca37dbd222e"
+      },
+      "binary": {
+        "path": "target/traffic-bun/commands/task8-attempt4-binary-d8ce19c2-1086-49e8-92f4-90d73295c174/receipt.json",
+        "sha256": "ea3441608c13426f69fd6718d10e3057ec823772f1dc94716175b3bdac4de167"
+      },
+      "workspaceCount": {
+        "path": "target/traffic-bun/task8-attempt4/workspace-count.json",
+        "sha256": "c15ff1f862bcf33ccc74b6482621e999a7d536afefae63233c1aa8da07a7005b"
+      },
+      "trackedAccess": {
+        "path": "target/traffic-bun/task8-attempt4/tracked-access.json",
+        "sha256": "cb1c9e8ec0b4841478af5c370b83c107fee64b4187b64df631fb960d22d0b81e"
+      },
+      "native": {
+        "path": "target/traffic-bun/commands/task8-attempt4-native-d062df78-2c6b-4f91-870c-7a5ac0b8813e/receipt.json",
+        "sha256": "30b126844ad634bc72cd6c2984e2c313fe03eee3b99939a15d6d20759593e9de"
+      },
+      "coverage": {
+        "path": "target/traffic-bun/commands/task8-attempt4-coverage-0202376c-6bc9-47b2-9c9c-b6a014bf39e7/receipt.json",
+        "sha256": "5c38b98247459b84c8c8efa744e4a67204460531c4b8599f3770a9a6ebbaa819"
+      },
+      "backendSpawnStderr": {
+        "path": "target/traffic-bun/task8-attempt4/backend-spawn.stderr",
+        "sha256": "aacd73b9c76f0f1f4099465110ab47759206135fd5a62f5b901eae8e2adfff5b"
+      },
+      "harness": {
+        "path": "target/traffic-bun/commands/task8-attempt4-harness-aa178a7b-5236-4ad1-9fc4-f6f375a5c67b/receipt.json",
+        "sha256": "d9ffd8659722a66d0cf90c1f8301487d3eed66233b6684b90f1b39d579b6d518"
+      },
+      "liveCoverage": {
+        "path": "target/traffic-bun/commands/task8-attempt4-live-30e72266-a4f7-4bdb-b469-3cb7b0566378/receipt.json",
+        "sha256": "bc35bf6503dcf3845492b3ef2dfd2067d1b4264197135dcf6af1ad73b380bbd3"
+      },
+      "harnessInventory": {
+        "path": "target/traffic-bun/task8-attempt4/harness-inventory.stdout",
+        "sha256": "f2070db149eaf6ffb233d5c2bb687d68b65b40682b1a43a2954a74c70be96bce"
+      },
+      "finalEvidence": {
+        "path": "target/traffic-bun/commands/task8-attempt4-final-evidence-a968d654-c803-4f40-a464-b2b5b81b2a06/receipt.json",
+        "sha256": "c86a9bfb4628ed14ae64c4660c590f74a368f3833dc50ffeeb2789249332568c"
+      },
+      "measurementValidation": {
+        "path": "target/traffic-bun/task8-attempt4/measurement-validation.stdout",
+        "sha256": "4528da1c9ab08d3884e02f2c2b2af6e8c6901ec38ad99b1b7d626bba10b12bf2"
+      },
+      "baselineComparison": {
+        "path": "target/traffic-bun/task8-attempt4/baseline-comparison.json",
+        "sha256": "7345a1c70645e6e3284236baaf9be358552d7d68794b9f9a955023910c169d44"
+      },
+      "priorBudget": {
+        "path": "target/traffic-bun/task8-attempt4/prior-budget.stdout",
+        "sha256": "6613807e50efd7a1714b898e2047d05c7afc3871c6d7c55e157abf530c0bbddf"
+      },
+      "nativeCount": {
+        "path": "target/traffic-bun/task8-attempt4/native-count.stdout",
+        "sha256": "74e0d2fdd0b98cd9f03a731a4d93afca0f4c96b65826841448a8bc8e09e9c527"
+      }
+    },
+    "restoration": {
+      "archiveFiles": 26,
+      "frozenFiles": 13,
+      "originalLocationFiles": 8,
+      "status": "passed"
+    },
+    "transport": {
+      "firstAttempt": "failed: accepted stream inherited nonblocking mode",
+      "repaired": "28 passed, 0 failed; missed connection regression passed"
+    },
+    "independentReview": {
+      "status": "blocked",
+      "retainedHandoffBytesVerified": true,
+      "retainedSourceHash": "b37a639c46d64dfc71068635603699180ba5dcdd58d38107ff0e2aa1f47e516f",
+      "currentSourceValid": false,
+      "nativeDispatch": "failed: invalid thread-store request",
+      "omaSpawn": "failed: av.yaml EPERM"
+    },
+    "containerInventory": {
+      "status": "unknown",
+      "reason": "av status and av.yaml EPERM"
+    },
+    "codeIntelligence": {
+      "provider": "serena",
+      "mode": "unavailable",
+      "limitation": "no Serena tools exposed; scoped reads of identified files only"
+    },
+    "archiveFixtures": {
+      "compact": {
+        "passed": 16,
+        "failed": 0,
+        "assertions": 724
+      },
+      "compactFlow": {
+        "passed": 2,
+        "failed": 0,
+        "assertions": 190
+      }
+    },
+    "workspaceTests": {
+      "passed": 566,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "measurement": {
+      "status": "passed",
+      "independentReview": "pending",
+      "cargoFirst": {
+        "bypassPeak": 2,
+        "scheduledPeak": 1,
+        "queueWaitMs": 89
+      },
+      "bunFirst": {
+        "bypassPeak": 2,
+        "scheduledPeak": 1,
+        "queueWaitMs": 47
+      },
+      "detailsSuperseded": {
+        "formerPath": ".arc-verify/traffic-bun/mac-acceptance.json",
+        "formerSha256": "770b198ebd092dd50f68d1026fd70139cef94174803cc6cf6d57059154b67af2",
+        "availableAtFormerPath": false,
+        "note": "The former path now holds the task-5 measurement; the former bytes were not revalidated in this attempt."
+      }
+    },
+    "coverage": {
+      "status": "failed",
+      "reason": "SOURCE: unclassified src file crates/arc-cli/src/exec/transport/tests.rs",
+      "collected": false
+    },
+    "backendRepair": {
+      "status": "blocked",
+      "nativeDispatch": "failed: invalid thread-store request",
+      "omaSpawn": "failed: av.yaml EPERM"
+    },
+    "harness": {
+      "status": "failed",
+      "exit": 1,
+      "reason": "coverage source classification failed",
+      "fileLengthCheck": "passed",
+      "inventoryBound": true,
+      "scopeComplete": false,
+      "inaccessibleTrackedPath": "av.yaml"
+    },
+    "liveCoverage": {
+      "status": "failed",
+      "passed": 0,
+      "failed": 1,
+      "reason": "latest coverage collection did not pass"
+    },
+    "finalEvidence": {
+      "status": "failed",
+      "passed": 13,
+      "failed": 1,
+      "assertions": 155,
+      "reason": "gate summary records failed coverage and harness"
+    },
+    "nativeTests": {
+      "passed": 63,
+      "failed": 0,
+      "ignored": 0,
+      "filtered": 0
+    },
+    "previousTrafficBudget": {
+      "files": 23,
+      "bytes": 242983,
+      "indexed": 23
+    },
+    "missionBudget": {
+      "status": "passed",
+      "observation": {
+        "path": "target/traffic-bun/task8-attempt4/mission-budget.json",
+        "sha256": "860a2715d97fd1472f81da5e287ac5c5698e6beabf7965b57a9f76d1e7337a92"
+      }
+    },
+    "remainingPrerequisites": [
+      "Backend owner must repair the unclassified historical tests.rs without weakening coverage or test behavior; both dispatch methods failed.",
+      "After any source repair, refresh source-bound measurement and obtain independent oma-qa review, then rerun all required gates without skips.",
+      "Restore supported access to av.yaml, query configured container targets, and establish complete harness scope."
+    ]
+  },
+  "attempt5": {
+    "status": "partial",
+    "sourceHash": "02506ddc0356dbddfe90de84a76e2df2fffd922fc5c0ef4f9e56462f69b433fe",
+    "acceptedHead": "16772fe2aa350413225f3fb2bb9227d14ae5a6c4",
+    "platform": "Darwin arm64, Bun 1.4.4, Cargo 1.95.0, cargo-llvm-cov 0.6.21",
+    "skill": "oma-qa; oma-backend consulted for product-owner dispatch",
+    "restoration": {
+      "exit": 0,
+      "counts": {
+        "archive": 26,
+        "frozen": 13,
+        "originalLocation": 8
+      },
+      "streams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-restore.stdout",
+          "sha256": "a5308d8701096e17606319b923420b1edcdc386369ea1e49142ba18b1c5df307"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-restore.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "auditExit": 0,
+      "auditStreams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-audit.stdout",
+          "sha256": "776ecd06bb2f829e7214bd16339225308792d48fc3bda28cec19bbfb7c3a0d3d"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-audit.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "recursiveExit": 0,
+      "recursiveSelectors": 12,
+      "recursiveStreams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-recursive.stdout",
+          "sha256": "491fd1e0bb69df263520f8b5d8fd6155e88b8c929a024b4c4a8929730eacc492"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-recursive.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    "measurementRevalidation": {
+      "exit": 0,
+      "streams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-measurement.stdout",
+          "sha256": "b895b28a9be9e763bc86038b3e862dda0e1d94f2ef02a25faa8ba82d47857942"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-measurement.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "cargoFirst": {
+        "bypassPeak": 2,
+        "scheduledPeak": 1,
+        "queueWaitMs": 89
+      },
+      "bunFirst": {
+        "bypassPeak": 2,
+        "scheduledPeak": 1,
+        "queueWaitMs": 47
+      },
+      "queuedVisible": true,
+      "startedAfterRelease": true,
+      "invocations": [
+        1,
+        1
+      ],
+      "exitCodes": [
+        0,
+        0
+      ]
+    },
+    "retainedCheckRevalidation": {
+      "exit": 0,
+      "streams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-retained-checks.stdout",
+          "sha256": "a57769002fc410f554a669800045658f558a647077f3f2e105bb3940d6a8d64e"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-retained-checks.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "note": "Attempt-4 receipts and raw streams revalidated at this source; archive fixtures, fmt, clippy, workspace and native commands passed; coverage, harness and live coverage failed."
+    },
+    "previousTrafficBudget": {
+      "exit": 0,
+      "streams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-prior-budget.stdout",
+          "sha256": "6613807e50efd7a1714b898e2047d05c7afc3871c6d7c55e157abf530c0bbddf"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-prior-budget.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "files": 23,
+      "bytes": 242983
+    },
+    "independentQA": {
+      "status": "blocked",
+      "oldHandoffInternallyValid": true,
+      "oldSourceHash": "b37a639c46d64dfc71068635603699180ba5dcdd58d38107ff0e2aa1f47e516f",
+      "currentSourceValid": false,
+      "checkExit": 1,
+      "checkStreams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-qa-check.stdout",
+          "sha256": "d050a0a93ba71eedfb34f681246c692a92a2b0059ca10d6ecc35bc4883ca3dc7"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-qa-check.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "nativeDispatch": "failed: invalid thread-store request: no rollout found for thread id 01a1c973-1c58-7871-aa1d-43e2660c0cfb",
+      "omaSpawnExit": 1,
+      "omaSpawnStreams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-qa-spawn.stdout",
+          "sha256": "72c773db4ee986dc2c59fab3036a1b8e3b991db1a4483e71823086890b959b6f"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-qa-spawn.stderr",
+          "sha256": "aacd73b9c76f0f1f4099465110ab47759206135fd5a62f5b901eae8e2adfff5b"
+        }
+      }
+    },
+    "backendRepair": {
+      "status": "blocked",
+      "reason": "SOURCE: unclassified src file crates/arc-cli/src/exec/transport/tests.rs",
+      "nativeDispatch": "failed: invalid thread-store request: no rollout found for thread id 01a1c973-1c58-7871-aa1d-43e2660c0cfb",
+      "omaSpawnExit": 1,
+      "omaSpawnStreams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-backend-spawn.stdout",
+          "sha256": "cf640a98faef0e632adbdf274be88ca8f624e250d886ffbab3251d80003bbe15"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-backend-spawn.stderr",
+          "sha256": "aacd73b9c76f0f1f4099465110ab47759206135fd5a62f5b901eae8e2adfff5b"
+        }
+      }
+    },
+    "containerInventory": {
+      "status": "unknown",
+      "command": [
+        "av",
+        "status"
+      ],
+      "exit": 1,
+      "reason": "av.yaml EPERM",
+      "streams": {
+        "stdout": {
+          "path": "target/traffic-bun/task8-attempt5-av-status.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "target/traffic-bun/task8-attempt5-av-status.stderr",
+          "sha256": "0125d6a07cd1e5813e9a4909322666b45c35df81f9b2973ba073c5452a7d5677"
+        }
+      }
+    },
+    "finalEvidence": {
+      "command": [
+        "bun",
+        "test",
+        "scripts/coverage/traffic-bun-evidence.test.ts"
+      ],
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "assertions": 155,
+      "reason": "gate summary records failed coverage and harness",
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt5-final-evidence-14e3dda1-a11b-4ccc-a29a-f4d2fc19944f/receipt.json",
+        "sha256": "d309d94b3973ce64d2d8e6b0447ee4a032fe3f1db86f18c6b12a741553909c8d"
+      }
+    },
+    "baselineComparison": {
+      "exit": 0,
+      "note": "Migrations, previous Traffic evidence validator and named archive fixture files unchanged from accepted HEAD."
+    },
+    "codeIntelligence": {
+      "provider": "Serena",
+      "mode": "unavailable",
+      "limitation": "No Serena tools exposed; used scoped reads of identified files."
+    },
+    "remainingPrerequisites": [
+      "Restore supported agent dispatch and av.yaml access; have the backend owner fix source classification without weakening validation.",
+      "After the fix, refresh the source-bound measurement, obtain and install an independent oma-qa review, and run the required gates once without skips.",
+      "Query the configured container inventory and establish full harness scope."
+    ],
+    "executedCommands": [
+      {
+        "argv": [
+          "python3",
+          "-u",
+          ".arc-verify/traffic-bun/restore-predecessor.py",
+          "--workspace-root",
+          "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/59981caa-53a9-40cb-b3a1-3c3dfbb22b09/workspace"
+        ],
+        "exit": 0,
+        "evidence": "restoration.streams"
+      },
+      {
+        "argv": [
+          "python3",
+          "-u",
+          "target/traffic-bun/task8-attempt3-audit.py"
+        ],
+        "exit": 0,
+        "evidence": "restoration.auditStreams"
+      },
+      {
+        "argv": [
+          "bun",
+          "-e",
+          "import {reference} from \"./scripts/harness/exec-fail-open-inputs\"; import {canonicalArchive} from \"./scripts/harness/exec-fail-open-compact\"; const root=process.cwd(); const p=\".arc-verify/exec-fail-open/implementation/collection-next.json\"; const entries=canonicalArchive(root,reference(root,p)); console.log(\"validated top-level archived selectors:\",Object.keys(entries).length);"
+        ],
+        "exit": 0,
+        "evidence": "restoration.recursiveStreams"
+      },
+      {
+        "argv": [
+          "oma",
+          "agent",
+          "spawn",
+          "backend-engineer",
+          "target/traffic-bun/task8-attempt4/backend-repair-prompt.txt",
+          "task8-attempt5",
+          "--vendor",
+          "codex",
+          "--task-id",
+          "task-8",
+          "--timeout-seconds",
+          "7200"
+        ],
+        "exit": 1,
+        "evidence": "backendRepair.omaSpawnStreams"
+      },
+      {
+        "argv": [
+          "oma",
+          "agent",
+          "spawn",
+          "qa-reviewer",
+          "target/traffic-bun/task8-attempt4/independent-qa-prompt.txt",
+          "task8-attempt5",
+          "--vendor",
+          "codex",
+          "--task-id",
+          "task-8",
+          "--timeout-seconds",
+          "7200"
+        ],
+        "exit": 1,
+        "evidence": "independentQA.omaSpawnStreams"
+      },
+      {
+        "argv": [
+          "av",
+          "status"
+        ],
+        "exit": 1,
+        "evidence": "containerInventory.streams"
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/traffic-bun-evidence.test.ts"
+        ],
+        "exit": 1,
+        "evidence": "finalEvidence.receipt"
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--exit-code",
+          "16772fe2aa350413225f3fb2bb9227d14ae5a6c4",
+          "--",
+          "crates/arc-storage/migrations",
+          "scripts/coverage/traffic-evidence.ts",
+          "scripts/coverage/evidence.test.ts",
+          "scripts/harness/exec-fail-open-compact.test.ts",
+          "scripts/harness/exec-fail-open-compact-flow.test.ts",
+          "scripts/harness/exec-fail-open-compact.ts"
+        ],
+        "exit": 0,
+        "evidence": "baselineComparison"
+      },
+      {
+        "argv": [
+          "git",
+          "diff",
+          "--cached",
+          "--check"
+        ],
+        "exit": 0,
+        "evidence": "scoped final index check"
+      }
+    ],
+    "missionEvidenceBudget": {
+      "status": "passed before this evidence-only binding",
+      "observation": {
+        "path": "target/traffic-bun/task8-attempt5-final-budget.stdout",
+        "sha256": "72670f7923d8b36f5eac865a4485ff5d724b9af6ba0f895cfcf3f982790328f2"
+      },
+      "stderr": {
+        "path": "target/traffic-bun/task8-attempt5-final-budget.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "files": 17,
+      "bytes": 264610
+    }
+  },
+  "attempt1": {
+    "status": "partial",
+    "updatedAt": "2026-11-11T05:01:23.197016+00:00",
+    "acceptedHead": "16772fe2aa350413225f3fb2bb9227d14ae5a6c4",
+    "sourceHash": "20649c7739bb73be67c3855fbe0265c3a5cd2674fcdd84c333dcf8f2a9e806b8",
+    "platform": "Darwin arm64",
+    "skill": "oma-qa",
+    "commands": [
+      {
+        "argv": [
+          "cargo",
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 705.286292,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-fmt-0e3f0e0e-131a-414e-b005-f6af999febd8/receipt.json",
+          "sha256": "edf63eee74e0a7725133581a5e89bcc07baef3f5daf5b23f6baecda18c0f5cc6"
+        }
+      },
+      {
+        "argv": [
+          "cargo",
+          "clippy",
+          "--workspace",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 11545.733791,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-clippy-c66d983e-a674-44c1-bcd0-9322fe1965fc/receipt.json",
+          "sha256": "b785fb3b1d7b486f086be40370763b0e759c6c2b1e800fd76decb4a0b5128a39"
+        }
+      },
+      {
+        "argv": [
+          "cargo",
+          "test",
+          "--workspace"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 256478.964667,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-workspace-0b6ff9a8-72ce-4bd0-94e8-dc47806e9c8d/receipt.json",
+          "sha256": "ba8d18308e86267216c856844ff6145ef819a53f25b51cb27e4a2ae432176bb5"
+        }
+      },
+      {
+        "argv": [
+          "cargo",
+          "test",
+          "-p",
+          "arc-cli",
+          "--tests",
+          "--message-format=json"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 17421.870917,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task5-binary-617f5901-a2e3-4b2d-bedd-e99fc243413a/receipt.json",
+          "sha256": "3dfa6d1683429622fd4d3049aee9cc0de6a821854e593b836dda6fb595be5e5a"
+        }
+      },
+      {
+        "argv": [
+          "cargo",
+          "test",
+          "-p",
+          "arc-daemon",
+          "--test",
+          "traffic_cli",
+          "--message-format=json",
+          "--",
+          "--nocapture"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 67910.399292,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task5-native-5a28f9f7-8776-49a6-9426-c27b2a4ad7ed/receipt.json",
+          "sha256": "31a9e252fae1bb056cbc9c71b0614512218454063511f170eef1d6a5bc7ad514"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "run",
+          "test:coverage"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 258161.24408300003,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-coverage-c63c5d73-eca8-4d36-8b95-0eeaf6e9b212/receipt.json",
+          "sha256": "4fc34c4638a174bec4e0277ea9e8c7e85a766dfee13050c43ab0deef58cb278e"
+        }
+      },
+      {
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "exit": 1,
+        "status": "failed",
+        "elapsedMs": 263286.23575,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-harness-d07543a3-839f-42a6-a5af-a25be9116caa/receipt.json",
+          "sha256": "2970c2d55b9d48a7dd40123b4f04db4e52b0f0a4d1c753366b61d2c2d476f109"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/evidence.test.ts"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 1020.071833,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-live-34125da2-1915-476e-86d6-23bb52328698/receipt.json",
+          "sha256": "8af1e8355c73b770155e7340d6cdd31eb6d4dba3228a61cd63f854676aa99437"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/harness/exec-fail-open-compact.test.ts"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 338199.916291,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-compact-062f3164-94ab-419a-ac20-b625d5d36c01/receipt.json",
+          "sha256": "d7100d9e5bd895119a8a3f5aa406f4a4efea496c91d11eae4935bb42695d8671"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/harness/exec-fail-open-compact-flow.test.ts"
+        ],
+        "exit": 0,
+        "status": "passed",
+        "elapsedMs": 344758.490666,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-compact-flow-9eea309b-6d03-43a6-b475-1f9ead2c596e/receipt.json",
+          "sha256": "96b356b36e1601c8037a93f08c45aa7e920417752ee53001a8ed466443d0f708"
+        }
+      },
+      {
+        "argv": [
+          "bun",
+          "test",
+          "scripts/coverage/traffic-bun-evidence.test.ts"
+        ],
+        "exit": 1,
+        "status": "failed",
+        "elapsedMs": 2876.2905419999997,
+        "receipt": {
+          "path": "target/traffic-bun/commands/task8-final-evidence-251b7817-9f4a-4ff1-8885-c0d4d9eb2bc0/receipt.json",
+          "sha256": "19f714d40242ea31d834c17ddbbab2cceeadfa3adab5591e1f3ba3eb67fa2166"
+        }
+      }
+    ],
+    "coverage": {
+      "thresholdPercent": 80,
+      "harnessCollection": "2026-11-11T04-50-06-271Z-25dc68b4-29a6-43b4-a246-89f4454d9ba0",
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 706,
+          "total": 711,
+          "percent": 99.29676511954993,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 1759,
+          "total": 1840,
+          "percent": 95.59782608695652,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 569,
+          "total": 576,
+          "percent": 98.78472222222223,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 2243,
+          "total": 2457,
+          "percent": 91.29019129019129,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 1831,
+          "total": 2194,
+          "percent": 83.45487693710119,
+          "pass": true
+        },
+        {
+          "crate": "arc-traffic",
+          "covered": 111,
+          "total": 111,
+          "percent": 100,
+          "pass": true
+        }
+      ]
+    },
+    "restoration": {
+      "status": "passed",
+      "archiveEntries": 26,
+      "frozenInputs": 13,
+      "originalLocationCopies": 8,
+      "recursiveTopLevelSelectors": 12
+    },
+    "independentQA": {
+      "actor": "independent-reviewer",
+      "sourceHash": "20649c7739bb73be67c3855fbe0265c3a5cd2674fcdd84c333dcf8f2a9e806b8",
+      "portablePolicyTests": 158,
+      "originalReplayCliTests": 66,
+      "originalReplayDaemonCliTests": 63,
+      "selectedArtifactsCopied": 520,
+      "latestActorManifestAvailable": false
+    },
+    "blockers": [
+      {
+        "kind": "harness",
+        "owner": "backend-engineer",
+        "paths": [
+          "crates/arc-daemon/tests/traffic_cli/recovery.rs",
+          "crates/arc-storage/src/jobs/traffic/tests/lineage.rs"
+        ],
+        "details": "505 and 549 lines exceed the unchanged 500-line harness cap; accepted baseline had 399 and 470 lines."
+      },
+      {
+        "kind": "access",
+        "paths": [
+          "av.yaml",
+          "/Users/gracefullight/.config/agent-valley/settings.yaml"
+        ],
+        "details": "Both stat calls return EPERM. Configured container targets remain unknown; tracked av.yaml fails the harness regular-file eligibility test."
+      },
+      {
+        "kind": "missing-review-artifact",
+        "path": ".agent-valley/parallel/workspaces/1f5006e3792c6ab1-014e4ceaa5a9e511-3/target/traffic-bun/qa/preserved/manifest.json",
+        "details": "Latest task-7 workspace and its 552-file manifest are absent. The exact policy receipt and 520 selected earlier replay artifacts were verified and copied separately."
+      }
+    ],
+    "rawEvidence": [
+      {
+        "path": "target/traffic-bun/task8-final/restore.stdout",
+        "sha256": "1b1c23e8330542e44bd6a2e3b8c2301ecb886718c9d662e8490eebf66df102a7"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/restore.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/audit.stdout",
+        "sha256": "776ecd06bb2f829e7214bd16339225308792d48fc3bda28cec19bbfb7c3a0d3d"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/recursive.stdout",
+        "sha256": "491fd1e0bb69df263520f8b5d8fd6155e88b8c929a024b4c4a8929730eacc492"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/measurement-validation-ok.json",
+        "sha256": "72d6c5a0dcabfa2c8c759d3d2da702602dfce581bf05e38718be297c2584e7ba"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/qa-installed-validated.json",
+        "sha256": "4543cc9ed7a2b8e430e8d31b1ea9ddb6b8a662c40b6be15822131a19925c514b"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/qa-replay-validated.json",
+        "sha256": "920dcfb38909ea7a1cc253aa74903f0ff46c595d3559eafd4592e5cedd4928f5"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/qa-copy-audit.json",
+        "sha256": "b9a9e02c414e01f5c70baea68e0435e3a9f9487791c18f4b1a037b8ef6633553"
+      },
+      {
+        "path": "target/traffic-bun/qa-replay-preserved/manifest.json",
+        "sha256": "58518ecf1daa2cbc7456efbda2681c9ad7f19c6e1c0b9ff746566f47fffeed91"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/access-observations.json",
+        "sha256": "815c7c8f98069464c8b54b96950c7dbc95b69ca2789dae768bbd699ae9f4c29d"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/av-harness-eligibility.txt",
+        "sha256": "e786bd1f98ca7a6aff352639e161ca9d9940099b6cefe6ebb155fafec3099919"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/pre-harness-index.json",
+        "sha256": "46e4676d67d4c002b9612f8ee49fdf534f1afab8ba546f4bf9290f17d05252e3"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/migration-and-archive-baseline.json",
+        "sha256": "569054e56fea89e19c002011a7f65b5b12ab68d3259d0c90224266d0cecef95f"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/workspace-count.json",
+        "sha256": "3a2473e27892f219ceaaba538bd1fc429a268127406d3f0867408711fd25bb42"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/prior-traffic-budget.json",
+        "sha256": "6613807e50efd7a1714b898e2047d05c7afc3871c6d7c55e157abf530c0bbddf"
+      },
+      {
+        "path": "target/traffic-bun/task8-final/final-budget-status.json",
+        "sha256": "72a39ad24e972e81224a7b77bd798c922970b5b929ede519069a0e820b0b2819"
+      }
+    ],
+    "finalEvidenceSuite": {
+      "passed": 13,
+      "failed": 1,
+      "assertions": 155,
+      "reason": "The live final evidence check rejects fullHarnessPassed=false."
+    },
+    "historicalTrafficBudget": {
+      "files": 23,
+      "bytes": 242983,
+      "indexed": 23
+    }
+  },
+  "attempt6": {
+    "status": "partial",
+    "sourceHash": "b80c9452c4ab6011fc6dc66af609d822b31aadf2875bb08784a22e78593ba590",
+    "workspaceFailure": {
+      "path": "target/traffic-bun/commands/task8-attempt6-workspace-8624e2d1-c462-4874-b32d-2939c3a9729e/receipt.json",
+      "sha256": "bdca8693f4c3539e2171ccd96c2725f666f1fb0d403bff46d77546e150ebf006"
+    },
+    "standaloneCoverage": {
+      "path": "target/traffic-bun/commands/task8-attempt6-coverage-80786834-532d-429a-a55b-be56d2ca56bf/receipt.json",
+      "sha256": "f29475038da68dbc60587ad645f3eb7656a03602e2ff8238b5a4b7337981bd78"
+    },
+    "harness": {
+      "path": "target/traffic-bun/commands/task8-attempt6-harness-e6472b63-cd84-459d-a04d-32b28158e810/receipt.json",
+      "sha256": "af126632e8cd111d3b24361eda4bbd5f4b8e9aaf443b1a3555176d0e85e9a5c7"
+    },
+    "liveCoverage": {
+      "path": "target/traffic-bun/commands/task8-attempt6-live-coverage-6e07299b-6135-4498-8103-9dec547b6f84/receipt.json",
+      "sha256": "53c725021af3455098a9818c398a66a811cf7c84b1fa7d6f7d7abe0d9473a65d"
+    },
+    "qaInstallation": {
+      "path": "target/traffic-bun/task8-attempt6/qa-install.json",
+      "sha256": "aba02d4d77daec3505ea6a2d1c8137557878bfe588e250054eea05462e7b3fa5"
+    },
+    "predecessorAudit": {
+      "path": "target/traffic-bun/task8-attempt6/predecessor-audit.json",
+      "sha256": "4f906539e4cdcb8281146d97329c909852561deff67d00d066e85dca4255be20"
+    },
+    "containerQuery": {
+      "path": "target/traffic-bun/task8-attempt6/av-status.json",
+      "sha256": "3cda00b074006a061f8673275cb0f06185ea6c275579fc535011a84aedeaf531"
+    },
+    "finalEvidenceSuite": {
+      "status": "failed",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "assertions": 155,
+      "reason": "Live evidence validation rejected the failed current-source workspace command receipt.",
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt6-final-evidence-f7daa5c9-ffa3-4d76-805f-4e7a70a29145/receipt.json",
+        "sha256": "5bd0a7b1b611f8377bb9fac7351a8d474e2238934e70ca43d993823ec1a094fc"
+      }
+    },
+    "finalAuditBeforeBinding": {
+      "path": "target/traffic-bun/task8-attempt6/final-audit.json",
+      "sha256": "ef9cb4521b6e597de3f4f676d8202b65cc9162541b7fa07ef7accd0b0ea49003"
+    }
+  },
+  "evidenceBudget": {
+    "limitFilesExclusive": 30,
+    "limitBytesExclusive": 5000000,
+    "preBindingAudit": {
+      "path": "target/traffic-bun/commands/task8-attempt8-validation-1fb83a8a-35c9-4901-9e29-09a8431eba6c/receipt.json",
+      "sha256": "e3d7653126330b5c64c9fb94966c01e2268c380cb9d97b88e9d3c6da1f88ded5"
+    },
+    "note": "The final staged budget is validated after evidence binding.",
+    "finalBudgetAudit": {
+      "path": "target/traffic-bun/task8-attempt8/final-budget.json",
+      "sha256": "94e39d0d6d5b47108156a5a1bcf7db7cee81d63272fb2032d86a08c5a52a3960"
+    }
+  },
+  "targetObservation": {
+    "policy": "not applicable: no target-observation policy or container-observation criterion found in the inspected saved mission fields and contract",
+    "policyAudit": {
+      "path": "target/traffic-bun/task8-attempt8/policy-audit.json",
+      "sha256": "85e692e5e305bcf31ac5a1490341f67f7336818aad7d567d40202d127b7e0f13"
+    },
+    "statusAccess": "av status failed EPERM opening av.yaml; live target inventory, health and av.yaml file-content scan are unknown",
+    "statusReceipt": {
+      "path": "target/traffic-bun/commands/task8-attempt8-av-status-ccbab8a8-fa52-40f7-9667-1c1deccfc9b3/receipt.json",
+      "sha256": "f0cffd07f54629858b677ab686b94b544c313188d856877b7009d290486cff9b"
+    }
+  },
+  "attempt7": {
+    "status": "partial",
+    "sourceHash": "f7f8da187251f11c9a06169fd3f0743a40a5892b603202bd6c80b283683d0724",
+    "standaloneCoverage": {
+      "path": "target/traffic-bun/commands/task8-attempt7-coverage-eaa0cf1a-1827-4501-8859-355d57a10b1f/receipt.json",
+      "sha256": "1bbff3ae79c22626328323042a9324381d7e65579703d284ec11a36e622515ff"
+    },
+    "harness": {
+      "path": "target/traffic-bun/commands/task8-attempt7-harness-b48eb64c-2984-4e88-a1a9-0e8d48abf79a/receipt.json",
+      "sha256": "4cd0b8bb1dc130e6fe721cd6bfd0345f12e8c9b3a321812fcd60f2f40c5a31a7"
+    },
+    "liveCoverage": {
+      "path": "target/traffic-bun/commands/task8-attempt7-live-coverage-3ff471e9-12e8-4253-acd5-a8508f646f27/receipt.json",
+      "sha256": "e02af64fa02d5ff71ed98916f475c354183db1a2b53885a2254acb9858e616cb"
+    },
+    "workspaceReplacement": {
+      "path": "target/traffic-bun/commands/task11-workspace-05effae0-89fa-42bf-8f2c-33729d685062/receipt.json",
+      "sha256": "044ba04c107b8203327a87f063c3c3536569ec9b133947890a7545fe6afd486c"
+    },
+    "failedNativeReceipt": {
+      "path": "target/traffic-bun/task8-attempt7/standalone-native-receipt.json",
+      "sha256": "02bb2a57ada41bc25d887a4638165b2c58456cb341884e036038a67b8a19f2bf"
+    },
+    "failedNativeStdout": {
+      "path": "target/traffic/native-coverage/79e41da6-6b62-4483-9176-eaae8e47248a/stdout.log",
+      "sha256": "50d35a7e4ef42f690bd5352402b9f7c13c74c40c1c7fc3566d5e3a48e82409d3"
+    },
+    "harnessValidation": {
+      "path": "target/traffic-bun/commands/task8-attempt7-validate-gates-e0baa087-2e0d-459c-a508-4adac3ef658d/receipt.json",
+      "sha256": "6849f6c0bdce83d2c4700b492f2ffc7a72096717789da6e3088d4603662ca803"
+    },
+    "qaInstallation": {
+      "path": "target/traffic-bun/commands/task8-attempt7-qa-install-689d5cf9-fd7f-41a0-ac74-22caa0eb8000/receipt.json",
+      "sha256": "3d69490a9d3533f4b279c8a95641a94d36b530f45972f6fb18063fffdc27eb04"
+    },
+    "predecessorAudit": {
+      "path": "target/traffic-bun/commands/task8-attempt7-audit-0d1168a4-0ac8-446e-b2d6-209582375f7b/receipt.json",
+      "sha256": "472785034ec0ceb73b6591ac939d6e21e9ce6fc4d34d3ef2851aa4f18d2f1c43"
+    },
+    "targetPolicyAudit": {
+      "path": "target/traffic-bun/task8-attempt7/policy-audit.json",
+      "sha256": "3b7283f4ffab9754f2e43c5ef173442967f1ead68d9439570ae1c83ccce8842a"
+    },
+    "finalEvidenceSuite": {
+      "status": "failed",
+      "exit": 1,
+      "passed": 13,
+      "failed": 1,
+      "assertions": 155,
+      "reason": "The live final-evidence check rejected the incomplete gate summary, which accurately records the failed standalone coverage gate.",
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt7-final-evidence-c512e7a8-f40b-4538-ab70-e8909c44aec9/receipt.json",
+        "sha256": "f962b83cb16d1ade9367db1e5950d3ec4e462ccc98cb218fea5f1e699c5d79ed"
+      }
+    }
+  },
+  "attempt8": {
+    "status": "passed",
+    "sourceHash": "cac648d93c9222589275832eaa9138d8f4fbe7241842cc65d570de8bc754d3ec",
+    "checks": {
+      "fmt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-fmt-389f4e7d-2993-45a7-b65d-4dac337b8dab/receipt.json",
+        "sha256": "528f371f083a43eb580e74c6956035cdaf093893e846ea771747a1934b4c9398"
+      },
+      "clippy": {
+        "path": "target/traffic-bun/commands/task8-attempt8-clippy-93e519d5-0338-4a59-9250-6b3644b61c61/receipt.json",
+        "sha256": "1083d97dcd76d4120077228e420fd906e3a643ad0c6fd5571de8bda88a40e0a9"
+      },
+      "workspace": {
+        "path": "target/traffic-bun/commands/task8-attempt8-workspace-5962b55c-99cf-4683-916d-326105f42e49/receipt.json",
+        "sha256": "bd8c3a6cbcf347de98cbe5688e8fe59d0bfda269c02f57c7675eba5c82e5a744"
+      },
+      "coverage": {
+        "path": "target/traffic-bun/commands/task8-attempt8-coverage-a10050a9-d7a2-4072-b1cd-3059d07f925f/receipt.json",
+        "sha256": "bc6fcce455bf584b53aa113335068286d866a3d702ff6ada1060c02e5f3396e1"
+      },
+      "harness": {
+        "path": "target/traffic-bun/commands/task8-attempt8-harness-b38c8d13-2c94-4c8b-ae5c-f301943ac234/receipt.json",
+        "sha256": "6f1565e49d24798b111e6b69e88872a407e575e5bfc7d3e12744a8d874cadbf5"
+      },
+      "live": {
+        "path": "target/traffic-bun/commands/task8-attempt8-live-e664bff7-265e-4eca-bd99-88eeddb8d36a/receipt.json",
+        "sha256": "41d7d318ff57d03a5eac78508ba1f9f07394b8ad7d3a436be9c863e875ed2054"
+      },
+      "restore": {
+        "path": "target/traffic-bun/commands/task8-attempt8-restore-absolute-61023af8-77fc-4faa-bfcf-1034b932e8d2/receipt.json",
+        "sha256": "e1b89e923fca8f30bb63c3621b59414152e4b80269118455c95c594ca0ca2f3f"
+      },
+      "restoreFailed": {
+        "path": "target/traffic-bun/commands/task8-attempt8-restore-b7f3d62b-e6b1-4b19-83a9-e14c3648e545/receipt.json",
+        "sha256": "7499400d2d546c6000da85e946ad4c737e512dba90414782499dc845499f9792"
+      },
+      "audit": {
+        "path": "target/traffic-bun/commands/task8-attempt8-audit-2535a523-beca-46e0-bd0f-d3b489cd67dd/receipt.json",
+        "sha256": "f6ef47c9dd78e08e78bfedf01d6187b70e7afc8569b3a8f306226270d315b933"
+      },
+      "recursive": {
+        "path": "target/traffic-bun/commands/task8-attempt8-recursive-db84e8fd-2a64-489a-8384-8b39ac95d254/receipt.json",
+        "sha256": "95db31bee3028acc075e45c0ec338d421cd7b3d8d628054e757a1c774a11192f"
+      },
+      "prerequisites": {
+        "path": "target/traffic-bun/commands/task8-attempt8-prerequisites-6aab7501-53e0-48ce-9ed7-2feef5aa46f1/receipt.json",
+        "sha256": "45d1d6af6a442ae9fa583c899f0c6a98a628459d549d457555319acd814a7dd8"
+      },
+      "install": {
+        "path": "target/traffic-bun/commands/task8-attempt8-qa-install-fb0419f8-a0ca-432f-99c4-959053f9d964/receipt.json",
+        "sha256": "b15b5e79c55e82f0fdf4ebc7b61dac29666c67f887f1469f426278007259919e"
+      },
+      "preservation": {
+        "path": "target/traffic-bun/commands/task8-attempt8-preservation-82bdbe22-657d-4244-8177-bc7b1a30dfd0/receipt.json",
+        "sha256": "cf217f3b96d0b7e58902ba6b4ce617fcb82415a5349b016804ebcdbe83971e75"
+      },
+      "measurement": {
+        "path": "target/traffic-bun/commands/task8-attempt8-measurement-88bc9123-7a18-4991-895b-1f42dc5f289f/receipt.json",
+        "sha256": "d2603833320a683b9e935e8ad8ded4f3308d3f1a8e660fa26a0c4d30fa1fb405"
+      },
+      "independent": {
+        "path": "target/traffic-bun/commands/task8-attempt8-independent-d73353e9-5763-469e-91a1-49573cca661b/receipt.json",
+        "sha256": "e118e35efaf103c204db6a7a2ac4ede7d90e2e779e4510bf9e129c595343bb2f"
+      },
+      "validation": {
+        "path": "target/traffic-bun/commands/task8-attempt8-validation-1fb83a8a-35c9-4901-9e29-09a8431eba6c/receipt.json",
+        "sha256": "e3d7653126330b5c64c9fb94966c01e2268c380cb9d97b88e9d3c6da1f88ded5"
+      },
+      "avStatus": {
+        "path": "target/traffic-bun/commands/task8-attempt8-av-status-ccbab8a8-fa52-40f7-9667-1c1deccfc9b3/receipt.json",
+        "sha256": "f0cffd07f54629858b677ab686b94b544c313188d856877b7009d290486cff9b"
+      }
+    },
+    "workspacePassed": 570,
+    "measurementRevalidated": true,
+    "failedRestoreAttempt": {
+      "reason": "workspace root must be an absolute path; corrected by passing the actual absolute working directory",
+      "receipt": {
+        "path": "target/traffic-bun/commands/task8-attempt8-restore-b7f3d62b-e6b1-4b19-83a9-e14c3648e545/receipt.json",
+        "sha256": "7499400d2d546c6000da85e946ad4c737e512dba90414782499dc845499f9792"
+      }
+    },
+    "finalEvidence": {
+      "path": "target/traffic-bun/commands/task8-attempt8-final-evidence-03bc6aac-36f6-49f9-a9bd-486c4e2b9157/receipt.json",
+      "sha256": "319d771275830802cbb88f3da673f1fcda8020683bcbccd156f064f9cbfc6fba"
+    }
+  },
+  "finalValidation": {
+    "path": "target/traffic-bun/commands/task8-attempt8-final-validation-b07f4868-a48f-40ad-997a-17e73fab9de6/receipt.json",
+    "sha256": "2bad5e53997d44526da3ff8dd70b82c999456fb51e95c3194564aef2c7663f5b"
+  }
+}

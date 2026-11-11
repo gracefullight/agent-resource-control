@@ -278,7 +278,7 @@ async fn execution_deadline_interrupts_sql_before_response_deadline() {
 }
 
 #[tokio::test]
-async fn cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks() {
+async fn cancelled_gate_drops_release_receiver_before_late_send() {
     let database = Database::new();
     let (gate, started, release) = gate();
     let (progress, observed) = sync_mpsc::sync_channel(1);
@@ -289,17 +289,75 @@ async fn cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_
     };
     let mut worker =
         DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
-    let ticket = worker.client().try_doctor(deadline()).unwrap();
+    let mut ticket = worker.client().try_doctor(deadline()).unwrap();
     started.recv_timeout(Duration::from_secs(1)).unwrap();
-    worker.interrupt.interrupt(); // No SQL is active; this signal alone is insufficient.
+    // Keep the worker's reply observable while exercising DbTicket::drop.
+    let reply = std::mem::replace(&mut ticket.reply, tokio::sync::oneshot::channel().1);
+    let cancelled = Arc::clone(&ticket.cancelled);
+    worker.interrupt.interrupt();
     drop(ticket);
-    release.try_send(()).unwrap();
-    assert_eq!(recover(&worker.client()).await.integrity_check, "ok");
+    assert!(cancelled.load(Ordering::Acquire));
+    let result = tokio::time::timeout(Duration::from_secs(2), reply)
+        .await
+        .unwrap()
+        .unwrap();
+    assert!(matches!(result, Err(DbError::Cancelled)));
+    match release.try_send(()) {
+        Err(sync_mpsc::TrySendError::Disconnected(())) => (),
+        result => panic!("expected a disconnected release after cancellation, got {result:?}"),
+    }
     assert!(matches!(
         observed.try_recv(),
         Err(sync_mpsc::TryRecvError::Disconnected)
     ));
+    assert_eq!(recover(&worker.client()).await.integrity_check, "ok");
     stop(&mut worker, &database).await;
+}
+
+#[tokio::test]
+async fn cancellation_before_statement_and_early_interrupt_cannot_escape_sticky_checks() {
+    for release_before_cancel in [true, false] {
+        let database = Database::new();
+        let (gate, started, release) = gate();
+        let (progress, observed) = sync_mpsc::sync_channel(1);
+        let hooks = execution::Hooks {
+            gate: Some(gate),
+            expensive: Some(progress),
+            ..Default::default()
+        };
+        let mut worker =
+            DbWorker::start_inner(database.open(), config(), metrics(&config()), hooks).unwrap();
+        let mut ticket = worker.client().try_doctor(deadline()).unwrap();
+        started.recv_timeout(Duration::from_secs(1)).unwrap();
+        let reply = std::mem::replace(&mut ticket.reply, tokio::sync::oneshot::channel().1);
+        let cancelled = Arc::clone(&ticket.cancelled);
+        // Keep the receiver alive and block the final check until both the
+        // release and cancellation have occurred, in either order.
+        let active = worker.client.shared.active.lock().unwrap();
+        worker.interrupt.interrupt(); // No SQL is active; this signal alone is insufficient.
+        if release_before_cancel {
+            release.try_send(()).expect("release before cancellation");
+        }
+        drop(ticket);
+        assert!(cancelled.load(Ordering::Acquire));
+        if !release_before_cancel {
+            release
+                .try_send(())
+                .expect("release before cancellation is observed");
+        }
+        drop(active);
+        let result = tokio::time::timeout(Duration::from_secs(2), reply)
+            .await
+            .unwrap()
+            .unwrap();
+        assert!(matches!(result, Err(DbError::Cancelled)));
+        assert_eq!(recover(&worker.client()).await.integrity_check, "ok");
+        assert!(matches!(
+            observed.try_recv(),
+            Err(sync_mpsc::TryRecvError::Disconnected)
+        ));
+        stop(&mut worker, &database).await;
+    }
 }
 
 #[tokio::test]

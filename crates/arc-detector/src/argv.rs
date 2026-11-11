@@ -34,7 +34,16 @@ pub fn analyze_argv(argv: &[OsString]) -> (Classification, AnalysisStats) {
             return Err(Reason::EmptyCommand);
         }
         budget.invocation()?;
-        rules::recognize(&words, &mut budget)
+        if Budget::eq(&mut budget, &words[0], "bun")?
+            && match words.get(1) {
+                Some(word) => Budget::eq(&mut budget, word, "test")?,
+                None => false,
+            }
+        {
+            rules::recognize_bun_test(&words[2..], &mut budget)
+        } else {
+            rules::recognize(&words, &mut budget)
+        }
     })();
     (result.unwrap_or_else(Classification::unknown), budget)
 }

@@ -1,0 +1,42 @@
+{
+  "coveragePassed": true,
+  "fullHarnessPassed": true,
+  "workspacePassed": true,
+  "status": "passed",
+  "sourceHash": "cac648d93c9222589275832eaa9138d8f4fbe7241842cc65d570de8bc754d3ec",
+  "harnessScope": "The harness exited zero with coverage enabled; tracked av.yaml was inaccessible to file-content scans.",
+  "commands": [
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-fmt-389f4e7d-2993-45a7-b65d-4dac337b8dab/receipt.json",
+      "sha256": "528f371f083a43eb580e74c6956035cdaf093893e846ea771747a1934b4c9398"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-clippy-93e519d5-0338-4a59-9250-6b3644b61c61/receipt.json",
+      "sha256": "1083d97dcd76d4120077228e420fd906e3a643ad0c6fd5571de8bda88a40e0a9"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-workspace-5962b55c-99cf-4683-916d-326105f42e49/receipt.json",
+      "sha256": "bd8c3a6cbcf347de98cbe5688e8fe59d0bfda269c02f57c7675eba5c82e5a744"
+    },
+    {
+      "path": "target/traffic-bun/commands/task14-binary-fd71dd00-00ec-4f21-af9f-7a2b2ca7963d/receipt.json",
+      "sha256": "8dc88026db0d7336a0b304297d5f4afa95708a065b632f01b97cad7df06cb95b"
+    },
+    {
+      "path": "target/traffic-bun/commands/task14-native-e2755f61-17da-4ce2-a553-1b4d8a97d022/receipt.json",
+      "sha256": "6dea42852afc5af6cd9242fcb2a11b850b55997b68d9419ac3450758105689a3"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-coverage-a10050a9-d7a2-4072-b1cd-3059d07f925f/receipt.json",
+      "sha256": "bc6fcce455bf584b53aa113335068286d866a3d702ff6ada1060c02e5f3396e1"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-harness-b38c8d13-2c94-4c8b-ae5c-f301943ac234/receipt.json",
+      "sha256": "6f1565e49d24798b111e6b69e88872a407e575e5bfc7d3e12744a8d874cadbf5"
+    },
+    {
+      "path": "target/traffic-bun/commands/task8-attempt8-live-e664bff7-265e-4eca-bd99-88eeddb8d36a/receipt.json",
+      "sha256": "41d7d318ff57d03a5eac78508ba1f9f07394b8ad7d3a436be9c863e875ed2054"
+    }
+  ]
+}

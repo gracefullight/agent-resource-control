@@ -22,6 +22,37 @@ fn replay_forged_lineage_cancellation_and_spawn_failure_preserve_one_permit() {
             |r| r.get(0),
         )
         .unwrap();
+    // A sibling Bun wrapper cannot reuse a stolen lineage capability.
+    symlink(binary("arc-exec-fixture"), f.root.join("bun")).unwrap();
+    let bun_marker = f.root.join("forged-bun-marker");
+    let mut forged_bun = BuildChild::new(
+        OwnedChild::new(
+            Command::new(binary("arcctl"))
+                .args(["exec", "--", "bun", "test"])
+                .env(arc_core::ARC_SOCKET_PATH, &f.socket)
+                .env("PATH", &f.root)
+                .env("ARC_TRAFFIC_LINEAGE", &context)
+                .env("ARC_FIXTURE_MODE", "echo")
+                .env("ARC_FIXTURE_MARKER", &bun_marker)
+                .stdin(Stdio::null())
+                .stdout(Stdio::null())
+                .stderr(Stdio::null())
+                .spawn()
+                .unwrap(),
+        ),
+        &f,
+        true,
+    );
+    eventually(|| entry(&f, forged_bun.child.id()).is_some_and(|e| e.0 == "QUEUED"));
+    assert!(!bun_marker.exists());
+    assert_eq!(
+        unsafe { libc::kill(forged_bun.child.id() as i32, libc::SIGTERM) },
+        0
+    );
+    eventually(|| forged_bun.child.try_wait().unwrap().is_some());
+    assert!(!forged_bun.child.wait().unwrap().success());
+    assert!(entry(&f, forged_bun.child.id()).is_some_and(|e| e.0 == "CANCELLED"));
+    assert_eq!(active(&f).1, 1);
     let observer = ProcessIdentity::capture(std::process::id()).unwrap();
     let id = JobId::try_from("a123456789abcdef0123456789abcdef".to_owned()).unwrap();
     let classification = cargo_class("BUILD", "CARGO_BUILD");
@@ -158,15 +189,29 @@ fn queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage() {
     else {
         panic!("expected root grant")
     };
+    // Model a temporarily unavailable ancestry anchor using a live sibling in
+    // the durable snapshot. Restoring the real observer below makes the queued
+    // client's subsequent POLL re-evaluate its actual native ancestry.
+    let mut sibling = OwnedChild::new(Command::new("/bin/sleep").arg("30").spawn().unwrap());
+    let unrelated = ProcessIdentity::capture(sibling.child.id()).unwrap();
+    let db = database(&f);
+    let root_context: String = db
+        .query_row(
+            "SELECT context FROM traffic_entries WHERE job_id=?1",
+            [root_id.as_str()],
+            |r| r.get(0),
+        )
+        .unwrap();
+    assert_eq!(db.execute("UPDATE job_lifecycle SET observer_pid=?1,observer_start_token=?2,observer_boot_id=?3,revision=revision+1 WHERE job_id=?4", (&unrelated.pid, &unrelated.start_token, &unrelated.boot_id, root_id.as_str())).unwrap(), 1);
+    drop(db);
     symlink(binary("arc-exec-fixture"), f.root.join("cargo")).unwrap();
-    let inherited = "a".repeat(64);
     let marker = f.root.join("nested-launches");
     let mut nested = OwnedChild::new(
         Command::new(binary("arcctl"))
             .args(["exec", "--", "cargo", "build"])
             .env(arc_core::ARC_SOCKET_PATH, &f.socket)
             .env("PATH", &f.root)
-            .env("ARC_TRAFFIC_LINEAGE", &inherited)
+            .env_remove("ARC_TRAFFIC_LINEAGE")
             .env("ARC_FIXTURE_MODE", "echo")
             .env("ARC_FIXTURE_MARKER", &marker)
             .stdin(Stdio::null())
@@ -179,13 +224,13 @@ fn queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage() {
     );
     eventually(|| entry(&f, nested.child.id()).is_some_and(|e| e.0 == "QUEUED"));
     assert!(!marker.exists());
-    // Model a queued request whose previously unverified context becomes the
-    // active root context. The daemon must still verify native ancestry.
+    // Restore the recorded anchor; neither its context nor the new client's
+    // independently generated witness claim changes.
     assert_eq!(
         database(&f)
             .execute(
-                "UPDATE traffic_entries SET context=?1 WHERE job_id=?2",
-                (&inherited, root_id.as_str())
+                "UPDATE job_lifecycle SET observer_pid=?1,observer_start_token=?2,observer_boot_id=?3,revision=revision+1 WHERE job_id=?4",
+                (&observer.pid, &observer.start_token, &observer.boot_id, root_id.as_str())
             )
             .unwrap(),
         1
@@ -203,6 +248,11 @@ fn queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage() {
     let launches = fs::read_to_string(&marker)
         .map(|s| s.lines().count())
         .unwrap_or(0);
+    let (actual_root, claim): (String, String) = database(&f).query_row(
+        "SELECT root_job_id,inherited_context FROM traffic_entries WHERE job_id != ?1 AND root_job_id IS NOT NULL",
+        [root_id.as_str()], |r| Ok((r.get(0)?,r.get(1)?))).unwrap();
+    assert_eq!(actual_root, root_id.as_str());
+    assert_ne!(claim, root_context);
     assert_eq!(
         traffic_result(traffic(
             &f,
@@ -215,6 +265,8 @@ fn queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage() {
         JobResult::Cancelled {}
     );
     assert_eq!(active(&f).1, 0);
+    sibling.child.kill().unwrap();
+    sibling.child.wait().unwrap();
     daemon.stop(libc::SIGTERM);
     f.report();
     assert!(
@@ -397,3 +449,6 @@ fn cached_cargo_launch_still_executes_one_native_child() {
     daemon.stop(libc::SIGTERM);
     f.report();
 }
+
+#[path = "recovery/bun_restart.rs"]
+mod bun_restart;

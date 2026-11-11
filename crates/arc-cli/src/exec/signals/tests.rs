@@ -447,6 +447,12 @@ fn shared_job_terminal_signals_between_spawn_and_attach_arrive_once() {
             }
             // Parent sightings after fork are retained until attach, but must
             // never be forwarded into this shared foreground job a second time.
+            // The child's event only acknowledges its own delivery; the parent
+            // handler may run later on a different scheduled thread.
+            let deadline = Instant::now() + Duration::from_secs(5);
+            while !signals.interrupted() && Instant::now() < deadline {
+                std::thread::yield_now();
+            }
             assert!(signals.interrupted());
             signals.attach(child.0.id());
             // An acknowledged directed signal is a second barrier after attachment.

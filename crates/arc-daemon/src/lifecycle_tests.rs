@@ -431,3 +431,5 @@ fn wait_exit(child: &mut OwnedChild, success: bool) {
         thread::sleep(Duration::from_millis(1));
     }
 }
+
+include!("../tests/support/bun_fault_lifecycle.rs");

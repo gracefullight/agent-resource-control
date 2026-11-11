@@ -17,6 +17,32 @@ fn identity() -> Value {
 fn classification() -> Value {
     json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})
 }
+
+#[test]
+fn bun_uses_an_additive_operation_and_never_legacy_registration() {
+    let bun = json!({"classification":"TEST","locality":"HOST_LOCAL","reason":"BUN_TEST","uncertainty":"NONE"});
+    let request =
+        json!({"action":"ENQUEUE","job_id":ID,"observer":identity(),"classification":bun});
+    assert!(traffic::decode_job_for(traffic::OPERATION_BUN_JOB, &request).is_ok());
+    assert!(traffic::decode_job_for(traffic::OPERATION_TRAFFIC_JOB, &request).is_err());
+    let cargo = json!({"action":"ENQUEUE","job_id":ID,"observer":identity(),"classification":classification()});
+    assert!(traffic::decode_job_for(traffic::OPERATION_TRAFFIC_JOB, &cargo).is_ok());
+    assert!(traffic::decode_job_for(traffic::OPERATION_BUN_JOB, &cargo).is_err());
+    assert!(traffic::decode_job_for(
+        traffic::OPERATION_BUN_JOB,
+        &json!({"action":"STATUS","job_id":ID})
+    )
+    .is_err());
+    assert!(arc_ipc::jobs::decode_start(&json!({"action":"REGISTER","job_id":ID,"observer":identity(),"classification":request["classification"]})).is_err());
+    assert_eq!(
+        serde_json::to_value(traffic::Capabilities::bun_supported()).unwrap(),
+        json!({"capability":"traffic.bun.v1"})
+    );
+    assert_eq!(
+        serde_json::to_value(traffic::Capabilities::supported()).unwrap(),
+        json!({"capability":"traffic.v1"})
+    );
+}
 fn grant() -> Value {
     json!({"state":"GRANTED","sequence":1,"queued_at_ms":10,"granted_at_ms":12,
         "permit_generation":1,"reservation":{"cpu_millis":2000,"memory_bytes":1024},

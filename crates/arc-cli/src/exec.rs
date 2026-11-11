@@ -1,5 +1,6 @@
 //! One CLI-owned native child, independent of every metadata retry.
 mod descriptors;
+mod lineage;
 mod preparation;
 mod signals;
 mod terminal;
@@ -102,8 +103,40 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     let mut command = Command::new(&argv[0]);
     use std::os::unix::process::CommandExt;
     command.args(&argv[1..]);
-    if let traffic::Mode::Scheduled { context, .. } = &tracking {
-        command.env(traffic::CONTEXT_ENV, context.as_str());
+    // Keep the sidecar alive until the native child exits. New clients prefer
+    // it while this wrapper is a live ancestor.
+    let lineage_record = match &tracking {
+        traffic::Mode::Scheduled {
+            context,
+            generation,
+            witness,
+            route,
+            continuity,
+            ..
+        } => match lineage::Lineage::create(&socket, &observer, context) {
+            Ok(lineage) => Some(lineage),
+            Err(_) => {
+                witness.finish_unspawned(|| {
+                    traffic::cancel(
+                        &socket,
+                        &job_id,
+                        &observer,
+                        Some(*generation),
+                        *route,
+                        continuity,
+                    )
+                });
+                return preparation::stopped(transport::Failure::Local);
+            }
+        },
+        _ => None,
+    };
+    // Protocol-1 clients cannot read the sidecar, and it is no longer an
+    // ancestor after a wrapper dies. Preserve any caller-supplied value.
+    if std::env::var_os(traffic::CONTEXT_ENV).is_none() {
+        if let traffic::Mode::Scheduled { context, .. } = &tracking {
+            command.env(traffic::CONTEXT_ENV, context.as_str());
+        }
     }
     if !shared_job {
         command.process_group(0);
@@ -111,7 +144,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     signals.prepare_child(&mut command);
     descriptors::restore_in_child(&mut command);
     match &tracking {
-        traffic::Mode::Scheduled { witness, .. } | traffic::Mode::Uncertain(witness) => {
+        traffic::Mode::Scheduled { witness, .. } | traffic::Mode::Uncertain { witness, .. } => {
             witness.install(&mut command);
         }
         _ => (),
@@ -123,14 +156,30 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 traffic::Mode::Scheduled {
                     generation,
                     witness,
+                    route,
+                    continuity,
                     ..
                 } => {
                     witness.finish_unspawned(|| {
-                        traffic::cancel(&socket, &job_id, &observer, Some(*generation))
+                        traffic::cancel(
+                            &socket,
+                            &job_id,
+                            &observer,
+                            Some(*generation),
+                            *route,
+                            continuity,
+                        )
                     });
                 }
-                traffic::Mode::Uncertain(witness) => {
-                    witness.finish_unspawned(|| traffic::cancel(&socket, &job_id, &observer, None));
+                traffic::Mode::Uncertain {
+                    witness,
+                    route,
+                    continuity,
+                } => {
+                    witness.finish_unspawned(|| {
+                        traffic::cancel(&socket, &job_id, &observer, None, *route, continuity)
+                            && *route != traffic::Route::Bun
+                    });
                 }
                 _ => (),
             }
@@ -144,14 +193,30 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 traffic::Mode::Scheduled {
                     generation,
                     witness,
+                    route,
+                    continuity,
                     ..
                 } => {
                     witness.finish_unspawned(|| {
-                        traffic::cancel(&socket, &job_id, &observer, Some(*generation))
+                        traffic::cancel(
+                            &socket,
+                            &job_id,
+                            &observer,
+                            Some(*generation),
+                            *route,
+                            continuity,
+                        )
                     });
                 }
-                traffic::Mode::Uncertain(witness) => {
-                    witness.finish_unspawned(|| traffic::cancel(&socket, &job_id, &observer, None));
+                traffic::Mode::Uncertain {
+                    witness,
+                    route,
+                    continuity,
+                } => {
+                    witness.finish_unspawned(|| {
+                        traffic::cancel(&socket, &job_id, &observer, None, *route, continuity)
+                            && *route != traffic::Route::Bun
+                    });
                 }
                 _ => (),
             }
@@ -178,6 +243,8 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 traffic::Mode::Scheduled {
                     generation,
                     witness,
+                    route,
+                    continuity,
                     ..
                 } => {
                     witness.finish_spawn_failed(&outcome, || {
@@ -187,12 +254,27 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                             &observer,
                             *generation,
                             outcome.clone(),
+                            *route,
+                            continuity,
                         )
                     });
                 }
-                traffic::Mode::Uncertain(witness) => {
+                traffic::Mode::Uncertain {
+                    witness,
+                    route,
+                    continuity,
+                } => {
                     witness.finish_spawn_failed(&outcome, || {
-                        traffic::fallback(&socket, &job_id, &observer, None, Some(outcome.clone()))
+                        traffic::fallback(
+                            &socket,
+                            &job_id,
+                            &observer,
+                            None,
+                            Some(outcome.clone()),
+                            *route,
+                            continuity,
+                        ) && *route != traffic::Route::Bun
+                            && continuity.confirmed()
                     });
                 }
                 _ => (),
@@ -204,7 +286,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     signals.attach(child.id());
     let mut diagnostics = match &tracking {
         traffic::Mode::Legacy(mode) => preparation::started(*mode, &job_id),
-        traffic::Mode::Uncertain(_) => {
+        traffic::Mode::Uncertain { .. } => {
             preparation::started(preparation::Tracking::Uncertain, &job_id)
         }
         traffic::Mode::Scheduled { waited, .. } => {
@@ -235,13 +317,34 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 .ok()
             })
             .is_some(),
-        traffic::Mode::Scheduled { generation, .. } => {
-            child_identity.clone().is_some_and(|identity| {
-                traffic::attach(&socket, &job_id, &observer, *generation, identity)
-            })
-        }
-        traffic::Mode::Uncertain(_) => {
-            let _ = traffic::fallback(&socket, &job_id, &observer, child_identity.clone(), None);
+        traffic::Mode::Scheduled {
+            generation,
+            route,
+            continuity,
+            ..
+        } => child_identity.clone().is_some_and(|identity| {
+            traffic::attach(
+                &socket,
+                &job_id,
+                &observer,
+                *generation,
+                identity,
+                *route,
+                continuity,
+            ) && continuity.confirmed()
+        }),
+        traffic::Mode::Uncertain {
+            route, continuity, ..
+        } => {
+            let _ = traffic::fallback(
+                &socket,
+                &job_id,
+                &observer,
+                child_identity.clone(),
+                None,
+                *route,
+                continuity,
+            );
             true
         }
         _ => true,
@@ -276,16 +379,41 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         traffic::Mode::Scheduled {
             generation,
             witness,
+            route,
+            continuity,
             ..
         } => {
-            let completed = traffic::complete(&socket, &job_id, &observer, *generation, outcome);
+            let completed = traffic::complete(
+                &socket,
+                &job_id,
+                &observer,
+                *generation,
+                outcome,
+                *route,
+                continuity,
+            );
+            let completed = completed && continuity.confirmed();
             if completed {
                 witness.discard();
             }
             completed
         }
-        traffic::Mode::Uncertain(witness) => {
-            if traffic::fallback(&socket, &job_id, &observer, None, Some(outcome)) {
+        traffic::Mode::Uncertain {
+            witness,
+            route,
+            continuity,
+        } => {
+            if traffic::fallback(
+                &socket,
+                &job_id,
+                &observer,
+                None,
+                Some(outcome),
+                *route,
+                continuity,
+            ) && *route != traffic::Route::Bun
+                && continuity.confirmed()
+            {
                 witness.discard();
             }
             true
@@ -306,6 +434,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     }
     diagnostics.finish();
     drop(signals);
+    drop(lineage_record);
     if let Some(signal) = status.signal() {
         signals::reraise(signal);
     }

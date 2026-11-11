@@ -177,7 +177,7 @@ pub fn decide(
     }
     let class = match (classification.classification, classification.reason) {
         (JobClass::Build, Reason::CargoBuild) => TrafficClass::Build,
-        (JobClass::Test, Reason::CargoTest) => TrafficClass::Test,
+        (JobClass::Test, Reason::CargoTest | Reason::BunTest) => TrafficClass::Test,
         (JobClass::Lint, Reason::CargoClippy | Reason::CargoFmt) => TrafficClass::Lint,
         _ if classification.locality == Locality::Remote => {
             return Ok(Decision::Bypass(BypassReason::Remote));

@@ -1,4 +1,4 @@
-use super::{call_until, Failure};
+use super::{call_until, call_until_tracked, Failure};
 use arc_ipc::{Request, Response};
 use serde_json::Value;
 use std::{
@@ -18,31 +18,97 @@ use std::{
     time::{Duration, Instant},
 };
 static NEXT: AtomicUsize = AtomicUsize::new(0);
+
+#[test]
+fn bun_unsupported_is_no_commit_only_without_an_earlier_possible_commit() {
+    use arc_ipc::traffic::OPERATION_BUN_JOB;
+    for mode in 0..4 {
+        let calls = if mode == 1 || mode == 2 { 2 } else { 1 };
+        let mut count = 0;
+        let peer = Peer::new(calls, move |stream, request| {
+            count += 1;
+            assert_eq!(request.operation, OPERATION_BUN_JOB);
+            if count == 1 && mode == 1 {
+                return;
+            }
+            let code = if count == 1 && mode == 2 {
+                arc_ipc::ERROR_DB_BUSY
+            } else {
+                arc_ipc::ERROR_UNSUPPORTED_CAPABILITY
+            };
+            arc_ipc::write_response(stream, &Response::error(request.request_id, code)).unwrap();
+        });
+        let mut prior = mode == 3;
+        let result = call_until_tracked(
+            &peer.path,
+            OPERATION_BUN_JOB,
+            serde_json::json!({"action":"ENQUEUE"}),
+            Instant::now() + Duration::from_secs(2),
+            &|| false,
+            &mut prior,
+        );
+        assert_eq!(
+            result,
+            Err(if mode == 0 {
+                Failure::Unsupported
+            } else {
+                Failure::Uncertain
+            })
+        );
+        assert_eq!(prior, mode != 0);
+    }
+}
 struct Peer {
     path: PathBuf,
     join: Option<thread::JoinHandle<()>>,
+    done: mpsc::Receiver<()>,
+    deadline: Instant,
 }
 impl Peer {
-    fn new(n: usize, mut reply: impl FnMut(&mut UnixStream, Request) + Send + 'static) -> Self {
+    fn new(n: usize, reply: impl FnMut(&mut UnixStream, Request) + Send + 'static) -> Self {
+        Self::with_timeout(n, Duration::from_secs(10), reply)
+    }
+    fn with_timeout(
+        n: usize,
+        timeout: Duration,
+        mut reply: impl FnMut(&mut UnixStream, Request) + Send + 'static,
+    ) -> Self {
         let path = std::env::temp_dir().join(format!(
             "arc-transport-live-{}-{}.sock",
             std::process::id(),
             NEXT.fetch_add(1, Ordering::Relaxed)
         ));
         let listener = UnixListener::bind(&path).unwrap();
+        listener.set_nonblocking(true).unwrap();
+        let deadline = Instant::now() + timeout;
+        let (done_tx, done) = mpsc::channel();
         let join = thread::spawn(move || {
             for _ in 0..n {
-                let (mut stream, _) = listener.accept().unwrap();
-                stream
-                    .set_read_timeout(Some(Duration::from_secs(5)))
-                    .unwrap();
+                let mut stream = loop {
+                    assert!(Instant::now() < deadline, "peer accept deadline exceeded");
+                    match listener.accept() {
+                        Ok((stream, _)) => break stream,
+                        Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                            thread::sleep(Duration::from_millis(2));
+                        }
+                        Err(error) => panic!("peer accept failed: {error}"),
+                    }
+                };
+                let remaining = deadline.saturating_duration_since(Instant::now());
+                assert!(!remaining.is_zero(), "peer read deadline exceeded");
+                stream.set_nonblocking(false).unwrap();
+                stream.set_read_timeout(Some(remaining)).unwrap();
+                stream.set_write_timeout(Some(remaining)).unwrap();
                 let request = arc_ipc::read_message(&mut stream).unwrap();
                 reply(&mut stream, request);
             }
+            let _ = done_tx.send(());
         });
         Self {
             path,
             join: Some(join),
+            done,
+            deadline,
         }
     }
     fn call(&self) -> Result<Value, Failure> {
@@ -50,15 +116,32 @@ impl Peer {
             &self.path,
             "fixture",
             Value::Null,
-            Instant::now() + Duration::from_millis(1800),
+            self.deadline
+                .min(Instant::now() + Duration::from_millis(1800)),
             &|| false,
         )
     }
 }
 impl Drop for Peer {
     fn drop(&mut self) {
-        self.join.take().unwrap().join().unwrap();
-        fs::remove_file(&self.path).unwrap();
+        let result = self
+            .done
+            .recv_timeout(self.deadline.saturating_duration_since(Instant::now()));
+        let _ = fs::remove_file(&self.path);
+        let join = self.join.take().unwrap();
+        match result {
+            Ok(()) | Err(mpsc::RecvTimeoutError::Disconnected) => {
+                let result = join.join();
+                if !thread::panicking() {
+                    result.unwrap();
+                }
+            }
+            Err(mpsc::RecvTimeoutError::Timeout) => {
+                if !thread::panicking() {
+                    panic!("peer exceeded hard deadline");
+                }
+            }
+        }
     }
 }
 #[test]

@@ -36,6 +36,8 @@ pub enum Reason {
     CargoBuild,
     #[serde(rename = "CARGO_TEST")]
     CargoTest,
+    #[serde(rename = "BUN_TEST")]
+    BunTest,
     #[serde(rename = "CARGO_CLIPPY")]
     CargoClippy,
     #[serde(rename = "CARGO_FMT")]
@@ -139,7 +141,7 @@ impl Classification {
         use {JobClass as C, Reason as R};
         let reason_valid = match self.reason {
             R::CargoBuild => self.classification == C::Build,
-            R::CargoTest => self.classification == C::Test,
+            R::CargoTest | R::BunTest => self.classification == C::Test,
             R::CargoClippy | R::CargoFmt => self.classification == C::Lint,
             R::GhWorkflowRun | R::GhRunWatch | R::GhRunView => self.classification == C::RemoteCi,
             R::SshRemoteCommand => self.classification == C::RemoteExec,

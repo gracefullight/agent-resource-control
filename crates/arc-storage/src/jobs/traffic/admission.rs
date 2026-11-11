@@ -55,8 +55,8 @@ pub struct LineageSnapshot {
 }
 
 /// The daemon constructs this only after verifying the authenticated socket
-/// peer's native ancestry to `anchor`. Storage rechecks the context, revision,
-/// anchor, generation and active permit under the write transaction.
+/// peer's native ancestry to `anchor`. Storage rechecks the ancestry, revision,
+/// anchor, root, generation and active permit under the write transaction.
 #[derive(Debug, Clone)]
 pub struct LineageProof {
     root_id: JobId,
@@ -64,15 +64,28 @@ pub struct LineageProof {
     revision: u64,
     generation: u64,
     anchor: ProcessIdentity,
+    recheck: fn(&ProcessIdentity, &ProcessIdentity) -> bool,
 }
 impl LineageProof {
+    #[cfg(test)]
     pub fn verified(snapshot: &LineageSnapshot, anchor: &ProcessIdentity) -> Self {
+        Self::verified_with_recheck(snapshot, anchor, |_, _| true)
+    }
+
+    /// The daemon supplies its native ancestry check for the final recheck
+    /// while the writer transaction is held. The claim is never this proof.
+    pub fn verified_with_recheck(
+        snapshot: &LineageSnapshot,
+        anchor: &ProcessIdentity,
+        recheck: fn(&ProcessIdentity, &ProcessIdentity) -> bool,
+    ) -> Self {
         Self {
             root_id: snapshot.permit_job_id.clone(),
             anchor_job_id: snapshot.root.job_id.clone(),
             revision: snapshot.root.revision,
             generation: snapshot.generation,
             anchor: anchor.clone(),
+            recheck,
         }
     }
 }
@@ -118,13 +131,57 @@ pub fn lineage_snapshots(
     Ok(snapshots)
 }
 
+/// Find active lineage members matching verified native ancestors. The caller
+/// must verify every parent link; matching a stored identity alone is not proof.
+/// No command data or lineage secret is returned to the caller.
+pub fn lineage_anchors(
+    connection: &Connection,
+    ancestors: &[ProcessIdentity],
+) -> JobResult<Vec<(LineageSnapshot, ProcessIdentity)>> {
+    if ancestors.len() > 128 || ancestors.iter().any(|identity| !identity.is_valid()) {
+        return Err(E::InvalidRequest);
+    }
+    let mut statement = connection.prepare(
+        "SELECT candidate.job_id, root.job_id, root.generation \
+         FROM traffic_entries root \
+         JOIN permits p ON p.job_id=root.job_id AND p.state='ACTIVE' AND p.generation=root.generation \
+         JOIN traffic_entries candidate ON (candidate.job_id=root.job_id OR candidate.root_job_id=root.job_id) \
+         JOIN job_lifecycle l ON l.job_id=candidate.job_id \
+         WHERE root.root_job_id IS NULL AND candidate.state IN ('RESERVED','RUNNING','RETAINED') \
+           AND candidate.generation=root.generation \
+           AND ((l.observer_pid=?1 AND l.observer_start_token=?2 AND l.observer_boot_id=?3) \
+             OR (l.child_pid=?1 AND l.child_start_token=?2 AND l.child_boot_id=?3 AND l.child_verified_at_ms IS NOT NULL)) \
+         ORDER BY candidate.sequence",
+    )?;
+    let mut snapshots = Vec::new();
+    for anchor in ancestors {
+        let mut rows = statement.query(params![anchor.pid, anchor.start_token, anchor.boot_id])?;
+        while let Some(row) = rows.next()? {
+            let id = JobId::try_from(row.get::<_, String>(0)?).map_err(|_| E::StorageFailure)?;
+            let root_id =
+                JobId::try_from(row.get::<_, String>(1)?).map_err(|_| E::StorageFailure)?;
+            let generation = u64::try_from(row.get::<_, i64>(2)?).map_err(|_| E::StorageFailure)?;
+            snapshots.push((
+                LineageSnapshot {
+                    root: get(connection, &id)?.ok_or(E::StorageFailure)?,
+                    permit_job_id: root_id,
+                    generation,
+                },
+                anchor.clone(),
+            ));
+        }
+    }
+    Ok(snapshots)
+}
+
 fn validate_lineage(
     connection: &Connection,
-    context: &LineageContext,
     proof: &LineageProof,
+    observer: &ProcessIdentity,
 ) -> JobResult<()> {
-    let snapshot = lineage_snapshots(connection, context)?
+    let snapshot = lineage_anchors(connection, std::slice::from_ref(&proof.anchor))?
         .into_iter()
+        .map(|(snapshot, _)| snapshot)
         .find(|snapshot| snapshot.root.job_id == proof.anchor_job_id)
         .ok_or(E::IdentityUnavailable)?;
     if snapshot.permit_job_id != proof.root_id
@@ -132,6 +189,7 @@ fn validate_lineage(
         || snapshot.generation != proof.generation
         || (snapshot.root.observer != proof.anchor
             && snapshot.root.child.as_ref() != Some(&proof.anchor))
+        || !(proof.recheck)(observer, &proof.anchor)
     {
         return Err(E::IdentityUnavailable);
     }
@@ -260,6 +318,28 @@ pub fn poll(
     new_context: &LineageContext,
     now: u64,
 ) -> JobResult<Reply> {
+    poll_with_proof(
+        connection,
+        request,
+        evidence,
+        policy,
+        new_context,
+        None,
+        now,
+    )
+}
+
+/// Poll can discover the same verified ancestry as an enqueue, including for
+/// protocol-1 clients that poll after sending a newly generated claim.
+pub fn poll_with_proof(
+    connection: &mut Connection,
+    request: &JobRequest,
+    evidence: &OwnerEvidence,
+    policy: &Policy,
+    new_context: &LineageContext,
+    proof: Option<&LineageProof>,
+    now: u64,
+) -> JobResult<Reply> {
     valid_now(now, None)?;
     if !request.is_valid() {
         return Err(E::InvalidRequest);
@@ -283,7 +363,7 @@ pub fn poll(
             evidence,
             policy,
             context: new_context,
-            proof: None,
+            proof,
             now,
         },
     )?;
@@ -311,8 +391,7 @@ fn try_grant(
     admission.evidence.verify(&job.observer)?;
     valid_now(admission.now, Some(job))?;
     if let Some(proof) = admission.proof {
-        let inherited = e.inherited.as_ref().ok_or(E::InvalidRequest)?;
-        validate_lineage(connection, inherited, proof)?;
+        validate_lineage(connection, proof, &job.observer)?;
         connection.execute("UPDATE traffic_entries SET state='RESERVED',granted_at_ms=?2,generation=?3,root_job_id=?4 WHERE job_id=?1 AND state='QUEUED'", params![job.job_id.as_str(), admission.now as i64, proof.generation as i64, proof.root_id.as_str()])?;
         let mut claimed = job.clone();
         claim(connection, &mut claimed, admission.now)?;

@@ -184,6 +184,65 @@ pub(super) fn admit<T>(
         Ok(spawn())
     }
 }
+pub(super) fn write_notice(message: &str) {
+    // A duplicate descriptor shares O_NONBLOCK with the caller and siblings.
+    // A short-lived writer instead performs one blocking write; it is reaped
+    // before returning, so a delayed notice cannot follow the target spawn.
+    // The helper also owns a timeout in case its parent is killed mid-write.
+    unsafe {
+        let mut all = std::mem::zeroed();
+        let mut original = std::mem::zeroed();
+        libc::sigfillset(&mut all);
+        if libc::pthread_sigmask(libc::SIG_BLOCK, &all, &mut original) != 0 {
+            return;
+        }
+        let pid = libc::fork();
+        if pid == 0 {
+            // Only async-signal-safe operations may run between fork and exit.
+            // Restore the default action even if the wrapper inherited a custom
+            // SIGALRM handler, and unblock only this helper's timeout signal.
+            let mut action: libc::sigaction = std::mem::zeroed();
+            action.sa_sigaction = libc::SIG_DFL;
+            let mut timeout_signal = std::mem::zeroed();
+            if libc::sigemptyset(&mut action.sa_mask) != 0
+                || libc::sigaction(libc::SIGALRM, &action, std::ptr::null_mut()) != 0
+                || libc::sigemptyset(&mut timeout_signal) != 0
+                || libc::sigaddset(&mut timeout_signal, libc::SIGALRM) != 0
+                || libc::sigprocmask(libc::SIG_UNBLOCK, &timeout_signal, std::ptr::null_mut()) != 0
+            {
+                libc::_exit(1);
+            }
+            libc::alarm(1);
+            libc::write(libc::STDERR_FILENO, message.as_ptr().cast(), message.len());
+            libc::_exit(0);
+        }
+        libc::pthread_sigmask(libc::SIG_SETMASK, &original, std::ptr::null_mut());
+        if pid < 0 {
+            return;
+        }
+        let deadline = Instant::now() + Duration::from_millis(50);
+        let mut status = 0;
+        loop {
+            let result = libc::waitpid(pid, &mut status, libc::WNOHANG);
+            if result == pid
+                || (result < 0
+                    && std::io::Error::last_os_error().raw_os_error() != Some(libc::EINTR))
+            {
+                return;
+            }
+            if Instant::now() >= deadline {
+                libc::kill(pid, libc::SIGKILL);
+                while libc::waitpid(pid, &mut status, 0) < 0
+                    && std::io::Error::last_os_error().raw_os_error() == Some(libc::EINTR)
+                {
+                }
+                return;
+            }
+            std::thread::sleep(Duration::from_millis(1));
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::transport::Failure;

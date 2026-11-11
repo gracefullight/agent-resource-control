@@ -26,60 +26,18 @@ pub(crate) enum Failure {
     Cancelled,
     Unsupported,
 }
-
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-enum ConnectFailure {
-    Endpoint,
-    InvalidEndpoint,
-    Local,
-}
-
-// The same classifier handles direct connect and deferred SO_ERROR. Only
-// recognized endpoint failures permit fallback; unknown errors stay local.
-// Descriptor creation and setup always use local_failure instead.
-fn endpoint_failure(error: io::Error) -> ConnectFailure {
-    if matches!(
-        error.raw_os_error(),
-        Some(libc::ENOTDIR | libc::ENOTSOCK | libc::ELOOP | libc::ENAMETOOLONG | libc::EPROTOTYPE)
-    ) {
-        return ConnectFailure::InvalidEndpoint;
-    }
-    if matches!(
-        error.raw_os_error(),
-        Some(
-            libc::EACCES
-                | libc::EPERM
-                | libc::ENOENT
-                | libc::ECONNREFUSED
-                | libc::ETIMEDOUT
-                | libc::EHOSTUNREACH
-                | libc::EHOSTDOWN
-                | libc::ENETUNREACH
-                | libc::ENETDOWN
-                | libc::ENETRESET
-                | libc::ECONNRESET
-                | libc::ECONNABORTED
-                | libc::EPIPE
-                | libc::ENOTCONN
-                | libc::EAGAIN
-                | libc::EINTR
-                | libc::EINPROGRESS
-                | libc::EALREADY
-        )
-    ) {
-        ConnectFailure::Endpoint
-    } else {
-        ConnectFailure::Local
-    }
-}
-
-fn local_failure(_: io::Error) -> ConnectFailure {
-    ConnectFailure::Local
-}
+mod endpoint;
+use endpoint::{endpoint_failure, local_failure, ConnectFailure};
 
 trait TrackedStream: Read + Write {
     fn sent(&self) -> bool;
+    fn peer_identity(&self) -> Option<arc_core::process_identity::ProcessIdentity> {
+        None
+    }
 }
+
+mod continuity;
+pub(super) use continuity::Continuity;
 
 // Read-only status and post-spawn metadata retain their existing bounded API.
 pub(crate) fn call(socket: &Path, operation: &str, payload: Value) -> Result<Value, ()> {
@@ -99,25 +57,91 @@ pub(crate) fn call_until(
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
 ) -> Result<Value, Failure> {
-    call_with(
+    call_until_tracked(socket, operation, payload, deadline, cancelled, &mut false)
+}
+
+pub(super) fn call_until_tracked(
+    socket: &Path,
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+) -> Result<Value, Failure> {
+    call_until_with_continuity(
+        socket,
         operation,
         payload,
         deadline,
         cancelled,
+        possibly_committed,
+        None,
+    )
+}
+
+pub(super) fn call_until_with_continuity(
+    socket: &Path,
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    continuity: Option<&Continuity>,
+) -> Result<Value, Failure> {
+    call_with_continuity(
+        operation,
+        payload,
+        deadline,
+        cancelled,
+        possibly_committed,
+        continuity,
         |attempt_deadline| DeadlineStream::connect(socket, attempt_deadline, cancelled),
     )
 }
 
+#[cfg(test)]
 fn call_with<S: TrackedStream>(
     operation: &str,
     payload: Value,
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
+    connect: impl FnMut(Instant) -> Result<S, ConnectFailure>,
+) -> Result<Value, Failure> {
+    call_with_tracked(operation, payload, deadline, cancelled, &mut false, connect)
+}
+
+#[cfg(test)]
+fn call_with_tracked<S: TrackedStream>(
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    connect: impl FnMut(Instant) -> Result<S, ConnectFailure>,
+) -> Result<Value, Failure> {
+    call_with_continuity(
+        operation,
+        payload,
+        deadline,
+        cancelled,
+        possibly_committed,
+        None,
+        connect,
+    )
+}
+
+fn call_with_continuity<S: TrackedStream>(
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    continuity: Option<&Continuity>,
     mut connect: impl FnMut(Instant) -> Result<S, ConnectFailure>,
 ) -> Result<Value, Failure> {
     let mut request = Request::new(super::super::request_id(), operation);
     request.payload = payload;
-    let mut uncertain = false;
+    let mut uncertain = *possibly_committed;
     let mut busy = false;
     let mut attempts = 0;
     loop {
@@ -153,22 +177,30 @@ fn call_with<S: TrackedStream>(
             }
         };
         let response = arc_ipc::exchange(&mut stream, &request);
-        uncertain |= stream.sent();
+        if stream.sent() {
+            if let Some(continuity) = continuity {
+                continuity.record(stream.peer_identity());
+            }
+        }
         if cancelled() {
+            *possibly_committed |= stream.sent();
             return Err(Failure::Cancelled);
         }
         match response {
             Ok(response) => {
                 if response.protocol_version != PROTOCOL_VERSION {
+                    *possibly_committed |= stream.sent();
                     return Err(Failure::Protocol);
                 }
                 if response.request_id != request.request_id {
+                    *possibly_committed |= stream.sent();
                     return Err(Failure::InvalidReply);
                 }
                 match (response.status.as_str(), response.result, response.error) {
                     (STATUS_OK, Some(value), None) => return Ok(value),
                     (arc_ipc::STATUS_ERROR, None, Some(e)) if e.code == arc_ipc::ERROR_DB_BUSY => {
                         uncertain = true;
+                        *possibly_committed = true;
                         busy = true;
                         // A responsive but saturated worker is not an outage.
                         // Back off and retry the same request within the shared
@@ -178,10 +210,23 @@ fn call_with<S: TrackedStream>(
                         continue;
                     }
                     (arc_ipc::STATUS_ERROR, None, Some(e))
-                        if operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES
-                            && e.code == arc_ipc::ERROR_UNSUPPORTED_CAPABILITY =>
+                        if matches!(
+                            operation,
+                            arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES
+                                | arc_ipc::traffic::OPERATION_BUN_CAPABILITIES
+                        ) && e.code == arc_ipc::ERROR_UNSUPPORTED_CAPABILITY =>
                     {
                         return Err(Failure::Unsupported)
+                    }
+                    (arc_ipc::STATUS_ERROR, None, Some(e))
+                        if operation == arc_ipc::traffic::OPERATION_BUN_JOB
+                            && e.code == arc_ipc::ERROR_UNSUPPORTED_CAPABILITY =>
+                    {
+                        return Err(if uncertain {
+                            Failure::Uncertain
+                        } else {
+                            Failure::Unsupported
+                        });
                     }
                     (arc_ipc::STATUS_ERROR, None, Some(e))
                         if operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB
@@ -202,7 +247,10 @@ fn call_with<S: TrackedStream>(
                             Failure::Rejected
                         });
                     }
-                    _ => return Err(Failure::InvalidReply),
+                    _ => {
+                        *possibly_committed |= stream.sent();
+                        return Err(Failure::InvalidReply);
+                    }
                 }
             }
             Err(
@@ -212,9 +260,14 @@ fn call_with<S: TrackedStream>(
                     arc_ipc::FrameError::EmptyFrame | arc_ipc::FrameError::TooLarge { .. },
                 ),
             ) => {
+                *possibly_committed |= stream.sent();
                 return Err(Failure::InvalidReply);
             }
-            Err(_) => (), // timeout, reset, EOF and partial disconnected frames
+            Err(_) => {
+                // timeout, reset, EOF and partial disconnected frames
+                uncertain |= stream.sent();
+                *possibly_committed |= stream.sent();
+            }
         }
         if attempts >= 3 {
             break;
@@ -236,6 +289,7 @@ struct DeadlineStream<'a> {
     deadline: Instant,
     cancelled: &'a dyn Fn() -> bool,
     sent: bool,
+    peer_identity: Option<arc_core::process_identity::ProcessIdentity>,
 }
 impl<'a> DeadlineStream<'a> {
     fn connect(
@@ -289,6 +343,7 @@ impl<'a> DeadlineStream<'a> {
             deadline,
             cancelled,
             sent: false,
+            peer_identity: None,
         };
         if connected < 0 {
             result.ready(libc::POLLOUT).map_err(|error| {
@@ -315,6 +370,8 @@ impl<'a> DeadlineStream<'a> {
         // The daemon also checks its accepted peer. Check the server before
         // sending any lifecycle bytes or accepting any response as definitive.
         authenticate(&result.stream).map_err(|_| ConnectFailure::Endpoint)?;
+        let mut result = result;
+        result.peer_identity = peer::identity(&result.stream).ok();
         Ok(result)
     }
     fn ready(&self, events: i16) -> io::Result<()> {
@@ -346,6 +403,9 @@ impl<'a> DeadlineStream<'a> {
 impl TrackedStream for DeadlineStream<'_> {
     fn sent(&self) -> bool {
         self.sent
+    }
+    fn peer_identity(&self) -> Option<arc_core::process_identity::ProcessIdentity> {
+        self.peer_identity.clone()
     }
 }
 impl Read for DeadlineStream<'_> {

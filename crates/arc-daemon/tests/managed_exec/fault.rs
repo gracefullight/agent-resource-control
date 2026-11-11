@@ -35,7 +35,11 @@ pub struct FaultReport {
 }
 fn event(events: &mut Vec<serde_json::Value>, origin: Instant, action: &str, kind: &str) {
     events.push(serde_json::json!({"order":events.len(),"relativeNs":origin.elapsed().as_nanos() as u64,
-        "operation":action,"event":kind,"sendObservation":if kind == "accepted-before-read" { "prefix-peeked" } else { "request-body-read" },
+        "operation":action,"event":kind,"sendObservation":match kind {
+            "accepted-before-read" => "prefix-peeked",
+            "disconnected-before-frame" | "disconnected-before-prefix" => "no-complete-frame",
+            _ => "request-body-read",
+        },
         "metadataDeadline":null,"deadlineReason":"CLI absolute deadline is not visible to the proxy; shared-deadline unit and native budget tests verify it"}));
 }
 
@@ -61,6 +65,26 @@ impl Read for BoundedReader<'_> {
         }
     }
 }
+fn read_request(
+    stream: &mut UnixStream,
+    fallback: bool,
+) -> Result<Option<Request>, arc_ipc::IpcError> {
+    let read = if fallback {
+        arc_ipc::read_message(&mut BoundedReader {
+            stream,
+            deadline: Instant::now() + Duration::from_secs(2),
+        })
+    } else {
+        arc_ipc::read_message(stream)
+    };
+    match read {
+        Ok(request) => Ok(Some(request)),
+        Err(arc_ipc::IpcError::Frame(arc_ipc::FrameError::Closed)) => Ok(None),
+        Err(arc_ipc::IpcError::Frame(arc_ipc::FrameError::UnexpectedEof)) if fallback => Ok(None),
+        Err(error) => Err(error),
+    }
+}
+
 pub struct Fault {
     pub path: PathBuf,
     stop: Arc<AtomicBool>,
@@ -154,19 +178,9 @@ impl Fault {
                     event(&mut events, origin, "unknown", "accepted-before-read");
                     continue;
                 }
-                let read = if fallback {
-                    arc_ipc::read_message(&mut BoundedReader {
-                        stream: &mut stream,
-                        deadline: Instant::now() + Duration::from_secs(2),
-                    })
-                } else {
-                    arc_ipc::read_message(&mut stream)
-                };
-                let r: Request = match read {
-                    Ok(request) => request,
-                    Err(arc_ipc::IpcError::Frame(
-                        arc_ipc::FrameError::Closed | arc_ipc::FrameError::UnexpectedEof,
-                    )) if fallback => {
+                let r = match read_request(&mut stream, fallback) {
+                    Ok(Some(request)) => request,
+                    Ok(None) => {
                         event(&mut events, origin, "unknown", "disconnected-before-frame");
                         continue;
                     }
@@ -337,4 +351,59 @@ fn nonblocking_timeout_fallback_preserves_framed_requests_and_deadlines() {
     .unwrap_err();
     assert_eq!(error.kind(), io::ErrorKind::TimedOut);
     sender.join().unwrap();
+}
+
+#[test]
+fn blocking_reader_handles_empty_disconnect_then_valid_request() {
+    let (mut reader, writer) = UnixStream::pair().unwrap();
+    drop(writer);
+    assert!(read_request(&mut reader, false).unwrap().is_none());
+    let (mut reader, mut writer) = UnixStream::pair().unwrap();
+    let mut request = Request::new("regression", "job.start");
+    request.payload = serde_json::json!({"action":"REGISTER"});
+    arc_ipc::write_message(&mut writer, &request).unwrap();
+    assert_eq!(
+        read_request(&mut reader, false)
+            .unwrap()
+            .unwrap()
+            .request_id,
+        "regression"
+    );
+    let (mut reader, mut writer) = UnixStream::pair().unwrap();
+    writer.write_all(&[0, 0]).unwrap();
+    drop(writer);
+    assert!(matches!(
+        read_request(&mut reader, false),
+        Err(arc_ipc::IpcError::Frame(arc_ipc::FrameError::UnexpectedEof))
+    ));
+}
+
+#[test]
+fn proxy_handles_empty_disconnect_before_valid_fault_request() {
+    let f = Fixture::new();
+    let fault = Fault::new(&f, "busy-register");
+    drop(UnixStream::connect(&fault.path).unwrap());
+    let mut stream = UnixStream::connect(&fault.path).unwrap();
+    stream
+        .set_read_timeout(Some(Duration::from_secs(2)))
+        .unwrap();
+    let mut request = Request::new("regression", "job.start");
+    request.payload = serde_json::json!({"action":"REGISTER"});
+    let response = arc_ipc::exchange(&mut stream, &request).unwrap();
+    assert_eq!(response.error.unwrap().code, arc_ipc::ERROR_DB_BUSY);
+    let report = fault.finish();
+    assert_eq!(report.counts.get("REGISTER"), Some(&1));
+    let events: Vec<_> = report
+        .events
+        .iter()
+        .map(|event| event["event"].as_str().unwrap())
+        .collect();
+    assert_eq!(
+        events,
+        [
+            "disconnected-before-frame",
+            "request-read",
+            "injected-db-busy"
+        ]
+    );
 }

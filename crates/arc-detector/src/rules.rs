@@ -3,6 +3,117 @@ use crate::{
     Classification, JobClass as C, Reason as R,
 };
 
+// Only native argv uses this recognizer; shell classification stays protocol-1
+// compatible. Unknown arity and option terminators are deliberately unresolved.
+pub(crate) fn recognize_bun_test(words: &[String], b: &mut Budget) -> Checked<Classification> {
+    let unresolved = || Classification::unknown(R::UnresolvedCommand);
+    let mut index = 0;
+    let (mut junit, mut reporter_outfile) = (false, false);
+    while let Some(word) = words.get(index) {
+        b.charge(50 + 4 * word.len())?;
+        if word.is_empty() || word == "--" {
+            return Ok(unresolved());
+        }
+        if !word.starts_with('-') {
+            index += 1;
+            continue;
+        }
+        let (option, assigned) = word
+            .split_once('=')
+            .map_or((word.as_str(), None), |(key, value)| (key, Some(value)));
+        let numeric = matches!(
+            option,
+            "--timeout"
+                | "--rerun-each"
+                | "--retry"
+                | "--seed"
+                | "--max-concurrency"
+                | "--parallel-delay"
+        );
+        let value_option = numeric
+            || matches!(
+                option,
+                "-t" | "--test-name-pattern"
+                    | "--coverage-reporter"
+                    | "--coverage-dir"
+                    | "--reporter"
+                    | "--reporter-outfile"
+                    | "--path-ignore-patterns"
+                    | "--shard"
+                    | "--timings"
+            );
+        let flag = matches!(
+            option,
+            "-u" | "--update-snapshots"
+                | "--todo"
+                | "--only"
+                | "--pass-with-no-tests"
+                | "--concurrent"
+                | "--randomize"
+                | "--coverage"
+                | "--dots"
+                | "--only-failures"
+                | "--isolate"
+                | "--no-isolate"
+                | "--update-timings"
+                | "--no-orphans"
+                | "--check"
+                | "--smol"
+        );
+        if flag && assigned.is_none() {
+            index += 1;
+            continue;
+        }
+        if !value_option {
+            return Ok(unresolved());
+        }
+        if option == "-t" && assigned.is_some() {
+            return Ok(unresolved());
+        }
+        let value = match assigned {
+            Some(value) => value,
+            None => {
+                index += 1;
+                let Some(value) = words.get(index) else {
+                    return Ok(unresolved());
+                };
+                b.charge(1 + 4 * value.len())?;
+                value.as_str()
+            }
+        };
+        if value.is_empty()
+            || value.starts_with('-')
+            || (numeric
+                && (!value.bytes().all(|c| c.is_ascii_digit()) || value.parse::<u64>().is_err()))
+            || (option == "--coverage-reporter" && !matches!(value, "text" | "lcov"))
+            || (option == "--reporter" && !matches!(value, "junit" | "dots"))
+            || (option == "--shard" && !valid_shard(value))
+        {
+            return Ok(unresolved());
+        }
+        junit |= option == "--reporter" && value == "junit";
+        reporter_outfile |= option == "--reporter-outfile";
+        index += 1;
+    }
+    if junit && !reporter_outfile {
+        return Ok(unresolved());
+    }
+    Ok(Classification::new(C::Test, R::BunTest))
+}
+
+fn valid_shard(value: &str) -> bool {
+    let Some((part, total)) = value.split_once('/') else {
+        return false;
+    };
+    if !part.bytes().all(|b| b.is_ascii_digit()) || !total.bytes().all(|b| b.is_ascii_digit()) {
+        return false;
+    }
+    let (Ok(part), Ok(total)) = (part.parse::<u32>(), total.parse::<u32>()) else {
+        return false;
+    };
+    part > 0 && part <= total
+}
+
 pub(crate) fn recognize(words: &[String], b: &mut Budget) -> Checked<Classification> {
     let head = &words[0];
     if b.eq(head, "cargo")? {

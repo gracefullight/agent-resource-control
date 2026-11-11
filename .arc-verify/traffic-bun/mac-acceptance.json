@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "platform": "macOS",
+  "acceptedHead": "16772fe2aa350413225f3fb2bb9227d14ae5a6c4",
+  "acceptedTree": "1834e0cccb50a12fea299618f9a360f4ca10e03f",
+  "head": "16772fe2aa350413225f3fb2bb9227d14ae5a6c4",
+  "tree": "1834e0cccb50a12fea299618f9a360f4ca10e03f",
+  "sourceHash": "cac648d93c9222589275832eaa9138d8f4fbe7241842cc65d570de8bc754d3ec",
+  "host": {
+    "platform": "darwin",
+    "release": "27.2.0",
+    "arch": "arm64",
+    "hostname": "Eunkwangui-MacBookPro.local"
+  },
+  "command": {
+    "path": "target/traffic-bun/commands/task14-native-e2755f61-17da-4ce2-a553-1b4d8a97d022/receipt.json",
+    "sha256": "6dea42852afc5af6cd9242fcb2a11b850b55997b68d9419ac3450758105689a3"
+  },
+  "binaryPreparation": {
+    "path": "target/traffic-bun/commands/task14-binary-fd71dd00-00ec-4f21-af9f-7a2b2ca7963d/receipt.json",
+    "sha256": "8dc88026db0d7336a0b304297d5f4afa95708a065b632f01b97cad7df06cb95b"
+  },
+  "observations": {
+    "path": "target/traffic-bun/commands/task14-native-e2755f61-17da-4ce2-a553-1b4d8a97d022/observations.json",
+    "sha256": "28fff71e71dab0c30368c740530df08e76aee1077d31d44cb4896f8273c7c75d"
+  },
+  "orders": {
+    "cargo_first": {
+      "bypass": {
+        "peakConcurrentTests": 2,
+        "invocations": [
+          1,
+          1
+        ],
+        "exitCodes": [
+          0,
+          0
+        ],
+        "completionOutcomes": [
+          "EXITED:0",
+          "EXITED:0"
+        ],
+        "independentDirectoriesVerified": true,
+        "rawCaseId": "cargo_first-bypass"
+      },
+      "scheduled": {
+        "peakConcurrentTests": 1,
+        "invocations": [
+          1,
+          1
+        ],
+        "exitCodes": [
+          0,
+          0
+        ],
+        "completionOutcomes": [
+          "EXITED:0",
+          "EXITED:0"
+        ],
+        "independentDirectoriesVerified": true,
+        "rawCaseId": "cargo_first-scheduled",
+        "queuedVisible": true,
+        "startedAfterRelease": true,
+        "queueWaitMs": 97
+      }
+    },
+    "bun_first": {
+      "bypass": {
+        "peakConcurrentTests": 2,
+        "invocations": [
+          1,
+          1
+        ],
+        "exitCodes": [
+          0,
+          0
+        ],
+        "completionOutcomes": [
+          "EXITED:0",
+          "EXITED:0"
+        ],
+        "independentDirectoriesVerified": true,
+        "rawCaseId": "bun_first-bypass"
+      },
+      "scheduled": {
+        "peakConcurrentTests": 1,
+        "invocations": [
+          1,
+          1
+        ],
+        "exitCodes": [
+          0,
+          0
+        ],
+        "completionOutcomes": [
+          "EXITED:0",
+          "EXITED:0"
+        ],
+        "independentDirectoriesVerified": true,
+        "rawCaseId": "bun_first-scheduled",
+        "queuedVisible": true,
+        "startedAfterRelease": true,
+        "queueWaitMs": 52
+      }
+    }
+  }
+}

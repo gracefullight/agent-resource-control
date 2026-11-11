@@ -14,7 +14,10 @@ use std::fmt;
 
 pub const OPERATION_TRAFFIC_CAPABILITIES: &str = "traffic.capabilities";
 pub const OPERATION_TRAFFIC_JOB: &str = "traffic.job";
+pub const OPERATION_BUN_CAPABILITIES: &str = "traffic.bun.capabilities";
+pub const OPERATION_BUN_JOB: &str = "traffic.bun.job";
 pub const CAPABILITY: &str = "traffic.v1";
+pub const BUN_CAPABILITY: &str = "traffic.bun.v1";
 pub const MAX_TRAFFIC_PAYLOAD_BYTES: usize = 8192;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -27,6 +30,12 @@ impl Capabilities {
     pub fn supported() -> Self {
         Self {
             capability: CAPABILITY.to_owned(),
+        }
+    }
+
+    pub fn bun_supported() -> Self {
+        Self {
+            capability: BUN_CAPABILITY.to_owned(),
         }
     }
 }
@@ -233,6 +242,26 @@ pub fn decode_job(payload: &serde_json::Value) -> Result<JobRequest, &'static st
         .is_valid()
         .then_some(request)
         .ok_or(ERROR_INVALID_REQUEST)
+}
+
+/// Bind Bun admission to its additive operation; legacy status remains on traffic.job.
+pub fn decode_job_for(
+    operation: &str,
+    payload: &serde_json::Value,
+) -> Result<JobRequest, &'static str> {
+    let request = decode_job(payload)?;
+    let valid = match (&request, operation) {
+        (JobRequest::Enqueue { classification, .. }, OPERATION_BUN_JOB) => {
+            classification.reason == crate::Reason::BunTest
+        }
+        (JobRequest::Enqueue { classification, .. }, OPERATION_TRAFFIC_JOB) => {
+            classification.reason != crate::Reason::BunTest
+        }
+        (JobRequest::Status { .. } | JobRequest::StatusV2 { .. }, OPERATION_BUN_JOB) => false,
+        (_, OPERATION_BUN_JOB | OPERATION_TRAFFIC_JOB) => true,
+        _ => false,
+    };
+    valid.then_some(request).ok_or(ERROR_INVALID_REQUEST)
 }
 
 /// Replies to the verified owner. Status replies deliberately omit the context.

@@ -14,8 +14,8 @@ mod uncertain;
 mod witness;
 
 pub use admission::{
-    enqueue, lineage_snapshot, lineage_snapshots, poll, LineageProof, LineageSnapshot,
-    OwnerEvidence,
+    enqueue, lineage_anchors, lineage_snapshot, lineage_snapshots, poll, poll_with_proof,
+    LineageProof, LineageSnapshot, OwnerEvidence,
 };
 pub(super) use lifecycle::reconcile_exited_child;
 pub use lifecycle::{

@@ -196,13 +196,22 @@ async fn handle_inner<D, F, J, G, T, H>(
         };
         let traffic_probe = traffic.enabled
             && request.protocol_version == PROTOCOL_VERSION
-            && request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES;
+            && matches!(
+                request.operation.as_str(),
+                arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES
+                    | arc_ipc::traffic::OPERATION_BUN_CAPABILITIES
+            );
         let probe_valid = traffic_probe && arc_ipc::traffic::decode_probe(&request.payload).is_ok();
         let traffic_job = if traffic.enabled
             && request.protocol_version == PROTOCOL_VERSION
-            && request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB
-        {
-            Some(arc_ipc::traffic::decode_job(&request.payload))
+            && matches!(
+                request.operation.as_str(),
+                arc_ipc::traffic::OPERATION_TRAFFIC_JOB | arc_ipc::traffic::OPERATION_BUN_JOB
+            ) {
+            Some(arc_ipc::traffic::decode_job_for(
+                &request.operation,
+                &request.payload,
+            ))
         } else {
             None
         };
@@ -212,8 +221,14 @@ async fn handle_inner<D, F, J, G, T, H>(
             if probe_valid {
                 Response::ok(
                     &request.request_id,
-                    serde_json::to_value(arc_ipc::traffic::Capabilities::supported())
-                        .expect("serializable capability"),
+                    serde_json::to_value(
+                        if request.operation == arc_ipc::traffic::OPERATION_BUN_CAPABILITIES {
+                            arc_ipc::traffic::Capabilities::bun_supported()
+                        } else {
+                            arc_ipc::traffic::Capabilities::supported()
+                        },
+                    )
+                    .expect("serializable capability"),
                 )
             } else {
                 Response::error(&request.request_id, ERROR_INVALID_REQUEST)
@@ -223,6 +238,9 @@ async fn handle_inner<D, F, J, G, T, H>(
                 (Err(code), _) => Response::error(&request.request_id, code),
                 (_, Err(_)) => Response::error(&request.request_id, ERROR_INVALID_REQUEST),
                 (Ok(input), Ok(peer)) => {
+                    #[cfg(test)]
+                    let bun_enqueue = request.operation == arc_ipc::traffic::OPERATION_BUN_JOB
+                        && matches!(&input, arc_ipc::traffic::JobRequest::Enqueue { .. });
                     let deadline = std::time::Instant::now() + limits.db_response_timeout;
                     match timeout_at(
                         Instant::from_std(deadline),
@@ -230,8 +248,27 @@ async fn handle_inner<D, F, J, G, T, H>(
                     )
                     .await
                     {
-                        Ok(Ok(value)) => Response::ok(&request.request_id, value),
-                        Ok(Err(code)) => Response::error(&request.request_id, code),
+                        Ok(Ok(value)) => {
+                            #[cfg(test)]
+                            if bun_enqueue
+                                && value.get("state").and_then(serde_json::Value::as_str)
+                                    == Some("GRANTED")
+                                && drop_bun_grant_for_test(peer)
+                            {
+                                return;
+                            }
+                            Response::ok(&request.request_id, value)
+                        }
+                        Ok(Err(code)) => Response::error(
+                            &request.request_id,
+                            if request.operation == arc_ipc::traffic::OPERATION_BUN_JOB
+                                && code == arc_ipc::ERROR_UNSUPPORTED_CAPABILITY
+                            {
+                                ERROR_INVALID_REQUEST
+                            } else {
+                                code
+                            },
+                        ),
                         Err(_) => {
                             metrics.increment(Counter::DbTimeouts);
                             Response::error(&request.request_id, ERROR_DB_BUSY)
@@ -245,7 +282,10 @@ async fn handle_inner<D, F, J, G, T, H>(
                 Ok(input) => {
                     let deadline = std::time::Instant::now() + limits.db_response_timeout;
                     match timeout_at(Instant::from_std(deadline), jobs(input, deadline)).await {
-                        Ok(Ok(value)) => Response::ok(&request.request_id, value),
+                        Ok(Ok(mut value)) => {
+                            project_legacy_snapshot(&mut value);
+                            Response::ok(&request.request_id, value)
+                        }
                         Ok(Err(code)) => Response::error(&request.request_id, code),
                         Err(_) => {
                             metrics.increment(Counter::DbTimeouts);
@@ -279,6 +319,38 @@ async fn handle_inner<D, F, J, G, T, H>(
         };
         if !respond(&stream, &response, &limits, &metrics).await {
             return;
+        }
+    }
+}
+
+// Only the test daemon subprocess enables this fault. Stop its authenticated
+// CLI after the worker committed and close the connection without the reply.
+#[cfg(test)]
+fn drop_bun_grant_for_test(peer: u32) -> bool {
+    let Some(marker) = std::env::var_os("ARC_TEST_BUN_GRANT_ACK_LOST") else {
+        return false;
+    };
+    assert_eq!(unsafe { libc::kill(peer as i32, libc::SIGSTOP) }, 0);
+    std::fs::write(marker, b"GRANTED").expect("write committed-grant test marker");
+    true
+}
+
+// Lifecycle responses are the old protocol surface. Do not change the stored
+// classification that admission, duplicate detection and recovery consume.
+fn project_legacy_snapshot(value: &mut serde_json::Value) {
+    if let Some(classification) = value
+        .get_mut("job")
+        .and_then(|job| job.get_mut("classification"))
+    {
+        if classification
+            .get("reason")
+            .and_then(serde_json::Value::as_str)
+            == Some("BUN_TEST")
+        {
+            *classification = serde_json::json!({
+                "classification": "UNKNOWN", "locality": "UNKNOWN",
+                "reason": "UNRESOLVED_COMMAND", "uncertainty": "OBSERVE"
+            });
         }
     }
 }

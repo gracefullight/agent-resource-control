@@ -1,6 +1,77 @@
 use super::*;
 use crate::budget::Budget;
 
+#[test]
+fn bun_native_argv_is_conservative_and_shell_protocol_is_unchanged() {
+    use std::ffi::OsString;
+    for (args, eligible) in [
+        (vec!["bun", "test"], true),
+        (vec!["bun", "test", "watcher.test.ts"], true),
+        (vec!["bun", "test", "--test-name-pattern=watch"], true),
+        (vec!["bun", "test", "-t", "hot", "--timeout", "2000"], true),
+        (
+            vec!["bun", "test", "--coverage", "--coverage-dir=out"],
+            true,
+        ),
+        (vec!["bun", "test", "--watch"], false),
+        (vec!["bun", "test", "--hot"], false),
+        (vec!["bun", "test", "--watch=false"], false),
+        (vec!["bun", "test", "--hot=true"], false),
+        (vec!["bun", "test", "-w"], false),
+        (vec!["bun", "test", "--test-name-pattern", "--watch"], false),
+        (vec!["bun", "test", "--test-name-pattern"], false),
+        (vec!["bun", "test", "--timeout=invalid"], false),
+        (vec!["bun", "test", "--coverage-reporter=bogus"], false),
+        (vec!["bun", "test", "--reporter=dots"], true),
+        (vec!["bun", "test", "--reporter=invalid"], false),
+        (vec!["bun", "test", "--reporter=junit"], false),
+        (
+            vec![
+                "bun",
+                "test",
+                "--reporter=junit",
+                "--reporter-outfile=x.xml",
+            ],
+            true,
+        ),
+        (vec!["bun", "test", "-t=watch"], false),
+        (vec!["bun", "test", "--shard=1/2"], true),
+        (vec!["bun", "test", "--shard=2/1"], false),
+        (vec!["bun", "test", "--", "--watch"], false),
+        (vec!["bun", "test", "--mystery", "x"], false),
+        (vec!["bun", "run", "test"], false),
+        (vec!["/usr/bin/bun", "test"], false),
+        (vec!["ssh", "build.example", "bun test"], false),
+    ] {
+        let native: Vec<_> = args.iter().map(OsString::from).collect();
+        let (actual, stats) = analyze_argv(&native);
+        assert_eq!(
+            actual.reason == Reason::BunTest,
+            eligible,
+            "{args:?}: {actual:?}"
+        );
+        assert!(actual.is_consistent() && stats.work <= MAX_WORK);
+    }
+    assert_eq!(
+        classify(&request("bun test")).reason,
+        Reason::UnresolvedCommand
+    );
+    assert_eq!(
+        classify(&request("bun test && cargo test")).reason,
+        Reason::UnresolvedCommand
+    );
+    #[cfg(unix)]
+    {
+        use std::os::unix::ffi::OsStringExt;
+        let input = vec![
+            OsString::from("bun"),
+            OsString::from("test"),
+            OsString::from_vec(vec![0xff]),
+        ];
+        assert_eq!(classify_argv(&input).reason, Reason::UnsupportedSyntax);
+    }
+}
+
 #[path = "../tests/support/contract.rs"]
 mod contract_fixtures;
 

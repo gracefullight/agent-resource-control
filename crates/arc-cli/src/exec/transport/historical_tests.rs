@@ -305,5 +305,5 @@ impl Write for DeadlineStream<'_> {
 }
 
 #[cfg(test)]
-#[path = "tests.rs"]
+#[path = "historical_bounded_tests.rs"]
 mod tests;

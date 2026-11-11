@@ -1,4 +1,7 @@
 //! Native child fixture; never contacts external services.
+#[cfg(target_os = "macos")]
+mod frozen_traffic_v1;
+mod hold_unattached;
 mod pipeline;
 use std::{
     io::{Read, Write},
@@ -14,6 +17,15 @@ extern "C" fn observed(_: i32) {
     }
 }
 fn main() {
+    if std::env::var_os("ARC_FIXTURE_HOLD_UNATTACHED").is_some() {
+        hold_unattached::run();
+        return;
+    }
+    #[cfg(target_os = "macos")]
+    if std::env::var_os("ARC_FIXTURE_FROZEN_TRAFFIC_V1").is_some() {
+        frozen_traffic_v1::run();
+        return;
+    }
     if std::env::var_os("ARC_FIXTURE_PIPE_ROLE").is_some() {
         pipeline::run();
         return;

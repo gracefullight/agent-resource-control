@@ -1,15 +1,16 @@
 //! The CLI owns one spawn; Traffic only coordinates its admission and metadata.
 use super::{
-    preparation::{self, Tracking},
+    preparation::{self, write_notice, Tracking},
     signals::Signals,
-    transport::{self, Failure},
+    transport::{self, Continuity, Failure},
     witness::Witness,
 };
 use arc_ipc::{
     jobs::{JobId, Outcome, ProcessIdentity},
     traffic::{
-        Capabilities, JobRequest, JobResult, LineageContext, CAPABILITY,
-        OPERATION_TRAFFIC_CAPABILITIES, OPERATION_TRAFFIC_JOB,
+        Capabilities, JobRequest, JobResult, LineageContext, BUN_CAPABILITY, CAPABILITY,
+        OPERATION_BUN_CAPABILITIES, OPERATION_BUN_JOB, OPERATION_TRAFFIC_CAPABILITIES,
+        OPERATION_TRAFFIC_JOB,
     },
 };
 use serde_json::json;
@@ -20,6 +21,20 @@ use std::{
 
 pub(super) const CONTEXT_ENV: &str = "ARC_TRAFFIC_LINEAGE";
 
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub(super) enum Route {
+    Cargo,
+    Bun,
+}
+impl Route {
+    fn operation(self) -> &'static str {
+        match self {
+            Self::Cargo => OPERATION_TRAFFIC_JOB,
+            Self::Bun => OPERATION_BUN_JOB,
+        }
+    }
+}
+
 pub(super) enum Mode {
     Legacy(Tracking),
     Scheduled {
@@ -27,25 +42,40 @@ pub(super) enum Mode {
         context: LineageContext,
         waited: bool,
         witness: Witness,
+        route: Route,
+        continuity: Continuity,
     },
-    Uncertain(Witness),
+    Uncertain {
+        witness: Witness,
+        route: Route,
+        continuity: Continuity,
+    },
 }
 
 fn job(
     socket: &Path,
     request: &JobRequest,
+    route: Route,
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    continuity: &Continuity,
 ) -> Result<JobResult, Failure> {
-    let value = transport::call_until(
+    let value = transport::call_until_with_continuity(
         socket,
-        OPERATION_TRAFFIC_JOB,
+        route.operation(),
         json!(request),
         deadline,
         cancelled,
+        possibly_committed,
+        Some(continuity),
     )?;
-    let result: JobResult = serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
+    let result: JobResult = serde_json::from_value(value).map_err(|_| {
+        *possibly_committed = true;
+        Failure::InvalidReply
+    })?;
     if !result.is_valid() {
+        *possibly_committed = true;
         return Err(Failure::InvalidReply);
     }
     Ok(result)
@@ -63,24 +93,54 @@ pub(super) fn prepare(
     if classification.locality != Locality::HostLocal
         || !matches!(
             classification.reason,
-            Reason::CargoBuild | Reason::CargoTest | Reason::CargoClippy | Reason::CargoFmt
+            Reason::CargoBuild
+                | Reason::CargoTest
+                | Reason::CargoClippy
+                | Reason::CargoFmt
+                | Reason::BunTest
         )
     {
         return preparation::prepare(socket, id, observer, classification, deadline, signals)
             .map(Mode::Legacy);
     }
+    let route = if classification.reason == Reason::BunTest {
+        Route::Bun
+    } else {
+        Route::Cargo
+    };
+    let legacy_classification = if route == Route::Bun {
+        arc_ipc::Classification {
+            classification: arc_ipc::JobClass::Unknown,
+            locality: Locality::Unknown,
+            reason: Reason::UnresolvedCommand,
+            uncertainty: arc_ipc::Uncertainty::Observe,
+        }
+    } else {
+        classification
+    };
     let cancelled = || signals.interrupted();
     let probe = transport::call_until(
         socket,
-        OPERATION_TRAFFIC_CAPABILITIES,
+        if route == Route::Bun {
+            OPERATION_BUN_CAPABILITIES
+        } else {
+            OPERATION_TRAFFIC_CAPABILITIES
+        },
         serde_json::Value::Null,
         deadline,
         &cancelled,
     );
     match probe {
         Err(Failure::Unsupported) => {
-            return preparation::prepare(socket, id, observer, classification, deadline, signals)
-                .map(Mode::Legacy)
+            return preparation::prepare(
+                socket,
+                id,
+                observer,
+                legacy_classification,
+                deadline,
+                signals,
+            )
+            .map(Mode::Legacy)
         }
         Err(Failure::Unavailable) => return Ok(Mode::Legacy(Tracking::Unavailable)),
         Err(Failure::Uncertain | Failure::Busy) => return Ok(Mode::Legacy(Tracking::Uncertain)),
@@ -88,14 +148,22 @@ pub(super) fn prepare(
         Ok(value) => {
             let capabilities: Capabilities =
                 serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
-            if capabilities.capability != CAPABILITY {
+            if capabilities.capability
+                != if route == Route::Bun {
+                    BUN_CAPABILITY
+                } else {
+                    CAPABILITY
+                }
+            {
                 return Err(Failure::InvalidReply);
             }
         }
     }
-    let inherited = std::env::var(CONTEXT_ENV)
-        .ok()
-        .and_then(|v| LineageContext::try_from(v).ok());
+    let inherited = super::lineage::inherited(socket).or_else(|| {
+        std::env::var(CONTEXT_ENV)
+            .ok()
+            .and_then(|v| LineageContext::try_from(v).ok())
+    });
     // An otherwise unused opaque lineage claim gives the daemon an
     // owner-bound key even when the enqueue acknowledgement is lost.
     // A claim alone never authorizes permit reuse; ancestry is still checked.
@@ -119,17 +187,45 @@ pub(super) fn prepare(
         classification,
         lineage_context: Some(claim.clone()),
     };
-    let mut result = match job(socket, &enqueue, deadline, &cancelled) {
+    let mut possibly_committed = false;
+    let continuity = Continuity::default();
+    let mut result = match job(
+        socket,
+        &enqueue,
+        route,
+        deadline,
+        &cancelled,
+        &mut possibly_committed,
+        &continuity,
+    ) {
         Ok(result) => result,
+        Err(Failure::Unsupported) if route == Route::Bun && !possibly_committed => {
+            witness.discard();
+            return preparation::prepare(
+                socket,
+                id,
+                observer,
+                legacy_classification,
+                Instant::now() + Duration::from_millis(1800),
+                signals,
+            )
+            .map(Mode::Legacy);
+        }
         Err(
             Failure::Unavailable | Failure::Uncertain | Failure::Busy | Failure::InvalidEndpoint,
-        ) => return Ok(Mode::Uncertain(witness)),
+        ) => {
+            return Ok(Mode::Uncertain {
+                witness,
+                route,
+                continuity,
+            })
+        }
         Err(Failure::Cancelled) => {
-            witness.finish_unspawned(|| cancel(socket, id, observer, None));
+            witness.finish_unspawned(|| cancel(socket, id, observer, None, route, &continuity));
             return Err(Failure::Cancelled);
         }
         Err(error) => {
-            witness.finish_unspawned(|| cancel(socket, id, observer, None));
+            witness.finish_unspawned(|| cancel(socket, id, observer, None, route, &continuity));
             return Err(error);
         }
     };
@@ -146,6 +242,8 @@ pub(super) fn prepare(
                     context: lineage_context,
                     waited,
                     witness,
+                    route,
+                    continuity,
                 })
             }
             JobResult::Reused {
@@ -156,21 +254,31 @@ pub(super) fn prepare(
                     context: claim,
                     waited,
                     witness,
+                    route,
+                    continuity,
                 });
             }
             JobResult::Bypassed { .. } => {
+                if possibly_committed {
+                    return Ok(Mode::Uncertain {
+                        witness,
+                        route,
+                        continuity,
+                    });
+                }
                 witness.discard();
                 return preparation::prepare(
                     socket,
                     id,
                     observer,
-                    classification,
+                    legacy_classification,
                     Instant::now() + Duration::from_millis(1800),
                     signals,
                 )
                 .map(Mode::Legacy);
             }
             JobResult::Queued { .. } => {
+                possibly_committed = true;
                 if !waited {
                     queued_notice(id);
                     waited = true;
@@ -178,7 +286,9 @@ pub(super) fn prepare(
                 // The request and SQLite ticket have both been released here.
                 std::thread::sleep(Duration::from_millis(40));
                 if cancelled() {
-                    witness.finish_unspawned(|| cancel(socket, id, observer, None));
+                    witness.finish_unspawned(|| {
+                        cancel(socket, id, observer, None, route, &continuity)
+                    });
                     return Err(Failure::Cancelled);
                 }
                 // An inherited context is only a claim. Re-enqueue is idempotent
@@ -194,8 +304,11 @@ pub(super) fn prepare(
                 result = match job(
                     socket,
                     &poll,
+                    route,
                     Instant::now() + Duration::from_millis(1800),
                     &cancelled,
+                    &mut possibly_committed,
+                    &continuity,
                 ) {
                     Ok(value) => value,
                     Err(
@@ -203,19 +316,36 @@ pub(super) fn prepare(
                         | Failure::Uncertain
                         | Failure::Busy
                         | Failure::InvalidEndpoint,
-                    ) => return Ok(Mode::Uncertain(witness)),
+                    ) => {
+                        return Ok(Mode::Uncertain {
+                            witness,
+                            route,
+                            continuity,
+                        })
+                    }
                     Err(Failure::Cancelled) => {
-                        witness.finish_unspawned(|| cancel(socket, id, observer, None));
+                        witness.finish_unspawned(|| {
+                            cancel(socket, id, observer, None, route, &continuity)
+                        });
                         return Err(Failure::Cancelled);
                     }
                     Err(error) => {
-                        witness.finish_unspawned(|| cancel(socket, id, observer, None));
+                        witness.finish_unspawned(|| {
+                            cancel(socket, id, observer, None, route, &continuity)
+                        });
                         return Err(error);
                     }
                 };
             }
+            JobResult::NotFound {} if possibly_committed => {
+                return Ok(Mode::Uncertain {
+                    witness,
+                    route,
+                    continuity,
+                });
+            }
             _ => {
-                witness.finish_unspawned(|| cancel(socket, id, observer, None));
+                witness.finish_unspawned(|| cancel(socket, id, observer, None, route, &continuity));
                 return Err(Failure::InvalidReply);
             }
         }
@@ -228,70 +358,13 @@ fn queued_notice(id: &JobId) {
     write_notice(&message);
 }
 
-fn write_notice(message: &str) {
-    // A duplicate descriptor shares O_NONBLOCK with the caller and siblings.
-    // A short-lived writer instead performs one blocking write; it is reaped
-    // before returning, so a delayed notice cannot follow the target spawn.
-    // The helper also owns a timeout in case its parent is killed mid-write.
-    unsafe {
-        let mut all = std::mem::zeroed();
-        let mut original = std::mem::zeroed();
-        libc::sigfillset(&mut all);
-        if libc::pthread_sigmask(libc::SIG_BLOCK, &all, &mut original) != 0 {
-            return;
-        }
-        let pid = libc::fork();
-        if pid == 0 {
-            // Only async-signal-safe operations may run between fork and exit.
-            // Restore the default action even if the wrapper inherited a custom
-            // SIGALRM handler, and unblock only this helper's timeout signal.
-            let mut action: libc::sigaction = std::mem::zeroed();
-            action.sa_sigaction = libc::SIG_DFL;
-            let mut timeout_signal = std::mem::zeroed();
-            if libc::sigemptyset(&mut action.sa_mask) != 0
-                || libc::sigaction(libc::SIGALRM, &action, std::ptr::null_mut()) != 0
-                || libc::sigemptyset(&mut timeout_signal) != 0
-                || libc::sigaddset(&mut timeout_signal, libc::SIGALRM) != 0
-                || libc::sigprocmask(libc::SIG_UNBLOCK, &timeout_signal, std::ptr::null_mut()) != 0
-            {
-                libc::_exit(1);
-            }
-            libc::alarm(1);
-            libc::write(libc::STDERR_FILENO, message.as_ptr().cast(), message.len());
-            libc::_exit(0);
-        }
-        libc::pthread_sigmask(libc::SIG_SETMASK, &original, std::ptr::null_mut());
-        if pid < 0 {
-            return;
-        }
-        let deadline = Instant::now() + Duration::from_millis(50);
-        let mut status = 0;
-        loop {
-            let result = libc::waitpid(pid, &mut status, libc::WNOHANG);
-            if result == pid
-                || (result < 0
-                    && std::io::Error::last_os_error().raw_os_error() != Some(libc::EINTR))
-            {
-                return;
-            }
-            if Instant::now() >= deadline {
-                libc::kill(pid, libc::SIGKILL);
-                while libc::waitpid(pid, &mut status, 0) < 0
-                    && std::io::Error::last_os_error().raw_os_error() == Some(libc::EINTR)
-                {
-                }
-                return;
-            }
-            std::thread::sleep(Duration::from_millis(1));
-        }
-    }
-}
-
 pub(super) fn cancel(
     socket: &Path,
     id: &JobId,
     observer: &ProcessIdentity,
     generation: Option<u64>,
+    route: Route,
+    continuity: &Continuity,
 ) -> bool {
     let request = JobRequest::Cancel {
         job_id: id.clone(),
@@ -301,10 +374,13 @@ pub(super) fn cancel(
     let result = job(
         socket,
         &request,
+        route,
         Instant::now() + Duration::from_millis(500),
         &|| false,
+        &mut false,
+        continuity,
     );
-    let confirmed = matches!(result, Ok(JobResult::Cancelled {}));
+    let confirmed = matches!(result, Ok(JobResult::Cancelled {})) && continuity.confirmed();
     if !confirmed {
         write_notice("QUEUE_CLEANUP_UNCONFIRMED\nQueue cleanup is unconfirmed.\n");
     }
@@ -317,6 +393,8 @@ pub(super) fn attach(
     observer: &ProcessIdentity,
     generation: u64,
     child: ProcessIdentity,
+    route: Route,
+    continuity: &Continuity,
 ) -> bool {
     let request = JobRequest::Attach {
         job_id: id.clone(),
@@ -328,8 +406,11 @@ pub(super) fn attach(
         job(
             socket,
             &request,
+            route,
             Instant::now() + Duration::from_secs(2),
-            &|| false
+            &|| false,
+            &mut false,
+            continuity,
         ),
         Ok(JobResult::Running {})
     )
@@ -341,6 +422,8 @@ pub(super) fn complete(
     observer: &ProcessIdentity,
     generation: u64,
     outcome: Outcome,
+    route: Route,
+    continuity: &Continuity,
 ) -> bool {
     let request = JobRequest::Complete {
         job_id: id.clone(),
@@ -348,7 +431,7 @@ pub(super) fn complete(
         outcome: outcome.clone(),
         permit_generation: generation,
     };
-    matches!(job(socket, &request, Instant::now() + Duration::from_secs(2), &|| false), Ok(JobResult::Completed { outcome: actual, .. }) if actual == outcome)
+    matches!(job(socket, &request, route, Instant::now() + Duration::from_secs(2), &|| false, &mut false, continuity), Ok(JobResult::Completed { outcome: actual, .. }) if actual == outcome)
 }
 
 pub(super) fn complete_or_warn(
@@ -357,8 +440,11 @@ pub(super) fn complete_or_warn(
     observer: &ProcessIdentity,
     generation: u64,
     outcome: Outcome,
+    route: Route,
+    continuity: &Continuity,
 ) -> bool {
-    let completed = complete(socket, id, observer, generation, outcome);
+    let completed = complete(socket, id, observer, generation, outcome, route, continuity)
+        && continuity.confirmed();
     if !completed {
         write_notice("COMPLETION_UNCONFIRMED\nRecording is unconfirmed.\n");
     }
@@ -371,6 +457,8 @@ pub(super) fn fallback(
     observer: &ProcessIdentity,
     child: Option<ProcessIdentity>,
     outcome: Option<Outcome>,
+    route: Route,
+    continuity: &Continuity,
 ) -> bool {
     let request = JobRequest::Fallback {
         job_id: id.clone(),
@@ -383,8 +471,11 @@ pub(super) fn fallback(
         job(
             socket,
             &request,
+            route,
             Instant::now() + Duration::from_secs(2),
             &|| false,
+            &mut false,
+            continuity,
         ),
         Ok(JobResult::Completed { .. } | JobResult::Abandoned {} | JobResult::Cancelled {})
     )

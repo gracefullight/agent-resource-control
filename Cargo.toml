@@ -7,6 +7,7 @@ members = [
     "crates/arc-daemon",
     "crates/arc-cli",
     "crates/arc-traffic",
+    "apps/desktop/src-tauri",
 ]
 resolver = "2"
 

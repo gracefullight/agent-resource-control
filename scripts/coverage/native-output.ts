@@ -12,7 +12,7 @@ export function nativeOutput(argv: string[], cwd: string, stdout: Buffer, stderr
   const save = (name: string, bytes: Buffer) => {
     const file = resolve(directory, name);
     writeFileSync(file, bytes, { flag: "wx" });
-    return { path: relative(cwd, file), sha256: hash(bytes) };
+    return { path: relative(cwd, file), sha256: hash(bytes), bytes: bytes.length };
   };
   return { stdout: save("stdout.log", stdout), stderr: save("stderr.log", stderr) };
 }

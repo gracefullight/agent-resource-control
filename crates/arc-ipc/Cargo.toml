@@ -9,3 +9,4 @@ serde_json.workspace = true
 arc-detector.workspace = true
 arc-core.workspace = true
 arc-traffic.workspace = true
+libc.workspace = true

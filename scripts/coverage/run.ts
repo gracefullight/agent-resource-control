@@ -1,8 +1,8 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { resolve, relative, join, dirname } from "node:path";
-import { BASELINE, PINS, EVIDENCE, CRATES } from "./config";
+import { BASELINE, PINS, EVIDENCE, CRATES, CRATE_ROOTS } from "./config";
 import { hash, sourceInventory, inputIdentity, walk } from "./source";
-import { requireExit, requireVersion, validateReport, enforce } from "./gate";
+import { requireExit, requireVersion, validateReport, enforce, requireWorkspace } from "./gate";
 import { command, type Receipt } from "./commands";
 
 const root=resolve(import.meta.dir,"../..");
@@ -24,7 +24,7 @@ let measured=false;
 try {
   console.log("Coverage: checking pinned tools (setup: mise run coverage:provision)");
   input=inputIdentity(root); inventory=sourceInventory(root);
-  save("inputs.json",input);save("source-inventory.json",inventory);
+  save("inputs.json",input);save("source-inventory.json",inventory);save("source-roots.json",CRATE_ROOTS);
   requireVersion(Bun.version,PINS.bun,"Bun");
   const rustc=await run([...rust,"rustc","-Vv"],"MISSING_TOOL rustc");
   if(!rustc.stdout.includes(`release: ${PINS.rust}\n`)) throw Error("TOOL_VERSION: Rust release mismatch");
@@ -49,8 +49,7 @@ try {
     if(process.env[name]) throw Error(`CONFIGURATION: unset ${name} for the pinned measurement`);
   }
   const metadata=JSON.parse((await run([...rust,"cargo","metadata","--format-version","1","--locked","--offline"],"METADATA_FAILURE")).stdout);
-  const names=metadata.packages.filter((p:any)=>metadata.workspace_members.includes(p.id)).map((p:any)=>p.name).sort();
-  if(JSON.stringify(names)!==JSON.stringify([...CRATES].sort())) throw Error("MISSING_CRATE: workspace members differ from accounting contract");
+  requireWorkspace(metadata,root);
   save("metadata.json",metadata);
   // Disable the tool's broad tests-directory filter: path-included production
   // modules may contain tests/../src in their recorded filename. Only exact
@@ -93,7 +92,9 @@ try {
   if(lists.length!==1) throw Error("CHILD_PROFILE: missing merge input list");
   const merge=readFileSync(join(target,lists[0]),"utf8").trim().split("\n").sort();
   if(JSON.stringify(merge)!==JSON.stringify(profiles.map(p=>join(target,p)).sort())) throw Error("CHILD_PROFILE: merge input mismatch");
-  save("profiles.json",{target,childProof,merge,profiles:profiles.map(p=>({path:p,sha256:hash(readFileSync(join(target,p))),size:statSync(join(target,p)).size}))});
+  const mergeFile=join(target,lists[0]), mergeBytes=readFileSync(mergeFile);
+  save("profiles.json",{target,childProof,merge,mergeList:{path:relative(root,mergeFile),sha256:hash(mergeBytes),bytes:mergeBytes.length},
+    profiles:profiles.map(p=>({path:p,sha256:hash(readFileSync(join(target,p))),size:statSync(join(target,p)).size}))});
   const after=inputIdentity(root);
   const result=validateReport({path:report,llvmPath:llvmReport,started,before:input.sha256,after:after.sha256,inventory,root,testExit:0});
   measured=true;

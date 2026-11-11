@@ -3,14 +3,7 @@ use super::{
     call_until, call_with, endpoint_failure, peer, ConnectFailure, DeadlineStream, Failure,
     TrackedStream,
 };
-use crate::exec::preparation::{prepare_with, Tracking};
-use arc_ipc::{
-    jobs::{
-        IdentityObservation, JobId, JobSnapshot, LifecycleReason, ObservationStatus,
-        ObservationTarget, Phase, ProcessIdentity, StartDisposition, StartRequest, StartResult,
-    },
-    Request, Response,
-};
+use crate::{Request, Response};
 use serde_json::Value;
 use std::{
     cell::Cell,
@@ -60,9 +53,6 @@ fn malformed_addresses_are_invalid_endpoints_in_preparation() {
         PathBuf::from("x".repeat(200)),
         PathBuf::from(OsString::from_vec(b"socket\0suffix".to_vec())),
     ];
-    let id = JobId::try_from("0123456789abcdef0123456789abcdef".to_string()).unwrap();
-    let observer = ProcessIdentity::capture(std::process::id()).unwrap();
-    let classification = arc_detector::classify_argv(&["fixture".into()]);
     for path in paths {
         let authenticated = Cell::new(false);
         assert!(matches!(
@@ -77,20 +67,6 @@ fn malformed_addresses_are_invalid_endpoints_in_preparation() {
             call_until(&path, "REGISTER", Value::Null, deadline(), &|| false),
             Err(Failure::InvalidEndpoint)
         );
-        let mut calls = 0;
-        let result = prepare_with(
-            &id,
-            &observer,
-            classification,
-            deadline(),
-            &|| false,
-            |request, end, cancelled| {
-                calls += 1;
-                crate::exec::start_until(&path, request, end, cancelled)
-            },
-        );
-        assert_eq!(calls, 1);
-        assert_eq!(result, Err(Failure::InvalidEndpoint));
     }
 }
 
@@ -129,79 +105,6 @@ fn local_setup_failure_after_send_still_stops() {
         }
     });
     assert_eq!(result, Err(Failure::Local));
-}
-
-fn registered(
-    id: &JobId,
-    observer: &ProcessIdentity,
-    classification: arc_ipc::Classification,
-) -> StartResult {
-    let reason = LifecycleReason::RegisteredNotClaimed;
-    StartResult {
-        disposition: StartDisposition::Created,
-        job: JobSnapshot {
-            job_id: id.clone(),
-            phase: Phase::Registered,
-            classification,
-            observer: observer.clone(),
-            observer_verified_at_ms: 1,
-            child: None,
-            child_verified_at_ms: None,
-            observation: IdentityObservation {
-                target: ObservationTarget::Observer,
-                status: ObservationStatus::VerifiedMatch,
-                observed_at_ms: 1,
-                reason,
-            },
-            reason,
-            outcome: None,
-            registered_at_ms: 1,
-            launch_claimed_at_ms: None,
-            completed_at_ms: None,
-            updated_at_ms: 1,
-            revision: 1,
-        },
-    }
-}
-
-#[test]
-fn confirmed_register_then_invalid_endpoint_is_uncertain_but_local_failure_stops() {
-    let id = JobId::try_from("0123456789abcdef0123456789abcdef".to_string()).unwrap();
-    let observer = ProcessIdentity::capture(std::process::id()).unwrap();
-    let classification = arc_detector::classify_argv(&["fixture".into()]);
-    for failure in [
-        Failure::InvalidEndpoint,
-        Failure::Local,
-        Failure::Cancelled,
-        Failure::Rejected,
-        Failure::InvalidReply,
-    ] {
-        let mut calls = 0;
-        let result = prepare_with(
-            &id,
-            &observer,
-            classification,
-            deadline(),
-            &|| false,
-            |request, _, _| {
-                calls += 1;
-                match request {
-                    StartRequest::Register { .. } => Ok(registered(&id, &observer, classification)),
-                    StartRequest::Claim { .. } => Err(failure),
-                    _ => unreachable!(),
-                }
-            },
-        );
-        assert_eq!(calls, 2);
-        assert_eq!(
-            result,
-            if failure == Failure::InvalidEndpoint {
-                Ok(Tracking::Uncertain)
-            } else {
-                Err(failure)
-            }
-        );
-    }
 }
 
 #[test]
@@ -264,7 +167,7 @@ fn untrusted_result(kind: io::ErrorKind, disconnect_first: bool) {
                     let mut body = vec![0; u32::from_be_bytes(header) as usize];
                     stream.read_exact(&mut body).unwrap();
                     let request: Request = serde_json::from_slice(&body).unwrap();
-                    let _ = arc_ipc::write_response(
+                    let _ = crate::write_response(
                         &mut stream,
                         &Response::error(request.request_id, "INVALID_REQUEST"),
                     );

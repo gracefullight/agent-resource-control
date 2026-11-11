@@ -1,8 +1,11 @@
 import { test, expect } from "bun:test";
 import { account } from "./accounting";
-import { analyzeSource, tokens, sourceInventory } from "./source";
+import { analyzeSource, tokens, sourceInventory, historicalSourceInventory, inputIdentity, requireInputIdentity } from "./source";
 import { fixture } from "./fixtures";
-import { resolve } from "node:path";
+import { CRATES, CRATE_ROOTS, HISTORICAL_CRATES } from "./config";
+import { requireWorkspace } from "./gate";
+import { cpSync, mkdirSync, readFileSync, writeFileSync, unlinkSync, rmSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 
 test("repeated compilation unions source lines instead of averaging binaries",()=>{
   const f=fixture();
@@ -19,7 +22,7 @@ test("test-only lines/files never dilute production denominator",()=>{
   f.inventory.push({...f.inventory[0],path:"crates/arc-core/src/test_fixture.rs",testOnly:true});
   const result=account(f.lcov,f.inventory,f.root);
   expect(result.crates[0]).toMatchObject({covered:2,total:3,pass:false});
-  expect(result.files).toHaveLength(7);
+  expect(result.files).toHaveLength(8);
 });
 test("canonical aliases merge and never duplicate denominators",()=>{
   const f=fixture();
@@ -47,9 +50,36 @@ test("external cfg test module keeps its declared path; arbitrary filenames are 
   const a=analyzeSource('#[cfg(test)]\n#[path = "other.rs"]\nmod tests;\nmod tests_in_production;');
   expect(a.modules).toEqual([{name:"tests",path:"other.rs",testOnly:true},{name:"tests_in_production",path:undefined,testOnly:false}]);
 });
-test("live inventory classifies all seven crate roots and test-only module trees",()=>{
+test("test-only grouped use consumes its semicolon and retains adjacent production",()=>{
+  const source='#[cfg(test)]\nuse test_calls::{call_until, call_until_no_busy_retry, call_until_tracked, call_with};\nfn production() {}\n';
+  expect([...analyzeSource(source).omitted]).toEqual([1,2]);
+});
+test("nested and multiline grouped imports stop at their semicolon, block items at their brace",()=>{
+  const source=`#[cfg(all(test, unix))]
+pub(crate) use super::{
+    calls::{one, nested::{two, three}},
+    other,
+};
+fn production() { retained(); }
+#[cfg(test)]
+fn helper() { nested(); }
+fn also_production() {}
+`;
+  expect([...analyzeSource(source).omitted]).toEqual([1,2,3,4,5,7,8]);
+  expect([...analyzeSource('#[cfg(any(test, unix))]\nuse super::{a, nested::{b,c}};\nfn production() {}').omitted]).toEqual([]);
+});
+test("genuinely shared test-only import or block lines remain ambiguous",()=>{
+  for(const source of [
+    '#[cfg(test)]\nuse test_calls::{one, two}; fn production() {}',
+    '#[cfg(test)]\nuse super::{\n one, nested::{two, three}\n}; fn production() {}',
+    'fn production() {} #[cfg(test)]\nuse super::{one};',
+    '#[cfg(test)]\nfn helper() {} fn production() {}',
+  ]) expect(()=>analyzeSource(source)).toThrow("line accounting is ambiguous");
+});
+test("live inventory classifies all eight crate roots and test-only module trees",()=>{
   const inventory=sourceInventory(resolve(import.meta.dir,"../.."));
-  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(7);
+  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(8);
+  expect(inventory.find(x=>x.path==="apps/desktop/src-tauri/src/lib.rs")?.crate).toBe("arc-desktop");
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport_tests.rs")?.testOnly).toBe(true);
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport.rs")?.testOnly).toBe(false);
 });
@@ -98,4 +128,70 @@ test("LLVM function summaries require corroboration by the complete segment-deri
   expect(()=>account(raw,f.inventory,f.root,undefined,extra)).toThrow("MALFORMED_REPORT");
   const invalid=clone();invalid.data[0].files[0].segments[0][2]=-1;
   expect(()=>account(raw,f.inventory,f.root,undefined,invalid)).toThrow("MALFORMED_REPORT");
+});
+
+test("desktop production roots and test-only helper binaries use the explicit registry",()=>{
+  const f=fixture(), desktop=f.inventory.find(file=>file.crate==="arc-desktop")!;
+  try {
+    const probe="apps/desktop/src-tauri/tests/bin/desktop_probe.rs";
+    mkdirSync(resolve(f.root,dirname(probe)),{recursive:true});
+    writeFileSync(resolve(f.root,probe),"fn main() {}\n".repeat(5));
+    expect(account(f.lcov+f.record(probe),f.inventory,f.root).crates.at(-1)).toMatchObject({crate:"arc-desktop",covered:4,total:5,pass:true});
+    const bad="crates/unknown/tests/pretend.rs";
+    mkdirSync(resolve(f.root,dirname(bad)),{recursive:true});writeFileSync(resolve(f.root,bad),"test\n");
+    expect(()=>account(f.lcov+f.record(bad,[1]),f.inventory,f.root)).toThrow("UNMAPPED_FILE");
+    expect(()=>account(f.inventory.filter(file=>file!==desktop).map(file=>f.record(file.path)).join(""),f.inventory,f.root)).toThrow("MISSING_CRATE: arc-desktop");
+    expect(()=>account(f.lcov,[...f.inventory,{...desktop,path:"apps/desktop/src-tauri/src/missing.rs"}],f.root)).toThrow("MISSING_FILE");
+    const below=f.inventory.map(file=>f.record(file.path,file===desktop?[1,1,1,0,0]:[1,1,1,1,1])).join("");
+    expect(account(below,f.inventory,f.root).crates.at(-1)).toMatchObject({covered:3,total:5,pass:false});
+    expect(()=>account(f.lcov,f.inventory.map(file=>file===desktop?{...file,crate:"arc-core"}:file),f.root)).toThrow("UNMAPPED_FILE");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test("workspace metadata requires exactly eight names at the registered manifest roots",()=>{
+  const f=fixture();
+  try {
+    const packages=CRATES.map(name=>{
+      const manifest_path=resolve(f.root,CRATE_ROOTS[name].manifest);writeFileSync(manifest_path,`[package]\nname = "${name}"\n`);
+      return {id:name,name,manifest_path};
+    });
+    const metadata={workspace_members:[...CRATES],packages};
+    expect(()=>requireWorkspace(metadata,f.root)).not.toThrow();
+    expect(()=>requireWorkspace({...metadata,workspace_members:CRATES.slice(0,-1)},f.root)).toThrow("MISSING_CRATE");
+    expect(()=>requireWorkspace({...metadata,workspace_members:[...CRATES,"extra"],packages:[...packages,{...packages[0],name:"extra",id:"extra"}]},f.root)).toThrow("MISSING_CRATE");
+    expect(()=>requireWorkspace({...metadata,packages:packages.map(p=>p.name==="arc-desktop"?{...p,manifest_path:packages[0].manifest_path}:p)},f.root)).toThrow("unexpected manifest root");
+    expect(()=>requireWorkspace({...metadata,workspace_members:[...CRATES,"absent"]},f.root)).toThrow("MISSING_CRATE");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test("freshness binds desktop configuration, test helpers, new source and verification scripts, excluding generated receipts",()=>{
+  const f=fixture(), root=resolve(import.meta.dir,"../..");
+  try {
+    // Copy only declared inputs, never target artifacts or installed packages.
+    for(const path of Object.keys(inputIdentity(root).files)) {
+      const to=resolve(f.root,path);mkdirSync(dirname(to),{recursive:true});cpSync(resolve(root,path),to);
+    }
+    const original=inputIdentity(f.root);
+    expect(()=>requireInputIdentity(f.root,original)).not.toThrow();
+    expect(historicalSourceInventory(f.root).map(f=>f.crate).every(crate=>HISTORICAL_CRATES.includes(crate as typeof HISTORICAL_CRATES[number]))).toBe(true);
+    for(const path of ["apps/desktop/src-tauri/tauri.conf.json","apps/desktop/tests/bridge-client.test.ts","bun.lock","scripts/coverage/config.ts"]) {
+      const file=resolve(f.root,path), bytes=readFileSync(file);writeFileSync(file,Buffer.concat([bytes,Buffer.from("\n")]));
+      expect(()=>requireInputIdentity(f.root,original)).toThrow("stale");writeFileSync(file,bytes);
+    }
+    const add="apps/desktop/src-tauri/tests/bin/client_probe.rs";
+    mkdirSync(dirname(resolve(f.root,add)),{recursive:true});writeFileSync(resolve(f.root,add),"fn main() {}\n");
+    expect(inputIdentity(f.root).files[add]).toBeDefined();
+    expect(()=>requireInputIdentity(f.root,original)).toThrow("stale");unlinkSync(resolve(f.root,add));
+    for(const path of ["target/desktop-foundation/run/log.json","apps/desktop/dist/output.js","apps/desktop/src-tauri/gen/schemas/schema.json",".arc-verify/desktop-foundation/gates.json",".arc-verify/desktop-foundation/qa.md"]) {
+      mkdirSync(dirname(resolve(f.root,path)),{recursive:true});writeFileSync(resolve(f.root,path),"generated\n");
+    }
+    expect(inputIdentity(f.root)).toEqual(original);
+    const missing="apps/desktop/src-tauri/src/lib.rs";unlinkSync(resolve(f.root,missing));
+    expect(()=>requireInputIdentity(f.root,original)).toThrow("stale");
+    unlinkSync(resolve(f.root,"apps/desktop/src-tauri/src/main.rs"));
+    expect(()=>sourceInventory(f.root)).toThrow();
+    unlinkSync(resolve(f.root,"apps/desktop/src-tauri/tauri.conf.json"));
+    expect(()=>inputIdentity(f.root)).toThrow();
+    expect(()=>requireInputIdentity(root,{...original,sha256:"0".repeat(64)})).toThrow("corrupt aggregate");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
 });

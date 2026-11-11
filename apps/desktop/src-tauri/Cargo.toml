@@ -1,0 +1,21 @@
+[package]
+name = "arc-desktop"
+version.workspace = true
+edition.workspace = true
+build = "build.rs"
+default-run = "arc-desktop"
+
+[build-dependencies]
+tauri-build = { version = "=2.7.4", features = [] }
+
+[dependencies]
+arc-core.workspace = true
+arc-ipc.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tauri = { version = "=2.12.5", features = ["tray-icon"] }
+tauri-plugin-opener = "=2.7.3"
+
+[dev-dependencies]
+libc.workspace = true
+tauri = { version = "=2.12.5", features = ["test"] }

@@ -1,12 +1,16 @@
-import { readdirSync, readFileSync, realpathSync, existsSync } from "node:fs";
+import { readdirSync, readFileSync, realpathSync, existsSync, lstatSync } from "node:fs";
 import { resolve, relative, dirname, basename, join } from "node:path";
 import { createHash } from "node:crypto";
-import { CRATES, HISTORICAL_CRATES } from "./config";
+import { CRATES, HISTORICAL_CRATES, CRATE_ROOTS, testPath, type CrateName } from "./config";
 
 export const hash = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
-export function walk(root: string): string[] {
+export function walk(root: string, excluded: readonly string[] = []): string[] {
   return readdirSync(root, { withFileTypes: true }).sort((a,b) => a.name.localeCompare(b.name))
-    .flatMap(e => e.isDirectory() ? walk(join(root,e.name)) : [join(root,e.name)]);
+    .flatMap(e => {
+      if(excluded.includes(join(root,e.name))) return [];
+      if(e.isSymbolicLink()) throw Error(`SOURCE: symlink input ${join(root,e.name)}`);
+      return e.isDirectory() ? walk(join(root,e.name),excluded) : [join(root,e.name)];
+    });
 }
 type Token = { text: string; start: number; end: number; line: number };
 // Skip Rust comments and literals, retaining literal text as one opaque token.
@@ -90,10 +94,18 @@ export function analyzeSource(source: string) {
       modules.push({name:ts[i+1].text,path:path?JSON.parse(path):undefined,testOnly});
     }
     if(testOnly) {
+      let keyword=i;
+      if(["pub","crate"].includes(ts[keyword].text)) {
+        keyword++;
+        if(ts[keyword]?.text==="(") keyword=closing(ts,keyword)+1;
+      }
+      const groupedUse=ts[keyword]?.text==="use";
       let end=i, angles=0;
       for(;end<ts.length;end++) {
         const t=ts[end].text;
-        if(t==="{") {end=closing(ts,end);break;}
+        // Braces in a use tree group paths; the item still ends at `;`.
+        // Block-bodied items continue ending at their closing brace.
+        if(t==="{") {end=closing(ts,end);if(!groupedUse) break;continue;}
         if(t==="<") angles++;
         if(t===">" && ts[end-1]?.text!=="-" && angles) angles--;
         if(t===";" || (t==="," && !angles)) break;
@@ -116,10 +128,17 @@ export function analyzeSource(source: string) {
   return {omitted,modules,spans};
 }
 export type SourceFile = { path:string; crate:string; sha256:string; lines:number; omitted:number[]; testOnly:boolean; spans:ReturnType<typeof analyzeSource>["spans"] };
-function inventoryForCrates(root: string, crates: readonly string[]): SourceFile[] {
-  const files=crates.flatMap(crate=>walk(resolve(root,"crates",crate,"src"))).filter(p=>p.endsWith(".rs"));
+export function inventoryForCrates(root: string, crates: readonly CrateName[]): SourceFile[] {
+  root=realpathSync(root);
+  const owners=new Map<string,CrateName>();
+  const files=crates.flatMap(crate=>{
+    readFileSync(resolve(root,CRATE_ROOTS[crate].manifest));
+    return walk(resolve(root,CRATE_ROOTS[crate].source)).filter(p=>p.endsWith(".rs")).map(p=>{
+      owners.set(p,crate); return p;
+    });
+  });
   const testFiles=crates.flatMap(crate=>{
-    const dir=resolve(root,"crates",crate,"tests");
+    const dir=resolve(root,CRATE_ROOTS[crate].tests);
     return existsSync(dir)?walk(dir).filter(p=>p.endsWith(".rs")):[];
   });
   const analyses=new Map([...files,...testFiles].map(p=>[realpathSync(p),analyzeSource(readFileSync(p,"utf8"))]));
@@ -128,7 +147,7 @@ function inventoryForCrates(root: string, crates: readonly string[]): SourceFile
     file=realpathSync(file); const seen=test?tests:production;
     if(seen.has(file)) return; seen.add(file);
     const info=analyses.get(file);
-    if(!info && test && /^crates\/[^/]+\/tests\//.test(relative(root,file))) return;
+    if(!info && test && testPath(relative(root,file))) return;
     if(!info) throw Error(`SOURCE: module outside src: ${file}`);
     if(!test && !files.includes(file)) throw Error(`SOURCE: production module outside inventoried src: ${file}`);
     for(const mod of info.modules) {
@@ -139,25 +158,51 @@ function inventoryForCrates(root: string, crates: readonly string[]): SourceFile
       visit(child,test||mod.testOnly);
     }
   }
-  for(const crate of crates) for(const entry of ["lib.rs","main.rs"]) {
-    const p=resolve(root,"crates",crate,"src",entry); if(existsSync(p)) visit(p,false,true);
+  for(const crate of crates) {
+    const entries=["lib.rs","main.rs"].map(entry=>resolve(root,CRATE_ROOTS[crate].source,entry)).filter(existsSync);
+    if(!entries.length) throw Error(`SOURCE: missing crate entry ${crate}`);
+    for(const p of entries) visit(p,false,true);
   }
-  for(const file of testFiles.filter(p=>dirname(p)===resolve(root,"crates",relative(root,p).split("/")[1],"tests"))) visit(file,true,true);
+  for(const file of testFiles.filter(p=>crates.some(crate=>dirname(p)===resolve(root,CRATE_ROOTS[crate].tests)))) visit(file,true,true);
   return files.map(file=>{
     const path=relative(root,file), info=analyses.get(realpathSync(file))!;
     if(!production.has(realpathSync(file)) && !tests.has(realpathSync(file))) throw Error(`SOURCE: unclassified src file ${path}`);
     const text=readFileSync(file,"utf8");
-    return {path,crate:path.split("/")[1],sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file))};
+    return {path,crate:owners.get(file)!,sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file))};
   }).sort((a,b)=>a.path.localeCompare(b.path));
 }
 // The immutable pre-Traffic baselines did not contain the current seventh crate.
 export const sourceInventory = (root: string) => inventoryForCrates(root, CRATES);
 export const historicalSourceInventory = (root: string) => inventoryForCrates(root, HISTORICAL_CRATES);
 export function inputIdentity(root:string) {
-  const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json",
+  root=realpathSync(root);
+  const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json","bun.lock","bunfig.toml","biome.json",
     ".arc-verify/rust-coverage/contract/accounting.json",
+    ".arc-verify/desktop-foundation/contract.md",
+    "apps/desktop/package.json","apps/desktop/tsconfig.json","apps/desktop/tsconfig.test.json","apps/desktop/vite.config.ts",
+    "apps/desktop/index.html","apps/desktop/src-tauri/build.rs","apps/desktop/src-tauri/tauri.conf.json",
+    ...CRATES.map(crate=>CRATE_ROOTS[crate].manifest),
     ...[".cargo/config",".cargo/config.toml","build.rs"].filter(p=>existsSync(resolve(root,p))),
-    ...walk(resolve(root,"crates")).map(p=>relative(root,p)),...walk(resolve(root,"scripts/coverage")).map(p=>relative(root,p))];
-  const files=Object.fromEntries([...new Set(paths)].sort().map(p=>[p,hash(readFileSync(resolve(root,p)))]));
+    ...["crates","scripts","apps/desktop",".arc-verify/rust-coverage/contract"].flatMap(dir=>
+      walk(resolve(root,dir),["apps/desktop/node_modules","apps/desktop/dist","apps/desktop/src-tauri/target","apps/desktop/src-tauri/gen"].map(p=>resolve(root,p))).map(p=>relative(root,p)))];
+  for(const crate of CRATES) if(!lstatSync(resolve(root,CRATE_ROOTS[crate].source)).isDirectory()) throw Error(`SOURCE: missing source root ${crate}`);
+  const files=Object.fromEntries([...new Set(paths)].sort().map(p=>{
+    const path=resolve(root,p);
+    if(!lstatSync(path).isFile() || realpathSync(path)!==path) throw Error(`SOURCE: non-canonical input ${p}`);
+    return [p,hash(readFileSync(path))];
+  }));
   return {sha256:hash(JSON.stringify(files)),files};
+}
+
+export function requireIdentityDigest(recorded:ReturnType<typeof inputIdentity>) {
+  if(!recorded || !recorded.files || Array.isArray(recorded.files)) throw Error("INPUT_IDENTITY: missing file map");
+  const canonical=Object.fromEntries(Object.keys(recorded.files).sort().map(p=>[p,recorded.files[p]]));
+  if(hash(JSON.stringify(canonical))!==recorded.sha256) throw Error("INPUT_IDENTITY: corrupt aggregate");
+  return canonical;
+}
+export function requireInputIdentity(root:string, recorded:ReturnType<typeof inputIdentity>) {
+  const canonical=requireIdentityDigest(recorded);
+  const current=inputIdentity(root);
+  if(current.sha256!==recorded.sha256 || JSON.stringify(current.files)!==JSON.stringify(canonical)) throw Error("INPUT_IDENTITY: stale or incomplete source/configuration hashes");
+  return current;
 }

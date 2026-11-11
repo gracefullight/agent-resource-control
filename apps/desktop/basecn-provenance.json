@@ -1,0 +1,20 @@
+{
+  "component": "Button",
+  "registry": "https://basecn.dev/r/button.json",
+  "recipeSha256": "5fcc7bde10d90cb5a6600a3a757852cbdf7bd761cd8c749e6b54be15eb3a4f4b",
+  "recipeContentSha256": "65359f268d581d827482763ecded774b418da8962e80e5afb22013c3c1f6b5aa",
+  "installedPath": "apps/desktop/src/components/ui/button.tsx",
+  "installedSha256": "1cd4e9327b516f3beda667d17d1e71b6960d3bbfacb24d5402cfbb728262b2df",
+  "adaptations": [
+    "utility import points to self-describing merge-classes.ts; subsequent installation formatting only"
+  ],
+  "license": "MIT",
+  "licenseSource": "https://raw.githubusercontent.com/akash3444/basecn/main/LICENSE",
+  "usedBy": [
+    "src/desktop-application.tsx",
+    "src/credits/desktop-credits.tsx",
+    "src/dashboard/desktop-dashboard.tsx"
+  ],
+  "licensePath": "src-tauri/assets/basecn-LICENSE.txt",
+  "licenseSha256": "53bb3a5746994b650d05e672920f0c8d4bb82009670f9641c74678a5589c8096"
+}

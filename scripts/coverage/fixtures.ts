@@ -2,13 +2,13 @@
 import { mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { CRATES } from "./config";
+import { CRATES, CRATE_ROOTS } from "./config";
 import type { SourceFile } from "./source";
 export function fixture() {
   const root=mkdtempSync(join(tmpdir(),"arc-coverage-fixture-"));
   const inventory:SourceFile[]=CRATES.map(crate=>{
-    const path=`crates/${crate}/src/lib.rs`;
-    mkdirSync(join(root,`crates/${crate}/src`),{recursive:true});
+    const path=`${CRATE_ROOTS[crate].source}/lib.rs`;
+    mkdirSync(join(root,CRATE_ROOTS[crate].source),{recursive:true});
     writeFileSync(join(root,path),"fixture\n".repeat(5));
     return {path,crate,sha256:"fixture",lines:6,omitted:[],testOnly:false,spans:[]};
   });

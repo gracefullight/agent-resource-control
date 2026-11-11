@@ -1,7 +1,19 @@
 {
   "name": "arc-verification",
   "private": true,
+  "workspaces": [
+    "apps/desktop"
+  ],
+  "packageManager": "bun@1.4.4",
   "scripts": {
-    "test:coverage": "bun scripts/coverage/run.ts"
+    "test:coverage": "bun scripts/coverage/run.ts",
+    "desktop:dev": "bun run --cwd apps/desktop tauri dev",
+    "desktop:typecheck": "bun run --cwd apps/desktop typecheck",
+    "desktop:build": "bun run --cwd apps/desktop build",
+    "desktop:smoke:tauri": "bun run --cwd apps/desktop smoke:tauri",
+    "desktop:check": "biome check apps/desktop package.json biome.json"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6"
   }
 }

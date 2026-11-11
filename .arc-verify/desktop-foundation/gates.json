@@ -1,0 +1,1757 @@
+{
+  "schemaVersion": 1,
+  "stage": "task-9-integrated-native",
+  "status": "verified",
+  "completed": true,
+  "acceptedHead": "a9e7a31566e833dceeb82d6d75cd7c6a399583ab",
+  "actualHead": "a9e7a31566e833dceeb82d6d75cd7c6a399583ab",
+  "recordedAt": "2026-11-11T20:36:48.162Z",
+  "profile": "installed backend-engineer",
+  "skillsUsed": [
+    "oma-backend",
+    "oma-frontend"
+  ],
+  "executionContext": {
+    "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/execution-context.json",
+    "sha256": "d611cfb25423b178e4d187a6746838b014a669088078a353fd536097729bcf70",
+    "bytes": 2153
+  },
+  "inputIdentity": {
+    "sha256": "0f3fb3538812375c4e4fa444abadb863e445483ff094c9dda3f387583b57a63b",
+    "files": 400,
+    "manifest": {
+      "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/frozen-install.after.inputs.json",
+      "sha256": "130f92c298fb8e2a463348d614554e4d2d2851b8d3e3d47ec8ad6ad16fad887c",
+      "bytes": 47581
+    }
+  },
+  "stack": {
+    "verified": true,
+    "scope": "final integrated native macOS inputs",
+    "reactMajor": 19,
+    "tauriMajor": 2,
+    "tailwindMajor": 4,
+    "basecnUsed": true,
+    "phosphorUsed": true,
+    "biomeConfigured": true,
+    "resolvedVersions": {
+      "@base-ui/react": "1.9.0",
+      "@phosphor-icons/react": "2.1.10",
+      "@tauri-apps/api": "2.12.4",
+      "class-variance-authority": "0.7.1",
+      "clsx": "2.1.1",
+      "react": "19.3.1",
+      "react-dom": "19.3.1",
+      "tailwind-merge": "3.7.0",
+      "@tailwindcss/vite": "4.3.5",
+      "@tauri-apps/cli": "2.12.4",
+      "@testing-library/dom": "10.4.2",
+      "@testing-library/react": "16.3.3",
+      "@testing-library/user-event": "14.6.9",
+      "@types/bun": "1.4.4",
+      "@types/node": "26.6.6",
+      "@types/react": "19.3.0",
+      "@types/react-dom": "19.3.0",
+      "@vitejs/plugin-react": "6.3.0",
+      "happy-dom": "21.0.4",
+      "tailwindcss": "4.3.5",
+      "typescript": "7.0.2",
+      "vite": "8.3.8",
+      "@biomejs/biome": "2.6.6",
+      "tauri": "2.12.5",
+      "tauri-build": "2.7.4",
+      "tauri-plugin-opener": "2.7.3"
+    },
+    "installedVersions": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/installed-versions.receipt.json",
+        "sha256": "b3597141ad110f6c74ebe096dc4a611a0e6ed6f7addd1cb99e064f2f967e57fa",
+        "bytes": 4715
+      },
+      "argv": [
+        "bun",
+        "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace/target/desktop-foundation/task-9-fixture-20261111T200733Z/installed-versions.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:08:51.652370+00:00",
+      "finishedAt": "2026-11-11T20:08:51.816045+00:00",
+      "durationMs": 107,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/installed-versions.stdout.log",
+          "sha256": "1356b723e9bf8ec07b8b2dd9e8ed4707d169266a119a418bdac6798a7cd41486",
+          "bytes": 7872
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/installed-versions.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      }
+    },
+    "toolVersions": {
+      "rust": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-rust.receipt.json",
+          "sha256": "9ab8ae2d84d7cf71cc2caa488a17df3cc770b622e412f8959c772f5089b01b7a",
+          "bytes": 4455
+        },
+        "argv": [
+          "rustc",
+          "-Vv"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:08:49.902827+00:00",
+        "finishedAt": "2026-11-11T20:08:50.235849+00:00",
+        "durationMs": 267,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-rust.stdout.log",
+            "sha256": "e61cba8ded8c60e985f759f74a221c4773649021477d00b44c7af411eb8c218c",
+            "bytes": 192
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-rust.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "cargo": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-cargo.receipt.json",
+          "sha256": "e951a8b2a088bda6b35846f0f0b0b8f5a13d103dd01185653aaf7509db9530a2",
+          "bytes": 4458
+        },
+        "argv": [
+          "cargo",
+          "-V"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:08:50.236711+00:00",
+        "finishedAt": "2026-11-11T20:08:50.431707+00:00",
+        "durationMs": 139,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-cargo.stdout.log",
+            "sha256": "c10ec31b8c6e6e2693cf65fc1971b41edbc3da1ae7db6f9f3f36c4823f8dcab5",
+            "bytes": 36
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-cargo.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "bun": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-bun.receipt.json",
+          "sha256": "be6886bf5ea4bf0132f9543f04ccbbbac72c4d707517cf6eb2c41d9da765b113",
+          "bytes": 4451
+        },
+        "argv": [
+          "bun",
+          "--version"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:08:50.432436+00:00",
+        "finishedAt": "2026-11-11T20:08:50.559480+00:00",
+        "durationMs": 70,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-bun.stdout.log",
+            "sha256": "d03d8b268b4171328ac2458ce8ca82d69a1fde38469d4e4faae4f8fa8d8a5e35",
+            "bytes": 6
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-bun.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "typescript": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-typescript.receipt.json",
+          "sha256": "462801e07c6e64280eae09aa9b2d5bb525b1ecb30225bd9a8ba8a6dd7bb9bf51",
+          "bytes": 4523
+        },
+        "argv": [
+          "bun",
+          "run",
+          "tsc",
+          "--version"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace/apps/desktop",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:08:50.560242+00:00",
+        "finishedAt": "2026-11-11T20:08:50.811303+00:00",
+        "durationMs": 193,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-typescript.stdout.log",
+            "sha256": "41024334022fa58f9c7337359517de307cbcfc6055c19f2b734245eacc2fe97a",
+            "bytes": 14
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-typescript.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "vite": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-vite.receipt.json",
+          "sha256": "9982548f4f44d868f3da7b0cde54389595adfd659f0a8945855bdde7df2671f2",
+          "bytes": 4494
+        },
+        "argv": [
+          "bun",
+          "run",
+          "vite",
+          "--version"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace/apps/desktop",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:08:50.812082+00:00",
+        "finishedAt": "2026-11-11T20:08:51.137871+00:00",
+        "durationMs": 269,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-vite.stdout.log",
+            "sha256": "358e29b4a574614e074c201e7fb588f876dd10b19b0886fed0efe0ed236a7084",
+            "bytes": 38
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-vite.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      },
+      "tauri": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-tauri.receipt.json",
+          "sha256": "87989941e44d1219c39a707f0121496070554dbac59894fd81b670eb558962ea",
+          "bytes": 4501
+        },
+        "argv": [
+          "bun",
+          "run",
+          "tauri",
+          "--version"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace/apps/desktop",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:08:51.138845+00:00",
+        "finishedAt": "2026-11-11T20:08:51.395854+00:00",
+        "durationMs": 201,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-tauri.stdout.log",
+            "sha256": "9b3bfd97bdbbb1caca492a182482702522f4861cac9c38b60655010daaf0a7e3",
+            "bytes": 17
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-tauri.stderr.log",
+            "sha256": "fa2dc1e7922de72ea1926d4f1eb63a141858bfae285a24e9db348e461026a8b2",
+            "bytes": 18
+          }
+        }
+      },
+      "biome": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-biome.receipt.json",
+          "sha256": "1e9cad3575b68c51ee0e81ee4988953ae4bb02808bbeea4d36103fac14b01e4e",
+          "bytes": 4487
+        },
+        "argv": [
+          "bun",
+          "run",
+          "biome",
+          "--version"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:08:51.396750+00:00",
+        "finishedAt": "2026-11-11T20:08:51.651659+00:00",
+        "durationMs": 198,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-biome.stdout.log",
+            "sha256": "914f0cb519113bc719e6c43ca5f1c872d327c0896a81bde13212e7657c4de816",
+            "bytes": 16
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/version-biome.stderr.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          }
+        }
+      }
+    },
+    "basecn": {
+      "path": "apps/desktop/basecn-provenance.json",
+      "sha256": "37d170d775e1de641726a1257f0fa5904959b57f94dda006da50fa590385a04f",
+      "bytes": 923
+    }
+  },
+  "smoke": {
+    "frozenInstall": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/frozen-install.receipt.json",
+        "sha256": "e70607e7bcc5d2583362a79d7ff7cd9c339c36bb6228302fc387402a5cba825e",
+        "bytes": 4490
+      },
+      "argv": [
+        "bun",
+        "install",
+        "--frozen-lockfile"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:08:45.721840+00:00",
+      "finishedAt": "2026-11-11T20:08:45.883889+00:00",
+      "durationMs": 99,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/frozen-install.stdout.log",
+          "sha256": "380e4b0caea49961af37a1a3daa6bcef7fe1e4ddddab409f4657e910307f4433",
+          "bytes": 95
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/frozen-install.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "bunLockBefore": "cbefa79204ee4db7148cb98ba5a5ce3810254b31c526b97fee98f531899aa7ef",
+      "bunLockAfter": "cbefa79204ee4db7148cb98ba5a5ce3810254b31c526b97fee98f531899aa7ef",
+      "lockUnchanged": true
+    },
+    "typescript": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-typescript.receipt.json",
+        "sha256": "9fcaee0e4717f3208650db9329536f9579d2242c330377fd7c6d59cfc9a8b2fc",
+        "bytes": 4499
+      },
+      "argv": [
+        "bun",
+        "run",
+        "desktop:typecheck"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:08:52.651507+00:00",
+      "finishedAt": "2026-11-11T20:08:54.615412+00:00",
+      "durationMs": 1908,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-typescript.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-typescript.stderr.log",
+          "sha256": "7c3cb6045e4508ad4ca264a0bdbb3207275c78410b843909c0ea071a97268c0f",
+          "bytes": 109
+        }
+      },
+      "major": 7,
+      "version": "7.0.2",
+      "executable": "typescript/bin/tsc",
+      "contexts": [
+        "app/Vite",
+        "Bun tests/tooling"
+      ],
+      "skipLibCheck": false
+    },
+    "vite": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-vite.receipt.json",
+        "sha256": "a748ed1abfea085727ba0f8176b29528901ebc82fa0e726315af465dafffdb78",
+        "bytes": 4466
+      },
+      "argv": [
+        "bun",
+        "run",
+        "desktop:build"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:08:54.616143+00:00",
+      "finishedAt": "2026-11-11T20:08:55.718126+00:00",
+      "durationMs": 1046,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-vite.stdout.log",
+          "sha256": "5c8b9cc23b4090411e22ebbbbfce1c6e3c623e70645d35dcbac4a928369280b0",
+          "bytes": 353
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-vite.stderr.log",
+          "sha256": "c01122686a289ce401cbd65b3a7d5d98ada7cb7749bacff0ab3983d9a4a768ff",
+          "bytes": 48
+        }
+      }
+    },
+    "tauri": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-tauri.receipt.json",
+        "sha256": "b85dcf97fd73b7fd4b1494146f836a060c64eba695d85b4a532de8dbf7b1b670",
+        "bytes": 4480
+      },
+      "argv": [
+        "bun",
+        "run",
+        "desktop:smoke:tauri"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:08:55.718881+00:00",
+      "finishedAt": "2026-11-11T20:09:20.191578+00:00",
+      "durationMs": 24416,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-tauri.stdout.log",
+          "sha256": "d283ed60db5a2e57bcbe72ac6a975fb24c8e968c40ad624ec8afba617399ebee",
+          "bytes": 353
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/smoke-tauri.stderr.log",
+          "sha256": "ab8e15e07122f481acf3abdb14d769cf797a3e6314d3eb40ac77a5de07dd45f1",
+          "bytes": 1346
+        }
+      },
+      "mode": "debug native compilation; no bundle or GUI launch"
+    },
+    "biome": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/biome.receipt.json",
+        "sha256": "6ee3753692083bef11c50dec56ba54cb294d5f6169e4315cbf423f9366692055",
+        "bytes": 4438
+      },
+      "argv": [
+        "bun",
+        "run",
+        "desktop:check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:09:20.192468+00:00",
+      "finishedAt": "2026-11-11T20:09:20.496612+00:00",
+      "durationMs": 250,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/biome.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/biome.stderr.log",
+          "sha256": "2d50c508772930a8afb3369fcca6a04dbd3daa26369e02979651e26cc60f9120",
+          "bytes": 95
+        }
+      }
+    }
+  },
+  "tests": {
+    "components": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/components.receipt.json",
+        "sha256": "e8c41541418f9746fb10cc9c0716e8bbf19bd7e7c71fa861a8e0469980b1082b",
+        "bytes": 4621
+      },
+      "argv": [
+        "bun",
+        "test",
+        "apps/desktop/tests/dashboard.test.ts",
+        "apps/desktop/tests/credits.test.ts",
+        "apps/desktop/tests/contracts.test.ts",
+        "apps/desktop/tests/lifecycle.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:09:20.497387+00:00",
+      "finishedAt": "2026-11-11T20:09:22.422911+00:00",
+      "durationMs": 1872,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/components.stdout.log",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/components.stderr.log",
+          "sha256": "a4e5a317bec6bd878822062cee1f07872836f0b013447f411cadd57e1c86c537",
+          "bytes": 6449
+        }
+      },
+      "executed": 44
+    },
+    "tauriHandlers": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.receipt.json",
+        "sha256": "184f0b021973c48f18795b88410ed74d083253ee546f43eab43dd67f49e78dbf",
+        "bytes": 4493
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:11:09.967292+00:00",
+      "finishedAt": "2026-11-11T20:15:04.724802+00:00",
+      "durationMs": 234702,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stdout.log",
+          "sha256": "a8cadbcba0552ccb3dc847c760870066954e68f254729372ab3749cd6694d667",
+          "bytes": 59752
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stderr.log",
+          "sha256": "7d8c3dd04ca4249bc15a9779c1d6c95c619475ea8599e72368fa14f159e1b100",
+          "bytes": 4164
+        }
+      },
+      "executed": 614,
+      "scope": "Registered production handlers and production lifecycle callbacks through Tauri mock runtime; real GUI interaction remains unverified"
+    },
+    "daemonBridge": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.receipt.json",
+        "sha256": "184f0b021973c48f18795b88410ed74d083253ee546f43eab43dd67f49e78dbf",
+        "bytes": 4493
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:11:09.967292+00:00",
+      "finishedAt": "2026-11-11T20:15:04.724802+00:00",
+      "durationMs": 234702,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stdout.log",
+          "sha256": "a8cadbcba0552ccb3dc847c760870066954e68f254729372ab3749cd6694d667",
+          "bytes": 59752
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stderr.log",
+          "sha256": "7d8c3dd04ca4249bc15a9779c1d6c95c619475ea8599e72368fa14f159e1b100",
+          "bytes": 4164
+        }
+      },
+      "executed": 614,
+      "realDaemon": true,
+      "cases": {
+        "exit0": "passed",
+        "exit17": "passed",
+        "disconnectReconnect": "passed",
+        "malformedResponse": "passed",
+        "mismatchedJobId": "passed",
+        "daemonSurvival": "passed",
+        "activeChildSurvival": "passed"
+      },
+      "scope": "Production typed bridge, private real daemon and CLI/native child; malformed peers are injected separately against the production bridge"
+    }
+  },
+  "compatibility": {
+    "status": "passed",
+    "receipt": {
+      "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.receipt.json",
+      "sha256": "184f0b021973c48f18795b88410ed74d083253ee546f43eab43dd67f49e78dbf",
+      "bytes": 4493
+    },
+    "argv": [
+      "cargo",
+      "test",
+      "--workspace"
+    ],
+    "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+    "exitCode": 0,
+    "startedAt": "2026-11-11T20:11:09.967292+00:00",
+    "finishedAt": "2026-11-11T20:15:04.724802+00:00",
+    "durationMs": 234702,
+    "rawLogs": {
+      "stdout": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stdout.log",
+        "sha256": "a8cadbcba0552ccb3dc847c760870066954e68f254729372ab3749cd6694d667",
+        "bytes": 59752
+      },
+      "stderr": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stderr.log",
+        "sha256": "7d8c3dd04ca4249bc15a9779c1d6c95c619475ea8599e72368fa14f159e1b100",
+        "bytes": 4164
+      }
+    },
+    "executed": 614,
+    "scope": "Unfiltered executed workspace identities prove CLI, migration, protocol-1 and retry/cancellation regression protections"
+  },
+  "gates": {
+    "format": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/format.receipt.json",
+        "sha256": "043539b5287a8b8baff1e7de1a7bb4e36277e52b9108ba96608f9dbe7c02b769",
+        "bytes": 4461
+      },
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:10:52.259305+00:00",
+      "finishedAt": "2026-11-11T20:10:53.048888+00:00",
+      "durationMs": 733,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/format.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/format.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      }
+    },
+    "clippy": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/clippy.receipt.json",
+        "sha256": "e91cef8d590fffc87bec9717cb7106488bd5c5df505fc0d239552d80701ebdc3",
+        "bytes": 4506
+      },
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:10:53.049703+00:00",
+      "finishedAt": "2026-11-11T20:11:09.966386+00:00",
+      "durationMs": 16860,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/clippy.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/clippy.stderr.log",
+          "sha256": "bb0b38f0b108d0bef3acdeccb11edb07fd333e48b164a84cc826ce73a5e5a766",
+          "bytes": 920
+        }
+      }
+    },
+    "workspaceTest": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.receipt.json",
+        "sha256": "184f0b021973c48f18795b88410ed74d083253ee546f43eab43dd67f49e78dbf",
+        "bytes": 4493
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:11:09.967292+00:00",
+      "finishedAt": "2026-11-11T20:15:04.724802+00:00",
+      "durationMs": 234702,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stdout.log",
+          "sha256": "a8cadbcba0552ccb3dc847c760870066954e68f254729372ab3749cd6694d667",
+          "bytes": 59752
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/workspace-test.stderr.log",
+          "sha256": "7d8c3dd04ca4249bc15a9779c1d6c95c619475ea8599e72368fa14f159e1b100",
+          "bytes": 4164
+        }
+      },
+      "executed": 614
+    },
+    "coverage": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/coverage.receipt.json",
+        "sha256": "ebe1d37566d620b3c56052d0554ea46a982d111e76fb7261c5ca8ceb158e611c",
+        "bytes": 4457
+      },
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:15:04.725808+00:00",
+      "finishedAt": "2026-11-11T20:25:37.970190+00:00",
+      "durationMs": 633191,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/coverage.stdout.log",
+          "sha256": "7b96d4533021b44aff56f74cbed4132def711496418da9e52876f8c7ce6068d8",
+          "bytes": 848
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/coverage.stderr.log",
+          "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+          "bytes": 30
+        }
+      },
+      "collection": {
+        "receipt": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/receipt.json",
+          "sha256": "6c1f491fc1694e27d5209e786fa88fa000ba309ce2a7b35ebd23817f7a120d42",
+          "bytes": 3230743
+        },
+        "summary": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/summary.json",
+          "sha256": "623e064db509cd235e1bd78a15ff8672b90027792b2ff489cb372a1a935780eb",
+          "bytes": 202011
+        },
+        "profiles": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/profiles.json",
+          "sha256": "9618bc2bbd26f6686f651fe98d1bfaf945ebb9e415684101e287939a99f2e2b0",
+          "bytes": 1119353
+        },
+        "rawReports": {
+          "lcov": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/raw.lcov",
+            "sha256": "6e4d4ef00a67ff5b118d30318b571335db2850618c61ffc3f3f1d6719c72fddf",
+            "bytes": 1736247
+          },
+          "llvmJson": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/raw.json",
+            "sha256": "44a8c2613593b2769aec1793129fb3c7090d47debb125ee1d940d424fc50a485",
+            "bytes": 75685319
+          }
+        },
+        "runId": "2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733",
+        "crates": [
+          {
+            "crate": "arc-core",
+            "covered": 247,
+            "total": 256,
+            "percent": 96.484375,
+            "pass": true
+          },
+          {
+            "crate": "arc-detector",
+            "covered": 706,
+            "total": 711,
+            "percent": 99.29676511954993,
+            "pass": true
+          },
+          {
+            "crate": "arc-storage",
+            "covered": 1811,
+            "total": 1892,
+            "percent": 95.71881606765328,
+            "pass": true
+          },
+          {
+            "crate": "arc-ipc",
+            "covered": 868,
+            "total": 905,
+            "percent": 95.91160220994475,
+            "pass": true
+          },
+          {
+            "crate": "arc-daemon",
+            "covered": 2242,
+            "total": 2457,
+            "percent": 91.24949124949124,
+            "pass": true
+          },
+          {
+            "crate": "arc-cli",
+            "covered": 1608,
+            "total": 1938,
+            "percent": 82.97213622291022,
+            "pass": true
+          },
+          {
+            "crate": "arc-traffic",
+            "covered": 111,
+            "total": 111,
+            "percent": 100,
+            "pass": true
+          },
+          {
+            "crate": "arc-desktop",
+            "covered": 436,
+            "total": 506,
+            "percent": 86.16600790513834,
+            "pass": true
+          }
+        ],
+        "sourceHash": "0f3fb3538812375c4e4fa444abadb863e445483ff094c9dda3f387583b57a63b",
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/coverage-native.stdout.log",
+            "sha256": "329ca8a16bdc8392ca2fec8cbaba4ea1229d6498efb7ea92c04d6d8116622f2f",
+            "bytes": 59075
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/coverage-native.stderr.log",
+            "sha256": "2d2f0fcdce57773c6c505b711362827ab21411f74280ff9bf98c8eefba60601e",
+            "bytes": 15651
+          }
+        }
+      }
+    },
+    "architecture": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture.receipt.json",
+        "sha256": "5b2275e6e008e640361a0cc3c959d6aef48d566e62754fa63b1d415c087d060a",
+        "bytes": 4728
+      },
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:25:47.905898+00:00",
+      "finishedAt": "2026-11-11T20:36:31.347864+00:00",
+      "durationMs": 643381,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture.stdout.log",
+          "sha256": "08e3ccbd5ed193c23a17d68c0f58f87794fcf453a61cd3541062c0eac7510bf5",
+          "bytes": 1593
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture.stderr.log",
+          "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+          "bytes": 30
+        }
+      },
+      "nestedCoverage": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture-nested-coverage.receipt.json",
+          "sha256": "606de9db6f26b03d6215887edd2e2b21530d6c39b416be1f32bf70e6b774d633",
+          "bytes": 4813
+        },
+        "argv": [
+          "bun",
+          "run",
+          "test:coverage"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 0,
+        "startedAt": "2026-11-11T20:25:56.052794+00:00",
+        "finishedAt": "2026-11-11T20:36:31.249225+00:00",
+        "durationMs": 635134,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture-nested-coverage.stdout.log",
+            "sha256": "6fcc823076bce1b1e09ac507f0ca678ca180a9f67710f9f75f1d2fd5dfb760a8",
+            "bytes": 848
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture-nested-coverage.stderr.log",
+            "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+            "bytes": 30
+          }
+        },
+        "collection": {
+          "receipt": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-25-56-142Z-b374ae1f-48d9-43e7-865e-90ed1d65eade/receipt.json",
+            "sha256": "06c39b146b5974455527d46305b476e5ed9851b6f4bec1918c5bfd78ded4c47f",
+            "bytes": 3230750
+          },
+          "summary": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-25-56-142Z-b374ae1f-48d9-43e7-865e-90ed1d65eade/summary.json",
+            "sha256": "0b2929bdf51aac1b2639474c7eed6f433dbf13989ea4706fd0705359d62bb8e4",
+            "bytes": 201985
+          },
+          "profiles": {
+            "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-25-56-142Z-b374ae1f-48d9-43e7-865e-90ed1d65eade/profiles.json",
+            "sha256": "a85c5156133b8804ed68616a49da4674b8e0e7186086d4d21fdcb2dd120284a7",
+            "bytes": 1123349
+          },
+          "rawReports": {
+            "lcov": {
+              "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-25-56-142Z-b374ae1f-48d9-43e7-865e-90ed1d65eade/raw.lcov",
+              "sha256": "ff82adfb3a94d22eef5ccb4df602dbc3ea71a274d4a370c5fb9d3c9d8b2ccce2",
+              "bytes": 1736210
+            },
+            "llvmJson": {
+              "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-25-56-142Z-b374ae1f-48d9-43e7-865e-90ed1d65eade/raw.json",
+              "sha256": "86e400d6e9dd6999566658dc8583ccbb512e6e1d0245858e5744a24e88aa4e1e",
+              "bytes": 75684621
+            }
+          },
+          "runId": "2026-11-11T20-25-56-142Z-b374ae1f-48d9-43e7-865e-90ed1d65eade",
+          "crates": [
+            {
+              "crate": "arc-core",
+              "covered": 247,
+              "total": 256,
+              "percent": 96.484375,
+              "pass": true
+            },
+            {
+              "crate": "arc-detector",
+              "covered": 706,
+              "total": 711,
+              "percent": 99.29676511954993,
+              "pass": true
+            },
+            {
+              "crate": "arc-storage",
+              "covered": 1811,
+              "total": 1892,
+              "percent": 95.71881606765328,
+              "pass": true
+            },
+            {
+              "crate": "arc-ipc",
+              "covered": 868,
+              "total": 905,
+              "percent": 95.91160220994475,
+              "pass": true
+            },
+            {
+              "crate": "arc-daemon",
+              "covered": 2244,
+              "total": 2457,
+              "percent": 91.33089133089133,
+              "pass": true
+            },
+            {
+              "crate": "arc-cli",
+              "covered": 1608,
+              "total": 1938,
+              "percent": 82.97213622291022,
+              "pass": true
+            },
+            {
+              "crate": "arc-traffic",
+              "covered": 111,
+              "total": 111,
+              "percent": 100,
+              "pass": true
+            },
+            {
+              "crate": "arc-desktop",
+              "covered": 436,
+              "total": 506,
+              "percent": 86.16600790513834,
+              "pass": true
+            }
+          ],
+          "sourceHash": "0f3fb3538812375c4e4fa444abadb863e445483ff094c9dda3f387583b57a63b",
+          "rawLogs": {
+            "stdout": {
+              "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture-nested-coverage-native.stdout.log",
+              "sha256": "5b2a883f8c9f07db975c36ac54fcdf578de32cc83c8494eb43f98f932e272d67",
+              "bytes": 59075
+            },
+            "stderr": {
+              "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/architecture-nested-coverage-native.stderr.log",
+              "sha256": "98a0e938f11e5e12afd52042a79cd45290d88c487ce0eac67949bd644871cd5b",
+              "bytes": 15651
+            }
+          }
+        }
+      },
+      "receiptInstrumentation": {
+        "kind": "BASH_ENV function for only the exact root bun run test:coverage invocation",
+        "hook": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/harness-receipt-env.sh",
+          "sha256": "b7666379f79995479b9ba787e4f48d0911017e3e7f927b59ce332e055bdb78bf",
+          "bytes": 597
+        },
+        "runner": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/run-harness-nested.py",
+          "sha256": "28e443fbf9eef514cbf1b70ef56bcfb2f0ac37b8ba4ac5b1ea727478fc60b22e",
+          "bytes": 584
+        },
+        "recorder": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/record-native-command.py",
+          "sha256": "c99acbc8ab682677e74f36afae411d9ef12f40dce3fc4c66c494670ce4f9ddf9",
+          "bytes": 3648
+        },
+        "preservesPath": true
+      },
+      "noSkips": true
+    },
+    "activeBun": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/active-bun.receipt.json",
+        "sha256": "facec23b97b685f93488b166d72126b0cb8001036f019807b019fd72146a28ca",
+        "bytes": 4451
+      },
+      "argv": [
+        "bun",
+        "test"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:09:47.020929+00:00",
+      "finishedAt": "2026-11-11T20:10:38.466310+00:00",
+      "durationMs": 51386,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/active-bun.stdout.log",
+          "sha256": "05ef97deca5c679a9623abe579b9b0413479049674940ae93ff6bab4bbe80ec8",
+          "bytes": 4839
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/active-bun.stderr.log",
+          "sha256": "c479989aae4acbdf97bfe0bb7904c1488c2d9c96ba93b6461b77e4e68ede68d0",
+          "bytes": 13597
+        }
+      },
+      "fullDiscovery": true,
+      "executed": 117,
+      "discoveredFiles": [
+        "apps/desktop/tests/bridge-client.test.ts",
+        "apps/desktop/tests/contracts.test.ts",
+        "apps/desktop/tests/credits.test.ts",
+        "apps/desktop/tests/dashboard.test.ts",
+        "apps/desktop/tests/lifecycle.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/desktop-foundation.test.ts",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/hygiene.test.ts",
+        "scripts/coverage/terminal-outcomes.test.ts",
+        "scripts/coverage/traffic-accounting.test.ts",
+        "scripts/harness/equivalence.test.ts",
+        "scripts/harness/traffic-targets.test.ts"
+      ],
+      "completed": true
+    }
+  },
+  "coverage": {
+    "status": "passed",
+    "minimumPercent": 80,
+    "workspaceCrates": [
+      "arc-core",
+      "arc-detector",
+      "arc-storage",
+      "arc-ipc",
+      "arc-daemon",
+      "arc-cli",
+      "arc-traffic",
+      "arc-desktop"
+    ],
+    "allCratesAtLeast80": true,
+    "crates": [
+      {
+        "crate": "arc-core",
+        "covered": 247,
+        "total": 256,
+        "percent": 96.484375,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 706,
+        "total": 711,
+        "percent": 99.29676511954993,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 1811,
+        "total": 1892,
+        "percent": 95.71881606765328,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 868,
+        "total": 905,
+        "percent": 95.91160220994475,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 2242,
+        "total": 2457,
+        "percent": 91.24949124949124,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 1608,
+        "total": 1938,
+        "percent": 82.97213622291022,
+        "pass": true
+      },
+      {
+        "crate": "arc-traffic",
+        "covered": 111,
+        "total": 111,
+        "percent": 100,
+        "pass": true
+      },
+      {
+        "crate": "arc-desktop",
+        "covered": 436,
+        "total": 506,
+        "percent": 86.16600790513834,
+        "pass": true
+      }
+    ],
+    "collection": {
+      "receipt": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/receipt.json",
+        "sha256": "6c1f491fc1694e27d5209e786fa88fa000ba309ce2a7b35ebd23817f7a120d42",
+        "bytes": 3230743
+      },
+      "summary": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/summary.json",
+        "sha256": "623e064db509cd235e1bd78a15ff8672b90027792b2ff489cb372a1a935780eb",
+        "bytes": 202011
+      },
+      "profiles": {
+        "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/profiles.json",
+        "sha256": "9618bc2bbd26f6686f651fe98d1bfaf945ebb9e415684101e287939a99f2e2b0",
+        "bytes": 1119353
+      },
+      "rawReports": {
+        "lcov": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/raw.lcov",
+          "sha256": "6e4d4ef00a67ff5b118d30318b571335db2850618c61ffc3f3f1d6719c72fddf",
+          "bytes": 1736247
+        },
+        "llvmJson": {
+          "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733/raw.json",
+          "sha256": "44a8c2613593b2769aec1793129fb3c7090d47debb125ee1d940d424fc50a485",
+          "bytes": 75685319
+        }
+      },
+      "runId": "2026-11-11T20-15-04-807Z-6a5df552-7793-4b1c-a1a6-f4b26c2da733",
+      "crates": [
+        {
+          "crate": "arc-core",
+          "covered": 247,
+          "total": 256,
+          "percent": 96.484375,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 706,
+          "total": 711,
+          "percent": 99.29676511954993,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 1811,
+          "total": 1892,
+          "percent": 95.71881606765328,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 868,
+          "total": 905,
+          "percent": 95.91160220994475,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 2242,
+          "total": 2457,
+          "percent": 91.24949124949124,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 1608,
+          "total": 1938,
+          "percent": 82.97213622291022,
+          "pass": true
+        },
+        {
+          "crate": "arc-traffic",
+          "covered": 111,
+          "total": 111,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-desktop",
+          "covered": 436,
+          "total": 506,
+          "percent": 86.16600790513834,
+          "pass": true
+        }
+      ],
+      "sourceHash": "0f3fb3538812375c4e4fa444abadb863e445483ff094c9dda3f387583b57a63b",
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/coverage-native.stdout.log",
+          "sha256": "329ca8a16bdc8392ca2fec8cbaba4ea1229d6498efb7ea92c04d6d8116622f2f",
+          "bytes": 59075
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/coverage-native.stderr.log",
+          "sha256": "2d2f0fcdce57773c6c505b711362827ab21411f74280ff9bf98c8eefba60601e",
+          "bytes": 15651
+        }
+      }
+    }
+  },
+  "targets": {
+    "satisfied": true,
+    "status": "not_applicable",
+    "observationPolicy": null,
+    "basis": "The accepted contract and supplied mission policy contain no observation policy or container target. This is policy applicability, not a service-health or av.yaml-absence claim.",
+    "avYaml": {
+      "status": "access_denied",
+      "readback": {
+        "status": "failed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/av-config-readback.receipt.json",
+          "sha256": "c4b87ee14260bda2a41be7952bb29f982e065dfaa8d240da4a10d268f20d3291",
+          "bytes": 4485
+        },
+        "argv": [
+          "cat",
+          "av.yaml"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 1,
+        "startedAt": "2026-11-11T20:09:43.379559+00:00",
+        "finishedAt": "2026-11-11T20:09:43.501961+00:00",
+        "durationMs": 63,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/av-config-readback.stdout.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "bytes": 0
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/av-config-readback.stderr.log",
+            "sha256": "4f4f81024e7d5e642a5b66a813b52c214b2ac958815c3b1aac7795744dee2de3",
+            "bytes": 38
+          }
+        }
+      },
+      "blocking": false,
+      "limitation": "Active av.yaml contents could not be inspected; no active target policy is invented."
+    },
+    "deploymentPerformed": false,
+    "productionServiceRestartPerformed": false
+  },
+  "evidence": {
+    "currentInputsVerified": true,
+    "rawLogHashesVerified": true,
+    "historicalProvenanceSeparated": true,
+    "maximumFiles": 7,
+    "smallActiveChecker": "scripts/coverage/desktop-evidence.ts",
+    "scope": "Current completed command receipts are authenticated; unfinished gates remain pending. No historical or scaffold pass supplies integrated acceptance.",
+    "completedReceiptVerification": true,
+    "completedCheck": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/evidence-check.receipt.json",
+        "sha256": "f48d30cc7b2d2785419fdedd13216f0387b4a5087937e68d6af2cbf5b4a808e6",
+        "bytes": 4518
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/desktop-foundation.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:36:47.857989+00:00",
+      "finishedAt": "2026-11-11T20:36:48.016653+00:00",
+      "durationMs": 101,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/evidence-check.stdout.log",
+          "sha256": "b890239b5e042d04423c2b6ce63e1d9382cbd3502840ab01424f933439c2d463",
+          "bytes": 6464
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/evidence-check.stderr.log",
+          "sha256": "069a03f9d89da647f446826bb2d983e5e08cdb20c737dbcfba17931818fa25ee",
+          "bytes": 210
+        }
+      }
+    },
+    "evidenceFileCount": 4
+  },
+  "unverified": {
+    "liveNativeTrayInteraction": true,
+    "windowsAcceptance": true,
+    "fullPhase0Completion": true,
+    "independentQa": "downstream task-10"
+  },
+  "precedingEvidence": {
+    "previousTask9": {
+      "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/prior-task-9-gates.json",
+      "sha256": "9567882174793af901410d5ca46d230021c090a9a91f505888992a19637c94cf",
+      "bytes": 56302
+    },
+    "failedActiveBun": {
+      "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/failed-active-bun-gates.json",
+      "sha256": "0289b7c50be1a9ce528ff2bc0530752a6d0485ec2c45071c9c6ac1923b3331df",
+      "bytes": 62778
+    },
+    "scope": "Reviewed task-5, repaired task-6, repaired task-7 and retained task-8 deliveries consumed as integrated inputs. No absent Actor-local runtime output supplies current proof.",
+    "scaffold": {
+      "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/previous-scaffold-gates.json",
+      "sha256": "cb1375544831e2222493e041dd26b07df5edb3cd8e13c4cb5ce4c69c5618f17c",
+      "bytes": 13263
+    },
+    "reviewSummariesSupplied": true,
+    "task7AndTask8RawOutputsLocallyAvailable": false
+  },
+  "diagnostics": {
+    "ownedWhitespace": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/owned-whitespace-check.receipt.json",
+        "sha256": "d278b7ece5277699d5c4ca13b04898a215a4a09665ee7e03dcc7e61124a85c2f",
+        "bytes": 4736
+      },
+      "argv": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "apps/desktop/src-tauri/tests/registered_commands.rs",
+        "apps/desktop/src-tauri/tests/registered_commands_support/",
+        "scripts/coverage/gate.test.ts",
+        ".arc-verify/desktop-foundation/gates.json"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:09:43.502557+00:00",
+      "finishedAt": "2026-11-11T20:09:43.655083+00:00",
+      "durationMs": 98,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/owned-whitespace-check.stdout.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/owned-whitespace-check.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      }
+    }
+  },
+  "historical": {
+    "sourceBase": "6b5218cf63b174b7976e52d81d56c7e3bf81112d",
+    "deliveryCommit": "a9e7a31566e833dceeb82d6d75cd7c6a399583ab",
+    "sourceOverlayVerified": 24,
+    "availableOutputs": 0,
+    "unavailableOutputs": 76,
+    "gaps": [
+      "Original worktree aggregate cannot be authenticated without its input manifest; the committed delivered source/repair hashes are verified separately.",
+      "Missing historical raw logs/reports cannot independently establish their recorded runtime passes or coverage here."
+    ],
+    "currentAcceptance": false
+  },
+  "failedAttempts": [
+    {
+      "taskAttempt": 1,
+      "status": "requires_owner_repair",
+      "inputIdentity": {
+        "sha256": "f4d3fbfe9b7b0f49760e738756fe4799e0b48717c688e2efc83cc094f4fcc4a3",
+        "files": 395,
+        "manifest": {
+          "path": "target/desktop-foundation/task-9-native-20261111T185719Z/frozen-install.after.inputs.json",
+          "sha256": "afe4ec8ede28a87ccce494da027ac7e1db684764a6beac86e5cc64de7f657ae5",
+          "bytes": 46819
+        }
+      },
+      "architecture": {
+        "status": "failed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture.receipt.json",
+          "sha256": "1aaee3dd5f03730aba38fd9a8fd66ccaf313502101a697ab4d0e10f3e60d0991",
+          "bytes": 4723
+        },
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 1,
+        "startedAt": "2026-11-11T19:15:50.122249+00:00",
+        "finishedAt": "2026-11-11T19:26:30.745880+00:00",
+        "durationMs": 640565,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture.stdout.log",
+            "sha256": "511f4c645b1a27e326a6aa916bf70a48d24c842555208b2fa5cbb0b703832c23",
+            "bytes": 1490
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture.stderr.log",
+            "sha256": "cc23d04f99736c8e1e4e0e61cc9c1c048e5bfa474260a271c494a60c5010a3ee",
+            "bytes": 387
+          }
+        },
+        "nestedCoverage": {
+          "status": "passed",
+          "receipt": {
+            "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture-nested-coverage.receipt.json",
+            "sha256": "4e0b01757bbcffaa0f9786b553fa203489800ce5075aa3262146f41ded7e6cb2",
+            "bytes": 4807
+          },
+          "argv": [
+            "bun",
+            "run",
+            "test:coverage"
+          ],
+          "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+          "exitCode": 0,
+          "startedAt": "2026-11-11T19:15:58.475724+00:00",
+          "finishedAt": "2026-11-11T19:26:30.648963+00:00",
+          "durationMs": 632106,
+          "rawLogs": {
+            "stdout": {
+              "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture-nested-coverage.stdout.log",
+              "sha256": "c921ef93c901ddb93ad9ea9326d67989caa706a0d87d132a085808de91d77f1f",
+              "bytes": 848
+            },
+            "stderr": {
+              "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture-nested-coverage.stderr.log",
+              "sha256": "bc5967d975ba228cabd93d8a140bce15cff6f86eb0c2c1aa191ea6b600dd6233",
+              "bytes": 30
+            }
+          },
+          "collection": {
+            "receipt": {
+              "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T19-15-58-572Z-fc2c0c2f-7c01-4b3e-8755-6e510ae05674/receipt.json",
+              "sha256": "f0bd67eaecbc51c16455bcddefbebbee91f881b8e610f1ad1e3ec022d9ed8373",
+              "bytes": 3230942
+            },
+            "summary": {
+              "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T19-15-58-572Z-fc2c0c2f-7c01-4b3e-8755-6e510ae05674/summary.json",
+              "sha256": "07e44acbb7153f9bf0dd2bda20a3aecae8fc82e16ecb067f9f97c99312dd65ea",
+              "bytes": 201154
+            },
+            "profiles": {
+              "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T19-15-58-572Z-fc2c0c2f-7c01-4b3e-8755-6e510ae05674/profiles.json",
+              "sha256": "4857d766034968e9f9fca8d4983ad886f665bfaa643ca24f13dfeaa775fa6a40",
+              "bytes": 1118881
+            },
+            "rawReports": {
+              "lcov": {
+                "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T19-15-58-572Z-fc2c0c2f-7c01-4b3e-8755-6e510ae05674/raw.lcov",
+                "sha256": "4f60b6c411f21a5336d9cf53523e7216b14f5308cbd667905bcf42f5b5bd3966",
+                "bytes": 1735260
+              },
+              "llvmJson": {
+                "path": ".arc-verify/rust-coverage/baseline/runs/2026-11-11T19-15-58-572Z-fc2c0c2f-7c01-4b3e-8755-6e510ae05674/raw.json",
+                "sha256": "2bf843a3aa45272dd413d10262f2ab9aa065aaccfd835ab75825c1324935feda",
+                "bytes": 75684825
+              }
+            },
+            "runId": "2026-11-11T19-15-58-572Z-fc2c0c2f-7c01-4b3e-8755-6e510ae05674",
+            "crates": [
+              {
+                "crate": "arc-core",
+                "covered": 247,
+                "total": 256,
+                "percent": 96.484375,
+                "pass": true
+              },
+              {
+                "crate": "arc-detector",
+                "covered": 706,
+                "total": 711,
+                "percent": 99.29676511954993,
+                "pass": true
+              },
+              {
+                "crate": "arc-storage",
+                "covered": 1811,
+                "total": 1892,
+                "percent": 95.71881606765328,
+                "pass": true
+              },
+              {
+                "crate": "arc-ipc",
+                "covered": 872,
+                "total": 905,
+                "percent": 96.353591160221,
+                "pass": true
+              },
+              {
+                "crate": "arc-daemon",
+                "covered": 2244,
+                "total": 2457,
+                "percent": 91.33089133089133,
+                "pass": true
+              },
+              {
+                "crate": "arc-cli",
+                "covered": 1608,
+                "total": 1938,
+                "percent": 82.97213622291022,
+                "pass": true
+              },
+              {
+                "crate": "arc-traffic",
+                "covered": 111,
+                "total": 111,
+                "percent": 100,
+                "pass": true
+              },
+              {
+                "crate": "arc-desktop",
+                "covered": 436,
+                "total": 506,
+                "percent": 86.16600790513834,
+                "pass": true
+              }
+            ],
+            "sourceHash": "f4d3fbfe9b7b0f49760e738756fe4799e0b48717c688e2efc83cc094f4fcc4a3",
+            "rawLogs": {
+              "stdout": {
+                "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture-nested-coverage-native.stdout.log",
+                "sha256": "472552e0d97c94a372194b317044c4faae6fef3516247f0469a37258089d21d7",
+                "bytes": 59075
+              },
+              "stderr": {
+                "path": "target/desktop-foundation/task-9-native-20261111T185719Z/architecture-nested-coverage-native.stderr.log",
+                "sha256": "9845d8b166580f393ac41d2faf814ad549894b943bdf64093a296fbd89c8472d",
+                "bytes": 15840
+              }
+            }
+          }
+        },
+        "receiptInstrumentation": {
+          "kind": "BASH_ENV function for only the exact root bun run test:coverage invocation",
+          "hook": {
+            "path": "target/desktop-foundation/task-9-native-20261111T185719Z/harness-receipt-env.sh",
+            "sha256": "4b1ec7b5db31a8c6854560ecc29033d80486fc39fd4e5f747e854c3c7a870647",
+            "bytes": 596
+          },
+          "runner": {
+            "path": "target/desktop-foundation/task-9-native-20261111T185719Z/run-harness-nested.py",
+            "sha256": "28e443fbf9eef514cbf1b70ef56bcfb2f0ac37b8ba4ac5b1ea727478fc60b22e",
+            "bytes": 584
+          },
+          "recorder": {
+            "path": "target/desktop-foundation/task-9-native-20261111T185719Z/record-native-command.py",
+            "sha256": "c99acbc8ab682677e74f36afae411d9ef12f40dce3fc4c66c494670ce4f9ddf9",
+            "bytes": 3648
+          },
+          "preservesPath": true
+        }
+      },
+      "currentAcceptance": false
+    },
+    {
+      "taskAttempt": 2,
+      "verificationCycle": 1,
+      "status": "active_bun_failed",
+      "inputIdentity": {
+        "sha256": "bfd6ed84417526019bccc4f03c957e0975d89f4c6e92450d1cddc2a07b85fd74",
+        "files": 400,
+        "manifest": {
+          "path": "target/desktop-foundation/task-9-repaired-20261111T193627Z/frozen-install.after.inputs.json",
+          "sha256": "5e17fe030c4ba4bd0957ec56a0ebd8717b5f2b2f4205e450034ad8045dba0e3f",
+          "bytes": 47581
+        }
+      },
+      "activeBun": {
+        "status": "failed",
+        "receipt": {
+          "path": "target/desktop-foundation/task-9-repaired-20261111T193627Z/active-bun.receipt.json",
+          "sha256": "5e2ecba5f3508e3778e26906449e8c219452a9e39d93d2f629336b2f1038e8e6",
+          "bytes": 4456
+        },
+        "argv": [
+          "bun",
+          "test"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+        "exitCode": 1,
+        "startedAt": "2026-11-11T20:04:51.891952+00:00",
+        "finishedAt": "2026-11-11T20:05:44.603619+00:00",
+        "durationMs": 52643,
+        "rawLogs": {
+          "stdout": {
+            "path": "target/desktop-foundation/task-9-repaired-20261111T193627Z/active-bun.stdout.log",
+            "sha256": "b91ef92b72f127d2801baf7bb69f49dbe03b61a98df041eeb65ff91ae1f16f00",
+            "bytes": 6460
+          },
+          "stderr": {
+            "path": "target/desktop-foundation/task-9-repaired-20261111T193627Z/active-bun.stderr.log",
+            "sha256": "234d6eb4f6b1a0d737ed421897969bb98bd6229f25d5590dbc7923524f81d561",
+            "bytes": 15858
+          }
+        },
+        "fullDiscovery": false
+      },
+      "currentAcceptance": false
+    }
+  ],
+  "repair": {
+    "taskAttempt": 2,
+    "consumed": {
+      "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/backend-repair-consumed.json",
+      "sha256": "4e93d14a5db8e17dd8da6f57836e6a03d7b6377264a04b0fc799505f27fc866f",
+      "bytes": 1599
+    },
+    "backendReport": {
+      "path": ".agents/results/result-backend-task-9-20261111T193624Z-70dc09b3-9020-4593-a351-b6aaa15b5d99.md",
+      "sha256": "b2c2b06ae5c09946292205b943511e584b6ce763fd10f37b6f0a835933eb1714",
+      "bytes": 7105
+    },
+    "preservation": {
+      "path": "target/desktop-foundation/task-9-registered-split-20261111T193624Z/preservation-check.json",
+      "sha256": "93ecf74c9f272c40159e3bafc58d57c78eedc7ff4dafd978a34072a9e315632b",
+      "bytes": 1362
+    },
+    "executedIdentities": {
+      "path": "target/desktop-foundation/task-9-registered-split-20261111T193624Z/executed-identity-check.json",
+      "sha256": "35eed3b967e2731683995c3af3757e113fbb55c62c3000ecc4b71023ef7b9e7c",
+      "bytes": 741
+    },
+    "rawLogs": {
+      "native": {
+        "path": "target/desktop-foundation/task-9-registered-split-20261111T193624Z/cargo-test.log",
+        "sha256": "78691cc65a59cc52cb421ae622a53dc5d23620cd146941f1ee5aeae228d1dc87",
+        "bytes": 1358
+      },
+      "format": {
+        "path": "target/desktop-foundation/task-9-registered-split-20261111T193624Z/format-check.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "scope": "Actual backend-owned test split consumed; all test bodies and root identities preserved, all final gates rerun against repaired inputs."
+  },
+  "fixtureRepair": {
+    "details": {
+      "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/fixture-repair.json",
+      "sha256": "be574c4650d3cbe0fee20d4782b843d147d7757039a06b00f16c9f968283aae4",
+      "bytes": 1085
+    },
+    "focusedRegression": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/fixture-regression.receipt.json",
+        "sha256": "6a5ee42b02a618bd051db040fd1c6479c4f0e29aaf151d878f9a0b123e35c1cd",
+        "bytes": 4524
+      },
+      "argv": [
+        "bun",
+        "test",
+        "scripts/coverage/gate.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:07:53.836550+00:00",
+      "finishedAt": "2026-11-11T20:07:55.168112+00:00",
+      "durationMs": 1265,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/fixture-regression.stdout.log",
+          "sha256": "bbe6a94c29cc8d3ff5a1792a5abae1f1122aed0642111b52036ab7e0b2b2ca47",
+          "bytes": 28
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/fixture-regression.stderr.log",
+          "sha256": "9ca5001effc88f5602829601d80e5bb46df1a8cdddc6369eaa81fd11e11acbdc",
+          "bytes": 2327
+        }
+      }
+    },
+    "compile": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/fixture-compile.receipt.json",
+        "sha256": "a3eae619aae230c62962dfe3eb72716a8c72a061e3451c6dc8616288b261fd30",
+        "bytes": 4650
+      },
+      "argv": [
+        "bun",
+        "build",
+        "scripts/coverage/gate.test.ts",
+        "--target=bun",
+        "--external=bun:test",
+        "--outdir",
+        "target/desktop-foundation/task-9-fixture-20261111T200733Z/compiled-tooling"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/70dc09b3-9020-4593-a351-b6aaa15b5d99/workspace",
+      "exitCode": 0,
+      "startedAt": "2026-11-11T20:07:55.168741+00:00",
+      "finishedAt": "2026-11-11T20:07:55.308892+00:00",
+      "durationMs": 82,
+      "rawLogs": {
+        "stdout": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/fixture-compile.stdout.log",
+          "sha256": "ec5dd9b1879598887717d4c9343e5160b6882f1354db25c5d6c3e031bfdb5526",
+          "bytes": 68
+        },
+        "stderr": {
+          "path": "target/desktop-foundation/task-9-fixture-20261111T200733Z/fixture-compile.stderr.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      }
+    }
+  },
+  "nativeExecutable": {
+    "path": "target/debug/arc-desktop",
+    "sha256": "9928403eedf8ff120ca010d67461ec70d8e4bcbfd17392fa93c0c0bad9bdfafc",
+    "bytes": 30909584
+  }
+}

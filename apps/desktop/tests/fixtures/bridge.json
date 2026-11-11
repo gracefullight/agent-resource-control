@@ -1,0 +1,132 @@
+{
+  "fixture_kind": "synthetic protocol-1 golden cases; not a daemon capture",
+  "clock_ms": 1794441600000,
+  "health": {
+    "data": {
+      "daemon": "running",
+      "protocol_version": 1,
+      "sweeper": "off"
+    },
+    "received_at_ms": 1794441600000
+  },
+  "recent": {
+    "data": {
+      "jobs": [
+        {
+          "job_id": "0000000000000000000000000000000a",
+          "phase": "COMPLETED",
+          "registered_at_ms": 1794441540000,
+          "updated_at_ms": 1794441590000,
+          "reason": "OBSERVED_EXIT"
+        },
+        {
+          "job_id": "0000000000000000000000000000000b",
+          "phase": "COMPLETED",
+          "registered_at_ms": 1794441540000,
+          "updated_at_ms": 1794441590000,
+          "reason": "OBSERVED_EXIT"
+        }
+      ],
+      "truncated": false,
+      "observed_at_ms": 1794441595000,
+      "liveness_fresh": false,
+      "limit": 50
+    },
+    "received_at_ms": 1794441600000
+  },
+  "exit_zero": {
+    "data": {
+      "kind": "found",
+      "job": {
+        "job_id": "0000000000000000000000000000000a",
+        "phase": "COMPLETED",
+        "reason": "OBSERVED_EXIT",
+        "observation": {
+          "target": "CHILD",
+          "status": "MISSING",
+          "observed_at_ms": 1794441580000,
+          "reason": "OBSERVED_EXIT"
+        },
+        "outcome": {
+          "kind": "EXITED",
+          "code": 0
+        },
+        "registered_at_ms": 1794441540000,
+        "launch_claimed_at_ms": 1794441550000,
+        "completed_at_ms": 1794441590000,
+        "updated_at_ms": 1794441590000,
+        "revision": 3
+      }
+    },
+    "received_at_ms": 1794441600000
+  },
+  "exit_seventeen": {
+    "data": {
+      "kind": "found",
+      "job": {
+        "job_id": "0000000000000000000000000000000b",
+        "phase": "COMPLETED",
+        "reason": "OBSERVED_EXIT",
+        "observation": {
+          "target": "CHILD",
+          "status": "MISSING",
+          "observed_at_ms": 1794441580000,
+          "reason": "OBSERVED_EXIT"
+        },
+        "outcome": {
+          "kind": "EXITED",
+          "code": 17
+        },
+        "registered_at_ms": 1794441540000,
+        "launch_claimed_at_ms": 1794441550000,
+        "completed_at_ms": 1794441590000,
+        "updated_at_ms": 1794441590000,
+        "revision": 3
+      }
+    },
+    "received_at_ms": 1794441600000
+  },
+  "unknown": {
+    "data": {
+      "kind": "found",
+      "job": {
+        "job_id": "0000000000000000000000000000000a",
+        "phase": "OUTCOME_UNKNOWN",
+        "reason": "IDENTITY_UNAVAILABLE",
+        "observation": {
+          "target": "CHILD",
+          "status": "INDETERMINATE",
+          "observed_at_ms": 1794441580000,
+          "reason": "IDENTITY_UNAVAILABLE"
+        },
+        "outcome": null,
+        "registered_at_ms": 1794441540000,
+        "launch_claimed_at_ms": 1794441550000,
+        "completed_at_ms": null,
+        "updated_at_ms": 1794441590000,
+        "revision": 3
+      }
+    },
+    "received_at_ms": 1794441600000
+  },
+  "not_found": {
+    "data": {
+      "kind": "not_found"
+    },
+    "received_at_ms": 1794441600000
+  },
+  "metadata": {
+    "product_name": "Agent Resource Control",
+    "version": "0.1.0",
+    "build_commit": null,
+    "build_dirty": null,
+    "os": "macos",
+    "architecture": "aarch64",
+    "license": null,
+    "open_source_notices": "Synthetic dependency notice for component tests."
+  },
+  "error": {
+    "code": "unavailable",
+    "retryable": true
+  }
+}

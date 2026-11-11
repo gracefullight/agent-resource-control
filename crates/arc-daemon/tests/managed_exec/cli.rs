@@ -4,21 +4,21 @@ use super::{
     support,
 };
 use arc_ipc::jobs::{JobId, Outcome, Phase, StatusRequest, StatusResult, OPERATION_JOB_STATUS};
-use serde_json::{json, Value};
+use serde_json::json;
 use std::{
     ffi::OsString,
     fs,
     io::Write,
-    os::unix::{
-        ffi::OsStringExt,
-        net::{UnixListener, UnixStream},
-        process::ExitStatusExt,
-    },
+    os::unix::{ffi::OsStringExt, net::UnixListener, process::ExitStatusExt},
     path::PathBuf,
     process::{Command, Stdio},
     thread,
     time::{Duration, Instant},
 };
+#[path = "../support/native_exec.rs"]
+mod native_exec;
+pub use native_exec::{accept, wait};
+
 pub fn binary(name: &str) -> PathBuf {
     std::path::Path::new(env!("CARGO_BIN_EXE_arc-daemon")).with_file_name(name)
 }
@@ -48,39 +48,6 @@ pub fn recent(f: &Fixture) -> JobId {
         panic!()
     };
     jobs[0].job_id.clone()
-}
-pub fn accept(listener: &UnixListener) -> (UnixStream, Value) {
-    listener.set_nonblocking(true).unwrap();
-    let end = Instant::now() + Duration::from_secs(10);
-    let (mut stream, _) = loop {
-        match listener.accept() {
-            Ok(s) => break s,
-            Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
-                assert!(Instant::now() < end, "child never reached barrier");
-                thread::sleep(Duration::from_millis(1));
-            }
-            Err(e) => panic!("{e}"),
-        }
-    };
-    stream.set_nonblocking(false).unwrap();
-    stream
-        .set_read_timeout(Some(Duration::from_secs(10)))
-        .unwrap();
-    stream
-        .set_write_timeout(Some(Duration::from_secs(10)))
-        .unwrap();
-    let value = serde_json::from_slice(&arc_ipc::read_frame(&mut stream).unwrap()).unwrap();
-    (stream, value)
-}
-pub fn wait(child: &mut std::process::Child) -> std::process::ExitStatus {
-    let end = Instant::now() + Duration::from_secs(15);
-    loop {
-        if let Some(status) = child.try_wait().unwrap() {
-            return status;
-        }
-        assert!(Instant::now() < end, "child wait expired");
-        thread::sleep(Duration::from_millis(1));
-    }
 }
 #[test]
 fn exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution() {

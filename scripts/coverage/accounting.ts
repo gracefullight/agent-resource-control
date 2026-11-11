@@ -1,6 +1,6 @@
 import { realpathSync, readFileSync } from "node:fs";
 import { resolve, relative } from "node:path";
-import { CRATES } from "./config";
+import { CRATES, CRATE_ROOTS, testPath } from "./config";
 import type { SourceFile } from "./source";
 
 export type FileCoverage = { path:string; crate:string; covered:number; total:number; uncovered:number[]; mapped:number[]; omitted:number[] };
@@ -48,6 +48,11 @@ export function account(lcov:string, inventory:SourceFile[], root:string, canoni
   root=realpathSync(root);
   if(!lcov.trim()) throw Error("MALFORMED_REPORT: empty LCOV");
   const known=new Map(inventory.map(f=>[f.path,f]));
+  if(known.size!==inventory.length) throw Error("SOURCE: duplicate inventory path");
+  for(const file of inventory) {
+    const owner=CRATES.find(crate=>file.path.startsWith(CRATE_ROOTS[crate].source+"/"));
+    if(!owner || owner!==file.crate || file.path.split("/").some(p=>p===".." || p===".")) throw Error(`UNMAPPED_FILE: inventory ${file.path}`);
+  }
   const lines=new Map<string,Map<number,number>>();
   const corroborated=llvmJson===undefined?undefined:llvmFiles(llvmJson), seen=new Set<string>();
   let nativeFile:any;
@@ -60,7 +65,7 @@ export function account(lcov:string, inventory:SourceFile[], root:string, canoni
       entries=new Map(); summaries={};
       try {current=relative(root,canonical(row.slice(3)));}
       catch {throw Error(`UNMAPPED_FILE: ${row.slice(3)}`);}
-      if(!known.has(current) && !/^crates\/[^/]+\/tests\//.test(current)) throw Error(`UNMAPPED_FILE: ${current}`);
+      if(!known.has(current) && !testPath(current)) throw Error(`UNMAPPED_FILE: ${current}`);
       if(corroborated) {
         const filename=row.slice(3);nativeFile=corroborated.get(filename);
         if(!nativeFile || seen.has(filename)) throw Error("MALFORMED_REPORT: LLVM/LCOV file set differs");

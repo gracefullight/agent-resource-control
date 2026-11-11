@@ -1,5 +1,5 @@
 use super::{call_until, call_until_no_busy_retry, call_until_tracked, Failure};
-use arc_ipc::{Request, Response};
+use crate::{Request, Response};
 use serde_json::Value;
 use std::{
     fs,
@@ -21,7 +21,7 @@ static NEXT: AtomicUsize = AtomicUsize::new(0);
 
 #[test]
 fn bun_unsupported_is_no_commit_only_without_an_earlier_possible_commit() {
-    use arc_ipc::traffic::OPERATION_BUN_JOB;
+    use crate::traffic::OPERATION_BUN_JOB;
     for mode in 0..4 {
         let calls = if mode == 1 || mode == 2 { 2 } else { 1 };
         let mut count = 0;
@@ -32,11 +32,11 @@ fn bun_unsupported_is_no_commit_only_without_an_earlier_possible_commit() {
                 return;
             }
             let code = if count == 1 && mode == 2 {
-                arc_ipc::ERROR_DB_BUSY
+                crate::ERROR_DB_BUSY
             } else {
-                arc_ipc::ERROR_UNSUPPORTED_CAPABILITY
+                crate::ERROR_UNSUPPORTED_CAPABILITY
             };
-            arc_ipc::write_response(stream, &Response::error(request.request_id, code)).unwrap();
+            crate::write_response(stream, &Response::error(request.request_id, code)).unwrap();
         });
         let mut prior = mode == 3;
         let result = call_until_tracked(
@@ -99,7 +99,7 @@ impl Peer {
                 stream.set_nonblocking(false).unwrap();
                 stream.set_read_timeout(Some(remaining)).unwrap();
                 stream.set_write_timeout(Some(remaining)).unwrap();
-                let request = arc_ipc::read_message(&mut stream).unwrap();
+                let request = crate::read_message(&mut stream).unwrap();
                 reply(&mut stream, request);
             }
             let _ = done_tx.send(());
@@ -163,7 +163,7 @@ fn live_unavailable_uncertain_and_idempotent_retry_keep_distinct_decisions() {
         ids.push(request.request_id.clone());
         assert!(ids.iter().all(|id| id == &ids[0]));
         if ids.len() == 3 {
-            arc_ipc::write_response(stream, &Response::ok(request.request_id, Value::Bool(true)))
+            crate::write_response(stream, &Response::ok(request.request_id, Value::Bool(true)))
                 .unwrap();
         }
     });
@@ -172,11 +172,8 @@ fn live_unavailable_uncertain_and_idempotent_retry_keep_distinct_decisions() {
 #[test]
 fn live_db_busy_exhaustion_is_uncertain_but_explicit_errors_are_nonlaunching() {
     let peer = Peer::new(3, |stream, r| {
-        arc_ipc::write_response(
-            stream,
-            &Response::error(r.request_id, arc_ipc::ERROR_DB_BUSY),
-        )
-        .unwrap();
+        crate::write_response(stream, &Response::error(r.request_id, crate::ERROR_DB_BUSY))
+            .unwrap();
     });
     assert_eq!(peer.call(), Err(Failure::Busy));
     for code in [
@@ -186,7 +183,7 @@ fn live_db_busy_exhaustion_is_uncertain_but_explicit_errors_are_nonlaunching() {
         "PROTOCOL_INCOMPATIBLE",
     ] {
         let peer = Peer::new(1, move |stream, r| {
-            arc_ipc::write_response(stream, &Response::error(r.request_id, code)).unwrap();
+            crate::write_response(stream, &Response::error(r.request_id, code)).unwrap();
         });
         assert_eq!(
             peer.call(),
@@ -208,12 +205,12 @@ fn live_complete_invalid_frames_and_envelopes_are_not_outages() {
             }
             if mode == 1 {
                 stream
-                    .write_all(&(arc_ipc::MAX_FRAME_BYTES + 1).to_be_bytes())
+                    .write_all(&(crate::MAX_FRAME_BYTES + 1).to_be_bytes())
                     .unwrap();
                 return;
             }
             if mode == 2 {
-                arc_ipc::write_frame(stream, b"{malformed").unwrap();
+                crate::write_frame(stream, b"{malformed").unwrap();
                 return;
             }
             let mut response = Response::ok(r.request_id, Value::Null);
@@ -224,7 +221,7 @@ fn live_complete_invalid_frames_and_envelopes_are_not_outages() {
                 6 => response.result = None,
                 _ => response.status = "unknown".into(),
             }
-            arc_ipc::write_response(stream, &response).unwrap();
+            crate::write_response(stream, &response).unwrap();
         });
         assert_eq!(
             peer.call(),
@@ -291,11 +288,11 @@ fn transient_database_contention_retries_past_three_replies() {
     let peer = Peer::new(7, move |stream, request| {
         let number = observed.fetch_add(1, Ordering::SeqCst);
         let response = if number < 6 {
-            Response::error(request.request_id, arc_ipc::ERROR_DB_BUSY)
+            Response::error(request.request_id, crate::ERROR_DB_BUSY)
         } else {
             Response::ok(request.request_id, Value::Bool(true))
         };
-        arc_ipc::write_response(stream, &response).unwrap();
+        crate::write_response(stream, &response).unwrap();
     });
     assert_eq!(peer.call(), Ok(Value::Bool(true)));
     assert_eq!(calls.load(Ordering::SeqCst), 7);
@@ -307,11 +304,11 @@ fn per_row_busy_reply_leaves_the_next_exchange_available() {
     let observed = calls.clone();
     let peer = Peer::new(2, move |stream, request| {
         let response = if observed.fetch_add(1, Ordering::SeqCst) == 0 {
-            Response::error(request.request_id, arc_ipc::ERROR_DB_BUSY)
+            Response::error(request.request_id, crate::ERROR_DB_BUSY)
         } else {
             Response::ok(request.request_id, Value::Bool(true))
         };
-        arc_ipc::write_response(stream, &response).unwrap();
+        crate::write_response(stream, &response).unwrap();
     });
     let deadline = Instant::now() + Duration::from_secs(5);
     assert_eq!(

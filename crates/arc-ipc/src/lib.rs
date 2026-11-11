@@ -4,6 +4,8 @@
 //! JSON object. The protocol version is 1 and a frame may not exceed 1 MiB.
 //! Classification command text is transient and never sent to storage or logs.
 
+#[cfg(unix)]
+pub mod client;
 pub mod jobs;
 mod schema;
 pub mod traffic;

@@ -108,10 +108,15 @@ test("terminal-outcome seven-crate coverage is preserved as historical claims wi
     availableOutputs: history.available.length, unavailableOutputs: history.unavailable.length, gaps: history.gaps, currentAcceptance: false })}`);
 });
 
-test("current migration checksums and protocol-1 types stay equal to the accepted desktop baseline", () => {
+test("inherited migration checksums and protocol-1 types stay equal to the accepted desktop baseline", () => {
+  // Enumerate the immutable baseline so additive migrations do not require
+  // nonexistent historical bytes. Every inherited migration is still required
+  // and compared in full; current migration behavior has native coverage.
+  const inherited = gitBytes(root, ["ls-tree", "-r", "--name-only", TERMINAL_DELIVERY, "--",
+    "crates/arc-storage/migrations"]).toString().trim().split("\n");
+  expect(inherited).toHaveLength(3);
   for (const path of [
-    ...readdirSync(resolve(root, "crates/arc-storage/migrations")).filter(name => name.endsWith(".sql"))
-      .map(name => `crates/arc-storage/migrations/${name}`),
+    ...inherited,
     "crates/arc-ipc/src/jobs/types.rs",
   ]) expect(readFileSync(resolve(root, path)).equals(gitBytes(root, ["show", `${TERMINAL_DELIVERY}:${path}`]))).toBe(true);
 });

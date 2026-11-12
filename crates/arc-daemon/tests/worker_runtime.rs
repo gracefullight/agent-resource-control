@@ -14,6 +14,8 @@ mod db_worker;
 mod deadline_recovery;
 #[path = "../src/instance.rs"]
 mod instance;
+#[path = "../src/job_meter_dispatch.rs"]
+mod job_meter_dispatch;
 #[path = "../src/lifecycle.rs"]
 mod lifecycle;
 #[path = "../src/limits.rs"]

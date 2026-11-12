@@ -259,3 +259,4 @@ include!("registered_commands_support/input_validation.rs");
 include!("registered_commands_support/protocol_validation.rs");
 include!("registered_commands_support/status_validation.rs");
 include!("registered_commands_support/local_lifecycle.rs");
+include!("registered_commands_support/job_meter.rs");

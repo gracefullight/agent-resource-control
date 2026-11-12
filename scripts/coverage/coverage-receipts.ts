@@ -3,7 +3,7 @@ import { account } from "./accounting";
 import { BASELINE, CRATES, METER_INPUTS, METER_SRS_SHA256, PINS } from "./config";
 import { enforce, requireVersion, requireWorkspace } from "./gate";
 import { readEvidence, referenceFile, type EvidenceRef } from "./evidence";
-import { hash, sourceInventory, requireInputIdentity } from "./source";
+import { hash, sourceInventory, requireInputIdentity, type CargoMetadata } from "./source";
 import { parseCargoExecution } from "../archive/harness/managed-exec-test-output";
 import type { Receipt } from "./commands";
 
@@ -33,7 +33,7 @@ export function requireProfiles(root:string, proof:ProfileProof) {
 // Read and recompute a completed existing coverage run. This never collects
 // coverage or falls back to a historical passing report.
 export type CoverageEvidence = {receipt:EvidenceRef;summary:EvidenceRef;profiles:EvidenceRef;rawReports:{lcov:EvidenceRef;llvmJson:EvidenceRef}};
-export function coverageEvidence(root:string, evidence:CoverageEvidence, sourceHash:string) {
+export function coverageEvidence(root:string, evidence:CoverageEvidence, sourceHash:string, metadata?:CargoMetadata) {
   const json=(ref:EvidenceRef)=>JSON.parse(readEvidence(root,ref)!.toString());
   const receipt=json(evidence.receipt), summary=json(evidence.summary);
   if(receipt.pass!==true || receipt.exit!==0 || receipt.sourceHash!==sourceHash || summary.sourceHash!==sourceHash || receipt.runId!==summary.runId) throw Error("COVERAGE: failed/stale receipt");
@@ -42,7 +42,7 @@ export function coverageEvidence(root:string, evidence:CoverageEvidence, sourceH
   if(sourceHash!==current.sha256) throw Error("COVERAGE: source hash/input digest mismatch");
   const lcov=readEvidence(root,evidence.rawReports.lcov)!.toString(), llvm=readEvidence(root,evidence.rawReports.llvmJson)!;
   if(hash(lcov)!==summary.rawSha256 || hash(llvm)!==summary.llvmSha256) throw Error("COVERAGE: raw report hash mismatch");
-  const result=account(lcov,sourceInventory(root),root,undefined,JSON.parse(llvm.toString()));
+  const result=account(lcov,sourceInventory(root,metadata),root,undefined,JSON.parse(llvm.toString()),metadata);
   enforce(result);
   if(result.threshold!==80 || summary.schemaVersion!==1 || summary.threshold!==80 || summary.pass!==true || JSON.stringify(result.crates)!==JSON.stringify(summary.crates) || JSON.stringify(result.files)!==JSON.stringify(summary.files) ||
     JSON.stringify(result.crates.map(crate=>crate.crate))!==JSON.stringify(CRATES)) throw Error("COVERAGE: accounting differs from native summary");
@@ -89,7 +89,7 @@ export function reuseCoverage(root:string, path:string) {
   const proof=json(bundle.evidence.profiles) as ProfileProof;
   // Recompute every crate's integer floor and validate the complete report,
   // native log, profile bytes and exact merge membership with shared helpers.
-  const result=coverageEvidence(root,bundle.evidence,bundle.sourceHash);
+  const result=coverageEvidence(root,bundle.evidence,bundle.sourceHash,metadata);
   const commands=receipt.receipts as Receipt[];
   if(!Array.isArray(commands) || !commands.length) throw Error("COVERAGE_REUSE: missing collection commands");
   const rust=["rustup","run",PINS.rust,"cargo"];

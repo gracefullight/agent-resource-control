@@ -75,8 +75,34 @@ Tracking recovery is observational. A by-ID status check may update the lifecycl
 
 Transport and SQLite admission remain bounded. Desktop integration, native Windows acceptance, vendor hooks, broader command detection and remaining scheduling policy remain outstanding.
 
+## Job CPU accounting
+
+Find a durable job ID in the existing list, inspect its outcome, then read its accounting:
+
+```sh
+arcctl job status
+arcctl job status <JOB_ID>
+arcctl meter summary --job <JOB_ID> --json
+```
+
+An immediately admitted command normally prints no ID. The recent list contains at most 50 records and identifies truncation; an earlier known ID can still be queried directly. The summary is a point lookup through the authenticated daemon, with a two-second read budget. It never launches work or retries execution. `meter snapshot --json` retains the separate host snapshot contract.
+
+`cpu_core_seconds` records cumulative user CPU plus system CPU, in CPU core-seconds. Parallel workers can consume more core-seconds than the wall duration. This is CPU used, independent of the host CPU utilization percentage. `run_elapsed.seconds` is the CLI's monotonic interval immediately around its sole native spawn attempt through terminal observation. It includes stopped time and excludes queue wait and post-terminal completion/report traffic. It is never derived by subtracting wall timestamps. Native terminal observation can lag actual exit while the supervisor is handling metadata or scheduling.
+
+`queue_wait` is separate: scheduled jobs use durable QUEUED-to-RESERVED wall timestamps, with their clock and basis identified. Affirmatively measurement-aware lifecycle-only jobs have an established zero with basis `lifecycle_only`. Missing, reversed or legacy queue facts stay null/Unknown; an absent measurement is never converted to zero.
+
+The existing sole waiter captures the owned child's native terminal user/system usage with PID-specific `wait4`. The `native_waited_descendants` scope includes usage propagated through explicit child waits, including short-lived reaped descendants. It excludes unrelated pipeline/process-group peers. It does not establish coverage of escaped, detached or unwaited work. Generic commands therefore retain Partial quality with `unobserved_descendants` even when they exit successfully. CPU-unavailable reports retain null values and Unknown quality; zero is a valid native reading. Exit 17 and signal termination retain their actual CPU measurements and original command status.
+
+Reports identify the observer and child by PID, process birth token and boot identity, alongside attribution basis, scope, completeness and missing-coverage reasons. Private identity-keyed native ancestry records cover scheduled and lifecycle-only wrappers; inherited environment values alone cannot establish accounting ownership. A verified nested report is `included_in_root` with its canonical root job ID and is non-additive. Uncertain ancestry remains `unverified` and non-additive. Do not sum inclusive nested reports, add samples to a terminal total, or interpret Partial as a complete process-tree total.
+
+`accounting.state` distinguishes a recorded report from Unknown legacy/interrupted/unavailable/not-terminated data, missing records and confirmed expiry. Missing data proves neither expiry nor nonexecution. A read failure or unsupported older daemon returns a static error without inventing a successful summary. Retrying this read cannot repair lost execution accounting by running the command again. The selected-job desktop detail consumes the same typed summary when supported.
+
+After terminal observation the CLI freezes one 500 ms accounting-report deadline. Existing bounded lifecycle completion runs first and consumes that window; a slow completion can leave no report budget. Accounting sends only additive `meter.report` metadata, preserving protocol-1 start/complete payloads. Lost acknowledgements use the same immutable report identity and bytes, with a bounded summary read and identical retry inside the original window. Unsupported peers, outages, conflicts and exhausted budgets do not change child streams, exit status, signals or the number of executions. One accepted summary per job remains immutable and is subject to the SRS 90-day metadata retention policy; client wall time and retries cannot extend retention.
+
+Vendor/project aggregation, live process-tree metering, Windows, vendor hooks and full Meter acceptance remain outstanding.
+
 ## Timing and protocol errors
 
-Initial preparation begins with a 1,800 ms absolute metadata deadline. Legacy REGISTER, CLAIM and retries share one deadline: the initial deadline when legacy preparation is entered directly or a capability probe is unsupported, and a fresh 1,800 ms deadline if a Bun enqueue is unsupported or Traffic returns bypass when no request may have committed. Those fallback paths can therefore exceed the initial deadline plus the 200 ms engineering allowance for native handoff. Traffic queue polls receive a fresh bounded deadline after each healthy response; time spent waiting in a healthy queue is not an outage. Each transport attempt uses at most 600 ms and checks cancellation at intervals of at most 25 ms. Native tests measure the larger parent-spawn-to-child-handshake interval; host suspension is not a hard real-time guarantee.
+Initial preparation begins with a 1,800 ms absolute metadata deadline. Capability probes, initial admission, legacy REGISTER, CLAIM and retries share that deadline, including fallback after an explicitly unsupported Bun enqueue or a confirmed Traffic bypass. Those fallback paths do not renew the outage budget. The engineering target allows up to 200 ms more for native handoff. Traffic queue polls receive a fresh bounded deadline after each healthy response; time spent waiting in a healthy queue is not an outage. Each transport attempt uses at most 600 ms and checks cancellation at intervals of at most 25 ms. Native tests measure the larger parent-spawn-to-child-handshake interval; host suspension is not a hard real-time guarantee.
 
 DB_BUSY is retryable metadata uncertainty: the response can follow a commit. Exhaustion permits fallback. Other matching protocol-1 error responses reject preparation. Complete malformed, empty, oversized or mismatched replies stop with IPC_ERROR (or PROTOCOL_INCOMPATIBLE for a version mismatch), rather than becoming outage fallback. A disconnected or truncated stream is an outage and may leave tracking uncertain. Invalid local socket configuration stops preparation. Managed ATTACH, COMPLETE and Traffic fallback updates remain bounded best effort.

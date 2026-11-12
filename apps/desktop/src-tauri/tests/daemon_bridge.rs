@@ -6,6 +6,9 @@ mod daemon_bridge_support;
 #[path = "../../../../crates/arc-daemon/tests/support/native_exec.rs"]
 mod execution;
 #[cfg(target_os = "macos")]
+#[path = "daemon_bridge_support/job_meter_reads.rs"]
+mod job_meter_reads;
+#[cfg(target_os = "macos")]
 #[path = "daemon_bridge_support/meter_native.rs"]
 mod meter_native;
 #[cfg(target_os = "macos")]

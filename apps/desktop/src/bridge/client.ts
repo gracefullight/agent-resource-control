@@ -1,4 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
+import type { JobMeterSummary } from "@/bridge/job-meter.types";
+import { isJobMeterSummary } from "@/bridge/job-meter-contract";
 import type { MeterSnapshot } from "@/bridge/meter.types";
 import { isMeterSnapshot } from "@/bridge/meter-contract";
 import type {
@@ -60,6 +62,7 @@ const CREDIT_LINKS = ["github", "linkedin", "oma"] as const;
 export type DesktopCommand =
   | "daemon_health"
   | "meter_snapshot"
+  | "meter_summary"
   | "recent_jobs"
   | "job_by_id"
   | "desktop_metadata"
@@ -392,6 +395,17 @@ export function createDesktopClient(
     }
   }
   return {
+    meterSummary: async (jobId) => {
+      if (!isJobId(jobId)) throw invalidRequest();
+      return read(
+        "meter_summary",
+        (value): value is Received<JobMeterSummary> =>
+          isReceived(value, (data): data is JobMeterSummary =>
+            isJobMeterSummary(data, jobId),
+          ),
+        { job_id: jobId },
+      );
+    },
     meterSnapshot: () =>
       read("meter_snapshot", (value): value is Received<MeterSnapshot> =>
         isReceived(value, isMeterSnapshot),

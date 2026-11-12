@@ -13,6 +13,7 @@ import {
   T,
   within,
 } from "./fixtures/desktop-test-harness";
+import { registerJobMeterPresentationCases } from "./fixtures/job-meter-presentation-cases";
 import {
   meterFixture,
   meterReply,
@@ -445,4 +446,5 @@ describe("Dashboard host Meter", () => {
   });
 
   registerMeterInteractionCases();
+  registerJobMeterPresentationCases();
 });

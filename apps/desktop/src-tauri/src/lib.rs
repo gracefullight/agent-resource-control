@@ -71,6 +71,7 @@ fn install<R: Runtime>(
         .invoke_handler(tauri::generate_handler![
             commands::daemon_health,
             commands::meter_snapshot,
+            commands::meter_summary,
             commands::recent_jobs,
             commands::job_by_id,
             commands::desktop_metadata,

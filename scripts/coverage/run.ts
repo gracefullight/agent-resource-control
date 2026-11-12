@@ -27,9 +27,9 @@ let inventory:ReturnType<typeof sourceInventory>|undefined;
 let measured=false;
 try {
   console.log("Coverage: checking pinned tools (setup: mise run coverage:provision)");
-  input=inputIdentity(root); inventory=sourceInventory(root);
+  input=inputIdentity(root);
   if(input.files[METER_INPUTS[0]]!==METER_SRS_SHA256) throw Error("INPUT_IDENTITY: authoritative SRS hash mismatch");
-  save("inputs.json",input);save("source-inventory.json",inventory);save("source-roots.json",CRATE_ROOTS);
+  save("inputs.json",input);save("source-roots.json",CRATE_ROOTS);
   requireVersion(Bun.version,PINS.bun,"Bun");
   const rustc=await run([...rust,"rustc","-Vv"],"MISSING_TOOL rustc");
   if(!rustc.stdout.includes(`release: ${PINS.rust}\n`)) throw Error("TOOL_VERSION: Rust release mismatch");
@@ -56,6 +56,8 @@ try {
   const metadata=JSON.parse((await run([...rust,"cargo","metadata","--format-version","1","--locked","--offline"],"METADATA_FAILURE")).stdout);
   requireWorkspace(metadata,root);
   save("metadata.json",metadata);
+  inventory=sourceInventory(root,metadata);
+  save("source-inventory.json",inventory);
   // Disable the tool's broad tests-directory filter: path-included production
   // modules may contain tests/../src in their recorded filename. Only exact
   // non-workspace dependency and compiler-source roots are filtered upstream.
@@ -101,7 +103,7 @@ try {
   save("profiles.json",{target,childProof,merge,mergeList:{path:relative(root,mergeFile),sha256:hash(mergeBytes),bytes:mergeBytes.length},
     profiles:profiles.map(p=>({path:p,sha256:hash(readFileSync(join(target,p))),size:statSync(join(target,p)).size}))});
   const after=inputIdentity(root);
-  const result=validateReport({path:report,llvmPath:llvmReport,started,before:input.sha256,after:after.sha256,inventory,root,testExit:0});
+  const result=validateReport({path:report,llvmPath:llvmReport,started,before:input.sha256,after:after.sha256,inventory,root,testExit:0,metadata});
   measured=true;
   save("summary.json",{...result,runId:id,acceptedBaseline:BASELINE,host,inputs:input,versions,childProof});
   writeFileSync(join(dir,"uncovered.md"),result.files.map(f=>`${f.path}: ${f.covered}/${f.total}; uncovered: ${f.uncovered.join(", ")||"none"}`).join("\n")+"\n");

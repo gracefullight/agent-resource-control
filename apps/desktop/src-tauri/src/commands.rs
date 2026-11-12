@@ -13,6 +13,14 @@ pub async fn meter_snapshot(
     state.bridge.meter_snapshot_async().await
 }
 
+#[tauri::command(rename_all = "snake_case")]
+pub async fn meter_summary(
+    state: State<'_, DesktopState>,
+    job_id: String,
+) -> Result<Received<JobMeterSummary>, DesktopError> {
+    state.bridge.meter_summary_async(job_id).await
+}
+
 #[tauri::command]
 pub async fn daemon_health(
     state: State<'_, DesktopState>,

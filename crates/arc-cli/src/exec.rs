@@ -1,4 +1,5 @@
 //! One CLI-owned native child, independent of every metadata retry.
+mod accounting;
 mod descriptors;
 mod lineage;
 mod preparation;
@@ -100,6 +101,8 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         Ok(tracking) => tracking,
         Err(error) => return preparation::stopped(error),
     };
+    let (accounting_relation, accounting_record) =
+        accounting::lineage(&socket, &observer, &job_id, &tracking);
     let mut command = Command::new(&argv[0]);
     use std::os::unix::process::CommandExt;
     command.args(&argv[1..]);
@@ -149,7 +152,14 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         }
         _ => (),
     }
-    let spawned = match preparation::admit(|| !signals.admit_spawn(), || command.spawn()) {
+    let mut spawned_at = Instant::now();
+    let spawned = match preparation::admit(
+        || !signals.admit_spawn(),
+        || {
+            spawned_at = Instant::now();
+            command.spawn()
+        },
+    ) {
         Ok(spawned) => spawned,
         Err(error) => {
             match &tracking {
@@ -352,7 +362,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     if !attached {
         preparation::uncertain(&mut diagnostics, &job_id);
     }
-    let status = loop {
+    let termination = loop {
         match signals.wait(&mut child) {
             Ok(status) => break status,
             Err(e) if e.kind() == io::ErrorKind::Interrupted => (),
@@ -364,6 +374,25 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
             }
         }
     };
+    let report_deadline = termination.observed_at + accounting::REPORT_WINDOW;
+    // Registration-outage fallback has no authoritative child/terminal binding.
+    let meter_report = if attached
+        && matches!(
+            &tracking,
+            traffic::Mode::Legacy(preparation::Tracking::Managed) | traffic::Mode::Scheduled { .. }
+        ) {
+        accounting::report(
+            &job_id,
+            &observer,
+            child_identity.as_ref(),
+            accounting_relation,
+            spawned_at,
+            &termination,
+        )
+    } else {
+        None
+    };
+    let status = termination.status;
     signals.reaped();
     let outcome = match status.code() {
         Some(code) => Outcome::Exited { code: code as u8 },
@@ -432,9 +461,13 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         );
         diagnostics.emit(format_args!("COMPLETION_UNCONFIRMED\nJob: {}\n{observed} Recording is unconfirmed. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str()));
     }
+    if let Some(report) = meter_report {
+        let _ = accounting::deliver(&socket, &report, report_deadline);
+    }
     diagnostics.finish();
     drop(signals);
     drop(lineage_record);
+    drop(accounting_record);
     if let Some(signal) = status.signal() {
         signals::reraise(signal);
     }

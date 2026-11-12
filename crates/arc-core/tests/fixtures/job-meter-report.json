@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "report_id": "22222222222222222222222222222222",
+  "job_id": "11111111111111111111111111111111",
+  "observer": {
+    "pid": 100,
+    "start_token": "1001",
+    "boot_id": "00000000-0000-0000-0000-000000000001"
+  },
+  "child": {
+    "pid": 101,
+    "start_token": "1002",
+    "boot_id": "00000000-0000-0000-0000-000000000001"
+  },
+  "cpu_core_seconds": { "user": 1.25, "system": 0.75, "total": 2.0 },
+  "run_elapsed": { "seconds": 3.0, "clock": "monotonic", "includes_stopped": true },
+  "attribution_basis": "native_owned_child_wait4",
+  "scope": "native_waited_descendants",
+  "completeness": "complete",
+  "missing_coverage": [],
+  "accounting_relation": {
+    "kind": "canonical_root",
+    "root_job_id": "11111111111111111111111111111111"
+  },
+  "outcome": { "kind": "EXITED", "code": 0 },
+  "terminated_at_ms": 10000
+}

@@ -2,7 +2,7 @@ import { existsSync, readFileSync, statSync, realpathSync } from "node:fs";
 import { resolve } from "node:path";
 import { CRATES, CRATE_ROOTS } from "./config";
 import { account } from "./accounting";
-import { hash, type SourceFile } from "./source";
+import { hash, type SourceFile, type CargoMetadata } from "./source";
 
 export function requireExit(code:number,label:string) {
   if(code!==0) throw Error(`${label}: exited ${code}`);
@@ -15,12 +15,12 @@ export function freshReport(path:string,started:number) {
   if(statSync(path).mtimeMs<started) throw Error(`STALE_REPORT: ${path}`);
   return readFileSync(path,"utf8");
 }
-export function validateReport(args:{path:string;llvmPath?:string;started:number;before:string;after:string;inventory:SourceFile[];root:string;testExit:number}) {
+export function validateReport(args:{path:string;llvmPath?:string;started:number;before:string;after:string;inventory:SourceFile[];root:string;testExit:number;metadata?:CargoMetadata}) {
   requireExit(args.testExit,"TEST_FAILURE");
   if(args.before!==args.after) throw Error("STALE_REPORT: source/configuration changed during measurement");
   const raw=freshReport(args.path,args.started);
   const llvm=args.llvmPath?freshReport(args.llvmPath,args.started):undefined;
-  const result=account(raw,args.inventory,args.root,undefined,llvm===undefined?undefined:JSON.parse(llvm));
+  const result=account(raw,args.inventory,args.root,undefined,llvm===undefined?undefined:JSON.parse(llvm),args.metadata);
   return {...result,sourceHash:args.before,rawSha256:hash(raw),...(llvm===undefined?{}:{llvmSha256:hash(llvm)})};
 }
 export function enforce(result:{crates:{crate:string;covered:number;total:number;pass:boolean}[]}) {

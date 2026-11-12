@@ -15,8 +15,13 @@ pub struct StartEvidence {
     observer_status: IdentityStatus,
     child: Option<(ProcessIdentity, IdentityStatus)>,
     child_identity_status: Option<IdentityStatus>,
+    meter: Option<Box<crate::job_meter::LineageEvidence>>,
 }
 impl StartEvidence {
+    pub fn with_meter_evidence(mut self, evidence: crate::job_meter::LineageEvidence) -> Self {
+        self.meter = Some(Box::new(evidence));
+        self
+    }
     #[cfg(test)]
     pub(super) fn simulated(request: &StartRequest, status: IdentityStatus) -> Self {
         let mut evidence = Self::gather(request);
@@ -30,6 +35,7 @@ impl StartEvidence {
     }
     pub fn gather(request: &StartRequest) -> Self {
         Self {
+            meter: None,
             observer: request.observer().clone(),
             observer_status: probe_live(request.observer()),
             child_identity_status: match request {
@@ -178,6 +184,9 @@ pub fn start(
         }
     };
     codec::write(&tx, &job, disposition == D::Created)?;
+    if let Some(proof) = &evidence.meter {
+        crate::job_meter::bind(&tx, &job, proof)?;
+    }
     tx.commit()?;
     Ok(StartResult { disposition, job })
 }

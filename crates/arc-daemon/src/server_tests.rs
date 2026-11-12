@@ -79,7 +79,7 @@ async fn a_socketpair_serves_hello_and_survives_an_incompatible_version() {
     assert_eq!(doctor.status, STATUS_OK);
     let result = doctor.result.unwrap();
     assert_eq!(result["integrity_check"], "ok");
-    assert_eq!(result["schema_migrations"], 3);
+    assert_eq!(result["schema_migrations"], 4);
     assert_eq!(result["ipc_owner_only"], true);
     assert_eq!(result["tray_connected"], false);
     assert_eq!(result["vendors_detected"], false);

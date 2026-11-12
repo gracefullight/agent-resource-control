@@ -1,4 +1,8 @@
-//! Native observation boundary. No scheduling, IPC, job attribution or history.
+//! Native observation and owned-child accounting. No scheduling, IPC or history.
+#[cfg(unix)]
+pub mod child_wait;
+#[cfg(unix)]
+pub mod job_lineage;
 use arc_core::meter::{FilesystemIdentity, MemoryPressure, Reading};
 
 mod source;

@@ -158,6 +158,7 @@ describe("production desktop component lifecycle", () => {
         [
           "daemon_health",
           "meter_snapshot",
+          "meter_summary",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",
@@ -186,7 +187,9 @@ describe("production desktop component lifecycle", () => {
     expect(selected.getByText(A)).toBeDefined();
     expect(selected.getByText("Succeeded · Exit code 0")).toBeDefined();
     expect(
-      selected.getByText("Stale · showing last recorded data"),
+      selected.getByText("Stale · showing last recorded data", {
+        selector: '[aria-labelledby="selected-heading"] > p',
+      }),
     ).toBeDefined();
     expect(
       selected

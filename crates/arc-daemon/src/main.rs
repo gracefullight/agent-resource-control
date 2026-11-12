@@ -8,6 +8,7 @@ mod admission;
 mod connection;
 mod db_worker;
 mod instance;
+mod job_meter_dispatch;
 mod lifecycle;
 mod limits;
 mod meter;

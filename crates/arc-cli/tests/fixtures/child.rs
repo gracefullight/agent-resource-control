@@ -2,6 +2,7 @@
 #[cfg(target_os = "macos")]
 mod frozen_traffic_v1;
 mod hold_unattached;
+mod job_meter;
 mod pipeline;
 use std::{
     io::{Read, Write},
@@ -17,6 +18,10 @@ extern "C" fn observed(_: i32) {
     }
 }
 fn main() {
+    if let Ok(mode) = std::env::var("ARC_FIXTURE_ACCOUNTING") {
+        job_meter::run(&mode);
+        return;
+    }
     if std::env::var_os("ARC_FIXTURE_HOLD_UNATTACHED").is_some() {
         hold_unattached::run();
         return;

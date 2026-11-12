@@ -5,6 +5,8 @@
 mod admission;
 #[path = "../src/connection.rs"]
 mod connection;
+#[path = "../src/job_meter_dispatch.rs"]
+mod job_meter_dispatch;
 #[path = "../src/limits.rs"]
 mod limits;
 #[path = "../src/meter.rs"]

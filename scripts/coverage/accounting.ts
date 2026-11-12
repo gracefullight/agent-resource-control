@@ -1,8 +1,8 @@
 import { realpathSync, readFileSync } from "node:fs";
 import { resolve, relative } from "node:path";
 import { CRATES, CRATE_ROOTS, testPath } from "./config";
-import type { SourceFile } from "./source";
-import { hash } from "./source";
+import type { SourceFile, CargoMetadata } from "./source";
+import { hash, declaredExampleSources } from "./source";
 import { declarationOnly } from "./declaration-only";
 
 export type FileCoverage = { path:string; crate:string; covered:number; total:number; uncovered:number[]; mapped:number[]; omitted:number[]; declarationOnly?:true };
@@ -46,14 +46,17 @@ function llvmLines(segments:any[],maxLine:number) {
   }
   return lines;
 }
-export function account(lcov:string, inventory:SourceFile[], root:string, canonical=(p:string)=>realpathSync(resolve(root,p)), llvmJson?:unknown) {
+export function account(lcov:string, inventory:SourceFile[], root:string, canonical=(p:string)=>realpathSync(resolve(root,p)), llvmJson?:unknown, metadata?:CargoMetadata) {
   root=realpathSync(root);
   if(!lcov.trim()) throw Error("MALFORMED_REPORT: empty LCOV");
   const known=new Map(inventory.map(f=>[f.path,f]));
   if(known.size!==inventory.length) throw Error("SOURCE: duplicate inventory path");
+  const examples=declaredExampleSources(root,metadata);
   for(const file of inventory) {
     const owner=CRATES.find(crate=>file.path.startsWith(CRATE_ROOTS[crate].source+"/"));
-    if(!owner || owner!==file.crate || file.path.split("/").some(p=>p===".." || p===".")) throw Error(`UNMAPPED_FILE: inventory ${file.path}`);
+    const diagnostic=file.classification==="cargo_example" && file.testOnly && !owner && examples.get(file.path)===file.crate;
+    if((!diagnostic && (!owner || owner!==file.crate || file.classification!==undefined)) ||
+      file.path.split("/").some(p=>!p || p===".." || p===".")) throw Error(`UNMAPPED_FILE: inventory ${file.path}`);
   }
   const lines=new Map<string,Map<number,number>>();
   const corroborated=llvmJson===undefined?undefined:llvmFiles(llvmJson), seen=new Set<string>();

@@ -206,7 +206,7 @@ pub(super) fn prepare(
                 id,
                 observer,
                 legacy_classification,
-                Instant::now() + Duration::from_millis(1800),
+                deadline,
                 signals,
             )
             .map(Mode::Legacy);
@@ -272,7 +272,7 @@ pub(super) fn prepare(
                     id,
                     observer,
                     legacy_classification,
-                    Instant::now() + Duration::from_millis(1800),
+                    deadline,
                     signals,
                 )
                 .map(Mode::Legacy);

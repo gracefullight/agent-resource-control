@@ -10,7 +10,7 @@ import type { CoverageReuse, ProfileProof } from "../coverage/coverage-receipts"
 import type { Receipt } from "../coverage/commands";
 
 const project=resolve(import.meta.dir,"../..");
-export function reuseFixture() {
+export function reuseFixture(withExample=false) {
   const directory=resolve(project,"target/host-meter/task-7/fixtures");
   mkdirSync(directory,{recursive:true});
   const root=mkdtempSync(resolve(directory,"case-"));
@@ -39,11 +39,16 @@ export function reuseFixture() {
     "scripts/coverage/config.ts","scripts/coverage/accounting.ts","scripts/coverage/declaration-only.ts","scripts/coverage/gate.ts","scripts/coverage/evidence.ts",
     "scripts/archive/harness/managed-exec-test-output.ts","scripts/harness/validate.sh"]) save(path,readFileSync(resolve(project,path),"utf8"));
   chmodSync(resolve(root,"scripts/harness/validate.sh"),0o755);
-  const inputs=inputIdentity(root), inventory=sourceInventory(root);
+  const metadata={workspace_members:[...CRATES],packages:CRATES.map(name=>({id:name,name,manifest_path:resolve(root,CRATE_ROOTS[name].manifest),targets:[] as {name:string;kind:string[];src_path:string}[]}))};
+  if(withExample) {
+    const path="crates/arc-platform/examples/diagnostic.rs";
+    save(path,'#[path = "../src/lib.rs"]\nmod reused;\nfn main() {\n    reused::fixture();\n}\n');
+    metadata.packages.find(p=>p.name==="arc-platform")!.targets.push({name:"diagnostic",kind:["example"],src_path:resolve(root,path)});
+  }
+  const inputs=inputIdentity(root), inventory=sourceInventory(root,metadata);
   const runId="synthetic-reuse-fixture", base="target/host-meter/coverage/runs/synthetic";
   const target=resolve(root,"target/host-meter/coverage/profiles/synthetic");
   const path=`${base}/reuse.json`;
-  const metadata={workspace_members:[...CRATES],packages:CRATES.map(name=>({id:name,name,manifest_path:resolve(root,CRATE_ROOTS[name].manifest)}))};
   const nativeLog="Synthetic validator fixture; never executed Rust\nrunning 1 test\ntest fixture ... ok\ntest result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s\n";
   const stdout=save(`${base}/native.stdout.log`,nativeLog), stderr=save(`${base}/native.stderr.log`,"");
   const lcov=inventory.map(file=>`SF:${resolve(root,file.path)}\nDA:1,1\nDA:2,1\nDA:3,1\nDA:4,1\nDA:5,0\nLF:5\nLH:4\nend_of_record\n`).join("");
@@ -68,7 +73,7 @@ export function reuseFixture() {
     ...[["--lcov",lcovRef],["--json",llvmRef]].map(([format,ref])=>command([...rust,"llvm-cov","report",format as string,"--output-path",resolve(root,(ref as typeof lcovRef).path),
       "--failure-mode","any","--disable-default-ignore-filename-regex","--ignore-filename-regex","^/synthetic-dependency(/|$)","--verbose"],{started:"2026-11-11T18:00:02Z",ended:"2026-11-11T18:00:03Z"})),
   ];
-  const result=account(lcov,inventory,root,undefined,llvm);
+  const result=account(lcov,inventory,root,undefined,llvm,metadata);
   const host="aarch64-apple-darwin";
   const versions={bun:PINS.bun,rustc:`Synthetic tool fixture\nrelease: ${PINS.rust}\nLLVM version: 22.1.2\n`,host,
     cargoLlvmCov:`cargo-llvm-cov ${PINS.cargoLlvmCov}`,"llvm-cov":"Synthetic LLVM 22.1.2", "llvm-profdata":"Synthetic LLVM 22.1.2"};

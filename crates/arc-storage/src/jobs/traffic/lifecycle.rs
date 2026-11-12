@@ -18,10 +18,16 @@ pub struct ChildEvidence {
     identity: ProcessIdentity,
     identity_status: IdentityStatus,
     live_status: IdentityStatus,
+    meter: Option<Box<crate::job_meter::LineageEvidence>>,
 }
 impl ChildEvidence {
+    pub fn with_meter_evidence(mut self, evidence: crate::job_meter::LineageEvidence) -> Self {
+        self.meter = Some(Box::new(evidence));
+        self
+    }
     pub fn gather(identity: &ProcessIdentity) -> Self {
         Self {
+            meter: None,
             identity: identity.clone(),
             identity_status: probe(identity),
             live_status: probe_live(identity),
@@ -30,6 +36,7 @@ impl ChildEvidence {
     #[cfg(test)]
     pub(super) fn simulated(identity: &ProcessIdentity, status: IdentityStatus) -> Self {
         Self {
+            meter: None,
             identity: identity.clone(),
             identity_status: status,
             live_status: status,
@@ -100,6 +107,9 @@ fn attach_inner(
     job.updated_at_ms = now;
     job.revision += 1;
     codec::write(connection, job, false)?;
+    if let Some(proof) = &evidence.meter {
+        crate::job_meter::bind(connection, job, proof)?;
+    }
     if e.state == "RESERVED" {
         connection.execute(
             "UPDATE traffic_entries SET state='RUNNING' WHERE job_id=?1",

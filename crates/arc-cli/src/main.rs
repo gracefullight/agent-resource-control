@@ -40,7 +40,7 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
-    /// Inspect host resources and this daemon's own overhead
+    /// Inspect host resources, daemon overhead or one persisted job summary
     Meter {
         #[command(subcommand)]
         command: meter::MeterCommand,
@@ -65,6 +65,7 @@ Tracking diagnostics go to stderr; the child keeps its native streams, exit stat
 Stopping the daemon does not stop the running child.
 Use arcctl job status to list last-known lifecycle records.
 Use arcctl job status <JOB_ID> to observe a record after daemon recovery; this may update the lifecycle record.
+Use arcctl meter summary --job <JOB_ID> --json for persisted CPU used, run elapsed, queue wait and accounting quality.
 A reference does not confirm a saved record. A missing record does not show whether the command ran.
 Daemon recovery never replays the command. Do not launch another copy to recover tracking.
 Desktop integration, native Windows acceptance, vendor hooks and other scheduling policies remain outstanding.")]
@@ -182,6 +183,9 @@ fn run(command: Command) -> Result<(), String> {
         Command::Meter {
             command: meter::MeterCommand::Snapshot { .. },
         } => meter::run(&socket),
+        Command::Meter {
+            command: meter::MeterCommand::Summary { job, .. },
+        } => meter::summary(&socket, &job),
         Command::Doctor => doctor::run(&socket),
         Command::Classify {
             command,

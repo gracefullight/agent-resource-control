@@ -104,6 +104,7 @@ dependencies = [
  "arc-core",
  "arc-detector",
  "arc-ipc",
+ "arc-platform",
  "clap",
  "libc",
  "serde_json",

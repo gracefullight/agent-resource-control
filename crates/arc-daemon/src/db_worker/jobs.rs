@@ -14,6 +14,7 @@ pub(crate) enum Operation {
     Recent,
     Reconcile(ReconcileEvidence),
     Traffic(super::traffic::Operation),
+    Meter(super::job_meter::Operation),
 }
 pub(crate) enum Value {
     Start(Result<StartResult, JobError>),
@@ -22,6 +23,7 @@ pub(crate) enum Value {
     Status(Result<StatusResult, JobError>),
     Reconcile(Result<ReconcileResult, JobError>),
     Traffic(super::traffic::Value),
+    Meter(super::job_meter::Value),
 }
 pub(crate) fn now() -> u64 {
     SystemTime::now()
@@ -30,7 +32,7 @@ pub(crate) fn now() -> u64 {
         .as_millis() as u64
 }
 pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> Value {
-    match op {
+    let value = match op {
         Operation::Start(request, evidence, observed_at_ms) => {
             Value::Start(jobs::start(connection, &request, &evidence, observed_at_ms))
         }
@@ -45,7 +47,14 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
         Operation::Traffic(operation) => {
             Value::Traffic(super::traffic::execute(connection, operation))
         }
-    }
+        Operation::Meter(operation) => {
+            Value::Meter(super::job_meter::execute(connection, operation))
+        }
+    };
+    // Bounded opportunistic expiry shares this connection and its existing
+    // cancellation/deadline. Failure never changes a committed request result.
+    let _ = arc_storage::job_meter::expire(connection, now());
+    value
 }
 pub(super) async fn call(
     client: &DbClient,
@@ -77,7 +86,12 @@ pub(crate) async fn handle(
         LifecycleRequest::Start(request) => {
             // Native probes occur before admission; no SQLite ticket is held.
             let observed_at_ms = now();
-            let evidence = StartEvidence::gather(&request);
+            let child = match &request {
+                StartRequest::Attach { child, .. } => Some(child),
+                _ => None,
+            };
+            let evidence = StartEvidence::gather(&request)
+                .with_meter_evidence(super::job_meter::evidence(request.observer(), child));
             match call(
                 &client,
                 Operation::Start(request, evidence, observed_at_ms),

@@ -1,5 +1,9 @@
 import { RecordedTime, type TimeFormat } from "@/components/recorded-time";
 import type { DashboardSnapshot } from "@/dashboard/desktop-refresh-controller";
+import {
+  JobMeterPanel,
+  jobMeterAnnouncement,
+} from "@/dashboard/job-meter-panel";
 import { outcomeLabel, RecordedOutcome } from "@/dashboard/recorded-outcome";
 import {
   desktopErrorMessages,
@@ -126,12 +130,22 @@ export function SelectedJobPanel({
           />
         </div>
       )}
+      {selectedId && (
+        <JobMeterPanel
+          key={selectedId}
+          section={snapshot.jobMeter}
+          {...format}
+        />
+      )}
       <p role="status" aria-live="polite" className="sr-only">
         {selectedId && job
           ? message(m.selectedAnnouncement, {
               id: selectedId,
               outcome: outcomeLabel(job),
             })
+          : ""}
+        {selectedId && snapshot.jobMeter.value
+          ? ` ${jobMeterAnnouncement(snapshot.jobMeter)}`
           : ""}
       </p>
     </section>

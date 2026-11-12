@@ -113,6 +113,16 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
                 .unwrap();
                 continue;
             }
+            // This frozen Traffic peer predates the additive Meter operation.
+            // Keep all dropped-reply/one-execution assertions below intact.
+            if matches!(request.operation.as_str(), "meter.report" | "meter.summary") {
+                arc_ipc::write_response(
+                    &mut stream,
+                    &Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY),
+                )
+                .unwrap();
+                continue;
+            }
             assert_eq!(request.operation, operation);
             let job = arc_ipc::traffic::decode_job_for(operation, &request.payload).unwrap();
             let selected = matches!(

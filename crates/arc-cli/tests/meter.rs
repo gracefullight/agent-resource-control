@@ -150,7 +150,7 @@ fn invalid_scope_is_rejected_without_connecting_and_help_is_available_headlessly
         assert!(output.stdout.is_empty());
         assert_eq!(
             output.stderr,
-            b"INVALID_REQUEST\nUse arcctl meter snapshot --json.\n"
+            b"INVALID_REQUEST\nUse arcctl meter snapshot --json or arcctl meter summary --job <JOB_ID> --json.\n"
         );
     }
     let help = fixture.cli(&["meter", "snapshot", "--help"]);

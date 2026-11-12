@@ -12,6 +12,8 @@ import {
 import { isMeterSnapshot } from "@/bridge/meter-contract";
 import type { CreditLink, JobDetail, JobLookup } from "@/bridge/types";
 import fixtures from "./fixtures/bridge.json";
+import { registerJobMeterContractCases } from "./fixtures/job-meter-contract-cases";
+import { jobMeterReply } from "./fixtures/job-meter-fixture";
 import {
   meterFixture,
   meterReply,
@@ -28,6 +30,7 @@ const invokeReply =
 const invalidReply = { code: "invalid_reply", retryable: false };
 
 describe("delivered production protocol-1 bridge contract", () => {
+  registerJobMeterContractCases();
   test("shared synthetic golden cases validate the exact Rust/TypeScript wire shapes", () => {
     expect(isReceived(fixtures.health, isDaemonHealth)).toBe(true);
     expect(isReceived(fixtures.recent, isRecentJobs)).toBe(true);
@@ -49,30 +52,34 @@ describe("delivered production protocol-1 bridge contract", () => {
     expect(fixtures.unknown.data.job.outcome).toBeNull();
   });
 
-  test("the four data commands and snake_case selected-ID argument stay fixed", async () => {
+  test("the five data commands and snake_case selected-ID argument stay fixed", async () => {
     const calls: {
       command: DesktopCommand;
       args: Parameters<DesktopInvoke>[1];
     }[] = [];
     const client = createDesktopClient(async (command, args) => {
       calls.push({ command, args });
-      return command === "meter_snapshot"
-        ? meterReply()
-        : command === "daemon_health"
-          ? fixtures.health
-          : command === "recent_jobs"
-            ? fixtures.recent
-            : fixtures.exit_zero;
+      return command === "meter_summary"
+        ? jobMeterReply()
+        : command === "meter_snapshot"
+          ? meterReply()
+          : command === "daemon_health"
+            ? fixtures.health
+            : command === "recent_jobs"
+              ? fixtures.recent
+              : fixtures.exit_zero;
     });
     expect<unknown>(await client.daemonHealth()).toEqual(fixtures.health);
     expect<unknown>(await client.recentJobs()).toEqual(fixtures.recent);
     expect<unknown>(await client.jobById(A)).toEqual(fixtures.exit_zero);
     expect<unknown>(await client.meterSnapshot()).toEqual(meterReply());
+    expect<unknown>(await client.meterSummary(A)).toEqual(jobMeterReply());
     expect(calls).toEqual([
       { command: "daemon_health", args: undefined },
       { command: "recent_jobs", args: undefined },
       { command: "job_by_id", args: { job_id: A } },
       { command: "meter_snapshot", args: undefined },
+      { command: "meter_summary", args: { job_id: A } },
     ]);
     expect("execute" in client).toBe(false);
     expect("stopDaemon" in client).toBe(false);

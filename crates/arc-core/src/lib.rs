@@ -1,5 +1,6 @@
 //! Shared configuration for the user-local ARC database.
 
+pub mod job_meter;
 pub mod meter;
 pub mod process_identity;
 

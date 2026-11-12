@@ -6,6 +6,8 @@ use std::{
     process::Command,
     time::{Duration, Instant},
 };
+#[path = "accounting_tests.rs"]
+mod accounting_tests;
 #[path = "diagnostic_tests.rs"]
 mod diagnostic_tests;
 #[path = "handoff.rs"]
@@ -235,7 +237,7 @@ fn distinct_preattachment_signals_ignored_disposition_and_detachment() {
             };
             assert_eq!(unsafe { libc::poll(&mut p, 1, 0) }, 0);
             write(gate, 17);
-            assert_eq!(signals.wait(&mut child.0).unwrap().code(), Some(17));
+            assert_eq!(signals.wait(&mut child.0).unwrap().status.code(), Some(17));
             child.1 = true;
             for fd in [events, gate] {
                 unsafe { libc::close(fd) };
@@ -260,7 +262,7 @@ fn shared_job_terminal_signals_are_not_forwarded_and_reap_disables_ownership() {
             let mut info = std::mem::zeroed();
             assert_eq!(libc::waitid(libc::P_PID, child.0.id(), &mut info, libc::WEXITED | libc::WNOWAIT), 0);
         };
-        assert_eq!(signals.wait(&mut child.0).unwrap().code(), Some(17));
+        assert_eq!(signals.wait(&mut child.0).unwrap().status.code(), Some(17));
         child.1 = true;
         assert_eq!(CHILD.load(Ordering::SeqCst), -1);
         drop(mask);
@@ -304,7 +306,7 @@ fn blocked_child_exit() {
         })
         .unwrap();
     child.1 = true;
-    assert_eq!(status.code(), Some(17));
+    assert_eq!(status.status.code(), Some(17));
     assert_eq!(CHILD.load(Ordering::SeqCst), -1);
     unsafe {
         libc::raise(libc::SIGTERM);
@@ -375,7 +377,7 @@ fn private_sigcont_preserves_target_disposition_mask_and_restores_guard_on_every
                         let (mut child, events, gate) = target(&signals, false);
                         signals.attach(child.0.id());
                         write(gate, 17);
-                        assert_eq!(signals.wait(&mut child.0).unwrap().code(), Some(17));
+                        assert_eq!(signals.wait(&mut child.0).unwrap().status.code(), Some(17));
                         child.1 = true;
                         assert_eq!(CHILD.load(Ordering::SeqCst), -1);
                         super::receive(libc::SIGCONT);
@@ -459,7 +461,7 @@ fn shared_job_terminal_signals_between_spawn_and_attach_arrive_once() {
             assert_eq!(unsafe { libc::kill(child.0.id() as i32, libc::SIGUSR1) }, 0);
             assert_eq!(read(events), libc::SIGUSR1);
             write(gate, 17);
-            assert_eq!(signals.wait(&mut child.0).unwrap().code(), Some(17));
+            assert_eq!(signals.wait(&mut child.0).unwrap().status.code(), Some(17));
             child.1 = true;
             let mut extra = 0i32;
             assert_eq!(

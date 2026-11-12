@@ -18,6 +18,7 @@ import {
   T,
   within,
 } from "./fixtures/desktop-test-harness";
+import { registerJobMeterInteractionCases } from "./fixtures/job-meter-interaction-cases";
 
 afterEach(cleanup);
 
@@ -28,6 +29,7 @@ const recent = (view: ReturnType<typeof mountDesktop>) =>
 const detailA = () => clone(golden.exit_zero.data.job) as JobDetail;
 
 describe("production Dashboard and typed bridge", () => {
+  registerJobMeterInteractionCases();
   test("initial loading exposes Unknown metrics without invented totals or outcomes", async () => {
     const native = new NativeFixture();
     const pending = deferred<unknown>();
@@ -213,7 +215,9 @@ describe("production Dashboard and typed bridge", () => {
     await settle();
     expect(view.getByText("Disconnected")).toBeDefined();
     expect(
-      panel(view).getByText("Stale · showing last recorded data"),
+      panel(view).getByText("Stale · showing last recorded data", {
+        selector: '[aria-labelledby="selected-heading"] > p',
+      }),
     ).toBeDefined();
     expect(panel(view).getByText("Failed · Exit code 17")).toBeDefined();
     expect(
@@ -239,6 +243,7 @@ describe("production Dashboard and typed bridge", () => {
         [
           "daemon_health",
           "meter_snapshot",
+          "meter_summary",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",
@@ -257,7 +262,9 @@ describe("production Dashboard and typed bridge", () => {
     expect(view.getByText("Daemon connected")).toBeDefined();
     expect(view.queryByText("Disconnected")).toBeNull();
     expect(
-      panel(view).getByText("Stale · showing last recorded data"),
+      panel(view).getByText("Stale · showing last recorded data", {
+        selector: '[aria-labelledby="selected-heading"] > p',
+      }),
     ).toBeDefined();
     expect(panel(view).getByText("Succeeded · Exit code 0")).toBeDefined();
     await act(async () => {
@@ -553,7 +560,7 @@ describe("production Dashboard and typed bridge", () => {
     const view = mountDesktop();
     await settle();
     const status = panel(view).getByRole("status");
-    const firstAnnouncement = `Selected job ${A}: Succeeded · Exit code 0`;
+    const firstAnnouncement = `Selected job ${A}: Succeeded · Exit code 0 Job measurements: Legacy measurement unavailable`;
     expect(status.getAttribute("aria-live")).toBe("polite");
     expect(status.textContent).toBe(firstAnnouncement);
     const mutations: MutationRecord[] = [];
@@ -605,7 +612,7 @@ describe("production Dashboard and typed bridge", () => {
       await settle();
       expect(panel(view).getByRole("status")).toBe(status);
       expect(status.textContent).toBe(
-        `Selected job ${B}: Failed · Exit code 17`,
+        `Selected job ${B}: Failed · Exit code 17 Job measurements: Legacy measurement unavailable`,
       );
       expect(drainMutations().length).toBeGreaterThan(0);
       expect(panel(view).getByText("Failed · Exit code 17")).toBeDefined();

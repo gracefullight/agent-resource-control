@@ -225,5 +225,6 @@ pub(super) fn write(connection: &Connection, j: &JobSnapshot, new: bool) -> JobR
             text(&j.reason)?,
             (j.registered_at_ms as i64),
         ])?;
+    crate::job_meter::track(connection, j, new)?;
     Ok(())
 }

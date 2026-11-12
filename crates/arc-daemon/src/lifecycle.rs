@@ -128,13 +128,17 @@ pub(crate) async fn supervise_with_report(
                         let client = client.clone();
                         let jobs_client = client.clone();
                         let traffic_client = client.clone();
+                        let meter_client = client.clone();
                         let meter_reader = meter_reader.clone();
+                        let job_meter: crate::job_meter_dispatch::Handler = Arc::new(move |input, peer, deadline| {
+                            Box::pin(crate::db_worker::job_meter::handle(meter_client.clone(), input, peer, deadline))
+                        });
                         handlers.try_spawn(stream, move |stream| {
-                            connection::handle_with_meter(
+                            connection::handle_with_job_meter(
                                 stream, limits, requests, metrics,
                                 move |deadline| doctor(client.clone(), deadline),
                                 move |input, deadline| crate::db_worker::jobs::handle(jobs_client.clone(), input, deadline),
-                                (move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline), meter_reader),
+                                (move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline), meter_reader, Some(job_meter)),
                             )
                         });
                     }

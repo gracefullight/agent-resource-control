@@ -11,6 +11,7 @@ path = "src/main.rs"
 arc-detector.workspace = true
 libc.workspace = true
 arc-core.workspace = true
+arc-platform.workspace = true
 arc-ipc.workspace = true
 clap.workspace = true
 serde_json.workspace = true

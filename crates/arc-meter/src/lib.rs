@@ -5,6 +5,9 @@ mod cpu;
 mod snapshot;
 mod worker;
 pub use arc_platform::{NativeSource, SystemSource};
+// Reuse the same native ancestry reader at daemon admission; no new dependency.
+#[cfg(unix)]
+pub use arc_platform::job_lineage;
 pub use snapshot::Sampler;
 pub use worker::{Activity, MeterWorker, SnapshotReader};
 

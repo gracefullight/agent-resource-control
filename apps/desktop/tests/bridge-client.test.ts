@@ -10,6 +10,7 @@ import type {
   JobDetail,
   Received,
 } from "../src/bridge/types";
+import { jobMeterFixture, jobMeterReply } from "./fixtures/job-meter-fixture";
 import { meterReply } from "./fixtures/meter-fixture";
 
 const JOB_A = "0000000000000000000000000000000a";
@@ -33,6 +34,40 @@ const detail: JobDetail = {
 };
 
 describe("fixed desktop invoke boundary", () => {
+  test("job Meter uses a fixed correlated read, validates IDs before I/O and normalizes private failures", async () => {
+    const calls: unknown[] = [];
+    const client = createDesktopClient(async (command, args) => {
+      calls.push([command, args]);
+      return jobMeterReply(jobMeterFixture(JOB_A));
+    });
+    expect(await client.meterSummary(JOB_A)).toEqual(
+      jobMeterReply(jobMeterFixture(JOB_A)),
+    );
+    expect(calls).toEqual([["meter_summary", { job_id: JOB_A }]]);
+    await expect(client.meterSummary("A".repeat(32))).rejects.toEqual({
+      code: "invalid_request",
+      retryable: false,
+    });
+    expect(calls).toHaveLength(1);
+    await expect(client.meterSummary(JOB_B)).rejects.toEqual({
+      code: "invalid_reply",
+      retryable: false,
+    });
+    for (const failure of [
+      { code: "unsupported", retryable: false },
+      { code: "unavailable", retryable: true },
+    ])
+      await expect(
+        createDesktopClient(async () => {
+          throw failure;
+        }).meterSummary(JOB_A),
+      ).rejects.toEqual(failure);
+    await expect(
+      createDesktopClient(async () => {
+        throw new Error("PRIVATE_SENTINEL");
+      }).meterSummary(JOB_A),
+    ).rejects.toEqual({ code: "local", retryable: false });
+  });
   test("Meter is a fixed argument-free read and preserves scoped unsupported/unavailable errors", async () => {
     const calls: unknown[] = [];
     const reply = meterReply();

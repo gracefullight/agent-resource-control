@@ -3,9 +3,11 @@ import { account } from "./accounting";
 import { analyzeSource, tokens, sourceInventory, historicalSourceInventory, inputIdentity, requireInputIdentity, hash } from "./source";
 import { fixture } from "./fixtures";
 import { CRATES, CRATE_ROOTS, HISTORICAL_CRATES } from "./config";
-import { requireWorkspace } from "./gate";
+import { requireWorkspace, validateReport } from "./gate";
 import { cpSync, mkdirSync, readFileSync, writeFileSync, unlinkSync, rmSync } from "node:fs";
 import { dirname, resolve } from "node:path";
+import { reuseFixture } from "../harness/coverage-reuse-fixture";
+import { reuseCoverage } from "./coverage-receipts";
 
 test("repeated compilation unions source lines instead of averaging binaries",()=>{
   const f=fixture();
@@ -252,5 +254,86 @@ test("missing executable bodies, initializers and expansion hooks remain hard fa
       writeFileSync(resolve(f.root,f.file.path),source);f.file.sha256=hash(source);f.file.lines=source.split("\n").length;
       expect(()=>account(f.lcov,f.inventory,f.root,undefined,f.llvm)).toThrow("MISSING_FILE");
     }
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+function exampleFixture() {
+  const f=fixture(), name="arc-platform", diagnosticPath="crates/arc-platform/examples/diagnostic.rs";
+  const packages=CRATES.map(name=>{
+    const manifest_path=resolve(f.root,CRATE_ROOTS[name].manifest);
+    writeFileSync(manifest_path,`[package]\nname = "${name}"\n`);
+    return {id:name,name,manifest_path,targets:[] as {name:string;kind:string[];src_path:string}[]};
+  });
+  mkdirSync(dirname(resolve(f.root,diagnosticPath)),{recursive:true});
+  writeFileSync(resolve(f.root,diagnosticPath),'#[path = "../src/lib.rs"]\nmod reused;\nmod parts;\nfn main() {}\n');
+  writeFileSync(resolve(f.root,dirname(diagnosticPath),"parts.rs"),'pub fn helper() {}\n');
+  packages.find(p=>p.name===name)!.targets.push({name:"diagnostic",kind:["example"],src_path:resolve(f.root,diagnosticPath)});
+  return {...f,diagnosticPath,metadata:{workspace_members:[...CRATES],packages}};
+}
+
+test("Cargo-declared examples and their modules are diagnostic, production dependencies stay counted",()=>{
+  const f=exampleFixture();
+  try {
+    const inventory=sourceInventory(f.root,f.metadata);
+    expect(inventory.find(x=>x.path===f.diagnosticPath)).toMatchObject({crate:"arc-platform",testOnly:true,classification:"cargo_example"});
+    expect(inventory.find(x=>x.path==="crates/arc-platform/examples/parts.rs")).toMatchObject({classification:"cargo_example"});
+    expect(inventory.find(x=>x.path==="crates/arc-platform/src/lib.rs")?.testOnly).toBe(false);
+    const diagnostic=f.record(f.diagnosticPath,[0,0,0,0])+f.record("crates/arc-platform/examples/parts.rs",[0]);
+    const repaired=account(f.lcov+diagnostic,inventory,f.root,undefined,undefined,f.metadata);
+    expect(repaired.crates).toEqual(account(f.lcov,f.inventory,f.root).crates);
+    expect(repaired.files).toHaveLength(10);
+    writeFileSync(f.path, f.lcov+diagnostic);
+    expect(validateReport({path:f.path,started:0,before:"same",after:"same",inventory,root:f.root,testExit:0,metadata:f.metadata}).crates).toEqual(repaired.crates);
+    // No blanket examples-directory allowance, including plausible sibling names.
+    const undeclared="crates/arc-platform/examples/undeclared.rs";
+    writeFileSync(resolve(f.root,undeclared),"fn main() {}\n");
+    expect(()=>account(f.lcov+f.record(undeclared,[1]),inventory,f.root,undefined,undefined,f.metadata)).toThrow("UNMAPPED_FILE");
+    // Accounting/reuse consumers must receive Cargo metadata, not trust a flag.
+    expect(()=>account(f.lcov+diagnostic,inventory,f.root)).toThrow("UNMAPPED_FILE");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test("example metadata rejects forged ownership, escapes and unsupported classifications",()=>{
+  const f=exampleFixture();
+  try {
+    const clone=()=>structuredClone(f.metadata);
+    const badOwner=clone();badOwner.packages.find(p=>p.name==="arc-platform")!.manifest_path=badOwner.packages[0].manifest_path;
+    expect(()=>sourceInventory(f.root,badOwner)).toThrow("SOURCE");
+    const escape=clone();escape.packages.find(p=>p.name==="arc-platform")!.targets[0].src_path=resolve(f.root,"crates/arc-core/src/lib.rs");
+    expect(()=>sourceInventory(f.root,escape)).toThrow("SOURCE");
+    const badKind=clone();badKind.packages.find(p=>p.name==="arc-platform")!.targets[0].kind=["example","bin"];
+    expect(()=>sourceInventory(f.root,badKind)).toThrow("SOURCE");
+    const inventory=sourceInventory(f.root,f.metadata);
+    const invalid=inventory.map(x=>x.path===f.diagnosticPath?{...x,classification:"unsupported"}:x);
+    expect(()=>account(f.lcov,invalid as typeof inventory,f.root,undefined,undefined,f.metadata)).toThrow("UNMAPPED_FILE");
+    const forged=inventory.map(x=>x.path.endsWith("/src/lib.rs")?{...x,classification:"cargo_example" as const,testOnly:true}:x);
+    expect(()=>account(f.lcov,forged,f.root,undefined,undefined,f.metadata)).toThrow("UNMAPPED_FILE");
+    writeFileSync(resolve(f.root,f.diagnosticPath),'#[path = "../../../arc-core/src/lib.rs"]\nmod escaped;\nfn main() {}\n');
+    expect(()=>sourceInventory(f.root,f.metadata)).toThrow("SOURCE");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test("real Cargo target metadata hands the auto-discovered probe to collection and reuse inventory",()=>{
+  const root=resolve(import.meta.dir,"../..");
+  const cargo=Bun.spawnSync(["cargo","metadata","--format-version","1","--locked","--offline","--no-deps"],{cwd:root});
+  expect(cargo.exitCode).toBe(0);
+  const metadata=JSON.parse(cargo.stdout.toString());
+  requireWorkspace(metadata,root);
+  const target=metadata.packages.find((p:{name:string})=>p.name==="arc-platform").targets.find((t:{name:string})=>t.name==="job_meter_probe");
+  expect(target.kind).toEqual(["example"]);
+  const inventory=sourceInventory(root,metadata);
+  expect(inventory.find(x=>x.path==="crates/arc-platform/examples/job_meter_probe.rs")).toMatchObject({crate:"arc-platform",testOnly:true,classification:"cargo_example"});
+  expect(inventory.filter(x=>!x.testOnly)).toEqual(sourceInventory(root).filter(x=>!x.testOnly));
+});
+
+test("reuse recomputes declared-example classification from the collection's Cargo metadata",()=>{
+  const f=reuseFixture(true);
+  try {
+    const reused=reuseCoverage(f.root,f.path);
+    expect(reused.recollected).toBe(false);
+    expect(reused.result.crates).toEqual(f.summary.crates);
+    expect(reused.result.files).toHaveLength(10);
+    expect(f.inventory.find(x=>x.classification==="cargo_example")?.testOnly).toBe(true);
+    for(const crate of reused.result.crates) expect(crate).toMatchObject({covered:4,total:5,pass:true});
   } finally {rmSync(f.root,{recursive:true,force:true});}
 });

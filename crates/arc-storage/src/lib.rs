@@ -4,6 +4,7 @@
 //! here. Store resource metadata, never credentials or original chat text.
 
 mod history;
+pub mod job_meter;
 pub mod jobs;
 mod migration;
 

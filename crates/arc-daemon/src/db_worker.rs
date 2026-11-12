@@ -2,6 +2,8 @@
 
 #[path = "db_worker/execution.rs"]
 mod execution;
+#[path = "db_worker/job_meter.rs"]
+pub(crate) mod job_meter;
 #[path = "db_worker/jobs.rs"]
 pub(crate) mod jobs;
 #[cfg(test)]

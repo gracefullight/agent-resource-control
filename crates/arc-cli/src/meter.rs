@@ -16,11 +16,69 @@ pub(crate) enum MeterCommand {
         #[arg(long, required = true)]
         json: bool,
     },
+    /// Read one persisted job's CPU used, run elapsed, queue wait and quality
+    #[command(
+        after_help = "Find an ID with arcctl job status, then inspect arcctl job status <JOB_ID>.\nCPU core-seconds are cumulative user + system CPU, independent of host utilization.\nUnknown and Partial accounting never imply a complete process-tree total. This read never launches work."
+    )]
+    Summary {
+        /// Durable ID from arcctl job status or a queue notice
+        #[arg(long, required = true, value_name = "JOB_ID", value_parser = parse_job_id)]
+        job: String,
+        /// Emit one typed summary, preserving unknown values as null
+        #[arg(long, required = true)]
+        json: bool,
+    },
+}
+
+fn parse_job_id(value: &str) -> Result<String, &'static str> {
+    arc_core::job_meter::valid_id(value)
+        .then(|| value.to_owned())
+        .ok_or("Invalid job ID.")
 }
 
 pub(crate) fn invalid() -> std::process::ExitCode {
-    eprintln!("INVALID_REQUEST\nUse arcctl meter snapshot --json.");
+    eprintln!("INVALID_REQUEST\nUse arcctl meter snapshot --json or arcctl meter summary --job <JOB_ID> --json.");
     std::process::ExitCode::from(2)
+}
+pub(crate) fn summary(socket: &Path, job: &str) -> Result<(), String> {
+    let summary = arc_ipc::meter::summary_until(
+        socket,
+        super::request_id(),
+        job,
+        Instant::now() + Duration::from_secs(2),
+        &|| false,
+    )
+    .map_err(|error| summary_failure(error).to_owned())?;
+    let bytes = render_summary(&summary, job).map_err(str::to_owned)?;
+    let stdout = io::stdout();
+    let mut output = stdout.lock();
+    output
+        .write_all(&bytes)
+        .and_then(|()| output.write_all(b"\n"))
+        .map_err(|_| "IPC_ERROR\nCould not write the job Meter summary.".to_owned())
+}
+fn render_summary(
+    summary: &arc_core::job_meter::JobMeterSummary,
+    job: &str,
+) -> Result<Vec<u8>, &'static str> {
+    if !summary.is_valid() || summary.job_id != job {
+        return Err("IPC_ERROR\nInvalid job Meter reply.");
+    }
+    let bytes = serde_json::to_vec(summary).map_err(|_| "IPC_ERROR\nInvalid job Meter reply.")?;
+    if bytes.len() > arc_core::job_meter::MAX_JOB_METER_BYTES {
+        return Err("IPC_ERROR\nInvalid job Meter reply.");
+    }
+    Ok(bytes)
+}
+fn summary_failure(error: Failure) -> &'static str {
+    match error {
+        Failure::Unsupported => "UNSUPPORTED_CAPABILITY\nThis daemon does not support meter.summary. Use a daemon with job Meter support.",
+        Failure::Unavailable | Failure::Uncertain | Failure::Busy => "METER_UNAVAILABLE\nJob accounting is unavailable. Check the daemon connection and retry this read.",
+        Failure::Protocol => "PROTOCOL_INCOMPATIBLE\nUse matching arcctl and daemon protocol versions.",
+        Failure::InvalidEndpoint => "IPC_ERROR\nThe daemon endpoint could not be authenticated.",
+        Failure::Cancelled => "CANCELLED\nThe Meter read was cancelled.",
+        _ => "IPC_ERROR\nThe daemon did not return a valid job Meter summary.",
+    }
 }
 pub(crate) fn run(socket: &Path) -> Result<(), String> {
     let snapshot = arc_ipc::meter::snapshot_until(

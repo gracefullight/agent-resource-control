@@ -212,10 +212,13 @@ async fn handle_inner(
             child: Some(child),
             ..
         } => {
-            if !is_descendant(child, observer) {
+            if !is_descendant(child, observer) && !super::job_meter::owned_child(child, observer) {
                 return Err(arc_ipc::ERROR_INVALID_REQUEST);
             }
-            Some(traffic::ChildEvidence::gather(child))
+            Some(
+                traffic::ChildEvidence::gather(child)
+                    .with_meter_evidence(super::job_meter::evidence(observer, Some(child))),
+            )
         }
         _ => None,
     };
@@ -227,7 +230,10 @@ async fn handle_inner(
         let had_proof = proof.is_some();
         #[cfg(test)]
         after_proof(had_proof);
-        let owner = observer.map(traffic::OwnerEvidence::gather);
+        let owner = observer.map(|observer| {
+            traffic::OwnerEvidence::gather(observer)
+                .with_meter_evidence(super::job_meter::evidence(observer, None))
+        });
         let context = context().map_err(|_| arc_ipc::ERROR_DB_BUSY)?;
         match call(
             &client,
@@ -409,7 +415,7 @@ fn is_descendant(descendant: &ProcessIdentity, ancestor: &ProcessIdentity) -> bo
     false
 }
 
-fn parent_pid(pid: u32) -> io::Result<u32> {
+pub(super) fn parent_pid(pid: u32) -> io::Result<u32> {
     #[cfg(target_os = "macos")]
     {
         let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };

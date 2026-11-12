@@ -13,6 +13,7 @@ import type {
 import type { RefreshClock } from "@/dashboard/desktop-refresh-controller";
 import type { DesktopVisibility } from "@/shell/desktop-visibility";
 import fixtures from "./bridge.json";
+import { jobMeterReply, unknownJobMeter } from "./job-meter-fixture";
 import { meterReply, sharedMeterSnapshot } from "./meter-fixture";
 
 // One shared DOM is installed before ReactDOM/Base UI load. Tests use queries
@@ -140,6 +141,10 @@ export class NativeFixture {
   health: unknown = clone(golden.health);
   metadata: unknown = clone(golden.metadata);
   meter: unknown = meterReply(sharedMeterSnapshot());
+  jobMeters = new Map<string, unknown>([
+    [A, jobMeterReply(unknownJobMeter(A))],
+    [B, jobMeterReply(unknownJobMeter(B))],
+  ]);
   jobs = new Map<string, unknown>([
     [A, clone(golden.exit_zero)],
     [B, clone(golden.exit_seventeen)],
@@ -160,6 +165,7 @@ export class NativeFixture {
       command === "daemon_health" ||
       command === "recent_jobs" ||
       command === "meter_snapshot" ||
+      command === "meter_summary" ||
       command === "job_by_id";
     if (daemonRead)
       this.maxInFlight = Math.max(this.maxInFlight, ++this.inFlight);
@@ -177,6 +183,12 @@ export class NativeFixture {
           return clone(this.recent);
         case "meter_snapshot":
           return clone(this.meter);
+        case "meter_summary": {
+          const id = args && "job_id" in args ? args.job_id : "";
+          return clone(
+            this.jobMeters.get(id) ?? jobMeterReply(unknownJobMeter(id)),
+          );
+        }
         case "job_by_id":
           return clone(
             this.jobs.get(args && "job_id" in args ? args.job_id : "") ??

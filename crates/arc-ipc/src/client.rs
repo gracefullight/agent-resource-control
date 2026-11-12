@@ -150,13 +150,19 @@ fn exchange_with<S: TrackedStream>(
                             crate::traffic::OPERATION_TRAFFIC_CAPABILITIES
                                 | crate::traffic::OPERATION_BUN_CAPABILITIES
                                 | crate::meter::OPERATION_METER_SNAPSHOT
+                                | crate::meter::OPERATION_METER_REPORT
+                                | crate::meter::OPERATION_METER_SUMMARY
                         ) && e.code == crate::ERROR_UNSUPPORTED_CAPABILITY =>
                     {
                         return Err(Failure::Unsupported)
                     }
                     (crate::STATUS_ERROR, None, Some(e))
-                        if operation == crate::meter::OPERATION_METER_SNAPSHOT
-                            && e.code == crate::meter::ERROR_METER_UNAVAILABLE =>
+                        if matches!(
+                            operation,
+                            crate::meter::OPERATION_METER_SNAPSHOT
+                                | crate::meter::OPERATION_METER_REPORT
+                                | crate::meter::OPERATION_METER_SUMMARY
+                        ) && e.code == crate::meter::ERROR_METER_UNAVAILABLE =>
                     {
                         return Err(Failure::Unavailable)
                     }

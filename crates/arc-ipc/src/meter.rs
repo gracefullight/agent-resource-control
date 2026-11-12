@@ -5,6 +5,9 @@ pub use arc_core::meter::{MeterSnapshot, MAX_SNAPSHOT_BYTES};
 use serde::Deserialize;
 use serde_json::Value;
 
+pub mod job;
+pub use job::*;
+
 pub const OPERATION_METER_SNAPSHOT: &str = "meter.snapshot";
 pub const ERROR_METER_UNAVAILABLE: &str = "METER_UNAVAILABLE";
 

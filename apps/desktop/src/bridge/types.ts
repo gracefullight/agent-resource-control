@@ -1,3 +1,4 @@
+import type { JobMeterSummary } from "@/bridge/job-meter.types";
 import type { MeterSnapshot } from "@/bridge/meter.types";
 
 // Job projection omits private command data. Meter carries only its bounded
@@ -119,6 +120,7 @@ export interface DesktopError {
 export interface DesktopClient {
   daemonHealth(): Promise<Received<DaemonHealth>>;
   meterSnapshot(): Promise<Received<MeterSnapshot>>;
+  meterSummary(jobId: JobId): Promise<Received<JobMeterSummary>>;
   recentJobs(): Promise<Received<RecentJobs>>;
   jobById(jobId: JobId): Promise<Received<JobLookup>>;
   desktopMetadata(): Promise<DesktopMetadata>;

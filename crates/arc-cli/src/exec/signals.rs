@@ -1,9 +1,17 @@
 //! Signal ownership is synchronized on the single-threaded exec path.
+use arc_platform::child_wait::{wait_owned_child, TerminalUsage, WaitMode};
 use std::{
     io,
     os::unix::process::ExitStatusExt,
     sync::atomic::{AtomicI32, AtomicU32, Ordering},
+    time::Instant,
 };
+
+pub(super) struct Termination {
+    pub status: std::process::ExitStatus,
+    pub usage: Option<TerminalUsage>,
+    pub observed_at: Instant,
+}
 // SPAWNING retains cancellation until fork; the child checks its inherited copy.
 const PREPARING: i32 = 0;
 const SPAWNING: i32 = -2;
@@ -180,17 +188,14 @@ impl Signals {
             }
         }
     }
-    pub(crate) fn wait(
-        &self,
-        child: &mut std::process::Child,
-    ) -> io::Result<std::process::ExitStatus> {
+    pub(crate) fn wait(&self, child: &mut std::process::Child) -> io::Result<Termination> {
         self.wait_with(child, || {})
     }
     fn wait_with(
         &self,
         child: &mut std::process::Child,
         mut before_suspend: impl FnMut(),
-    ) -> io::Result<std::process::ExitStatus> {
+    ) -> io::Result<Termination> {
         let mask = Mask::block();
         let mut wake_mask = mask.0;
         // These notifications belong to our waiter, even if the caller blocked
@@ -202,26 +207,27 @@ impl Signals {
         loop {
             let mut stopped = None;
             loop {
-                let mut status = 0;
                 // Consume every event with handlers blocked. Clearing ownership
                 // before unmasking closes the native reap/recycled-PID interval.
-                let pid = unsafe {
-                    libc::waitpid(
-                        child.id() as i32,
-                        &mut status,
-                        libc::WNOHANG | libc::WUNTRACED | libc::WCONTINUED,
-                    )
+                let event = match wait_owned_child(child.id(), WaitMode::Poll) {
+                    Ok(Some(event)) => event,
+                    Ok(None) => break,
+                    Err(error) => {
+                        if error.kind() != io::ErrorKind::Interrupted {
+                            self.reaped();
+                        }
+                        return Err(error);
+                    }
                 };
-                if pid < 0 {
-                    self.reaped();
-                    return Err(io::Error::last_os_error());
-                }
-                if pid == 0 {
-                    break;
-                }
+                let status = event.status.into_raw();
                 if libc::WIFEXITED(status) || libc::WIFSIGNALED(status) {
+                    let observed_at = Instant::now();
                     self.reaped();
-                    return Ok(std::process::ExitStatus::from_raw(status));
+                    return Ok(Termination {
+                        status: event.status,
+                        usage: event.terminal_usage.and_then(Result::ok),
+                        observed_at,
+                    });
                 }
                 if libc::WIFSTOPPED(status) {
                     stopped = Some(libc::WSTOPSIG(status));

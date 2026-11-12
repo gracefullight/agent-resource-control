@@ -20,6 +20,8 @@ use std::{
 
 const READ_DEADLINE: Duration = Duration::from_secs(2);
 
+mod job_meter;
+
 enum Endpoint {
     System,
     Socket(PathBuf),
@@ -204,7 +206,11 @@ impl DesktopBridge {
                 &mut false,
                 ExchangeOptions {
                     continuity: None,
-                    retry_busy: operation != arc_ipc::meter::OPERATION_METER_SNAPSHOT,
+                    retry_busy: !matches!(
+                        operation,
+                        arc_ipc::meter::OPERATION_METER_SNAPSHOT
+                            | arc_ipc::meter::OPERATION_METER_SUMMARY
+                    ),
                 },
             )
             .map_err(Into::into)

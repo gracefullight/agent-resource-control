@@ -16,10 +16,16 @@ use rusqlite::{params, Connection, TransactionBehavior};
 pub struct OwnerEvidence {
     identity: ProcessIdentity,
     status: IdentityStatus,
+    meter: Option<Box<crate::job_meter::LineageEvidence>>,
 }
 impl OwnerEvidence {
+    pub fn with_meter_evidence(mut self, evidence: crate::job_meter::LineageEvidence) -> Self {
+        self.meter = Some(Box::new(evidence));
+        self
+    }
     pub fn gather(identity: &ProcessIdentity) -> Self {
         Self {
+            meter: None,
             identity: identity.clone(),
             status: probe_live(identity),
         }
@@ -27,6 +33,7 @@ impl OwnerEvidence {
     #[cfg(test)]
     pub(super) fn simulated(identity: &ProcessIdentity, status: IdentityStatus) -> Self {
         Self {
+            meter: None,
             identity: identity.clone(),
             status,
         }
@@ -302,6 +309,10 @@ pub fn enqueue(
             now,
         },
     )?;
+    if let Some(proof) = &evidence.meter {
+        let job = get(&tx, job_id)?.ok_or(E::StorageFailure)?;
+        crate::job_meter::bind(&tx, &job, proof)?;
+    }
     tx.commit()?;
     Ok(reply)
 }
@@ -367,6 +378,10 @@ pub fn poll_with_proof(
             now,
         },
     )?;
+    if let Some(proof) = &evidence.meter {
+        let job = get(&tx, job_id)?.ok_or(E::StorageFailure)?;
+        crate::job_meter::bind(&tx, &job, proof)?;
+    }
     tx.commit()?;
     Ok(reply)
 }

@@ -3,17 +3,23 @@ import type {
   DaemonHealth,
   DesktopClient,
   DesktopError,
-  JobDetail,
   JobId,
-  Received,
   RecentJobs,
 } from "@/bridge/types";
-
-import { consistentDetail } from "@/dashboard/job-detail-consistency";
 import {
-  MeterReadState,
-  type MeterSection,
-} from "@/dashboard/meter-read-state";
+  type DashboardSnapshot,
+  emptyDetail,
+  emptySection,
+} from "@/dashboard/desktop-refresh-state";
+import { consistentDetail } from "@/dashboard/job-detail-consistency";
+import { JobMeterReadState } from "@/dashboard/job-meter-read-state";
+import { MeterReadState } from "@/dashboard/meter-read-state";
+
+export type {
+  DashboardSnapshot,
+  RecordedSection,
+  SelectedDetail,
+} from "@/dashboard/desktop-refresh-state";
 
 type CancelTimer = () => void;
 export interface RefreshClock {
@@ -33,38 +39,6 @@ export const STALE_AFTER_MS = 10_000;
 const RECONNECT_DELAYS_MS = [1_000, 2_000, 4_000, 8_000, 16_000, 30_000];
 const TRANSIENT_CODES = new Set(["unavailable", "uncertain", "busy"]);
 
-export interface RecordedSection<T> {
-  value: Received<T> | null;
-  loading: boolean;
-  error: DesktopError | null;
-  stale: boolean;
-}
-export interface SelectedDetail extends RecordedSection<JobDetail> {
-  state: "idle" | "loading" | "ready" | "not_found" | "error";
-  lookupReceivedAt: number | null;
-}
-export interface DashboardSnapshot {
-  connection: "loading" | "connected" | "disconnected" | "unavailable";
-  active: boolean;
-  refreshing: boolean;
-  health: RecordedSection<DaemonHealth>;
-  meter: MeterSection;
-  recent: RecordedSection<RecentJobs>;
-  selectedId: JobId | null;
-  detail: SelectedDetail;
-}
-
-const emptySection = <T>(): RecordedSection<T> => ({
-  value: null,
-  loading: false,
-  error: null,
-  stale: false,
-});
-const emptyDetail = (): SelectedDetail => ({
-  ...emptySection<JobDetail>(),
-  state: "idle",
-  lookupReceivedAt: null,
-});
 const invalidReply = (): DesktopError => ({
   code: "invalid_reply",
   retryable: false,
@@ -76,12 +50,14 @@ const invalidReply = (): DesktopError => ({
 // without queueing or pretending that an in-flight socket read was cancelled.
 export class DesktopRefreshController {
   private readonly meter = new MeterReadState();
+  private readonly jobMeter = new JobMeterReadState();
   private snapshot: DashboardSnapshot = {
     connection: "loading",
     active: false,
     refreshing: false,
     health: emptySection<DaemonHealth>(),
     meter: this.meter.section,
+    jobMeter: this.jobMeter.section,
     recent: emptySection<RecentJobs>(),
     selectedId: null,
     detail: emptyDetail(),
@@ -118,6 +94,7 @@ export class DesktopRefreshController {
     this.generation++;
     this.automatic = true;
     this.meter.reprobe();
+    this.jobMeter.reprobe();
     this.refreshRequested = true;
     this.publish({ active: true });
     this.expire();
@@ -132,10 +109,12 @@ export class DesktopRefreshController {
     this.detailRequested = false;
     this.cancelTimers();
     this.meter.retire();
+    this.jobMeter.retire();
     this.publish({
       active: false,
       refreshing: false,
       meter: this.meter.section,
+      jobMeter: this.jobMeter.section,
       health: { ...this.snapshot.health, loading: false },
       recent: { ...this.snapshot.recent, loading: false },
       detail: { ...this.snapshot.detail, loading: false },
@@ -144,6 +123,7 @@ export class DesktopRefreshController {
 
   refresh = (): void => {
     this.meter.reprobe();
+    this.jobMeter.reprobe();
     this.requestRefresh();
   };
 
@@ -163,7 +143,14 @@ export class DesktopRefreshController {
     if (!isJobId(jobId) || jobId === this.snapshot.selectedId) return;
     this.selectionGeneration++;
     this.detailAt = null;
-    this.publish({ selectedId: jobId, detail: emptyDetail() });
+    this.jobMeter.select(
+      this.snapshot.active && this.snapshot.connection === "connected",
+    );
+    this.publish({
+      selectedId: jobId,
+      detail: emptyDetail(),
+      jobMeter: this.jobMeter.section,
+    });
     if (this.snapshot.active && this.snapshot.connection === "connected") {
       this.detailRequested = true;
       this.publish({
@@ -239,10 +226,12 @@ export class DesktopRefreshController {
       const failure = normalizeDesktopError(error);
       this.connectionEpoch++;
       this.meter.retire();
+      this.jobMeter.retire(failure);
       this.selectionGeneration++;
       this.automatic = failure.retryable && TRANSIENT_CODES.has(failure.code);
       this.publish({
         meter: this.meter.section,
+        jobMeter: this.jobMeter.section,
         connection:
           failure.code === "unavailable" || failure.code === "uncertain"
             ? "disconnected"
@@ -335,6 +324,28 @@ export class DesktopRefreshController {
   }
 
   private async lookup(generation: number, epoch: number): Promise<void> {
+    const jobId = this.snapshot.selectedId,
+      selection = this.selectionGeneration;
+    if (!jobId) return;
+    const current = () =>
+      this.current(generation, epoch) &&
+      selection === this.selectionGeneration &&
+      jobId === this.snapshot.selectedId;
+    await this.readDetail(generation, epoch);
+    if (current())
+      await this.jobMeter.read(
+        this.client,
+        jobId,
+        current,
+        () => this.clock.now(),
+        () => {
+          this.publish({ jobMeter: this.jobMeter.section });
+          this.expire();
+        },
+      );
+  }
+
+  private async readDetail(generation: number, epoch: number): Promise<void> {
     const jobId = this.snapshot.selectedId;
     if (!jobId) return;
     const selection = this.selectionGeneration;
@@ -461,6 +472,9 @@ export class DesktopRefreshController {
     const meterDelay = this.meter.expire(now);
     patch.meter = this.meter.section;
     if (meterDelay !== null) remaining.push(meterDelay);
+    const jobDelay = this.jobMeter.expire(now, STALE_AFTER_MS);
+    patch.jobMeter = this.jobMeter.section;
+    if (jobDelay !== null) remaining.push(jobDelay);
     if (Object.keys(patch).length) this.publish(patch);
     if (this.snapshot.active && remaining.length)
       this.cancelStale = this.clock.schedule(

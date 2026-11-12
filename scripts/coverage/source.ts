@@ -127,8 +127,52 @@ export function analyzeSource(source: string) {
   }
   return {omitted,modules,spans};
 }
-export type SourceFile = { path:string; crate:string; sha256:string; lines:number; omitted:number[]; testOnly:boolean; spans:ReturnType<typeof analyzeSource>["spans"] };
-export function inventoryForCrates(root: string, crates: readonly CrateName[]): SourceFile[] {
+export type CargoMetadata = {workspace_members:string[];packages:{id:string;name:string;manifest_path:string;targets:{name:string;kind:string[];src_path:string}[]}[]};
+// Only Cargo-declared example entries and their explicit Rust module graph are
+// diagnostic. Directory names alone never authorize omitting a source file.
+export function declaredExampleSources(root:string, metadata?:CargoMetadata, crates:readonly CrateName[]=CRATES) {
+  const sources=new Map<string,CrateName>();
+  if(metadata===undefined) return sources;
+  root=realpathSync(root);
+  if(!Array.isArray(metadata.workspace_members) || !Array.isArray(metadata.packages) ||
+    new Set(metadata.workspace_members).size!==metadata.workspace_members.length) throw Error("SOURCE: invalid Cargo workspace metadata");
+  const members=metadata.packages.filter(p=>metadata.workspace_members.includes(p.id));
+  if(members.length!==metadata.workspace_members.length || new Set(members.map(p=>p.id)).size!==members.length ||
+    JSON.stringify(members.map(p=>p.name).sort())!==JSON.stringify([...CRATES].sort())) throw Error("SOURCE: invalid Cargo workspace ownership");
+  for(const crate of crates) {
+    const pkg=members.find(p=>p.name===crate)!;
+    const manifest=resolve(root,CRATE_ROOTS[crate].manifest), packageRoot=dirname(manifest);
+    if(realpathSync(pkg.manifest_path)!==manifest || realpathSync(manifest)!==manifest || !Array.isArray(pkg.targets)) throw Error(`SOURCE: invalid Cargo package ${crate}`);
+    function visit(file:string, entry=false) {
+      if(file!==resolve(file)) throw Error(`SOURCE: non-canonical example source ${file}`);
+      file=realpathSync(file);
+      if(!file.startsWith(packageRoot+"/") || !file.endsWith(".rs") || !lstatSync(file).isFile()) throw Error(`SOURCE: escaping or unsupported example source ${file}`);
+      const path=relative(root,file);
+      if(sources.has(path)) {
+        if(sources.get(path)!==crate) throw Error(`SOURCE: conflicting example ownership ${path}`);
+        return;
+      }
+      sources.set(path,crate);
+      const info=analyzeSource(readFileSync(file,"utf8"));
+      for(const mod of info.modules) {
+        const base=entry || ["main.rs","lib.rs","mod.rs"].includes(basename(file))?dirname(file):file.slice(0,-3);
+        const candidates=mod.path?[resolve(dirname(file),mod.path)]:[resolve(base,mod.name+".rs"),resolve(base,mod.name,"mod.rs")];
+        const child=candidates.find(existsSync);
+        if(!child) throw Error(`SOURCE: missing example module ${path}: ${mod.name}`);
+        visit(child);
+      }
+    }
+    for(const target of pkg.targets) {
+      if(!Array.isArray(target.kind)) throw Error("SOURCE: invalid Cargo target kind");
+      if(!target.kind.includes("example")) continue;
+      if(target.kind.length!==1 || typeof target.name!=="string" || !target.name || typeof target.src_path!=="string") throw Error("SOURCE: unsupported Cargo example classification");
+      visit(target.src_path,true);
+    }
+  }
+  return sources;
+}
+export type SourceFile = { path:string; crate:string; sha256:string; lines:number; omitted:number[]; testOnly:boolean; classification?:"cargo_example"; spans:ReturnType<typeof analyzeSource>["spans"] };
+export function inventoryForCrates(root: string, crates: readonly CrateName[], metadata?:CargoMetadata): SourceFile[] {
   root=realpathSync(root);
   const owners=new Map<string,CrateName>();
   const files=crates.flatMap(crate=>{
@@ -137,6 +181,11 @@ export function inventoryForCrates(root: string, crates: readonly CrateName[]): 
       owners.set(p,crate); return p;
     });
   });
+  const productionFiles=new Set(files), examples=declaredExampleSources(root,metadata,crates);
+  for(const [path,crate] of examples) {
+    const file=resolve(root,path);
+    if(!owners.has(file)) {owners.set(file,crate);files.push(file);}
+  }
   const testFiles=crates.flatMap(crate=>{
     const dir=resolve(root,CRATE_ROOTS[crate].tests);
     return existsSync(dir)?walk(dir).filter(p=>p.endsWith(".rs")):[];
@@ -149,7 +198,7 @@ export function inventoryForCrates(root: string, crates: readonly CrateName[]): 
     const info=analyses.get(file);
     if(!info && test && testPath(relative(root,file))) return;
     if(!info) throw Error(`SOURCE: module outside src: ${file}`);
-    if(!test && !files.includes(file)) throw Error(`SOURCE: production module outside inventoried src: ${file}`);
+    if(!test && !productionFiles.has(file)) throw Error(`SOURCE: production module outside inventoried src: ${file}`);
     for(const mod of info.modules) {
       const base=entry || ["main.rs","lib.rs","mod.rs"].includes(basename(file))?dirname(file):file.slice(0,-3);
       const candidates=mod.path?[resolve(dirname(file),mod.path)]:[resolve(base,mod.name+".rs"),resolve(base,mod.name,"mod.rs")];
@@ -164,15 +213,17 @@ export function inventoryForCrates(root: string, crates: readonly CrateName[]): 
     for(const p of entries) visit(p,false,true);
   }
   for(const file of testFiles.filter(p=>crates.some(crate=>dirname(p)===resolve(root,CRATE_ROOTS[crate].tests)))) visit(file,true,true);
+  for(const path of examples.keys()) visit(resolve(root,path),true,true);
   return files.map(file=>{
     const path=relative(root,file), info=analyses.get(realpathSync(file))!;
     if(!production.has(realpathSync(file)) && !tests.has(realpathSync(file))) throw Error(`SOURCE: unclassified src file ${path}`);
     const text=readFileSync(file,"utf8");
-    return {path,crate:owners.get(file)!,sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file))};
+    return {path,crate:owners.get(file)!,sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file)),
+      ...(!productionFiles.has(file)?{classification:"cargo_example" as const}:{})};
   }).sort((a,b)=>a.path.localeCompare(b.path));
 }
 // Immutable pre-Traffic baselines retain their original six-crate inventory.
-export const sourceInventory = (root: string) => inventoryForCrates(root, CRATES);
+export const sourceInventory = (root: string, metadata?:CargoMetadata) => inventoryForCrates(root, CRATES, metadata);
 export const historicalSourceInventory = (root: string) => inventoryForCrates(root, HISTORICAL_CRATES);
 export function inputIdentity(root:string) {
   root=realpathSync(root);

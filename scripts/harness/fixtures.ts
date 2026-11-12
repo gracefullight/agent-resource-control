@@ -101,7 +101,7 @@ export function fixtureRoot(f: Fixture) {
   unlinkSync(join(bin, "grep"));
   writeFileSync(join(bin, "grep"), `#!/bin/bash\nprintf '%s\\0' "$@" >> .fixture-grep\nprintf '\\n' >> .fixture-grep\nexec '${realGrep}' "$@"\n`);
   chmodSync(join(bin, "grep"), 0o755);
-  return { dir, env: { ...process.env, PATH: bin, LC_ALL: "C", SKIP_COVERAGE: f.skip ? "1" : undefined,
+  return { dir, env: { ...process.env, PATH: bin, LC_ALL: "C", SKIP_COVERAGE: f.skip ? "1" : undefined, ARC_COVERAGE_RECEIPT: undefined,
     WORKSPACE_ROOT: resolve(dir, ".fixture-workspaces"), FIXTURE_COVERAGE_EXIT: String(f.coverageExit ?? 0) } };
 }
 export function executeFixture(f: Fixture, dir: string, env: Record<string, string | undefined>, candidate: boolean) {

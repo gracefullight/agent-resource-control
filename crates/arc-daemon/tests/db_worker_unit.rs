@@ -6,6 +6,8 @@
 mod db_worker;
 #[path = "../src/limits.rs"]
 mod limits;
+#[path = "../src/meter.rs"]
+mod meter;
 #[path = "../src/platform.rs"]
 mod platform;
 #[path = "../src/runtime_metrics.rs"]

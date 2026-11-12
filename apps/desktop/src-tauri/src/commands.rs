@@ -7,6 +7,13 @@ use crate::{
 use tauri::State;
 
 #[tauri::command]
+pub async fn meter_snapshot(
+    state: State<'_, DesktopState>,
+) -> Result<Received<MeterSnapshot>, DesktopError> {
+    state.bridge.meter_snapshot_async().await
+}
+
+#[tauri::command]
 pub async fn daemon_health(
     state: State<'_, DesktopState>,
 ) -> Result<Received<DaemonHealth>, DesktopError> {

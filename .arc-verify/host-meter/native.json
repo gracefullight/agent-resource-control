@@ -1,0 +1,1373 @@
+{
+  "schemaVersion": 1,
+  "task": "task-10",
+  "actor": "backend-gates",
+  "skills": [
+    "oma-backend",
+    "oma-frontend"
+  ],
+  "acceptedHead": "efedf0f4eb9b97eed641c82f3c4766bb16f2e3de",
+  "sourceHash": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+  "inputManifest": {
+    "path": "target/host-meter/task-10/native-refresh/inputs-18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311.json",
+    "sha256": "9c5959a537050773cf570bfe604a8b2fe62bf9f43b47ec5ada2ac7e136425df6",
+    "bytes": 53657
+  },
+  "artifacts": {
+    "daemon": {
+      "path": "target/release/arc-daemon",
+      "sha256": "f1a6dfb4707508439fd0686cf33e15e6f9cf9842e6451211c7a69bd399ae686f",
+      "bytes": 4549472
+    },
+    "cli": {
+      "path": "target/release/arcctl",
+      "sha256": "a6f6a387b39958becababeb334f1137d03389806f49b3a35054cbb4fc60bc52c",
+      "bytes": 2144832
+    },
+    "observer": {
+      "path": "target/host-meter/task-10/native-refresh/native-observer",
+      "sha256": "125d07859f99fc2063db0dee94e448f379841b0143b37334bafb8d52f1a8279a",
+      "bytes": 36048
+    },
+    "desktop": {
+      "path": "target/host-meter/task-10/native-refresh/desktop-built-pass2",
+      "sha256": "a9a2deb61f03b24e57a384bdb9141da2d93f54e745ac0ed39b1e94f8285a2021",
+      "bytes": 31821632
+    },
+    "daemonBuild": {
+      "path": "target/host-meter/task-10/daemon-build-current-pass2.json",
+      "sha256": "1f564d83c11356765003ba670c5c82c0ddcc4e36e261370f087cc36a2a114e44",
+      "bytes": 4505
+    },
+    "observerBuild": {
+      "path": "target/host-meter/task-10/observer-build-corrected-pass2.json",
+      "sha256": "9c9dbf0c5d1792ea2debdf6460238b700bdd1f9714e14eb7f9d5bf3a1d9546e6",
+      "bytes": 4654
+    },
+    "desktopBuild": {
+      "path": "target/host-meter/task-10/desktop-build-current-pass2.json",
+      "sha256": "740ce4de58df259b41db8c41126daa04db53d558861981d7b05ea877a3206d3a",
+      "bytes": 4543
+    },
+    "noninstrumentation": {
+      "path": "target/host-meter/task-10/noninstrumentation-current-pass2.json",
+      "sha256": "4e921eb9e5d74c8c57470c567c39283337e82aaa987727d71511f55f987f2333",
+      "bytes": 4591
+    }
+  },
+  "environment": {
+    "os": "macOS 27.2.1 (26B131)",
+    "hardware": "MacBookPro18,3",
+    "architecture": "aarch64-apple-darwin",
+    "logicalCpus": 8,
+    "physicalCpus": 8,
+    "memoryBytes": 17179869184,
+    "rustc": "1.95.0 (59807616e 2026-04-14)",
+    "rustLlvm": "22.1.2",
+    "appleClang": "21.0.0 (clang-2100.4.1.1)",
+    "daemonProfile": "optimized release; native and noninstrumented",
+    "desktopProfile": "dev, actual production Wry builder and embedded assets; existing native hide/quit callbacks",
+    "nativeHostTicksHz": 100,
+    "machCpuTimebase": {
+      "numer": 125,
+      "denom": 3,
+      "secondsFormula": "ticks * numer / denom / 1000000000"
+    },
+    "receipts": [
+      {
+        "path": "target/host-meter/task-10/environment-os-pass2.json",
+        "sha256": "f8ae1209ce3979320c5ffd4d804af9c9b4da2adbbd2609ba63f3b107e6b95769",
+        "bytes": 4367
+      },
+      {
+        "path": "target/host-meter/task-10/environment-hardware-pass2.json",
+        "sha256": "5ddbe410534896ecb108ab403b71f86c6d685731a217185fd6dd016d4b23f859",
+        "bytes": 4470
+      },
+      {
+        "path": "target/host-meter/task-10/environment-rustc-pass2.json",
+        "sha256": "88903d8cc5db1adbc80c6e9e65c2cbc985822af8e361895a21a62635af0364f2",
+        "bytes": 4386
+      },
+      {
+        "path": "target/host-meter/task-10/environment-clang-pass2.json",
+        "sha256": "bb15700ea643e234a7ac54a802963b891dc39e8168c782ebd7da0f6df949eb4d",
+        "bytes": 4405
+      }
+    ],
+    "configuration": {
+      "path": "target/host-meter/task-10/native-refresh/attempt-1/runtime.json",
+      "sha256": "b389d7e6dd8154584cca005c528b91c1c09e8459b4883c8f308d9091282c04cb",
+      "bytes": 379
+    },
+    "permissions": "No new credentials or permission grants; native process/window metadata only, no images, GUI interaction or profiler",
+    "desktopEnvironmentFailures": "Actual WebKit cache/persistent-storage and sandbox-extension attempts emitted Operation not permitted. Raw desktop stderr is retained; no storage or extension success is claimed and no GUI workaround was used."
+  },
+  "calibration": {
+    "status": "measured",
+    "independentReferences": true,
+    "discrepanciesExplained": true,
+    "samples": [
+      {
+        "cli": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-0-cli-0.json",
+          "sha256": "9adf4c2dde88ee74ec2771a2201d4b1e00d40e00b74f58d1fc8a06118404d147",
+          "bytes": 2086
+        },
+        "hostBefore": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-0-host-before.json",
+          "sha256": "ab9201dcdbba3ed50e7e88e3c3444707a01ee8c29d91d929fb8441cdccbb2915",
+          "bytes": 2102
+        },
+        "hostAfter": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-0-host-after.json",
+          "sha256": "b2019ad8de0fa08df9b322948204c2e3588ec1fb38d1928a18d437fe12666f6a",
+          "bytes": 2099
+        },
+        "process": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-0-process.json",
+          "sha256": "a01f093e9d16098729ea247db0a73d356c3a407dd0862be39d81e528f571f55b",
+          "bytes": 2127
+        },
+        "sequence": 2,
+        "sampledAtMs": 1794445001997,
+        "sampledMonotonicMs": 15010,
+        "cadence": {
+          "mode": "idle",
+          "interval_ms": 15000,
+          "stale_after_ms": 31000
+        },
+        "daemonIdentity": {
+          "pid": 12171,
+          "start_token": "1794444986597763",
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+        },
+        "cpuInterval": {
+          "started_at_ms": 1794444986987,
+          "ended_at_ms": 1794445001997,
+          "started_monotonic_ms": 0,
+          "ended_monotonic_ms": 15010,
+          "elapsed_ms": 15010,
+          "logical_cpu_count": 8,
+          "normalization": "host_capacity"
+        },
+        "filesystemIdentity": {
+          "path": "/",
+          "mount_point": "/",
+          "filesystem_type": "apfs",
+          "volume_id": "01000013:0000001a",
+          "is_local": true
+        },
+        "independentReferenceDetails": {
+          "hostBefore": {
+            "atMs": 1794444987912.124,
+            "monotonicMs": 147712776.901,
+            "host": {
+              "cpu": {
+                "user": 20154895,
+                "system": 11475695,
+                "nice": 0,
+                "idle": 80067490,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 7846,
+                "inactivePages": 236938,
+                "availableBytes": 4010541056,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "hostAfter": {
+            "atMs": 1794445002520.388,
+            "monotonicMs": 147727385.166,
+            "host": {
+              "cpu": {
+                "user": 20155636,
+                "system": 11476124,
+                "nice": 0,
+                "idle": 80077986,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 6622,
+                "inactivePages": 238503,
+                "availableBytes": 4016128000,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "process": {
+            "atMs": 1794445002633.574,
+            "monotonicMs": 147727498.351,
+            "process": {
+              "pid": 12171,
+              "startToken": "1794444986597763",
+              "bootId": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "executable": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace/target/release/arc-daemon",
+              "cpuCoreSeconds": 0.020095333,
+              "userCpuTicks": 178770,
+              "systemCpuTicks": 303518,
+              "cpuTimebaseNumer": 125,
+              "cpuTimebaseDenom": 3,
+              "cpuCounterUnit": "mach_absolute_ticks",
+              "cpuUserSeconds": 0.00744875,
+              "cpuSystemSeconds": 0.012646583,
+              "rssBytes": 6471680,
+              "rusageResidentBytes": 6471680,
+              "source": "proc_pid_rusage(RUSAGE_INFO_V4) Mach ticks converted with mach_timebase_info + proc_pidinfo(PROC_PIDTASKINFO,PROC_PIDTBSDINFO)"
+            }
+          }
+        },
+        "comparisons": {
+          "hostCpu": {
+            "unit": "percent",
+            "meter": 10.56761268781302,
+            "reference": 10.029144522544145,
+            "difference": 0.5384681652688741,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002520.388,
+            "explanation": "Meter 10.56761268781302 percent; independent reference 10.029144522544145; Meter interval 15010 ms, monotonic 0..15010; independent per-CPU tick sum spans 14608.264 ms, epoch 1794444987912.124..1794445002520.388. The reference ends 523.388 ms after this sample. Intervals are not identical, aggregate host_statistics and per-CPU host_processor_info snapshots have separate query timing and 100-Hz tick quantization; this 0.5384681652688741 percentage-point difference is recorded without an accuracy pass tolerance."
+          },
+          "memoryAvailable": {
+            "unit": "bytes",
+            "meter": 4005298176,
+            "reference": 4016128000,
+            "difference": -10829824,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002520.388,
+            "explanation": "Meter 4005298176 bytes; independent reference 4016128000; The reference is (free 6622 + inactive 238503) * 16384 bytes. Native free alone is 108494848 bytes, so comparing available to free alone would change the definition. The actual like-for-like discrepancy is -10829824 bytes across 523.388 ms. No compressed or purgeable overlap is added, and this is not an OS guarantee of immediately allocatable RAM."
+          },
+          "memoryPressure": {
+            "unit": "level",
+            "meter": "normal",
+            "reference": "normal",
+            "difference": null,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002520.388,
+            "explanation": "Meter normal level; independent reference normal; Native sysctl raw level 1 maps to normal; the Meter label is normal. The observations are 523.388 ms apart. These categorical observations agree. This is native memory pressure, separate from derived filesystem pressure."
+          },
+          "swapUsed": {
+            "unit": "bytes",
+            "meter": 12036538368,
+            "reference": 12036538368,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002520.388,
+            "explanation": "Meter 12036538368 bytes; independent reference 12036538368; Independent vm.swapusage and Meter report bytes used at separate times 523.388 ms apart; actual discrepancy 0 bytes. A recorded zero difference is an observed numeric result; this does not measure disk writes or reclaimed storage."
+          },
+          "capacity": {
+            "unit": "bytes",
+            "meter": 494384795648,
+            "reference": 494384795648,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002520.388,
+            "explanation": "Meter 494384795648 bytes; independent reference 494384795648; Both identify local apfs mounted at / for path /; capacity is statfs block count times block size. Actual discrepancy 0 bytes. APFS shares container space; this is the identified filesystem capacity, not vendor/job storage or reclaimable bytes."
+          },
+          "free": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002520.388,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bfree-derived bytes versus sampled free bytes, 523.388 ms apart; actual difference 0 bytes. Reference free minus available is 0 bytes in this observation. Free and available are distinct native counters even when equal; APFS background allocations and snapshots can change free space."
+          },
+          "available": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002520.388,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bavail-derived bytes versus sampled available bytes, 523.388 ms apart; actual difference 0 bytes. Available excludes space unavailable to this caller; free minus available is actually 0 bytes here. No disk-write, reclaim or purgeable-space claim is made."
+          },
+          "daemonCpu": {
+            "unit": "core_seconds",
+            "meter": 0.019803,
+            "reference": 0.020095333,
+            "difference": -0.0002923329999999988,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002633.574,
+            "explanation": "Meter 0.019803 core_seconds; independent reference 0.020095333; Meter getrusage(RUSAGE_SELF) cumulative user+system time has microsecond fields; foreign-PID proc_pid_rusage reports raw Mach ticks converted with timebase 125/3. The reference is 636.574 ms later; actual difference -0.0002923329999999988 core-seconds reflects that window, request work and counter resolution. No logical-CPU divisor is applied."
+          },
+          "daemonRss": {
+            "unit": "bytes",
+            "meter": 6406144,
+            "reference": 6471680,
+            "difference": -65536,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002633.574,
+            "explanation": "Meter 6406144 bytes; independent reference 6471680; Independent foreign-PID PROC_PIDTASKINFO resident bytes is read 636.574 ms after the sampler; actual difference -65536 bytes can reflect subsequent paging/allocation and request handling. Both are current resident size, not physical footprint or a peak."
+          },
+          "sampledPeakVsCurrentReference": {
+            "unit": "bytes",
+            "meter": 6406144,
+            "reference": 6471680,
+            "difference": -65536,
+            "availability": "available",
+            "meterObservedAtMs": 1794445001997,
+            "referenceObservedAtMs": 1794445002633.574,
+            "explanation": "Meter 6406144 bytes; independent reference 6471680; The Meter value is the largest discrete RSS sample since monotonic 0 ms of this daemon instance, while the reference is current RSS 636.574 ms after this sample. The signed semantic difference is -65536 bytes; it is not a native lifetime high-water mark, and a between-sample peak may be missed. Native wait4 lifetime max RSS is separately retained after shutdown."
+          }
+        }
+      },
+      {
+        "cli": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-1-cli-0.json",
+          "sha256": "5755b5c3d56fd41d8db05cba47ec64555c600ecd5b685157f2dccd71a598f3cd",
+          "bytes": 2086
+        },
+        "hostBefore": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-1-host-before.json",
+          "sha256": "7117e1378078876d927acfdaf27713a0b1e59d1e22afe598ea85365b89028744",
+          "bytes": 2101
+        },
+        "hostAfter": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-1-host-after.json",
+          "sha256": "59a1c260945fcbf3f6edba3b85be69d76ca2d5935b7d71eccd74161820006e44",
+          "bytes": 2099
+        },
+        "process": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-1-process.json",
+          "sha256": "3ac2451b8b732ff114dbd01d19f518f2205da0669fa119911b5fe17970ce9ad6",
+          "bytes": 2130
+        },
+        "sequence": 3,
+        "sampledAtMs": 1794445017007,
+        "sampledMonotonicMs": 30020,
+        "cadence": {
+          "mode": "idle",
+          "interval_ms": 15000,
+          "stale_after_ms": 31000
+        },
+        "daemonIdentity": {
+          "pid": 12171,
+          "start_token": "1794444986597763",
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+        },
+        "cpuInterval": {
+          "started_at_ms": 1794445001997,
+          "ended_at_ms": 1794445017007,
+          "started_monotonic_ms": 15010,
+          "ended_monotonic_ms": 30020,
+          "elapsed_ms": 15010,
+          "logical_cpu_count": 8,
+          "normalization": "host_capacity"
+        },
+        "filesystemIdentity": {
+          "path": "/",
+          "mount_point": "/",
+          "filesystem_type": "apfs",
+          "volume_id": "01000013:0000001a",
+          "is_local": true
+        },
+        "independentReferenceDetails": {
+          "hostBefore": {
+            "atMs": 1794445002744.75,
+            "monotonicMs": 147727609.527,
+            "host": {
+              "cpu": {
+                "user": 20155650,
+                "system": 11476144,
+                "nice": 0,
+                "idle": 80078131,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 6605,
+                "inactivePages": 238572,
+                "availableBytes": 4016979968,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "hostAfter": {
+            "atMs": 1794445017402.893,
+            "monotonicMs": 147742267.67,
+            "host": {
+              "cpu": {
+                "user": 20156296,
+                "system": 11476509,
+                "nice": 0,
+                "idle": 80088826,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 12803,
+                "inactivePages": 236167,
+                "availableBytes": 4079124480,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "process": {
+            "atMs": 1794445017512.645,
+            "monotonicMs": 147742377.422,
+            "process": {
+              "pid": 12171,
+              "startToken": "1794444986597763",
+              "bootId": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "executable": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace/target/release/arc-daemon",
+              "cpuCoreSeconds": 0.020741792,
+              "userCpuTicks": 183807,
+              "systemCpuTicks": 313996,
+              "cpuTimebaseNumer": 125,
+              "cpuTimebaseDenom": 3,
+              "cpuCounterUnit": "mach_absolute_ticks",
+              "cpuUserSeconds": 0.007658625,
+              "cpuSystemSeconds": 0.013083167,
+              "rssBytes": 6488064,
+              "rusageResidentBytes": 6488064,
+              "source": "proc_pid_rusage(RUSAGE_INFO_V4) Mach ticks converted with mach_timebase_info + proc_pidinfo(PROC_PIDTASKINFO,PROC_PIDTBSDINFO)"
+            }
+          }
+        },
+        "comparisons": {
+          "hostCpu": {
+            "unit": "percent",
+            "meter": 8.892225558892225,
+            "reference": 8.636596617119427,
+            "difference": 0.25562894177279816,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017402.893,
+            "explanation": "Meter 8.892225558892225 percent; independent reference 8.636596617119427; Meter interval 15010 ms, monotonic 15010..30020; independent per-CPU tick sum spans 14658.143 ms, epoch 1794445002744.750..1794445017402.893. The reference ends 395.893 ms after this sample. Intervals are not identical, aggregate host_statistics and per-CPU host_processor_info snapshots have separate query timing and 100-Hz tick quantization; this 0.25562894177279816 percentage-point difference is recorded without an accuracy pass tolerance."
+          },
+          "memoryAvailable": {
+            "unit": "bytes",
+            "meter": 4072734720,
+            "reference": 4079124480,
+            "difference": -6389760,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017402.893,
+            "explanation": "Meter 4072734720 bytes; independent reference 4079124480; The reference is (free 12803 + inactive 236167) * 16384 bytes. Native free alone is 209764352 bytes, so comparing available to free alone would change the definition. The actual like-for-like discrepancy is -6389760 bytes across 395.893 ms. No compressed or purgeable overlap is added, and this is not an OS guarantee of immediately allocatable RAM."
+          },
+          "memoryPressure": {
+            "unit": "level",
+            "meter": "normal",
+            "reference": "normal",
+            "difference": null,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017402.893,
+            "explanation": "Meter normal level; independent reference normal; Native sysctl raw level 1 maps to normal; the Meter label is normal. The observations are 395.893 ms apart. These categorical observations agree. This is native memory pressure, separate from derived filesystem pressure."
+          },
+          "swapUsed": {
+            "unit": "bytes",
+            "meter": 12036538368,
+            "reference": 12036538368,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017402.893,
+            "explanation": "Meter 12036538368 bytes; independent reference 12036538368; Independent vm.swapusage and Meter report bytes used at separate times 395.893 ms apart; actual discrepancy 0 bytes. A recorded zero difference is an observed numeric result; this does not measure disk writes or reclaimed storage."
+          },
+          "capacity": {
+            "unit": "bytes",
+            "meter": 494384795648,
+            "reference": 494384795648,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017402.893,
+            "explanation": "Meter 494384795648 bytes; independent reference 494384795648; Both identify local apfs mounted at / for path /; capacity is statfs block count times block size. Actual discrepancy 0 bytes. APFS shares container space; this is the identified filesystem capacity, not vendor/job storage or reclaimable bytes."
+          },
+          "free": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017402.893,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bfree-derived bytes versus sampled free bytes, 395.893 ms apart; actual difference 0 bytes. Reference free minus available is 0 bytes in this observation. Free and available are distinct native counters even when equal; APFS background allocations and snapshots can change free space."
+          },
+          "available": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017402.893,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bavail-derived bytes versus sampled available bytes, 395.893 ms apart; actual difference 0 bytes. Available excludes space unavailable to this caller; free minus available is actually 0 bytes here. No disk-write, reclaim or purgeable-space claim is made."
+          },
+          "daemonCpu": {
+            "unit": "core_seconds",
+            "meter": 0.020462,
+            "reference": 0.020741792,
+            "difference": -0.00027979199999999746,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017512.645,
+            "explanation": "Meter 0.020462 core_seconds; independent reference 0.020741792; Meter getrusage(RUSAGE_SELF) cumulative user+system time has microsecond fields; foreign-PID proc_pid_rusage reports raw Mach ticks converted with timebase 125/3. The reference is 505.645 ms later; actual difference -0.00027979199999999746 core-seconds reflects that window, request work and counter resolution. No logical-CPU divisor is applied."
+          },
+          "daemonRss": {
+            "unit": "bytes",
+            "meter": 6471680,
+            "reference": 6488064,
+            "difference": -16384,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017512.645,
+            "explanation": "Meter 6471680 bytes; independent reference 6488064; Independent foreign-PID PROC_PIDTASKINFO resident bytes is read 505.645 ms after the sampler; actual difference -16384 bytes can reflect subsequent paging/allocation and request handling. Both are current resident size, not physical footprint or a peak."
+          },
+          "sampledPeakVsCurrentReference": {
+            "unit": "bytes",
+            "meter": 6471680,
+            "reference": 6488064,
+            "difference": -16384,
+            "availability": "available",
+            "meterObservedAtMs": 1794445017007,
+            "referenceObservedAtMs": 1794445017512.645,
+            "explanation": "Meter 6471680 bytes; independent reference 6488064; The Meter value is the largest discrete RSS sample since monotonic 0 ms of this daemon instance, while the reference is current RSS 505.645 ms after this sample. The signed semantic difference is -16384 bytes; it is not a native lifetime high-water mark, and a between-sample peak may be missed. Native wait4 lifetime max RSS is separately retained after shutdown."
+          }
+        }
+      },
+      {
+        "cli": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-2-cli-0.json",
+          "sha256": "e3e6f2c3bbddffcc92d0d4427b23aaf7ac2300486e9d3886e639b64c8ca98ec0",
+          "bytes": 2083
+        },
+        "hostBefore": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-2-host-before.json",
+          "sha256": "1239a5147994ebba42293a65d133e216433de87b9b41c8c1e3387b3c5de75bbf",
+          "bytes": 2101
+        },
+        "hostAfter": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-2-host-after.json",
+          "sha256": "76e7d10a94cc2d29bca51832eb88b750cdb2e35ff97af0cf3b7de36b94718b67",
+          "bytes": 2099
+        },
+        "process": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-2-process.json",
+          "sha256": "188527c7af8c7a4dd6b18c9a0fe96676ac4680f03fb3ac4986eb8e077b73abae",
+          "bytes": 2129
+        },
+        "sequence": 4,
+        "sampledAtMs": 1794445032013,
+        "sampledMonotonicMs": 45025,
+        "cadence": {
+          "mode": "idle",
+          "interval_ms": 15000,
+          "stale_after_ms": 31000
+        },
+        "daemonIdentity": {
+          "pid": 12171,
+          "start_token": "1794444986597763",
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+        },
+        "cpuInterval": {
+          "started_at_ms": 1794445017007,
+          "ended_at_ms": 1794445032013,
+          "started_monotonic_ms": 30020,
+          "ended_monotonic_ms": 45025,
+          "elapsed_ms": 15005,
+          "logical_cpu_count": 8,
+          "normalization": "host_capacity"
+        },
+        "filesystemIdentity": {
+          "path": "/",
+          "mount_point": "/",
+          "filesystem_type": "apfs",
+          "volume_id": "01000013:0000001a",
+          "is_local": true
+        },
+        "independentReferenceDetails": {
+          "hostBefore": {
+            "atMs": 1794445017628.726,
+            "monotonicMs": 147742493.503,
+            "host": {
+              "cpu": {
+                "user": 20156311,
+                "system": 11476530,
+                "nice": 0,
+                "idle": 80088970,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 12780,
+                "inactivePages": 236193,
+                "availableBytes": 4079173632,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "hostAfter": {
+            "atMs": 1794445032435.824,
+            "monotonicMs": 147757300.602,
+            "host": {
+              "cpu": {
+                "user": 20157353,
+                "system": 11477006,
+                "nice": 0,
+                "idle": 80099272,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 7619,
+                "inactivePages": 242082,
+                "availableBytes": 4091101184,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "process": {
+            "atMs": 1794445032553.603,
+            "monotonicMs": 147757418.381,
+            "process": {
+              "pid": 12171,
+              "startToken": "1794444986597763",
+              "bootId": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "executable": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace/target/release/arc-daemon",
+              "cpuCoreSeconds": 0.021442,
+              "userCpuTicks": 188979,
+              "systemCpuTicks": 325629,
+              "cpuTimebaseNumer": 125,
+              "cpuTimebaseDenom": 3,
+              "cpuCounterUnit": "mach_absolute_ticks",
+              "cpuUserSeconds": 0.007874125,
+              "cpuSystemSeconds": 0.013567875,
+              "rssBytes": 6520832,
+              "rusageResidentBytes": 6520832,
+              "source": "proc_pid_rusage(RUSAGE_INFO_V4) Mach ticks converted with mach_timebase_info + proc_pidinfo(PROC_PIDTASKINFO,PROC_PIDTBSDINFO)"
+            }
+          }
+        },
+        "comparisons": {
+          "hostCpu": {
+            "unit": "percent",
+            "meter": 12.943336393223731,
+            "reference": 12.842639593908629,
+            "difference": 0.10069679931510223,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032435.824,
+            "explanation": "Meter 12.943336393223731 percent; independent reference 12.842639593908629; Meter interval 15005 ms, monotonic 30020..45025; independent per-CPU tick sum spans 14807.098 ms, epoch 1794445017628.726..1794445032435.824. The reference ends 422.824 ms after this sample. Intervals are not identical, aggregate host_statistics and per-CPU host_processor_info snapshots have separate query timing and 100-Hz tick quantization; this 0.10069679931510223 percentage-point difference is recorded without an accuracy pass tolerance."
+          },
+          "memoryAvailable": {
+            "unit": "bytes",
+            "meter": 4077486080,
+            "reference": 4091101184,
+            "difference": -13615104,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032435.824,
+            "explanation": "Meter 4077486080 bytes; independent reference 4091101184; The reference is (free 7619 + inactive 242082) * 16384 bytes. Native free alone is 124829696 bytes, so comparing available to free alone would change the definition. The actual like-for-like discrepancy is -13615104 bytes across 422.824 ms. No compressed or purgeable overlap is added, and this is not an OS guarantee of immediately allocatable RAM."
+          },
+          "memoryPressure": {
+            "unit": "level",
+            "meter": "normal",
+            "reference": "normal",
+            "difference": null,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032435.824,
+            "explanation": "Meter normal level; independent reference normal; Native sysctl raw level 1 maps to normal; the Meter label is normal. The observations are 422.824 ms apart. These categorical observations agree. This is native memory pressure, separate from derived filesystem pressure."
+          },
+          "swapUsed": {
+            "unit": "bytes",
+            "meter": 12036538368,
+            "reference": 12036538368,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032435.824,
+            "explanation": "Meter 12036538368 bytes; independent reference 12036538368; Independent vm.swapusage and Meter report bytes used at separate times 422.824 ms apart; actual discrepancy 0 bytes. A recorded zero difference is an observed numeric result; this does not measure disk writes or reclaimed storage."
+          },
+          "capacity": {
+            "unit": "bytes",
+            "meter": 494384795648,
+            "reference": 494384795648,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032435.824,
+            "explanation": "Meter 494384795648 bytes; independent reference 494384795648; Both identify local apfs mounted at / for path /; capacity is statfs block count times block size. Actual discrepancy 0 bytes. APFS shares container space; this is the identified filesystem capacity, not vendor/job storage or reclaimable bytes."
+          },
+          "free": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032435.824,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bfree-derived bytes versus sampled free bytes, 422.824 ms apart; actual difference 0 bytes. Reference free minus available is 0 bytes in this observation. Free and available are distinct native counters even when equal; APFS background allocations and snapshots can change free space."
+          },
+          "available": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032435.824,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bavail-derived bytes versus sampled available bytes, 422.824 ms apart; actual difference 0 bytes. Available excludes space unavailable to this caller; free minus available is actually 0 bytes here. No disk-write, reclaim or purgeable-space claim is made."
+          },
+          "daemonCpu": {
+            "unit": "core_seconds",
+            "meter": 0.021165,
+            "reference": 0.021442,
+            "difference": -0.00027699999999999947,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032553.603,
+            "explanation": "Meter 0.021165 core_seconds; independent reference 0.021442; Meter getrusage(RUSAGE_SELF) cumulative user+system time has microsecond fields; foreign-PID proc_pid_rusage reports raw Mach ticks converted with timebase 125/3. The reference is 540.603 ms later; actual difference -0.00027699999999999947 core-seconds reflects that window, request work and counter resolution. No logical-CPU divisor is applied."
+          },
+          "daemonRss": {
+            "unit": "bytes",
+            "meter": 6488064,
+            "reference": 6520832,
+            "difference": -32768,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032553.603,
+            "explanation": "Meter 6488064 bytes; independent reference 6520832; Independent foreign-PID PROC_PIDTASKINFO resident bytes is read 540.603 ms after the sampler; actual difference -32768 bytes can reflect subsequent paging/allocation and request handling. Both are current resident size, not physical footprint or a peak."
+          },
+          "sampledPeakVsCurrentReference": {
+            "unit": "bytes",
+            "meter": 6488064,
+            "reference": 6520832,
+            "difference": -32768,
+            "availability": "available",
+            "meterObservedAtMs": 1794445032013,
+            "referenceObservedAtMs": 1794445032553.603,
+            "explanation": "Meter 6488064 bytes; independent reference 6520832; The Meter value is the largest discrete RSS sample since monotonic 0 ms of this daemon instance, while the reference is current RSS 540.603 ms after this sample. The signed semantic difference is -32768 bytes; it is not a native lifetime high-water mark, and a between-sample peak may be missed. Native wait4 lifetime max RSS is separately retained after shutdown."
+          }
+        }
+      },
+      {
+        "cli": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-3-cli-0.json",
+          "sha256": "69d75c632feffdff6a0ae40ac3b9a99d47a41613d3b73f4c31e8be77502425b8",
+          "bytes": 2086
+        },
+        "hostBefore": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-3-host-before.json",
+          "sha256": "ae97306ae2b58750232eed2882e3705cce668be2e20932a7afc33ec61ec46043",
+          "bytes": 2099
+        },
+        "hostAfter": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-3-host-after.json",
+          "sha256": "05bf1627f5cf1ca5532644eeca4256a9ecf8da16d518a7def930c5348e01fa24",
+          "bytes": 2099
+        },
+        "process": {
+          "path": "target/host-meter/task-10/native-refresh/attempt-1/calibration-3-process.json",
+          "sha256": "ca207dfdd8c1fa9ae5bfaa518b5b051eb8a51c7b541653ea377a9a447a396ed8",
+          "bytes": 2127
+        },
+        "sequence": 5,
+        "sampledAtMs": 1794445047022,
+        "sampledMonotonicMs": 60035,
+        "cadence": {
+          "mode": "idle",
+          "interval_ms": 15000,
+          "stale_after_ms": 31000
+        },
+        "daemonIdentity": {
+          "pid": 12171,
+          "start_token": "1794444986597763",
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+        },
+        "cpuInterval": {
+          "started_at_ms": 1794445032013,
+          "ended_at_ms": 1794445047022,
+          "started_monotonic_ms": 45025,
+          "ended_monotonic_ms": 60035,
+          "elapsed_ms": 15010,
+          "logical_cpu_count": 8,
+          "normalization": "host_capacity"
+        },
+        "filesystemIdentity": {
+          "path": "/",
+          "mount_point": "/",
+          "filesystem_type": "apfs",
+          "volume_id": "01000013:0000001a",
+          "is_local": true
+        },
+        "independentReferenceDetails": {
+          "hostBefore": {
+            "atMs": 1794445032664.743,
+            "monotonicMs": 147757529.52,
+            "host": {
+              "cpu": {
+                "user": 20157370,
+                "system": 11477026,
+                "nice": 0,
+                "idle": 80099420,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 7607,
+                "inactivePages": 242110,
+                "availableBytes": 4091363328,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "hostAfter": {
+            "atMs": 1794445047426.05,
+            "monotonicMs": 147772290.827,
+            "host": {
+              "cpu": {
+                "user": 20158033,
+                "system": 11477414,
+                "nice": 0,
+                "idle": 80110156,
+                "logicalCpuCount": 8,
+                "source": "host_processor_info per-CPU tick sum"
+              },
+              "memory": {
+                "pageSize": 16384,
+                "freePages": 11427,
+                "inactivePages": 240268,
+                "availableBytes": 4123770880,
+                "source": "HOST_VM_INFO64 free+inactive; host_page_size"
+              },
+              "pressureRaw": 1,
+              "swapUsedBytes": 12036538368,
+              "filesystem": {
+                "path": "/",
+                "mountPoint": "/",
+                "filesystemType": "apfs",
+                "capacityBytes": 494384795648,
+                "freeBytes": 88883200000,
+                "availableBytes": 88883200000,
+                "source": "independent statfs(/) block counts"
+              }
+            }
+          },
+          "process": {
+            "atMs": 1794445047537.101,
+            "monotonicMs": 147772401.879,
+            "process": {
+              "pid": 12171,
+              "startToken": "1794444986597763",
+              "bootId": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "executable": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace/target/release/arc-daemon",
+              "cpuCoreSeconds": 0.022016375,
+              "userCpuTicks": 194309,
+              "systemCpuTicks": 334084,
+              "cpuTimebaseNumer": 125,
+              "cpuTimebaseDenom": 3,
+              "cpuCounterUnit": "mach_absolute_ticks",
+              "cpuUserSeconds": 0.008096208,
+              "cpuSystemSeconds": 0.013920167,
+              "rssBytes": 6520832,
+              "rusageResidentBytes": 6520832,
+              "source": "proc_pid_rusage(RUSAGE_INFO_V4) Mach ticks converted with mach_timebase_info + proc_pidinfo(PROC_PIDTASKINFO,PROC_PIDTBSDINFO)"
+            }
+          }
+        },
+        "comparisons": {
+          "hostCpu": {
+            "unit": "percent",
+            "meter": 9.04539385847797,
+            "reference": 8.916603037244421,
+            "difference": 0.12879082123354912,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047426.05,
+            "explanation": "Meter 9.04539385847797 percent; independent reference 8.916603037244421; Meter interval 15010 ms, monotonic 45025..60035; independent per-CPU tick sum spans 14761.307 ms, epoch 1794445032664.743..1794445047426.050. The reference ends 404.050 ms after this sample. Intervals are not identical, aggregate host_statistics and per-CPU host_processor_info snapshots have separate query timing and 100-Hz tick quantization; this 0.12879082123354912 percentage-point difference is recorded without an accuracy pass tolerance."
+          },
+          "memoryAvailable": {
+            "unit": "bytes",
+            "meter": 4125769728,
+            "reference": 4123770880,
+            "difference": 1998848,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047426.05,
+            "explanation": "Meter 4125769728 bytes; independent reference 4123770880; The reference is (free 11427 + inactive 240268) * 16384 bytes. Native free alone is 187219968 bytes, so comparing available to free alone would change the definition. The actual like-for-like discrepancy is 1998848 bytes across 404.050 ms. No compressed or purgeable overlap is added, and this is not an OS guarantee of immediately allocatable RAM."
+          },
+          "memoryPressure": {
+            "unit": "level",
+            "meter": "normal",
+            "reference": "normal",
+            "difference": null,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047426.05,
+            "explanation": "Meter normal level; independent reference normal; Native sysctl raw level 1 maps to normal; the Meter label is normal. The observations are 404.050 ms apart. These categorical observations agree. This is native memory pressure, separate from derived filesystem pressure."
+          },
+          "swapUsed": {
+            "unit": "bytes",
+            "meter": 12036538368,
+            "reference": 12036538368,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047426.05,
+            "explanation": "Meter 12036538368 bytes; independent reference 12036538368; Independent vm.swapusage and Meter report bytes used at separate times 404.050 ms apart; actual discrepancy 0 bytes. A recorded zero difference is an observed numeric result; this does not measure disk writes or reclaimed storage."
+          },
+          "capacity": {
+            "unit": "bytes",
+            "meter": 494384795648,
+            "reference": 494384795648,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047426.05,
+            "explanation": "Meter 494384795648 bytes; independent reference 494384795648; Both identify local apfs mounted at / for path /; capacity is statfs block count times block size. Actual discrepancy 0 bytes. APFS shares container space; this is the identified filesystem capacity, not vendor/job storage or reclaimable bytes."
+          },
+          "free": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047426.05,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bfree-derived bytes versus sampled free bytes, 404.050 ms apart; actual difference 0 bytes. Reference free minus available is 0 bytes in this observation. Free and available are distinct native counters even when equal; APFS background allocations and snapshots can change free space."
+          },
+          "available": {
+            "unit": "bytes",
+            "meter": 88883200000,
+            "reference": 88883200000,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047426.05,
+            "explanation": "Meter 88883200000 bytes; independent reference 88883200000; Independent statfs f_bavail-derived bytes versus sampled available bytes, 404.050 ms apart; actual difference 0 bytes. Available excludes space unavailable to this caller; free minus available is actually 0 bytes here. No disk-write, reclaim or purgeable-space claim is made."
+          },
+          "daemonCpu": {
+            "unit": "core_seconds",
+            "meter": 0.021731,
+            "reference": 0.022016375,
+            "difference": -0.0002853750000000009,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047537.101,
+            "explanation": "Meter 0.021731 core_seconds; independent reference 0.022016375; Meter getrusage(RUSAGE_SELF) cumulative user+system time has microsecond fields; foreign-PID proc_pid_rusage reports raw Mach ticks converted with timebase 125/3. The reference is 515.101 ms later; actual difference -0.0002853750000000009 core-seconds reflects that window, request work and counter resolution. No logical-CPU divisor is applied."
+          },
+          "daemonRss": {
+            "unit": "bytes",
+            "meter": 6520832,
+            "reference": 6520832,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047537.101,
+            "explanation": "Meter 6520832 bytes; independent reference 6520832; Independent foreign-PID PROC_PIDTASKINFO resident bytes is read 515.101 ms after the sampler; actual difference 0 bytes can reflect subsequent paging/allocation and request handling. Both are current resident size, not physical footprint or a peak."
+          },
+          "sampledPeakVsCurrentReference": {
+            "unit": "bytes",
+            "meter": 6520832,
+            "reference": 6520832,
+            "difference": 0,
+            "availability": "available",
+            "meterObservedAtMs": 1794445047022,
+            "referenceObservedAtMs": 1794445047537.101,
+            "explanation": "Meter 6520832 bytes; independent reference 6520832; The Meter value is the largest discrete RSS sample since monotonic 0 ms of this daemon instance, while the reference is current RSS 515.101 ms after this sample. The signed semantic difference is 0 bytes; it is not a native lifetime high-water mark, and a between-sample peak may be missed. Native wait4 lifetime max RSS is separately retained after shutdown."
+          }
+        }
+      }
+    ],
+    "successiveSequences": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "independence": "Separate C executable compiled from native-observer.c, no ARC library, IPC or sampler; foreign-PID process observations",
+    "observerSourcePath": "scripts/host-meter/native-observer.c",
+    "observerSourceSha256": "2743c1af6e398c3d9770025f82274e831ef0666f6b907d4cddb56d558eda9f62",
+    "accuracyTolerance": null,
+    "accuracyVerdict": "Actual discrepancies recorded; no unstated accuracy pass threshold",
+    "unavailableReferences": [],
+    "derivedPressure": "Filesystem pressure is a separately labeled derivation; native memory pressure is observed independently"
+  },
+  "idle": {
+    "status": "measured",
+    "warmed": true,
+    "noninstrumented": true,
+    "desktopHidden": true,
+    "durationMeetsMinimum": true,
+    "independentObserver": true,
+    "warmupMs": 30150.107833,
+    "warmupRule": ">=30000 monotonic ms quiet after calibration and actual native desktop hide; no admitted build/coverage/load generation",
+    "daemonAgeAtIntervalStartMs": 93258.5810546875,
+    "daemonIdentity": {
+      "pid": 12171,
+      "start_token": "1794444986597763",
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+    },
+    "desktopIdentity": {
+      "pid": 12477,
+      "start_token": "1794445047644928",
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+    },
+    "observerReceipt": {
+      "path": "target/host-meter/task-10/native-refresh/attempt-1/idle-observer.json",
+      "sha256": "44126bad588fcc3d0d160fc2a15a87f12c9c279c8284d707484e77cbaa4e336b",
+      "bytes": 2136
+    },
+    "visibility": {
+      "path": "target/host-meter/task-10/native-refresh/attempt-1/desktop-visibility.jsonl",
+      "sha256": "bce69d9954b3cab3619e5033f01d244fad86b3018d352282e6df85011ca5c3d8",
+      "bytes": 102706
+    },
+    "durationMs": 317238.49099999666,
+    "startAtMs": 1794445079856.344,
+    "endAtMs": 1794445397094.835,
+    "startMonotonicMs": 147804721.121,
+    "endMonotonicMs": 148121959.612,
+    "cpu": {
+      "denominator": "one_core",
+      "limitPercent": 0.5,
+      "belowLimit": true,
+      "percent": 0.0028828863014608444,
+      "deltaCoreSeconds": 0.009145624999999998,
+      "formula": "100 * (end foreign-PID user+system core-seconds - start) / monotonic elapsed seconds; no logical-core divisor",
+      "startCoreSeconds": 0.023251542,
+      "endCoreSeconds": 0.032397167,
+      "startUserTicks": 202382,
+      "endUserTicks": 237404,
+      "startSystemTicks": 355655,
+      "endSystemTicks": 540128,
+      "startUserSeconds": 0.008432583,
+      "endUserSeconds": 0.009891833,
+      "startSystemSeconds": 0.014818958,
+      "endSystemSeconds": 0.022505333,
+      "resolution": "Mach tick = 125/3 ns on this host; native accounting updates and printed floating-point seconds limit effective precision"
+    },
+    "rss": {
+      "limitBytes": 50000000,
+      "belowLimit": true,
+      "maxBytes": 4734976,
+      "maxDecimalMB": 4.734976,
+      "maxMiB": 4.515625,
+      "minBytes": 4718592,
+      "startBytes": 4734976,
+      "endBytes": 4718592,
+      "source": "Independent foreign-PID proc_pidinfo(PROC_PIDTASKINFO).pti_resident_size, bytes",
+      "semantics": "Maximum of discrete current-RSS readings during this interval; not continuous or process-lifetime high-water proof",
+      "supplementalShutdownLifetimeRusage": {
+        "userSeconds": 0.010652,
+        "systemSeconds": 0.025502999999999998,
+        "nativeLifetimeMaxRssBytes": 6520832,
+        "source": "parent wait4; macOS ru_maxrss bytes; entire process lifetime, not measured-interval RSS"
+      }
+    },
+    "observer": {
+      "binary": {
+        "path": "target/host-meter/task-10/native-refresh/native-observer",
+        "sha256": "125d07859f99fc2063db0dee94e448f379841b0143b37334bafb8d52f1a8279a",
+        "bytes": 36048
+      },
+      "pid": 12603,
+      "observations": 311,
+      "nominalIntervalMs": 1000,
+      "minimumActualGapMs": 1010.569000005722,
+      "maximumActualGapMs": 1060.9670000076294,
+      "medianActualGapMs": 1024.1494999825954,
+      "identity": "Standalone native C foreign-PID reader; CPU/RSS and CoreGraphics metadata; no ARC library or instrumentation"
+    },
+    "desktopVisibility": {
+      "actualNativeWryRecords": 418,
+      "foreignWindowRecords": 311,
+      "beforeHideVisible": true,
+      "normalOnscreenCountMaximum": 0,
+      "nativeMainHiddenThroughoutMeasuredInterval": true,
+      "desktopOnlyQuitExitCode": 0,
+      "lifecycle": "DesktopState::dispatch(CloseRequested) -> TauriShell::hide_main",
+      "rawDesktopReceipt": {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/desktop.json",
+        "sha256": "df0f711ec4e6d8f6041c15106dd7e81d48c35f93bae59faf15ec4619c0e7225b",
+        "bytes": 2312
+      }
+    },
+    "activity": {
+      "before": {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/before-idle-job-state.json",
+        "sha256": "144be82a43b716db46d7b468524a132f83db61022d66bb55b439928ec576c4d2",
+        "bytes": 156
+      },
+      "after": {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/after-idle-job-state.json",
+        "sha256": "103c332d3ce85fee60ca9295bc193e6d4ef7ea09d4f98dbd4f95d80b6b22a633",
+        "bytes": 156
+      },
+      "beforeCli": {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/before-idle-cli.json",
+        "sha256": "52916fda1cc90745ded1a0aafd30f906cd4fb1fb5eeef0a81bacb30f6fad59ce",
+        "bytes": 2078
+      },
+      "afterCli": {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/after-idle-cli.json",
+        "sha256": "1c7c9fe19b9dd061b783b419ff6cec29c6ca18c2503e79ca0b9c641b7266d992",
+        "bytes": 2076
+      },
+      "activeJobs": 0,
+      "cadenceBefore": {
+        "mode": "idle",
+        "interval_ms": 15000,
+        "stale_after_ms": 31000
+      },
+      "cadenceAfter": {
+        "mode": "idle",
+        "interval_ms": 15000,
+        "stale_after_ms": 31000
+      },
+      "progressWithoutVisibleGUI": {
+        "beforeSequence": 7,
+        "afterSequence": 28,
+        "beforeMonotonicMs": 90053,
+        "afterMonotonicMs": 405200
+      },
+      "resourceSamplesPersisted": 0,
+      "requestsDuringObserverWindow": "No task CLI, job submission, build, coverage or load-generator command; native process/window observer only"
+    },
+    "contention": {
+      "observations": 173,
+      "problems": [],
+      "raw": {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/contention.jsonl",
+        "sha256": "8439dd0819fc3de4825a1f547a34d6037e64804624ade1ffac5549cb708feb7e",
+        "bytes": 80706
+      },
+      "actorAdmittedConcurrentBuilds": 0,
+      "actorAdmittedCoverageCollections": 0,
+      "actorAdmittedLoadGenerators": 0,
+      "advisoryLock": "target-only task-owned OS flock",
+      "loadAverageStart": [
+        2.48583984375,
+        3.18994140625,
+        4.3720703125
+      ],
+      "loadAverageEnd": [
+        2.54638671875,
+        2.84716796875,
+        3.8125
+      ],
+      "processNamesUnavailableRange": [
+        192,
+        201
+      ],
+      "limits": "Snapshot metadata cannot exclude a process that starts and exits between observations, arbitrary renamed workloads or unrelated ambient activity."
+    },
+    "ambientActivity": "Existing OS and user activity continued; record load averages and native calibration CPU. No unrelated processes were stopped or adjusted."
+  },
+  "provenance": {
+    "measurement": {
+      "path": "target/host-meter/task-10/native-measurement-corrected-pass2.json",
+      "sha256": "fd127edc55e6c51ae6c8bd007e967db1b5886315ef562825c2654f420e8d1f83",
+      "bytes": 4474
+    },
+    "raw": {
+      "path": "target/host-meter/task-10/native-refresh/attempt-1/measurement-result.json",
+      "sha256": "7da86f41cb68f62758a75b171043f0bb349d8358eb7de5f0c06d22053fbce530",
+      "bytes": 40127
+    },
+    "plan": {
+      "path": "target/host-meter/task-10/native-refresh/observation-plan.json",
+      "sha256": "92315dd77110a1ad0b9bc3986a43ac59f9afd45aff8766c27d5c569e0c5a9db3",
+      "bytes": 3324
+    },
+    "producerInputs": {
+      "path": "target/host-meter/task-10/native-refresh/attempt-1/producer-inputs.json",
+      "sha256": "f91b3a4a4395e6dd25c59c55f01334e81e4d7080920b9c76ded31b1c664683fb",
+      "bytes": 725
+    },
+    "ownedReceipts": [
+      {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/daemon.json",
+        "sha256": "7baf88f30bc76ed88cb978b825a685a472918a46f9c4a8d85f42e8a671524194",
+        "bytes": 2243
+      },
+      {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/desktop.json",
+        "sha256": "df0f711ec4e6d8f6041c15106dd7e81d48c35f93bae59faf15ec4619c0e7225b",
+        "bytes": 2312
+      },
+      {
+        "path": "target/host-meter/task-10/native-refresh/attempt-1/idle-observer.json",
+        "sha256": "44126bad588fcc3d0d160fc2a15a87f12c9c279c8284d707484e77cbaa4e336b",
+        "bytes": 2136
+      }
+    ],
+    "originalTask8EffectsReplayed": false,
+    "currentInputNativeTests": "Required CLI/bridge native tests re-executed in exact current workspace/coverage gates, distinct from replaying task-8 to repair its earlier review.",
+    "retainedTask8BinaryProvenance": {
+      "path": "target/host-meter/task-10/baseline-accepted.json",
+      "sha256": "7a151b45dae4fefd364aae791bdd7e50d68f1685f2bed9c2028ffd5bad186786",
+      "bytes": 4402
+    }
+  },
+  "observerRepair": {
+    "owner": "backend-gates",
+    "reason": "Task-9 native calibration exposed unscaled Mach ticks in task-8 reference tool",
+    "details": {
+      "path": "target/host-meter/task-9/measurement-support-repair.md",
+      "sha256": "8f4db6f25a88f85cde9d7fb0afb71173c236f33d8936bd7d4a1ca9d215ae5feb",
+      "bytes": 2883
+    },
+    "deterministicCases": 7,
+    "unitReceipt": {
+      "path": "target/host-meter/task-9/observer-clock-unit.json",
+      "sha256": "4790fe99d99179a7a4b585618fd3546a7afb23e40e599969f066ec2230403d69",
+      "bytes": 1748
+    },
+    "testBuildReceipt": {
+      "path": "target/host-meter/task-9/observer-clock-build.json",
+      "sha256": "1353437054ff760454612e4b834d9c8b124d1328d3b4160cce40ab260cc1c23c",
+      "bytes": 1820
+    },
+    "nativeRed": {
+      "path": "target/host-meter/task-9/clock-regression-red.json",
+      "sha256": "710c47e9197d4fb2aff69428ee15bf7cc1d675009da84dd32f77c791cd1a360f",
+      "bytes": 1801
+    },
+    "nativeGreen": {
+      "path": "target/host-meter/task-9/clock-regression-green.json",
+      "sha256": "632ea6df61c802e1269604d9561176e943a892757050870ee6c076f51e8dd9fd",
+      "bytes": 1806
+    },
+    "previousAttempt": {
+      "path": "target/host-meter/task-9/attempt-1/measurement-result.json",
+      "sha256": "492ac8f9dddba09e0eb8e8888954e723f2a35adde6164e7070d5aa322f1985ce",
+      "bytes": 36831
+    },
+    "previousAttemptAbort": {
+      "path": "target/host-meter/task-9/attempt-1/abort-reason.json",
+      "sha256": "9e47921ad560869e0099ba790bbda86133161af55e3934f635c8e4602e2e8d2e",
+      "bytes": 593
+    },
+    "previousObserverBytes": {
+      "path": "target/host-meter/task-9/attempt-1/native-observer",
+      "sha256": "eb9d6c2e48580225bae6d0392d3520d7c67eff7aa169ea0e574a8754278e0037",
+      "bytes": 35920
+    },
+    "supersedes": "Only failed/unperformed task-9 measurement acceptance; original task-8 integration evidence remains its original identity"
+  },
+  "currentArtifactReconciliation": {
+    "path": "target/host-meter/task-10/native-artifact-reconciliation-pass2.json",
+    "sha256": "8cb3f9067a334f91d8ffb35d2f2e4d3928f67a48a38c09def1dbbb379c69ead8",
+    "bytes": 3542
+  },
+  "previousCurrentMissionObservation": {
+    "path": "target/host-meter/task-10/native-task9-preserved.json",
+    "sha256": "812f59a8c6504edfd9a930599b9aff6d8fad128590d743ac5bf00cb77882ba9a",
+    "bytes": 65473
+  },
+  "refreshReason": "Full-input native evidence refreshed after test-only synchronization repair and actual desktop compatibility rebuild. The fresh desktop digest differs; this run observes its immutable byte copy. No prior receipt identity rewritten.",
+  "coverageCollectionsDuringMeasurement": 0,
+  "limits": [
+    "This bounded run establishes neither long-term performance nor customer savings.",
+    "Read-only process snapshots cannot prove absence of short-lived, renamed or inaccessible ambient workloads.",
+    "Native desktop metadata is actual visibility evidence, not screenshot, browser, assistive-technology or WebKit persistence verification.",
+    "Final six gates, desktop compatibility and independent read-only QA remain subsequent assigned tasks."
+  ],
+  "remainingScope": [
+    "Managed-job/vendor attribution",
+    "Native Windows",
+    "Vendor hooks",
+    "Full Meter/Phase 1 acceptance"
+  ]
+}

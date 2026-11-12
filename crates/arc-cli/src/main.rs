@@ -6,6 +6,7 @@ mod classify;
 mod doctor;
 mod exec;
 mod job;
+mod meter;
 
 use arc_ipc::{
     self, Request, Response, OPERATION_DOCTOR, OPERATION_HELLO, PROTOCOL_VERSION, STATUS_OK,
@@ -39,6 +40,11 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
+    /// Inspect host resources and this daemon's own overhead
+    Meter {
+        #[command(subcommand)]
+        command: meter::MeterCommand,
+    },
     /// Run a program and its arguments directly.
     #[command(override_usage = "arcctl exec -- <PROGRAM> [ARG...]")]
     #[command(long_about = "Run a program and its arguments directly.
@@ -134,6 +140,9 @@ fn main() -> ExitCode {
             if std::env::args_os().nth(1).as_deref() == Some(std::ffi::OsStr::new("job")) {
                 return job::invalid();
             }
+            if std::env::args_os().nth(1).as_deref() == Some(std::ffi::OsStr::new("meter")) {
+                return meter::invalid();
+            }
             // Preserve legacy usage errors outside the new classification command.
             if std::env::args_os().nth(1).as_deref() != Some(std::ffi::OsStr::new("classify")) {
                 error.exit();
@@ -170,6 +179,9 @@ fn run(command: Command) -> Result<(), String> {
     match command {
         Command::Exec { .. } | Command::Job { .. } => unreachable!("handled before diagnostics"),
         Command::Status => status(&socket).map_err(str::to_owned),
+        Command::Meter {
+            command: meter::MeterCommand::Snapshot { .. },
+        } => meter::run(&socket),
         Command::Doctor => doctor::run(&socket),
         Command::Classify {
             command,

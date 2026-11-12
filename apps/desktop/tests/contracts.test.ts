@@ -9,8 +9,14 @@ import {
   isReceived,
   isRecentJobs,
 } from "@/bridge/client";
+import { isMeterSnapshot } from "@/bridge/meter-contract";
 import type { CreditLink, JobDetail, JobLookup } from "@/bridge/types";
 import fixtures from "./fixtures/bridge.json";
+import {
+  meterFixture,
+  meterReply,
+  sharedMeterSnapshot,
+} from "./fixtures/meter-fixture";
 
 const A = fixtures.exit_zero.data.job.job_id;
 const B = fixtures.exit_seventeen.data.job.job_id;
@@ -43,29 +49,223 @@ describe("delivered production protocol-1 bridge contract", () => {
     expect(fixtures.unknown.data.job.outcome).toBeNull();
   });
 
-  test("the three data commands and snake_case selected-ID argument stay fixed", async () => {
+  test("the four data commands and snake_case selected-ID argument stay fixed", async () => {
     const calls: {
       command: DesktopCommand;
       args: Parameters<DesktopInvoke>[1];
     }[] = [];
     const client = createDesktopClient(async (command, args) => {
       calls.push({ command, args });
-      return command === "daemon_health"
-        ? fixtures.health
-        : command === "recent_jobs"
-          ? fixtures.recent
-          : fixtures.exit_zero;
+      return command === "meter_snapshot"
+        ? meterReply()
+        : command === "daemon_health"
+          ? fixtures.health
+          : command === "recent_jobs"
+            ? fixtures.recent
+            : fixtures.exit_zero;
     });
     expect<unknown>(await client.daemonHealth()).toEqual(fixtures.health);
     expect<unknown>(await client.recentJobs()).toEqual(fixtures.recent);
     expect<unknown>(await client.jobById(A)).toEqual(fixtures.exit_zero);
+    expect<unknown>(await client.meterSnapshot()).toEqual(meterReply());
     expect(calls).toEqual([
       { command: "daemon_health", args: undefined },
       { command: "recent_jobs", args: undefined },
       { command: "job_by_id", args: { job_id: A } },
+      { command: "meter_snapshot", args: undefined },
     ]);
     expect("execute" in client).toBe(false);
     expect("stopDaemon" in client).toBe(false);
+  });
+
+  test("Meter projection consumes the shared Rust golden without widening health", () => {
+    expect(isMeterSnapshot(sharedMeterSnapshot())).toBe(true);
+    expect(isMeterSnapshot(meterFixture())).toBe(true);
+    expect(
+      isDaemonHealth({ ...fixtures.health.data, meter: meterFixture() }),
+    ).toBe(false);
+  });
+
+  test("Meter rejects malformed units, tags, bounds, object trees and inconsistent windows", async () => {
+    const s = meterFixture(),
+      h = s.host,
+      d = s.daemon,
+      f = h.filesystem;
+    const cases: unknown[] = [
+      [],
+      null,
+      { ...s, schema_version: 2 },
+      { ...s, unknown: true },
+      { ...s, sequence: 0 },
+      { ...s, age_ms: Number.MAX_SAFE_INTEGER },
+      { ...s, sampled_at_ms: -1 },
+      { ...s, sampled_at_ms: undefined },
+      { ...s, sampled_monotonic_ms: 0.5 },
+      { ...s, daemon_instance: { ...s.daemon_instance, pid: 0 } },
+      { ...s, daemon_instance: { ...s.daemon_instance, start_token: "01" } },
+      {
+        ...s,
+        daemon_instance: {
+          ...s.daemon_instance,
+          start_token: "18446744073709551616",
+        },
+      },
+      { ...s, daemon_instance: { ...s.daemon_instance, boot_id: "arbitrary" } },
+      {
+        ...s,
+        cadence: { mode: "idle", interval_ms: 1000, stale_after_ms: 3000 },
+      },
+      { ...s, cadence: { ...s.cadence, stale_after_ms: 10_000 } },
+      ...[
+        { ...h.cpu_utilization, unit: "bytes" },
+        { ...h.cpu_utilization, provenance: "native" },
+        { ...h.cpu_utilization, observed_monotonic_ms: 30_001 },
+        { ...h.cpu_utilization, reading: { availability: "available" } },
+        {
+          ...h.cpu_utilization,
+          reading: { availability: "available", value: 101 },
+        },
+        {
+          ...h.cpu_utilization,
+          reading: { availability: "available", value: NaN },
+        },
+        {
+          ...h.cpu_utilization,
+          reading: { availability: "unsupported", value: 0 },
+        },
+        {
+          ...h.cpu_utilization,
+          reading: { availability: "failed", diagnostic: "x".repeat(129) },
+        },
+        {
+          ...h.cpu_utilization,
+          reading: { availability: "failed", diagnostic: "private\nvalue" },
+        },
+        {
+          ...h.cpu_utilization,
+          reading: { availability: "failed", diagnostic: "\uD800" },
+        },
+        { ...h.cpu_utilization, private: "x".repeat(20_000) },
+      ].map((cpu_utilization) => ({ ...s, host: { ...h, cpu_utilization } })),
+      { ...s, host: { ...h, cpu_interval: null } },
+      {
+        ...s,
+        host: { ...h, cpu_interval: { ...h.cpu_interval, elapsed_ms: 0 } },
+      },
+      {
+        ...s,
+        host: { ...h, cpu_interval: { ...h.cpu_interval, elapsed_ms: 1000 } },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          cpu_interval: { ...h.cpu_interval, normalization: "one_core" },
+        },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          cpu_interval: { ...h.cpu_interval, logical_cpu_count: 0 },
+        },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          memory_pressure: {
+            ...h.memory_pressure,
+            reading: { availability: "first_interval" },
+          },
+        },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          memory_available_bytes: {
+            ...h.memory_available_bytes,
+            reading: {
+              availability: "available",
+              value: Number.MAX_SAFE_INTEGER + 1,
+            },
+          },
+        },
+      },
+      { ...s, host: { ...h, filesystem: { ...f, identity: null } } },
+      {
+        ...s,
+        host: {
+          ...h,
+          filesystem: { ...f, identity: { ...f.identity, is_local: false } },
+        },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          filesystem: { ...f, identity: { ...f.identity, path: "relative" } },
+        },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          filesystem: {
+            ...f,
+            identity: { ...f.identity, path: `/${"한".repeat(400)}` },
+          },
+        },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          filesystem: {
+            ...f,
+            capacity_bytes: {
+              ...f.capacity_bytes,
+              reading: { availability: "available", value: 1 },
+            },
+          },
+        },
+      },
+      {
+        ...s,
+        host: {
+          ...h,
+          filesystem: {
+            ...f,
+            pressure: {
+              ...f.pressure,
+              reading: { availability: "available", value: "critical" },
+            },
+          },
+        },
+      },
+      { ...s, daemon: { ...d, cpu_accounting: "job" } },
+      {
+        ...s,
+        daemon: {
+          ...d,
+          observed_peak_rss_bytes: {
+            ...d.observed_peak_rss_bytes,
+            reading: { availability: "available", value: 0 },
+          },
+        },
+      },
+      { ...s, daemon: { ...d, peak_observation_started_monotonic_ms: 30_001 } },
+      { ...s, host: Object.values(h) },
+    ];
+    for (const data of cases) {
+      expect(isMeterSnapshot(data)).toBe(false);
+      await expect(
+        createDesktopClient(
+          invokeReply({ data, received_at_ms: fixtures.clock_ms }),
+        ).meterSnapshot(),
+      ).rejects.toEqual(invalidReply);
+    }
   });
 
   test("health requires protocol 1 and supplies no substitute metric fields", async () => {

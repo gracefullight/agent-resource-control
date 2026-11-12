@@ -100,6 +100,12 @@ pub(crate) async fn supervise_with_report(
     };
     let mut recovery = Recovery::default();
     let client = worker.client();
+    let mut meter = crate::meter::start();
+    let meter_started = meter.is_some();
+    if let Some(meter) = &meter {
+        client.bind_meter(meter.activity());
+    }
+    let meter_reader = meter.as_ref().map(arc_meter::MeterWorker::reader);
     let (reason, accept_error) = loop {
         handlers.reap_ready();
         tokio::select! {
@@ -122,12 +128,13 @@ pub(crate) async fn supervise_with_report(
                         let client = client.clone();
                         let jobs_client = client.clone();
                         let traffic_client = client.clone();
+                        let meter_reader = meter_reader.clone();
                         handlers.try_spawn(stream, move |stream| {
-                            connection::handle_with_traffic(
+                            connection::handle_with_meter(
                                 stream, limits, requests, metrics,
                                 move |deadline| doctor(client.clone(), deadline),
                                 move |input, deadline| crate::db_worker::jobs::handle(jobs_client.clone(), input, deadline),
-                                move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline),
+                                (move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline), meter_reader),
                             )
                         });
                     }
@@ -145,10 +152,17 @@ pub(crate) async fn supervise_with_report(
     let started = Instant::now();
     let deadline = started + limits.shutdown_timeout;
     drop(listener);
+    if let Some(meter) = &meter {
+        meter.begin_shutdown();
+    }
     worker.begin_shutdown();
     // Both resources use the same absolute deadline; no stage renews it.
     let handler_result = handlers.shutdown(deadline).await;
     let worker_result = worker.shutdown(deadline).await;
+    let meter_result = match &mut meter {
+        Some(meter) => meter.shutdown(deadline).await,
+        None => Ok(()),
+    };
     let cleanup_result = owned_socket.remove();
     let snapshot = metrics.snapshot();
     let handlers_reaped = handlers.len() == 0
@@ -179,6 +193,7 @@ pub(crate) async fn supervise_with_report(
         "connection_closed": connection_closed, "gauges_zero": gauges_zero,
         "socket_removed": cleanup_result.is_ok(), "accounted": accounted,
         "accept_error_os_code": accept_error.as_ref().and_then(io::Error::raw_os_error),
+        "meter": { "started": meter_started, "shutdown_ok": meter_result.is_ok() },
         "metrics": snapshot.json(), "supervisor": supervisor,
     });
     // Serialization and I/O failures cannot bypass cancellation, join or cleanup.

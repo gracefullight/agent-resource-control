@@ -1,5 +1,6 @@
 //! Shared configuration for the user-local ARC database.
 
+pub mod meter;
 pub mod process_identity;
 
 use std::{env, io, path::PathBuf};

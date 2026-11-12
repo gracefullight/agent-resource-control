@@ -1,0 +1,9 @@
+[package]
+name = "arc-meter"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+arc-core.workspace = true
+arc-platform.workspace = true
+tokio.workspace = true

@@ -1,4 +1,7 @@
-// Protocol-1 presentation contract: no command text, process identity or paths.
+import type { MeterSnapshot } from "@/bridge/meter.types";
+
+// Job projection omits private command data. Meter carries only its bounded
+// daemon identity and observed local filesystem identity from the core schema.
 export type Ms = number;
 export type Revision = number;
 export type JobId = string;
@@ -115,6 +118,7 @@ export interface DesktopError {
 }
 export interface DesktopClient {
   daemonHealth(): Promise<Received<DaemonHealth>>;
+  meterSnapshot(): Promise<Received<MeterSnapshot>>;
   recentJobs(): Promise<Received<RecentJobs>>;
   jobById(jobId: JobId): Promise<Received<JobLookup>>;
   desktopMetadata(): Promise<DesktopMetadata>;

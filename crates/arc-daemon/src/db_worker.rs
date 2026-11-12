@@ -5,6 +5,9 @@ mod execution;
 #[path = "db_worker/jobs.rs"]
 pub(crate) mod jobs;
 #[cfg(test)]
+#[path = "db_worker/meter_tests.rs"]
+mod meter_tests;
+#[cfg(test)]
 #[path = "db_worker/tests.rs"]
 mod tests;
 #[path = "db_worker/traffic.rs"]
@@ -103,6 +106,12 @@ pub(crate) struct DbExit {
 struct Shared {
     stopping: AtomicBool,
     active: Mutex<Option<execution::Active>>,
+    meter: Mutex<MeterActivity>,
+}
+
+struct MeterActivity {
+    active: bool,
+    sink: Option<arc_meter::Activity>,
 }
 
 pub(crate) enum DbValue {
@@ -151,6 +160,10 @@ impl DbWorker {
         let shared = Arc::new(Shared {
             stopping: AtomicBool::new(false),
             active: Mutex::new(None),
+            meter: Mutex::new(MeterActivity {
+                active: crate::meter::active_jobs(&connection),
+                sink: None,
+            }),
         });
         // Replace storage startup's five-second wait before announcing readiness.
         connection
@@ -252,6 +265,12 @@ impl Drop for DbWorker {
 }
 
 impl DbClient {
+    pub(crate) fn bind_meter(&self, activity: arc_meter::Activity) {
+        let mut meter = self.shared.meter.lock().unwrap_or_else(|e| e.into_inner());
+        activity.set_active(meter.active);
+        meter.sink = Some(activity);
+    }
+
     pub(crate) fn try_doctor(&self, deadline: Instant) -> Result<DbTicket, DbError> {
         let result = self.admit(deadline, None);
         if result.is_err() {

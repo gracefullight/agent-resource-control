@@ -1,0 +1,1286 @@
+{
+  "schemaVersion": 1,
+  "taskId": "task-11",
+  "actorId": "independent-reviewer",
+  "actorRole": "Independent Meter Reviewer",
+  "attempt": 1,
+  "completed": true,
+  "status": "completed",
+  "reviewMode": "independent_read_only",
+  "verdict": "PASS",
+  "verificationCompleteness": "completed",
+  "inputIdentityMatches": true,
+  "requiredEvidenceComplete": true,
+  "blockingFindingCount": 0,
+  "findings": [],
+  "missingRequiredReviewEvidence": [],
+  "unresolvedBackendActions": [],
+  "summary": "No reproducible CRITICAL, HIGH, MEDIUM or LOW defect found in the reviewed macOS host Meter slice. Current source, deterministic/component tests, production-daemon CLI/router artifacts, independent calibration and warmed idle observations support the assigned acceptance. All six gate receipts and four desktop compatibility receipts bind the same 453 current inputs. Independently recalculated coverage and native CPU/RSS decisions match. This completes task-11 only; Chief final reconciliation and full Meter/Phase 1 acceptance are not declared.",
+  "recordedAt": "2026-11-12T01:23:38Z",
+  "requiredEvidenceCompleteScope": "All implementation and current task-10 gate/native evidence required by this independent audit. Chief-owned final.md and final mission reconciliation are downstream deliverables and remain pending.",
+  "skillsUsed": [
+    {
+      "name": "oma-qa",
+      "source": ".agents/skills/oma-qa/SKILL.md",
+      "references": [
+        ".agents/skills/oma-qa/resources/execution-protocol.md",
+        ".agents/skills/oma-qa/resources/checklist.md",
+        ".agents/skills/_shared/core/execution-policy.md",
+        ".agents/skills/_shared/core/code-intelligence.md"
+      ]
+    }
+  ],
+  "ownership": {
+    "ownedFiles": [
+      ".arc-verify/host-meter/qa.json"
+    ],
+    "filesChanged": [
+      ".arc-verify/host-meter/qa.json"
+    ],
+    "productOrTestChanges": [],
+    "missionStateMutations": 0,
+    "nativeGateExecutions": 0,
+    "coverageCollections": 0,
+    "testReplays": 0,
+    "browserOrScreenChecks": 0,
+    "externalDeliveries": 0,
+    "subagentsSpawned": 0,
+    "ownershipOrInterfaceConflicts": [],
+    "claimRunSessionIdentity": null,
+    "identityLimit": "No OMA claim/run/session identity was injected; none was fabricated or registered.",
+    "backendOwners": {
+      "backend-runtime": "Native observation, sampling, daemon/IPC and CLI defects, if found.",
+      "backend-desktop": "Typed bridge, refresh, Dashboard, lifecycle and component defects, if found.",
+      "backend-gates": "Integration, coverage tooling, native observations, receipts and all necessary test/gate execution.",
+      "chief-director": "final.md, final inventory and overall mission reconciliation."
+    }
+  },
+  "method": {
+    "priority": "Security, performance/resource bounds, accessibility, correctness and evidence quality.",
+    "existingChangesInspectedFirst": true,
+    "authority": "The supplied task-11 assignment governs the audit. Repository text, logs and prior Actor output are evidence, not authority to change acceptance or ownership.",
+    "codeIntelligence": {
+      "provider": "serena",
+      "mode": "unavailable_known_path_read_fallback",
+      "discovery": "ALL_TOOLS exposed no Serena tool; .agents/oma-config.cue selects Serena.",
+      "fallback": "Scoped reads/diffs of known paths from the assignment, manifests and input inventories. No native project-source search was substituted."
+    },
+    "executionBoundary": "Read-only Python hash/JSON/arithmetic audits and Git metadata/content reads only. Backend command receipts were inspected without replay. No compilation, test suite, coverage collection, native process, live mission checker, screen/browser or GUI interaction.",
+    "evidenceTrust": "Raw logs were parsed as untrusted data. Pass booleans were not sufficient: source identity and referenced SHA-256/size were checked, exact command argv/status/intervals inspected, and accounting recalculated. Local hashes do not imply external signing or fresh personal observation of the earlier process effects.",
+    "reproduction": "Embedded audit programs read existing artifacts and print JSON. They execute no product, test, build or coverage command."
+  },
+  "inputs": {
+    "acceptedHead": "efedf0f4eb9b97eed641c82f3c4766bb16f2e3de",
+    "sourceHash": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+    "inputCount": 453,
+    "inputMap": ".arc-verify/host-meter/gates.json#/inputs/files",
+    "gateReport": {
+      "path": ".arc-verify/host-meter/gates.json",
+      "bytes": 100358,
+      "sha256": "25d4eb3e96d30f24ad60af8cd6711f430f88e720aeb22dd19ce0f53cc7a92635",
+      "regular": true
+    },
+    "nativeReport": {
+      "path": ".arc-verify/host-meter/native.json",
+      "bytes": 66906,
+      "sha256": "51e06973d97e7ce6a62e40b51efa30b94bf3b357b3df6b76f8811257ccd4236f",
+      "regular": true
+    },
+    "directorReports": [
+      {
+        "path": ".arc-verify/host-meter/contract.md",
+        "bytes": 38699,
+        "sha256": "15d9b9a0ed9d4879567f6f7db5d2d3ebba58f4272e42963d3294a4574f83634d",
+        "regular": true
+      },
+      {
+        "path": ".arc-verify/host-meter/experience.md",
+        "bytes": 40812,
+        "sha256": "d1d313e9c241ef8c31ee477a6508761c003cac07dfa1a2e1b1d6945a6e2c2540",
+        "regular": true
+      },
+      {
+        "path": ".arc-verify/host-meter/value.md",
+        "bytes": 16955,
+        "sha256": "fb2fde5c08d72601a973488138eb8ede565b9bd7c52f58a39467966fdb871cb2",
+        "regular": true
+      }
+    ],
+    "handoffs": [
+      "target/host-meter/task-10/handoff.md",
+      "target/host-meter/task-10/failed-attempts.md",
+      "target/host-meter/task-13/handoff.md",
+      "target/host-meter/task-13/policy-source.md",
+      "target/host-meter/task-13/policy-context.json"
+    ],
+    "directorEvidenceBoundary": "Frozen contract/experience/value and supplied Director reviews establish requirements, state semantics and explicitly unmeasured hypotheses. Earlier Actor-local hashes, unavailable receipts and advisory conclusions were not substituted for current execution evidence.",
+    "requirements": {
+      "bytes": 199470,
+      "sha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+      "sourceSha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+      "byteEqual": true,
+      "source": "/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md",
+      "destination": "docs/requirements/ARC_SRS_2026-11-06.md",
+      "requiredSha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+      "originalCopyReceipt": "target/host-meter/task-1/requirements.json",
+      "originalCopyObservedAt": "2026-11-11T21:35:00.104423+00:00",
+      "sectionsInspected": [
+        "10.1-10.9",
+        "14.5"
+      ]
+    },
+    "authentication": {
+      "referenceOccurrences": 3478,
+      "uniquePathDigestPairs": 3005,
+      "jsonArtifactsParsed": 160,
+      "bytesHashed": 1568929137,
+      "profileCount": 2595,
+      "referenceProblems": [
+        {
+          "pointer": "target/host-meter/task-10/native-artifact-reconciliation-pass2.json#/actualBinaries/2/previous",
+          "path": "target/debug/examples/host-meter-desktop",
+          "actual": "a9a2deb61f03b24e57a384bdb9141da2d93f54e745ac0ed39b1e94f8285a2021",
+          "expected": "fcc8d195ad2d616fb1a95fe1ce990c7afb324c2f73d91b9f7cd019b56b65a6f7",
+          "bytes": 31821632
+        }
+      ],
+      "referenceProblemCount": 1,
+      "inputCount": 453,
+      "computedIdentity": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+      "recordedIdentity": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+      "inputProblems": [],
+      "srs": {
+        "bytes": 199470,
+        "sha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+        "sourceSha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+        "byteEqual": true
+      },
+      "migrations": [
+        {
+          "path": "crates/arc-storage/migrations/0001_phase0.sql",
+          "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+          "acceptedEqual": true
+        },
+        {
+          "path": "crates/arc-storage/migrations/0002_managed_exec.sql",
+          "sha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+          "acceptedEqual": true
+        },
+        {
+          "path": "crates/arc-storage/migrations/0003_traffic.sql",
+          "sha256": "1f4522e3f27c124aea7127d92434c7bd22be36168fef0a4bf665f8cf16debe90",
+          "acceptedEqual": true
+        }
+      ]
+    },
+    "authenticationInterpretation": "3,004 of 3,005 unique path/digest pairs match, including all current required artifacts and all 2,595 raw profiles. The sole mismatch is the disclosed superseded task-9 desktop executable at its mutable build path. Current acceptance uses a matching immutable copy and renewed observation. No current required reference is missing/mismatched."
+  },
+  "implementationReview": [
+    {
+      "area": "Authenticated fixed operation and bounded contract",
+      "result": "supported",
+      "sources": [
+        "crates/arc-core/src/meter.rs",
+        "crates/arc-core/src/meter/validation.rs",
+        "crates/arc-ipc/src/meter.rs",
+        "crates/arc-ipc/src/client.rs",
+        "crates/arc-daemon/src/admission.rs",
+        "crates/arc-daemon/src/connection.rs",
+        "crates/arc-cli/src/meter.rs"
+      ],
+      "observations": [
+        "meter.snapshot accepts only null payload; clients cannot select PID, filesystem, cadence, history or attribution. Existing same-user admission, authenticated exchange_until, request correlation, protocol 1 and absolute deadlines remain in use.",
+        "Cached reads run neither native probes nor SQL. Result size is at most 16,384 bytes. Rust and TypeScript validate exact object shapes, finite/safe numbers, units, timestamps, identities and bounded UTF-8 diagnostics.",
+        "Available/first_interval/unsupported/denied/failed are distinct. Only host CPU can be first_interval. Missing values never become numeric zero. CLI failure exits nonzero without fabricated JSON; raw peer diagnostics are not displayed."
+      ],
+      "tests": [
+        "crates/arc-core/src/meter/tests.rs",
+        "crates/arc-ipc/src/meter/tests.rs",
+        "crates/arc-ipc/src/client/meter_tests.rs",
+        "crates/arc-daemon/src/meter_dispatch_tests.rs",
+        "crates/arc-cli/tests/meter.rs"
+      ]
+    },
+    {
+      "area": "Host CPU interval, normalization, reset/wrap and clocks",
+      "result": "supported",
+      "sources": [
+        "crates/arc-platform/src/macos.rs",
+        "crates/arc-platform/src/source.rs",
+        "crates/arc-meter/src/cpu.rs",
+        "crates/arc-meter/src/cpu_tests.rs"
+      ],
+      "observations": [
+        "HOST_CPU_LOAD_INFO supplies cumulative user/system/nice/idle counters with native width 32 and logical CPU topology. Busy delta / total delta * 100 already represents whole-host capacity; no second core divisor is applied.",
+        "Available CPU carries nullable UTC endpoints, monotonic endpoints, elapsed milliseconds, logical CPU count and host_capacity normalization. First sample and topology changes remain first_interval; wall-clock changes affect labels only.",
+        "Native failure clears the baseline. Zero delta, implausible jumps, clock anomalies, resets and long ambiguous gaps remain unknown. Legitimate wraps require plausible boundary windows; half-range ambiguity applies even to increasing endpoints after a complete wrap.",
+        "Executed cases include 8/32/64-bit boundaries, the 50-day/12-core hidden-wrap regression, independent wall/monotonic changes and recovery after CPU failure."
+      ],
+      "tests": [
+        "counter_deltas_normalize_whole_host_once_and_include_nice",
+        "declared_wrap_is_accepted_only_near_boundary_with_plausible_elapsed_time",
+        "long_gaps_with_increasing_endpoints_cannot_hide_complete_wraps",
+        "ambiguity_bound_applies_to_increasing_endpoints_at_every_counter_width",
+        "monotonic_clock_and_wall_clock_changes_have_distinct_effects"
+      ]
+    },
+    {
+      "area": "RAM, native memory pressure, swap and filesystem",
+      "result": "supported",
+      "sources": [
+        "crates/arc-platform/src/macos.rs",
+        "crates/arc-platform/src/macos_tests.rs",
+        "crates/arc-meter/src/snapshot.rs",
+        "crates/arc-meter/src/snapshot_tests.rs"
+      ],
+      "observations": [
+        "Available RAM is the declared Darwin estimate (free_count + inactive_count) * page size. Speculative pages are not added again; compressed/purgeable overlap is excluded. UI describes the definition rather than claiming guaranteed allocation or Activity Monitor's used-memory complement.",
+        "Native pressure uses kern.memorystatus_vm_pressure_level flags 1/2/4 mapped to normal/warning/critical. Swap is native xsu_used bytes, not capacity or process consumption.",
+        "statfs(/) identifies a local absolute path/mount, filesystem type and volume ID. Capacity/free/caller-available bytes are separate native fields with ordering and safe integer checks. APFS semantics are disclosed.",
+        "Disk pressure is separately derived from available/capacity with 5% and 10% thresholds. Missing/zero capacity makes the judgment unknown. Per-field failures preserve working fields. Mach host send rights are released and native diagnostics stay local/bounded."
+      ],
+      "scope": "Host totals are not job/vendor attribution, disk writes, reclaimed bytes, worktree footprint or savings."
+    },
+    {
+      "area": "Daemon-only cumulative CPU, current RSS and observed sampled peak",
+      "result": "supported",
+      "sources": [
+        "crates/arc-platform/src/macos.rs",
+        "crates/arc-meter/src/snapshot.rs",
+        "crates/arc-core/src/meter.rs"
+      ],
+      "observations": [
+        "getrusage(RUSAGE_SELF) supplies cumulative user+system core-seconds for this daemon, excluding children and core normalization. Invalid/regressing cumulative time remains failed.",
+        "PROC_PIDTASKINFO.pti_resident_size supplies current RSS bytes; ru_maxrss and physical footprint are not substituted.",
+        "Observed peak is a derived running maximum of successful RSS samples in an explicit sampler window. A successful lower RSS confirms the maximum at the new pass time; failed current RSS retains the maximum with its older real observation time.",
+        "Existing boot/PID/start-token identity separates instances. Restart resets sequence, CPU baseline and sampled-peak window, without mixing epochs."
+      ],
+      "tests": [
+        "sampled_peak_unknown_until_first_success_and_restart_resets_the_window",
+        "partial_failure_preserves_usable_fields_and_peak_keeps_its_real_observation_time",
+        "impossible_native_values_do_not_poison_other_measurements"
+      ]
+    },
+    {
+      "area": "Headless adaptive sampling, bounds, storage and fail-open execution",
+      "result": "supported",
+      "sources": [
+        "crates/arc-meter/src/lib.rs",
+        "crates/arc-meter/src/worker.rs",
+        "crates/arc-meter/src/worker_tests.rs",
+        "crates/arc-daemon/src/meter.rs",
+        "crates/arc-daemon/src/lifecycle.rs",
+        "crates/arc-daemon/src/db_worker.rs",
+        "crates/arc-daemon/src/db_worker/execution.rs"
+      ],
+      "observations": [
+        "One daemon lifecycle owner starts one native worker independently of GUI presence. Native-work, previous-CPU and latest-snapshot capacities are each one; no pending native-work queue accumulates.",
+        "The existing SQLite owner supplies one activity boolean from committed job/Traffic state. Measurement failure does not rewrite execution results, admission or permits.",
+        "Default idle/active/pressure intervals are 15,000/2,000/1,000 ms within 10-30 s and 1-3 s bounds. Completion-based scheduling avoids catch-up work and preserves an already published faster deadline during active-to-idle transitions.",
+        "Reads clone cached state without admitting work or renewing observation time. Shutdown retains ownership and joins the worker; timeout cannot admit a replacement.",
+        "Product resource persistence is zero: no resource-history table, queue or migration. SRS retention remains applicable if persistence is later introduced."
+      ],
+      "tests": [
+        "bounded_policy_adapts_without_a_gui_input",
+        "cadence_changes_reschedule_from_completion_without_catchup_or_unbounded_work",
+        "becoming_idle_during_native_work_keeps_the_published_active_deadline",
+        "becoming_idle_while_waiting_does_not_extend_the_published_active_deadline",
+        "timeout_retains_worker_ownership_and_never_starts_a_replacement",
+        "native_work_is_serial_reads_never_admit_work_and_shutdown_joins"
+      ]
+    },
+    {
+      "area": "Dashboard, refresh ownership, accessibility, Credits and lifecycle",
+      "result": "supported_by_source_and_executed_component_evidence",
+      "sources": [
+        "apps/desktop/src/bridge/meter.types.ts",
+        "apps/desktop/src/bridge/meter-contract.ts",
+        "apps/desktop/src/bridge/client.ts",
+        "apps/desktop/src-tauri/src/bridge.rs",
+        "apps/desktop/src-tauri/src/commands.rs",
+        "apps/desktop/src/dashboard/desktop-refresh-controller.ts",
+        "apps/desktop/src/dashboard/meter-read-state.ts",
+        "apps/desktop/src/dashboard/desktop-meter.tsx",
+        "apps/desktop/src/dashboard/desktop-dashboard.tsx",
+        "apps/desktop/src/desktop-messages.ts"
+      ],
+      "observations": [
+        "The typed command reuses the native bridge permit and existing serialized DesktopRefreshController. No second polling owner or unbounded blocking-call queue is introduced.",
+        "Meter freshness adds daemon sample age to local monotonic elapsed time and uses declared cadence independently of job/health freshness. Cached rereads cannot rejuvenate a sample; old peak/other field observations can become stale independently.",
+        "Failed/invalid/unsupported Meter reads preserve health/job refresh. Unsupported is reprobed on reconnect/manual refresh/reopen. Restart and late/retired replies do not carry old accounting forward.",
+        "Recorded outcomes, selection, focus, recent-page behavior, exact times and Credits remain covered. Hide/reopen and desktop-only quit keep their existing owners; headless sampling is separately evidenced.",
+        "Semantic groups/definition lists expose units, native/derived provenance, availability, exact times and full filesystem identity. Pressure has text labels. Numeric rows are outside live regions; deduplicated polite status announces transitions rather than every sample.",
+        "Unknown job/vendor, disk-write, reclaimed-storage and global-job placeholders remain Unknown; host totals are not substituted."
+      ],
+      "tests": [
+        "apps/desktop/tests/meter.test.ts",
+        "apps/desktop/tests/fixtures/meter-interaction-cases.ts",
+        "apps/desktop/tests/dashboard.test.ts",
+        "apps/desktop/tests/contracts.test.ts",
+        "apps/desktop/tests/bridge-client.test.ts",
+        "apps/desktop/tests/lifecycle.test.ts",
+        "apps/desktop/tests/credits.test.ts"
+      ],
+      "limit": "Source and DOM/component assertions do not certify rendered contrast, human usability or screen-reader behavior. Screen/browser checks were explicitly excluded from this Actor."
+    }
+  ],
+  "nativeIntegration": {
+    "result": "supported",
+    "artifactPointer": ".arc-verify/host-meter/gates.json#/tests/native",
+    "workspaceLog": "target/host-meter/task-10/workspace-test-pass2.stdout.log",
+    "productionPath": "Same-Cargo-target arc-daemon/arcctl -> authenticated Unix IPC -> production sampler -> arc_ipc validation -> production registered Tauri command router.",
+    "sources": [
+      "apps/desktop/src-tauri/tests/daemon_bridge_support/meter_native.rs",
+      "apps/desktop/src-tauri/tests/daemon_bridge_support/meter_router.rs",
+      "apps/desktop/src-tauri/tests/daemon_bridge_support/mod.rs",
+      "crates/arc-daemon/tests/support/meter_partial.rs",
+      "apps/desktop/src-tauri/tests/registered_commands_support/wire_projection.rs"
+    ],
+    "recomputation": {
+      "sequences": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "monotonicMs": [
+        17020,
+        19030,
+        21039,
+        23048,
+        25058,
+        27066,
+        29075,
+        31085,
+        33095,
+        35102
+      ],
+      "nativeIntervalsMs": [
+        2010,
+        2010,
+        2009,
+        2009,
+        2010,
+        2008,
+        2009,
+        2010,
+        2010,
+        2007
+      ],
+      "routerSequences": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "nativeSamplesProblems": [],
+      "firstSequence": 1,
+      "firstCpuAvailability": "first_interval",
+      "headlessSequence": 2,
+      "afterCompletionCadence": {
+        "interval_ms": 15000,
+        "mode": "idle",
+        "stale_after_ms": 31000
+      },
+      "restart": {
+        "identityChanged": true,
+        "sequence": 1,
+        "firstCpuAvailability": "first_interval",
+        "peakEqualsCurrent": true,
+        "peakWindowStartsHere": true
+      },
+      "legacy": {
+        "archiveMatchesAcceptedHead": true,
+        "binaryPath": "target/host-meter/legacy/87ee6da2-ba72-4dac-9cdb-dc9e0de7b218/target/debug/arc-daemon",
+        "cliExit": 1,
+        "meterError": "unsupported",
+        "recordedExit": {
+          "code": 17,
+          "kind": "EXITED"
+        }
+      },
+      "publication": {
+        "candidateDiffKeys": [
+          "evidenceCheck",
+          "evidence"
+        ],
+        "onlyPublicationMetadataDiffers": true,
+        "checkerExit": 0,
+        "checkerArgv": [
+          "bun",
+          "scripts/coverage/host-meter-evidence.ts",
+          "target/host-meter/task-10/gates-candidate.json"
+        ],
+        "actualCandidateProspectiveBytes": 262309,
+        "recordedCandidateBytes": 262309,
+        "candidateCountedOnce": true,
+        "publishedCurrentFiles": 5,
+        "actualPublishedBytes": 263730,
+        "regressionArithmetic": 5054798,
+        "regressionExceedsLimit": true
+      }
+    },
+    "observations": [
+      "Sequences 3-12 are ten distinct consecutive completed native passes with continuous CPU intervals; CLI and router sequences match. Sequence 2 progressed headlessly before any router/window was constructed. A held real job selects active cadence; completion returns to idle.",
+      "The executed current test asserts unavailable CLI/router/health reads during the owned-daemon disconnect, reuses the router after restart, resets the accounting window and preserves recorded job exit 17.",
+      "The accepted pre-Meter peer comes from an actual byte-matching accepted-HEAD archive and built binary. Unsupported Meter preserves health/recent/detail reads. This is compatibility provenance, not historical mission recertification.",
+      "Router MockRuntime covers shell ports only: socket, decoder, bridge and registered handlers are production paths. It is not native visibility evidence.",
+      "Partial failure uses deliberate test-only source faults in the actual supervisor/collector path plus real authenticated CLI/health/jobs. That evidence is fault injection, not calibration. Native Wry visibility and release-daemon overhead are separate actual observations."
+    ]
+  },
+  "calibration": {
+    "result": "supported",
+    "pointer": ".arc-verify/host-meter/native.json#/calibration",
+    "observerSource": "scripts/host-meter/native-observer.c",
+    "clockTests": "scripts/host-meter/native-observer-clock-test.c",
+    "independence": "Separately compiled C observer has no ARC library or IPC. Host CPU uses per-CPU host_processor_info instead of implementation aggregate host_statistics; RAM/pressure/swap/filesystem are independent native queries; daemon CPU/RSS are foreign-PID libproc observations.",
+    "numericPolicy": "References must be finite numbers, never coerced strings/bools/null/arrays/objects; bytes are nonnegative safe integers. Only supported native memory-pressure comparisons use categorical labels with null numeric difference.",
+    "recomputation": {
+      "calibrations": [
+        {
+          "sequence": 2,
+          "sampledAtMs": 1794445001997,
+          "sampledMonotonicMs": 15010,
+          "intervalMs": 15010,
+          "referenceWindowMs": 14608.265000015497,
+          "referenceDelayMs": 523.387939453125
+        },
+        {
+          "sequence": 3,
+          "sampledAtMs": 1794445017007,
+          "sampledMonotonicMs": 30020,
+          "intervalMs": 15010,
+          "referenceWindowMs": 14658.142999976873,
+          "referenceDelayMs": 395.89306640625
+        },
+        {
+          "sequence": 4,
+          "sampledAtMs": 1794445032013,
+          "sampledMonotonicMs": 45025,
+          "intervalMs": 15005,
+          "referenceWindowMs": 14807.099000006914,
+          "referenceDelayMs": 422.823974609375
+        },
+        {
+          "sequence": 5,
+          "sampledAtMs": 1794445047022,
+          "sampledMonotonicMs": 60035,
+          "intervalMs": 15010,
+          "referenceWindowMs": 14761.306999981403,
+          "referenceDelayMs": 404.050048828125
+        }
+      ],
+      "differenceRanges": {
+        "hostCpu": [
+          0.10069679931510045,
+          0.5384681652688741
+        ],
+        "memoryAvailable": [
+          -13615104,
+          1998848
+        ],
+        "swapUsed": [
+          0,
+          0
+        ],
+        "capacity": [
+          0,
+          0
+        ],
+        "free": [
+          0,
+          0
+        ],
+        "available": [
+          0,
+          0
+        ],
+        "daemonCpu": [
+          -0.0002923329999999988,
+          -0.00027699999999999947
+        ],
+        "daemonRss": [
+          -65536,
+          0
+        ],
+        "sampledPeakVsCurrentReference": [
+          -65536,
+          0
+        ]
+      },
+      "calibrationProblems": [],
+      "idle": {
+        "observations": 311,
+        "durationSeconds": 317.23849099999666,
+        "deltaCoreSeconds": 0.009145624999999998,
+        "oneCorePercent": 0.0028828863014608444,
+        "maxRssBytes": 4734976,
+        "cpuBelowExclusiveLimit": true,
+        "rssBelowExclusiveLimit": true,
+        "nativeVisibilityRecords": 418,
+        "hiddenThroughout": true,
+        "warmupObservedLowerBoundMs": 30463.343994140625,
+        "warmupRecordedMs": 30150.107833,
+        "gapsMs": {
+          "min": 1010.569000005722,
+          "max": 1060.9670000076294
+        }
+      },
+      "scope": "Independent foreign-PID native observation; maximum discrete current RSS and bounded idle interval only."
+    },
+    "interpretation": [
+      "Four sequences 2-5 retain independent before/after/process receipts. Host CPU differences are +0.1006967993 to +0.5384681653 percentage points across different 14.61-14.81 s reference windows and 15.005-15.010 s sampler windows. Separate query timing and 100-Hz native tick resolution are disclosed.",
+      "RAM differences are -13,615,104 to +1,998,848 bytes using the independently recomputed free+inactive definition and 16,384-byte page size. Swap and identified APFS capacity/free/available bytes agree in these observations.",
+      "Native pressure raw 1 maps to normal in all four categorical comparisons. Null difference is categorical handling, not numeric zero or derived disk pressure.",
+      "Daemon CPU differs by approximately -0.000292333 to -0.000277 core-seconds; current/sample-peak RSS comparisons differ by -65,536 to 0 bytes. Query offsets, microsecond getrusage fields and the 125/3 ns Mach timebase are documented.",
+      "Sampled-peak versus later-current RSS has different semantics and can miss between-sample peaks. Native wait4 lifetime RSS is retained separately.",
+      "Seven existing deterministic observer clock-conversion cases and corrected build receipts distinguish the repaired observer from the invalidated original observation. No prespecified accuracy tolerance exists; no post-hoc accuracy or savings threshold is invented."
+    ],
+    "checkerRegression": "Current active Bun logs contain passing rebound-reference cases for all numeric fields, coerced native counters, null/string discrepancies and supported categorical pressure. Source inspection confirms the typed branches."
+  },
+  "idle": {
+    "result": "meets_bounded_limits",
+    "pointer": ".arc-verify/host-meter/native.json#/idle",
+    "observerReceipt": "target/host-meter/task-10/native-refresh/attempt-1/idle-observer.json",
+    "observerBytes": "target/host-meter/task-10/native-refresh/attempt-1/idle-observer.stdout.log",
+    "visibilityBytes": "target/host-meter/task-10/native-refresh/attempt-1/desktop-visibility.jsonl",
+    "recomputed": {
+      "observations": 311,
+      "durationSeconds": 317.23849099999666,
+      "deltaCoreSeconds": 0.009145624999999998,
+      "oneCorePercent": 0.0028828863014608444,
+      "maxRssBytes": 4734976,
+      "cpuBelowExclusiveLimit": true,
+      "rssBelowExclusiveLimit": true,
+      "nativeVisibilityRecords": 418,
+      "hiddenThroughout": true,
+      "warmupObservedLowerBoundMs": 30463.343994140625,
+      "warmupRecordedMs": 30150.107833,
+      "gapsMs": {
+        "min": 1010.569000005722,
+        "max": 1060.9670000076294
+      }
+    },
+    "denominator": "one_core",
+    "formula": "100 * delta(foreign-PID user+system core-seconds) / monotonic elapsed seconds; no logical-core divisor",
+    "cpuLimitPercentExclusive": 0.5,
+    "rssLimitBytesExclusive": 50000000,
+    "daemonIdentity": {
+      "pid": 12171,
+      "start_token": "1794444986597763",
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+    },
+    "desktopIdentity": {
+      "pid": 12477,
+      "start_token": "1794445047644928",
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c"
+    },
+    "daemonSha256": "f1a6dfb4707508439fd0686cf33e15e6f9cf9842e6451211c7a69bd399ae686f",
+    "immutableDesktop": {
+      "path": "target/host-meter/task-10/native-refresh/desktop-built-pass2",
+      "sha256": "a9a2deb61f03b24e57a384bdb9141da2d93f54e745ac0ed39b1e94f8285a2021"
+    },
+    "noninstrumentation": "Source-bound release build has no RUSTFLAGS/LLVM_PROFILE_FILE/CARGO_ENCODED_RUSTFLAGS. Retained successful nm output has no __llvm_profile/__llvm_cov/__llvm_prf symbols; measured process executable matches. The observer is independently built.",
+    "hiddenDesktop": "418 real Wry main-window records begin visible before_hide and remain false thereafter, bracketing all 311 independent process/window rows with stable PID/start/boot/executable identities and zero normal onscreen windows. The fixture uses existing CloseRequested/hide_main and QuitDesktop callbacks without screen images or GUI interaction.",
+    "warmupAndActivity": "Recorded quiet warm-up: 30.150107833 s; independent final-calibration/hide timestamps leave at least 30.463343994 s before observation. Owned SQLite before/after records show zero active jobs. Default idle sampling advances from sequence 7 to 28 while hidden.",
+    "contention": "173 retained native process-name snapshots flag no admitted build/coverage/load generator. Ambient OS/user activity and unavailable process names are disclosed. Snapshots cannot exclude short-lived/renamed unrelated activity.",
+    "environment": {
+      "os": "macOS 27.2.1 (26B131)",
+      "hardware": "MacBookPro18,3",
+      "architecture": "aarch64-apple-darwin",
+      "logicalCpus": 8,
+      "physicalCpus": 8,
+      "memoryBytes": 17179869184,
+      "daemonProfile": "optimized release; noninstrumented",
+      "desktopProfile": "dev production Wry builder with embedded assets",
+      "rust": "1.95.0",
+      "llvm": "22.1.2",
+      "appleClang": "21.0.0",
+      "machTimebase": {
+        "numer": 125,
+        "denom": 3
+      }
+    },
+    "maximumSampledRssDecimalMB": 4.734976,
+    "maximumSampledRssMiB": 4.515625,
+    "supplementalLifetimeWait4MaxRssBytes": 6520832,
+    "claimLimit": "One warmed noninstrumented >=300-second idle run on the recorded Mac. Maximum discrete current RSS is not continuous/lifetime-peak proof. No long-term overhead or customer savings is established."
+  },
+  "coverage": {
+    "result": "all_ten_crates_pass_the_independent_80_percent_floor",
+    "sourceHash": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+    "runId": "2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165",
+    "summaryPath": "target/host-meter/coverage/runs/2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165/summary.json",
+    "recomputation": {
+      "llvmFileCount": 288,
+      "lcovCanonicalFileCount": 249,
+      "lcovRawRecordCount": 288,
+      "nativeLineOrSummaryMismatch": [],
+      "productionFiles": 83,
+      "filesMatchSummary": true,
+      "perCrate": [
+        {
+          "crate": "arc-core",
+          "covered": 474,
+          "total": 485,
+          "percent": 97.73195876288659,
+          "pass": true
+        },
+        {
+          "crate": "arc-detector",
+          "covered": 706,
+          "total": 711,
+          "percent": 99.29676511954993,
+          "pass": true
+        },
+        {
+          "crate": "arc-storage",
+          "covered": 1811,
+          "total": 1892,
+          "percent": 95.71881606765328,
+          "pass": true
+        },
+        {
+          "crate": "arc-ipc",
+          "covered": 953,
+          "total": 990,
+          "percent": 96.26262626262626,
+          "pass": true
+        },
+        {
+          "crate": "arc-daemon",
+          "covered": 2312,
+          "total": 2542,
+          "percent": 90.95200629425649,
+          "pass": true
+        },
+        {
+          "crate": "arc-cli",
+          "covered": 1648,
+          "total": 1979,
+          "percent": 83.2743810005053,
+          "pass": true
+        },
+        {
+          "crate": "arc-traffic",
+          "covered": 111,
+          "total": 111,
+          "percent": 100,
+          "pass": true
+        },
+        {
+          "crate": "arc-desktop",
+          "covered": 453,
+          "total": 524,
+          "percent": 86.45038167938931,
+          "pass": true
+        },
+        {
+          "crate": "arc-platform",
+          "covered": 225,
+          "total": 247,
+          "percent": 91.09311740890688,
+          "pass": true
+        },
+        {
+          "crate": "arc-meter",
+          "covered": 456,
+          "total": 460,
+          "percent": 99.1304347826087,
+          "pass": true
+        }
+      ],
+      "mergeAllEqual": true,
+      "profileCount": 2595,
+      "children": [
+        {
+          "binary": "arcctl",
+          "pid": 7542,
+          "profileNamesMatch": true,
+          "commandCount": 1,
+          "exit": 0
+        },
+        {
+          "binary": "arc-daemon",
+          "pid": 7543,
+          "profileNamesMatch": true,
+          "commandCount": 1,
+          "exit": 1
+        }
+      ],
+      "noReportCollections": 1,
+      "reportCommands": [
+        {
+          "format": "lcov",
+          "exit": 0,
+          "failureModeAny": true,
+          "ignoreOnlyNonWorkspace": true,
+          "outputPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace/target/host-meter/coverage/runs/2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165/raw.lcov"
+        },
+        {
+          "format": "json",
+          "exit": 0,
+          "failureModeAny": true,
+          "ignoreOnlyNonWorkspace": true,
+          "outputPath": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace/target/host-meter/coverage/runs/2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165/raw.json"
+        }
+      ]
+    },
+    "method": "Independently parsed all 288 original LLVM/LCOV records; verified segment-derived DA hits and native summaries before canonical-path union; took maximum hits for aliases; applied recorded production/test-only inventory and omissions; rebuilt all 83 production file rows and ten crate totals. No product accounting helper or coverage collector was executed.",
+    "denominator": "Positive production-line denominator per crate, covered*100 >= total*80. No cross-crate average or test-file denominator.",
+    "declarationOnlyException": "Only crates/arc-platform/src/lib.rs has no LLVM authored file record. Its declarations/re-exports/trait signatures remain a visible 0/0 file inside a nonempty crate. Both native reports and exact source bytes are required; conservative parsing rejects executable bodies, initializers, unknown expansion hooks and missing/changed source. Executable-file and 3/5 crate failures remain tested.",
+    "nativeEvidence": "All 2,595 nonempty raw profile hashes match exact merge membership. Child PID 7542 supplies arcctl's expected exit-0 profile; PID 7543 supplies arc-daemon's expected startup-failure exit-1 profile. Complete native workspace collection exits 0 with no ignored/failed/filtered cases, then native LCOV/JSON exports succeed with failure-mode any.",
+    "collectionCountForFinalInputPass": 1,
+    "totalTask10Collections": 2,
+    "earlierCollection": "The other task-10 collection used an earlier input and failed declaration-file accounting. Its receipts/reports are preserved and not substituted for the final pass.",
+    "reuse": {
+      "receipt": "target/host-meter/coverage/runs/2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165/reuse.json",
+      "independentBackendValidation": "target/host-meter/task-10/coverage-reuse-pass2.json",
+      "audit": "target/host-meter/task-10/coverage-reuse-audit.json",
+      "harnessReceipt": "target/host-meter/task-10/architecture-pass2.json",
+      "actualOutput": "Coverage: validated fresh receipt 2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165; no collection",
+      "sources": [
+        "scripts/coverage/coverage-receipts.ts",
+        "scripts/coverage/source.ts",
+        "scripts/coverage/accounting.ts",
+        "scripts/coverage/reuse.ts",
+        "scripts/harness/validate.sh",
+        "scripts/harness/coverage-reuse.test.ts"
+      ],
+      "observations": [
+        "Complete current input map, frozen SRS/contract, workspace membership, pinned tools, native logs/reports, every profile and exact merge membership are revalidated before per-crate accounting.",
+        "Actual architecture output contains all five checks and zero violations. ARC_COVERAGE_RECEIPT and requested ARC_COVERAGE_REUSE_RECEIPT both identify the same receipt; no SKIP_COVERAGE is used.",
+        "Recorded run directories/latest digest remain unchanged across validation/reuse. Exactly one successful final-input --no-report collection is present.",
+        "Explicit invalid/empty/missing/stale receipts fail without recollection. No-receipt standalone use retains normal collection. Executed synthetic tests cover rebound identities, tampered/missing/failed evidence, native children, merge membership, both new crate floors and architecture checks."
+      ]
+    },
+    "historicalBoundary": "Historical coverage baseline IDs/reports are unchanged. Historical desktop evidence distinguishes unavailable raw logs from verified provenance and declares currentAcceptance=false; present tampering is still rejected. No historical mission is recertified."
+  },
+  "gates": {
+    "result": "all_required_recorded_commands_pass",
+    "executedBy": "backend-gates",
+    "replayedByReviewer": false,
+    "currentInputHash": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+    "commands": [
+      {
+        "kind": "gate",
+        "name": "format",
+        "argv": [
+          "cargo",
+          "fmt",
+          "--all",
+          "--",
+          "--check"
+        ],
+        "receipt": "target/host-meter/task-10/format-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000
+      },
+      {
+        "kind": "gate",
+        "name": "clippy",
+        "argv": [
+          "cargo",
+          "clippy",
+          "--workspace",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "receipt": "target/host-meter/task-10/clippy-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000
+      },
+      {
+        "kind": "gate",
+        "name": "workspaceTest",
+        "argv": [
+          "cargo",
+          "test",
+          "--workspace"
+        ],
+        "receipt": "target/host-meter/task-10/workspace-test-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000,
+        "harnesses": 48,
+        "passed": 678,
+        "failed": 0,
+        "ignored": 0,
+        "executedCaseNames": 678,
+        "nativeCaseNamesFound": true
+      },
+      {
+        "kind": "gate",
+        "name": "coverage",
+        "argv": [
+          "bun",
+          "run",
+          "test:coverage"
+        ],
+        "receipt": "target/host-meter/task-10/coverage-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000
+      },
+      {
+        "kind": "gate",
+        "name": "architecture",
+        "argv": [
+          "./scripts/harness/validate.sh"
+        ],
+        "receipt": "target/host-meter/task-10/architecture-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000,
+        "reuseLine": [
+          "Coverage: validated fresh receipt 2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165; no collection"
+        ],
+        "summary": [
+          "PASS arc-detector: 706/711 production lines (99.30%; requires 80%)",
+          "PASS arc-storage: 1811/1892 production lines (95.72%; requires 80%)",
+          "PASS arc-ipc: 953/990 production lines (96.26%; requires 80%)",
+          "PASS arc-daemon: 2312/2542 production lines (90.95%; requires 80%)",
+          "PASS arc-cli: 1648/1979 production lines (83.27%; requires 80%)",
+          "PASS arc-traffic: 111/111 production lines (100.00%; requires 80%)",
+          "PASS arc-desktop: 453/524 production lines (86.45%; requires 80%)",
+          "PASS arc-platform: 225/247 production lines (91.09%; requires 80%)",
+          "PASS arc-meter: 456/460 production lines (99.13%; requires 80%)",
+          "\u001b[0;32m[ok]\u001b[0m       All checks passed (0 violations)."
+        ],
+        "sameReceiptAlias": true
+      },
+      {
+        "kind": "gate",
+        "name": "activeBun",
+        "argv": [
+          "bun",
+          "test",
+          "apps/desktop/tests/bridge-client.test.ts",
+          "apps/desktop/tests/contracts.test.ts",
+          "apps/desktop/tests/credits.test.ts",
+          "apps/desktop/tests/dashboard.test.ts",
+          "apps/desktop/tests/lifecycle.test.ts",
+          "apps/desktop/tests/meter.test.ts",
+          "scripts/coverage/accounting.test.ts",
+          "scripts/coverage/desktop-foundation.test.ts",
+          "scripts/coverage/gate.test.ts",
+          "scripts/coverage/hygiene.test.ts",
+          "scripts/coverage/terminal-outcomes.test.ts",
+          "scripts/coverage/traffic-accounting.test.ts",
+          "scripts/harness/equivalence.test.ts",
+          "scripts/harness/traffic-targets.test.ts",
+          "scripts/harness/coverage-reuse.test.ts"
+        ],
+        "receipt": "target/host-meter/task-10/active-bun-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000,
+        "passCounts": [
+          "175"
+        ],
+        "failCounts": [
+          "0"
+        ],
+        "suiteCount": 15,
+        "allPathsLogged": true
+      },
+      {
+        "kind": "desktop",
+        "name": "typecheck",
+        "argv": [
+          "bun",
+          "run",
+          "desktop:typecheck"
+        ],
+        "receipt": "target/host-meter/task-10/desktop-typecheck-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000
+      },
+      {
+        "kind": "desktop",
+        "name": "check",
+        "argv": [
+          "bun",
+          "run",
+          "desktop:check"
+        ],
+        "receipt": "target/host-meter/task-10/desktop-check-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000
+      },
+      {
+        "kind": "desktop",
+        "name": "build",
+        "argv": [
+          "bun",
+          "run",
+          "desktop:build"
+        ],
+        "receipt": "target/host-meter/task-10/desktop-build-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000
+      },
+      {
+        "kind": "desktop",
+        "name": "smoke:tauri",
+        "argv": [
+          "bun",
+          "run",
+          "desktop:smoke:tauri"
+        ],
+        "receipt": "target/host-meter/task-10/desktop-smoke-tauri-pass2.json",
+        "exitCode": 0,
+        "inputIdentityMatches": true,
+        "timeoutMs": 7200000
+      }
+    ],
+    "comparison": "The exact six commands were compared with the immutable verification contract and mandated coverage/harness obligations; all four affected desktop scripts were checked against delivered package scripts and raw logs.",
+    "workspaceTests": {
+      "passed": 678,
+      "harnesses": 48,
+      "failed": 0,
+      "ignored": 0
+    },
+    "activeBun": {
+      "explicitPaths": 15,
+      "passed": 175,
+      "failed": 0,
+      "fullDiscoveryAlsoPassed": true,
+      "fullDiscoveryReceipt": "target/host-meter/task-10/full-bun-pass2.json"
+    },
+    "deterministicTraceability": "The 20 arithmetic/snapshot/policy/worker identities at gates.json#/tests/deterministic/executedCases correspond to the inspected counter-delta, normalization, reset/wrap, clock, partial-failure and bound tests.",
+    "compatibility": "Protocol 1, execution/fail-open, recorded outcomes, selection, lifecycle and Credits obligations remain in workspace/active component regressions. No required active suite was removed or narrowed.",
+    "timeoutMsEach": 7200000,
+    "receiptProblems": []
+  },
+  "evidence": {
+    "oneExistingSmallChecker": "scripts/coverage/host-meter-evidence.ts",
+    "reviewerInvocationsOfThatChecker": 0,
+    "completedBackendReceipt": "target/host-meter/task-10/evidence-check-final.json",
+    "publicationAudit": {
+      "candidateDiffKeys": [
+        "evidenceCheck",
+        "evidence"
+      ],
+      "onlyPublicationMetadataDiffers": true,
+      "checkerExit": 0,
+      "checkerArgv": [
+        "bun",
+        "scripts/coverage/host-meter-evidence.ts",
+        "target/host-meter/task-10/gates-candidate.json"
+      ],
+      "actualCandidateProspectiveBytes": 262309,
+      "recordedCandidateBytes": 262309,
+      "candidateCountedOnce": true,
+      "publishedCurrentFiles": 5,
+      "actualPublishedBytes": 263730,
+      "regressionArithmetic": 5054798,
+      "regressionExceedsLimit": true
+    },
+    "budgetRegression": {
+      "source": "scripts/coverage/host-meter-fixture.ts",
+      "test": "scripts/coverage/gate.test.ts",
+      "existingBytes": 4999999,
+      "candidateBytes": 54799,
+      "prospectiveBytes": 5054798,
+      "limitBytes": 5000000,
+      "result": "Current executed regression rejects this candidate. Other inspected cases cover absent/replaced/canonical gates.json, exact limit, one byte over, seven entries, UTF-8, unexpected files, symlinks and traversal."
+    },
+    "publication": "The checked candidate was 98,937 bytes and was counted once for 262,309 prospective bytes. The published report differs only in actual checker receipt/inventory metadata, yielding five files and 263,730 bytes before QA.",
+    "inventoryBeforeQa": [
+      {
+        "path": ".arc-verify/host-meter/contract.md",
+        "bytes": 38699,
+        "sha256": "15d9b9a0ed9d4879567f6f7db5d2d3ebba58f4272e42963d3294a4574f83634d",
+        "regular": true
+      },
+      {
+        "path": ".arc-verify/host-meter/experience.md",
+        "bytes": 40812,
+        "sha256": "d1d313e9c241ef8c31ee477a6508761c003cac07dfa1a2e1b1d6945a6e2c2540",
+        "regular": true
+      },
+      {
+        "path": ".arc-verify/host-meter/gates.json",
+        "bytes": 100358,
+        "sha256": "25d4eb3e96d30f24ad60af8cd6711f430f88e720aeb22dd19ce0f53cc7a92635",
+        "regular": true
+      },
+      {
+        "path": ".arc-verify/host-meter/native.json",
+        "bytes": 66906,
+        "sha256": "51e06973d97e7ce6a62e40b51efa30b94bf3b357b3df6b76f8811257ccd4236f",
+        "regular": true
+      },
+      {
+        "path": ".arc-verify/host-meter/value.md",
+        "bytes": 16955,
+        "sha256": "fb2fde5c08d72601a973488138eb8ede565b9bd7c52f58a39467966fdb871cb2",
+        "regular": true
+      }
+    ],
+    "inventoryAfterQa": {
+      "fileCount": 6,
+      "bytes": 344844,
+      "qaBytes": 81114,
+      "byteLimit": 5000000,
+      "withinBudget": true,
+      "remainingReservedFile": "final.md"
+    },
+    "inventoryBoundary": "Actual inventory was five files on entry. This report makes six; Chief final.md remains reserved. gates.json#/evidence/fileCount=7 explicitly declares the reserved final manifest with separate actual publication counts. No future file is claimed produced.",
+    "newSourceTestFileCount": 48,
+    "allNewSourceTestFilesBelow500": true,
+    "largestNewSourceTestFiles": [
+      {
+        "path": "apps/desktop/tests/meter.test.ts",
+        "lines": 448
+      },
+      {
+        "path": "apps/desktop/src/dashboard/desktop-meter.tsx",
+        "lines": 357
+      },
+      {
+        "path": "crates/arc-platform/src/macos.rs",
+        "lines": 289
+      },
+      {
+        "path": "crates/arc-meter/src/cpu_tests.rs",
+        "lines": 281
+      },
+      {
+        "path": "apps/desktop/src/bridge/meter-contract.ts",
+        "lines": 280
+      },
+      {
+        "path": "crates/arc-meter/src/snapshot.rs",
+        "lines": 262
+      },
+      {
+        "path": "crates/arc-core/src/meter/tests.rs",
+        "lines": 261
+      },
+      {
+        "path": "crates/arc-meter/src/snapshot_tests.rs",
+        "lines": 244
+      },
+      {
+        "path": "scripts/harness/coverage-reuse.test.ts",
+        "lines": 236
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/daemon_bridge_support/meter_native.rs",
+        "lines": 235
+      },
+      {
+        "path": "scripts/coverage/host-meter-evidence.ts",
+        "lines": 233
+      },
+      {
+        "path": "crates/arc-core/src/meter/validation.rs",
+        "lines": 225
+      }
+    ],
+    "migrationBytes": [
+      {
+        "path": "crates/arc-storage/migrations/0001_phase0.sql",
+        "sha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "acceptedEqual": true
+      },
+      {
+        "path": "crates/arc-storage/migrations/0002_managed_exec.sql",
+        "sha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+        "acceptedEqual": true
+      },
+      {
+        "path": "crates/arc-storage/migrations/0003_traffic.sql",
+        "sha256": "1f4522e3f27c124aea7127d92434c7bd22be36168fef0a4bf665f8cf16debe90",
+        "acceptedEqual": true
+      }
+    ],
+    "protectedHistoricalOrMigrationDiff": [],
+    "containerPolicy": {
+      "applicability": "not_applicable",
+      "completionRequirementsSatisfied": true,
+      "authority": "The supplied task-11 assignment expressly states no container/service observation policy applies, consistent with the operator task-13 correction.",
+      "contextPath": "target/host-meter/task-13/policy-context.json",
+      "contextSha256": "b0c8510827c0472bd370603e84fc36665a243bae7ebe92519d38f59cd05ca0c5",
+      "observedInventory": null,
+      "interpretation": "targets=[] means no applicable policy targets; it is not observed container absence. av.yaml EPERM is not absence evidence. No health/availability/error observations are claimed.",
+      "regression": "The live checker pins the supplied authority; unsupported caller claims and unknown/required-policy bypasses are rejected. Required-policy fixtures retain identity/time-bound observations."
+    },
+    "interfaceCompatibility": "Additive schema 1 over authenticated protocol 1. arc-platform handles native observations; arc-meter sampling/arithmetic. Existing daemon, identities, SQLite writer, bridge permit and refresh/lifecycle owners are reused. No public scope override, migration checksum change or third-party dependency upgrade."
+  },
+  "reviewerCommandsAndOutcomes": [
+    {
+      "commands": [
+        "git status --short",
+        "git diff --stat",
+        "git rev-parse HEAD",
+        "git diff HEAD --name-status -- . :!av.yaml",
+        "git ls-files --others --exclude-standard -- . :!av.yaml"
+      ],
+      "result": "Accepted HEAD and preceding staged/unstaged/untracked deliveries inspected before work. Root Git commands emitted av.yaml: Operation not permitted; no full-clean claim."
+    },
+    {
+      "commands": [
+        "Scoped cat/sed reads of the listed skills, known source/test/configuration files, reports, handoffs and receipts",
+        "rg -n -F on plain-text SRS/contract requirements"
+      ],
+      "result": "Required implementation paths/assertions/requirements inspected. No native project-source search or product execution."
+    },
+    {
+      "commands": [
+        "git diff HEAD -- <reviewed known paths>",
+        "git ls-tree -r --name-only efedf0f4eb9b97eed641c82f3c4766bb16f2e3de -- crates scripts apps/desktop",
+        "git show efedf0f4eb9b97eed641c82f3c4766bb16f2e3de:<each accepted migration>",
+        "git archive --format=tar efedf0f4eb9b97eed641c82f3c4766bb16f2e3de Cargo.toml Cargo.lock rust-toolchain.toml crates apps/desktop"
+      ],
+      "result": "Exit 0. Baseline paths, migration equality, protected evidence and legacy archive provenance verified; archive bytes hashed in memory."
+    },
+    {
+      "commands": [
+        "python3 - <<'PY' (authentication program below)",
+        "python3 - <<'PY' (coverage arithmetic program below)",
+        "python3 - <<'PY' (native arithmetic program below)",
+        "python3 - <<'PY' (gate/inventory and integration/publication programs below)"
+      ],
+      "result": "Final versions exit 0. Current inputs match; all production rows match; native decisions reproduce; required command receipts and candidate inventory reconcile."
+    },
+    {
+      "commands": [
+        "Read-only report JSON/schema/size and final input/report hash readback"
+      ],
+      "result": "Final readback follows the sole qa.json write. No test, build, collector or existing live checker is invoked."
+    }
+  ],
+  "reviewerAttemptCorrections": [
+    "Initial generic reference traversal resolved basename-only profraw paths against the workspace. Corrected to profiles.json target, it authenticated all 2,595 profiles; initial lookup errors were audit path errors, not missing product evidence.",
+    "An intermediate migration audit used path instead of migrationPath and raised KeyError. Corrected read-only code checks all three actual migration paths against accepted bytes.",
+    "Initial independent coverage calculation collapsed filename aliases too early. Corrected to validate all 288 original records before maximum-hit canonical union; all 83 production rows and ten totals then match.",
+    "Three CPU references differed only by floating-point operation ordering under exact equality. Numeric types and signed differences are verified within 1e-9 arithmetic precision; this is not a calibration accuracy tolerance.",
+    "Optional .agents/oma-config.yaml is absent; actual .agents/oma-config.cue was read.",
+    "Initial report serialization attempted unavailable V8 TextEncoder and failed before any file write. A local UTF-8 byte-count helper replaced it; no product/report file was partially written by that attempt."
+  ],
+  "resolvedPriorAttempts": [
+    {
+      "owner": "backend-runtime",
+      "evidence": "crates/arc-meter/src/cpu.rs, worker.rs and current executed regressions",
+      "result": "Earlier wrap ambiguity/published-cadence defects are repaired; no recurrence found."
+    },
+    {
+      "owner": "backend-gates",
+      "evidence": "target/host-meter/task-13/handoff.md and current gate.test.ts logs",
+      "result": "Policy applicability, invalid numeric reference and candidate-budget corrections are present and tested."
+    },
+    {
+      "owner": "backend-gates",
+      "evidence": "target/host-meter/task-10/failed-attempts.md and final fresh receipts",
+      "result": "Earlier cancellation-test synchronization race, declaration-only accounting failure, TypeScript diagnostic and receipt collision remain disclosed. Current exact gates pass; release-channel/progress assertions and 80% inequalities remain intact."
+    },
+    {
+      "owner": "backend-gates",
+      "evidence": "target/host-meter/task-10/native-artifact-reconciliation-pass2.json and new native bytes",
+      "result": "Old mutable desktop executable is unavailable; the current immutable copy was independently observed afresh. Old receipts were not relabeled."
+    }
+  ],
+  "limitations": [
+    {
+      "kind": "review_execution_boundary",
+      "owner": "chief-director",
+      "blocking": false,
+      "detail": "No reviewer compilation, test replay, native gate, coverage collection, screen/browser or assistive check, as assigned. Source review and independent existing-byte arithmetic do not claim fresh reenactment of runtime effects."
+    },
+    {
+      "kind": "superseded_artifact_unavailable",
+      "owner": "backend-gates",
+      "blocking": false,
+      "detail": "Old task-9 desktop digest fcc8d195ad2d616fb1a95fe1ce990c7afb324c2f73d91b9f7cd019b56b65a6f7 is unavailable at the overwritten mutable build path. It is superseded by current authenticated immutable bytes and renewed native observations; historical exact-byte reproduction is unavailable."
+    },
+    {
+      "kind": "environment_observations",
+      "owner": "backend-gates",
+      "blocking": false,
+      "detail": "Native desktop stderr retains WebKit cache/storage/sandbox-extension Operation-not-permitted observations. Hide/quit and native visibility passed; permission/storage/extension success is not claimed."
+    },
+    {
+      "kind": "configuration_access",
+      "owner": "chief-director",
+      "blocking": false,
+      "detail": "av.yaml is unreadable; whole-worktree cleanliness is unverified. No container/service observation policy applies under the supplied assignment. No host container absence is inferred."
+    },
+    {
+      "kind": "bounded_native_scope",
+      "owner": "chief-director",
+      "blocking": false,
+      "detail": "One recorded Mac/interval/workload only. Sampling may miss intervening peaks and process snapshots are incomplete. Long-term performance, customer savings, release distribution and commercial outcomes are unverified."
+    },
+    {
+      "kind": "downstream_delivery",
+      "owner": "chief-director",
+      "blocking": false,
+      "detail": "Chief final.md, actual final seven-file inventory and overall mission reconciliation remain pending; this audit does not claim those future outputs complete."
+    }
+  ],
+  "acceptanceEvidence": [
+    {
+      "criterion": "Substantive independent reproducible implementation/current-evidence audit",
+      "satisfied": true,
+      "evidence": "Source checkpoints, exact current-input receipts, authenticated artifacts, arithmetic and embedded reproduction programs."
+    },
+    {
+      "criterion": "Coverage/calibration/overhead verified from underlying bytes rather than booleans",
+      "satisfied": true,
+      "evidence": "288 LLVM/LCOV records, 2,595 profiles, four native calibration sequences and 311 foreign-PID idle rows independently checked without recollection."
+    },
+    {
+      "criterion": "Confirmed defects/missing required evidence assigned to backend owners",
+      "satisfied": true,
+      "evidence": "No confirmed current defect or missing required review evidence remains. Ownership, prior repairs, limitations and downstream Chief work are explicit."
+    },
+    {
+      "criterion": "Only assigned report written, with no repair, native gate, collector or historical recertification",
+      "satisfied": true,
+      "evidence": "This task writes only .arc-verify/host-meter/qa.json; all other evidence/code/tests/configuration/locks remain unchanged."
+    }
+  ],
+  "chiefHandoff": {
+    "result": "Task-11 completed with zero blocking findings; reviewed code/evidence support the bounded macOS host Meter slice.",
+    "pending": "Write final.md, reconcile actual final inventory and remaining scope.",
+    "missionCompletionClaimed": false
+  },
+  "remainingScope": [
+    "Managed-job/vendor attribution",
+    "Native Windows",
+    "Vendor hooks",
+    "Full Meter/Phase 1 acceptance"
+  ],
+  "readOnlyReproductionPrograms": {
+    "invocation": "From mission workspace: python3 - <<'PY', the chosen program text, then PY. Programs read existing artifacts and print JSON; no product/test/build/coverage command is run.",
+    "authentication": "import json,hashlib,subprocess\nfrom pathlib import Path\nroot=Path.cwd();g=json.loads(Path('.arc-verify/host-meter/gates.json').read_text());n=json.loads(Path('.arc-verify/host-meter/native.json').read_text());done={};parsed=set();errors=[];occurrences=0\ndef digest(p):\n h=hashlib.sha256()\n with p.open('rb') as f:\n  while b:=f.read(1048576):h.update(b)\n return h.hexdigest()\ndef walk(x,loc,depth=0,base=None):\n global occurrences\n if isinstance(x,dict):\n  if 'target' in x and 'profiles' in x and isinstance(x['target'],str):base=Path(x['target'])\n  if isinstance(x.get('path'),str) and isinstance(x.get('sha256'),str) and len(x['sha256'])==64:\n   occurrences+=1;p=Path(x['path']);p=p if p.is_absolute() else (base if base is not None and p.suffix=='.profraw' else root)/p\n   key=(str(p),x['sha256'])\n   if key not in done:\n    try:\n     b=p.stat().st_size;actual=digest(p);ok=actual==x['sha256'] and b==x.get('bytes',x.get('size',b));done[key]=(ok,b)\n     if not ok:errors.append({'pointer':loc,'path':x['path'],'actual':actual,'expected':x['sha256'],'bytes':b})\n     if ok and p.suffix=='.json' and p not in parsed and b<10000000 and depth<15:\n      parsed.add(p)\n      try:walk(json.loads(p.read_text()),str(p.relative_to(root))+'#',depth+1)\n      except (json.JSONDecodeError,UnicodeDecodeError):pass\n    except OSError as e:done[key]=(False,0);errors.append({'pointer':loc,'path':str(p),'error':str(e)})\n  for k,v in x.items():walk(v,loc+'/'+str(k),depth,base)\n elif isinstance(x,list):\n  for i,v in enumerate(x):walk(v,loc+'/'+str(i),depth,base)\nwalk(g,'gates');walk(n,'native')\ncanonical=json.dumps(dict(sorted(g['inputs']['files'].items())),separators=(',',':'),ensure_ascii=False).encode();sha=hashlib.sha256(canonical).hexdigest();ip=[p for p,h in g['inputs']['files'].items() if digest(root/p)!=h]\nsrs=Path('docs/requirements/ARC_SRS_2026-11-06.md');src=Path('/Users/gracefullight/Downloads/Agent_Resource_Control_ARC_Requirements_SRS_2026-11-06.md');mig=[]\nfor m in g['compatibility']['migrations']:\n p=m['migrationPath'];old=subprocess.check_output(['git','show',g['baseline']['acceptedHead']+':'+p]);mig.append({'path':p,'sha256':digest(root/p),'acceptedEqual':old==(root/p).read_bytes()})\nprint(json.dumps({'referenceOccurrences':occurrences,'uniquePathDigestPairs':len(done),'jsonArtifactsParsed':len(parsed),'bytesHashed':sum(v[1] for v in done.values()),'profileCount':sum(Path(p).suffix=='.profraw' for p,h in done),'referenceProblems':errors[:10],'referenceProblemCount':len(errors),'inputCount':len(g['inputs']['files']),'computedIdentity':sha,'recordedIdentity':g['inputs']['sha256'],'inputProblems':ip,'srs':{'bytes':srs.stat().st_size,'sha256':digest(srs),'sourceSha256':digest(src),'byteEqual':srs.read_bytes()==src.read_bytes()},'migrations':mig},indent=2))\n",
+    "coverage": "import json,collections,re,hashlib\nfrom pathlib import Path\ng=json.loads(Path('.arc-verify/host-meter/gates.json').read_text());d=Path(g['coverage']['summary']['path']).parent\ninventory=json.loads((d/'source-inventory.json').read_text());summary=json.loads((d/'summary.json').read_text());native=json.loads((d/'raw.json').read_text())\nlfiles={f['filename']:f for f in native['data'][0]['files']}\nlcov={};summary_mismatch=[];seen=set()\nfor record in (d/'raw.lcov').read_text().split('end_of_record'):\n rows=record.strip().splitlines()\n if not rows:continue\n filename=next(x[3:] for x in rows if x.startswith('SF:'));p=str(Path(filename).resolve());entries={}\n for row in rows:\n  if row.startswith('DA:'):\n   line,hit,*_=row[3:].split(',');assert int(line) not in entries;entries[int(line)]=int(hit)\n f=lfiles[filename];seen.add(filename);segs=f['segments'];expected={};i=0;wrapped=None\n for line in range(1,max((s[0] for s in segs),default=0)+1):\n  on=[]\n  while i<len(segs) and segs[i][0]==line:on.append(segs[i]);i+=1\n  starts=[s for s in on if not s[5] and s[3] and s[4]]\n  skipped=bool(on and not on[0][3] and on[0][4])\n  mapped=(not skipped and ((wrapped and wrapped[3]) or starts)) or any(s[3] and s[4] for s in on)\n  if mapped:expected[line]=max([wrapped[2] if wrapped else 0]+[s[2] for s in starts])\n  if on:wrapped=on[-1]\n LF=int(next(x[3:] for x in rows if x.startswith('LF:')));LH=int(next(x[3:] for x in rows if x.startswith('LH:')))\n if entries!=expected or LF!=f['summary']['lines']['count'] or LH!=f['summary']['lines']['covered']:summary_mismatch.append(filename)\n union=lcov.setdefault(p,{})\n for line,hit in entries.items():union[line]=max(union.get(line,0),hit)\nassert seen==set(lfiles)\ncomputed=[];by=collections.defaultdict(lambda:[0,0])\nfor f in inventory:\n if f['testOnly']:continue\n entries=lcov.get(str(Path(f['path']).resolve()),{})\n mapped=sorted(set(entries)-set(f['omitted']));uncovered=[line for line in mapped if entries[line]==0]\n row={'path':f['path'],'crate':f['crate'],'total':len(mapped),'covered':len(mapped)-len(uncovered),'uncovered':uncovered,'mapped':mapped,'omitted':f['omitted']}\n if str(Path(f['path']).resolve()) not in lcov:row['declarationOnly']=True\n computed.append(row);by[f['crate']][0]+=row['covered'];by[f['crate']][1]+=row['total']\nfilesMatch=computed==summary['files']\nproof=json.loads((d/'profiles.json').read_text());merged=Path(proof['mergeList']['path']).read_text().strip().splitlines();expected=sorted(str(Path(proof['target'])/p['path']) for p in proof['profiles'])\nchildren=[]\nreceipts=json.loads((d/'receipt.json').read_text())['receipts']\nfor child in proof['childProof']:\n cmd=[c for c in receipts if c['pid']==child['pid']];children.append({'binary':child['binary'],'pid':child['pid'],'profileNamesMatch':all(p.startswith('arc-'+str(child['pid'])+'-') for p in child['profiles']),'commandCount':len(cmd),'exit':cmd[0]['exit']})\nprint(json.dumps({'llvmFileCount':len(lfiles),'lcovCanonicalFileCount':len(lcov),'lcovRawRecordCount':len(seen),'nativeLineOrSummaryMismatch':summary_mismatch,'productionFiles':len(computed),'filesMatchSummary':filesMatch,'perCrate':[{'crate':c,'covered':by[c][0],'total':by[c][1],'percent':100*by[c][0]/by[c][1],'pass':100*by[c][0]>=80*by[c][1]} for c in g['coverage']['crates']],'mergeAllEqual':expected==sorted(merged)==sorted(proof['merge']),'profileCount':len(proof['profiles']),'children':children,'noReportCollections':len([c for c in receipts if '--no-report' in c['argv']]),'reportCommands':[{'format':'lcov' if '--lcov' in c['argv'] else 'json','exit':c['exit'],'failureModeAny':c['argv'][c['argv'].index('--failure-mode')+1]=='any','ignoreOnlyNonWorkspace': '--disable-default-ignore-filename-regex' in c['argv'],'outputPath':c['argv'][c['argv'].index('--output-path')+1]} for c in receipts if 'report' in c['argv'] and '--output-path' in c['argv']]},indent=2))\n",
+    "native": "import json,math,statistics\nfrom pathlib import Path\nroot=Path.cwd();n=json.loads(Path('.arc-verify/host-meter/native.json').read_text());problems=[]\ndef stdout(ref):\n r=json.loads(Path(ref['path']).read_text());return Path(r['stdout']['path']).read_text()\ndef number(v,integer=False):\n return type(v) in (int,float) and math.isfinite(v) and v>=0 and v<=9007199254740991 and (not integer or int(v)==v)\ncal=[];differences={}\nfor row in n['calibration']['samples']:\n s=json.loads(stdout(row['cli']));a=json.loads(stdout(row['hostBefore']));b=json.loads(stdout(row['hostAfter']));p=json.loads(stdout(row['process']))\n for k,v in [('hostBefore',a),('hostAfter',b),('process',p)]:\n  if row['independentReferenceDetails'][k]!=v:problems.append('cached reference mismatch '+k)\n ca,cb=a['host']['cpu'],b['host']['cpu'];delta={k:cb[k]-ca[k] for k in ['user','system','nice','idle']};busy=delta['user']+delta['system']+delta['nice'];cpu=busy/(busy+delta['idle'])*100\n refs={'hostCpu':cpu,'memoryAvailable':b['host']['memory']['availableBytes'],'swapUsed':b['host']['swapUsedBytes'],'capacity':b['host']['filesystem']['capacityBytes'],'free':b['host']['filesystem']['freeBytes'],'available':b['host']['filesystem']['availableBytes'],'daemonCpu':p['process']['cpuCoreSeconds'],'daemonRss':p['process']['rssBytes'],'sampledPeakVsCurrentReference':p['process']['rssBytes']}\n measurements={'hostCpu':s['host']['cpu_utilization'],'memoryAvailable':s['host']['memory_available_bytes'],'swapUsed':s['host']['swap_used_bytes'],'capacity':s['host']['filesystem']['capacity_bytes'],'free':s['host']['filesystem']['free_bytes'],'available':s['host']['filesystem']['available_bytes'],'daemonCpu':s['daemon']['cpu_core_seconds'],'daemonRss':s['daemon']['rss_bytes'],'sampledPeakVsCurrentReference':s['daemon']['observed_peak_rss_bytes']}\n if not all(v>=0 for v in delta.values()) or not a['atMs']<=s['sampled_at_ms']<=b['atMs']:problems.append('invalid bracket/delta')\n memory=b['host']['memory']\n if (memory['freePages']+memory['inactivePages'])*memory['pageSize']!=memory['availableBytes']:problems.append('RAM formula')\n pd=p['process'];seconds=(pd['userCpuTicks']+pd['systemCpuTicks'])*pd['cpuTimebaseNumer']/pd['cpuTimebaseDenom']/1e9\n if abs(seconds-pd['cpuCoreSeconds'])>5.1e-10:problems.append('CPU timebase')\n for key,reference in refs.items():\n  m=measurements[key];value=m['reading']['value'];c=row['comparisons'][key]\n  valid=number(reference,m['unit']=='bytes') and type(c['difference']) in (int,float) and math.isfinite(c['difference'])\n  if not valid or abs((value-reference)-c['difference'])>1e-9 or abs(c['reference']-reference)>1e-9 or c['meter']!=value:problems.append('comparison '+key)\n  differences.setdefault(key,[]).append(value-reference)\n pressure={1:'normal',2:'warning',4:'critical'}[b['host']['pressureRaw']];c=row['comparisons']['memoryPressure']\n if c['difference'] is not None or c['reference']!=pressure or c['meter']!=s['host']['memory_pressure']['reading']['value']:problems.append('pressure')\n cal.append({'sequence':s['sequence'],'sampledAtMs':s['sampled_at_ms'],'sampledMonotonicMs':s['sampled_monotonic_ms'],'intervalMs':s['host']['cpu_interval']['elapsed_ms'],'referenceWindowMs':b['monotonicMs']-a['monotonicMs'],'referenceDelayMs':b['atMs']-s['sampled_at_ms']})\nr=json.loads(Path(n['idle']['observerReceipt']['path']).read_text());rows=[json.loads(x) for x in Path(r['stdout']['path']).read_text().splitlines()];first,last=rows[0],rows[-1];duration=(last['monotonicMs']-first['monotonicMs'])/1000\ndef ident(p,i):return p['pid']==i['pid'] and p['startToken']==i['start_token'] and p['bootId']==i['boot_id']\nfor i,row in enumerate(rows):\n p=row['process'];ticks=(p['userCpuTicks']+p['systemCpuTicks'])*p['cpuTimebaseNumer']/p['cpuTimebaseDenom']/1e9\n if abs(ticks-p['cpuCoreSeconds'])>5.1e-10:problems.append('idle timebase '+str(i))\n if not ident(p,n['idle']['daemonIdentity']) or not ident(row['desktopProcess'],n['idle']['desktopIdentity']) or row['windows']['normalOnscreenCount']!=0:problems.append('idle identity/visibility '+str(i))\n if i and (row['monotonicMs']<=rows[i-1]['monotonicMs'] or p['cpuCoreSeconds']<rows[i-1]['process']['cpuCoreSeconds']):problems.append('idle reset '+str(i))\ndelta=last['process']['cpuCoreSeconds']-first['process']['cpuCoreSeconds'];cpu=100*delta/duration;rss=max(row['process']['rssBytes'] for row in rows);hidden=[json.loads(x) for x in Path(n['idle']['visibility']['path']).read_text().splitlines()]\nlastProc=json.loads(stdout(n['calibration']['samples'][-1]['process']));warmupLowerBound=first['atMs']-max(hidden[1]['atMs'],lastProc['atMs'])\nrecorded=n['idle'];assert abs(recorded['durationMs']-duration*1000)<1e-6 and abs(cpu-recorded['cpu']['percent'])<1e-12 and rss==recorded['rss']['maxBytes']\nhiddenValid=hidden[0]['isVisible'] and all(x['isVisible'] is False and x['pid']==recorded['desktopIdentity']['pid'] and x['runtime']=='production_wry' for x in hidden[1:]) and hidden[1]['atMs']<=first['atMs'] and hidden[-1]['atMs']>=last['atMs']\nprint(json.dumps({'calibrations':cal,'differenceRanges':{k:[min(v),max(v)] for k,v in differences.items()},'calibrationProblems':problems,'idle':{'observations':len(rows),'durationSeconds':duration,'deltaCoreSeconds':delta,'oneCorePercent':cpu,'maxRssBytes':rss,'cpuBelowExclusiveLimit':cpu<0.5,'rssBelowExclusiveLimit':rss<50000000,'nativeVisibilityRecords':len(hidden),'hiddenThroughout':hiddenValid,'warmupObservedLowerBoundMs':warmupLowerBound,'warmupRecordedMs':recorded['warmupMs'],'gapsMs':{'min':min(b['monotonicMs']-a['monotonicMs'] for a,b in zip(rows,rows[1:])),'max':max(b['monotonicMs']-a['monotonicMs'] for a,b in zip(rows,rows[1:]))}},'scope':'Independent foreign-PID native observation; maximum discrete current RSS and bounded idle interval only.'},indent=2))\n",
+    "gateAndInventory": "import json,re,hashlib,subprocess\nfrom pathlib import Path\nroot=Path.cwd();g=json.loads(Path('.arc-verify/host-meter/gates.json').read_text());sha=g['inputs']['sha256'];cmds=[];problems=[]\nsets=[('gate',k,v) for k,v in g['gates'].items() if isinstance(v,dict)]+[('desktop',k,v) for k,v in g['desktopCompatibility']['commands'].items()]\nfor kind,name,item in sets:\n r=json.loads(Path(item['receipt']['path']).read_text());logs={k:Path(r[k]['path']).read_text() for k in ['stdout','stderr']};text=logs['stdout']+logs['stderr']\n same=r['inputBefore']['sha256']==r['inputAfter']['sha256']==sha and r['inputsUnchanged']\n if r['exitCode']!=0 or r['termination'] is not None or not same or r['cwd']!=str(root) or r['timeoutMs']<7200000:problems.append(name)\n record={'kind':kind,'name':name,'argv':r['argv'],'receipt':item['receipt']['path'],'exitCode':r['exitCode'],'inputIdentityMatches':same,'timeoutMs':r['timeoutMs']}\n if name=='workspaceTest':\n  results=re.findall(r'test result: ok. (\\d+) passed; (\\d+) failed; (\\d+) ignored;',logs['stdout']);record.update({'harnesses':len(results),'passed':sum(int(x[0]) for x in results),'failed':sum(int(x[1]) for x in results),'ignored':sum(int(x[2]) for x in results)})\n  names=re.findall(r'^test (.+?) \\.\\.\\. (ok|FAILED|ignored)$',logs['stdout'],re.M);record['executedCaseNames']=len(names)\n  nativeNames=[x['name'] for x in g['tests']['native']['executedCases']];record['nativeCaseNamesFound']=all((a,'ok') in names for a in nativeNames)\n if name=='activeBun':\n  record.update({'passCounts':re.findall(r'\\b(\\d+) pass\\b',text),'failCounts':re.findall(r'\\b(\\d+) fail\\b',text),'suiteCount':len(r['argv'])-2,'allPathsLogged':all(p+':' in text for p in r['argv'][2:])})\n if name=='architecture':\n  record['reuseLine']=[x for x in logs['stdout'].splitlines() if 'Coverage:' in x];record['summary']=[x for x in logs['stdout'].splitlines() if 'violation' in x or 'PASS' in x][-10:];record['sameReceiptAlias']=r['environment'].get('ARC_COVERAGE_RECEIPT')==r['environment'].get('ARC_COVERAGE_REUSE_RECEIPT')==g['coverage']['reuse']['receipt']['path']\n cmds.append(record)\nbaseline=subprocess.check_output(['git','ls-tree','-r','--name-only',g['baseline']['acceptedHead'],'--','crates','scripts','apps/desktop']).decode().splitlines();known=set(baseline);new=[]\nfor p in g['inputs']['files']:\n if p not in known and re.search(r'\\.(rs|ts|tsx|jsx|css|scss|c|h)$',p):new.append({'path':p,'lines':len(Path(p).read_text().rstrip().splitlines())})\nprotected=subprocess.check_output(['git','diff','HEAD','--name-only','--','.arc-verify',':!.arc-verify/host-meter','crates/arc-storage/migrations']).decode().splitlines()\nevidence=[{'path':str(p),'bytes':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'regular':p.is_file() and not p.is_symlink()} for p in sorted(Path('.arc-verify/host-meter').iterdir())]\nprint(json.dumps({'commands':cmds,'receiptProblems':problems,'newSourceTestFileCount':len(new),'largestNewSourceTestFiles':sorted(new,key=lambda x:-x['lines'])[:12],'allNewSourceTestBelow500':all(x['lines']<500 for x in new),'protectedHistoricalOrMigrationDiff':protected,'evidenceCurrent':evidence,'evidenceBytes':sum(x['bytes'] for x in evidence)},indent=2))\n",
+    "integrationAndPublication": "import json,subprocess,hashlib\nfrom pathlib import Path\nroot=Path.cwd();g=json.loads(Path('.arc-verify/host-meter/gates.json').read_text());s=json.loads(Path(g['tests']['native']['successiveArtifact']['path']).read_text());samples=s['successiveSamples'];problems=[]\nfor i,pair in enumerate(samples):\n a=pair['cli'];b=pair['registeredRouter'];prev=s['headless'] if i==0 else samples[i-1]['cli'];interval=a['host']['cpu_interval']\n if not (a['sequence']==prev['sequence']+1 and a['sampled_monotonic_ms']>prev['sampled_monotonic_ms'] and interval['started_monotonic_ms']==prev['sampled_monotonic_ms'] and interval['ended_monotonic_ms']==a['sampled_monotonic_ms'] and a['daemon_instance']==b['daemon_instance']==s['beforeRestart'] and b['sequence']>=a['sequence']):problems.append(i)\n if a['cadence']['mode'] not in ('active','pressure'):problems.append('cadence '+str(i))\nr=s['restart'];old=s['beforeRestart'];legacy=json.loads(Path(g['tests']['native']['legacyArtifact']['path']).read_text());build=legacy['legacyBuild']\narchive=subprocess.check_output(['git','archive','--format=tar',g['baseline']['acceptedHead'],'Cargo.toml','Cargo.lock','rust-toolchain.toml','crates','apps/desktop'])\nec=g['evidenceCheck'];candidate=json.loads(Path(ec['candidate']['path']).read_text());published=g.copy()\nallowedDelta=['recordedAt','status','evidenceCheck','evidence']\ndiff=[k for k in set(candidate)|set(g) if candidate.get(k)!=g.get(k)]\nreceipt=json.loads(Path(ec['receipt']['path']).read_text());checkResult=json.loads(Path(receipt['stdout']['path']).read_text())\nbaseBytes=sum(p.stat().st_size for p in Path('.arc-verify/host-meter').iterdir() if p.name!='gates.json');prospective=baseBytes+Path(ec['candidate']['path']).stat().st_size\nprint(json.dumps({'sequences':[x['cli']['sequence'] for x in samples],'monotonicMs':[x['cli']['sampled_monotonic_ms'] for x in samples],'nativeIntervalsMs':[x['cli']['host']['cpu_interval']['elapsed_ms'] for x in samples],'routerSequences':[x['registeredRouter']['sequence'] for x in samples],'nativeSamplesProblems':problems,'firstSequence':s['first']['sequence'],'firstCpuAvailability':s['first']['host']['cpu_utilization']['reading']['availability'],'headlessSequence':s['headless']['sequence'],'afterCompletionCadence':s['afterCompletion']['cadence'],'restart':{'identityChanged':r['daemon_instance']!=old,'sequence':r['sequence'],'firstCpuAvailability':r['host']['cpu_utilization']['reading']['availability'],'peakEqualsCurrent':r['daemon']['rss_bytes']['reading']==r['daemon']['observed_peak_rss_bytes']['reading'],'peakWindowStartsHere':r['daemon']['peak_observation_started_monotonic_ms']==r['sampled_monotonic_ms']},'legacy':{'archiveMatchesAcceptedHead':hashlib.sha256(archive).hexdigest()==build['archive']['sha256'],'binaryPath':build['binary']['path'],'cliExit':legacy['cliExit'],'meterError':legacy['meterError'],'recordedExit':legacy['selected']['data']['job']['outcome']},'publication':{'candidateDiffKeys':diff,'onlyPublicationMetadataDiffers':set(diff)<=set(allowedDelta),'checkerExit':receipt['exitCode'],'checkerArgv':receipt['argv'],'actualCandidateProspectiveBytes':prospective,'recordedCandidateBytes':checkResult['evidence']['bytes'],'candidateCountedOnce':checkResult['evidence']['bytes']==prospective,'publishedCurrentFiles':len(list(Path('.arc-verify/host-meter').iterdir())),'actualPublishedBytes':baseBytes+Path('.arc-verify/host-meter/gates.json').stat().st_size,'regressionArithmetic':4999999+54799,'regressionExceedsLimit':4999999+54799>5000000}},indent=2))\n",
+    "replayNote": "Gate/inventory and publication programs describe the inventory at replay time. If qa.json/final.md exist, exclude those downstream bytes when comparing to the captured task-10 publication snapshot; current budget accounting must include them. Captured audit results above describe the pre-QA snapshot and count gates.json once."
+  },
+  "completedAt": "2026-11-12T01:28:29Z"
+}

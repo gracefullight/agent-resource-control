@@ -41,7 +41,7 @@ fn workspace() -> &'static Path {
         .unwrap()
 }
 
-fn binary(name: &str) -> PathBuf {
+pub(crate) fn binary(name: &str) -> PathBuf {
     // Same Cargo profile/target as this test, including cargo-llvm-cov's own
     // target. Do not fall back to another checkout or a stale normal binary.
     let exe = std::env::current_exe().unwrap();
@@ -71,16 +71,34 @@ pub struct RealDaemon {
     pub bridge: DesktopBridge,
     pub evidence: PathBuf,
     daemon: Option<native::OwnedChild>,
+    test_profile: bool,
 }
 
 impl RealDaemon {
     pub fn new(name: &str) -> Self {
+        Self::configured(
+            name,
+            "target/desktop-foundation/task8",
+            binary("arc-daemon"),
+            true,
+        )
+    }
+
+    pub fn host_meter(name: &str) -> Self {
+        Self::meter_process(name, binary("arc-daemon"))
+    }
+
+    pub fn meter_process(name: &str, binary: PathBuf) -> Self {
+        Self::configured(name, "target/host-meter/integration", binary, false)
+    }
+
+    fn configured(name: &str, output: &str, daemon_binary: PathBuf, test_profile: bool) -> Self {
         let evidence = workspace()
-            .join("target/desktop-foundation/task8")
+            .join(output)
             .join(std::process::id().to_string())
             .join(name);
         fs::create_dir_all(&evidence).unwrap();
-        let fixture = native::Fixture::with_binary(binary("arc-daemon"));
+        let fixture = native::Fixture::with_binary(daemon_binary);
         assert_eq!(
             fs::metadata(&fixture.root).unwrap().permissions().mode() & 0o777,
             0o700
@@ -91,6 +109,7 @@ impl RealDaemon {
             bridge,
             evidence,
             daemon: None,
+            test_profile,
         };
         this.start();
         this
@@ -99,7 +118,9 @@ impl RealDaemon {
     pub fn start(&mut self) {
         assert!(self.daemon.is_none());
         let mut command = self.fixture.command();
-        command.env("ARC_IPC_PROFILE", "test");
+        if self.test_profile {
+            command.env("ARC_IPC_PROFILE", "test");
+        }
         self.profile_command(&mut command);
         self.daemon = Some(native::OwnedChild::new(command.spawn().unwrap()));
         self.fixture

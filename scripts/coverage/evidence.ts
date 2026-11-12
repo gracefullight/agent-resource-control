@@ -5,6 +5,16 @@ import { hash, requireIdentityDigest } from "./source";
 export type EvidenceRef = { path: string; sha256: string; bytes?: number };
 export const OUTPUT_ROOTS = ["target/", ".arc-verify/rust-coverage/baseline/runs/"];
 
+// References are portable workspace-relative paths. Inspect canonical bytes
+// even when the caller supplies the path (for example the reuse entry receipt).
+export function referenceFile(root:string, path:string):EvidenceRef {
+  requireEvidenceRef({path,sha256:"0".repeat(64),bytes:0});
+  const file=resolve(realpathSync(root),path), stat=lstatSync(file);
+  if(!stat.isFile() || stat.isSymbolicLink() || realpathSync(file)!==file) throw Error(`EVIDENCE: non-canonical regular file ${path}`);
+  const bytes=readFileSync(file);
+  return {path,sha256:hash(bytes),bytes:bytes.length};
+}
+
 // Missing historical outputs are an availability result, never authenticated
 // bytes. Callers deciding current acceptance must require a present result.
 export function requireEvidenceRef(ref: EvidenceRef, options: { sizeRequired?: boolean; prefixes?: string[] } = {}) {

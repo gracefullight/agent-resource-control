@@ -18,7 +18,7 @@ if [ "${MODE}" = "--staged" ]; then
 else
   FILES=$(git ls-files 2>/dev/null || true)
 fi
-if [ -z "${FILES}" ]; then
+if [ -z "${FILES}" ] && [ "${ARC_COVERAGE_RECEIPT+x}" != x ]; then
   ok "No files to validate."
   exit 0
 fi
@@ -417,7 +417,19 @@ while IFS= read -r file; do
 done <<< "${FILES}"
 [ "${VIOLATIONS}" -eq "${VIOLATIONS_BEFORE_4}" ] && ok "No oversized files found" || true
 info "Check 5/5: Test coverage thresholds"
-if [ "${SKIP_COVERAGE:-0}" = "1" ]; then
+if [ "${ARC_COVERAGE_RECEIPT+x}" = x ]; then
+  # An explicit receipt is fail-closed, including an empty/stale path. It never
+  # falls back to recollection or to the standalone local-iteration skip.
+  VIOLATIONS_BEFORE_5="${VIOLATIONS}"
+  if ! command -v bun >/dev/null 2>&1; then
+    violation "bun not found on PATH — cannot validate coverage receipt."
+    VIOLATIONS=$(( VIOLATIONS + 1 ))
+  elif ! bun scripts/coverage/reuse.ts "${ARC_COVERAGE_RECEIPT}"; then
+    violation "Coverage receipt validation failed — no recollection attempted."
+    VIOLATIONS=$(( VIOLATIONS + 1 ))
+  fi
+  [ "${VIOLATIONS}" -eq "${VIOLATIONS_BEFORE_5}" ] && ok "Coverage thresholds met" || true
+elif [ "${SKIP_COVERAGE:-0}" = "1" ]; then
   warn "SKIP_COVERAGE=1 set — skipping coverage gate. CI must not skip this check."
 else
   VIOLATIONS_BEFORE_5="${VIOLATIONS}"

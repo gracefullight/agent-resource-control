@@ -1,6 +1,6 @@
 import { test, expect } from "bun:test";
 import { account } from "./accounting";
-import { analyzeSource, tokens, sourceInventory, historicalSourceInventory, inputIdentity, requireInputIdentity } from "./source";
+import { analyzeSource, tokens, sourceInventory, historicalSourceInventory, inputIdentity, requireInputIdentity, hash } from "./source";
 import { fixture } from "./fixtures";
 import { CRATES, CRATE_ROOTS, HISTORICAL_CRATES } from "./config";
 import { requireWorkspace } from "./gate";
@@ -22,7 +22,7 @@ test("test-only lines/files never dilute production denominator",()=>{
   f.inventory.push({...f.inventory[0],path:"crates/arc-core/src/test_fixture.rs",testOnly:true});
   const result=account(f.lcov,f.inventory,f.root);
   expect(result.crates[0]).toMatchObject({covered:2,total:3,pass:false});
-  expect(result.files).toHaveLength(8);
+  expect(result.files).toHaveLength(10);
 });
 test("canonical aliases merge and never duplicate denominators",()=>{
   const f=fixture();
@@ -76,9 +76,10 @@ test("genuinely shared test-only import or block lines remain ambiguous",()=>{
     '#[cfg(test)]\nfn helper() {} fn production() {}',
   ]) expect(()=>analyzeSource(source)).toThrow("line accounting is ambiguous");
 });
-test("live inventory classifies all eight crate roots and test-only module trees",()=>{
+test("live inventory classifies all ten crate roots and test-only module trees",()=>{
   const inventory=sourceInventory(resolve(import.meta.dir,"../.."));
-  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(8);
+  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(10);
+  for(const crate of ["arc-platform","arc-meter"]) expect(inventory.some(x=>!x.testOnly && x.crate===crate)).toBe(true);
   expect(inventory.find(x=>x.path==="apps/desktop/src-tauri/src/lib.rs")?.crate).toBe("arc-desktop");
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport_tests.rs")?.testOnly).toBe(true);
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport.rs")?.testOnly).toBe(false);
@@ -136,19 +137,19 @@ test("desktop production roots and test-only helper binaries use the explicit re
     const probe="apps/desktop/src-tauri/tests/bin/desktop_probe.rs";
     mkdirSync(resolve(f.root,dirname(probe)),{recursive:true});
     writeFileSync(resolve(f.root,probe),"fn main() {}\n".repeat(5));
-    expect(account(f.lcov+f.record(probe),f.inventory,f.root).crates.at(-1)).toMatchObject({crate:"arc-desktop",covered:4,total:5,pass:true});
+    expect(account(f.lcov+f.record(probe),f.inventory,f.root).crates.find(c=>c.crate==="arc-desktop")).toMatchObject({crate:"arc-desktop",covered:4,total:5,pass:true});
     const bad="crates/unknown/tests/pretend.rs";
     mkdirSync(resolve(f.root,dirname(bad)),{recursive:true});writeFileSync(resolve(f.root,bad),"test\n");
     expect(()=>account(f.lcov+f.record(bad,[1]),f.inventory,f.root)).toThrow("UNMAPPED_FILE");
     expect(()=>account(f.inventory.filter(file=>file!==desktop).map(file=>f.record(file.path)).join(""),f.inventory,f.root)).toThrow("MISSING_CRATE: arc-desktop");
     expect(()=>account(f.lcov,[...f.inventory,{...desktop,path:"apps/desktop/src-tauri/src/missing.rs"}],f.root)).toThrow("MISSING_FILE");
     const below=f.inventory.map(file=>f.record(file.path,file===desktop?[1,1,1,0,0]:[1,1,1,1,1])).join("");
-    expect(account(below,f.inventory,f.root).crates.at(-1)).toMatchObject({covered:3,total:5,pass:false});
+    expect(account(below,f.inventory,f.root).crates.find(c=>c.crate==="arc-desktop")).toMatchObject({covered:3,total:5,pass:false});
     expect(()=>account(f.lcov,f.inventory.map(file=>file===desktop?{...file,crate:"arc-core"}:file),f.root)).toThrow("UNMAPPED_FILE");
   } finally {rmSync(f.root,{recursive:true,force:true});}
 });
 
-test("workspace metadata requires exactly eight names at the registered manifest roots",()=>{
+test("workspace metadata requires exactly ten names at the registered manifest roots",()=>{
   const f=fixture();
   try {
     const packages=CRATES.map(name=>{
@@ -174,7 +175,8 @@ test("freshness binds desktop configuration, test helpers, new source and verifi
     const original=inputIdentity(f.root);
     expect(()=>requireInputIdentity(f.root,original)).not.toThrow();
     expect(historicalSourceInventory(f.root).map(f=>f.crate).every(crate=>HISTORICAL_CRATES.includes(crate as typeof HISTORICAL_CRATES[number]))).toBe(true);
-    for(const path of ["apps/desktop/src-tauri/tauri.conf.json","apps/desktop/tests/bridge-client.test.ts","bun.lock","scripts/coverage/config.ts"]) {
+    for(const path of ["apps/desktop/src-tauri/tauri.conf.json","apps/desktop/tests/bridge-client.test.ts","bun.lock","scripts/coverage/config.ts",
+      "docs/requirements/ARC_SRS_2026-11-06.md",".arc-verify/host-meter/contract.md"]) {
       const file=resolve(f.root,path), bytes=readFileSync(file);writeFileSync(file,Buffer.concat([bytes,Buffer.from("\n")]));
       expect(()=>requireInputIdentity(f.root,original)).toThrow("stale");writeFileSync(file,bytes);
     }
@@ -193,5 +195,62 @@ test("freshness binds desktop configuration, test helpers, new source and verifi
     unlinkSync(resolve(f.root,"apps/desktop/src-tauri/tauri.conf.json"));
     expect(()=>inputIdentity(f.root)).toThrow();
     expect(()=>requireInputIdentity(root,{...original,sha256:"0".repeat(64)})).toThrow("corrupt aggregate");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+function declarationFixture(source:string) {
+  const f=fixture(), path="crates/arc-platform/src/boundary.rs";
+  writeFileSync(resolve(f.root,path),source);
+  const file={...f.inventory.find(x=>x.crate==="arc-platform")!,path,sha256:hash(source),lines:source.split("\n").length};
+  f.inventory.push(file);
+  const llvm={type:"llvm.coverage.json.export",version:"3.1.0",data:[{files:f.inventory.filter(x=>x!==file).map(x=>({
+    filename:resolve(f.root,x.path),summary:{lines:{count:5,covered:4}},
+    segments:[1,1,1,1,0].flatMap((hit,i)=>[[i+1,1,hit,true,true,false],[i+1,2,0,false,false,false]]),
+  }))}]};
+  return {...f,file,llvm};
+}
+test("native exports may omit hash-verified declarations without inventing executable lines",()=>{
+  const source=`use crate::value::Reading;\nmod native;\npub use native::Source;\n#[derive(Debug, Clone, PartialEq, Eq)]\npub struct Sample { pub count: u64 }\npub enum State { Ready, Unknown(u64) }\npub trait Source: Send + 'static { fn sample(&mut self) -> Sample; }\n`;
+  const f=declarationFixture(source);
+  try {
+    const result=account(f.lcov,f.inventory,f.root,undefined,f.llvm);
+    expect(result.files.find(x=>x.path===f.file.path)).toMatchObject({total:0,covered:0,mapped:[],declarationOnly:true});
+    expect(result.crates.find(x=>x.crate==="arc-platform")).toMatchObject({total:5,covered:4,pass:true});
+    // A real declaration boundary from the new crate also has no native record.
+    const actual=readFileSync(resolve(import.meta.dir,"../../crates/arc-platform/src/lib.rs"),"utf8");
+    writeFileSync(resolve(f.root,f.file.path),actual);f.file.sha256=hash(actual);f.file.lines=actual.split("\n").length;
+    expect(account(f.lcov,f.inventory,f.root,undefined,f.llvm).pass).toBe(true);
+    const executable=f.inventory.find(x=>x.crate==="arc-platform" && x!==f.file)!;
+    const below=structuredClone(f.llvm), native=below.data[0].files.find(x=>x.filename===resolve(f.root,executable.path))!;
+    native.summary.lines.covered=3;native.segments[6][2]=0;
+    const lcov=f.lcov.replace(f.record(executable.path),f.record(executable.path,[1,1,1,0,0]));
+    expect(account(lcov,f.inventory,f.root,undefined,below).crates.find(x=>x.crate==="arc-platform")).toMatchObject({covered:3,total:5,pass:false});
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+test("absent native declarations require matching bytes and a complete corroborated report",()=>{
+  const f=declarationFixture("pub struct Decl { value: u64 }\n");
+  try {
+    expect(()=>account(f.lcov,f.inventory,f.root)).toThrow("MISSING_FILE");
+    f.file.sha256="0".repeat(64);
+    expect(()=>account(f.lcov,f.inventory,f.root,undefined,f.llvm)).toThrow("MISSING_FILE");
+    unlinkSync(resolve(f.root,f.file.path));
+    expect(()=>account(f.lcov,f.inventory,f.root,undefined,f.llvm)).toThrow("MISSING_FILE");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+test("missing executable bodies, initializers and expansion hooks remain hard failures",()=>{
+  const f=declarationFixture("pub struct Decl;\n");
+  try {
+    for(const source of [
+      "fn missing() {}", "impl Decl { fn missing() {} }", "pub trait T { fn defaulted() {} }",
+      "const VALUE: u64 = 1;", "static VALUE: u64 = 1;", "generated!();", "include!(\"body.rs\");",
+      "macro_rules! hidden { () => {} }", "#[derive(Custom)] pub struct Decl;",
+      "#[custom] pub struct Decl;", "#[cfg_attr(any(), custom)] pub struct Decl;",
+      "pub enum E { A = dangerous() }", "mod inline { fn missing() {} }",
+      "pub struct Decl { field: [u8; { dangerous() }] }",
+      "pub trait T { #[custom] fn signature(); }",
+    ]) {
+      writeFileSync(resolve(f.root,f.file.path),source);f.file.sha256=hash(source);f.file.lines=source.split("\n").length;
+      expect(()=>account(f.lcov,f.inventory,f.root,undefined,f.llvm)).toThrow("MISSING_FILE");
+    }
   } finally {rmSync(f.root,{recursive:true,force:true});}
 });

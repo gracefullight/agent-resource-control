@@ -1,4 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
+import type { MeterSnapshot } from "@/bridge/meter.types";
+import { isMeterSnapshot } from "@/bridge/meter-contract";
 import type {
   CreditLink,
   DaemonHealth,
@@ -57,6 +59,7 @@ const CREDIT_LINKS = ["github", "linkedin", "oma"] as const;
 
 export type DesktopCommand =
   | "daemon_health"
+  | "meter_snapshot"
   | "recent_jobs"
   | "job_by_id"
   | "desktop_metadata"
@@ -389,6 +392,10 @@ export function createDesktopClient(
     }
   }
   return {
+    meterSnapshot: () =>
+      read("meter_snapshot", (value): value is Received<MeterSnapshot> =>
+        isReceived(value, isMeterSnapshot),
+      ),
     daemonHealth: () =>
       read("daemon_health", (value): value is Received<DaemonHealth> =>
         isReceived(value, isDaemonHealth),

@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, realpathSync, existsSync, lstatSync } from "node:fs";
 import { resolve, relative, dirname, basename, join } from "node:path";
 import { createHash } from "node:crypto";
-import { CRATES, HISTORICAL_CRATES, CRATE_ROOTS, testPath, type CrateName } from "./config";
+import { CRATES, HISTORICAL_CRATES, CRATE_ROOTS, METER_INPUTS, testPath, type CrateName } from "./config";
 
 export const hash = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
 export function walk(root: string, excluded: readonly string[] = []): string[] {
@@ -171,7 +171,7 @@ export function inventoryForCrates(root: string, crates: readonly CrateName[]): 
     return {path,crate:owners.get(file)!,sha256:hash(text),lines:text.split("\n").length,omitted:[...info.omitted],spans:info.spans,testOnly:!production.has(realpathSync(file))};
   }).sort((a,b)=>a.path.localeCompare(b.path));
 }
-// The immutable pre-Traffic baselines did not contain the current seventh crate.
+// Immutable pre-Traffic baselines retain their original six-crate inventory.
 export const sourceInventory = (root: string) => inventoryForCrates(root, CRATES);
 export const historicalSourceInventory = (root: string) => inventoryForCrates(root, HISTORICAL_CRATES);
 export function inputIdentity(root:string) {
@@ -179,6 +179,7 @@ export function inputIdentity(root:string) {
   const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json","bun.lock","bunfig.toml","biome.json",
     ".arc-verify/rust-coverage/contract/accounting.json",
     ".arc-verify/desktop-foundation/contract.md",
+    ...METER_INPUTS,
     "apps/desktop/package.json","apps/desktop/tsconfig.json","apps/desktop/tsconfig.test.json","apps/desktop/vite.config.ts",
     "apps/desktop/index.html","apps/desktop/src-tauri/build.rs","apps/desktop/src-tauri/tauri.conf.json",
     ...CRATES.map(crate=>CRATE_ROOTS[crate].manifest),

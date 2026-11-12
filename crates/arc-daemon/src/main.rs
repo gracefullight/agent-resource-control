@@ -10,6 +10,7 @@ mod db_worker;
 mod instance;
 mod lifecycle;
 mod limits;
+mod meter;
 mod platform;
 mod runtime_metrics;
 mod runtime_report;

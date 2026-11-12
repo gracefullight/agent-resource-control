@@ -19,3 +19,9 @@ tauri-plugin-opener = "=2.7.3"
 [dev-dependencies]
 libc.workspace = true
 tauri = { version = "=2.12.5", features = ["test"] }
+
+# Opt-in native observation harness. It runs the production Wry application and
+# existing hide lifecycle, without automation, a browser driver or screenshots.
+[[example]]
+name = "host-meter-desktop"
+path = "tests/fixtures/host_meter_desktop.rs"

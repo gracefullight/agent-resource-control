@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "daemon_instance": {
+    "pid": 42,
+    "start_token": "123456",
+    "boot_id": "01234567-89ab-cdef-0123-456789abcdef"
+  },
+  "sequence": 1,
+  "sampled_at_ms": 1700000000000,
+  "sampled_monotonic_ms": 0,
+  "age_ms": 0,
+  "cadence": { "mode": "idle", "interval_ms": 15000, "stale_after_ms": 31000 },
+  "host": {
+    "cpu_utilization": {
+      "unit": "percent", "provenance": "derived",
+      "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+      "reading": { "availability": "first_interval" }
+    },
+    "cpu_interval": null,
+    "memory_available_bytes": {
+      "unit": "bytes", "provenance": "native",
+      "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+      "reading": { "availability": "available", "value": 0 }
+    },
+    "memory_pressure": {
+      "unit": "level", "provenance": "native",
+      "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+      "reading": { "availability": "unsupported" }
+    },
+    "swap_used_bytes": {
+      "unit": "bytes", "provenance": "native",
+      "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+      "reading": { "availability": "denied" }
+    },
+    "filesystem": {
+      "identity": null,
+      "capacity_bytes": {
+        "unit": "bytes", "provenance": "native",
+        "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+        "reading": { "availability": "failed", "diagnostic": "statfs_failed" }
+      },
+      "free_bytes": {
+        "unit": "bytes", "provenance": "native",
+        "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+        "reading": { "availability": "failed", "diagnostic": "statfs_failed" }
+      },
+      "available_bytes": {
+        "unit": "bytes", "provenance": "native",
+        "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+        "reading": { "availability": "failed", "diagnostic": "statfs_failed" }
+      },
+      "pressure": {
+        "unit": "level", "provenance": "derived",
+        "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+        "reading": { "availability": "failed", "diagnostic": "statfs_failed" }
+      }
+    }
+  },
+  "daemon": {
+    "cpu_accounting": "process_lifetime",
+    "peak_observation_started_at_ms": 1700000000000,
+    "peak_observation_started_monotonic_ms": 0,
+    "cpu_core_seconds": {
+      "unit": "core_seconds", "provenance": "native",
+      "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+      "reading": { "availability": "available", "value": 0.0 }
+    },
+    "rss_bytes": {
+      "unit": "bytes", "provenance": "native",
+      "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+      "reading": { "availability": "available", "value": 1024 }
+    },
+    "observed_peak_rss_bytes": {
+      "unit": "bytes", "provenance": "derived",
+      "observed_at_ms": 1700000000000, "observed_monotonic_ms": 0,
+      "reading": { "availability": "available", "value": 1024 }
+    }
+  }
+}

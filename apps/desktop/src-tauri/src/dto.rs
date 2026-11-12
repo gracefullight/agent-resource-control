@@ -1,4 +1,5 @@
-//! Presentation-only DTOs: no command text, paths, identities or inferred totals.
+//! Job projection omits command data; Meter reuses the bounded core schema.
+pub use arc_core::meter::MeterSnapshot;
 use arc_ipc::jobs::{
     IdentityObservation, JobId, JobSnapshot, JobSummary, LifecycleReason, Outcome, Phase,
 };

@@ -13,6 +13,7 @@ import type {
 import type { RefreshClock } from "@/dashboard/desktop-refresh-controller";
 import type { DesktopVisibility } from "@/shell/desktop-visibility";
 import fixtures from "./bridge.json";
+import { meterReply, sharedMeterSnapshot } from "./meter-fixture";
 
 // One shared DOM is installed before ReactDOM/Base UI load. Tests use queries
 // scoped to their actual render root, never a stale global screen singleton.
@@ -138,6 +139,7 @@ export class NativeFixture {
   recent: unknown = clone(golden.recent);
   health: unknown = clone(golden.health);
   metadata: unknown = clone(golden.metadata);
+  meter: unknown = meterReply(sharedMeterSnapshot());
   jobs = new Map<string, unknown>([
     [A, clone(golden.exit_zero)],
     [B, clone(golden.exit_seventeen)],
@@ -157,6 +159,7 @@ export class NativeFixture {
     const daemonRead =
       command === "daemon_health" ||
       command === "recent_jobs" ||
+      command === "meter_snapshot" ||
       command === "job_by_id";
     if (daemonRead)
       this.maxInFlight = Math.max(this.maxInFlight, ++this.inFlight);
@@ -172,6 +175,8 @@ export class NativeFixture {
           return clone(this.health);
         case "recent_jobs":
           return clone(this.recent);
+        case "meter_snapshot":
+          return clone(this.meter);
         case "job_by_id":
           return clone(
             this.jobs.get(args && "job_id" in args ? args.job_id : "") ??

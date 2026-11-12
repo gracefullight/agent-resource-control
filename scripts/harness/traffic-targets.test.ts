@@ -52,7 +52,7 @@ test("fixture target report rejects stale policy, missing data and tampered raw 
   mkdirSync(resolve(dir, "target/traffic/targets"), { recursive: true });
   const path = "target/traffic/targets/api.log", bytes = Buffer.from("normal\n");
   writeFileSync(resolve(dir, path), bytes);
-  const target = { id: "api", kind: "docker", targetHash: "a".repeat(64), identity: "b".repeat(64), healthy: true, restarts: 0,
+  const target = { id: "api", kind: "docker" as const, targetHash: "a".repeat(64), identity: "b".repeat(64), healthy: true as const, restarts: 0,
     recentErrors: 0, log: { path, sha256: hash(bytes) } };
   const live = { inventoryVerified: true, allQualified: true, missionId: "mission", sourceHash: "c".repeat(64),
     configSha256: "f".repeat(64), policySha256: "d".repeat(64), observedAt: new Date().toISOString(), targets: [target] };

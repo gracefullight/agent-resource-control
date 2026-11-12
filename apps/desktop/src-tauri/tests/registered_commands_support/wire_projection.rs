@@ -1,4 +1,66 @@
 #[test]
+fn registered_meter_preserves_partial_failures_and_working_legacy_reads() {
+    // Synthetic per-field failure projection; not native calibration evidence.
+    let peer = Peer::new(3, |stream, request| {
+        let value = match request.operation.as_str() {
+            arc_ipc::meter::OPERATION_METER_SNAPSHOT => {
+                assert!(request.payload.is_null());
+                let mut meter: Value = serde_json::from_str(include_str!(
+                    "../../../../../crates/arc-core/tests/fixtures/meter-snapshot.json"
+                ))
+                .unwrap();
+                meter["host"]["memory_available_bytes"]["reading"] =
+                    json!({"availability":"denied"});
+                meter["host"]["swap_used_bytes"]["reading"] =
+                    json!({"availability":"failed","diagnostic":"injected_native_failure"});
+                meter["host"]["filesystem"]["identity"] = json!({"path":"/","mount_point":"/","filesystem_type":"apfs","volume_id":"synthetic-volume","is_local":true});
+                for (name, value) in [
+                    ("capacity_bytes", 512_000),
+                    ("free_bytes", 256_000),
+                    ("available_bytes", 128_000),
+                ] {
+                    meter["host"]["filesystem"][name]["reading"] =
+                        json!({"availability":"available","value":value});
+                }
+                meter["host"]["filesystem"]["pressure"]["reading"] =
+                    json!({"availability":"available","value":"normal"});
+                meter
+            }
+            arc_ipc::OPERATION_HEALTH => health(),
+            OPERATION_JOB_STATUS => recent(),
+            _ => panic!("unexpected registered operation"),
+        };
+        arc_ipc::write_response(stream, &Response::ok(request.request_id, value)).unwrap();
+    });
+    let app = App::new(peer.bridge());
+    let reply = app.invoke("meter_snapshot", json!({})).unwrap();
+    assert_eq!(
+        reply["data"]["host"]["memory_available_bytes"]["reading"],
+        json!({"availability":"denied"})
+    );
+    assert_eq!(
+        reply["data"]["host"]["swap_used_bytes"]["reading"]["availability"],
+        "failed"
+    );
+    assert!(
+        reply["data"]["host"]["filesystem"]["free_bytes"]["reading"]["value"]
+            .as_u64()
+            .is_some()
+    );
+    assert!(reply["data"]["daemon"]["rss_bytes"]["reading"]["value"]
+        .as_u64()
+        .is_some());
+    assert_eq!(
+        app.invoke("daemon_health", json!({})).unwrap()["data"]["protocol_version"],
+        1
+    );
+    assert_eq!(
+        app.invoke("recent_jobs", json!({})).unwrap()["data"]["jobs"][0]["job_id"],
+        JOB
+    );
+}
+
+#[test]
 fn registered_reads_have_exact_types_and_privacy_projection() {
     let mut cases = serde_json::Map::new();
     let peer = Peer::new(1, |stream, request| {

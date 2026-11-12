@@ -5,10 +5,15 @@ import type {
   DesktopError,
   JobDetail,
   JobId,
-  Outcome,
   Received,
   RecentJobs,
 } from "@/bridge/types";
+
+import { consistentDetail } from "@/dashboard/job-detail-consistency";
+import {
+  MeterReadState,
+  type MeterSection,
+} from "@/dashboard/meter-read-state";
 
 type CancelTimer = () => void;
 export interface RefreshClock {
@@ -43,6 +48,7 @@ export interface DashboardSnapshot {
   active: boolean;
   refreshing: boolean;
   health: RecordedSection<DaemonHealth>;
+  meter: MeterSection;
   recent: RecordedSection<RecentJobs>;
   selectedId: JobId | null;
   detail: SelectedDetail;
@@ -64,69 +70,18 @@ const invalidReply = (): DesktopError => ({
   retryable: false,
 });
 
-function sameOutcome(previous: Outcome | null, next: Outcome | null): boolean {
-  if (previous === null || next === null) return previous === next;
-  if (previous.kind === "EXITED" && next.kind === "EXITED")
-    return previous.code === next.code;
-  if (previous.kind === "SIGNALED" && next.kind === "SIGNALED")
-    return (
-      previous.signal === next.signal &&
-      previous.core_dumped === next.core_dumped
-    );
-  return (
-    previous.kind === "SPAWN_FAILED" &&
-    next.kind === "SPAWN_FAILED" &&
-    previous.reason === next.reason &&
-    previous.os_code === next.os_code
-  );
-}
-
-function consistentDetail(previous: JobDetail, next: JobDetail): boolean {
-  if (
-    previous.job_id !== next.job_id ||
-    next.revision < previous.revision ||
-    next.registered_at_ms !== previous.registered_at_ms ||
-    next.updated_at_ms < previous.updated_at_ms ||
-    next.observation.observed_at_ms < previous.observation.observed_at_ms
-  )
-    return false;
-  for (const key of ["launch_claimed_at_ms", "completed_at_ms"] as const) {
-    const before = previous[key];
-    const after = next[key];
-    if (before !== null && (after === null || after < before)) return false;
-  }
-  // A recorded terminal outcome cannot disappear after another successful read.
-  if (
-    previous.outcome !== null &&
-    (next.phase !== previous.phase ||
-      !sameOutcome(previous.outcome, next.outcome))
-  )
-    return false;
-  return (
-    next.revision !== previous.revision ||
-    (next.phase === previous.phase &&
-      next.reason === previous.reason &&
-      next.updated_at_ms === previous.updated_at_ms &&
-      next.launch_claimed_at_ms === previous.launch_claimed_at_ms &&
-      next.completed_at_ms === previous.completed_at_ms &&
-      next.observation.target === previous.observation.target &&
-      next.observation.status === previous.observation.status &&
-      next.observation.reason === previous.observation.reason &&
-      next.observation.observed_at_ms === previous.observation.observed_at_ms &&
-      sameOutcome(previous.outcome, next.outcome))
-  );
-}
-
 // A single owner serializes native calls (the Rust bridge has a bounded permit).
 // At most the latest recent page and the selected detail are retained. Native
 // calls finish under their own deadline; retiring a generation discards replies
 // without queueing or pretending that an in-flight socket read was cancelled.
 export class DesktopRefreshController {
+  private readonly meter = new MeterReadState();
   private snapshot: DashboardSnapshot = {
     connection: "loading",
     active: false,
     refreshing: false,
     health: emptySection<DaemonHealth>(),
+    meter: this.meter.section,
     recent: emptySection<RecentJobs>(),
     selectedId: null,
     detail: emptyDetail(),
@@ -162,6 +117,7 @@ export class DesktopRefreshController {
     if (this.snapshot.active) return;
     this.generation++;
     this.automatic = true;
+    this.meter.reprobe();
     this.refreshRequested = true;
     this.publish({ active: true });
     this.expire();
@@ -175,9 +131,11 @@ export class DesktopRefreshController {
     this.refreshRequested = false;
     this.detailRequested = false;
     this.cancelTimers();
+    this.meter.retire();
     this.publish({
       active: false,
       refreshing: false,
+      meter: this.meter.section,
       health: { ...this.snapshot.health, loading: false },
       recent: { ...this.snapshot.recent, loading: false },
       detail: { ...this.snapshot.detail, loading: false },
@@ -185,6 +143,11 @@ export class DesktopRefreshController {
   };
 
   refresh = (): void => {
+    this.meter.reprobe();
+    this.requestRefresh();
+  };
+
+  private requestRefresh = (): void => {
     if (!this.snapshot.active || this.refreshRequested || this.cycleActive)
       return;
     this.cancelRefresh?.();
@@ -275,9 +238,11 @@ export class DesktopRefreshController {
       if (!this.current(generation, epoch)) return;
       const failure = normalizeDesktopError(error);
       this.connectionEpoch++;
+      this.meter.retire();
       this.selectionGeneration++;
       this.automatic = failure.retryable && TRANSIENT_CODES.has(failure.code);
       this.publish({
+        meter: this.meter.section,
         connection:
           failure.code === "unavailable" || failure.code === "uncertain"
             ? "disconnected"
@@ -341,6 +306,32 @@ export class DesktopRefreshController {
     if (!this.current(generation, epoch)) return;
     this.detailRequested = false;
     await this.lookup(generation, epoch);
+    if (this.current(generation, epoch))
+      await this.readMeter(generation, epoch);
+  }
+
+  private async readMeter(generation: number, epoch: number): Promise<void> {
+    if (!this.meter.canRead) return;
+    const selection = this.selectionGeneration;
+    this.meter.begin();
+    this.publish({ meter: this.meter.section });
+    try {
+      const reply = await this.client.meterSnapshot();
+      if (!this.current(generation, epoch)) return;
+      if (selection !== this.selectionGeneration) {
+        this.meter.finishRetiredRead();
+      } else this.meter.accept(reply, this.clock.now());
+    } catch (error) {
+      if (!this.current(generation, epoch)) return;
+      if (selection !== this.selectionGeneration)
+        this.meter.finishRetiredRead();
+      else this.meter.fail(normalizeDesktopError(error));
+      // Meter capability/read failures never disable health or job refresh.
+    }
+    if (this.current(generation, epoch)) {
+      this.publish({ meter: this.meter.section });
+      this.expire();
+    }
   }
 
   private async lookup(generation: number, epoch: number): Promise<void> {
@@ -433,8 +424,14 @@ export class DesktopRefreshController {
         ? (RECONNECT_DELAYS_MS[
             Math.min(this.reconnectAttempt++, RECONNECT_DELAYS_MS.length - 1)
           ] ?? 30_000)
-        : REFRESH_INTERVAL_MS;
-      this.cancelRefresh = this.clock.schedule(this.refresh, delay);
+        : Math.min(
+            REFRESH_INTERVAL_MS,
+            this.snapshot.meter.error
+              ? REFRESH_INTERVAL_MS
+              : (this.snapshot.meter.value?.data.cadence.interval_ms ??
+                  REFRESH_INTERVAL_MS),
+          );
+      this.cancelRefresh = this.clock.schedule(this.requestRefresh, delay);
     }
     this.expire();
   }
@@ -453,7 +450,7 @@ export class DesktopRefreshController {
       const section = this.snapshot[key];
       if (at === null || !section.value || section.stale) continue;
       const age = now - at;
-      if (age >= STALE_AFTER_MS) {
+      if (!Number.isFinite(age) || age < 0 || age >= STALE_AFTER_MS) {
         if (key === "detail")
           patch.detail = { ...this.snapshot.detail, stale: true };
         else if (key === "health")
@@ -461,6 +458,9 @@ export class DesktopRefreshController {
         else patch.recent = { ...this.snapshot.recent, stale: true };
       } else remaining.push(STALE_AFTER_MS - age);
     }
+    const meterDelay = this.meter.expire(now);
+    patch.meter = this.meter.section;
+    if (meterDelay !== null) remaining.push(meterDelay);
     if (Object.keys(patch).length) this.publish(patch);
     if (this.snapshot.active && remaining.length)
       this.cancelStale = this.clock.schedule(

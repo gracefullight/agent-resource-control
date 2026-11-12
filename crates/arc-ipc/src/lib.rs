@@ -7,6 +7,7 @@
 #[cfg(unix)]
 pub mod client;
 pub mod jobs;
+pub mod meter;
 mod schema;
 pub mod traffic;
 pub use schema::{

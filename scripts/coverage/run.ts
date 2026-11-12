@@ -1,20 +1,24 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { resolve, relative, join, dirname } from "node:path";
-import { BASELINE, PINS, EVIDENCE, CRATES, CRATE_ROOTS } from "./config";
+import { BASELINE, PINS, CRATES, CRATE_ROOTS, METER_INPUTS, METER_SRS_SHA256 } from "./config";
 import { hash, sourceInventory, inputIdentity, walk } from "./source";
 import { requireExit, requireVersion, validateReport, enforce, requireWorkspace } from "./gate";
 import { command, type Receipt } from "./commands";
+import { referenceFile } from "./evidence";
+import { coverageLayout } from "./output-layout";
+import type { CoverageReuse } from "./coverage-receipts";
 
 const root=resolve(import.meta.dir,"../..");
 const id=`${new Date().toISOString().replace(/[:.]/g,"-")}-${crypto.randomUUID()}`;
-const dir=resolve(root,EVIDENCE,"baseline/runs",id);
+const layout=coverageLayout(root,id,process.env.ARC_COVERAGE_OUTPUT_ROOT);
+const dir=layout.directory;
 mkdirSync(dir,{recursive:true});
 const save=(name:string,value:unknown)=>writeFileSync(resolve(dir,name),JSON.stringify(value,null,2)+"\n");
 const receipts:Receipt[]=[];
 const env={...process.env,RUSTUP_TOOLCHAIN:PINS.rust,CARGO_NET_OFFLINE:"true",CARGO_TERM_COLOR:"never"};
 const rust=["rustup","run",PINS.rust];
 async function run(argv:string[],label:string,extra:Record<string,string>={},expected=0,timeout=7200000) {
-  const receipt=await command(argv,dir,root,{...env,...extra},timeout); receipts.push(receipt);
+  const receipt=await command(argv,dir,root,{...env,...extra},timeout,layout.nativeDirectory); receipts.push(receipt);
   if(receipt.exit!==expected) throw Error(`${label}: exited ${receipt.exit}; ${receipt.stderr.trim()}`);
   return receipt;
 }
@@ -24,6 +28,7 @@ let measured=false;
 try {
   console.log("Coverage: checking pinned tools (setup: mise run coverage:provision)");
   input=inputIdentity(root); inventory=sourceInventory(root);
+  if(input.files[METER_INPUTS[0]]!==METER_SRS_SHA256) throw Error("INPUT_IDENTITY: authoritative SRS hash mismatch");
   save("inputs.json",input);save("source-inventory.json",inventory);save("source-roots.json",CRATE_ROOTS);
   requireVersion(Bun.version,PINS.bun,"Bun");
   const rustc=await run([...rust,"rustc","-Vv"],"MISSING_TOOL rustc");
@@ -62,7 +67,7 @@ try {
   const ignore=ignoredRoots.map(p=>`^${escape(p)}(/|$)`).join("|");
   save("non-workspace-roots.json",ignoredRoots);
   // A new run owns its target and profiles; no prior artifact can satisfy it.
-  const target=resolve(root,"target/arc-coverage",id);mkdirSync(target,{recursive:true});
+  const target=layout.target;mkdirSync(target,{recursive:true});
   const coverageEnv={CARGO_LLVM_COV_TARGET_DIR:target,LLVM_PROFILE_FILE_NAME:"arc-%p-%m.profraw",CARGO_LLVM_COV_DENY_WARNINGS:"1",LLVM_COV:join(llvm,"llvm-cov"),LLVM_PROFDATA:join(llvm,"llvm-profdata")};
   console.log("Coverage: running workspace unit, integration and child-binary tests");
   await run([...rust,"cargo","llvm-cov","--workspace","--all-targets","--locked","--offline","--no-report","--no-cfg-coverage","--no-cfg-coverage-nightly"],"TEST_FAILURE",coverageEnv,0,7200000);
@@ -104,11 +109,18 @@ try {
   console.log(`Coverage reports: ${relative(root,dir)}`);
   enforce(result);
   save("receipt.json",{schemaVersion:1,runId:id,pass:true,exit:0,acceptedBaseline:BASELINE,sourceHash:input.sha256,receipts});
-  writeFileSync(resolve(root,EVIDENCE,"baseline/latest.json"),JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input.sha256,pass:true})+"\n");
+  const ref=(name:string)=>referenceFile(root,relative(root,join(dir,name)));
+  const reuse:CoverageReuse={schemaVersion:1,runId:id,sourceHash:input.sha256,acceptedBaseline:BASELINE,
+    frozenInputs:Object.fromEntries(METER_INPUTS.map(path=>[path,input!.files[path]])),metadata:ref("metadata.json"),
+    evidence:{receipt:ref("receipt.json"),summary:ref("summary.json"),profiles:ref("profiles.json"),
+      rawReports:{lcov:ref("raw.lcov"),llvmJson:ref("raw.json")}}};
+  save("reuse.json",reuse);
+  console.log(`Coverage reuse receipt: ${relative(root,join(dir,"reuse.json"))}`);
+  writeFileSync(layout.latest,JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input.sha256,pass:true,reuse:relative(root,join(dir,"reuse.json"))})+"\n");
 } catch(error) {
   const message=String(error);
   save("receipt.json",{schemaVersion:1,runId:id,pass:false,exit:1,error:message,acceptedBaseline:BASELINE,sourceHash:input?.sha256,receipts});
-  writeFileSync(resolve(root,EVIDENCE,"baseline/latest.json"),JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input?.sha256,pass:false})+"\n");
+  writeFileSync(layout.latest,JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input?.sha256,pass:false})+"\n");
   console.error(`Coverage unavailable or failed: ${message}\nEvidence: ${relative(root,dir)}`);
   if(!measured) for(const crate of CRATES) console.error(`UNAVAILABLE ${crate}: no valid current measurement`);
   process.exitCode=1;

@@ -306,9 +306,11 @@ async fn cancelled_gate_drops_release_receiver_before_late_send() {
         Err(sync_mpsc::TrySendError::Disconnected(())) => (),
         result => panic!("expected a disconnected release after cancellation, got {result:?}"),
     }
+    // The reply precedes active-hook teardown on the worker thread. Wait for
+    // disconnection, still rejecting any unexpected SQL progress notification.
     assert!(matches!(
-        observed.try_recv(),
-        Err(sync_mpsc::TryRecvError::Disconnected)
+        observed.recv_timeout(Duration::from_secs(1)),
+        Err(sync_mpsc::RecvTimeoutError::Disconnected)
     ));
     assert_eq!(recover(&worker.client()).await.integrity_check, "ok");
     stop(&mut worker, &database).await;

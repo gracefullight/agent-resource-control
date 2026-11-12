@@ -2,8 +2,10 @@ import { realpathSync, readFileSync } from "node:fs";
 import { resolve, relative } from "node:path";
 import { CRATES, CRATE_ROOTS, testPath } from "./config";
 import type { SourceFile } from "./source";
+import { hash } from "./source";
+import { declarationOnly } from "./declaration-only";
 
-export type FileCoverage = { path:string; crate:string; covered:number; total:number; uncovered:number[]; mapped:number[]; omitted:number[] };
+export type FileCoverage = { path:string; crate:string; covered:number; total:number; uncovered:number[]; mapped:number[]; omitted:number[]; declarationOnly?:true };
 // Pinned LLVM 22.1.2: CoverageMapping.cpp LineCoverageStats/Iterator and
 // CoverageReport.cpp prepareSingleFileReport use different line aggregations.
 // https://github.com/llvm/llvm-project/tree/llvmorg-22.1.2/llvm/tools/llvm-cov
@@ -114,12 +116,22 @@ export function account(lcov:string, inventory:SourceFile[], root:string, canoni
   const files:FileCoverage[]=[];
   for(const file of inventory) {
     if(file.testOnly) continue;
-    const map=lines.get(file.path);
-    if(!map) throw Error(`MISSING_FILE: ${file.path}`);
+    let map=lines.get(file.path);
+    const unmapped=map===undefined;
+    if(map===undefined) {
+      let declarations=false;
+      try {
+        const source=readFileSync(resolve(root,file.path),"utf8");
+        declarations=corroborated!==undefined && hash(source)===file.sha256 &&
+          source.split("\n").length===file.lines && declarationOnly(source);
+      } catch {}
+      if(!declarations) throw Error(`MISSING_FILE: ${file.path}`);
+      map=new Map();
+    }
     const omitted=new Set(file.omitted);
     const mapped=[...map.keys()].filter(n=>!omitted.has(n)).sort((a,b)=>a-b);
     const uncovered=mapped.filter(n=>map.get(n)===0);
-    files.push({path:file.path,crate:file.crate,total:mapped.length,covered:mapped.length-uncovered.length,uncovered,mapped,omitted:file.omitted});
+    files.push({path:file.path,crate:file.crate,total:mapped.length,covered:mapped.length-uncovered.length,uncovered,mapped,omitted:file.omitted,...(unmapped?{declarationOnly:true as const}:{})});
   }
   const crates=CRATES.map(crate=>{
     const own=files.filter(f=>f.crate===crate);

@@ -18,6 +18,11 @@ mod instance;
 mod lifecycle;
 #[path = "../src/limits.rs"]
 mod limits;
+#[path = "../src/meter.rs"]
+mod meter;
+#[cfg(target_os = "macos")]
+#[path = "support/meter_partial.rs"]
+mod meter_partial;
 #[path = "../src/platform.rs"]
 mod platform;
 #[path = "support/runtime.rs"]
@@ -82,7 +87,7 @@ fn controlled_daemon_child() {
                 rusqlite::hooks::Authorization::Allow
             })).unwrap();
             db_worker::DbWorker::start(database, config, Arc::clone(&metrics)).unwrap()
-        } else if mode == "deadlines" {
+        } else if mode == "deadlines" || mode == "meter-partial" {
             db_worker::DbWorker::start(database, config, Arc::clone(&metrics)).unwrap()
         } else {
             db_worker::start_with_test_hooks(database, config, Arc::clone(&metrics), db_worker::WorkerTestHooks {started,release:receiver}).unwrap()
@@ -90,6 +95,7 @@ fn controlled_daemon_child() {
         let serving = lifecycle::supervise(socket.clone(), limits, Arc::clone(&metrics), worker);
         tokio::pin!(serving);
         let observe = async {
+            if mode == "meter-partial" { std::future::pending::<()>().await; }
             if mode == "deadlines" {
                 for (gauge, count, marker) in [(Gauge::Requests,4,"requests-full"),(Gauge::Connections,8,"connections-full"),(Gauge::Connections,0,"deadline-released")] {
                     metrics.wait_for(|s|s.gauge(gauge).current==count).await;

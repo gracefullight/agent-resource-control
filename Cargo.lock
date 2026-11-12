@@ -115,6 +115,7 @@ version = "0.1.0"
 dependencies = [
  "libc",
  "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -123,6 +124,8 @@ version = "0.1.0"
 dependencies = [
  "arc-core",
  "arc-ipc",
+ "arc-meter",
+ "arc-platform",
  "arc-storage",
  "arc-traffic",
  "libc",
@@ -164,6 +167,23 @@ dependencies = [
  "libc",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "arc-meter"
+version = "0.1.0"
+dependencies = [
+ "arc-core",
+ "arc-platform",
+ "tokio",
+]
+
+[[package]]
+name = "arc-platform"
+version = "0.1.0"
+dependencies = [
+ "arc-core",
+ "libc",
 ]
 
 [[package]]

@@ -149,9 +149,16 @@ fn exchange_with<S: TrackedStream>(
                             operation,
                             crate::traffic::OPERATION_TRAFFIC_CAPABILITIES
                                 | crate::traffic::OPERATION_BUN_CAPABILITIES
+                                | crate::meter::OPERATION_METER_SNAPSHOT
                         ) && e.code == crate::ERROR_UNSUPPORTED_CAPABILITY =>
                     {
                         return Err(Failure::Unsupported)
+                    }
+                    (crate::STATUS_ERROR, None, Some(e))
+                        if operation == crate::meter::OPERATION_METER_SNAPSHOT
+                            && e.code == crate::meter::ERROR_METER_UNAVAILABLE =>
+                    {
+                        return Err(Failure::Unavailable)
                     }
                     (crate::STATUS_ERROR, None, Some(e))
                         if operation == crate::traffic::OPERATION_BUN_JOB
@@ -390,5 +397,7 @@ use test_calls::{call_until, call_until_no_busy_retry, call_until_tracked, call_
 mod access_tests;
 #[cfg(test)]
 mod live_tests;
+#[cfg(test)]
+mod meter_tests;
 #[cfg(test)]
 mod repair_tests;

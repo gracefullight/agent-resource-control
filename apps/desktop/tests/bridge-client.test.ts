@@ -10,6 +10,7 @@ import type {
   JobDetail,
   Received,
 } from "../src/bridge/types";
+import { meterReply } from "./fixtures/meter-fixture";
 
 const JOB_A = "0000000000000000000000000000000a";
 const JOB_B = "0000000000000000000000000000000b";
@@ -32,6 +33,30 @@ const detail: JobDetail = {
 };
 
 describe("fixed desktop invoke boundary", () => {
+  test("Meter is a fixed argument-free read and preserves scoped unsupported/unavailable errors", async () => {
+    const calls: unknown[] = [];
+    const reply = meterReply();
+    const client = createDesktopClient(async (command, args) => {
+      calls.push([command, args]);
+      return reply;
+    });
+    expect(await client.meterSnapshot()).toEqual(reply);
+    expect(calls).toEqual([["meter_snapshot", undefined]]);
+    for (const error of [
+      { code: "unsupported", retryable: false },
+      { code: "unavailable", retryable: true },
+    ] as const)
+      await expect(
+        createDesktopClient(async () => {
+          throw error;
+        }).meterSnapshot(),
+      ).rejects.toEqual(error);
+    await expect(
+      createDesktopClient(async () => {
+        throw "raw-private-diagnostic";
+      }).meterSnapshot(),
+    ).rejects.toEqual({ code: "local", retryable: false });
+  });
   test("uses the fixed health command and preserves a separate receipt time", async () => {
     const calls: unknown[] = [];
     const reply = {

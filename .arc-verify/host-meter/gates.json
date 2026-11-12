@@ -1,0 +1,1536 @@
+{
+  "schemaVersion": 1,
+  "task": "task-10",
+  "actor": "backend-gates",
+  "profile": "backend-engineer",
+  "skills": [
+    "oma-backend",
+    "oma-frontend"
+  ],
+  "recordedAt": "2026-11-12T01:06:07.837Z",
+  "status": "backend_gates_completed; independent read-only QA and Chief final reconciliation pending",
+  "inputs": {
+    "sha256": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+    "files": {
+      ".arc-verify/desktop-foundation/contract.md": "87dd67003e1eba84a0d0e1744c681665f9046246cc93868eb97b046cfdcbe962",
+      ".arc-verify/host-meter/contract.md": "15d9b9a0ed9d4879567f6f7db5d2d3ebba58f4272e42963d3294a4574f83634d",
+      ".arc-verify/rust-coverage/contract/accounting.json": "fc04b7dbbf4e4e6ed4e33659d208e893f6e4ddf300ccf4c2a07050890507271c",
+      ".arc-verify/rust-coverage/contract/accounting.md": "c4d290c4421681f9842759d48e56574b0c64e45113c83d9d2b30fd0f683d1c88",
+      ".arc-verify/rust-coverage/contract/preservation-references.json": "44f9ba7a4ca68c66dfb9c230b5d4d6f5ca7948536e5e52976d6c932f34bdecce",
+      ".arc-verify/rust-coverage/contract/source-inventory.json": "33c2cf5c99db7c5fa4ca9f9bf5488101a1af2d0f0fa99f3001388e43380b16aa",
+      "Cargo.lock": "062f575480a744f7e61f847e3d85e423ebb03b87ffd5b672911f5687c87df1cc",
+      "Cargo.toml": "1a78a8b4da9c9cc45f748794c3e742d051013c5f0e3113d7f0423aee8137eebb",
+      "apps/desktop/.gitignore": "198b7be0d959fecaa0a2edaafc6ea40104c1592998a85bff87b1776fb287c134",
+      "apps/desktop/basecn-provenance.json": "37d170d775e1de641726a1257f0fa5904959b57f94dda006da50fa590385a04f",
+      "apps/desktop/components.json": "9e80280c17c71a0a0e709ab6c06107628d18b909cdf84d8f3152ab35dc091547",
+      "apps/desktop/index.html": "94787471f2924fc81f34169a8cbb57ec72653e7a1158f4150d76357a1f0645ac",
+      "apps/desktop/package.json": "f8c412e348831b9cc2326fa310d08a5342fb07bf7bf6077f611ab60064bbb5c1",
+      "apps/desktop/scripts/generate-notices.ts": "ab102de6307e3e880a04b60288c2b4c6f5562c403f957d558786847e7a99e896",
+      "apps/desktop/src-tauri/Cargo.toml": "3f16332b8a930b0d0caad1f612bf32af47dbef67f49884dcab05898aba77c613",
+      "apps/desktop/src-tauri/assets/basecn-LICENSE.txt": "53bb3a5746994b650d05e672920f0c8d4bb82009670f9641c74678a5589c8096",
+      "apps/desktop/src-tauri/assets/open-source-notices.txt": "bc148730f7a6b9f281d61552b8119af3f42adf259cc2de1e3ac245b66b37d7ad",
+      "apps/desktop/src-tauri/build.rs": "0de825ca0cc9e7655a725fc0db0b7a4fc095f802dcd643261c684e4b196221d3",
+      "apps/desktop/src-tauri/capabilities/desktop.json": "44a74bf6168a3d2a874f22f330e65bcd82395cfaa34ead68023d6cc5b35c043a",
+      "apps/desktop/src-tauri/icons/32x32.png": "a9dd690a191442a53d1efd21b71cad6e242c5b6c4d29ddb4daa3d1bd22608114",
+      "apps/desktop/src-tauri/icons/arc.svg": "3eee8991c0d29c801094265f9c8d957d4eb5ecabd21e6c973e7dab24acaa1a22",
+      "apps/desktop/src-tauri/src/bridge.rs": "e0ea34903acb47ce58087e36c1fabda7c1889a78b666a03b3bff1fc5c8cce688",
+      "apps/desktop/src-tauri/src/commands.rs": "350bca36ae0392b8b20299f406881d6fe97ecd53126fc5f84b143985d04b575b",
+      "apps/desktop/src-tauri/src/dto.rs": "6bade5c2763356d6157b86b2f241382770510f73cba390ea324daaf5a4a462d8",
+      "apps/desktop/src-tauri/src/error.rs": "784b669d2777f1bcd8a6bf46efbdbff0dee09e69cf1596393556655773a12cc5",
+      "apps/desktop/src-tauri/src/lib.rs": "0e36eeeebadc3a25eed43b905557da2cd73c7522e2788f3928fd9ae3a63f0c8f",
+      "apps/desktop/src-tauri/src/lifecycle.rs": "578ce49c353455237cbf6fddd1ad95d21b3027105ae57d5938fe1b2ef4ef4133",
+      "apps/desktop/src-tauri/src/main.rs": "2469f33a99ca70185dcabdd095657524c64cce56bdb214486de09c960852c1f2",
+      "apps/desktop/src-tauri/src/meter_bridge_tests.rs": "4bbca35393bf4bf41d03fdc93ee1068d3d2d8ec9a442aede1d1a9a958da830f8",
+      "apps/desktop/src-tauri/tauri.conf.json": "e6780fa0d30aade6bb02812ad40cdd06e14aa7981a8cb8b493e8f00bbb247405",
+      "apps/desktop/src-tauri/tests/daemon_bridge.rs": "dcf5ac9fb6bf9c5376d77c5e62522b2419cf2fc4158410eef19b0355f8de2a73",
+      "apps/desktop/src-tauri/tests/daemon_bridge_support/client_process.rs": "a3cd145317416d672bcabdb39b4056258c27341b2cc6d5544bcaea5cd96c11e9",
+      "apps/desktop/src-tauri/tests/daemon_bridge_support/meter_native.rs": "5f6e772590770d3cd97dd32e7845b548e360357eea52f0ef464048cb248600df",
+      "apps/desktop/src-tauri/tests/daemon_bridge_support/meter_router.rs": "5b496fd4284ae46b70c6dbae14491f85c9ab777e9d4427de0861ca76259ad052",
+      "apps/desktop/src-tauri/tests/daemon_bridge_support/mod.rs": "e72ae69ee7bb909809c3eef601e93d51647daf04a213e512f80631ef3fbe5b95",
+      "apps/desktop/src-tauri/tests/fixtures/host_meter_desktop.rs": "e38c2d1500578e3cd7d5b557aaff04ae3f6716cd6914614b26228990e93f93e6",
+      "apps/desktop/src-tauri/tests/lifecycle.rs": "38bcda1ca5dc488d74bf7b8e3385d23a69604f5e97b7eb534701c1b5b62dabf1",
+      "apps/desktop/src-tauri/tests/registered_commands.rs": "1e4b69c67bc2355e8af416d42aa354a91a977dfa598aa1707916d08f29f75488",
+      "apps/desktop/src-tauri/tests/registered_commands_support/input_validation.rs": "b6c26bf208cdbe54e01c44923b56adf2dfe20603afcac13a7654bb86dbc6ca3f",
+      "apps/desktop/src-tauri/tests/registered_commands_support/local_lifecycle.rs": "00ad96e951a1f2a59f94f6e965f6bb6a6a746e2ff2409b6b7c6aec1dcc05b69d",
+      "apps/desktop/src-tauri/tests/registered_commands_support/protocol_validation.rs": "8222605de3e3f587d1bf9588e93ff244f7736a5e27e60ae07afbad80df7f622e",
+      "apps/desktop/src-tauri/tests/registered_commands_support/status_validation.rs": "9bf8d8e5e0afbf5066b82e8675de2e547e56fab895bbdc720edf5c299312fa04",
+      "apps/desktop/src-tauri/tests/registered_commands_support/wire_projection.rs": "9f0e795edea79d80bd9484be2b6c0774b6f42e5aad1737d08428c4d6fd093600",
+      "apps/desktop/src/bridge/client.ts": "ed9776d14e9b7f629bf37da9d310ce6b5eab4d6ed618f628dc61db25ac54097e",
+      "apps/desktop/src/bridge/meter-contract.ts": "3187524aee2c270066b8829fb0b64f354e195aa3841998047c72d4551ff3ac83",
+      "apps/desktop/src/bridge/meter.types.ts": "bca88b03311b10ba33a3ccc1c952962e1727bddf46c7c8d37d20435b17e4155b",
+      "apps/desktop/src/bridge/types.ts": "7dfcac89fd5c16a60a1501625560982c0da1079dc7c861d9b964670b2538e2bb",
+      "apps/desktop/src/components/recorded-time.tsx": "9c3de3b2814e732b1d5426008fe3d3ea0c3b82074c46bd010d6ed915fec421d2",
+      "apps/desktop/src/components/ui/button.tsx": "1cd4e9327b516f3beda667d17d1e71b6960d3bbfacb24d5402cfbb728262b2df",
+      "apps/desktop/src/credits/desktop-credits.tsx": "34797559a8f95a20ccf8a8b6ee1d1001a0050833e9ee52585a005c19f83e433c",
+      "apps/desktop/src/dashboard/desktop-dashboard.tsx": "7302b3c64206148803cb80f1edcd6c987be7e00b567f7e4cc3651eedc24dcd84",
+      "apps/desktop/src/dashboard/desktop-meter.tsx": "5e053902d45c1471b49fe652b7daf5791c4e70439f7bf17b65f5c85172b2a720",
+      "apps/desktop/src/dashboard/desktop-refresh-controller.ts": "d0b7b63c3efa3f721db90c6b86f158cca60ee51ed11f78aee9adb7a211677687",
+      "apps/desktop/src/dashboard/job-detail-consistency.ts": "2a198ddacb21b6b0fcfb50f63ac13a398752c57e115716e34b22fff48077f255",
+      "apps/desktop/src/dashboard/meter-read-state.ts": "b3ba387639cbc37fac70e76bc486a99c532aee5e5d4eb5c63bad584dad46bdc2",
+      "apps/desktop/src/dashboard/recent-jobs-list.tsx": "651166e78f02f71258f301eb47179c5680de45d974556f1bf353184860300a42",
+      "apps/desktop/src/dashboard/recorded-outcome.tsx": "93bb41b93319a666846eb6132071bcd870f9128777165c8598524c6246c5c30d",
+      "apps/desktop/src/dashboard/selected-job-panel.tsx": "3a7e1bff2585fd48e2cb9823e21945a45991c1b3c56d84244bd11d2a843d763e",
+      "apps/desktop/src/desktop-application.tsx": "b1d9ca4aef3144c0276a3cafaffe23b5fc434e24a1d24a0366f8d1400080f092",
+      "apps/desktop/src/desktop-messages.ts": "28efef6bf22b3dcfb65fb5ba9f147a33fb18b6e0d841475d6cb785d44058cd0e",
+      "apps/desktop/src/desktop-theme.css": "c65ac85f5f12261d99028a3f60bf981132a5144c0884653375dd396c7d3149ff",
+      "apps/desktop/src/lib/merge-classes.ts": "02a523d3492e97440de9c080a59f3aa9366ca92bb6914078a75ae8a6f3e90a7f",
+      "apps/desktop/src/main.tsx": "de7114a9fbea77ee6726ff6c63881a35ad44aff30081daf8af0569dc1b2f6aa6",
+      "apps/desktop/src/shell/desktop-visibility.ts": "d1acb497c93983b666a5b34740c6e83c0482d53670f33f23a4b747b1617e8f34",
+      "apps/desktop/tests/bridge-client.test.ts": "593896bdb12ad4d295db6397387e0b76ae490ed4af6a101c1002cb613633177c",
+      "apps/desktop/tests/contracts.test.ts": "3f32e51e7bdf145eedd72021fca68ac69266d161a40dd34a9d4e13fe76a07a04",
+      "apps/desktop/tests/credits.test.ts": "8f5643897fc1e1b6cc620ff5860e3664417f6a5a5038c487bd63bfa2b7418681",
+      "apps/desktop/tests/dashboard.test.ts": "b9cf950c511a9229d8aa6e6f7980203c6784bbe802fb125688bf09307f8a3856",
+      "apps/desktop/tests/fixtures/bridge.json": "84fbaa5dbd736bba6319a771f02e550a3e6dec39db15b394fdb70f8162bfc335",
+      "apps/desktop/tests/fixtures/desktop-test-harness.ts": "48ecb947642e453a324e1ec3980c8c4da64c5eecea77f3ff7543c75b9bd3663b",
+      "apps/desktop/tests/fixtures/meter-fixture.ts": "51f96874a5426555cf6d2c6d73ede1d554948e59473fc48960168dba1e955494",
+      "apps/desktop/tests/fixtures/meter-interaction-cases.ts": "6b01f64f1ffd5704d9bfe7dfe8566fde400beb575bfb524e7aea49a8c98fb593",
+      "apps/desktop/tests/fixtures/meter-test-harness.ts": "3ceb5f158622a3a184e950f5d7d6c3ea00fde7da7580ea9e3cbe62d884c4bf90",
+      "apps/desktop/tests/lifecycle.test.ts": "ffa11b31d38a31f9542f9e531648511575dc5c35b1f97838bd4b5fe296ab4bb0",
+      "apps/desktop/tests/meter.test.ts": "a8991eb5a399235c445f8e135fe4162ae7f7ca2e61f3118f94589ac69508d58a",
+      "apps/desktop/tsconfig.json": "74252e90ffd8437a36338cc05db7dc75e82d077e99a879b257285dd78776d98e",
+      "apps/desktop/tsconfig.test.json": "b60d046d3b847643794d8d445979b442911e5496bb6307a00d14ff3c11d60502",
+      "apps/desktop/vite.config.ts": "a9d46b498817e10452e6dfcb77efc569e7656becbd9dacfb65dd6e576b32120a",
+      "biome.json": "6ee621251ad0ade1c46a24d57cdf5361d3ae96005ada54cba8407156e8651be3",
+      "bun.lock": "cbefa79204ee4db7148cb98ba5a5ce3810254b31c526b97fee98f531899aa7ef",
+      "bunfig.toml": "12dcfe4610ff79947078dcf345a2759ed5a05656a3af1467a39476cc7432aef9",
+      "crates/arc-cli/Cargo.toml": "6f195995dbbdc42e85628ee09763cdb268d14e3d98d15579b68bb558b581cb33",
+      "crates/arc-cli/src/classify.rs": "5721f556725dca554d0e7de130c84f6831a6989eef2d39e137a65d58fcff0028",
+      "crates/arc-cli/src/doctor.rs": "0bf990c8dd1a694ee42307e9a8cb5c471994746916c5609d82a610b0e0765221",
+      "crates/arc-cli/src/exec.rs": "ab2bf3ed6a7ba824b78bb1cf19a4c533613edc99071fd6ddb07787649b8164d6",
+      "crates/arc-cli/src/exec/descriptors.rs": "7f1d0f83f516000bfaaffab02c02f77b9b73624c75f6f3f2492ce06c3838fa24",
+      "crates/arc-cli/src/exec/lineage.rs": "906224e1b6a03c30190008509a57277ab572915effa8cf014064ab1d4f7af02c",
+      "crates/arc-cli/src/exec/preparation.rs": "5cb57ed8c9f780e50e8fb2f0206513d276075af54336c110f06bc2a1cc97dd3a",
+      "crates/arc-cli/src/exec/signals.rs": "2519cec35da6704269b75215192b567a900c7f27b417d87a538fee04cbd683af",
+      "crates/arc-cli/src/exec/signals/diagnostic_tests.rs": "64330855b9db0b8287d765bceda78c85c6f335a9b989ad82a93cfbc86de5c399",
+      "crates/arc-cli/src/exec/signals/handoff.rs": "a48d58a0c973accc674a4cd4a6c941cdb3b94268f3330e54c30c45bb1acb1176",
+      "crates/arc-cli/src/exec/signals/tests.rs": "c8e04c79ccbf84ac5147b3827b9339780bb2e1f5a6a6d96671198eaa4f818c93",
+      "crates/arc-cli/src/exec/terminal.rs": "c3a5c74713d36c1fde3a332563d5cdb4260aa341a86e50573587f9eb95a882df",
+      "crates/arc-cli/src/exec/traffic.rs": "8d3efbbc83a817f34d7874fe54e74baeef3129f7c6dbf5bb50629f0cd1525238",
+      "crates/arc-cli/src/exec/transport.rs": "c59f215477a017703c5409cf24c036cfe99b4e7ef535d4347ab6a110eb7fbe4d",
+      "crates/arc-cli/src/exec/transport/historical_bounded_tests.rs": "bdfcbd7bda8d358944ed5ff81cfead72204a880c6838757e3f895f8486dbd498",
+      "crates/arc-cli/src/exec/transport/historical_integrity.rs": "c204b32a9a4018d70aee8b0c5e5f909140534ca622d6e266fe16d1e7bd1668e8",
+      "crates/arc-cli/src/exec/transport/historical_tests.rs": "778d278f48827a775acd7a416fda6d1534fed738242561af54f24944798f8cda",
+      "crates/arc-cli/src/exec/transport/preparation_tests.rs": "efe2a0c1b13bf13f66328e4afbdcae585120fbd0a77b600f15b453018a705bd6",
+      "crates/arc-cli/src/exec/witness.rs": "720f1ba33a6a53c1e95e401f8b37c6e05eefb3bad5063f0737306c9f1a090b9a",
+      "crates/arc-cli/src/job.rs": "c2024ede50b9f4073cb7979f5f6292b04365c2a9cba5ac98721240eed7e93ccb",
+      "crates/arc-cli/src/main.rs": "8d28801fafd766ed113b8192f23561dcec5d47f04f3cb29688781325271ffee2",
+      "crates/arc-cli/src/meter.rs": "eee238070ee2c6a66bf90a8dcfc476903a268ba82ea7097e5dc2ed1542078629",
+      "crates/arc-cli/tests/binary.rs": "785b94279f5fd669afae627bfee6ac9ec30703bb7e32dd69d629dcb8e00f6b65",
+      "crates/arc-cli/tests/classification.rs": "0ba8a5ffcb0cdd54d5299941d61926e8bf4f5b358764219a25c4a205efbd6515",
+      "crates/arc-cli/tests/fixtures/child.rs": "42200fb9843827d6e6cc30f6f8aa781472e9da2de86600a7632e74d781276ed0",
+      "crates/arc-cli/tests/fixtures/frozen_traffic_v1.rs": "028462bf53ea6ae38b050b12ff84e69227d63e0f6a8743aad2647d5df6744bb8",
+      "crates/arc-cli/tests/fixtures/historical_transport_tests.rs": "83757a11e06321cd40be4f877a7c6ba8fba0543612317db4037cff97a73940f3",
+      "crates/arc-cli/tests/fixtures/hold_unattached.rs": "ef64a1be1dda02a238405bc3c273ed29d1d6f7d213f97fe18ff24bbef73b81ab",
+      "crates/arc-cli/tests/fixtures/pipeline.rs": "42074f27e690c995aa27dd7629f3a32499a9bf8453e0b7e18b749771e4dbea86",
+      "crates/arc-cli/tests/meter.rs": "abd892e9cda6a5dd7a67a297cf9e8ef8a73cc18651dc7e7a284714cffaf54076",
+      "crates/arc-cli/tests/schema.rs": "d63b9f3ec80835ede61caf740c5a632a54df91d600a35b019fcff7270eb29a5a",
+      "crates/arc-core/Cargo.toml": "14e1467afd082dcfad6bcfe9bb49f19421e22b32830ca68c4113d95ec474a9c7",
+      "crates/arc-core/src/lib.rs": "3dad7b9129aade44f87854083ad3dfb65450b4a44bada8a7ed2325501c23f3e9",
+      "crates/arc-core/src/meter.rs": "568efc0d7ce38612c7571039d5cbc6b31b3889a07bfa7c584414c41e35c57385",
+      "crates/arc-core/src/meter/tests.rs": "feb5b939bf16a207af2783404920c9ff64b55cbbe0fb23432ae4533ab14a288a",
+      "crates/arc-core/src/meter/validation.rs": "906593e66fca81be3204589672a635093ddcc913a83e9e4e534f3127814bd0b2",
+      "crates/arc-core/src/process_identity.rs": "1c7c7a5e9dce3941541ca0646a22aaab1713f3047334eebc7e533d0110ad8f56",
+      "crates/arc-core/tests/coverage.rs": "04a5e8477d33a1a224a77316d843f291890f1ee8176a524fa4714d8051795e18",
+      "crates/arc-core/tests/fixtures/meter-snapshot.json": "857fd6d59e71bdd2decfd7e4c5345190ecba0817127cb7c881d63e1ad1ef88e1",
+      "crates/arc-core/tests/identity.rs": "449db78dbdcd3dcda98ea8af3fe2ea7b54d40a571496b5c832e2707093a18f07",
+      "crates/arc-core/tests/runtime.rs": "adcc3e99f8eba6996a4c9069a99ed85715a5656a2cf2ae53679ffa02df63fab8",
+      "crates/arc-daemon/Cargo.toml": "4efc76cd4b0e94450c9729e8d9db50ec50a1f43a2e20d34211e9c3ea5994c2ec",
+      "crates/arc-daemon/src/accept_recovery.rs": "5de663067e87e7317e763e036c2ff450b6e3b5121027a69546c8165c1cac9676",
+      "crates/arc-daemon/src/accept_recovery_tests.rs": "b31bc45618e9a05c005e2d1614737179e5a62939237d3c90507989498f72edbb",
+      "crates/arc-daemon/src/admission.rs": "cc80fca15e83d1b73dc20f99d619223e46425016588f9a1e649c81d0bc27b883",
+      "crates/arc-daemon/src/connection.rs": "3d4d3bc30f7ebbfc64f13be480543e77e4dd084ef470d33704144342721fb6d3",
+      "crates/arc-daemon/src/database_failure_tests.rs": "368e47e19b85646bbd3d0024afc30b1016293cdb0e15e494689f46cad3d50aeb",
+      "crates/arc-daemon/src/db_worker.rs": "1d3755d47b76fdf78a5f1e68fbe644acb0943b85af49679cfc85ffcd6652fa9d",
+      "crates/arc-daemon/src/db_worker/execution.rs": "035805e17e8eb263ddf8e10b0a023373243e82cdc55a9a3aa718c9c55fced7cb",
+      "crates/arc-daemon/src/db_worker/jobs.rs": "cda6fe31cf98570932e67abdf7168d9a88b216d14327dbc1381d3f0d0803a8e1",
+      "crates/arc-daemon/src/db_worker/jobs_tests.rs": "023ca7117c76443d568d324acc7c2a86e57099620f5e87373a638de5feb1cfcd",
+      "crates/arc-daemon/src/db_worker/meter_tests.rs": "d47177f7bfbc617fec5e1be090923e4fde7fad38259774381005f51ebf4cde16",
+      "crates/arc-daemon/src/db_worker/schema_tests.rs": "8a57ab2b413dca797b4c63066329f01df783a816b5d49c86eb44c47ceee4f0ce",
+      "crates/arc-daemon/src/db_worker/tests.rs": "9746111de05c67fb2c2238266ed78206959ccec927f72c6b931121dbc3445af5",
+      "crates/arc-daemon/src/db_worker/traffic.rs": "d34c7977dc42a77522fdcf97514f3311eb12f41f082232f94d7c646fa975ae34",
+      "crates/arc-daemon/src/db_worker/traffic_fault_tests.rs": "6ddd36ae409478ce906046a9dca0c4fa3e152fc5ab0b3fe845c7cdad3b7cfecf",
+      "crates/arc-daemon/src/db_worker/traffic_recovery.rs": "3600d52c4a9a0be61e339b36c27e291598c53c1f11a72924ff96ef6cd5f5dade",
+      "crates/arc-daemon/src/db_worker/traffic_tests.rs": "bc5edf88882c01eecfdbed04d2e196a101ac3add49359048d1f273481f2d817a",
+      "crates/arc-daemon/src/db_worker/traffic_witness.rs": "13b71622ea364e17d6ed27feb4cde219b7767ecef972f4ef8fe85b93ae7578cf",
+      "crates/arc-daemon/src/db_worker/traffic_witness_repair_tests.rs": "fca1ece435443b771f1dc53f5a14a4664305819d464870dbf037b9e1d3b90b6d",
+      "crates/arc-daemon/src/instance.rs": "355b112ac27ec5adec3e74d95b422d357671858b90bf4017b1c01489bea077af",
+      "crates/arc-daemon/src/lifecycle.rs": "335e8314f503223668e688cb681cd022f764b654d6fc2268b5abbde3f38df0a9",
+      "crates/arc-daemon/src/lifecycle_tests.rs": "8061c390b42213c80ba872eb9eaf9c34f48b2b7eea8d62e15aca8c0efdd3e561",
+      "crates/arc-daemon/src/limits.rs": "cd9a9afd80274b2e61f16880395382f73e2dda2a17540557b8188d7be8b47410",
+      "crates/arc-daemon/src/main.rs": "d7098de2e3a56a12961cbc8415d8b48d9f5064d25c75a340dc8f606853beb4ea",
+      "crates/arc-daemon/src/meter.rs": "c8cfc8726a8efb8f12f0cd318c570a51296c20bbd84e04a53ed42d2130bb2f38",
+      "crates/arc-daemon/src/meter_dispatch_tests.rs": "252ca1b58b588604acdc107d13aa5d4df691afcd6b1af20099418195ee0a0a23",
+      "crates/arc-daemon/src/meter_failure_fixture.rs": "8376dc84c8f5a4f09617256720a340fb9703ee3f03827d054afe8dbd9fc35701",
+      "crates/arc-daemon/src/platform.rs": "4de74724d2f7c310542909fb004567695ca0b38990d17bc78fc1cf9a6a649b72",
+      "crates/arc-daemon/src/report_lifecycle_tests.rs": "49b306ba578c19b0fb1bdd22af7d48797de1b5a7a3d55d6b126088275cacc823",
+      "crates/arc-daemon/src/runtime_metrics.rs": "23ac33070705808edd12d0d32d854940faf6184336955746ec53cacf93f28c1d",
+      "crates/arc-daemon/src/runtime_report.rs": "57520df893abd2176116dc22bbada4941e521010536c25229070bc676f182427",
+      "crates/arc-daemon/src/runtime_report_tests.rs": "daecafe96ef067cb973b5b48c8e0b6f1050f7bb49a90044dc5971adba55af3d0",
+      "crates/arc-daemon/src/server.rs": "a05f33867f04c5f2f75ca99ef0efab4601de4f015a12a5aadf8a5f1e410d3285",
+      "crates/arc-daemon/src/server_tests.rs": "cc0ac9586102185c47423ffd5bbd586082fe8eff664c3d1fe9c0f1a3cf16b549",
+      "crates/arc-daemon/src/transport.rs": "37fd61770d74b57e9b296a697bfe379ee6d1e6be45006b0dadaa7cb3223f7de0",
+      "crates/arc-daemon/src/transport_test_support.rs": "00de7f22e28ea681647edeebb1bbd7c09e85695591231778c86097d1bc56207f",
+      "crates/arc-daemon/src/transport_tests.rs": "d75ef33f0d329b982acf2bdb1ff7b89d8dfae4f9ecbb2b353b6ccdb4c8e5307b",
+      "crates/arc-daemon/tests/bounded.rs": "208a6bf1518117d688f1e86ac9e7a6d35afa2861d4c64642ad421f7c71f51406",
+      "crates/arc-daemon/tests/classification.rs": "0cdd538606c78891a8715d3ee248b1e3e08ab8dce0c6314b454dfd56cbfe0d78",
+      "crates/arc-daemon/tests/classification/boundaries.rs": "ae3e8994c846711e84f8beef4b34ecb393a832d0d6b236e18323a64bdb02f6db",
+      "crates/arc-daemon/tests/classification/privacy.rs": "3c7fd3ba43eded12ddaa071cbce6553c05370fe3898f4034912a6653620eadee",
+      "crates/arc-daemon/tests/classification/saturation.rs": "5df00b4a5d5b2c70e2036487ec130309d71d470bd6869ef7b18fc539b89c64d0",
+      "crates/arc-daemon/tests/db_worker_unit.rs": "05d564915b53dbbc3497624ac2a6cbb9b54e76cdc5d8fc446878153319753649",
+      "crates/arc-daemon/tests/managed_exec.rs": "a800d31275f508c798c3816a643bfb7705598a6607b4d5d1e8f7548b086420cf",
+      "crates/arc-daemon/tests/managed_exec/broken_stderr.rs": "ec218b307e8069ef2a659e5fc8c59da8251cfaa3a6a1c9329909324406602e4d",
+      "crates/arc-daemon/tests/managed_exec/cli.rs": "adc81b907cbe1510fd713886c7dd4a785a6231d5584954236b3c8f56722e33c0",
+      "crates/arc-daemon/tests/managed_exec/connect_access.rs": "9bf1e83b5c13af0226dbc4278431873bc86bbe9c01995e3413087ed4be4e3a3b",
+      "crates/arc-daemon/tests/managed_exec/fail_open.rs": "5ddc6c705aa6f68f60f126473990073d66e1cc64ec78bc636a798db5605385b4",
+      "crates/arc-daemon/tests/managed_exec/fallback_descriptors.rs": "c406da97101bf1c5a29cbf3dcadfb72c91c38e035a40e36783ea1c6a6cba245a",
+      "crates/arc-daemon/tests/managed_exec/fallback_environment.rs": "f778416771edac2fcc692f570b92480cb5ea908e25af88b69a21e749e131fd72",
+      "crates/arc-daemon/tests/managed_exec/fallback_pipeline.rs": "788038622ea39f8ffb6bce41f618aa942cb3d5dc3ff630c9f99f48e42b834dde",
+      "crates/arc-daemon/tests/managed_exec/fallback_sigpipe.rs": "854e0a80dc0e8d42859dcfe9cb616dc23fdb9d0d4511c1c1c3e85e558da261ec",
+      "crates/arc-daemon/tests/managed_exec/fallback_sigstate.rs": "1e90f5157b6d252b73cf0f4bc5d32d33895b95cafb56fb8ffdfc684b672bb7b7",
+      "crates/arc-daemon/tests/managed_exec/fallback_terminal.rs": "a3cc34a8c878d1ffe30c42dc757acac58f8634da38a3c61aa817bb5475f062b8",
+      "crates/arc-daemon/tests/managed_exec/fault.rs": "cb17953034337d1b580aacf55661b9cf80d5922b543a79aa398205e736543d52",
+      "crates/arc-daemon/tests/managed_exec/full_stderr.rs": "cc94721012cbe03a354aad3292afeaa9848fa3de0c8c4c53b8fc5938f6619069",
+      "crates/arc-daemon/tests/managed_exec/historical.rs": "3ad844276c8ed77abc7e688f717bb0050be53a26e2bf09e56cdc0ef7b8fbca19",
+      "crates/arc-daemon/tests/managed_exec/invalid_socket.rs": "eaceecac271277e76095a6ad96e0329e8dbbfee9338e1c0711e8ad5650421585",
+      "crates/arc-daemon/tests/managed_exec/malformed_endpoint.rs": "df81e1f8e7fa96c9fceb3b05cf33382fa5a9b5a226feb3dba621656d50b2f174",
+      "crates/arc-daemon/tests/managed_exec/native_python.rs": "cfef16f935f769d37d777325d819f92f6531b8f57418b293c174caf8d698158a",
+      "crates/arc-daemon/tests/managed_exec/pipeline.py": "9df7d5ed99f58994d2306de910aa5526032d8a5e2a9340be5fbdb5c25398869a",
+      "crates/arc-daemon/tests/managed_exec/pipeline.rs": "323b7242497904e88ba7112c9c3e5b15039bdc361982e29410d67f1d513ce0c2",
+      "crates/arc-daemon/tests/managed_exec/protocol.rs": "957693d38491c0842f6a6ab6731ef15d089ad6a998d94e9cbbcb3488289064d7",
+      "crates/arc-daemon/tests/managed_exec/replaced_endpoint.rs": "fe525858e85a41289f1237be465df9d8271c8050483b2a8bbeaabf4489c2994d",
+      "crates/arc-daemon/tests/managed_exec/retries.rs": "890c0346d06e5eee0da81c83fc8212158db40e4324df1b46c0618a9ff064c448",
+      "crates/arc-daemon/tests/managed_exec/runtime_environment_probe.rs": "519e6ee322c32a57feb329b99a039df1e34a8e8c6f8b31b53c04e7f3611f7336",
+      "crates/arc-daemon/tests/managed_exec/scenarios.rs": "3f5c1d3f16414aafce8656b2547aaee09e1b7c8dfa5074356c979f80219b8f89",
+      "crates/arc-daemon/tests/managed_exec/terminal.rs": "7be8b6c5c1eb5570abb0e2d788851ff8dffb980c5b04dd359c77c838ccf8ab6f",
+      "crates/arc-daemon/tests/resident.rs": "dc33dda0bed1ed89d7ad427727f316cb606c1f16f8c1a75f9aa4a54520857486",
+      "crates/arc-daemon/tests/resident/coordination.rs": "8f5a912b512b2abc368739e1daecbb77ef0e3e322126c91cb5b9413501f1a13c",
+      "crates/arc-daemon/tests/resident/coverage.rs": "27502ce76b66ede028c87af92c6f398a8e359478da0eacce03e841526e97ea07",
+      "crates/arc-daemon/tests/resident/identity.rs": "47368da2e02a107dae24f4b4fed049add2b9d0f3044a427cfda072a152f9c2e3",
+      "crates/arc-daemon/tests/resident/lifecycle.rs": "9e252732bae745cfd991953046e014aba7cc2b84cc105f19bcce9c327766e07e",
+      "crates/arc-daemon/tests/resident/provisioning.rs": "328ee3deb4d18d145f5eafef42cd3903b8db6d85641e89caed8c3731b3aa43af",
+      "crates/arc-daemon/tests/resident/schema.rs": "aa82d2fcb8728375f01bf988b9313a3be2fe93f8d870b86e3484c74dffbd1708",
+      "crates/arc-daemon/tests/startup.rs": "bf03d57078756217d5bc4356c98fddc80c528f1d5cf24de50c9c8311403fe158",
+      "crates/arc-daemon/tests/support/admission_load.rs": "db347f8a26d9a6083a684a8343c577a5a65c929ef1bdd9c1b9778165fa89925d",
+      "crates/arc-daemon/tests/support/bun_fault_lifecycle.rs": "478a4eb87d4309b9581528f0957e537fb9a2d92eb230956ad8e7e88182af8489",
+      "crates/arc-daemon/tests/support/bun_measurement.rs": "a29e3d70bca5957c051c70ebebc2317201d0c46caa4a97c92a45e09a97d6f994",
+      "crates/arc-daemon/tests/support/deadline_recovery.rs": "5604e9561642870fe2244e6e205d2c5e9d5fd19e0d14059f6d747f771cf07c93",
+      "crates/arc-daemon/tests/support/measurements.rs": "85f606dd8b98fc7ba3dc08178e6174a6aec983e3b3ac0c487e12b044f72e7db3",
+      "crates/arc-daemon/tests/support/meter_partial.rs": "06a3e40492988afd0771321c6408b52cbb92ceaa95aafe805535c4cc9f17f79e",
+      "crates/arc-daemon/tests/support/mod.rs": "7aa5ab2c6a1b01100ba14fba5a2d9fe61fff6b72175387bc33e18dbf6361a38b",
+      "crates/arc-daemon/tests/support/native.rs": "60538921edadf7b4b1d5bbf33bc4c0f2293c142e5f86bb50de27113eadbbbcc8",
+      "crates/arc-daemon/tests/support/native_exec.rs": "ca8d80a29c5e89b3b320318acf2eb8b6b05425d2d641fc6fc1b97d6373331604",
+      "crates/arc-daemon/tests/support/native_fixture.rs": "1fb63bb6c90a5e76eddc185c2871a1a624a7c93538a99cda0941be6d64d4be70",
+      "crates/arc-daemon/tests/support/runtime.rs": "7f13e0098b2890d733c87dee7d81e3c3183c1176c43be8dc081ac7702dac157c",
+      "crates/arc-daemon/tests/traffic_cli.rs": "37c6824feb0c6af95894f203d9f0cde9fa4ad061d6f9e80ee219ee743735d647",
+      "crates/arc-daemon/tests/traffic_cli/bun_measurement.rs": "676d94e956a0904367501a474ed13af6a688f388466dd5fbb9503c2ddd8a3a78",
+      "crates/arc-daemon/tests/traffic_cli/cleanup.rs": "4c8bc7f2b8eb99a5d022c0b4d43dd97b2e7435b2484acc36c5e7dce09a6929d8",
+      "crates/arc-daemon/tests/traffic_cli/diagnostics.rs": "fb0da1abf36bd86a93c9aaaa1e363fdaf31081a8ed37c5982c6a0098ed8091ee",
+      "crates/arc-daemon/tests/traffic_cli/diagnostics/frozen.rs": "a1c1fd18bb4afceb543a3d88ce3123e0114e56951a6d1be8c394c31efbbf7e83",
+      "crates/arc-daemon/tests/traffic_cli/diagnostics/legacy.rs": "0dddfbc5197e13e23d3e3d8c870f73a5c0d68feb27d6a5a2e8f8d9891a71d5bc",
+      "crates/arc-daemon/tests/traffic_cli/diagnostics/legacy_recovery.rs": "00c9ac5eefaf0852f170c84dee72b18d6d7f6dacd4d47934094cb17315cb0133",
+      "crates/arc-daemon/tests/traffic_cli/diagnostics/two_store.rs": "d47cae83acef72a8d4a3b586dd211496986679b9810cedb6a64067eea8c13043",
+      "crates/arc-daemon/tests/traffic_cli/measurement.rs": "e4a139e85876d55be7e9d918b093427b7df9f3f3dd65901e9db9b750294a5136",
+      "crates/arc-daemon/tests/traffic_cli/process_cleanup.rs": "ab8844e0dc72d8177d7adcbceeececbccb0486aacc591a84db28565c751ec5f6",
+      "crates/arc-daemon/tests/traffic_cli/protocol.rs": "b7669f5841df32ed4c40f857a7ec1cd51c14c8b530b85788285565eca9b571d2",
+      "crates/arc-daemon/tests/traffic_cli/recovery.rs": "890d13f7317f52f1197cbe73613bedb085f98447c89d691f99a0e599dc4e7678",
+      "crates/arc-daemon/tests/traffic_cli/recovery/bun_restart.rs": "5282bac55e77352ed741388dd2fd8b4086a000ad053e8c9cd1a160c04ddd3986",
+      "crates/arc-daemon/tests/traffic_cli/robustness.rs": "d941bd9d19edb49b9fd5439416d471330a20264fdfe284330e30a86161a497b0",
+      "crates/arc-daemon/tests/traffic_cli/semantics.rs": "58a80a1fe88d97d0acebfbe75aca8b17d027e6dc3995b32301ca3865334b1cb2",
+      "crates/arc-daemon/tests/traffic_cli/semantics/environment.rs": "0d247bfa5922ab294fb0cd9f10bbd5f5440d35157862a2b891692dea51e9890d",
+      "crates/arc-daemon/tests/traffic_cli/semantics/lineage_recovery.rs": "8f96267af01fa1735bc1bfa417d5d1874411343e55f4b47fe51e8ecf4a76d122",
+      "crates/arc-daemon/tests/traffic_cli/status.rs": "bde2900f5d1bfe00947c88f65327437530441b234760c4482cdc0374a483ca48",
+      "crates/arc-daemon/tests/traffic_cli/status_compat.rs": "b8a4f0222b96b233bba8c996de4c67394f0669dbd213f4cf4dc523782dc020d6",
+      "crates/arc-daemon/tests/traffic_cli/status_compat_terminal.rs": "510c3d874e5da90436431ef3768890a3ac7e46a006e94778ea14bbb569bdf3a6",
+      "crates/arc-daemon/tests/traffic_cli/terminal_outcomes.rs": "642a9b3f90ab57d5c8942279b974054bb1ed63d21527568ba0958cc429b94656",
+      "crates/arc-daemon/tests/traffic_cli/terminal_outcomes_historical.rs": "75f80c0b75324ff266a8a16edb23b80d71b8b191bd52b9254c26a027126cad99",
+      "crates/arc-daemon/tests/traffic_cli/unattached.rs": "bd5833d01f8da4bb10d5d482d6ce1f0e3dcd7fbaec812a5648c0bc68f31d5e02",
+      "crates/arc-daemon/tests/transport_unit.rs": "970acea31aaab14094c1fad7c7cba7920b6ecd96e3fbfe8b30938066f1cf67b6",
+      "crates/arc-daemon/tests/worker_runtime.rs": "d04e7d735aab13f1499410d6b041a0189c85cee7130d9f2e8d1eb2f73c3219b9",
+      "crates/arc-detector/Cargo.toml": "c7537449f0009b1785112aea82ce15f20aae96a9ddaaf317a8dd514c890c36ab",
+      "crates/arc-detector/src/argv.rs": "148a05909a035df7aab763fa39a20c063ec6ae85bfe9288661208c54488de500",
+      "crates/arc-detector/src/budget.rs": "c07b71d3963e1706465f4903b1500cf34646319dfbdf27d9327773d91f348883",
+      "crates/arc-detector/src/coverage_tests.rs": "7c8ea0919bffaabe168a2547293c648de4dc2407902dc53b3e7f3750270d5e04",
+      "crates/arc-detector/src/lexer.rs": "902e5d3dd133e28ef9459d1a0db82627080584061819ccdc736570afd94eab59",
+      "crates/arc-detector/src/lib.rs": "09b1158588d228d699517374002d66b1bfeda82b94b90ad8b17212b6b8a3d6c9",
+      "crates/arc-detector/src/parser.rs": "177908cae1059036f11e0f9ff6ea6cfe38b407e32742a4613a113c5273a79cb3",
+      "crates/arc-detector/src/rules.rs": "a7ac1e9a66fb79524622f07253eab2c9ebe10ecdac54163cdac83779d60988b0",
+      "crates/arc-detector/src/tests.rs": "30e91c9a1b876d0335da1e16ba3ae112c820f89579c3aa074ce2aa4dfaf71bbe",
+      "crates/arc-detector/src/types.rs": "13c0e5798178b8aaa2c157a72a1f9faec2439e7afc4632685a26f2b558149f00",
+      "crates/arc-detector/tests/argv.rs": "84b2856f8fa4e381637799b7a93887cd1256b43ebe773b96d0b60251039fc741",
+      "crates/arc-detector/tests/support/contract.rs": "84e840a218b8d1955de19815901f86987067acbe451e8dc4a310aa2f016ae83d",
+      "crates/arc-detector/tests/support/ssh.rs": "f4062e0b099e8aced7d91759a0a398147e30ceba5a8100e9a44bbb3083e55ff7",
+      "crates/arc-ipc/Cargo.toml": "d27fdfe9dbab4dd42caa8d6d29487a0d611d567045aa7a77ca3b627fcd545ff9",
+      "crates/arc-ipc/src/client.rs": "0b3e19171c29aef74b8b833326cd93ee0df930a64aea001db1372977b302691f",
+      "crates/arc-ipc/src/client/access_tests.rs": "23392099205eb6b43655f10b6a83163893846571c1189ff183c44965b45d090e",
+      "crates/arc-ipc/src/client/continuity.rs": "7f9637a53eccad6a83e248bbb203e34848cb37508f574f1f564a823c8c3cd11d",
+      "crates/arc-ipc/src/client/endpoint.rs": "39e27347ba411480bc311f69a6879414c47a22c2a018ea73a9bc4593a429e0d8",
+      "crates/arc-ipc/src/client/live_tests.rs": "6f4ed86479753ca8a0a49df0165f7afc832457f50aa654106ca3ecc5cbd2ce9e",
+      "crates/arc-ipc/src/client/meter_tests.rs": "e0e6b4eb3444c86a122ea7cf134720f07be7f0c6c77252b430b979f859534d06",
+      "crates/arc-ipc/src/client/peer.rs": "bae20c2078f8a6ba7557a443b67423bbb76be833650b4d9ffe872f343daa8832",
+      "crates/arc-ipc/src/client/repair_tests.rs": "2396450b1eb6d29b565eb4ce04bcf5cb5cfd551f618a676503ab767a8d94cd32",
+      "crates/arc-ipc/src/client/test_calls.rs": "dedc87cd83b734712aaee6b69cacb8504d18e0276f690caea5bd73929bbec73e",
+      "crates/arc-ipc/src/jobs.rs": "dbe38abe6576f24976beae0d5c5061fd8dd69feada62fb599acb33e8090b8b31",
+      "crates/arc-ipc/src/jobs/types.rs": "9459b9a22f0e3cd2ca2c921e5039117007adc928354587612759ad840380ff7b",
+      "crates/arc-ipc/src/jobs/validation.rs": "ac9eda72ed28c82d28f646e00b0b66327f516e39769160b297b787eab4ebc11a",
+      "crates/arc-ipc/src/lib.rs": "0dec7727f8af9fb52e4152bb18ee36a5d0ee98cd208eda27dcea65fefff3521f",
+      "crates/arc-ipc/src/meter.rs": "29f0dca9962e063f298f8a1ea9a64a1f40cf10596ceef2ad7ae43ae43a0e77b7",
+      "crates/arc-ipc/src/meter/tests.rs": "49c7ccbb4f7cde227701bec1ff41da4a91d70e0072ef32125672bef5d0454602",
+      "crates/arc-ipc/src/schema.rs": "98b8b5ccbbd63e6110dd5b086b6ab717928611332cb92f0f04e1a66d218e633f",
+      "crates/arc-ipc/src/tests/dispatch.rs": "4da6870989d8e361e04e7e8de7e8fa33575b90261fc8fe52865e2648dcee1e1d",
+      "crates/arc-ipc/src/tests/framing.rs": "34b2651d525318707e4e0f3d065ad27580350427e96fddf7a26c4dc268b42960",
+      "crates/arc-ipc/src/tests/mod.rs": "02864c3325949cfc2eb133bb88808ed12e80d3b6fee913caf1af73d0ff7e56f6",
+      "crates/arc-ipc/src/tests/schema.rs": "be43357ea5f84142cb2cfe26e5ab9fc82d57c13ce46279527f879a67c37b81fd",
+      "crates/arc-ipc/src/traffic.rs": "631b0dd348eea62ad4379fa3782fbc6159daa469ba943e4e2e27d79fbcb5657d",
+      "crates/arc-ipc/tests/classification.rs": "c917ec23c45144109afe95aaa8057dd19b18ee0ee03440a240954e6d07f0211d",
+      "crates/arc-ipc/tests/coverage.rs": "9438b91fe738e971a64e61704c783180697de24c9c8f1a233761da617b1a6341",
+      "crates/arc-ipc/tests/jobs.rs": "f2e3334034e79234afbdf6f0a7b6566609ab6b52c3ca4a3ddfd582a00debc754",
+      "crates/arc-ipc/tests/traffic.rs": "b588f33eab97e07e086cd75a842b904661686c00f4e8ba511db9595b47320be3",
+      "crates/arc-meter/Cargo.toml": "5c09272418c092701c6c621aeefd9c5aa4b34a7cf3431c8b821014c7b747c347",
+      "crates/arc-meter/src/cpu.rs": "eb39d9af633485852be7ce32dadca531a5bf07a93734f8e61150acfff7617800",
+      "crates/arc-meter/src/cpu_tests.rs": "1d17159a9d2b522770882e6cc99b78ff61c1fc8f2f2dfb112128ceed6cf72089",
+      "crates/arc-meter/src/fixtures.rs": "ac7e8dcf16f53b615f41af6598a55584d9e0271fe48049f0f7be5e46af7c0937",
+      "crates/arc-meter/src/lib.rs": "c706eb0733b3b986d28978e99a4cdcd53a65fc84485129ff290961f46fe595cb",
+      "crates/arc-meter/src/snapshot.rs": "54393db2c6a5f01d55bf16c739a6a42454f1b591eb227f378b055adc2bd05ded",
+      "crates/arc-meter/src/snapshot_tests.rs": "05dfb79983cb4a1ab6be0847f411cf980e9c7230e123e08260578f891eddcfd2",
+      "crates/arc-meter/src/worker.rs": "3580a3b618d596ce30a7b95dbea685625d22956bd2cb85f223a07a67a0529a69",
+      "crates/arc-meter/src/worker_tests.rs": "1557b527b827d393dc97314f5b5008b30e2aa2f0dcb51eb8fbdc9f40b9d68c0b",
+      "crates/arc-platform/Cargo.toml": "a02be1ba0ff1f741cce039311a96f4a8d0df5ee0782ea28096c3aa39da3fc312",
+      "crates/arc-platform/src/lib.rs": "f4ed5f471f49d8e0650a5b676d55032dc9af68407af9e992ce0706b72b025a14",
+      "crates/arc-platform/src/macos.rs": "54dba456646f9df24729ef5025bd21f1a862041953586e5d967941fba690b756",
+      "crates/arc-platform/src/macos_tests.rs": "218c5c733c21f123d169236d0a89d090997e640605dfb2e5c38cbe21d05d7a09",
+      "crates/arc-platform/src/source.rs": "ea80ba20fc034fbfb9dbc4dfb9969ef8590cda7163196d9ffe9492ca72d4df1f",
+      "crates/arc-storage/Cargo.toml": "e7d5d44df94e6a92f9a37d98ad64ab285706f10f32dd6ee154a7b49accd5f8b4",
+      "crates/arc-storage/migrations/0001_phase0.sql": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+      "crates/arc-storage/migrations/0002_managed_exec.sql": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+      "crates/arc-storage/migrations/0003_traffic.sql": "1f4522e3f27c124aea7127d92434c7bd22be36168fef0a4bf665f8cf16debe90",
+      "crates/arc-storage/src/history.rs": "6b9739f7b354724a1793c3ba58581a90ebe1de9ef294ee50e5cd1e0ccb73bb23",
+      "crates/arc-storage/src/jobs.rs": "7c6201ab8bdcc2be57a856e5ac08cc4381ea46d16d5174fcf2707375f820989e",
+      "crates/arc-storage/src/jobs/codec.rs": "979fec1eab53b53694dae6420dc3fffb00ab38455d56748f694a37d9f32c0f6c",
+      "crates/arc-storage/src/jobs/reconcile.rs": "56904b85a9e2ac21483b4d54a2fd0fade0396d44376bbffd5dbf13549548090e",
+      "crates/arc-storage/src/jobs/tests.rs": "7e21ed867beecb4d52807432e5f9cf8b03dbddb0621cdeda701b2ff53d861229",
+      "crates/arc-storage/src/jobs/tests/migration.rs": "a52e7cdf5f5675c2451435469118589c175e212a4411ca21c10b088979577d52",
+      "crates/arc-storage/src/jobs/tests/recovery.rs": "3d6dd5dd75ed704df242ecc232a94b38d65ced376233306e75b965a67f582e47",
+      "crates/arc-storage/src/jobs/tests/regression.rs": "7ea3f59e27a5f08da6a34bc01af1345a1475420f555303e39b7fa138713939c7",
+      "crates/arc-storage/src/jobs/tests/terminal_outcomes.rs": "bf1ddf8fc0a35cebdaa21b7243df328ce529b61c16c86526b85a7818ebfca237",
+      "crates/arc-storage/src/jobs/tests/transitions.rs": "525be0baaab7ec0d0a9499676d26a24a91af31d2fa2129fe35917deabb98e3bd",
+      "crates/arc-storage/src/jobs/traffic.rs": "d91e1f9322254486e2ca8a514940c162c497b28ec79e79e8e4537d4817ecac58",
+      "crates/arc-storage/src/jobs/traffic/admission.rs": "bea756928cc519c84ed2dbff74f75318cb25a642ac96e0b53306383b9f1b1dc2",
+      "crates/arc-storage/src/jobs/traffic/lifecycle.rs": "5d41755cc6dbc6b46308c73ad94b076de2494fd0dda79b2ed6005d878f2e0b50",
+      "crates/arc-storage/src/jobs/traffic/store.rs": "cb3fe1155e02c15ed30c1c567aa941a2a4e646fbe9eee6e5d2e82f10b0cdc24a",
+      "crates/arc-storage/src/jobs/traffic/tests.rs": "ecf9d16188f8b912b601ab93ab8d270a979d46acea23fa560c825bc7682c607f",
+      "crates/arc-storage/src/jobs/traffic/tests/admission.rs": "16ff9e2b716a0c31061c913c92b16d046b8244189fbd3aeaf5f8664656c72111",
+      "crates/arc-storage/src/jobs/traffic/tests/identity.rs": "7ba68a876c46f0a70d0d951a9ee1fd77da38bd27a2c2c781eab0b1593f293c0a",
+      "crates/arc-storage/src/jobs/traffic/tests/lineage.rs": "30d1e296c36de2a6abe3566f45304587375e32d846da9eafec12324635cac29f",
+      "crates/arc-storage/src/jobs/traffic/tests/lineage/ancestry.rs": "02d25638d7b92ae14fca20f4c43b1c475cf232628e34305a4a33874eb592d785",
+      "crates/arc-storage/src/jobs/traffic/tests/recovery.rs": "5b1b872ed921133176b029ce1a01bb3e54722d784fc8344f24296429b0547038",
+      "crates/arc-storage/src/jobs/traffic/tests/recovery_2.rs": "d48598d8d9d23b5752f62acf1af192b4847fcde4ee8d16d259aabbc0fcfa1989",
+      "crates/arc-storage/src/jobs/traffic/tests/recovery_3.rs": "f2d57f1f8238c756f6b6a5056563738fef1c6b4d5b4c19db34c94374f16e7c8f",
+      "crates/arc-storage/src/jobs/traffic/tests/uncertain.rs": "bfe1562b33cafdbe019a2b0158f86f1fd578a9670bd00b4c12a9a65d08e24284",
+      "crates/arc-storage/src/jobs/traffic/tests/witness.rs": "abb0f4214fe4fbdc5fda2d34c3dd0f76f87aecef499df36e51bd26456944303a",
+      "crates/arc-storage/src/jobs/traffic/uncertain.rs": "6b28c753cb9b4fbc5af3906afd623ed3cfcd22d5cd87269eea13664fb144ef0a",
+      "crates/arc-storage/src/jobs/traffic/witness.rs": "3a53f048421fb53a60e55efcfd9bfdbdfcb8a9e661c2bed5e450e971a12fe52f",
+      "crates/arc-storage/src/jobs/transitions.rs": "e79c514c499f59c7a5deabb36e03de9e7b2172a306d945e4e0a3cc87fadb507c",
+      "crates/arc-storage/src/lib.rs": "5796cabfc0608d5a4fc8d54d608a024aabda8f053576763469f5c72010a369bd",
+      "crates/arc-storage/src/migration.rs": "bf6325446e6287385a65dc40fb14c3b158a23a86b29829659efaff8d738da5d4",
+      "crates/arc-storage/src/migration/tests.rs": "a11ad158e489019ec8be1f76f19813b79ada8e5c61d743ce0c0270c9bc959e34",
+      "crates/arc-storage/src/migration/tests/acceptance.rs": "4f7b332c67f869fc436676d9e500a302584e9aa5b7450d70e3f5d93a76be60ff",
+      "crates/arc-storage/src/migration/tests/concurrency.rs": "459c6efe04c9f6aa2995db4c7184fb26b052318fffddebf5c5c23aad3182bfa3",
+      "crates/arc-storage/src/migration/tests/rejection.rs": "a820e85023c80bb69083b434c7d699e538bdab33cd582b2c8420b88f837edf59",
+      "crates/arc-storage/tests/coverage.rs": "7c863e42b3cff8c7a8cdb1c347dfc51bf65810732d9b6388308f3b1baa9c48de",
+      "crates/arc-storage/tests/fixtures/0001_fixture.sql": "dde14974272eb5d70354fbce668ca8e9f2f88ff3d94b4138245e7c3d706dc639",
+      "crates/arc-storage/tests/fixtures/0002_additive.sql": "bd3825ecd763c108950dc6b5c78e7bc9a8d30e0e15a9a312ae00fa3b71933127",
+      "crates/arc-storage/tests/managed_exec_migration.rs": "55352773e3731464a9e4d08e42b61faab3eeb8959cf082bea2ce47d0edc98f8e",
+      "crates/arc-storage/tests/nfr010.rs": "cfaa01ca28ac9f9fadf2f7992c9d705a9660528e311407174b159ee325d6c2b8",
+      "crates/arc-storage/traffic-storage-admission-repair-report.md": "2e57e29f1ef73bc97a311696179245155bede9c2beaa3243a0a5038394d5b1da",
+      "crates/arc-storage/traffic-storage-recovery-report.md": "9d801993a06c8679e5b4fc3b63f0fdbeec96e2a5c9634756f84611f7b041420e",
+      "crates/arc-storage/traffic-storage-repair-report.md": "73d1d180ddeb72eb5c8afd9c60b57d876e6aad2974ea442823b75c1b1423688d",
+      "crates/arc-storage/traffic-storage-report.md": "be64a4476bf0ecd97bd68525e16340d881c4c57671f6978f2a7f413b29cad473",
+      "crates/arc-traffic/Cargo.toml": "c71a172cebd03e22c2d17571e00be4879177ae4938e62befea7d979c75fb1b21",
+      "crates/arc-traffic/README.md": "3adc7b5fe063fd450f3ee7c8633ec981ccc3d1b124b2d834adb01eaa61ff3c02",
+      "crates/arc-traffic/implementation-report.md": "2a0073a08b562b997b5865410565b13c66578ef4f0a8395266ea5933c760f45a",
+      "crates/arc-traffic/redaction-report.md": "4072dfcce1b274dbe38cd17c417fee240e8f8668b639ec26b3edd82de59970c8",
+      "crates/arc-traffic/repair-report.md": "788077a1dc2675e91024e03b534972d13405aa6506ac4602c849d3c84eabfb06",
+      "crates/arc-traffic/src/lib.rs": "f261c5d24e79e9b83eb4c81de342269767cf7acf44ed57edb84da9c81dc676c8",
+      "crates/arc-traffic/tests/policy.rs": "a440edfb38ba61c777dc527ebe62504a01fdf98bb2e9ee2de7eaf92b08f286e0",
+      "docs/requirements/ARC_SRS_2026-11-06.md": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+      "mise.toml": "5af71f4d3bb6e8da776de80f1252a0601ecde35114b18a0cc87946c74c1e7600",
+      "package.json": "26db92dd6f2cf22d039484406c3d079e25adcef2f2baf8e43889c14578a1a51b",
+      "rust-toolchain.toml": "f6d2a8e736e4a30b034416cc5c00fcac466d708e385e61b07285949f7074d823",
+      "scripts/archive/coverage/acceptance.ts": "6d6d58c2e2530367296eb6c069dd2ba02850ebc3e9ae68e85aacef1bbdcad448",
+      "scripts/archive/coverage/clean-checkout.test.ts": "4534dbc1924e21d085cb3da046eae1b4ce952d3149f5789881de1c55d472c1c5",
+      "scripts/archive/coverage/coverage-cli.test.ts": "ceb262678f7c10812e4cb0229baf9144c5344bae9b08a0615dcbc60775a7e0e6",
+      "scripts/archive/coverage/current-preservation.ts": "eb2d6075ad2650e1fb363995490656b2dc040649f84667fc27721ff7bb989315",
+      "scripts/archive/coverage/evidence.test.ts": "2a3b476bb2efd6e2764d0f83a0ba69e64cb91bc8f5a287a702f3e33d567fabfa",
+      "scripts/archive/coverage/harness.test.ts": "33d8ec89070f0787e49c35b766d29b6d5a33e63c8bd184c2734ec447bfc66557",
+      "scripts/archive/coverage/historical.ts": "2625971b6fc5e0dc3f8892e485c61180a15ac16b8e43f71a1a69940d3075cedf",
+      "scripts/archive/coverage/hygiene-preservation.test.ts": "0bef64f36a7198ebd402cf9d4e86290a0a1e23120cffa7b92ec19232f17a1f53",
+      "scripts/archive/coverage/hygiene.test.ts": "8865f6b8c2b2e829e3246f19b8277fdfc4e1e0c61b892c9ab78bb4ccaac3e0b7",
+      "scripts/archive/coverage/hygiene.ts": "abbcf3642e2fabe9bff18c5495b75453c6fb99563329ec27bcfa86c9ffc2b113",
+      "scripts/archive/coverage/preservation.test.ts": "bc4390471b17ba7ca2ae75a76ef5cfad232069a4f9e320a55aa18acc4ed6b43d",
+      "scripts/archive/coverage/preservation.ts": "abbb121c970800e7d6fffce3f380c22d6e8fb974233e94f0eef15ca77b1b7604",
+      "scripts/archive/coverage/schema-adaptations.ts": "08f31a2f2b7d382a41f6b00fb9f04b5a435af5176eed76bfd38201b2e62ab46c",
+      "scripts/archive/coverage/traffic-accounting.test.ts": "6ca4cf228dd46148990fe024ffde905d089226d80b5e44915922fea5eb313851",
+      "scripts/archive/coverage/traffic-bun-evidence.test.ts": "e2a28b6bb271abe82ccaa6f6ae01bbe0882bde46b7cea58e669f2874ead74a27",
+      "scripts/archive/coverage/traffic-bun-evidence.ts": "855cb9d6504f4655f2d1c732c21cac3d433a52fb3d11cd2c008f392cfded377c",
+      "scripts/archive/coverage/traffic-bun-measurement.ts": "3ea0433b7e4824deebe2b9ad8639ff3635e3fba1264f07c6b4b1d6afc66fa7b7",
+      "scripts/archive/coverage/traffic-bun-qa.test.ts": "98e19d4a00923b56dada909167fefad3c024ade82a94fd6870385997db72c9ba",
+      "scripts/archive/coverage/traffic-bun-qa.ts": "99d58d6bc9a171f2695dc46265fab184ab366a904a417b96403f40dc03bd29d9",
+      "scripts/archive/coverage/traffic-evidence-contract.md": "104832b638b2759d839b5d424c6875e628b19fa566000806c8a4ad5f44ae6530",
+      "scripts/archive/coverage/traffic-evidence.ts": "b08da6e6a8761953e841feac4409a73ea895c04b726db2b3e60b37affdd47056",
+      "scripts/archive/coverage/traffic-measurement.ts": "51824886c77c4220d016997c43702fa19e563f89d637b571920ecf9292f3879a",
+      "scripts/archive/coverage/traffic-receipts.ts": "60c26179f87406407a68c095662e78a5f976d72c531b610a8a7a12351f0682f7",
+      "scripts/archive/harness/benchmark.ts": "eb6e8970cc9f505eb313a74c9d8dd269abfdafcfb91466f91f9ddf825608cb51",
+      "scripts/archive/harness/coverage-verification.test.ts": "caf6677510c40c9c343a48a4b36787b5cc9c08899eb5f75927e8c3a53a700f6a",
+      "scripts/archive/harness/evidence-budget.test.ts": "a6489c1721b131abe28015f489631f110581f24720d3e57659c754f14404d6ac",
+      "scripts/archive/harness/exec-fail-open-assemble.ts": "6ceb1cdf015112af8db02241ecf9d6b6cf9d9708894f9c4ba950c79b9b5139e6",
+      "scripts/archive/harness/exec-fail-open-collection.ts": "218773e9fa512d6d0836d05f8c64800542b3f6abd5d843de454c88b7a165c8a5",
+      "scripts/archive/harness/exec-fail-open-compact-archive-fixture.ts": "f764301a9b2b79c1e0a96c99eb9d4c75b584b736000cc6c5960816ed0aaa2ca3",
+      "scripts/archive/harness/exec-fail-open-compact-fixture.ts": "36f3789bf622b264835ae44167eb4f74e1beb16ba861fb16c501051b40210a97",
+      "scripts/archive/harness/exec-fail-open-compact-flow.test.ts": "0100e15acf62f51fe3b361dcbbbbf93a92e153b78962bc798a591d9120e5318a",
+      "scripts/archive/harness/exec-fail-open-compact-historical-fixture.ts": "3e200b840307e56e9609a32303a187198ad4937fae671457a3085da7e819364c",
+      "scripts/archive/harness/exec-fail-open-compact.test.ts": "550abee9cebd2d8bd44bd3d3f96c477eb10e5e8f528c28bc2cca081881b02960",
+      "scripts/archive/harness/exec-fail-open-compact.ts": "2506da9d9e0e98786011a22d93c89ff44cd070d2eb16755e7ac23eca519ddf21",
+      "scripts/archive/harness/exec-fail-open-container.ts": "55f5c561d07760669465b4375444e18667f6e5dde957153c785c669ebb107ae9",
+      "scripts/archive/harness/exec-fail-open-coverage.ts": "c1c7c718ed9608f90248aa1f7c655ecee3a3409f58e4c37dd033751f469d3373",
+      "scripts/archive/harness/exec-fail-open-cross-workspace.test.ts": "6fe058746c6c93ba73f2a73989a9ee20d66eb5095bd8c29f71c5816a69f5bf4e",
+      "scripts/archive/harness/exec-fail-open-docs.test.ts": "992c3b7e4443e8d03ba231b221e4584be40157e105caa13c2d1ccb6cae73655e",
+      "scripts/archive/harness/exec-fail-open-docs.ts": "e3a277ce260aa83fc9c85835ae9ee6bcfd71a3ded666fe33cfa7cccd7f131560",
+      "scripts/archive/harness/exec-fail-open-evidence.test.ts": "731a7184b896405aae70f2470fe0a0246be1c5e4da3e6b7c9d8ae14f127946da",
+      "scripts/archive/harness/exec-fail-open-evidence.ts": "f2636e60d7394b3501aedea61f0858bdb5afd2e73c6fe8830cfc4b920febc3f9",
+      "scripts/archive/harness/exec-fail-open-fixture-recipe.ts": "ef74d0cb89f644bc6d6ae8cf29ae7d0fcd35515547e8b858a3b93b9b9403ef47",
+      "scripts/archive/harness/exec-fail-open-fixture.ts": "400e5c07dbc6b1b6af28d42fa62ff2bb5dd3510a5aba454a52af3dc8cffe3766",
+      "scripts/archive/harness/exec-fail-open-gates.test.ts": "f9988781052d582c1df03150fcbb7046f5f4d214cbf70097385d0dad9e0b8df3",
+      "scripts/archive/harness/exec-fail-open-gates.ts": "1d17442a8056c402bbcbe0e38318d24e5c4a2681ad963bab9717fd46d9eb4086",
+      "scripts/archive/harness/exec-fail-open-graph.ts": "686646f98da85c6f6ab849948928f7022b9f654772db8413073fa4f1384c4703",
+      "scripts/archive/harness/exec-fail-open-history.ts": "fd4025ac0d8d6ec86d1108e9f718a2692db7b26ede8179227adcf73020cc83db",
+      "scripts/archive/harness/exec-fail-open-inputs.ts": "d5d14678deb574fcf732fcb9f39981be5faa7c0d1163731c184f04fd249d6522",
+      "scripts/archive/harness/exec-fail-open-inventory.ts": "850b09a8344eddb1ae88cdc631901169531679eec78c3baa06e233afeae508ea",
+      "scripts/archive/harness/exec-fail-open-native-extra.test.ts": "fa46ee051edce290cdb9335d1f3960d03568af688093adf3904d251bebaba7a9",
+      "scripts/archive/harness/exec-fail-open-native-extra.ts": "6f46a9d88d3936fbe36eb5bc755050a57da38e8b3e870c7e867d21490bbfa694",
+      "scripts/archive/harness/exec-fail-open-native.ts": "32984a10708e8aaa96da4c393f6aee0a86fd521451bacaca4dbef7adea7a9daf",
+      "scripts/archive/harness/exec-fail-open-preservation.test.ts": "89d1c97142f2d2384648713f227915015d3a8fb0c7d294f786c9e9a4809e3e56",
+      "scripts/archive/harness/exec-fail-open-preservation.ts": "13ad5775dc6b7c3c1e32af004e7cc057925fc0e3a0e7cefff32580f978df0371",
+      "scripts/archive/harness/exec-fail-open-reads.ts": "eff4cc4af024b2f2321027e9565fa256e355b171a466b080f0a3ab00722302c8",
+      "scripts/archive/harness/exec-fail-open-receipts.test.ts": "27c55e724809e03fac732a71fd934200976b2667dc8db18531352bb1515c3cd7",
+      "scripts/archive/harness/exec-fail-open-receipts.ts": "4c91573842927cf1ad14225ebae304a19858cf6d50f8b37cf24d31ec930dada5",
+      "scripts/archive/harness/exec-fail-open-recipe.test.ts": "834be9e1b667897c30bf465e2fd22c6a0c5f37458d068a5f40c21f82e41a78af",
+      "scripts/archive/harness/exec-fail-open-recipe.ts": "d39ae3a938c5efdb65e9f2886a1b2edf60e796ac4a88e8ceb95051435e88e15e",
+      "scripts/archive/harness/exec-fail-open-traversal.ts": "42ccba51be85fdc21a3fc1b50ab0aabd661692ed6507286a18ca2705fdaa1a28",
+      "scripts/archive/harness/managed-exec-coverage-fixture.ts": "814521f6a0fb2cccbabc5b069fcfa67282aade51acd4043bb935105924d9bfa8",
+      "scripts/archive/harness/managed-exec-coverage-identity.test.ts": "328c0c155c0f5edefaab9761b16d79773f7f7ecb44c0c977dda88799fe060fff",
+      "scripts/archive/harness/managed-exec-evidence.test.ts": "8e5e23749026cf0f21e129683b1ef601daba54b84deb41108174e0565bee6a31",
+      "scripts/archive/harness/managed-exec-evidence.ts": "c6acca919c407080d8fa6f38f47ad5554de8f57538b3880ac9bcf72b61e04783",
+      "scripts/archive/harness/managed-exec-immutability.test.ts": "b8277eb6c8dde9ed0b20f7fcaf62935d8298d2b4e123ee29218978dbf8fb13f6",
+      "scripts/archive/harness/managed-exec-test-output.ts": "9ac0038800705542fefab8cea75095cc6bc2f97b51383d6118052c1d4f937bb9",
+      "scripts/archive/harness/managed-exec.test.ts": "fe597d5e11e86dd9e201b8f315fcd43bd6413b4d85b49498fe9494679216b1ad",
+      "scripts/archive/harness/performance.test.ts": "fc491c5cc9531ca98f44b5002753c2539e5eb2c11eb3e492e07387e40819c482",
+      "scripts/archive/harness/traffic-evidence.test.ts": "0a3c946cd7ea062e7488ff0448c458f876aa0ef360e39633b1a2dd161b1f265c",
+      "scripts/coverage/accounting.test.ts": "a6d2ad485a76f010d5fc7563def0d94536ffc8c002dd12f43cbed6b6811a2ee6",
+      "scripts/coverage/accounting.ts": "9947739f5d4a7359bcfa0c5e2ccdecc6d8575d73bdace031acb8c2d9d1f2bf56",
+      "scripts/coverage/commands.ts": "6d3ffc99f7f9ab2af3c5f5b08c88455a60e20868e9d330f6a944c5a5507fc55b",
+      "scripts/coverage/config.ts": "b04bb22cf98a6e9705de04876efe14470f1cb0998d28224e65acb889f64b67fa",
+      "scripts/coverage/coverage-receipts.ts": "e180d0b16b087d77420d7eb1102001fc5d49db592302ba19bad6b2ce0efe5c44",
+      "scripts/coverage/declaration-only.ts": "75df0ab94345d686239aaca692093eb17f544e6472d7459fb2ef4e58ca24d174",
+      "scripts/coverage/desktop-evidence.ts": "aee817dd7ba4b9330f38962c212a67facd1141fe2b266c58147a136317364011",
+      "scripts/coverage/desktop-foundation.test.ts": "269cfb498854be41272a3fa50eb4e17591c472359424731e6bba9eb1742f1f9a",
+      "scripts/coverage/desktop-operations.ts": "d9b96f0f77666a390587d445e296bcfacc9bb4392cc1c90d1942709628b69dcb",
+      "scripts/coverage/evidence.ts": "ac6890304906b7ccfa860ce2d7011a5800a48a1fd7885630c0cd37caac978491",
+      "scripts/coverage/fixture-runner.ts": "20b34c70b6b0179061488a5834fb6b53893a1e3d57f4df08ac8ea3143e57e85d",
+      "scripts/coverage/fixtures.ts": "9c9a235559a40d94e4230c176a17777f207de29a8272c30325c30f2013ca5673",
+      "scripts/coverage/gate.test.ts": "baefd45dcab50495d0682e42c5c80514ade7d104b8556564f1eae6cbdcdbb08d",
+      "scripts/coverage/gate.ts": "fd2432608f4115fd56408573f7c7cc213e07f236ec5693b87e48439ecf17126b",
+      "scripts/coverage/historical.ts": "1740c30043cff6d0b98cfc2f67eaef4f36e31d4bccc32944f6903a2a2dece5f5",
+      "scripts/coverage/host-meter-evidence.ts": "c3e839d942f817f6f1a492d7daabc31ac0ad1bef0cdba4d58ace3546ccb83b5a",
+      "scripts/coverage/host-meter-fixture.ts": "bf235eac6a48f05d6b10c11f8a84e1c237c1f15917551e66d7e5598d36101325",
+      "scripts/coverage/hygiene.test.ts": "c8fe93507c3afe67e7fe11f91c9bcd2aed05d293757a36ae3a9228af0a1a0aab",
+      "scripts/coverage/hygiene.ts": "06687aed26585b60f724cece534812f510c0597930bd5254e594ae3becce79b0",
+      "scripts/coverage/native-output.ts": "7cd5956f425f600b6bcfdf0477b5c5411f88f7e5ae15db518d674add5f387c26",
+      "scripts/coverage/output-layout.ts": "30d1a6ac9a5273bc1fac7aad0e8e85b0652f3729afbddafd9a2cb70ba816bf26",
+      "scripts/coverage/provision.sh": "36d76c4ef21556e6d39686ccc9b3e18a7a22cd12e7191b987580116f576d477d",
+      "scripts/coverage/reuse.ts": "1b54389e8e5eee02a20c0218ab2a255d7e38bdf2d6976b2daa3a172f4d3250ae",
+      "scripts/coverage/run.ts": "028fd51cb7572e4de13de2dd25bdb213460211d53c64d9a39b6adc57c33db2a8",
+      "scripts/coverage/source.ts": "4c78dc3f248fdd111ef7246ac5ea89044ee3419cbee619e68f4cdc15ae0e704a",
+      "scripts/coverage/terminal-outcomes.test.ts": "1204087232c278beeec7f1e4af70cc87cc68ce9a1714424e52988296674f42f0",
+      "scripts/coverage/traffic-accounting.test.ts": "f01e82239fb4614b641a5360f9c90b9e931a6a8a48d745909f607cb918d10ef6",
+      "scripts/coverage/traffic-targets.ts": "8ffd9fe721a0ccd668143b6663e13f0516836fde35e8a911bff660c1383bd809",
+      "scripts/harness/coverage-reuse-fixture.ts": "647bdadbee5ac19f61965c77a95cf6c91f94ac00bfd7dce2734dae98e98dd0f5",
+      "scripts/harness/coverage-reuse.test.ts": "1b25e1ce19d66db46e9a031c20106acf924c7b1a928532bed69791deb40966c8",
+      "scripts/harness/equivalence.test.ts": "19c6a2c7181e4be992e3e75feb29eb8fa61dcaa7b3de94a430cf2b8216b05a25",
+      "scripts/harness/exec-fail-open-history.ts": "865a7d5c0410dd7862b616c4ba110df55561b85fba81b0edaf8adb2f384b8db0",
+      "scripts/harness/fixtures.ts": "63c88f4cbaadb32b68d35edbf1e9695b2aa8f491f053eab185cc09b0befc2be2",
+      "scripts/harness/gc.sh": "bce2a0608605b311c7df624cc12aa0fadf14603b81112e3068dc188fc9963f73",
+      "scripts/harness/test-support.ts": "74fe7623cf732eaec1566de18e393db133278d7773c9f4b28f5e30b393af48dd",
+      "scripts/harness/traffic-targets.test.ts": "1c477e0cf11335e02ca8d7da0cbb3c3a8795312ddf0d21c8889662d0db7384aa",
+      "scripts/harness/validate.sh": "457905d0b9e91328f6585080b81906d1ce063b58d8490516c3712fc1792970bc",
+      "scripts/host-meter/native-observer-clock-test.c": "994bcceb5b249796808996d91aee6b92cf2b11330914112ac07ddf238625ad71",
+      "scripts/host-meter/native-observer.c": "2743c1af6e398c3d9770025f82274e831ef0666f6b907d4cddb56d558eda9f62",
+      "scripts/host-meter/prepare-legacy.ts": "4b223fa0ef56f8a065a6be3db9818f556ff257bf167966e20e98de366cdc2eef"
+    }
+  },
+  "baseline": {
+    "acceptedHead": "efedf0f4eb9b97eed641c82f3c4766bb16f2e3de",
+    "actualHead": "efedf0f4eb9b97eed641c82f3c4766bb16f2e3de",
+    "fullCleanClaimed": false,
+    "baselineReceipt": {
+      "path": "target/host-meter/task-10/baseline-accepted.json",
+      "sha256": "7a151b45dae4fefd364aae791bdd7e50d68f1685f2bed9c2028ffd5bad186786",
+      "bytes": 4402
+    }
+  },
+  "provenance": {
+    "gateProducer": {
+      "path": "target/host-meter/task-10/produce-gates.ts",
+      "sha256": "b2d446caaacce1d344c7619d655b57eee13dfe1d2ca35048c5f0a7053b804212",
+      "bytes": 15064
+    },
+    "runner": {
+      "path": "target/host-meter/task-10/run-live.ts",
+      "sha256": "96c83b732d2552e77475abc474fe87b1f6c221e68ae6e508a94d1707114481dc",
+      "bytes": 4184
+    },
+    "nativeProducer": {
+      "path": "target/host-meter/task-10/native-refresh/produce-native.py",
+      "sha256": "b692281d87a993004854c88ba6eba06641fccedef44c7f1f6e45bada2ccac7c8",
+      "bytes": 20048
+    },
+    "coverageValidator": {
+      "path": "target/host-meter/task-10/verify-coverage.ts",
+      "sha256": "6ffbe569d076a256a85410d119690196f000fec3028e73fd68e67659a534751b",
+      "bytes": 2024
+    }
+  },
+  "requirements": {
+    "sourceSha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+    "destinationSha256": "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca9e6c90ae2ce3e3d9e",
+    "actualBytesVerified": true,
+    "bytes": 199470,
+    "method": "Current byte-for-byte comparison and SHA-256; earlier copy retained in task-1"
+  },
+  "contract": {
+    "satisfied": true,
+    "operation": "meter.snapshot",
+    "cli": "arcctl meter snapshot --json",
+    "frozenContractInput": ".arc-verify/host-meter/contract.md",
+    "frozenContractSha256": "15d9b9a0ed9d4879567f6f7db5d2d3ebba58f4272e42963d3294a4574f83634d",
+    "evidence": "Compiled full workspace, strict wire/CLI/router tests, native cached snapshots and deterministic/component checks listed below."
+  },
+  "gates": {
+    "format": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/host-meter/task-10/format-pass2.json",
+        "sha256": "5d7fe2073813339bc75b474e5c0fdaed83dab5805df4465ba700bb3d2b1b7049",
+        "bytes": 4381
+      },
+      "argv": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+      "startedAt": "2026-11-12T00:37:40.771Z",
+      "finishedAt": "2026-11-12T00:37:41.428Z",
+      "durationMs": 656.667416,
+      "exitCode": 0
+    },
+    "clippy": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/host-meter/task-10/clippy-pass2.json",
+        "sha256": "54ced7b954c5cdd6e9d3e887f4513f6e6384faf538ac3af035d967f531ad8387",
+        "bytes": 4423
+      },
+      "argv": [
+        "cargo",
+        "clippy",
+        "--workspace",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+      "startedAt": "2026-11-12T00:37:41.551Z",
+      "finishedAt": "2026-11-12T00:37:42.484Z",
+      "durationMs": 933.450541,
+      "exitCode": 0
+    },
+    "workspaceTest": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/host-meter/task-10/workspace-test-pass2.json",
+        "sha256": "4cdcd905279fa5018d8ca80d1afbe51b2e985b13bf9f57780e5e9669eb322ad5",
+        "bytes": 4397
+      },
+      "argv": [
+        "cargo",
+        "test",
+        "--workspace"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+      "startedAt": "2026-11-12T00:37:42.604Z",
+      "finishedAt": "2026-11-12T00:41:45.622Z",
+      "durationMs": 243017.283666,
+      "exitCode": 0
+    },
+    "coverage": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/host-meter/task-10/coverage-pass2.json",
+        "sha256": "820091264095a440b378fd53cff5978f123ca8d963efc496219aa7080cd9f532",
+        "bytes": 4426
+      },
+      "argv": [
+        "bun",
+        "run",
+        "test:coverage"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+      "startedAt": "2026-11-12T00:45:24.234Z",
+      "finishedAt": "2026-11-12T00:54:42.446Z",
+      "durationMs": 558210.5065,
+      "exitCode": 0
+    },
+    "architecture": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/host-meter/task-10/architecture-pass2.json",
+        "sha256": "bb65be86617744eddc7992997962fea9aa774a70e24c9a776f954f9871d952d5",
+        "bytes": 4656
+      },
+      "argv": [
+        "./scripts/harness/validate.sh"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+      "startedAt": "2026-11-12T00:55:16.304Z",
+      "finishedAt": "2026-11-12T00:55:27.368Z",
+      "durationMs": 11063.125667,
+      "exitCode": 0
+    },
+    "activeBun": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/host-meter/task-10/active-bun-pass2.json",
+        "sha256": "6dbda558e49e5bb03ec56cdd220f162625648d22549f858fc8b2cbf1afe9eee1",
+        "bytes": 5033
+      },
+      "argv": [
+        "bun",
+        "test",
+        "apps/desktop/tests/bridge-client.test.ts",
+        "apps/desktop/tests/contracts.test.ts",
+        "apps/desktop/tests/credits.test.ts",
+        "apps/desktop/tests/dashboard.test.ts",
+        "apps/desktop/tests/lifecycle.test.ts",
+        "apps/desktop/tests/meter.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/desktop-foundation.test.ts",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/hygiene.test.ts",
+        "scripts/coverage/terminal-outcomes.test.ts",
+        "scripts/coverage/traffic-accounting.test.ts",
+        "scripts/harness/equivalence.test.ts",
+        "scripts/harness/traffic-targets.test.ts",
+        "scripts/harness/coverage-reuse.test.ts"
+      ],
+      "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+      "startedAt": "2026-11-12T00:43:59.889Z",
+      "finishedAt": "2026-11-12T00:45:01.905Z",
+      "durationMs": 62014.975125,
+      "exitCode": 0
+    },
+    "allSixPassed": true
+  },
+  "tests": {
+    "deterministic": {
+      "status": "passed",
+      "requiredCases": [
+        "counter-deltas",
+        "normalization",
+        "reset-wrap",
+        "clock-changes",
+        "partial-failures",
+        "sampling-bounds"
+      ],
+      "executedCases": [
+        {
+          "harness": 32,
+          "name": "cpu::tests::counter_deltas_normalize_whole_host_once_and_include_nice",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "cpu::tests::partial_native_cpu_failure_breaks_only_the_cpu_baseline",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "cpu::tests::monotonic_clock_and_wall_clock_changes_have_distinct_effects",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "cpu::tests::long_gaps_with_increasing_endpoints_cannot_hide_complete_wraps",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "cpu::tests::invalid_counters_zero_delta_discontinuities_and_topology_are_unknown",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "cpu::tests::declared_wrap_is_accepted_only_near_boundary_with_plausible_elapsed_time",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "cpu::tests::ambiguity_bound_applies_to_increasing_endpoints_at_every_counter_width",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "snapshot::tests::every_field_has_time_units_provenance_and_legitimate_zero_is_available",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "snapshot::tests::partial_failure_preserves_usable_fields_and_peak_keeps_its_real_observation_time",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "snapshot::tests::disk_judgments_are_derived_and_native_pressure_controls_only_sampling",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "snapshot::tests::sampled_peak_unknown_until_first_success_and_restart_resets_the_window",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "snapshot::tests::absent_identity_partial_filesystem_failure_and_impossible_space_stay_unknown",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "snapshot::tests::impossible_native_values_do_not_poison_other_measurements",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "tests::bounded_policy_adapts_without_a_gui_input",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "snapshot::tests::wall_clock_is_optional_and_regressing_monotonic_observations_do_not_replace_cache",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "worker::tests::becoming_idle_during_native_work_keeps_the_published_active_deadline",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "worker::tests::becoming_idle_while_waiting_does_not_extend_the_published_active_deadline",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "worker::tests::cadence_changes_reschedule_from_completion_without_catchup_or_unbounded_work",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "worker::tests::timeout_retains_worker_ownership_and_never_starts_a_replacement",
+          "status": "ok"
+        },
+        {
+          "harness": 32,
+          "name": "worker::tests::native_work_is_serial_reads_never_admit_work_and_shutdown_joins",
+          "status": "ok"
+        }
+      ]
+    },
+    "native": {
+      "successiveNativeSamplesAtLeast10": true,
+      "disconnectReconnect": "passed",
+      "daemonRestart": "passed",
+      "oldDaemonUnsupported": "passed",
+      "executedCases": [
+        {
+          "harness": 19,
+          "name": "meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs",
+          "status": "ok"
+        },
+        {
+          "harness": 22,
+          "name": "meter_native::successive_native_samples_headless_cli_router_and_restart",
+          "status": "ok"
+        },
+        {
+          "harness": 22,
+          "name": "meter_native::accepted_old_daemon_is_unsupported_without_disabling_health_or_jobs",
+          "status": "ok"
+        },
+        {
+          "harness": 24,
+          "name": "registered_meter_preserves_partial_failures_and_working_legacy_reads",
+          "status": "ok"
+        }
+      ],
+      "successiveArtifact": {
+        "path": "target/host-meter/integration/54595/successive_native_samples_headless_cli_router_and_restart/native-meter.json",
+        "sha256": "ec078102f1b856f7b41733fc6d527ff97ea3748049e2fc609549f86a8448f793",
+        "bytes": 113723
+      },
+      "legacyArtifact": {
+        "path": "target/host-meter/integration/54595/accepted_old_daemon_is_unsupported_without_disabling_health_or_jobs/old-daemon.json",
+        "sha256": "13d706cc8e0beef57d07d0b9652f18922b8eef121210bdcbf24e5a7fc1000fa8",
+        "bytes": 2579
+      },
+      "artifacts": [
+        {
+          "path": "target/host-meter/integration/54500/partial-native.json",
+          "sha256": "46c0abdf4623a134a8e98ff6766801688508338912785023280b1568ea68290b",
+          "bytes": 6634
+        },
+        {
+          "path": "target/host-meter/integration/54595/accepted_old_daemon_is_unsupported_without_disabling_health_or_jobs/old-daemon.json",
+          "sha256": "13d706cc8e0beef57d07d0b9652f18922b8eef121210bdcbf24e5a7fc1000fa8",
+          "bytes": 2579
+        },
+        {
+          "path": "target/host-meter/integration/54595/successive_native_samples_headless_cli_router_and_restart/native-meter.json",
+          "sha256": "ec078102f1b856f7b41733fc6d527ff97ea3748049e2fc609549f86a8448f793",
+          "bytes": 113723
+        }
+      ],
+      "sequences": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "artifactSelection": "Generated between exact current workspace command start/end; per-test-process output directories retained. Instrumented coverage native executions are separate fresh artifacts."
+    },
+    "components": {
+      "status": "passed",
+      "requiredStates": [
+        "fresh",
+        "stale",
+        "unavailable"
+      ],
+      "executedCases": [
+        "(pass) production Dashboard and typed bridge > initial loading exposes Unknown metrics without invented totals or outcomes [89.28ms]",
+        "(pass) production Dashboard and typed bridge > a validated empty page is distinct from unavailable tracking [29.61ms]",
+        "(pass) production Dashboard and typed bridge > Completed summaries remain outcome unknown until matching details record exit zero [58.22ms]",
+        "(pass) production Dashboard and typed bridge > keyboard focus moves independently of selection and exit 17 remains a failed job [86.14ms]",
+        "(pass) production Dashboard and typed bridge > record, identity observation and native receipt times have distinct exact-time disclosures [38.66ms]",
+        "(pass) production Dashboard and typed bridge > selection A/B races discard the late A reply and serialize the bounded native reads [38.20ms]",
+        "(pass) production Dashboard and typed bridge > disconnect retains the selected failure and timestamps; retry reconnects without executing work [107.53ms]",
+        "(pass) production Dashboard and typed bridge > staleness uses monotonic age and does not fabricate a confirmed disconnect [67.91ms]",
+        "(pass) production Dashboard and typed bridge > a detail lookup failure leaves fresh health/list independent and retains the earlier recorded result [61.88ms]",
+        "(pass) production Dashboard and typed bridge > not-found without a cached match is different from errors and empty history [25.26ms]",
+        "(pass) production Dashboard and typed bridge > not-found after a match keeps its outcome separately as last-known data [64.18ms]",
+        "(pass) production Dashboard and typed bridge > malformed and mismatched replies are rejected, kept redacted and require explicit retry [81.13ms]",
+        "(pass) production Dashboard and typed bridge > incompatible daemon status never appears connected and raw rejection text never appears [13.50ms]",
+        "(pass) production Dashboard and typed bridge > older revisions and recorded-time regressions cannot overwrite accepted detail [95.31ms]",
+        "(pass) production Dashboard and typed bridge > the same recorded revision remains valid when JSON field order changes [61.86ms]",
+        "(pass) production Dashboard and typed bridge > the 50-record boundary discloses truncation and preserves selection outside the next page [122.66ms]",
+        "(pass) production Dashboard and typed bridge > a newer selected summary keeps an older settled detail stale until a valid revision catches up [109.03ms]",
+        "(pass) production Dashboard and typed bridge > unchanged polls never mutate the selected-result announcement; a new selection announces its result [115.17ms]",
+        "(pass) production Dashboard and typed bridge > automatic page replacement restores focus when the selected row leaves recent history [63.31ms]",
+        "(pass) production Dashboard and typed bridge > unknown, running, signal and spawn outcomes retain their actual meaning [108.59ms]",
+        "(pass) production Dashboard and typed bridge > About navigation preserves the selected job and restores meaningful list focus [59.61ms]",
+        "(pass) production Dashboard and typed bridge > reconnect delays are capped and one owner cleans up its timers [17.80ms]",
+        "(pass) Dashboard host Meter > pending then normalized readings preserve focused failed-job selection and unknown attribution [35.31ms]",
+        "(pass) Dashboard host Meter > first interval and per-field unknown reasons remain distinct from a legitimate zero [65.96ms]",
+        "(pass) Dashboard host Meter > healthy idle sampling stays fresh past job freshness; cached rereads never rejuvenate it [135.92ms]",
+        "(pass) Dashboard host Meter > same sequence already aged by the daemon has a strict 31000/31001 boundary [35.00ms]",
+        "(pass) Dashboard host Meter > active, pressure and adjusted cadences use their own exact thresholds [255.24ms]",
+        "(pass) Dashboard host Meter > the existing refresh timer follows active cadence without another polling owner [68.09ms]",
+        "(pass) Dashboard host Meter > fresh health and jobs do not hide stale Meter; fresh Meter does not erase detail failure [66.25ms]",
+        "(pass) Dashboard host Meter > a failed RSS keeps other fields and an honestly old sampled peak; recovery confirms the same maximum [91.95ms]",
+        "(pass) Dashboard host Meter > native filesystem bytes, full local identity and derived pressure remain separately labeled [155.94ms]",
+        "(pass) Dashboard host Meter > positive values below precision retain exact bytes; legitimate zero and unknown never merge [184.67ms]",
+        "(pass) Dashboard host Meter > field, sample, receipt and health times are distinct; null and out-of-Date-range values are safe [64.46ms]",
+        "(pass) Dashboard host Meter > wall-clock receipts can jump while monotonic freshness and CPU interval remain intact [134.44ms]",
+        "(pass) Dashboard host Meter > unsupported old daemons are probed once per epoch; scheduled health/jobs keep working [65.78ms]",
+        "(pass) Dashboard host Meter > Meter failures and invalid replies retain stale readings without disabling automatic job inspection [175.67ms]",
+        "(pass) Dashboard host Meter > disconnect and coalesced retries retain selection/outcome; health recovery alone cannot freshen Meter [109.73ms]",
+        "(pass) Dashboard host Meter > same PID with a new start token resets daemon accounting and rejects lower or retired samples [170.06ms]",
+        "(pass) Dashboard host Meter > same-sequence mutation is rejected, while JSON key ordering is immaterial [98.71ms]",
+        "(pass) Dashboard host Meter > selection changes retire pending Meter data and late job replies without a second read owner [80.08ms]",
+        "(pass) Dashboard host Meter > meaningful status transitions announce once; numeric samples and time changes are outside live regions [128.20ms]",
+        "(pass) production About / Credits > exact SRS identity and three destinations use only the fixed native opener [58.90ms]",
+        "(pass) production About / Credits > social tooltips appear on keyboard focus and links participate in normal Tab order [67.13ms]",
+        "(pass) production About / Credits > null commit, dirty state and license remain unavailable while actual notices remain readable [40.45ms]",
+        "(pass) production About / Credits > version, full build object, build state, architecture and notices come from local bridge metadata [30.97ms]",
+        "(pass) production About / Credits > missing notices and metadata failure are explicit and never depend on daemon connectivity [41.51ms]",
+        "(pass) production About / Credits > opener failure is redacted, retains keyboard focus and permits another explicit activation [37.10ms]",
+        "(pass) production desktop component lifecycle > hidden pending Meter replies retire before one serialized reopen cycle and new accounting window [98.50ms]",
+        "(pass) production desktop component lifecycle > desktop-only quit with a pending Meter read retires it and visibility never restarts inspection [25.17ms]",
+        "(pass) production desktop component lifecycle > Hide Dashboard retires late native replies and Open Dashboard resumes the same React window [34.12ms]",
+        "(pass) production desktop component lifecycle > reopen arriving before a retired read settles queues one fresh cycle and never overlaps reads [24.87ms]",
+        "(pass) production desktop component lifecycle > desktop-only quit requests quit_desktop, stops refreshes and never sends a daemon action [31.95ms]",
+        "(pass) production desktop component lifecycle > visibility hide/show retains selection and timestamped results, then refreshes once [61.16ms]",
+        "(pass) production desktop component lifecycle > StrictMode leaves one subscription and unmount clears timers and ignores pending detail [11.40ms]",
+        "(pass) production desktop component lifecycle > a failed local hide/quit action is visible and resumes inspection without leaking diagnostics [58.52ms]",
+        "(pass) production desktop component lifecycle > the real document visibility adapter subscribes and cleans up without another lifecycle command [0.38ms]",
+        "(pass) delivered production protocol-1 bridge contract > shared synthetic golden cases validate the exact Rust/TypeScript wire shapes [0.09ms]",
+        "(pass) delivered production protocol-1 bridge contract > the four data commands and snake_case selected-ID argument stay fixed [0.26ms]",
+        "(pass) delivered production protocol-1 bridge contract > Meter projection consumes the shared Rust golden without widening health [0.12ms]",
+        "(pass) delivered production protocol-1 bridge contract > Meter rejects malformed units, tags, bounds, object trees and inconsistent windows [0.72ms]",
+        "(pass) delivered production protocol-1 bridge contract > health requires protocol 1 and supplies no substitute metric fields [0.11ms]",
+        "(pass) delivered production protocol-1 bridge contract > recent page bounds, uniqueness, timestamps and last-known liveness are enforced [0.14ms]",
+        "(pass) delivered production protocol-1 bridge contract > invalid job IDs are rejected before native I/O and a mismatched found ID is invalid [0.14ms]",
+        "(pass) delivered production protocol-1 bridge contract > safe-integer receipts, explicit nullable fields and terminal phase/outcome consistency are required [0.23ms]",
+        "(pass) delivered production protocol-1 bridge contract > unsupported result kinds and metadata with invented/missing fields are rejected [0.10ms]",
+        "(pass) delivered production protocol-1 bridge contract > opener and lifecycle expose exactly the three enums and local unit-returning commands [0.15ms]",
+        "(pass) delivered production protocol-1 bridge contract > rejected native values retain safe error codes and drop raw diagnostics [0.08ms]",
+        "(pass) fixed desktop invoke boundary > Meter is a fixed argument-free read and preserves scoped unsupported/unavailable errors [0.18ms]",
+        "(pass) fixed desktop invoke boundary > uses the fixed health command and preserves a separate receipt time [0.06ms]",
+        "(pass) fixed desktop invoke boundary > selects by exact snake_case ID and retains recorded exit 17 [0.09ms]",
+        "(pass) fixed desktop invoke boundary > rejects a different selected ID before the UI can replace its detail [0.05ms]",
+        "(pass) fixed desktop invoke boundary > rejects unsafe receipts, wrong protocol and extra private fields [0.08ms]",
+        "(pass) fixed desktop invoke boundary > does not expose raw rejected diagnostics [0.06ms]",
+        "(pass) fixed desktop invoke boundary > invalid IDs and URLs cannot cause a native invocation [0.05ms]",
+        "(pass) fixed desktop invoke boundary > only enum credit links and local lifecycle command names cross the boundary [0.06ms]"
+      ]
+    },
+    "fullBunDiscovery": {
+      "status": "passed",
+      "receipt": {
+        "path": "target/host-meter/task-10/full-bun-pass2.json",
+        "sha256": "dd78103070a282244c456e36e0d130bf924cce55d4119541486de2266dfd9b59",
+        "bytes": 4357
+      },
+      "inventory": {
+        "path": "target/host-meter/task-10/bun-discovery-pass2.json",
+        "sha256": "001d18d939e12dc48fbe39612d650741dcfe3ff34573492ed49832a0fe052679",
+        "bytes": 1249
+      },
+      "files": [
+        "scripts/harness/traffic-targets.test.ts",
+        "scripts/harness/coverage-reuse.test.ts",
+        "scripts/harness/equivalence.test.ts",
+        "scripts/coverage/hygiene.test.ts",
+        "scripts/coverage/gate.test.ts",
+        "scripts/coverage/traffic-accounting.test.ts",
+        "scripts/coverage/terminal-outcomes.test.ts",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/desktop-foundation.test.ts",
+        "apps/desktop/tests/dashboard.test.ts",
+        "apps/desktop/tests/meter.test.ts",
+        "apps/desktop/tests/credits.test.ts",
+        "apps/desktop/tests/lifecycle.test.ts",
+        "apps/desktop/tests/contracts.test.ts",
+        "apps/desktop/tests/bridge-client.test.ts"
+      ],
+      "fileCount": 15,
+      "testCount": 175,
+      "explicitCommandCoversEntireInventory": true
+    },
+    "workspace": {
+      "executed": 678,
+      "ignored": 0,
+      "harnesses": 48,
+      "execution": {
+        "path": "target/host-meter/task-10/workspace-execution.json",
+        "sha256": "aceb80e29122c7bbd00966db54a9c92c98e903333d904d79eb4d5e45314e1731",
+        "bytes": 100607
+      }
+    }
+  },
+  "sampling": {
+    "boundsVerified": true,
+    "headlessAndAdaptiveVerified": true,
+    "persistedResourceSampleCapacity": 0,
+    "evidence": "Deterministic bounded-policy/worker tests and actual no-router headless samples, active job cadence, idle return and hidden-window sampling progress."
+  },
+  "dashboard": {
+    "preservedBehaviorsVerified": true,
+    "evidence": "Actual component tests retain selection, focused job, recorded exit outcomes, independent freshness, unavailable reasons, announcements, Credits, hide/reopen and desktop-only quit."
+  },
+  "compatibility": {
+    "protocol1FailOpenAndExecutionVerified": true,
+    "migrationChecksumsPreserved": true,
+    "migrations": [
+      {
+        "migrationPath": "crates/arc-storage/migrations/0001_phase0.sql",
+        "currentSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "acceptedSha256": "046610c920709f0d9371ccaff6254fbd1c1c46cc6e930890869ff0ffc4fb1384",
+        "preserved": true
+      },
+      {
+        "migrationPath": "crates/arc-storage/migrations/0002_managed_exec.sql",
+        "currentSha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+        "acceptedSha256": "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814",
+        "preserved": true
+      },
+      {
+        "migrationPath": "crates/arc-storage/migrations/0003_traffic.sql",
+        "currentSha256": "1f4522e3f27c124aea7127d92434c7bd22be36168fef0a4bf665f8cf16debe90",
+        "acceptedSha256": "1f4522e3f27c124aea7127d92434c7bd22be36168fef0a4bf665f8cf16debe90",
+        "preserved": true
+      }
+    ],
+    "executedCases": [
+      {
+        "harness": 1,
+        "name": "exec::transport::preparation_tests::confirmed_registration_then_denied_claim_is_uncertain",
+        "status": "ok"
+      },
+      {
+        "harness": 5,
+        "name": "integrity_protocol_busy_and_absent_endpoint_keep_existing_error_categories",
+        "status": "ok"
+      },
+      {
+        "harness": 10,
+        "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "fail_open::cancellation_during_register_claim_and_near_deadline_never_launches",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "fail_open::directed_signals_preserve_native_status_during_fallback",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "fail_open::historical_arcctl_fails_live_fallback_assertions",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "fail_open::rejection_invalid_reply_arguments_and_local_config_never_launch",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "protocol::identity_mismatch_missing_and_restart_never_invent_an_exit",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "protocol::unreaped_quick_exit_keeps_identity_but_is_not_reported_running",
+        "status": "ok"
+      },
+      {
+        "harness": 14,
+        "name": "protocol::version_first_typed_payload_validation_recent_bound_and_secret_absence",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "protocol::lost_grant_and_completion_acknowledgements_are_idempotent",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "protocol::new_cli_uses_legacy_lifecycle_after_explicit_unsupported_probe",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "protocol::protocol_admission_enforces_windows_budget_fifo_and_bypass",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "protocol::traffic_outage_fails_open_once_within_the_exchange_budget",
+        "status": "ok"
+      },
+      {
+        "harness": 17,
+        "name": "terminal_outcomes_historical::historical_unknown_preserves_verified_child_in_cli_and_protocol",
+        "status": "ok"
+      },
+      {
+        "harness": 19,
+        "name": "lifecycle::failure_tests::typed_worker_errors_reach_protocol_and_actual_cli_then_recover",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "registered_meter_preserves_partial_failures_and_working_legacy_reads",
+        "status": "ok"
+      },
+      {
+        "harness": 24,
+        "name": "registered_commands_reject_malformed_envelopes_and_wrong_protocol",
+        "status": "ok"
+      },
+      {
+        "harness": 25,
+        "name": "tests::bun_native_argv_is_conservative_and_shell_protocol_is_unchanged",
+        "status": "ok"
+      },
+      {
+        "harness": 27,
+        "name": "meter::tests::additive_contract_keeps_protocol_one_and_legacy_unsupported",
+        "status": "ok"
+      },
+      {
+        "harness": 27,
+        "name": "tests::dispatch::protocol_version_99_returns_incompatible_and_a_later_hello_succeeds",
+        "status": "ok"
+      },
+      {
+        "harness": 27,
+        "name": "tests::schema::protocol_mismatch_precedes_doctor_and_integrity_failure_precedes_schema",
+        "status": "ok"
+      },
+      {
+        "harness": 30,
+        "name": "lifecycle_wire_shapes_are_protocol_one_and_deny_secret_fields",
+        "status": "ok"
+      },
+      {
+        "harness": 31,
+        "name": "capability_probe_requires_matching_explicit_response_and_protocol_one",
+        "status": "ok"
+      },
+      {
+        "harness": 31,
+        "name": "bun_uses_an_additive_operation_and_never_legacy_registration",
+        "status": "ok"
+      },
+      {
+        "harness": 34,
+        "name": "jobs::tests::recovery::concurrent_stable_key_registration_claim_and_completion_have_one_winner",
+        "status": "ok"
+      },
+      {
+        "harness": 34,
+        "name": "jobs::tests::terminal_outcomes::exit_states_are_durable_and_retries_keep_protocol_one_completed",
+        "status": "ok"
+      },
+      {
+        "harness": 34,
+        "name": "jobs::tests::terminal_outcomes::protocol_one_phase_decoder_rejects_new_database_states",
+        "status": "ok"
+      }
+    ]
+  },
+  "coverage": {
+    "productionLineFloorPercent": 80,
+    "crates": [
+      "arc-core",
+      "arc-detector",
+      "arc-storage",
+      "arc-ipc",
+      "arc-daemon",
+      "arc-cli",
+      "arc-traffic",
+      "arc-desktop",
+      "arc-platform",
+      "arc-meter"
+    ],
+    "allCratesMeetFloor": true,
+    "collectionCount": 1,
+    "runId": "2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165",
+    "summary": {
+      "path": "target/host-meter/coverage/runs/2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165/summary.json",
+      "sha256": "3305bff79954f87106deeaaedf05539b39d8d0a5cbc75325a04f3fd6ecb7e2df",
+      "bytes": 229170
+    },
+    "perCrate": [
+      {
+        "crate": "arc-core",
+        "covered": 474,
+        "total": 485,
+        "percent": 97.73195876288659,
+        "pass": true
+      },
+      {
+        "crate": "arc-detector",
+        "covered": 706,
+        "total": 711,
+        "percent": 99.29676511954993,
+        "pass": true
+      },
+      {
+        "crate": "arc-storage",
+        "covered": 1811,
+        "total": 1892,
+        "percent": 95.71881606765328,
+        "pass": true
+      },
+      {
+        "crate": "arc-ipc",
+        "covered": 953,
+        "total": 990,
+        "percent": 96.26262626262626,
+        "pass": true
+      },
+      {
+        "crate": "arc-daemon",
+        "covered": 2312,
+        "total": 2542,
+        "percent": 90.95200629425649,
+        "pass": true
+      },
+      {
+        "crate": "arc-cli",
+        "covered": 1648,
+        "total": 1979,
+        "percent": 83.2743810005053,
+        "pass": true
+      },
+      {
+        "crate": "arc-traffic",
+        "covered": 111,
+        "total": 111,
+        "percent": 100,
+        "pass": true
+      },
+      {
+        "crate": "arc-desktop",
+        "covered": 453,
+        "total": 524,
+        "percent": 86.45038167938931,
+        "pass": true
+      },
+      {
+        "crate": "arc-platform",
+        "covered": 225,
+        "total": 247,
+        "percent": 91.09311740890688,
+        "pass": true
+      },
+      {
+        "crate": "arc-meter",
+        "covered": 456,
+        "total": 460,
+        "percent": 99.1304347826087,
+        "pass": true
+      }
+    ],
+    "declarationOnlyFiles": [
+      {
+        "path": "crates/arc-platform/src/lib.rs",
+        "crate": "arc-platform",
+        "total": 0,
+        "covered": 0,
+        "uncovered": [],
+        "mapped": [],
+        "omitted": [],
+        "declarationOnly": true
+      }
+    ],
+    "reuse": {
+      "receipt": {
+        "path": "target/host-meter/coverage/runs/2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165/reuse.json",
+        "sha256": "9ad2e3da84e4f172e8d71319cdb321071d72182b85e56ef08b09d8c96bdbd624",
+        "bytes": 2080
+      },
+      "currentInputMatch": true,
+      "harnessValidated": true,
+      "recollected": false,
+      "independentValidation": {
+        "path": "target/host-meter/task-10/coverage-reuse-pass2.json",
+        "sha256": "d5cf3d5b92fc851da5191b7789d3606641031023650631ced9a81b0ed6fbfa0e",
+        "bytes": 4409
+      },
+      "environmentAlias": "Requested ARC_COVERAGE_REUSE_RECEIPT is mirrored to the existing ARC_COVERAGE_RECEIPT by the hash-bound target runner. Both actual environment values are identical; no harness command/source or checks changed."
+    },
+    "priorInputPassCollections": 1,
+    "totalTaskCollections": 2,
+    "historicalBaselinePreserved": true
+  },
+  "nativeReconciliation": {
+    "publishedPath": ".arc-verify/host-meter/native.json",
+    "publishedSha256": "51e06973d97e7ce6a62e40b51efa30b94bf3b357b3df6b76f8811257ccd4236f",
+    "candidate": {
+      "path": "target/host-meter/task-10/native-refresh/native-candidate.json",
+      "sha256": "51e06973d97e7ce6a62e40b51efa30b94bf3b357b3df6b76f8811257ccd4236f",
+      "bytes": 66906
+    },
+    "currentInputIdentity": true,
+    "previousReport": {
+      "path": "target/host-meter/task-10/native-task9-preserved.json",
+      "sha256": "812f59a8c6504edfd9a930599b9aff6d8fad128590d743ac5bf00cb77882ba9a",
+      "bytes": 65473
+    },
+    "refreshInputAudit": {
+      "path": "target/host-meter/task-10/native-artifact-reconciliation-pass2.json",
+      "sha256": "8cb3f9067a334f91d8ffb35d2f2e4d3928f67a48a38c09def1dbbb379c69ead8",
+      "bytes": 3542
+    },
+    "actualIdle": {
+      "elapsedMs": 317238.49099999666,
+      "deltaCoreSeconds": 0.009145624999999998,
+      "percent": 0.0028828863014608444,
+      "maxBytes": 4734976
+    }
+  },
+  "desktopCompatibility": {
+    "allPassed": true,
+    "commands": {
+      "typecheck": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/host-meter/task-10/desktop-typecheck-pass2.json",
+          "sha256": "e2d02ac4f728205de8d25083e988c56efd3b9c26fb7377a987538be2fe9e6eb8",
+          "bytes": 4409
+        },
+        "argv": [
+          "bun",
+          "run",
+          "desktop:typecheck"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+        "startedAt": "2026-11-12T00:42:48.167Z",
+        "finishedAt": "2026-11-12T00:42:49.968Z",
+        "durationMs": 1800.8713329999998,
+        "exitCode": 0
+      },
+      "check": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/host-meter/task-10/desktop-check-pass2.json",
+          "sha256": "c188195dbcb814c21bae89936afb62702f49152de45ff50b66c581c9018e0b25",
+          "bytes": 4392
+        },
+        "argv": [
+          "bun",
+          "run",
+          "desktop:check"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+        "startedAt": "2026-11-12T00:42:50.090Z",
+        "finishedAt": "2026-11-12T00:42:50.270Z",
+        "durationMs": 180.41470800000002,
+        "exitCode": 0
+      },
+      "build": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/host-meter/task-10/desktop-build-pass2.json",
+          "sha256": "dcdc5e81dabb961b43f0afc07afa9591bd37db92371fe412c822a4fd7f941d4d",
+          "bytes": 4382
+        },
+        "argv": [
+          "bun",
+          "run",
+          "desktop:build"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+        "startedAt": "2026-11-12T00:42:50.390Z",
+        "finishedAt": "2026-11-12T00:42:51.068Z",
+        "durationMs": 678.43,
+        "exitCode": 0
+      },
+      "smoke:tauri": {
+        "status": "passed",
+        "receipt": {
+          "path": "target/host-meter/task-10/desktop-smoke-tauri-pass2.json",
+          "sha256": "3183ed3b05b989b7f4a56841a4cb378f4f419a7c29cc960913c45e5244be965a",
+          "bytes": 4420
+        },
+        "argv": [
+          "bun",
+          "run",
+          "desktop:smoke:tauri"
+        ],
+        "cwd": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/c35609d7-4967-4fa0-a254-6010099bfdee/workspace",
+        "startedAt": "2026-11-12T00:42:51.194Z",
+        "finishedAt": "2026-11-12T00:43:11.350Z",
+        "durationMs": 20156.561665999998,
+        "exitCode": 0
+      }
+    }
+  },
+  "containerTargets": {
+    "completionRequirementsSatisfied": true,
+    "applicability": "not_applicable",
+    "policyContext": {
+      "path": "target/host-meter/task-13/policy-context.json",
+      "sha256": "b0c8510827c0472bd370603e84fc36665a243bae7ebe92519d38f59cd05ca0c5",
+      "bytes": 312
+    },
+    "targets": [],
+    "observedInventory": null,
+    "basis": "Operator-supplied task-13 policy context and task-10 correction: no container/service observation policy applies. targets=[] is schema-compatible absence of required policy targets, not an observed empty inventory. av.yaml denial is not evidence of absence."
+  },
+  "environment": {
+    "receipt": {
+      "path": "target/host-meter/task-10/environment-pass2.json",
+      "sha256": "9a62690ef1ae97240b74d273ec70b65265e30e471b7e8e9e7cb816cf5cf5aad8",
+      "bytes": 4409
+    },
+    "details": {
+      "path": "target/host-meter/task-10/environment-report-pass2.json",
+      "sha256": "045646b5d0daba2b2ec7e8e33ce0fd1cbdbc5c8e9f38c50a76ba1898c8b5e0a7",
+      "bytes": 9535
+    },
+    "allFinalCargoChecksOffline": true,
+    "perCheckTimeoutMs": 7200000
+  },
+  "evidence": {
+    "fileCount": 7,
+    "fileCountSemantics": "Reserved final inventory required by the immutable contract; actual current files and downstream reservations are separately recorded below.",
+    "withinByteBudget": true,
+    "smallEvidenceCheckCount": 1,
+    "checkerPath": "scripts/coverage/host-meter-evidence.ts",
+    "checkerSha256": "c3e839d942f817f6f1a492d7daabc31ac0ad1bef0cdba4d58ace3546ccb83b5a",
+    "observedBeforePublication": {
+      "fileCount": 4,
+      "bytes": 163372,
+      "files": [
+        "contract.md",
+        "experience.md",
+        "native.json",
+        "value.md"
+      ]
+    },
+    "reservedFinalFiles": [
+      "contract.md",
+      "experience.md",
+      "value.md",
+      "native.json",
+      "gates.json",
+      "qa.json",
+      "final.md"
+    ],
+    "downstreamNotYetWritten": [
+      "qa.json",
+      "final.md"
+    ],
+    "byteLimit": 5000000,
+    "prospectiveAtChecker": {
+      "fileCount": 5,
+      "bytes": 262309,
+      "observed": {
+        "fileCount": 4,
+        "bytes": 163372
+      }
+    },
+    "actualAfterPublication": {
+      "fileCount": 5,
+      "bytes": 263730,
+      "files": [
+        "contract.md",
+        "experience.md",
+        "gates.json",
+        "native.json",
+        "value.md"
+      ]
+    }
+  },
+  "evidenceCheck": {
+    "status": "passed",
+    "receipt": {
+      "path": "target/host-meter/task-10/evidence-check-final.json",
+      "sha256": "65093280d4b6504803834e6b2a3f05005acbc3061190d5f842a3fdcfbab8bf17",
+      "bytes": 4465
+    },
+    "candidate": {
+      "path": "target/host-meter/task-10/gates-candidate.json",
+      "sha256": "7202fd85fd9da6baece92b112601494dc681c50c7056f3c3e53bd46b42a305e2",
+      "bytes": 98937
+    },
+    "result": {
+      "sourceHash": "18c27e77cc17fbad2bb3f70a52652d7c8dffdbbeb40bd2e5dbe071f6428a7311",
+      "gateCount": 6,
+      "nativeCases": 678,
+      "coverageRun": "2026-11-12T00-45-24-261Z-b99e796a-b101-46f3-ad06-592600bcb165",
+      "idle": {
+        "elapsedMs": 317238.49099999666,
+        "deltaCoreSeconds": 0.009145624999999998,
+        "percent": 0.0028828863014608444,
+        "maxBytes": 4734976
+      },
+      "evidence": {
+        "fileCount": 5,
+        "bytes": 262309,
+        "observed": {
+          "fileCount": 4,
+          "bytes": 163372
+        }
+      },
+      "candidate": "target/host-meter/task-10/gates-candidate.json"
+    },
+    "publicationMethod": "The completed candidate was checked before publication; only this actual receipt and evidence inventory metadata are attached afterward, avoiding a circular self-hash. All gates/native inputs are unchanged."
+  },
+  "failures": {
+    "record": {
+      "path": "target/host-meter/task-10/failed-attempts.md",
+      "sha256": "0dd51740c80376c754476f91542930cdba298ead264c3c3d289cec66ae77811f",
+      "bytes": 6053
+    },
+    "initialWorkspace": {
+      "path": "target/host-meter/task-10/workspace-test.json",
+      "sha256": "40b3976faf8a3534ea6b3cd72c22aa5c273ef221dea41e9dff9f90900acea8dd",
+      "bytes": 4386
+    },
+    "repairPaths": [
+      "crates/arc-daemon/src/db_worker/tests.rs",
+      "scripts/coverage/accounting.ts",
+      "scripts/coverage/accounting.test.ts",
+      "scripts/coverage/declaration-only.ts",
+      "scripts/harness/coverage-reuse-fixture.ts",
+      "scripts/harness/coverage-reuse.test.ts"
+    ],
+    "repair": "Wait for test-hook disconnect after the reply; retain immediate release-channel assertion, reject progress and retain recovery. Production source/configuration unchanged.",
+    "focusedGreen": {
+      "path": "target/host-meter/task-10/cancel-regression.json",
+      "sha256": "f4bddc0bcc7700c303c772c66d8ec37aec0a2a1cdb0699c552f2c96b6a494512",
+      "bytes": 4603
+    },
+    "accountingRegression": {
+      "path": "target/host-meter/task-10/accounting-reuse-focused.json",
+      "sha256": "922882c5ed800779e3c4e0bf8fe6117df69935ac07869bf4207c9be09a3214e0",
+      "bytes": 4468
+    },
+    "priorCoverageFailure": {
+      "path": "target/host-meter/task-10/coverage-final.json",
+      "sha256": "cfb39197cf7bdbffe79db5f29e24b59ce1d752f701e7877f6a2387e362d430f9",
+      "bytes": 4426
+    },
+    "priorReceiptIdentitiesPreserved": true
+  },
+  "downstream": {
+    "independentQa": "pending independent read-only owner; no QA pass claimed by gate engineer",
+    "chiefFinal": "pending Chief owner; final.md reservation preserved"
+  },
+  "remainingScope": [
+    "Managed-job/vendor attribution",
+    "Native Windows",
+    "Vendor hooks",
+    "Full Meter/Phase 1 acceptance"
+  ]
+}

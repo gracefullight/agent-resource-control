@@ -134,6 +134,12 @@ impl DesktopBridge {
     pub fn daemon_health(&self) -> Result<Received<DaemonHealth>, DesktopError> {
         self.sync_read(Self::read_health)
     }
+    pub fn meter_snapshot(&self) -> Result<Received<MeterSnapshot>, DesktopError> {
+        self.sync_read(Self::read_meter)
+    }
+    pub async fn meter_snapshot_async(&self) -> Result<Received<MeterSnapshot>, DesktopError> {
+        self.blocking(Self::read_meter).await
+    }
     pub fn recent_jobs(&self) -> Result<Received<RecentJobs>, DesktopError> {
         self.sync_read(Self::read_recent)
     }
@@ -198,7 +204,7 @@ impl DesktopBridge {
                 &mut false,
                 ExchangeOptions {
                     continuity: None,
-                    retry_busy: true,
+                    retry_busy: operation != arc_ipc::meter::OPERATION_METER_SNAPSHOT,
                 },
             )
             .map_err(Into::into)
@@ -221,6 +227,13 @@ impl DesktopBridge {
             return Err(DesktopError::new(ErrorCode::Protocol));
         }
         self.received(health)
+    }
+
+    fn read_meter(&self) -> Result<Received<MeterSnapshot>, DesktopError> {
+        let value = self.exchange(arc_ipc::meter::OPERATION_METER_SNAPSHOT, Value::Null)?;
+        let snapshot = arc_ipc::meter::decode_snapshot(&value)
+            .map_err(|_| DesktopError::new(ErrorCode::InvalidReply))?;
+        self.received(snapshot)
     }
 
     fn status(&self, query: StatusRequest) -> Result<StatusResult, DesktopError> {

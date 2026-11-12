@@ -41,7 +41,17 @@ describe("production Dashboard and typed bridge", () => {
     const metrics = within(
       view.getByRole("region", { name: "Resource availability" }),
     );
-    expect(metrics.getAllByText("Unknown")).toHaveLength(8);
+    for (const label of [
+      "Disk writes",
+      "Storage reclaimed",
+      "Active agents",
+      "Global running jobs",
+      "Global queued jobs",
+      "Usage today",
+    ])
+      expect(metrics.getByText(label).nextElementSibling?.textContent).toBe(
+        "Unknown",
+      );
     expect(metrics.queryByText("0")).toBeNull();
     expect(native.count("recent_jobs")).toBe(0);
     await act(async () => {
@@ -228,6 +238,7 @@ describe("production Dashboard and typed bridge", () => {
       view.native.calls.every((call) =>
         [
           "daemon_health",
+          "meter_snapshot",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",
@@ -446,7 +457,17 @@ describe("production Dashboard and typed bridge", () => {
     expect(panel(view).getByText("Succeeded · Exit code 0")).toBeDefined();
     expect(panel(view).queryByText("No matching record.")).toBeNull();
     const metrics = view.getByRole("region", { name: "Resource availability" });
-    expect(within(metrics).getAllByText("Unknown")).toHaveLength(8);
+    for (const label of [
+      "Disk writes",
+      "Storage reclaimed",
+      "Active agents",
+      "Global running jobs",
+      "Global queued jobs",
+      "Usage today",
+    ])
+      expect(
+        within(metrics).getByText(label).nextElementSibling?.textContent,
+      ).toBe("Unknown");
     expect(within(metrics).queryByText("50")).toBeNull();
   });
 

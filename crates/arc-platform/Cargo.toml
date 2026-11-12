@@ -1,0 +1,8 @@
+[package]
+name = "arc-platform"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+arc-core.workspace = true
+libc.workspace = true

@@ -18,6 +18,10 @@ use tokio::{
 
 pub(crate) use arc_ipc::ERROR_DB_BUSY;
 
+#[cfg(test)]
+#[path = "meter_dispatch_tests.rs"]
+mod meter_tests;
+
 /// A worker adapter maps typed DbError values without exposing SQLite to I/O.
 pub(crate) enum DoctorOutcome {
     Ready(DoctorReport),
@@ -66,11 +70,14 @@ pub(crate) async fn handle_with_jobs<D, F, J, G>(
         TrafficHandler {
             enabled: false,
             handle: |_, _, _| async { Err(arc_ipc::ERROR_UNSUPPORTED_CAPABILITY) },
+            meter: None,
         },
     )
     .await;
 }
 
+#[cfg(test)]
+#[allow(dead_code)] // The standalone Traffic target uses this legacy test adapter.
 pub(crate) async fn handle_with_traffic<D, F, J, G, T, H>(
     stream: UnixStream,
     limits: RuntimeLimits,
@@ -79,6 +86,34 @@ pub(crate) async fn handle_with_traffic<D, F, J, G, T, H>(
     doctor: D,
     jobs: J,
     traffic: T,
+) where
+    D: Fn(std::time::Instant) -> F,
+    F: Future<Output = DoctorOutcome>,
+    J: Fn(arc_ipc::jobs::LifecycleRequest, std::time::Instant) -> G,
+    G: Future<Output = Result<serde_json::Value, &'static str>>,
+    T: Fn(arc_ipc::traffic::JobRequest, u32, std::time::Instant) -> H,
+    H: Future<Output = Result<serde_json::Value, &'static str>>,
+{
+    handle_with_meter(
+        stream,
+        limits,
+        requests,
+        metrics,
+        doctor,
+        jobs,
+        (traffic, None),
+    )
+    .await;
+}
+
+pub(crate) async fn handle_with_meter<D, F, J, G, T, H>(
+    stream: UnixStream,
+    limits: RuntimeLimits,
+    requests: Requests,
+    metrics: Arc<RuntimeMetrics>,
+    doctor: D,
+    jobs: J,
+    traffic: (T, Option<arc_meter::SnapshotReader>),
 ) where
     D: Fn(std::time::Instant) -> F,
     F: Future<Output = DoctorOutcome>,
@@ -96,7 +131,8 @@ pub(crate) async fn handle_with_traffic<D, F, J, G, T, H>(
         jobs,
         TrafficHandler {
             enabled: true,
-            handle: traffic,
+            handle: traffic.0,
+            meter: traffic.1,
         },
     )
     .await;
@@ -105,6 +141,7 @@ pub(crate) async fn handle_with_traffic<D, F, J, G, T, H>(
 struct TrafficHandler<T> {
     enabled: bool,
     handle: T,
+    meter: Option<arc_meter::SnapshotReader>,
 }
 
 async fn handle_inner<D, F, J, G, T, H>(
@@ -216,8 +253,17 @@ async fn handle_inner<D, F, J, G, T, H>(
             None
         };
         // Neither the body nor payload enters the worker or survives an await.
+        let metered = if request.protocol_version == PROTOCOL_VERSION
+            && request.operation == arc_ipc::meter::OPERATION_METER_SNAPSHOT
+        {
+            Some(crate::meter::response(&request, traffic.meter.as_ref()))
+        } else {
+            None
+        };
         request.payload = serde_json::Value::Null;
-        let response = if traffic_probe {
+        let response = if let Some(response) = metered {
+            response
+        } else if traffic_probe {
             if probe_valid {
                 Response::ok(
                     &request.request_id,

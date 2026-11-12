@@ -13,10 +13,78 @@ import {
   T,
   within,
 } from "./fixtures/desktop-test-harness";
+import { meterFixture, meterReply, nextMeter } from "./fixtures/meter-fixture";
 
 afterEach(cleanup);
 
 describe("production desktop component lifecycle", () => {
+  test("hidden pending Meter replies retire before one serialized reopen cycle and new accounting window", async () => {
+    const native = new NativeFixture(),
+      first = meterFixture();
+    native.meter = meterReply(first);
+    const view = mountDesktop(native);
+    await settle();
+    const pending = deferred<unknown>();
+    native.enqueue("meter_snapshot", () => pending.promise);
+    await view.user.click(view.getByRole("button", { name: "Refresh status" }));
+    await settle();
+    const main = view.getByRole("main"),
+      calls = native.calls.length;
+    await act(async () => {
+      view.visibility.hide();
+    });
+    await advance(view.clock, 40_000);
+    expect(native.calls).toHaveLength(calls);
+    expect(view.clock.pending).toBe(0);
+    const fresh = nextMeter(first);
+    fresh.daemon_instance.start_token = "123457";
+    fresh.sequence = 1;
+    native.meter = meterReply(fresh);
+    await act(async () => {
+      view.visibility.show();
+      view.visibility.show();
+    });
+    const metrics = within(
+      view.getByRole("region", { name: "Resource availability" }),
+    );
+    expect(metrics.getByRole("status").textContent).toContain("Stale");
+    expect(native.calls).toHaveLength(calls);
+    const late = nextMeter(first);
+    late.sequence = 999;
+    await act(async () => {
+      pending.resolve(meterReply(late));
+    });
+    await settle();
+    expect(view.getByRole("main")).toBe(main);
+    expect(native.count("meter_snapshot")).toBe(3);
+    expect(metrics.getByRole("status").textContent).toContain(
+      "Daemon restarted · new accounting window",
+    );
+    expect(metrics.getByRole("status").textContent).not.toContain("Stale");
+    expect(native.maxInFlight).toBe(1);
+  });
+
+  test("desktop-only quit with a pending Meter read retires it and visibility never restarts inspection", async () => {
+    const native = new NativeFixture(),
+      pending = deferred<unknown>();
+    native.enqueue("meter_snapshot", () => pending.promise);
+    const view = mountDesktop(native);
+    await settle();
+    await view.user.click(
+      view.getByRole("button", { name: "Quit Desktop (Daemon continues)" }),
+    );
+    const calls = native.calls.length;
+    await act(async () => {
+      pending.resolve(meterReply());
+      view.visibility.show();
+    });
+    await settle();
+    await advance(view.clock, 300_000);
+    expect(native.calls).toHaveLength(calls);
+    expect(native.count("quit_desktop")).toBe(1);
+    expect(view.clock.pending).toBe(0);
+    expect(view.container.textContent).not.toContain("25.0%");
+  });
   test("Hide Dashboard retires late native replies and Open Dashboard resumes the same React window", async () => {
     const native = new NativeFixture();
     const pending = deferred<unknown>();
@@ -89,6 +157,7 @@ describe("production desktop component lifecycle", () => {
       view.native.calls.every((call) =>
         [
           "daemon_health",
+          "meter_snapshot",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",

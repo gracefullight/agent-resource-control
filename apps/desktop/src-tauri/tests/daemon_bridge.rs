@@ -5,6 +5,12 @@
 mod daemon_bridge_support;
 #[path = "../../../../crates/arc-daemon/tests/support/native_exec.rs"]
 mod execution;
+#[cfg(target_os = "macos")]
+#[path = "daemon_bridge_support/meter_native.rs"]
+mod meter_native;
+#[cfg(target_os = "macos")]
+#[path = "daemon_bridge_support/meter_router.rs"]
+mod meter_router;
 #[allow(dead_code)] // Other native suites use the remaining shared fixture ports.
 #[path = "../../../../crates/arc-daemon/tests/support/native_fixture.rs"]
 mod native;

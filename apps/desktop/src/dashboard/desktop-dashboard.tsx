@@ -5,6 +5,7 @@ import {
 } from "@phosphor-icons/react";
 import { RecordedTime, type TimeFormat } from "@/components/recorded-time";
 import { Button } from "@/components/ui/button";
+import { DesktopMeter } from "@/dashboard/desktop-meter";
 import type { DashboardSnapshot } from "@/dashboard/desktop-refresh-controller";
 import { RecentJobsList } from "@/dashboard/recent-jobs-list";
 import { SelectedJobPanel } from "@/dashboard/selected-job-panel";
@@ -107,35 +108,7 @@ export function DesktopDashboard({
         <p className="mt-2 text-xs text-muted-foreground">{m.healthScope}</p>
         {!snapshot.active && <p className="mt-2 text-sm">{m.paused}</p>}
       </section>
-      <section
-        aria-labelledby="metrics-heading"
-        className="rounded-xl border border-border p-5"
-      >
-        <h2 id="metrics-heading" className="font-semibold">
-          {m.metrics}
-        </h2>
-        <p className="mt-1 text-xs text-muted-foreground">{m.metricReason}</p>
-        <dl className="mt-4 grid grid-cols-2 gap-x-5 gap-y-4 md:grid-cols-4">
-          {[
-            m.cpu,
-            m.memory,
-            m.disk,
-            m.reclaimed,
-            m.agents,
-            m.runningTotal,
-            m.queuedTotal,
-            m.usage,
-          ].map((label) => (
-            <div key={label} className="min-w-0">
-              <dt className="text-sm text-muted-foreground">{label}</dt>
-              <dd className="mt-1 font-medium">{m.unknown}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="mt-3 text-xs text-muted-foreground">
-          {m.globalJobsReason}
-        </p>
-      </section>
+      <DesktopMeter section={snapshot.meter} {...format} />
       <p className="text-sm text-muted-foreground">{m.inspectionHelp}</p>
       <div className="grid min-w-0 gap-5 lg:grid-cols-2">
         <RecentJobsList

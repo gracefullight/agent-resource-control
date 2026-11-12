@@ -5,7 +5,9 @@ import { platform, release, arch, hostname } from "node:os";
 
 export const root = resolve(import.meta.dir, "../..");
 export const acceptedHead = "f85ae0430038cc3d7a6125f650872dbfce6b5529";
-export const evidence = resolve(root, "target/terminal-outcomes/tooling-fixtures");
+const outputRoot=process.env.ARC_HARNESS_OUTPUT_ROOT ?? "target/terminal-outcomes/tooling-fixtures";
+if(!outputRoot.startsWith("target/") || outputRoot.includes("\\") || outputRoot.split("/").some(part=>!part || part==="." || part==="..")) throw Error("HARNESS_OUTPUT: expected a canonical scratch path below target/");
+export const evidence = resolve(root, outputRoot);
 export const timeout = 3600000;
 export const sha = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
 export function sync(argv: string[], cwd = root, stdin?: Buffer) {

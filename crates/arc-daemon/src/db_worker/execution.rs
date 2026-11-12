@@ -104,6 +104,7 @@ pub(super) fn run(
         };
         match job {
             Ok(job) => {
+                let refresh_meter = job.operation.is_some();
                 let executing = metrics.enter(Gauge::DbExecuting, 1);
                 let active = Active {
                     cancelled: Arc::clone(&job.cancelled),
@@ -128,9 +129,19 @@ pub(super) fn run(
                 if matches!(result, Err(DbError::Deadline)) {
                     metrics.increment(Counter::DbTimeouts);
                 }
+                let _ = job.reply.send(result);
+                // Meter observes committed state only after the job's original
+                // result is fixed and sent. Failure cannot rewrite that result.
+                if refresh_meter {
+                    let active = crate::meter::active_jobs(&connection);
+                    let mut meter = shared.meter.lock().unwrap_or_else(|e| e.into_inner());
+                    meter.active = active;
+                    if let Some(sink) = &meter.sink {
+                        sink.set_active(active);
+                    }
+                }
                 // Ensure all job ownership is gone before receiving another job.
                 *shared.active.lock().unwrap_or_else(|e| e.into_inner()) = None;
-                let _ = job.reply.send(result);
                 drop(executing);
                 drop(job._outstanding);
             }
@@ -330,6 +341,10 @@ mod race_tests {
                 deadline: Instant::now() + Duration::from_secs(1),
                 progress: None,
             })),
+            meter: Mutex::new(MeterActivity {
+                active: false,
+                sink: None,
+            }),
         });
         install_progress(&mut connection, Arc::clone(&shared)).unwrap();
         let interrupt = connection.get_interrupt_handle();

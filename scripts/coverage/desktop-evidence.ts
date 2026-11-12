@@ -15,16 +15,17 @@ function rawLogReferences(value:unknown, rawLog=false):EvidenceRef[] {
     rawLogReferences(child,["rawLogs","logs","stdout","stderr"].includes(key)));
 }
 
-export function desktopEvidence(root:string) {
+export function desktopEvidence(root:string, options:{historicalAvailability?:boolean} = {}) {
   const report=JSON.parse(readFileSync(resolve(root,".arc-verify/desktop-foundation/gates.json"),"utf8"));
   const gateOutcomes=Object.fromEntries(GATES.map(name=>{
     const status:unknown=report?.gates?.[name]?.status;
     if(typeof status!=="string" || !status.trim()) throw Error(`EVIDENCE: missing gate outcome ${name}`);
     return [name,status];
   }));
-  const verifiedLogs=rawLogReferences(report).map(ref=>{
-    readEvidence(root,ref,{prefixes:["target/"],sizeRequired:false});
-    return ref.path;
-  });
-  return {gateOutcomes,verifiedLogs};
+  const verifiedLogs:string[]=[], unavailableLogs:string[]=[];
+  for(const ref of rawLogReferences(report)) {
+    const bytes=readEvidence(root,ref,{prefixes:["target/"],sizeRequired:false,optional:options.historicalAvailability===true});
+    (bytes===undefined?unavailableLogs:verifiedLogs).push(ref.path);
+  }
+  return {gateOutcomes,verifiedLogs,unavailableLogs,currentAcceptance:false as const};
 }

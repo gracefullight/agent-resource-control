@@ -4,6 +4,9 @@ pub mod dto;
 pub mod error;
 pub mod lifecycle;
 
+#[cfg(all(test, unix))]
+mod meter_bridge_tests;
+
 use bridge::DesktopBridge;
 use lifecycle::{DesktopPorts, DesktopState, TauriCreditOpener, TauriShell};
 use std::sync::Arc;
@@ -67,6 +70,7 @@ fn install<R: Runtime>(
         .on_tray_icon_event(lifecycle::on_tray_icon_event)
         .invoke_handler(tauri::generate_handler![
             commands::daemon_health,
+            commands::meter_snapshot,
             commands::recent_jobs,
             commands::job_by_id,
             commands::desktop_metadata,

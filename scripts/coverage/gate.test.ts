@@ -7,6 +7,9 @@ import { requireProfiles } from "./coverage-receipts";
 import { hash } from "./source";
 import { desktopEvidence } from "./desktop-evidence";
 import { activeBunEvidence, desktopSectionsEvidence } from "./desktop-operations";
+import { gitBytes } from "./hygiene";
+import { idleAccounting, nativeEvidence, type Observation } from "./host-meter-evidence";
+import { nativeFixture, invalidReferences, numericReferencePaths, policyCases, inventoryCases } from "./host-meter-fixture";
 
 async function check(change:(args:any,f:ReturnType<typeof fixture>)=>void,diagnostic?:string) {
   const f=fixture();
@@ -100,9 +103,12 @@ test("completed receipts reject failed commands, short timeouts, altered argv an
 // acceptance or execute/relabel a native, smoke, or component gate.
 function desktopSectionsFixture() {
   const f=evidenceFixture(), project=resolve(import.meta.dir,"../..");
+  // Exercise the historical role validator against its accepted source, even
+  // after the current product adds commands or renames component test cases.
+  const historical=(path:string)=>gitBytes(project,["show",`efedf0f4eb9b97eed641c82f3c4766bb16f2e3de:${path}`]);
   for(const path of ["package.json","apps/desktop/package.json","apps/desktop/src-tauri/tauri.conf.json","bun.lock",
     ...["dashboard","credits","contracts","lifecycle"].map(name=>`apps/desktop/tests/${name}.test.ts`)]) {
-    const bytes=readFileSync(join(project,path));
+    const bytes=historical(path);
     mkdirSync(dirname(join(f.root,path)),{recursive:true});writeFileSync(join(f.root,path),bytes);
     f.identity.files[path]=hash(bytes);
   }
@@ -114,7 +120,7 @@ function desktopSectionsFixture() {
     stdout:f.save(`target/proof/${id}.stdout.log`,stdout),stderr:f.save(`target/proof/${id}.stderr.log`,stderr),
   });
   const cargo=(names:string[],filtered=0)=>`Synthetic validator fixture; not an executed native test\nrunning ${names.length} tests\n${names.map(name=>`test ${name} ... ok`).join("\n")}\ntest result: ok. ${names.length} passed; 0 failed; 0 ignored; 0 measured; ${filtered} filtered out; finished in 0.01s\n`;
-  const cases=(path:string)=>[...readFileSync(join(project,path),"utf8").matchAll(/#\[test\]\n(?:#\[[^\n]*\]\n)*fn (\w+)\(/g)].map(match=>match[1]);
+  const cases=(path:string)=>[...historical(path).toString().matchAll(/#\[test\]\n(?:#\[[^\n]*\]\n)*fn (\w+)\(/g)].map(match=>match[1]);
   const native=[...cases("apps/desktop/src-tauri/tests/lifecycle.rs"),
     ...["input_validation","local_lifecycle","protocol_validation","status_validation","wire_projection"]
       .flatMap(name=>cases(`apps/desktop/src-tauri/tests/registered_commands_support/${name}.rs`))];
@@ -123,7 +129,7 @@ function desktopSectionsFixture() {
     ...cases("crates/arc-storage/tests/managed_exec_migration.rs"),...cases("crates/arc-ipc/src/client/access_tests.rs")];
   const files=["dashboard","credits","contracts","lifecycle"].map(name=>`apps/desktop/tests/${name}.test.ts`);
   const componentCases=files.map(path=>{
-    const source=readFileSync(join(project,path),"utf8");
+    const source=readFileSync(join(f.root,path),"utf8");
     const describe=source.match(/describe\("([^"]+)"/)![1];
     // Formatting may place the test name on the next line. Include that
     // identity so fabricated logs still exercise the unchanged role validator.
@@ -395,4 +401,99 @@ test("synthetic small desktop checker checks nested raw logs and enforces target
     f.save(".arc-verify/desktop-foundation/gates.json",{...f.report,rawLogs:[withoutSize]});
     expect(desktopEvidence(f.root).verifiedLogs).toEqual([withoutSize.path]);
   } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test("historical availability reports missing bytes separately and still rejects present tampering",()=>{
+  const f=desktopLogFixture(), ref=f.report.rawLogs[0];
+  try {
+    const present=desktopEvidence(f.root,{historicalAvailability:true});
+    expect(present.verifiedLogs).toEqual([ref.path]);expect(present.unavailableLogs).toEqual([]);
+    writeFileSync(join(f.root,ref.path),"tampered historical bytes");
+    expect(()=>desktopEvidence(f.root,{historicalAvailability:true})).toThrow("hash/size mismatch");
+    unlinkSync(join(f.root,ref.path));
+    const absent=desktopEvidence(f.root,{historicalAvailability:true});
+    expect(absent.verifiedLogs).toEqual([]);expect(absent.unavailableLogs).toEqual([ref.path]);
+    expect(absent.currentAcceptance).toBe(false);
+    expect(()=>desktopEvidence(f.root)).toThrow();
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test("synthetic idle observations recompute a one-core denominator and exact RSS bound",()=>{
+  // Validator fixtures only: these never establish native performance evidence.
+  const rows:Observation[]=Array.from({length:301},(_,i)=>({atMs:1700000000000+i*1000,monotonicMs:i*1000,
+    process:{pid:10,startToken:"123",bootId:"fixture",executable:"/fixture/daemon",cpuCoreSeconds:i*0.0001,rssBytes:20_000_000,
+      source:"proc_pid_rusage(RUSAGE_INFO_V4) fixture"}}));
+  const actual=idleAccounting(rows);
+  expect(actual.elapsedMs).toBe(300_000);expect(actual.percent).toBeCloseTo(0.01);expect(actual.maxBytes).toBe(20_000_000);
+  for(const mutate of [
+    (copy:Observation[])=>{copy.pop()},
+    (copy:Observation[])=>{copy[1].monotonicMs=0},
+    (copy:Observation[])=>{copy[10].monotonicMs=20_000},
+    (copy:Observation[])=>{copy[10].process.cpuCoreSeconds=-1},
+    (copy:Observation[])=>{copy[10].process.startToken="456"},
+    (copy:Observation[])=>{copy[10].process.rssBytes=50_000_000},
+    (copy:Observation[])=>{copy[10].process.rssBytes=Number.NaN},
+    (copy:Observation[])=>{copy[10].process.source="daemon self-report"},
+    (copy:Observation[])=>{copy.forEach((row,i)=>row.process.cpuCoreSeconds=i*0.005)},
+  ]) {const copy=structuredClone(rows);mutate(copy);expect(()=>idleAccounting(copy)).toThrow("HOST_METER");}
+});
+
+test("synthetic native checker requires raw provenance, actual discrepancies and hidden-window observations",()=>{
+  const f=evidenceFixture(), command=(name:string,argv:string[],stdout="")=>f.save(`target/native-fixture/${name}.receipt.json`,{
+    ...f.command,argv,cwd:f.root,stdout:f.save(`target/native-fixture/${name}.stdout.log`,stdout),stderr:f.save(`target/native-fixture/${name}.stderr.log`,"")});
+  try {
+    const fixture=nativeFixture(f.root,f.identity.sha256,f.save,command), original=fixture.native;
+    expect(nativeEvidence(f.root,original,f.identity.sha256).percent).toBeCloseTo(0.01);
+    for(const mutate of [
+      (n:typeof original)=>{n.idle.cpu.denominator="all_cores"},
+      (n:typeof original)=>{n.idle.cpu.percent=0},
+      (n:typeof original)=>{n.calibration.samples[0].comparisons.hostCpu.difference=0},
+      (n:typeof original)=>{n.idle.visibility=fixture.file("visible.jsonl",fixture.visibility.map((v,i)=>JSON.stringify({...v,isVisible:i===100})).join("\n"))},
+      (n:typeof original)=>{n.artifacts.noninstrumentation=command("instrumented",["nm","-a",resolve(f.root,n.artifacts.daemon.path)],"__llvm_profile_runtime")},
+    ]) {const copy=structuredClone(original);mutate(copy);expect(()=>nativeEvidence(f.root,copy,f.identity.sha256)).toThrow("HOST_METER");}
+    const observed=JSON.parse(readEvidence(f.root,original.idle.observerReceipt)!.toString());
+    writeFileSync(resolve(f.root,observed.stdout.path),"tampered");
+    expect(()=>nativeEvidence(f.root,original,f.identity.sha256)).toThrow("hash/size mismatch");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+function meterEvidenceFixture() {
+  const f=evidenceFixture(), command=(name:string,argv:string[],stdout="")=>f.save(`target/native-fixture/${name}.receipt.json`,{
+    ...f.command,argv,cwd:f.root,stdout:f.save(`target/native-fixture/${name}.stdout.log`,stdout),stderr:f.save(`target/native-fixture/${name}.stderr.log`,"")});
+  return {...f,command,meter:nativeFixture(f.root,f.identity.sha256,f.save,command)};}
+for(const [name,path] of Object.entries(numericReferencePaths)) test(`rebound calibration rejects invalid numeric ${name}`,()=>{
+  const f=meterEvidenceFixture();try {
+    for(const value of invalidReferences) expect(()=>nativeEvidence(f.root,f.meter.recalibrate({[path]:value},{[name]:null}),f.identity.sha256)).toThrow("invalid numeric reference");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+test("rebound calibration rejects coerced native counters and invalid CPU references",()=>{
+  const f=meterEvidenceFixture();try {
+    for(const phase of ["before","after"]) for(const key of ["user","system","nice","idle","logicalCpuCount"]) for(const value of invalidReferences) expect(()=>nativeEvidence(f.root,f.meter.recalibrate({[`${phase}.host.cpu.${key}`]:value}),f.identity.sha256)).toThrow("invalid native CPU counter");
+    for(const value of invalidReferences.filter(v=>v!==0.5)) expect(()=>nativeEvidence(f.root,f.meter.recalibrate({"process.process.cpuCoreSeconds":value},{daemonCpu:null}),f.identity.sha256)).toThrow("invalid numeric reference");
+    for(const difference of [null,"0",NaN,Infinity]) expect(()=>nativeEvidence(f.root,f.meter.recalibrate({},{capacity:difference}),f.identity.sha256)).toThrow("incorrect discrepancy capacity");
+    expect(()=>nativeEvidence(f.root,f.meter.recalibrate({"process.process.cpuCoreSeconds":0.5},{daemonCpu:0.5}),f.identity.sha256)).not.toThrow();
+    expect(()=>nativeEvidence(f.root,f.meter.recalibrate({"after.host.filesystem.capacityBytes":0},{capacity:500_000_000}),f.identity.sha256)).not.toThrow();
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+test("rebound calibration restricts categorical comparisons to supported memory pressure",()=>{
+  const f=meterEvidenceFixture();try {
+    for(const pressureRaw of ["1",0,3,null,true,[],{},Infinity]) expect(()=>nativeEvidence(f.root,f.meter.recalibrate({"after.host.pressureRaw":pressureRaw}),f.identity.sha256)).toThrow("invalid memory pressure reference");
+    for(const pressureRaw of [1,2,4]) expect(()=>nativeEvidence(f.root,f.meter.recalibrate({"after.host.pressureRaw":pressureRaw}),f.identity.sha256)).not.toThrow();
+    expect(()=>nativeEvidence(f.root,f.meter.recalibrate({},{memoryPressure:0}),f.identity.sha256)).toThrow("incorrect discrepancy memoryPressure");
+    for(const explanation of ["",null,true,"too short"]) expect(()=>nativeEvidence(f.root,f.meter.recalibrate({},{},{memoryPressure:explanation}),f.identity.sha256)).toThrow("missing actual comparison memoryPressure");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+test("container applicability follows trusted mission context and retains required observations",()=>{
+  const f=meterEvidenceFixture();try {for(const c of policyCases(f.root,f.identity.sha256,f.save,f.command)) {
+    if(c.valid) expect(c.run,c.name).not.toThrow();else expect(c.run,c.name).toThrow();
+  }} finally {rmSync(f.root,{recursive:true,force:true});}
+});
+test("prospective publication accounts for candidate bytes once with strict bounds and paths",()=>{
+  const f=evidenceFixture();try {for(const c of inventoryCases(f.root,f.save)) {
+    if(!c.valid) expect(c.run,c.name).toThrow();else {const r=c.run();expect([r.observed.fileCount,r.observed.bytes,r.prospective.fileCount,r.prospective.bytes],c.name).toEqual(c.expected!);}
+  }} finally {rmSync(f.root,{recursive:true,force:true});}
+});
+test("prospective publication rejects reported 4999999 existing bytes plus 54799 candidate bytes",()=>{
+  const f=evidenceFixture();try {expect(inventoryCases(f.root,f.save).find(c=>c.name==="reported 4999999 plus 54799")!.run).toThrow("evidence budget exceeded");}
+  finally {rmSync(f.root,{recursive:true,force:true});}
 });

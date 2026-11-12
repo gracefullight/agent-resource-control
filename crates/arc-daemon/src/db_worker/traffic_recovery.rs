@@ -78,7 +78,8 @@ fn recover_at_start_inner(
                 )?;
                 continue;
             }
-            let evidence = storage::observe(&candidate.job, jobs::now());
+            let evidence =
+                storage::observe(&candidate.job, jobs::now().max(candidate.job.updated_at_ms));
             if evidence.traffic_recovery_ready() {
                 storage::apply_observation(connection, &evidence)?;
             } else {
@@ -173,7 +174,8 @@ pub(crate) async fn recover(client: &DbClient, deadline: Instant) -> Result<(), 
                 reconcile_unknown(client, &candidate.job, deadline).await?;
                 continue;
             }
-            let evidence = storage::observe(&candidate.job, jobs::now());
+            let evidence =
+                storage::observe(&candidate.job, jobs::now().max(candidate.job.updated_at_ms));
             if evidence.traffic_recovery_ready() {
                 match jobs::call(client, jobs::Operation::Reconcile(evidence), deadline).await? {
                     jobs::Value::Reconcile(value) => {

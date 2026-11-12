@@ -16,7 +16,13 @@ use tokio::{
     time::{timeout_at, Instant},
 };
 
+#[path = "connection/legacy_projection.rs"]
+mod legacy_projection;
+use legacy_projection::project_legacy_snapshot;
+
 pub(crate) use arc_ipc::ERROR_DB_BUSY;
+#[path = "policy_dispatch.rs"]
+pub(crate) mod policy_dispatch;
 
 #[cfg(test)]
 #[path = "meter_dispatch_tests.rs"]
@@ -72,6 +78,7 @@ pub(crate) async fn handle_with_jobs<D, F, J, G>(
             handle: |_, _, _| async { Err(arc_ipc::ERROR_UNSUPPORTED_CAPABILITY) },
             meter: None,
             meter_jobs: None,
+            policy: None,
         },
     )
     .await;
@@ -136,6 +143,7 @@ pub(crate) async fn handle_with_meter<D, F, J, G, T, H>(
     .await;
 }
 
+#[cfg(test)]
 pub(crate) async fn handle_with_job_meter<D, F, J, G, T, H>(
     stream: UnixStream,
     limits: RuntimeLimits,
@@ -156,28 +164,22 @@ pub(crate) async fn handle_with_job_meter<D, F, J, G, T, H>(
     T: Fn(arc_ipc::traffic::JobRequest, u32, std::time::Instant) -> H,
     H: Future<Output = Result<serde_json::Value, &'static str>>,
 {
-    handle_inner(
-        stream,
-        limits,
-        requests,
-        metrics,
-        doctor,
-        jobs,
-        TrafficHandler {
-            enabled: true,
-            handle: traffic.0,
-            meter: traffic.1,
-            meter_jobs: traffic.2,
-        },
+    handle_with_policy(
+        stream, limits, requests, metrics, doctor, jobs, traffic, None,
     )
     .await;
 }
+
+#[path = "policy_connection.rs"]
+mod policy_connection;
+pub(crate) use policy_connection::handle_with_policy;
 
 struct TrafficHandler<T> {
     enabled: bool,
     handle: T,
     meter: Option<arc_meter::SnapshotReader>,
     meter_jobs: Option<crate::job_meter_dispatch::Handler>,
+    policy: Option<policy_dispatch::Handler>,
 }
 
 async fn handle_inner<D, F, J, G, T, H>(
@@ -253,6 +255,17 @@ async fn handle_inner<D, F, J, G, T, H>(
                 continue;
             }
         };
+        if policy_dispatch::dispatch(
+            &stream,
+            &request,
+            &limits,
+            traffic.policy.as_ref(),
+            &metrics,
+        )
+        .await
+        {
+            continue;
+        }
         // Classification consumes the payload synchronously under request admission.
         // Version rejection in dispatch precedes all typed payload decoding.
         let classified = if request.operation == arc_ipc::OPERATION_JOB_CLASSIFY {
@@ -431,26 +444,6 @@ fn drop_bun_grant_for_test(peer: u32) -> bool {
     assert_eq!(unsafe { libc::kill(peer as i32, libc::SIGSTOP) }, 0);
     std::fs::write(marker, b"GRANTED").expect("write committed-grant test marker");
     true
-}
-
-// Lifecycle responses are the old protocol surface. Do not change the stored
-// classification that admission, duplicate detection and recovery consume.
-fn project_legacy_snapshot(value: &mut serde_json::Value) {
-    if let Some(classification) = value
-        .get_mut("job")
-        .and_then(|job| job.get_mut("classification"))
-    {
-        if classification
-            .get("reason")
-            .and_then(serde_json::Value::as_str)
-            == Some("BUN_TEST")
-        {
-            *classification = serde_json::json!({
-                "classification": "UNKNOWN", "locality": "UNKNOWN",
-                "reason": "UNRESOLVED_COMMAND", "uncertainty": "OBSERVE"
-            });
-        }
-    }
 }
 
 async fn respond(

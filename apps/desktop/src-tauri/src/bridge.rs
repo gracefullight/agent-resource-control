@@ -21,6 +21,7 @@ use std::{
 const READ_DEADLINE: Duration = Duration::from_secs(2);
 
 mod job_meter;
+mod policy;
 
 enum Endpoint {
     System,
@@ -178,11 +179,19 @@ impl DesktopBridge {
     }
 
     fn exchange(&self, operation: &'static str, payload: Value) -> Result<Value, DesktopError> {
+        self.exchange_until(operation, payload, Instant::now() + READ_DEADLINE)
+    }
+
+    fn exchange_until(
+        &self,
+        operation: &'static str,
+        payload: Value,
+        deadline: Instant,
+    ) -> Result<Value, DesktopError> {
         #[cfg(unix)]
         {
             use arc_ipc::client::{exchange_until, ExchangeOptions};
             static NEXT: AtomicU64 = AtomicU64::new(0);
-            let deadline = Instant::now() + READ_DEADLINE;
             let socket = match &self.0.endpoint {
                 Endpoint::System => {
                     arc_core::socket_path().map_err(|_| DesktopError::new(ErrorCode::Local))?
@@ -210,6 +219,9 @@ impl DesktopBridge {
                         operation,
                         arc_ipc::meter::OPERATION_METER_SNAPSHOT
                             | arc_ipc::meter::OPERATION_METER_SUMMARY
+                            | arc_ipc::policy::OPERATION_POLICY_CAPABILITIES
+                            | arc_ipc::policy::OPERATION_POLICY_CURRENT
+                            | arc_ipc::policy::OPERATION_POLICY_JOB
                     ),
                 },
             )
@@ -217,7 +229,7 @@ impl DesktopBridge {
         }
         #[cfg(not(unix))]
         {
-            let _ = (operation, payload);
+            let _ = (operation, payload, deadline);
             Err(DesktopError::new(ErrorCode::Unsupported))
         }
     }

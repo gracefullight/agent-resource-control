@@ -7,6 +7,21 @@ use crate::{
 use tauri::State;
 
 #[tauri::command]
+pub async fn policy_current(
+    state: State<'_, DesktopState>,
+) -> Result<Received<EffectivePolicy>, DesktopError> {
+    state.bridge.policy_current_async().await
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub async fn policy_job(
+    state: State<'_, DesktopState>,
+    job_id: String,
+) -> Result<Received<JobPolicyResult>, DesktopError> {
+    state.bridge.policy_job_async(job_id).await
+}
+
+#[tauri::command]
 pub async fn meter_snapshot(
     state: State<'_, DesktopState>,
 ) -> Result<Received<MeterSnapshot>, DesktopError> {

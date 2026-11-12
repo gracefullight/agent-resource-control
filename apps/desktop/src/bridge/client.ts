@@ -3,6 +3,8 @@ import type { JobMeterSummary } from "@/bridge/job-meter.types";
 import { isJobMeterSummary } from "@/bridge/job-meter-contract";
 import type { MeterSnapshot } from "@/bridge/meter.types";
 import { isMeterSnapshot } from "@/bridge/meter-contract";
+import type { EffectivePolicy, JobPolicyResult } from "@/bridge/policy.types";
+import { isEffectivePolicy, isJobPolicyResult } from "@/bridge/policy-contract";
 import type {
   CreditLink,
   DaemonHealth,
@@ -60,6 +62,8 @@ const ERROR_CODES = [
 const CREDIT_LINKS = ["github", "linkedin", "oma"] as const;
 
 export type DesktopCommand =
+  | "policy_current"
+  | "policy_job"
   | "daemon_health"
   | "meter_snapshot"
   | "meter_summary"
@@ -395,6 +399,21 @@ export function createDesktopClient(
     }
   }
   return {
+    policyCurrent: () =>
+      read("policy_current", (value): value is Received<EffectivePolicy> =>
+        isReceived(value, isEffectivePolicy),
+      ),
+    policyJob: async (jobId) => {
+      if (!isJobId(jobId)) throw invalidRequest();
+      return read(
+        "policy_job",
+        (value): value is Received<JobPolicyResult> =>
+          isReceived(value, (data): data is JobPolicyResult =>
+            isJobPolicyResult(data, jobId),
+          ),
+        { job_id: jobId },
+      );
+    },
     meterSummary: async (jobId) => {
       if (!isJobId(jobId)) throw invalidRequest();
       return read(

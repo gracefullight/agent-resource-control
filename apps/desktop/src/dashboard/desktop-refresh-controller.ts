@@ -11,9 +11,26 @@ import {
   emptyDetail,
   emptySection,
 } from "@/dashboard/desktop-refresh-state";
+import {
+  type CancelTimer,
+  expireRecordedSections,
+  type RefreshClock,
+  refreshClock,
+  refreshDelay,
+  STALE_AFTER_MS,
+} from "@/dashboard/desktop-refresh-timing";
+
+export type { RefreshClock } from "@/dashboard/desktop-refresh-timing";
+export {
+  REFRESH_INTERVAL_MS,
+  refreshClock,
+  STALE_AFTER_MS,
+} from "@/dashboard/desktop-refresh-timing";
+
 import { consistentDetail } from "@/dashboard/job-detail-consistency";
 import { JobMeterReadState } from "@/dashboard/job-meter-read-state";
 import { MeterReadState } from "@/dashboard/meter-read-state";
+import { PolicyReadState } from "@/dashboard/policy-read-state";
 
 export type {
   DashboardSnapshot,
@@ -21,22 +38,6 @@ export type {
   SelectedDetail,
 } from "@/dashboard/desktop-refresh-state";
 
-type CancelTimer = () => void;
-export interface RefreshClock {
-  now(): number;
-  schedule(callback: () => void, delayMs: number): CancelTimer;
-}
-export const refreshClock: RefreshClock = {
-  now: () => performance.now(),
-  schedule: (callback, delayMs) => {
-    const timer = setTimeout(callback, delayMs);
-    return () => clearTimeout(timer);
-  },
-};
-
-export const REFRESH_INTERVAL_MS = 5_000;
-export const STALE_AFTER_MS = 10_000;
-const RECONNECT_DELAYS_MS = [1_000, 2_000, 4_000, 8_000, 16_000, 30_000];
 const TRANSIENT_CODES = new Set(["unavailable", "uncertain", "busy"]);
 
 const invalidReply = (): DesktopError => ({
@@ -51,6 +52,7 @@ const invalidReply = (): DesktopError => ({
 export class DesktopRefreshController {
   private readonly meter = new MeterReadState();
   private readonly jobMeter = new JobMeterReadState();
+  private readonly policy = new PolicyReadState();
   private snapshot: DashboardSnapshot = {
     connection: "loading",
     active: false,
@@ -58,6 +60,7 @@ export class DesktopRefreshController {
     health: emptySection<DaemonHealth>(),
     meter: this.meter.section,
     jobMeter: this.jobMeter.section,
+    policy: this.policy.section,
     recent: emptySection<RecentJobs>(),
     selectedId: null,
     detail: emptyDetail(),
@@ -95,6 +98,7 @@ export class DesktopRefreshController {
     this.automatic = true;
     this.meter.reprobe();
     this.jobMeter.reprobe();
+    this.policy.reprobe();
     this.refreshRequested = true;
     this.publish({ active: true });
     this.expire();
@@ -110,11 +114,13 @@ export class DesktopRefreshController {
     this.cancelTimers();
     this.meter.retire();
     this.jobMeter.retire();
+    this.policy.retire();
     this.publish({
       active: false,
       refreshing: false,
       meter: this.meter.section,
       jobMeter: this.jobMeter.section,
+      policy: this.policy.section,
       health: { ...this.snapshot.health, loading: false },
       recent: { ...this.snapshot.recent, loading: false },
       detail: { ...this.snapshot.detail, loading: false },
@@ -124,6 +130,7 @@ export class DesktopRefreshController {
   refresh = (): void => {
     this.meter.reprobe();
     this.jobMeter.reprobe();
+    this.policy.reprobe();
     this.requestRefresh();
   };
 
@@ -143,6 +150,7 @@ export class DesktopRefreshController {
     if (!isJobId(jobId) || jobId === this.snapshot.selectedId) return;
     this.selectionGeneration++;
     this.detailAt = null;
+    this.policy.select();
     this.jobMeter.select(
       this.snapshot.active && this.snapshot.connection === "connected",
     );
@@ -150,6 +158,7 @@ export class DesktopRefreshController {
       selectedId: jobId,
       detail: emptyDetail(),
       jobMeter: this.jobMeter.section,
+      policy: this.policy.section,
     });
     if (this.snapshot.active && this.snapshot.connection === "connected") {
       this.detailRequested = true;
@@ -227,11 +236,13 @@ export class DesktopRefreshController {
       this.connectionEpoch++;
       this.meter.retire();
       this.jobMeter.retire(failure);
+      this.policy.retire(failure);
       this.selectionGeneration++;
       this.automatic = failure.retryable && TRANSIENT_CODES.has(failure.code);
       this.publish({
         meter: this.meter.section,
         jobMeter: this.jobMeter.section,
+        policy: this.policy.section,
         connection:
           failure.code === "unavailable" || failure.code === "uncertain"
             ? "disconnected"
@@ -297,6 +308,26 @@ export class DesktopRefreshController {
     await this.lookup(generation, epoch);
     if (this.current(generation, epoch))
       await this.readMeter(generation, epoch);
+    if (this.current(generation, epoch) && !this.snapshot.selectedId)
+      await this.readPolicy(generation, epoch);
+  }
+
+  private async readPolicy(generation: number, epoch: number): Promise<void> {
+    const jobId = this.snapshot.selectedId,
+      selection = this.selectionGeneration;
+    await this.policy.read(
+      this.client,
+      jobId,
+      () =>
+        this.current(generation, epoch) &&
+        selection === this.selectionGeneration &&
+        jobId === this.snapshot.selectedId,
+      () => this.clock.now(),
+      () => {
+        this.publish({ policy: this.policy.section });
+        this.expire();
+      },
+    );
   }
 
   private async readMeter(generation: number, epoch: number): Promise<void> {
@@ -343,6 +374,7 @@ export class DesktopRefreshController {
           this.expire();
         },
       );
+    if (current()) await this.readPolicy(generation, epoch);
   }
 
   private async readDetail(generation: number, epoch: number): Promise<void> {
@@ -430,19 +462,9 @@ export class DesktopRefreshController {
     this.cancelRefresh?.();
     this.cancelRefresh = null;
     if (this.automatic) {
-      const reconnecting = this.snapshot.connection !== "connected";
-      const delay = reconnecting
-        ? (RECONNECT_DELAYS_MS[
-            Math.min(this.reconnectAttempt++, RECONNECT_DELAYS_MS.length - 1)
-          ] ?? 30_000)
-        : Math.min(
-            REFRESH_INTERVAL_MS,
-            this.snapshot.meter.error
-              ? REFRESH_INTERVAL_MS
-              : (this.snapshot.meter.value?.data.cadence.interval_ms ??
-                  REFRESH_INTERVAL_MS),
-          );
-      this.cancelRefresh = this.clock.schedule(this.requestRefresh, delay);
+      const next = refreshDelay(this.snapshot, this.reconnectAttempt);
+      this.reconnectAttempt = next.reconnectAttempt;
+      this.cancelRefresh = this.clock.schedule(this.requestRefresh, next.delay);
     }
     this.expire();
   }
@@ -451,30 +473,15 @@ export class DesktopRefreshController {
     this.cancelStale?.();
     this.cancelStale = null;
     const now = this.clock.now();
-    const patch: Partial<DashboardSnapshot> = {};
-    const remaining: number[] = [];
-    for (const [key, at] of [
-      ["health", this.healthAt],
-      ["recent", this.recentAt],
-      ["detail", this.detailAt],
-    ] as const) {
-      const section = this.snapshot[key];
-      if (at === null || !section.value || section.stale) continue;
-      const age = now - at;
-      if (!Number.isFinite(age) || age < 0 || age >= STALE_AFTER_MS) {
-        if (key === "detail")
-          patch.detail = { ...this.snapshot.detail, stale: true };
-        else if (key === "health")
-          patch.health = { ...this.snapshot.health, stale: true };
-        else patch.recent = { ...this.snapshot.recent, stale: true };
-      } else remaining.push(STALE_AFTER_MS - age);
-    }
-    const meterDelay = this.meter.expire(now);
-    patch.meter = this.meter.section;
-    if (meterDelay !== null) remaining.push(meterDelay);
-    const jobDelay = this.jobMeter.expire(now, STALE_AFTER_MS);
-    patch.jobMeter = this.jobMeter.section;
-    if (jobDelay !== null) remaining.push(jobDelay);
+    const { patch, remaining } = expireRecordedSections(
+      this.snapshot,
+      { health: this.healthAt, recent: this.recentAt, detail: this.detailAt },
+      now,
+      STALE_AFTER_MS,
+      this.meter,
+      this.jobMeter,
+      this.policy,
+    );
     if (Object.keys(patch).length) this.publish(patch);
     if (this.snapshot.active && remaining.length)
       this.cancelStale = this.clock.schedule(

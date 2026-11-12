@@ -28,11 +28,13 @@ import {
   refresh,
   text,
 } from "./fixtures/meter-test-harness";
+import { registerPolicyReadCases } from "./fixtures/policy-read-cases";
 
 const { formatMeterValue } = await import("@/dashboard/desktop-meter");
 afterEach(cleanup);
 
 describe("Dashboard host Meter", () => {
+  registerPolicyReadCases();
   test("pending then normalized readings preserve focused failed-job selection and unknown attribution", async () => {
     const native = new NativeFixture(),
       pending = deferred<unknown>();

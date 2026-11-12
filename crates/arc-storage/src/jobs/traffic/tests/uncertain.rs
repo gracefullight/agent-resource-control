@@ -55,7 +55,7 @@ fn dead_owner_unknown_child_is_retained_then_released_once_after_durable_grace()
     assert_eq!(permit_counts(&c), (1, 0));
     assert_eq!(status(&c, &id(1)).unwrap(), StatusResult::Abandoned {});
     let events: Vec<(String, i64)> = c
-        .prepare("SELECT event_type,created_at FROM audit_events ORDER BY created_at")
+        .prepare("SELECT event_type,created_at FROM audit_events ORDER BY created_at,id")
         .unwrap()
         .query_map([], |row| Ok((row.get(0)?, row.get(1)?)))
         .unwrap()
@@ -65,6 +65,7 @@ fn dead_owner_unknown_child_is_retained_then_released_once_after_durable_grace()
         events,
         vec![
             ("TRAFFIC_UNKNOWN_OWNER".into(), 20),
+            ("TRAFFIC_POLICY_TERMINAL".into(), 120),
             ("TRAFFIC_GRACE_EXPIRED".into(), 120)
         ]
     );

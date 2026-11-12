@@ -1,0 +1,12 @@
+{
+  "child": {
+    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+    "pid": 98694,
+    "start_token": "1794483694916933"
+  },
+  "diagnostic": "TRACKING_UNAVAILABLE\nCommand started. ARC tracking is unavailable. A lifecycle record may be absent.\nDo not launch another copy to recover tracking.\nfixture-stderr\n",
+  "elapsedMs": 22,
+  "executions": 1,
+  "exitCode": 17,
+  "healthyCriticalHold": false
+}

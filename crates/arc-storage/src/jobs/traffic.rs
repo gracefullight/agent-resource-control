@@ -6,6 +6,10 @@
 //! operation is keyed by the original job ID and never launches a child.
 
 mod admission;
+mod pressure;
+pub use pressure::{
+    acknowledge_unspawned_launch, discard_unreleased_launch, enqueue, launch, poll_with_proof,
+};
 mod lifecycle;
 mod store;
 #[cfg(test)]
@@ -14,13 +18,13 @@ mod uncertain;
 mod witness;
 
 pub use admission::{
-    enqueue, lineage_anchors, lineage_snapshot, lineage_snapshots, poll, poll_with_proof,
+    enqueue_observed, lineage_anchors, lineage_snapshot, lineage_snapshots, poll, poll_observed,
     LineageProof, LineageSnapshot, OwnerEvidence,
 };
 pub(super) use lifecycle::reconcile_exited_child;
 pub use lifecycle::{
-    attach, cancel, complete, confirm_cancel_unspawned, fallback, reconcile_queued, ChildEvidence,
-    QueueObservation, ReconcileResult,
+    attach, cancel, cancel_observed, complete, confirm_cancel_unspawned, fallback,
+    reconcile_queued, ChildEvidence, QueueObservation, ReconcileResult,
 };
 pub use store::status;
 pub use uncertain::{reconcile_uncertain, UncertainEvidence, UncertainResult};
@@ -128,4 +132,14 @@ fn matching_job(
         return Err(JobError::Conflict);
     }
     Ok(job)
+}
+
+/// UTC can move backwards or be unavailable (represented by zero internally).
+/// Persist lifecycle ordering with the row's previous timestamp; observation
+/// freshness remains independent and uses the sampler's monotonic clock.
+fn ordered_now(now: u64, job: &JobSnapshot) -> JobResult<u64> {
+    valid_now(now, None)?;
+    let ordered = now.max(job.updated_at_ms);
+    valid_now(ordered, Some(job))?;
+    Ok(ordered)
 }

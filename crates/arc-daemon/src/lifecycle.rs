@@ -54,9 +54,21 @@ pub(crate) async fn supervise_with_report(
     socket: PathBuf,
     limits: RuntimeLimits,
     metrics: Arc<RuntimeMetrics>,
+    worker: DbWorker,
+    acceptor: Acceptor,
+    report: io::Result<RuntimeReport>,
+) -> Result<(), Box<dyn Error>> {
+    supervise_with_source(socket, limits, metrics, worker, acceptor, report, None).await
+}
+
+pub(crate) async fn supervise_with_source(
+    socket: PathBuf,
+    limits: RuntimeLimits,
+    metrics: Arc<RuntimeMetrics>,
     mut worker: DbWorker,
     mut acceptor: Acceptor,
     report: io::Result<RuntimeReport>,
+    supplied_meter: Option<arc_meter::MeterWorker>,
 ) -> Result<(), Box<dyn Error>> {
     // Startup failures still close and join the worker before returning.
     let startup = (|| -> Result<_, Box<dyn Error>> {
@@ -100,10 +112,11 @@ pub(crate) async fn supervise_with_report(
     };
     let mut recovery = Recovery::default();
     let client = worker.client();
-    let mut meter = crate::meter::start();
+    let mut meter = supplied_meter.or_else(crate::meter::start);
     let meter_started = meter.is_some();
     if let Some(meter) = &meter {
         client.bind_meter(meter.activity());
+        client.bind_observation(meter.reader());
     }
     let meter_reader = meter.as_ref().map(arc_meter::MeterWorker::reader);
     let (reason, accept_error) = loop {
@@ -129,16 +142,20 @@ pub(crate) async fn supervise_with_report(
                         let jobs_client = client.clone();
                         let traffic_client = client.clone();
                         let meter_client = client.clone();
+                        let policy_client = client.clone();
                         let meter_reader = meter_reader.clone();
                         let job_meter: crate::job_meter_dispatch::Handler = Arc::new(move |input, peer, deadline| {
                             Box::pin(crate::db_worker::job_meter::handle(meter_client.clone(), input, peer, deadline))
                         });
+                        let policy: connection::policy_dispatch::Handler = Arc::new(move |input, peer, deadline| {
+                            Box::pin(crate::db_worker::policy::handle(policy_client.clone(), input, peer, deadline))
+                        });
                         handlers.try_spawn(stream, move |stream| {
-                            connection::handle_with_job_meter(
+                            connection::handle_with_policy(
                                 stream, limits, requests, metrics,
                                 move |deadline| doctor(client.clone(), deadline),
                                 move |input, deadline| crate::db_worker::jobs::handle(jobs_client.clone(), input, deadline),
-                                (move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline), meter_reader, Some(job_meter)),
+                                (move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline), meter_reader, Some(job_meter)), Some(policy),
                             )
                         });
                     }

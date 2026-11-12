@@ -19,6 +19,7 @@ import {
   within,
 } from "./fixtures/desktop-test-harness";
 import { registerJobMeterInteractionCases } from "./fixtures/job-meter-interaction-cases";
+import { registerPolicyInteractionCases } from "./fixtures/policy-interaction-cases";
 
 afterEach(cleanup);
 
@@ -30,6 +31,7 @@ const detailA = () => clone(golden.exit_zero.data.job) as JobDetail;
 
 describe("production Dashboard and typed bridge", () => {
   registerJobMeterInteractionCases();
+  registerPolicyInteractionCases();
   test("initial loading exposes Unknown metrics without invented totals or outcomes", async () => {
     const native = new NativeFixture();
     const pending = deferred<unknown>();
@@ -244,6 +246,8 @@ describe("production Dashboard and typed bridge", () => {
           "daemon_health",
           "meter_snapshot",
           "meter_summary",
+          "policy_current",
+          "policy_job",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",
@@ -560,7 +564,7 @@ describe("production Dashboard and typed bridge", () => {
     const view = mountDesktop();
     await settle();
     const status = panel(view).getByRole("status");
-    const firstAnnouncement = `Selected job ${A}: Succeeded · Exit code 0 Job measurements: Legacy measurement unavailable`;
+    const firstAnnouncement = `Selected job ${A}: Succeeded · Exit code 0 Job measurements: Legacy measurement unavailable Memory admission details are not supported by this daemon.`;
     expect(status.getAttribute("aria-live")).toBe("polite");
     expect(status.textContent).toBe(firstAnnouncement);
     const mutations: MutationRecord[] = [];
@@ -612,7 +616,7 @@ describe("production Dashboard and typed bridge", () => {
       await settle();
       expect(panel(view).getByRole("status")).toBe(status);
       expect(status.textContent).toBe(
-        `Selected job ${B}: Failed · Exit code 17 Job measurements: Legacy measurement unavailable`,
+        `Selected job ${B}: Failed · Exit code 17 Job measurements: Legacy measurement unavailable Memory admission details are not supported by this daemon.`,
       );
       expect(drainMutations().length).toBeGreaterThan(0);
       expect(panel(view).getByText("Failed · Exit code 17")).toBeDefined();

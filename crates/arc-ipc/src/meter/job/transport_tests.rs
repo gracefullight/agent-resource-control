@@ -3,9 +3,12 @@
 use super::*;
 use crate::client::Failure;
 use std::{
-    os::unix::{
-        fs::PermissionsExt,
-        net::{UnixListener, UnixStream},
+    os::{
+        fd::AsRawFd,
+        unix::{
+            fs::PermissionsExt,
+            net::{UnixListener, UnixStream},
+        },
     },
     path::PathBuf,
     thread,
@@ -40,15 +43,34 @@ impl Endpoint {
         loop {
             match self.listener.accept() {
                 Ok((stream, _)) => {
+                    stream.set_nonblocking(false).unwrap();
                     stream
                         .set_read_timeout(Some(Duration::from_secs(2)))
+                        .unwrap();
+                    stream
+                        .set_write_timeout(Some(Duration::from_secs(2)))
                         .unwrap();
                     return stream;
                 }
                 Err(e)
                     if e.kind() == std::io::ErrorKind::WouldBlock && Instant::now() < deadline =>
                 {
-                    thread::sleep(Duration::from_millis(2))
+                    let mut ready = libc::pollfd {
+                        fd: self.listener.as_raw_fd(),
+                        events: libc::POLLIN,
+                        revents: 0,
+                    };
+                    let remaining = deadline.saturating_duration_since(Instant::now());
+                    let result = unsafe {
+                        libc::poll(&mut ready, 1, remaining.as_millis().try_into().unwrap())
+                    };
+                    assert_ne!(result, 0, "accept timed out");
+                    if result < 0 {
+                        assert_eq!(
+                            std::io::Error::last_os_error().kind(),
+                            std::io::ErrorKind::Interrupted
+                        );
+                    }
                 }
                 Err(e) => panic!("accept failed or timed out: {e}"),
             }
@@ -60,6 +82,22 @@ impl Drop for Endpoint {
         std::fs::remove_file(&self.socket).unwrap();
         std::fs::remove_dir(&self.root).unwrap();
     }
+}
+
+#[test]
+fn accepted_transport_peer_supports_blocking_framed_io() {
+    let endpoint = Endpoint::new();
+    let mut client = UnixStream::connect(&endpoint.socket).unwrap();
+    let mut peer = endpoint.accept();
+    // macOS inherits O_NONBLOCK from the listener. Framing uses read_exact
+    // and write_all, so accepted fixture peers must restore blocking I/O.
+    let flags = unsafe { libc::fcntl(peer.as_raw_fd(), libc::F_GETFL) };
+    assert!(flags >= 0);
+    assert_eq!(flags & libc::O_NONBLOCK, 0);
+    let request = summary_request("framed", &fixture().job_id).unwrap();
+    crate::write_message(&mut client, &request).unwrap();
+    let received: Request = crate::read_message(&mut peer).unwrap();
+    assert_eq!(received, request);
 }
 
 #[test]
@@ -154,12 +192,15 @@ fn unsupported_and_unavailable_stay_distinct_on_authenticated_transport() {
     ] {
         let endpoint = Endpoint::new();
         let socket = endpoint.socket.clone();
+        let (ready, started) = std::sync::mpsc::sync_channel(0);
         let server = thread::spawn(move || {
+            ready.send(()).unwrap();
             let mut peer = endpoint.accept();
             let request: Request = crate::read_message(&mut peer).unwrap();
             assert_eq!(request.operation, operation);
             crate::write_response(&mut peer, &Response::error(request.request_id, code)).unwrap();
         });
+        started.recv_timeout(Duration::from_secs(2)).unwrap();
         let end = Instant::now() + Duration::from_secs(1);
         let failure = if operation == OPERATION_METER_REPORT {
             report_until(

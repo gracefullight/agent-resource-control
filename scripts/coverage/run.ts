@@ -1,6 +1,6 @@
 import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, statSync } from "node:fs";
 import { resolve, relative, join, dirname } from "node:path";
-import { BASELINE, PINS, CRATES, CRATE_ROOTS, METER_INPUTS, METER_SRS_SHA256 } from "./config";
+import { BASELINE, PINS, CRATES, CRATE_ROOTS, METER_INPUTS, METER_SRS_SHA256, FROZEN_INPUTS } from "./config";
 import { hash, sourceInventory, inputIdentity, walk } from "./source";
 import { requireExit, requireVersion, validateReport, enforce, requireWorkspace } from "./gate";
 import { command, type Receipt } from "./commands";
@@ -26,6 +26,8 @@ let input:ReturnType<typeof inputIdentity>|undefined;
 let inventory:ReturnType<typeof sourceInventory>|undefined;
 let measured=false;
 try {
+  const args=process.argv.slice(2);
+  if(args.length>1 || (args.length===1 && args[0]!=="--preflight-only")) throw Error("CONFIGURATION: expected no argument or --preflight-only");
   console.log("Coverage: checking pinned tools (setup: mise run coverage:provision)");
   input=inputIdentity(root);
   if(input.files[METER_INPUTS[0]]!==METER_SRS_SHA256) throw Error("INPUT_IDENTITY: authoritative SRS hash mismatch");
@@ -58,6 +60,10 @@ try {
   save("metadata.json",metadata);
   inventory=sourceInventory(root,metadata);
   save("source-inventory.json",inventory);
+  if(args[0]==="--preflight-only") {
+    save("preflight.json",{pass:true,coverageCollected:false,versions,workspace:CRATES,receipts});
+    console.log(`Coverage preflight passed without collection: ${relative(root,dir)}`);
+  } else {
   // Disable the tool's broad tests-directory filter: path-included production
   // modules may contain tests/../src in their recorded filename. Only exact
   // non-workspace dependency and compiler-source roots are filtered upstream.
@@ -113,12 +119,13 @@ try {
   save("receipt.json",{schemaVersion:1,runId:id,pass:true,exit:0,acceptedBaseline:BASELINE,sourceHash:input.sha256,receipts});
   const ref=(name:string)=>referenceFile(root,relative(root,join(dir,name)));
   const reuse:CoverageReuse={schemaVersion:1,runId:id,sourceHash:input.sha256,acceptedBaseline:BASELINE,
-    frozenInputs:Object.fromEntries(METER_INPUTS.map(path=>[path,input!.files[path]])),metadata:ref("metadata.json"),
+    frozenInputs:Object.fromEntries(FROZEN_INPUTS.map(path=>[path,input!.files[path]])),metadata:ref("metadata.json"),
     evidence:{receipt:ref("receipt.json"),summary:ref("summary.json"),profiles:ref("profiles.json"),
       rawReports:{lcov:ref("raw.lcov"),llvmJson:ref("raw.json")}}};
   save("reuse.json",reuse);
   console.log(`Coverage reuse receipt: ${relative(root,join(dir,"reuse.json"))}`);
   writeFileSync(layout.latest,JSON.stringify({runId:id,directory:relative(root,dir),sourceHash:input.sha256,pass:true,reuse:relative(root,join(dir,"reuse.json"))})+"\n");
+  }
 } catch(error) {
   const message=String(error);
   save("receipt.json",{schemaVersion:1,runId:id,pass:false,exit:1,error:message,acceptedBaseline:BASELINE,sourceHash:input?.sha256,receipts});

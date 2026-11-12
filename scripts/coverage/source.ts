@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, realpathSync, existsSync, lstatSync } from "node:fs";
 import { resolve, relative, dirname, basename, join } from "node:path";
 import { createHash } from "node:crypto";
-import { CRATES, HISTORICAL_CRATES, CRATE_ROOTS, METER_INPUTS, testPath, type CrateName } from "./config";
+import { CRATES, HISTORICAL_CRATES, CRATE_ROOTS, FROZEN_INPUTS, testPath, type CrateName } from "./config";
 
 export const hash = (data: string | Buffer) => createHash("sha256").update(data).digest("hex");
 export function walk(root: string, excluded: readonly string[] = []): string[] {
@@ -196,7 +196,12 @@ export function inventoryForCrates(root: string, crates: readonly CrateName[], m
     file=realpathSync(file); const seen=test?tests:production;
     if(seen.has(file)) return; seen.add(file);
     const info=analyses.get(file);
-    if(!info && test && testPath(relative(root,file))) return;
+    // A partial diagnostic inventory may reference a test fixture from another
+    // registered crate. The complete current inventory still classifies that
+    // source, and production references outside this inventory remain errors.
+    const path=relative(root,file);
+    const dependencyTestSource=test && CRATES.some(crate=>!crates.includes(crate) && path.startsWith(CRATE_ROOTS[crate].source+"/"));
+    if(!info && test && (testPath(path) || dependencyTestSource)) return;
     if(!info) throw Error(`SOURCE: module outside src: ${file}`);
     if(!test && !productionFiles.has(file)) throw Error(`SOURCE: production module outside inventoried src: ${file}`);
     for(const mod of info.modules) {
@@ -230,7 +235,7 @@ export function inputIdentity(root:string) {
   const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json","bun.lock","bunfig.toml","biome.json",
     ".arc-verify/rust-coverage/contract/accounting.json",
     ".arc-verify/desktop-foundation/contract.md",
-    ...METER_INPUTS,
+    ...FROZEN_INPUTS,
     "apps/desktop/package.json","apps/desktop/tsconfig.json","apps/desktop/tsconfig.test.json","apps/desktop/vite.config.ts",
     "apps/desktop/index.html","apps/desktop/src-tauri/build.rs","apps/desktop/src-tauri/tauri.conf.json",
     ...CRATES.map(crate=>CRATE_ROOTS[crate].manifest),

@@ -55,7 +55,19 @@ pub(crate) enum Value {
     Uncertain(Result<traffic::UncertainResult, JobError>),
 }
 
+#[cfg(test)]
+#[allow(dead_code)] // Standalone worker targets retain this adapter.
 pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> Value {
+    execute_observed(connection, op, None)
+}
+pub(crate) fn execute_observed(
+    connection: &mut rusqlite::Connection,
+    op: Operation,
+    reader: Option<&super::observation::Observations>,
+) -> Value {
+    let provider: &dyn arc_policy::ObservationProvider = reader
+        .map(|r| r as &dyn arc_policy::ObservationProvider)
+        .unwrap_or(&arc_policy::evaluator::MissingObservation);
     match op {
         Operation::Head => {
             Value::Head(traffic::queue_head(connection).map(|job| job.map(Box::new)))
@@ -89,7 +101,7 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
                 now,
             } = *input;
             let reply = match &request {
-                JobRequest::Enqueue { .. } => traffic::enqueue(
+                JobRequest::Enqueue { .. } => traffic::enqueue_observed(
                     connection,
                     &request,
                     owner.as_ref().expect("owner evidence"),
@@ -97,8 +109,9 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
                     &context,
                     proof.as_ref(),
                     now,
+                    provider,
                 ),
-                JobRequest::Poll { .. } => traffic::poll_with_proof(
+                JobRequest::Poll { .. } => traffic::poll_observed(
                     connection,
                     &request,
                     owner.as_ref().expect("owner evidence"),
@@ -106,6 +119,7 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
                     &context,
                     proof.as_ref(),
                     now,
+                    provider,
                 ),
                 JobRequest::Attach { .. } => traffic::attach(
                     connection,
@@ -114,11 +128,12 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
                     now,
                 ),
                 JobRequest::Complete { .. } => traffic::complete(connection, &request, now),
-                JobRequest::Cancel { .. } => traffic::confirm_cancel_unspawned(
+                JobRequest::Cancel { .. } => traffic::cancel_observed(
                     connection,
                     &request,
                     owner.as_ref().expect("owner evidence"),
                     now,
+                    provider,
                 ),
                 JobRequest::Fallback { .. } => {
                     traffic::fallback(connection, &request, child.as_ref(), now)
@@ -261,13 +276,16 @@ async fn handle_inner(
 #[path = "traffic_fault_tests.rs"]
 mod fault_tests;
 #[cfg(test)]
+#[path = "traffic_launch_fixture.rs"]
+mod launch_fixture;
+#[cfg(test)]
 #[path = "traffic_tests.rs"]
 mod tests;
 #[cfg(test)]
 #[path = "traffic_witness_repair_tests.rs"]
 mod witness_repair_tests;
 
-async fn lineage_proof(
+pub(super) async fn lineage_proof(
     client: &DbClient,
     request: &JobRequest,
     deadline: Instant,
@@ -386,7 +404,7 @@ async fn status(
 }
 
 /// Check each native parent link and identity again; unknown ancestry fails closed.
-fn is_descendant(descendant: &ProcessIdentity, ancestor: &ProcessIdentity) -> bool {
+pub(super) fn is_descendant(descendant: &ProcessIdentity, ancestor: &ProcessIdentity) -> bool {
     if descendant == ancestor
         || probe_live(descendant) != IdentityStatus::VerifiedMatch
         || probe_live(ancestor) != IdentityStatus::VerifiedMatch

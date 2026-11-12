@@ -1,0 +1,149 @@
+{
+  "critical": {
+    "limits": {
+      "budget": {
+        "cpu_millis": 2000,
+        "memory_bytes": 4294967296
+      },
+      "build": {
+        "reservation": {
+          "cpu_millis": 2000,
+          "memory_bytes": 2147483648
+        },
+        "window": 1
+      },
+      "lint": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      },
+      "test": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      }
+    },
+    "mode": "memory_hold",
+    "observation": {
+      "age_ms": 14,
+      "availability": "available",
+      "observed_at_ms": 1794483699428,
+      "observed_monotonic_ms": 1010,
+      "pressure": "critical",
+      "sampler": {
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 98754,
+          "start_token": "1794483698413517"
+        },
+        "generation": 1,
+        "monotonic_epoch": 1
+      },
+      "sequence": 2,
+      "stale_after_ms": 3000
+    },
+    "policy_version": "macos-memory-pressure-v1",
+    "profile": "macos-memory-l0-v1",
+    "reason": "memory_critical",
+    "schema_version": 1
+  },
+  "diagnostic": "QUEUED\nWaiting for memory.\nStarts automatically when memory permits; other queue rules still apply.\nReference: 681227585713055737eaaa42c2223935\nNOT_STARTED\nExecution cancelled. No child was started.\n",
+  "entries": [
+    {
+      "job_id": "681227585713055737eaaa42c2223935",
+      "state": "CANCELLED"
+    }
+  ],
+  "executions": 0,
+  "exitCode": 1,
+  "newPermits": 0,
+  "registeredBridge": {
+    "data": {
+      "decision_availability": "available",
+      "effective": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 127,
+          "availability": "available",
+          "observed_at_ms": 1794483699428,
+          "observed_monotonic_ms": 1010,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98754,
+              "start_token": "1794483698413517"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "job_id": "681227585713055737eaaa42c2223935",
+      "last_decision": {
+        "decided_at_ms": 1794483699527,
+        "kind": "cancel",
+        "observation": {
+          "age_ms": 99,
+          "availability": "available",
+          "observed_at_ms": 1794483699428,
+          "observed_monotonic_ms": 1010,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98754,
+              "start_token": "1794483698413517"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "permit_generation": null,
+        "policy_version": "macos-memory-pressure-v1",
+        "reason": "cancelled"
+      },
+      "schema_version": 1
+    },
+    "received_at_ms": 1794483699558
+  }
+}

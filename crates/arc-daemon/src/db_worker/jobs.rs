@@ -15,6 +15,7 @@ pub(crate) enum Operation {
     Reconcile(ReconcileEvidence),
     Traffic(super::traffic::Operation),
     Meter(super::job_meter::Operation),
+    Policy(super::policy::Operation),
 }
 pub(crate) enum Value {
     Start(Result<StartResult, JobError>),
@@ -24,6 +25,7 @@ pub(crate) enum Value {
     Reconcile(Result<ReconcileResult, JobError>),
     Traffic(super::traffic::Value),
     Meter(super::job_meter::Value),
+    Policy(Result<super::policy::Value, JobError>),
 }
 pub(crate) fn now() -> u64 {
     SystemTime::now()
@@ -31,7 +33,15 @@ pub(crate) fn now() -> u64 {
         .unwrap_or_default()
         .as_millis() as u64
 }
+#[cfg(test)]
 pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> Value {
+    execute_observed(connection, op, None)
+}
+pub(crate) fn execute_observed(
+    connection: &mut rusqlite::Connection,
+    op: Operation,
+    reader: Option<&super::observation::Observations>,
+) -> Value {
     let value = match op {
         Operation::Start(request, evidence, observed_at_ms) => {
             Value::Start(jobs::start(connection, &request, &evidence, observed_at_ms))
@@ -44,8 +54,11 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
         Operation::Reconcile(evidence) => {
             Value::Reconcile(jobs::apply_observation(connection, &evidence))
         }
-        Operation::Traffic(operation) => {
-            Value::Traffic(super::traffic::execute(connection, operation))
+        Operation::Traffic(operation) => Value::Traffic(super::traffic::execute_observed(
+            connection, operation, reader,
+        )),
+        Operation::Policy(operation) => {
+            Value::Policy(super::policy::execute(connection, operation, reader))
         }
         Operation::Meter(operation) => {
             Value::Meter(super::job_meter::execute(connection, operation))
@@ -54,6 +67,7 @@ pub(crate) fn execute(connection: &mut rusqlite::Connection, op: Operation) -> V
     // Bounded opportunistic expiry shares this connection and its existing
     // cancellation/deadline. Failure never changes a committed request result.
     let _ = arc_storage::job_meter::expire(connection, now());
+    let _ = arc_storage::policy::expire(connection, now());
     value
 }
 pub(super) async fn call(
@@ -129,7 +143,7 @@ pub(crate) async fn handle(
                 if job.outcome.is_some() {
                     return wire(Ok(StatusResult::Found { job: Box::new(job) }));
                 }
-                let evidence = jobs::observe(&job, now());
+                let evidence = jobs::observe(&job, now().max(job.updated_at_ms));
                 let result = match call(&client, Operation::Reconcile(evidence), deadline).await? {
                     Value::Reconcile(value) => value.map_err(JobError::code)?,
                     _ => return Err(arc_ipc::ERROR_DB_BUSY),

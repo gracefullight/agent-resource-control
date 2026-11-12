@@ -7,6 +7,7 @@ mod history;
 pub mod job_meter;
 pub mod jobs;
 mod migration;
+pub mod policy;
 
 pub use migration::{
     assess_schema, Migration, MigrationError, SchemaCompatibility, SchemaStatus, MIGRATIONS,

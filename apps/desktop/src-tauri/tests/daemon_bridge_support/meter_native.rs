@@ -69,6 +69,37 @@ fn available(sample: &MeterSnapshot) {
     assert!(sample.daemon.rss_bytes.reading.value().is_some());
 }
 
+fn legacy_peer(root: &std::path::Path) -> Value {
+    let receipt_path = root.join("target/host-meter/legacy/latest.json");
+    let cached = fs::read(&receipt_path)
+        .ok()
+        .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
+        .filter(|receipt| {
+            receipt["acceptedHead"] == "efedf0f4eb9b97eed641c82f3c4766bb16f2e3de"
+                && receipt["exitCode"] == 0
+                && receipt["binary"]["path"]
+                    .as_str()
+                    .is_some_and(|path| root.join(path).is_file())
+        });
+    if let Some(receipt) = cached {
+        return receipt;
+    }
+    // The maintained preparer uses a separate source/target directory, locked
+    // offline Cargo and a two-hour child deadline. It can run while this test's
+    // Cargo invocation owns the current workspace lock, including under llvm-cov.
+    let status = Command::new("bun")
+        .arg("scripts/host-meter/prepare-legacy.ts")
+        .current_dir(root)
+        .env("CARGO_NET_OFFLINE", "true")
+        .status()
+        .expect("start bounded offline legacy compatibility preparation");
+    assert!(
+        status.success(),
+        "legacy compatibility preparation: {status}"
+    );
+    serde_json::from_slice(&fs::read(receipt_path).expect("prepared legacy receipt")).unwrap()
+}
+
 #[test]
 fn successive_native_samples_headless_cli_router_and_restart() {
     let _serial = serialization::serial();
@@ -184,11 +215,7 @@ fn accepted_old_daemon_is_unsupported_without_disabling_health_or_jobs() {
         .nth(3)
         .unwrap()
         .to_owned();
-    let receipt: Value = serde_json::from_slice(
-        &fs::read(root.join("target/host-meter/legacy/latest.json"))
-            .expect("run bun scripts/host-meter/prepare-legacy.ts before native gates"),
-    )
-    .unwrap();
+    let receipt = legacy_peer(&root);
     assert_eq!(
         receipt["acceptedHead"],
         "efedf0f4eb9b97eed641c82f3c4766bb16f2e3de"

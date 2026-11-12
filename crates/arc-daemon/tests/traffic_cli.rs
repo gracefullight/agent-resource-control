@@ -286,6 +286,8 @@ mod cleanup;
 mod diagnostics;
 #[path = "traffic_cli/measurement.rs"]
 mod measurement;
+#[path = "traffic_cli/policy_compat.rs"]
+mod policy_compat;
 #[path = "traffic_cli/process_cleanup.rs"]
 mod process_cleanup;
 #[path = "traffic_cli/protocol.rs"]

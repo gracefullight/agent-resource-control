@@ -11,6 +11,11 @@ import type {
   Received,
 } from "../src/bridge/types";
 import { jobMeterFixture, jobMeterReply } from "./fixtures/job-meter-fixture";
+import {
+  memoryJob,
+  memoryPolicy,
+  policyReply,
+} from "./fixtures/memory-policy-fixture";
 import { meterReply } from "./fixtures/meter-fixture";
 
 const JOB_A = "0000000000000000000000000000000a";
@@ -34,6 +39,23 @@ const detail: JobDetail = {
 };
 
 describe("fixed desktop invoke boundary", () => {
+  test("policy adds correlated strict reads without changing legacy job lookups", async () => {
+    const client = createDesktopClient(async (command) =>
+      command === "policy_current"
+        ? policyReply(memoryPolicy())
+        : command === "policy_job"
+          ? policyReply(memoryJob(JOB_A))
+          : { data: { kind: "found", job: detail }, received_at_ms: 2000 },
+    );
+    expect((await client.policyCurrent()).data.mode).toBe("memory_hold");
+    expect((await client.policyJob(JOB_A)).data.last_decision?.reason).toBe(
+      "memory_pressure",
+    );
+    expect((await client.jobById(JOB_A)).data).toEqual({
+      kind: "found",
+      job: detail,
+    });
+  });
   test("job Meter uses a fixed correlated read, validates IDs before I/O and normalizes private failures", async () => {
     const calls: unknown[] = [];
     const client = createDesktopClient(async (command, args) => {

@@ -118,7 +118,11 @@ pub(super) fn run(
                         .and_then(|()| hooks.before_sql(&shared))
                         .and_then(|()| {
                             check(&shared)?;
-                            let value = jobs::execute(&mut connection, operation);
+                            let value = jobs::execute_observed(
+                                &mut connection,
+                                operation,
+                                Some(&shared.observation),
+                            );
                             // A deadline here can follow COMMIT. The stable key resolves ambiguity.
                             check(&shared)?;
                             Ok(DbValue::Lifecycle(Box::new(value)))
@@ -335,6 +339,7 @@ mod race_tests {
     fn stop_after_final_precheck_before_sql_is_sticky_even_with_early_interrupt() {
         let mut connection = Connection::open_in_memory().unwrap();
         let shared = Arc::new(Shared {
+            observation: observation::Observations::default(),
             stopping: AtomicBool::new(false),
             active: Mutex::new(Some(Active {
                 cancelled: Arc::new(AtomicBool::new(false)),

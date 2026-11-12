@@ -4,6 +4,7 @@ pub use arc_core::meter::MeterSnapshot;
 use arc_ipc::jobs::{
     IdentityObservation, JobId, JobSnapshot, JobSummary, LifecycleReason, Outcome, Phase,
 };
+pub use arc_ipc::policy::{EffectivePolicy, JobPolicyResult};
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]

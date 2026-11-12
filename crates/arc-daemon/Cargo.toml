@@ -6,7 +6,9 @@ edition.workspace = true
 [dependencies]
 serde.workspace = true
 arc-core.workspace = true
+arc-policy.workspace = true
 arc-meter.workspace = true
+arc-platform.workspace = true
 arc-ipc.workspace = true
 arc-storage.workspace = true
 arc-traffic.workspace = true
@@ -16,5 +18,9 @@ serde_json.workspace = true
 tokio.workspace = true
 
 [dev-dependencies]
-arc-platform.workspace = true
 tokio = { workspace = true, features = ["test-util"] }
+
+# Explicit pressure-source fixture reuses resident production startup.
+[[bin]]
+name = "arc-pressure-daemon-fixture"
+path = "tests/fixtures/memory_pressure_daemon.rs"

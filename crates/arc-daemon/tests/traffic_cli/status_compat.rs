@@ -172,6 +172,8 @@ fn ambiguous_bun_replacement_keeps_witness_and_never_registers_a_second_job() {
                         &request.request_id,
                         serde_json::json!({"capability":"traffic.bun.v1"}),
                     )
+                } else if let Some(response) = policy_compat::unsupported_probe(&request) {
+                    response
                 } else {
                     assert_eq!(request.operation, arc_ipc::traffic::OPERATION_BUN_JOB);
                     match request.payload["action"].as_str().unwrap() {
@@ -296,6 +298,8 @@ fn new_status_client_falls_back_when_a_legacy_daemon_rejects_status_v2() {
                 assert_eq!(request.payload["action"], "STATUS_V2");
                 thread_rejected.fetch_add(1, Ordering::SeqCst);
                 arc_ipc::Response::error(&request.request_id, arc_ipc::ERROR_INVALID_REQUEST)
+            } else if let Some(response) = policy_compat::unsupported_probe(&request) {
+                response
             } else {
                 assert_eq!(request.operation, arc_ipc::jobs::OPERATION_JOB_STATUS);
                 thread_legacy.fetch_add(1, Ordering::SeqCst);
@@ -322,6 +326,7 @@ fn new_status_client_falls_back_when_a_legacy_daemon_rejects_status_v2() {
         text.contains("State: failed") && text.contains("Exit code: 17"),
         "{text}"
     );
+    assert!(text.contains("Memory admission: unsupported by this daemon"));
     assert!(recent.status.success(), "{recent:?}");
     let recent = String::from_utf8(recent.stdout).unwrap();
     assert!(recent.contains("State: failed"), "{recent}");

@@ -72,6 +72,8 @@ fn install<R: Runtime>(
             commands::daemon_health,
             commands::meter_snapshot,
             commands::meter_summary,
+            commands::policy_current,
+            commands::policy_job,
             commands::recent_jobs,
             commands::job_by_id,
             commands::desktop_metadata,

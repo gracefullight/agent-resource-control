@@ -1,0 +1,2366 @@
+{
+  "actualCli": "arcctl",
+  "barrier": "after reservation, before final launch request",
+  "checkpoint": {
+    "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+    "observer": {
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+      "pid": 98544,
+      "start_token": "1794483689648855"
+    },
+    "permit_generation": 1
+  },
+  "critical": {
+    "limits": {
+      "budget": {
+        "cpu_millis": 2000,
+        "memory_bytes": 4294967296
+      },
+      "build": {
+        "reservation": {
+          "cpu_millis": 2000,
+          "memory_bytes": 2147483648
+        },
+        "window": 1
+      },
+      "lint": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      },
+      "test": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      }
+    },
+    "mode": "memory_hold",
+    "observation": {
+      "age_ms": 13,
+      "availability": "available",
+      "observed_at_ms": 1794483690610,
+      "observed_monotonic_ms": 1014,
+      "pressure": "critical",
+      "sampler": {
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 98543,
+          "start_token": "1794483689583773"
+        },
+        "generation": 1,
+        "monotonic_epoch": 1
+      },
+      "sequence": 2,
+      "stale_after_ms": 3000
+    },
+    "policy_version": "macos-memory-pressure-v1",
+    "profile": "macos-memory-l0-v1",
+    "reason": "memory_critical",
+    "schema_version": 1
+  },
+  "handshake": {
+    "args": [
+      [
+        116,
+        101,
+        115,
+        116
+      ]
+    ],
+    "foreground": false,
+    "identity": {
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+      "pid": 98685,
+      "start_token": "1794483694697453"
+    },
+    "pgid": 98685,
+    "pid": 98685,
+    "ppid": 98544,
+    "sigchld_blocked": false,
+    "sigchld_ignored": false,
+    "sigcont_ignored": false,
+    "tty": false
+  },
+  "held": [
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 91,
+          "availability": "available",
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 222,
+          "availability": "available",
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 360,
+          "availability": "available",
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 510,
+          "availability": "available",
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 664,
+          "availability": "available",
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 814,
+          "availability": "available",
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 960,
+          "availability": "available",
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 102,
+          "availability": "available",
+          "observed_at_ms": 1794483691615,
+          "observed_monotonic_ms": 2018,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 3,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 241,
+          "availability": "available",
+          "observed_at_ms": 1794483691615,
+          "observed_monotonic_ms": 2018,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 3,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 387,
+          "availability": "available",
+          "observed_at_ms": 1794483691615,
+          "observed_monotonic_ms": 2018,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 3,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 527,
+          "availability": "available",
+          "observed_at_ms": 1794483691615,
+          "observed_monotonic_ms": 2018,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 3,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 677,
+          "availability": "available",
+          "observed_at_ms": 1794483691615,
+          "observed_monotonic_ms": 2018,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 3,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 822,
+          "availability": "available",
+          "observed_at_ms": 1794483691615,
+          "observed_monotonic_ms": 2018,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 3,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 961,
+          "availability": "available",
+          "observed_at_ms": 1794483691615,
+          "observed_monotonic_ms": 2018,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 3,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 122,
+          "availability": "available",
+          "observed_at_ms": 1794483692623,
+          "observed_monotonic_ms": 3026,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 4,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 269,
+          "availability": "available",
+          "observed_at_ms": 1794483692623,
+          "observed_monotonic_ms": 3026,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 4,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 435,
+          "availability": "available",
+          "observed_at_ms": 1794483692623,
+          "observed_monotonic_ms": 3026,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 4,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 586,
+          "availability": "available",
+          "observed_at_ms": 1794483692623,
+          "observed_monotonic_ms": 3026,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 4,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 740,
+          "availability": "available",
+          "observed_at_ms": 1794483692623,
+          "observed_monotonic_ms": 3026,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 4,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    },
+    {
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 896,
+          "availability": "available",
+          "observed_at_ms": 1794483692623,
+          "observed_monotonic_ms": 3026,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98543,
+              "start_token": "1794483689583773"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 4,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "reservation": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "observer_pid": 98544,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "targetExecutions": 0
+    }
+  ],
+  "heldSurface": {
+    "cliMeterJson": {
+      "age_ms": 89,
+      "cadence": {
+        "interval_ms": 1000,
+        "mode": "pressure",
+        "stale_after_ms": 3000
+      },
+      "daemon": {
+        "cpu_accounting": "process_lifetime",
+        "cpu_core_seconds": {
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 0.17204799999999998
+          },
+          "unit": "core_seconds"
+        },
+        "observed_peak_rss_bytes": {
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "provenance": "derived",
+          "reading": {
+            "availability": "available",
+            "value": 9945088
+          },
+          "unit": "bytes"
+        },
+        "peak_observation_started_at_ms": 1794483689598,
+        "peak_observation_started_monotonic_ms": 1,
+        "rss_bytes": {
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 9945088
+          },
+          "unit": "bytes"
+        }
+      },
+      "daemon_instance": {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 98543,
+        "start_token": "1794483689583773"
+      },
+      "host": {
+        "cpu_interval": {
+          "elapsed_ms": 1013,
+          "ended_at_ms": 1794483690610,
+          "ended_monotonic_ms": 1014,
+          "logical_cpu_count": 8,
+          "normalization": "host_capacity",
+          "started_at_ms": 1794483689598,
+          "started_monotonic_ms": 1
+        },
+        "cpu_utilization": {
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "provenance": "derived",
+          "reading": {
+            "availability": "available",
+            "value": 22.58064516129032
+          },
+          "unit": "percent"
+        },
+        "filesystem": {
+          "available_bytes": {
+            "observed_at_ms": 1794483690610,
+            "observed_monotonic_ms": 1014,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 82329600000
+            },
+            "unit": "bytes"
+          },
+          "capacity_bytes": {
+            "observed_at_ms": 1794483690610,
+            "observed_monotonic_ms": 1014,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 494384795648
+            },
+            "unit": "bytes"
+          },
+          "free_bytes": {
+            "observed_at_ms": 1794483690610,
+            "observed_monotonic_ms": 1014,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 82329600000
+            },
+            "unit": "bytes"
+          },
+          "identity": {
+            "filesystem_type": "apfs",
+            "is_local": true,
+            "mount_point": "/",
+            "path": "/",
+            "volume_id": "01000013:0000001a"
+          },
+          "pressure": {
+            "observed_at_ms": 1794483690610,
+            "observed_monotonic_ms": 1014,
+            "provenance": "derived",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        },
+        "memory_available_bytes": {
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 3956310016
+          },
+          "unit": "bytes"
+        },
+        "memory_pressure": {
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": "critical"
+          },
+          "unit": "level"
+        },
+        "swap_used_bytes": {
+          "observed_at_ms": 1794483690610,
+          "observed_monotonic_ms": 1014,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 15524757504
+          },
+          "unit": "bytes"
+        }
+      },
+      "sampled_at_ms": 1794483690610,
+      "sampled_monotonic_ms": 1014,
+      "schema_version": 1,
+      "sequence": 2
+    },
+    "cliStatus": "Job: 877dc313a27192e5f5992e3dcf5fc8f3\nState: outcome unknown\nReservation: retained\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: memory hold\nPolicy reason: memory_critical\nObservation availability: available\nObservation age (ms): 84\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":98543,\"start_token\":\"1794483689583773\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 2\nWait reason: Waiting for memory\nStarts automatically when memory permits; other queue rules still apply.\nLast recorded job decision: memory_pressure\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483690639\nRecorded observation age (ms): 29\n",
+    "desktop": {
+      "data": {
+        "decision_availability": "available",
+        "effective": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "memory_hold",
+          "observation": {
+            "age_ms": 47,
+            "availability": "available",
+            "observed_at_ms": 1794483690610,
+            "observed_monotonic_ms": 1014,
+            "pressure": "critical",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98543,
+                "start_token": "1794483689583773"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 2,
+            "stale_after_ms": 3000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "memory_critical",
+          "schema_version": 1
+        },
+        "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+        "last_decision": {
+          "decided_at_ms": 1794483690639,
+          "kind": "wait",
+          "observation": {
+            "age_ms": 29,
+            "availability": "available",
+            "observed_at_ms": 1794483690610,
+            "observed_monotonic_ms": 1014,
+            "pressure": "critical",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98543,
+                "start_token": "1794483689583773"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 2,
+            "stale_after_ms": 3000
+          },
+          "permit_generation": 1,
+          "policy_version": "macos-memory-pressure-v1",
+          "reason": "memory_pressure"
+        },
+        "schema_version": 1
+      },
+      "received_at_ms": 1794483690659
+    },
+    "jobId": "877dc313a27192e5f5992e3dcf5fc8f3",
+    "sqlite": {
+      "decision": "wait",
+      "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+      "observation_json": "{\"availability\":\"available\",\"pressure\":\"critical\",\"age_ms\":29,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":98543,\"start_token\":\"1794483689583773\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":2,\"observed_at_ms\":1794483690610,\"observed_monotonic_ms\":1014}",
+      "permit_generation": 1,
+      "policy_version": "macos-memory-pressure-v1",
+      "reason_code": "memory_pressure",
+      "recorded_at_ms": 1794483690639
+    }
+  },
+  "jobId": "877dc313a27192e5f5992e3dcf5fc8f3",
+  "newPermitsDuringCritical": 0,
+  "normal": {
+    "limits": {
+      "budget": {
+        "cpu_millis": 2000,
+        "memory_bytes": 4294967296
+      },
+      "build": {
+        "reservation": {
+          "cpu_millis": 2000,
+          "memory_bytes": 2147483648
+        },
+        "window": 1
+      },
+      "lint": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      },
+      "test": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      }
+    },
+    "mode": "l0",
+    "observation": {
+      "age_ms": 48,
+      "availability": "available",
+      "observed_at_ms": 1794483689598,
+      "observed_monotonic_ms": 1,
+      "pressure": "normal",
+      "sampler": {
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 98543,
+          "start_token": "1794483689583773"
+        },
+        "generation": 1,
+        "monotonic_epoch": 1
+      },
+      "sequence": 1,
+      "stale_after_ms": 3000
+    },
+    "policy_version": "macos-memory-pressure-v1",
+    "profile": "macos-memory-l0-v1",
+    "reason": "pressure_normal",
+    "schema_version": 1
+  },
+  "outcome": {
+    "data": {
+      "job": {
+        "completed_at_ms": 1794483694788,
+        "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+        "launch_claimed_at_ms": 1794483690043,
+        "observation": {
+          "observed_at_ms": 1794483694700,
+          "reason": "OBSERVED_EXIT",
+          "status": "VERIFIED_MATCH",
+          "target": "CHILD"
+        },
+        "outcome": {
+          "code": 17,
+          "kind": "EXITED"
+        },
+        "phase": "COMPLETED",
+        "reason": "OBSERVED_EXIT",
+        "registered_at_ms": 1794483690043,
+        "revision": 5,
+        "updated_at_ms": 1794483694788
+      },
+      "kind": "found"
+    },
+    "received_at_ms": 1794483694855
+  },
+  "permitsAfterRecovery": [
+    {
+      "generation": 1,
+      "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+      "state": "RELEASED"
+    }
+  ],
+  "permitsDuringCritical": 1,
+  "reconciledSqliteCliDesktop": true,
+  "recovered": {
+    "limits": {
+      "budget": {
+        "cpu_millis": 2000,
+        "memory_bytes": 4294967296
+      },
+      "build": {
+        "reservation": {
+          "cpu_millis": 2000,
+          "memory_bytes": 2147483648
+        },
+        "window": 1
+      },
+      "lint": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      },
+      "test": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      }
+    },
+    "mode": "l0",
+    "observation": {
+      "age_ms": 2,
+      "availability": "available",
+      "observed_at_ms": 1794483694634,
+      "observed_monotonic_ms": 5037,
+      "pressure": "normal",
+      "sampler": {
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 98543,
+          "start_token": "1794483689583773"
+        },
+        "generation": 1,
+        "monotonic_epoch": 1
+      },
+      "sequence": 6,
+      "stale_after_ms": 3000
+    },
+    "policy_version": "macos-memory-pressure-v1",
+    "profile": "macos-memory-l0-v1",
+    "reason": "pressure_normal",
+    "schema_version": 1
+  },
+  "recoveryExecutions": 1,
+  "recoverySurface": {
+    "cliMeterJson": {
+      "age_ms": 200,
+      "cadence": {
+        "interval_ms": 1000,
+        "mode": "active",
+        "stale_after_ms": 3000
+      },
+      "daemon": {
+        "cpu_accounting": "process_lifetime",
+        "cpu_core_seconds": {
+          "observed_at_ms": 1794483694634,
+          "observed_monotonic_ms": 5037,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 0.85134
+          },
+          "unit": "core_seconds"
+        },
+        "observed_peak_rss_bytes": {
+          "observed_at_ms": 1794483694634,
+          "observed_monotonic_ms": 5037,
+          "provenance": "derived",
+          "reading": {
+            "availability": "available",
+            "value": 10420224
+          },
+          "unit": "bytes"
+        },
+        "peak_observation_started_at_ms": 1794483689598,
+        "peak_observation_started_monotonic_ms": 1,
+        "rss_bytes": {
+          "observed_at_ms": 1794483694634,
+          "observed_monotonic_ms": 5037,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 10420224
+          },
+          "unit": "bytes"
+        }
+      },
+      "daemon_instance": {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 98543,
+        "start_token": "1794483689583773"
+      },
+      "host": {
+        "cpu_interval": {
+          "elapsed_ms": 1010,
+          "ended_at_ms": 1794483694634,
+          "ended_monotonic_ms": 5037,
+          "logical_cpu_count": 8,
+          "normalization": "host_capacity",
+          "started_at_ms": 1794483693623,
+          "started_monotonic_ms": 4027
+        },
+        "cpu_utilization": {
+          "observed_at_ms": 1794483694634,
+          "observed_monotonic_ms": 5037,
+          "provenance": "derived",
+          "reading": {
+            "availability": "available",
+            "value": 20.124223602484474
+          },
+          "unit": "percent"
+        },
+        "filesystem": {
+          "available_bytes": {
+            "observed_at_ms": 1794483694634,
+            "observed_monotonic_ms": 5037,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 82329600000
+            },
+            "unit": "bytes"
+          },
+          "capacity_bytes": {
+            "observed_at_ms": 1794483694634,
+            "observed_monotonic_ms": 5037,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 494384795648
+            },
+            "unit": "bytes"
+          },
+          "free_bytes": {
+            "observed_at_ms": 1794483694634,
+            "observed_monotonic_ms": 5037,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 82329600000
+            },
+            "unit": "bytes"
+          },
+          "identity": {
+            "filesystem_type": "apfs",
+            "is_local": true,
+            "mount_point": "/",
+            "path": "/",
+            "volume_id": "01000013:0000001a"
+          },
+          "pressure": {
+            "observed_at_ms": 1794483694634,
+            "observed_monotonic_ms": 5037,
+            "provenance": "derived",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        },
+        "memory_available_bytes": {
+          "observed_at_ms": 1794483694634,
+          "observed_monotonic_ms": 5037,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 3959996416
+          },
+          "unit": "bytes"
+        },
+        "memory_pressure": {
+          "observed_at_ms": 1794483694634,
+          "observed_monotonic_ms": 5037,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": "normal"
+          },
+          "unit": "level"
+        },
+        "swap_used_bytes": {
+          "observed_at_ms": 1794483694634,
+          "observed_monotonic_ms": 5037,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 15524757504
+          },
+          "unit": "bytes"
+        }
+      },
+      "sampled_at_ms": 1794483694634,
+      "sampled_monotonic_ms": 5037,
+      "schema_version": 1,
+      "sequence": 6
+    },
+    "cliStatus": "Job: 877dc313a27192e5f5992e3dcf5fc8f3\nState: failed\nExit code: 17\nQueue wait (ms): 0\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: Initial policy active (L0)\nPolicy reason: pressure_normal\nObservation availability: available\nObservation age (ms): 195\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":98543,\"start_token\":\"1794483689583773\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 6\nLast recorded job decision: admitted\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483694694\nRecorded observation age (ms): 60\n",
+    "desktop": {
+      "data": {
+        "decision_availability": "available",
+        "effective": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "l0",
+          "observation": {
+            "age_ms": 164,
+            "availability": "available",
+            "observed_at_ms": 1794483694634,
+            "observed_monotonic_ms": 5037,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98543,
+                "start_token": "1794483689583773"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 6,
+            "stale_after_ms": 3000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "pressure_normal",
+          "schema_version": 1
+        },
+        "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+        "last_decision": {
+          "decided_at_ms": 1794483694694,
+          "kind": "admit",
+          "observation": {
+            "age_ms": 60,
+            "availability": "available",
+            "observed_at_ms": 1794483694634,
+            "observed_monotonic_ms": 5037,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98543,
+                "start_token": "1794483689583773"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 6,
+            "stale_after_ms": 3000
+          },
+          "permit_generation": 1,
+          "policy_version": "macos-memory-pressure-v1",
+          "reason": "admitted"
+        },
+        "schema_version": 1
+      },
+      "received_at_ms": 1794483694801
+    },
+    "jobId": "877dc313a27192e5f5992e3dcf5fc8f3",
+    "sqlite": {
+      "decision": "admit",
+      "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+      "observation_json": "{\"availability\":\"available\",\"pressure\":\"normal\",\"age_ms\":60,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":98543,\"start_token\":\"1794483689583773\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":6,\"observed_at_ms\":1794483694634,\"observed_monotonic_ms\":5037}",
+      "permit_generation": 1,
+      "policy_version": "macos-memory-pressure-v1",
+      "reason_code": "admitted",
+      "recorded_at_ms": 1794483694694
+    }
+  },
+  "reservationBeforeCritical": {
+    "entries": [
+      {
+        "generation": 1,
+        "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+        "state": "RESERVED"
+      }
+    ],
+    "jobs": [
+      {
+        "child_pid": null,
+        "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+        "observer_pid": 98544,
+        "outcome_kind": null,
+        "phase": "LAUNCHING"
+      }
+    ],
+    "permits": [
+      {
+        "generation": 1,
+        "job_id": "877dc313a27192e5f5992e3dcf5fc8f3",
+        "state": "ACTIVE"
+      }
+    ]
+  },
+  "reservationUnchanged": true,
+  "reservedGeneration": 1,
+  "sqliteChild": {
+    "child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+    "child_pid": 98685,
+    "child_start_token": "1794483694697453",
+    "job_id": "877dc313a27192e5f5992e3dcf5fc8f3"
+  },
+  "targetExecutionsDuringCritical": 0
+}

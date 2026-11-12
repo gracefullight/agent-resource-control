@@ -8,6 +8,7 @@ import type {
 } from "@/bridge/types";
 import type { JobMeterSection } from "@/dashboard/job-meter-read-state";
 import type { MeterSection } from "@/dashboard/meter-read-state";
+import type { PolicySection } from "@/dashboard/policy-read-state";
 
 export interface RecordedSection<T> {
   value: Received<T> | null;
@@ -25,6 +26,7 @@ export interface DashboardSnapshot {
   refreshing: boolean;
   health: RecordedSection<DaemonHealth>;
   meter: MeterSection;
+  policy: PolicySection;
   jobMeter: JobMeterSection;
   recent: RecordedSection<RecentJobs>;
   selectedId: JobId | null;

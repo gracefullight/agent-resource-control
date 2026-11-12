@@ -9,6 +9,10 @@ pub(crate) mod jobs;
 #[cfg(test)]
 #[path = "db_worker/meter_tests.rs"]
 mod meter_tests;
+#[path = "db_worker/observation.rs"]
+mod observation;
+#[path = "db_worker/policy.rs"]
+pub(crate) mod policy;
 #[cfg(test)]
 #[path = "db_worker/tests.rs"]
 mod tests;
@@ -109,6 +113,7 @@ struct Shared {
     stopping: AtomicBool,
     active: Mutex<Option<execution::Active>>,
     meter: Mutex<MeterActivity>,
+    observation: observation::Observations,
 }
 
 struct MeterActivity {
@@ -162,6 +167,7 @@ impl DbWorker {
         let shared = Arc::new(Shared {
             stopping: AtomicBool::new(false),
             active: Mutex::new(None),
+            observation: observation::Observations::default(),
             meter: Mutex::new(MeterActivity {
                 active: crate::meter::active_jobs(&connection),
                 sink: None,
@@ -267,6 +273,9 @@ impl Drop for DbWorker {
 }
 
 impl DbClient {
+    pub(crate) fn bind_observation(&self, reader: arc_meter::SnapshotReader) {
+        self.shared.observation.replace(reader);
+    }
     pub(crate) fn bind_meter(&self, activity: arc_meter::Activity) {
         let mut meter = self.shared.meter.lock().unwrap_or_else(|e| e.into_inner());
         activity.set_active(meter.active);

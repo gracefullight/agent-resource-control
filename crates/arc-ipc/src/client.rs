@@ -11,21 +11,8 @@ use std::{
     time::{Duration, Instant},
 };
 
-/// Errors are local decisions, never peer-provided diagnostic text.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum Failure {
-    Unavailable,
-    Uncertain,
-    Busy,
-    Rejected,
-    Protocol,
-    InvalidReply,
-    InvalidEndpoint,
-    Local,
-    Witness,
-    Cancelled,
-    Unsupported,
-}
+mod exchange_types;
+pub use exchange_types::{ExchangeOptions, Failure};
 mod endpoint;
 use endpoint::{endpoint_failure, local_failure, ConnectFailure};
 
@@ -57,11 +44,6 @@ pub fn exchange_until(
         options,
         |end| DeadlineStream::connect(socket, end, cancelled),
     )
-}
-
-pub struct ExchangeOptions<'a> {
-    pub continuity: Option<&'a Continuity>,
-    pub retry_busy: bool,
 }
 
 fn exchange_with<S: TrackedStream>(
@@ -147,7 +129,10 @@ fn exchange_with<S: TrackedStream>(
                     (crate::STATUS_ERROR, None, Some(e))
                         if matches!(
                             operation,
-                            crate::traffic::OPERATION_TRAFFIC_CAPABILITIES
+                            crate::policy::OPERATION_POLICY_CAPABILITIES
+                                | crate::policy::OPERATION_POLICY_CURRENT
+                                | crate::policy::OPERATION_POLICY_JOB
+                                | crate::traffic::OPERATION_TRAFFIC_CAPABILITIES
                                 | crate::traffic::OPERATION_BUN_CAPABILITIES
                                 | crate::meter::OPERATION_METER_SNAPSHOT
                                 | crate::meter::OPERATION_METER_REPORT
@@ -155,6 +140,16 @@ fn exchange_with<S: TrackedStream>(
                         ) && e.code == crate::ERROR_UNSUPPORTED_CAPABILITY =>
                     {
                         return Err(Failure::Unsupported)
+                    }
+                    (crate::STATUS_ERROR, None, Some(e))
+                        if matches!(
+                            operation,
+                            crate::policy::OPERATION_POLICY_CAPABILITIES
+                                | crate::policy::OPERATION_POLICY_CURRENT
+                                | crate::policy::OPERATION_POLICY_JOB
+                        ) && e.code == crate::policy::ERROR_POLICY_UNAVAILABLE =>
+                    {
+                        return Err(Failure::Unavailable)
                     }
                     (crate::STATUS_ERROR, None, Some(e))
                         if matches!(
@@ -230,6 +225,101 @@ fn exchange_with<S: TrackedStream>(
     } else {
         Failure::Unavailable
     })
+}
+/// A single authenticated connection with no reconnect or request replay.
+/// Used only around the CLI's one native spawn and its acknowledgement.
+pub struct Session {
+    stream: UnixStream,
+    deadline: Instant,
+}
+impl Session {
+    pub fn connect_until(
+        socket: &Path,
+        deadline: Instant,
+        cancelled: &dyn Fn() -> bool,
+        continuity: Option<&Continuity>,
+    ) -> Result<Self, Failure> {
+        if cancelled() {
+            return Err(Failure::Cancelled);
+        }
+        let stream = DeadlineStream::connect(socket, deadline, cancelled).map_err(|e| match e {
+            ConnectFailure::Local => Failure::Local,
+            ConnectFailure::InvalidEndpoint => Failure::InvalidEndpoint,
+            ConnectFailure::Endpoint => Failure::Unavailable,
+        })?;
+        if let Some(continuity) = continuity {
+            continuity.record(stream.peer_identity.clone());
+        }
+        Ok(Self {
+            stream: stream.stream,
+            deadline,
+        })
+    }
+    pub fn deadline(&self) -> Instant {
+        self.deadline
+    }
+    pub fn shorten_deadline(&mut self, deadline: Instant) {
+        self.deadline = self.deadline.min(deadline);
+    }
+    pub fn raw_fd(&self) -> std::os::fd::RawFd {
+        self.stream.as_raw_fd()
+    }
+    pub fn exchange(
+        &mut self,
+        request: &Request,
+        cancelled: &dyn Fn() -> bool,
+    ) -> Result<Value, Failure> {
+        let stream = self.stream.try_clone().map_err(|_| Failure::Local)?;
+        let mut stream = DeadlineStream {
+            stream,
+            deadline: self.deadline,
+            cancelled,
+            sent: false,
+            peer_identity: None,
+        };
+        if cancelled() {
+            return Err(Failure::Cancelled);
+        }
+        if Instant::now() >= self.deadline {
+            return Err(Failure::Uncertain);
+        }
+        let response = crate::exchange(&mut stream, request).map_err(|e| match e {
+            crate::IpcError::Json(_) | crate::IpcError::NotAnObject | crate::IpcError::Frame(_) => {
+                Failure::InvalidReply
+            }
+            _ => {
+                if cancelled() {
+                    Failure::Cancelled
+                } else {
+                    Failure::Uncertain
+                }
+            }
+        })?;
+        if cancelled() {
+            return Err(Failure::Cancelled);
+        }
+        if Instant::now() >= self.deadline {
+            return Err(Failure::Uncertain);
+        }
+        if response.protocol_version != PROTOCOL_VERSION {
+            return Err(Failure::Protocol);
+        }
+        if response.request_id != request.request_id {
+            return Err(Failure::InvalidReply);
+        }
+        match (response.status.as_str(), response.result, response.error) {
+            (STATUS_OK, Some(value), None) => Ok(value),
+            (crate::STATUS_ERROR, None, Some(error)) => Err(match error.code.as_str() {
+                crate::ERROR_UNSUPPORTED_CAPABILITY => Failure::Unsupported,
+                crate::ERROR_PROTOCOL_INCOMPATIBLE => Failure::Protocol,
+                crate::ERROR_DB_BUSY => Failure::Busy,
+                crate::policy::ERROR_POLICY_UNAVAILABLE => Failure::Unavailable,
+                "" => Failure::InvalidReply,
+                _ => Failure::Rejected,
+            }),
+            _ => Err(Failure::InvalidReply),
+        }
+    }
 }
 struct DeadlineStream<'a> {
     stream: UnixStream,

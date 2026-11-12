@@ -280,7 +280,16 @@ pub fn bind_socket(socket: &Path) -> io::Result<UnixListener> {
 }
 
 /// Serve with validated finite limits and one owned SQLite worker.
-pub async fn serve(mut connection: Connection, socket: PathBuf) -> Result<(), Box<dyn Error>> {
+#[allow(dead_code)]
+pub async fn serve(connection: Connection, socket: PathBuf) -> Result<(), Box<dyn Error>> {
+    serve_with_source(connection, socket, None).await
+}
+
+pub(crate) async fn serve_with_source(
+    mut connection: Connection,
+    socket: PathBuf,
+    meter: Option<arc_meter::MeterWorker>,
+) -> Result<(), Box<dyn Error>> {
     let profile = std::env::var_os("ARC_IPC_PROFILE");
     let limits = crate::limits::RuntimeLimits::from_profile(profile.as_deref())?;
     let metrics = Arc::new(crate::runtime_metrics::RuntimeMetrics::new(&limits));
@@ -296,7 +305,21 @@ pub async fn serve(mut connection: Connection, socket: PathBuf) -> Result<(), Bo
         },
         Arc::clone(&metrics),
     )?;
-    crate::lifecycle::supervise(socket, limits, metrics, worker).await
+    match meter {
+        None => crate::lifecycle::supervise(socket, limits, metrics, worker).await,
+        Some(meter) => {
+            crate::lifecycle::supervise_with_source(
+                socket,
+                limits,
+                metrics,
+                worker,
+                crate::accept_recovery::Acceptor::default(),
+                crate::runtime_report::RuntimeReport::from_env(),
+                Some(meter),
+            )
+            .await
+        }
+    }
 }
 
 /// Controlled worker fixtures use the same supervisor as the production entry.

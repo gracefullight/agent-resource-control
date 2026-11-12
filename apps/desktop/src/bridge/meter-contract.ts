@@ -105,7 +105,7 @@ function interval(v: unknown, observed: number): v is MeterCpuInterval {
     v.normalization === "host_capacity"
   );
 }
-function processIdentity(v: unknown): boolean {
+export function processIdentity(v: unknown): boolean {
   return (
     object(v, ["pid", "start_token", "boot_id"]) &&
     integer(v.pid, 1, 2_147_483_647) &&

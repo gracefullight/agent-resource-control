@@ -28,7 +28,7 @@ use std::{
     time::Duration,
 };
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 enum Boundary {
     Enqueue,
     Attach,
@@ -71,9 +71,11 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
     listener.set_nonblocking(true).unwrap();
     let stop = Arc::new(AtomicBool::new(false));
     let injected = Arc::new(AtomicBool::new(false));
+    let attached = Arc::new(AtomicBool::new(false));
     let attempts = Arc::new(AtomicUsize::new(0));
     let server_stop = stop.clone();
     let server_injected = injected.clone();
+    let server_attached = attached.clone();
     let server_attempts = attempts.clone();
     let runtime = tokio::runtime::Handle::current();
     let server = thread::spawn(move || {
@@ -89,6 +91,9 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
             stream.set_nonblocking(false).unwrap();
             let peer = crate::platform::peer_pid(&stream).unwrap();
             let request: Request = arc_ipc::read_message(&mut stream).unwrap();
+            if super::launch_fixture::dispatch(&runtime, &client, &stream, &request) {
+                continue;
+            }
             let (probe, operation, capability) = if program == "bun" {
                 (
                     OPERATION_BUN_CAPABILITIES,
@@ -134,25 +139,33 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
             if selected {
                 server_attempts.fetch_add(1, Ordering::SeqCst);
             }
-            let fault = selected && !server_injected.swap(true, Ordering::SeqCst);
+            let fault = selected && !server_injected.load(Ordering::SeqCst);
             if fault && !after_commit {
+                server_injected.store(true, Ordering::SeqCst);
                 continue;
             }
+            let is_attach = matches!(&job, JobRequest::Attach { .. });
             let result = runtime.block_on(handle(
                 client.clone(),
                 job,
                 peer,
                 Instant::now() + Duration::from_secs(2),
             ));
-            if fault && after_commit {
-                assert!(result.is_ok(), "commit must precede the dropped reply");
+            // A rejected request has no commit to lose. Return its real error
+            // and keep the after-commit fault armed for the successful retry.
+            // The mandatory injected/count/outcome assertions remain below.
+            if fault && after_commit && result.is_ok() {
+                server_injected.store(true, Ordering::SeqCst);
                 continue;
             }
+            let attach_committed = is_attach && result.is_ok();
             let response = match result {
                 Ok(value) => Response::ok(request.request_id, value),
                 Err(code) => Response::error(request.request_id, code),
             };
-            let _ = arc_ipc::write_response(&mut stream, &response);
+            if arc_ipc::write_response(&mut stream, &response).is_ok() && attach_committed {
+                server_attached.store(true, Ordering::SeqCst);
+            }
         }
     });
     let bin = std::env::current_exe()
@@ -164,6 +177,7 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
         .to_path_buf();
     symlink(bin.join("arc-exec-fixture"), root.join(program)).unwrap();
     let marker = root.join("calls");
+    let stderr = root.join("cli.stderr");
     let mut cli = Command::new(bin.join("arcctl"))
         .args([
             "exec",
@@ -176,13 +190,20 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
         .env("ARC_FIXTURE_MODE", "echo")
         .env("ARC_FIXTURE_MARKER", &marker)
         .env_remove("ARC_TRAFFIC_LINEAGE")
-        .stdin(Stdio::null())
+        // Echo reads to EOF. Keep the real child alive until the fixture has
+        // acknowledged Attach, including any dropped first acknowledgement.
+        // A fast exit is valid production behavior, but cannot exercise that
+        // fault boundary deterministically.
+        .stdin(Stdio::piped())
         .stdout(Stdio::null())
-        .stderr(Stdio::null())
+        .stderr(fs::File::create(&stderr).unwrap())
         .spawn()
         .unwrap();
     let deadline = Instant::now() + Duration::from_secs(10);
     let status = loop {
+        if attached.load(Ordering::SeqCst) {
+            drop(cli.stdin.take());
+        }
         if let Some(status) = cli.try_wait().unwrap() {
             break status;
         }
@@ -195,12 +216,18 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
     };
     stop.store(true, Ordering::SeqCst);
     server.join().unwrap();
-    assert!(injected.load(Ordering::SeqCst));
+    let context = format!(
+        "program={program}, boundary={boundary:?}, after_commit={after_commit}, status={status}, attempts={}, stderr={}, fixture={}",
+        attempts.load(Ordering::SeqCst),
+        fs::read_to_string(stderr).unwrap(),
+        root.display()
+    );
+    assert!(injected.load(Ordering::SeqCst), "{context}");
     assert!(
         attempts.load(Ordering::SeqCst) >= 2,
-        "CLI did not retry the lost reply"
+        "CLI did not retry the lost reply: {context}"
     );
-    assert_eq!(status.code(), Some(17));
+    assert_eq!(status.code(), Some(17), "{context}");
     assert_eq!(fs::read_to_string(marker).unwrap().lines().count(), 1);
     let db = rusqlite::Connection::open(&database).unwrap();
     let counts: (i64, i64, i64) = db.query_row(

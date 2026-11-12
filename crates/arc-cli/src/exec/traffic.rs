@@ -6,7 +6,7 @@ use super::{
     witness::Witness,
 };
 use arc_ipc::{
-    jobs::{JobId, Outcome, ProcessIdentity},
+    jobs::{JobId, ProcessIdentity},
     traffic::{
         Capabilities, JobRequest, JobResult, LineageContext, BUN_CAPABILITY, CAPABILITY,
         OPERATION_BUN_CAPABILITIES, OPERATION_BUN_JOB, OPERATION_TRAFFIC_CAPABILITIES,
@@ -18,6 +18,9 @@ use std::{
     path::Path,
     time::{Duration, Instant},
 };
+
+mod lifecycle;
+pub(super) use lifecycle::{attach, cancel, complete, complete_or_warn, fallback};
 
 pub(super) const CONTEXT_ENV: &str = "ARC_TRAFFIC_LINEAGE";
 
@@ -80,6 +83,50 @@ fn job(
     }
     Ok(result)
 }
+
+// A responsive DB_BUSY coordinator is not a daemon outage. Retain admission
+// and cancellation across bounded exchanges without allowing a native spawn.
+fn admission(
+    socket: &Path,
+    request: &JobRequest,
+    route: Route,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    continuity: &Continuity,
+) -> Result<JobResult, Failure> {
+    admission_with(deadline, cancelled, |deadline| {
+        job(
+            socket,
+            request,
+            route,
+            deadline,
+            cancelled,
+            possibly_committed,
+            continuity,
+        )
+    })
+}
+fn admission_with(
+    mut deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    mut exchange: impl FnMut(Instant) -> Result<JobResult, Failure>,
+) -> Result<JobResult, Failure> {
+    loop {
+        if cancelled() {
+            return Err(Failure::Cancelled);
+        }
+        match exchange(deadline) {
+            Err(Failure::Busy) => {
+                deadline = Instant::now() + Duration::from_millis(1800);
+            }
+            result => return result,
+        }
+    }
+}
+
+#[cfg(test)]
+mod admission_tests;
 
 pub(super) fn prepare(
     socket: &Path,
@@ -189,7 +236,7 @@ pub(super) fn prepare(
     };
     let mut possibly_committed = false;
     let continuity = Continuity::default();
-    let mut result = match job(
+    let mut result = match admission(
         socket,
         &enqueue,
         route,
@@ -211,9 +258,7 @@ pub(super) fn prepare(
             )
             .map(Mode::Legacy);
         }
-        Err(
-            Failure::Unavailable | Failure::Uncertain | Failure::Busy | Failure::InvalidEndpoint,
-        ) => {
+        Err(Failure::Unavailable | Failure::Uncertain | Failure::InvalidEndpoint) => {
             return Ok(Mode::Uncertain {
                 witness,
                 route,
@@ -230,6 +275,7 @@ pub(super) fn prepare(
         }
     };
     let mut waited = false;
+    let mut pressure_notice = None;
     loop {
         match result {
             JobResult::Granted {
@@ -279,8 +325,16 @@ pub(super) fn prepare(
             }
             JobResult::Queued { .. } => {
                 possibly_committed = true;
-                if !waited {
-                    queued_notice(id);
+                let pressure = super::policy::job(
+                    socket,
+                    id,
+                    Instant::now() + Duration::from_millis(150),
+                    &cancelled,
+                )
+                .is_ok_and(|result| super::policy::confirmed_hold(&result));
+                if pressure_notice != Some(pressure) {
+                    queued_notice(id, pressure);
+                    pressure_notice = Some(pressure);
                     waited = true;
                 }
                 // The request and SQLite ticket have both been released here.
@@ -301,7 +355,7 @@ pub(super) fn prepare(
                         observer: observer.clone(),
                     }
                 };
-                result = match job(
+                result = match admission(
                     socket,
                     &poll,
                     route,
@@ -311,12 +365,7 @@ pub(super) fn prepare(
                     &continuity,
                 ) {
                     Ok(value) => value,
-                    Err(
-                        Failure::Unavailable
-                        | Failure::Uncertain
-                        | Failure::Busy
-                        | Failure::InvalidEndpoint,
-                    ) => {
+                    Err(Failure::Unavailable | Failure::Uncertain | Failure::InvalidEndpoint) => {
                         return Ok(Mode::Uncertain {
                             witness,
                             route,
@@ -353,130 +402,12 @@ pub(super) fn prepare(
 }
 
 /// Write once without changing the inherited descriptor's shared status flags.
-fn queued_notice(id: &JobId) {
-    let message = format!("QUEUED\nWaiting to start.\nReference: {}\n", id.as_str());
+fn queued_notice(id: &JobId, pressure: bool) {
+    let explanation = if pressure {
+        "Waiting for memory.\nStarts automatically when memory permits; other queue rules still apply."
+    } else {
+        "Waiting to start."
+    };
+    let message = format!("QUEUED\n{explanation}\nReference: {}\n", id.as_str());
     write_notice(&message);
-}
-
-pub(super) fn cancel(
-    socket: &Path,
-    id: &JobId,
-    observer: &ProcessIdentity,
-    generation: Option<u64>,
-    route: Route,
-    continuity: &Continuity,
-) -> bool {
-    let request = JobRequest::Cancel {
-        job_id: id.clone(),
-        observer: observer.clone(),
-        permit_generation: generation,
-    };
-    let result = job(
-        socket,
-        &request,
-        route,
-        Instant::now() + Duration::from_millis(500),
-        &|| false,
-        &mut false,
-        continuity,
-    );
-    let confirmed = matches!(result, Ok(JobResult::Cancelled {})) && continuity.confirmed();
-    if !confirmed {
-        write_notice("QUEUE_CLEANUP_UNCONFIRMED\nQueue cleanup is unconfirmed.\n");
-    }
-    confirmed
-}
-
-pub(super) fn attach(
-    socket: &Path,
-    id: &JobId,
-    observer: &ProcessIdentity,
-    generation: u64,
-    child: ProcessIdentity,
-    route: Route,
-    continuity: &Continuity,
-) -> bool {
-    let request = JobRequest::Attach {
-        job_id: id.clone(),
-        observer: observer.clone(),
-        child,
-        permit_generation: generation,
-    };
-    matches!(
-        job(
-            socket,
-            &request,
-            route,
-            Instant::now() + Duration::from_secs(2),
-            &|| false,
-            &mut false,
-            continuity,
-        ),
-        Ok(JobResult::Running {})
-    )
-}
-
-pub(super) fn complete(
-    socket: &Path,
-    id: &JobId,
-    observer: &ProcessIdentity,
-    generation: u64,
-    outcome: Outcome,
-    route: Route,
-    continuity: &Continuity,
-) -> bool {
-    let request = JobRequest::Complete {
-        job_id: id.clone(),
-        observer: observer.clone(),
-        outcome: outcome.clone(),
-        permit_generation: generation,
-    };
-    matches!(job(socket, &request, route, Instant::now() + Duration::from_secs(2), &|| false, &mut false, continuity), Ok(JobResult::Completed { outcome: actual, .. }) if actual == outcome)
-}
-
-pub(super) fn complete_or_warn(
-    socket: &Path,
-    id: &JobId,
-    observer: &ProcessIdentity,
-    generation: u64,
-    outcome: Outcome,
-    route: Route,
-    continuity: &Continuity,
-) -> bool {
-    let completed = complete(socket, id, observer, generation, outcome, route, continuity)
-        && continuity.confirmed();
-    if !completed {
-        write_notice("COMPLETION_UNCONFIRMED\nRecording is unconfirmed.\n");
-    }
-    completed
-}
-
-pub(super) fn fallback(
-    socket: &Path,
-    id: &JobId,
-    observer: &ProcessIdentity,
-    child: Option<ProcessIdentity>,
-    outcome: Option<Outcome>,
-    route: Route,
-    continuity: &Continuity,
-) -> bool {
-    let request = JobRequest::Fallback {
-        job_id: id.clone(),
-        observer: observer.clone(),
-        permit_generation: None,
-        child,
-        outcome,
-    };
-    matches!(
-        job(
-            socket,
-            &request,
-            route,
-            Instant::now() + Duration::from_secs(2),
-            &|| false,
-            &mut false,
-            continuity,
-        ),
-        Ok(JobResult::Completed { .. } | JobResult::Abandoned {} | JobResult::Cancelled {})
-    )
 }

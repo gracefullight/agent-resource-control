@@ -2,7 +2,7 @@
 // are native measurement evidence and no Rust compilation/coverage is invoked.
 import { chmodSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
-import { BASELINE, CRATES, CRATE_ROOTS, METER_INPUTS, PINS } from "../coverage/config";
+import { BASELINE, CRATES, CRATE_ROOTS, METER_INPUTS, FROZEN_INPUTS, PINS } from "../coverage/config";
 import { account } from "../coverage/accounting";
 import { inputIdentity, sourceInventory, hash } from "../coverage/source";
 import { referenceFile } from "../coverage/evidence";
@@ -24,7 +24,7 @@ export function reuseFixture(withExample=false) {
     ".arc-verify/rust-coverage/contract/accounting.json",".arc-verify/desktop-foundation/contract.md",
     "apps/desktop/package.json","apps/desktop/tsconfig.json","apps/desktop/tsconfig.test.json","apps/desktop/vite.config.ts",
     "apps/desktop/index.html","apps/desktop/src-tauri/build.rs","apps/desktop/src-tauri/tauri.conf.json",
-    ".arc-verify/host-meter/contract.md","scripts/fixture.test.ts","apps/desktop/tests/fixture.test.ts"]) save(path,"Synthetic input fixture\n");
+    ...FROZEN_INPUTS,"scripts/fixture.test.ts","apps/desktop/tests/fixture.test.ts"]) save(path,"Synthetic input fixture\n");
   save("Cargo.toml",`[workspace]\nmembers = ${JSON.stringify(CRATES.map(name=>dirname(CRATE_ROOTS[name].manifest)))}\n`);
   save("bunfig.toml","# Synthetic executable fixture\n");
   save("package.json",{private:true,type:"module"});
@@ -80,7 +80,7 @@ export function reuseFixture(withExample=false) {
   const summary={...result,runId,acceptedBaseline:BASELINE,sourceHash:inputs.sha256,inputs,rawSha256:lcovRef.sha256,llvmSha256:llvmRef.sha256,versions,host};
   const receipt={schemaVersion:1,runId,pass:true,exit:0,acceptedBaseline:BASELINE,sourceHash:inputs.sha256,receipts:commands};
   const bundle:CoverageReuse={schemaVersion:1,runId,sourceHash:inputs.sha256,acceptedBaseline:BASELINE,
-    frozenInputs:Object.fromEntries(METER_INPUTS.map(path=>[path,inputs.files[path]])),metadata:save(`${base}/metadata.json`,metadata),
+    frozenInputs:Object.fromEntries(FROZEN_INPUTS.map(path=>[path,inputs.files[path]])),metadata:save(`${base}/metadata.json`,metadata),
     evidence:{receipt:save(`${base}/receipt.json`,receipt),summary:save(`${base}/summary.json`,summary),profiles:save(`${base}/profiles.json`,proof),rawReports:{lcov:lcovRef,llvmJson:llvmRef}}};
   const writeBundle=()=>save(path,bundle);
   writeBundle();

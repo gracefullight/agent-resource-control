@@ -1,0 +1,1264 @@
+{
+"schemaVersion": 1,
+"taskId": "task-11",
+"actorId": "independent-reviewer",
+"role": "installed qa-reviewer",
+"recordedAt": "2026-11-12T17:33:18.073009+00:00",
+"reportComplete": true,
+"taskStatus": "completed",
+"independent": true,
+"reviewResult": "PASS",
+"verificationCompleteness": "completed_for_assigned_read_only_review",
+"productAcceptance": "Required current-input backend evidence verified for this macOS memory-pressure slice. Chief synthesis, framework mission verification and independent final review remain authoritative downstream work.",
+"nativeGatesRunByQa": false,
+"coverageCollectionsRunByQa": 0,
+"sourceTestsConfigurationReadOnly": true,
+"reviewedInputDigest": "629f0f10fdfe699fc134966e500574490593859951b50c9bbe40a40a3cf33ba0",
+"canonicalInputIdentity": ".arc-verify/memory-pressure/gates.json#/inputs",
+"singleMissionDigest": true,
+"receiptBindingsVerified": true,
+"unresolvedBlockingFindings": 0,
+"confirmedProductDefects": 0,
+"summary": "Independent task-11 refresh verifies all 581 inputs, 101 distinct gate/reuse/immediate-history artifact bindings including the pre-closure report, two embedded coverage streams and 3103 profiles. Ten final commands match raw receipts; logs substantiate 1045 Rust, 219 active Bun and 86 focused IPC passes. LLVM/LCOV reconstruction confirms eleven production-line floors, minimum 84.904928%. Eight current-input captures reconcile fresh Critical holds, unchanged running outcome and one recovery execution across SQLite/CLI/registered DesktopBridge. SystemSource observed Normal only. QA-E1 remains resolved by retained bytes. No confirmed product defect or unresolved blocker; QA ran no gates, tests, builds, coverage collection or GUI.",
+"skillsUsed": [
+{
+"name": "oma-qa",
+"source": ".agents/skills/oma-qa/SKILL.md",
+"application": "Independent security, performance, accessibility, correctness and evidence review. Read resources/execution-protocol.md and the shared execution/code-intelligence/result contracts. Assignment-specific read-only/no-native-gate restrictions override generic automated/runtime tool suggestions."
+}
+],
+"provenance": {
+"acceptedHead": "338631893b51b2e7cd4045e636bb1301ab4db955",
+"actualHead": "338631893b51b2e7cd4045e636bb1301ab4db955",
+"acceptedTree": "cb589a2dbb538f7d273e291858d939b00ffa62f7",
+"sourceDigestRecomputed": true,
+"inputFiles": 581,
+"frozenInputsMatch": true,
+"workspaceRoot": "/Users/gracefullight/workspace/arc/.agent-valley/operations/cad11807-cfad-4f23-9297-6c4a12f033b4/workspaces/847d99d4-37bc-4c0d-9593-d56183093082/workspace",
+"workspaceRootExists": true,
+"recomputeCommand": [
+"bun",
+"-e",
+"import { inputIdentity } from \"./scripts/coverage/source.ts\"; console.log(JSON.stringify(inputIdentity(process.cwd())))"
+],
+"rawInputManifest": {
+"path": "target/memory-pressure/task-8-recovery-5/frozen-inputs.json",
+"sha256": "bd7b86e0db7e19dda26af42687b3ca3344018502e0b246ecc01436cefe99fc54",
+"bytes": 69337
+},
+"coverageInputManifest": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/inputs.json",
+"sha256": "bd7b86e0db7e19dda26af42687b3ca3344018502e0b246ecc01436cefe99fc54",
+"bytes": 69337
+},
+"reports": [
+{
+"path": ".arc-verify/memory-pressure/gates.json",
+"sha256": "acefd8b41bdb62d036fe429f31b59fde56f74eaa2cc5e4d77e496405f1ab7337",
+"bytes": 60493
+},
+{
+"path": ".arc-verify/memory-pressure/integration.json",
+"sha256": "6e37828971d65320702efa0d721de01cfadf83175399af9fa1d78ed7fbaa8394",
+"bytes": 150537
+},
+{
+"path": ".arc-verify/memory-pressure/contract.md",
+"sha256": "08c0b81c0f2a506b9a9265daebb729a6177b3cb3be0c0667a6bc9619939c0f19",
+"bytes": 19889
+}
+],
+"baselinePreservation": {
+"protectedFilesComparedToAcceptedGitObjects": 2158,
+"newSourceTests": 69,
+"maximumLines": 439,
+"maximumFile": "crates/arc-cli/src/exec/launch/tests.rs",
+"migrationBytesPreserved": true,
+"historicalEvidenceUnchanged": true
+},
+"task6SourceBindings": {
+"files": 29,
+"matched": 28,
+"differences": [
+"scripts/coverage/accounting.test.ts"
+]
+},
+"task6Scope": "Original task-6 evidence retains its declared scope. Seven of fifteen command receipts carry the 29-file map; eight earlier receipts carry command/log evidence without that map. 28/29 declared source hashes still match; accounting.test.ts changed later. Final task-8 current-input workspace/Bun/native/coverage evidence covers all 581 inputs; task-6 evidence is corroboration, not a final workspace substitute.",
+"advisoryBindingsVerified": [
+{
+"path": ".arc-verify/memory-pressure/advice/technical.md",
+"sha256": "5141b0538cb9f21b8f779e443012f1bd4c6bbd59220727f4a5ededc9bb231b23",
+"bytes": 34514
+},
+{
+"path": ".arc-verify/memory-pressure/advice/design.md",
+"sha256": "31b033c189b890cc7a496cfc8b3cc16916f6d76bf92237e8b91dc13ce07f8e90",
+"bytes": 34256
+}
+],
+"generatedReportsExcludedFromInputDigest": [
+".arc-verify/memory-pressure/gates.json",
+".arc-verify/memory-pressure/integration.json",
+".arc-verify/memory-pressure/qa.json",
+".arc-verify/memory-pressure/final.md",
+"target/",
+"apps/desktop/dist/",
+"apps/desktop/src-tauri/target/"
+],
+"currentGateBindingRefresh": {
+"priorReviewedGate": {
+"path": "target/memory-pressure/task-10-attempt-4/gates.reviewed.json",
+"sha256": "72e33f3755d4ac5a011fb547e99209073d895cc9860e6d8ddcb37e2e112dad42",
+"bytes": 60342
+},
+"currentGate": {
+"path": ".arc-verify/memory-pressure/gates.json",
+"sha256": "acefd8b41bdb62d036fe429f31b59fde56f74eaa2cc5e4d77e496405f1ab7337",
+"bytes": 60493
+},
+"changedPointers": [
+"/evidence/closureOwner",
+"/evidence/inventoryScope",
+"/evidence/observedCanonicalBytes",
+"/evidence/observedTrackedBytes",
+"/evidence/preClosureReport",
+"/evidence/remainingCanonicalBytes"
+],
+"gateCoverageAndNativeProofIdentical": true
+}
+},
+"findings": [],
+"resolvedFindings": [
+{
+"id": "QA-E1",
+"priorSeverity": "HIGH",
+"kind": "unavailable_evidence",
+"ownerTask": "task-8",
+"ownerActor": "backend-contracts",
+"status": "resolved",
+"blocking": false,
+"priorAssessment": "The preceding QA report accurately lacked the isolated task-8 final gate/coverage artifacts at that time. Its missing-evidence finding did not establish a product defect.",
+"resolution": "Operator correction 2 and note 3 require current retained evidence, superseding the artifact-loss waiver. Task-11 independently rehashed the frozen manifests, current command receipts/streams, LLVM/LCOV exports, 3103 profiles and merge membership; reconstructed every production-line floor; verified harness reuse; and reconciled all eight final native captures. Exact replacement references below remain present in the mission workspace. Task-9 PASS is preserved as history, not substituted for this reassessment.",
+"evidence": [
+{
+"path": "target/memory-pressure/task-8-recovery-5/frozen-inputs.json",
+"sha256": "bd7b86e0db7e19dda26af42687b3ca3344018502e0b246ecc01436cefe99fc54",
+"bytes": 69337
+},
+{
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/receipt.json",
+"sha256": "ad77d22cd6b5e60464a765a2cf6255e9b9892be7ddb081b89e63805bb53de89a",
+"bytes": 3316338
+},
+{
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/reuse.json",
+"sha256": "3bc23d1becc04bc9f1055838ad4df87e6768287b03244534e35da8553ec1ccf9",
+"bytes": 2334
+}
+],
+"reproduce": "Read qa.json#/receipts and /coverageAssessment; hash each referenced artifact and compare gate receipt argv/exit/before/after plus streams. Reconstruct line arrays from the retained raw exports with the documented method. The current workspace and all current bindings are present.",
+"additionalEvidencePointers": [
+"#/coverageAssessment/rawExports",
+"#/coverageAssessment/profilesManifest",
+"#/injectedReconciliation/capture"
+],
+"reassessedByTask": "task-11",
+"reassessedAt": "2026-11-12T17:33:18.073009+00:00"
+},
+{
+"id": "TASK9-INPUT-BINDING",
+"priorSeverity": "HIGH",
+"ownerTask": "task-9",
+"ownerActor": "independent-reviewer",
+"status": "resolved",
+"blocking": false,
+"reference": ".arc-verify/memory-pressure/qa.json:1#/reviewedInputDigest",
+"resolution": "Maintained inputIdentity matches the 581-file frozen and coverage manifests. This task refreshes the exact current gates.json bytes; its six changed pointers are closure metadata only. Legacy-peer and IPC repairs were read and recorded passing results independently checked. Previous partial and accepted PASS assessments remain history."
+}
+],
+"verificationGaps": [],
+"receipts": {
+"scope": "All direct references in current gates.json, its immediate previousAttempts references and the validated coverage reuse record were hash/size checked. Immediate history retains its old identities and is not current certification. No recursion through old historical mission reports or validators was executed.",
+"canonicalReports": [
+{
+"path": ".arc-verify/memory-pressure/gates.json",
+"sha256": "acefd8b41bdb62d036fe429f31b59fde56f74eaa2cc5e4d77e496405f1ab7337",
+"bytes": 60493
+},
+{
+"path": ".arc-verify/memory-pressure/integration.json",
+"sha256": "6e37828971d65320702efa0d721de01cfadf83175399af9fa1d78ed7fbaa8394",
+"bytes": 150537
+}
+],
+"currentBackendAndReuseArtifactBindingsVerified": 101,
+"directBackendReuseAndImmediateHistoryBindingsVerified": 101,
+"immediateHistory": {
+"verified": 9,
+"policy": "Recovery-3 receipts remain in this mission workspace under their original identity. Earlier isolated artifacts were not retained; their historical limitations stay in the original reports. None are relabeled or used as current gates."
+},
+"artifactManifestOwner": ".arc-verify/memory-pressure/gates.json",
+"rawRoot": "target/memory-pressure/task-8-recovery-5",
+"rawReceiptBytesRetainedInMissionWorkspace": true,
+"finalCommands": {
+"owner": ".arc-verify/memory-pressure/gates.json",
+"sixGates": [
+"fmt",
+"clippy",
+"workspaceTest",
+"activeBun",
+"coverage",
+"architecture"
+],
+"desktopChecks": [
+"typecheck",
+"check",
+"build",
+"tauriSmoke"
+],
+"verifiedFields": [
+"argv",
+"cwd",
+"exitCode",
+"timeoutMs",
+"before",
+"after",
+"inputManifest",
+"stdout",
+"stderr",
+"receipt"
+],
+"comparison": "Each current presentation equals its raw receipt after removing only the presentation receipt reference. Exact argv, two-hour minimum bounds, current before/after identities, input maps and stream bytes match. These commands were executed by backend-contracts/task-8; none by QA."
+},
+"finalCommandsAllTenPassed": true,
+"testCountsFromRawLogs": {
+"rust": 1045,
+"rustHarnesses": 61,
+"bun": 219,
+"bunFiles": 15,
+"focusedIpc": 86
+},
+"additionalEmbeddedCoverageStreams": [
+{
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/native/stdout.log",
+"sha256": "cc3ef3e0bef4af285ce6108f5fead0a4421598183b1df0ff25ae0262150dbdd7",
+"bytes": 104463
+},
+{
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/native/stderr.log",
+"sha256": "c997558477ff8e3ca656297f65b164d2673ec02a4007be518d433f0d6cff4dc2",
+"bytes": 21259
+}
+],
+"coverageRecord": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/receipt.json",
+"sha256": "ad77d22cd6b5e60464a765a2cf6255e9b9892be7ddb081b89e63805bb53de89a",
+"bytes": 3316338
+},
+"coverageReuse": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/reuse.json",
+"sha256": "3bc23d1becc04bc9f1055838ad4df87e6768287b03244534e35da8553ec1ccf9",
+"bytes": 2334
+},
+"sourceInventory": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/source-inventory.json",
+"sha256": "c0f1b9d20eed0ceb73e4808fd373ab1c695281cbfb98476ba5f308c037e7a73e",
+"bytes": 86664
+},
+"task6": {
+"owner": ".arc-verify/memory-pressure/integration.json#/checks",
+"checkIds": [
+"domain-pressure-final",
+"daemon-pressure",
+"meter-pressure",
+"cli-status-delivery",
+"traffic-bypass",
+"native-integration-final",
+"startup-repair",
+"display-bun-final",
+"focused-tooling-final",
+"desktop-typecheck",
+"desktop-check",
+"coverage-preflight-scoped",
+"scoped-clippy",
+"build-accepted-integration",
+"format-delivery"
+],
+"receiptAndLogPairsVerified": 15,
+"allFifteenReceiptAndLogBytesVerified": true,
+"perFileBoundReceipts": 7,
+"earlierReceiptsWithoutPerFileMap": 8,
+"scope": "See #/provenance/task6Scope. These receipts keep their original scope; current acceptance uses recovery-5."
+},
+"task6AllFifteenReceiptAndLogBytesVerified": true,
+"finalCaseToTestLinksVerified": 44,
+"finalCaseToTestLinkOwner": {
+"path": "target/memory-pressure/task-8-recovery-5/edge-case-reconfirmation.json",
+"sha256": "7c41ecce5b8666528f2d995990add64d92cb902f46976781f3caa720c8d3dd81",
+"bytes": 10429
+},
+"finalCaseToTestLinks": {
+"owner": ".arc-verify/memory-pressure/integration.json#/edgeCases/cases",
+"finalReconfirmation": {
+"path": "target/memory-pressure/task-8-recovery-5/edge-case-reconfirmation.json",
+"sha256": "7c41ecce5b8666528f2d995990add64d92cb902f46976781f3caa720c8d3dd81",
+"bytes": 10429
+},
+"linksVerified": 44,
+"allPresentInPassingFinalLogs": true
+},
+"sourceBindingsAndHashes": "Independent field/byte comparisons are recorded under #/receipts/finalCommands and #/coverageAssessment. All current references are retained locally.",
+"bindingCounts": {
+"directGates": 100,
+"gateAndReuseIncludingImmediateHistory": 101,
+"embeddedCoverageStreams": 2,
+"allHashedArtifactsIncludingProfilesAndSupplementaryStreams": 3210,
+"scope": "Distinct paths in gates.json and reuse.json; additionally collection streams, focused IPC streams, profile bytes and the merge list. Task-6 pairs are counted separately."
+}
+},
+"injectedReconciliation": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/injected.json",
+"sha256": "71f673ad68688bfb9f156ea0c3f4bcf8b1eab7cdd0b235355a7565a8de95e313",
+"bytes": 51567
+},
+"sequence": [
+"Normal",
+"Critical",
+"Normal"
+],
+"sampler": {
+"daemon_instance": {
+"boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+"pid": 99646,
+"start_token": "1794500279772425"
+},
+"generation": 1,
+"monotonic_epoch": 1
+},
+"critical": {
+"checks": 21,
+"freshChecks": 21,
+"agesMinMaxMs": [
+32,
+935
+],
+"sequences": [
+2,
+3,
+4
+],
+"newHeldPermitsFromRows": 0,
+"newHeldStartsFromCounts": 0,
+"runningPermitReleasedWhileHeld": true,
+"heldEntryAlwaysQueued": true
+},
+"children": [
+{
+"child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+"child_pid": 99648,
+"child_start_token": "1794500279829758",
+"job_id": "0677ad5065e24ec42a0f6444b45ba4d4"
+},
+{
+"child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+"child_pid": 99720,
+"child_start_token": "1794500283891706",
+"job_id": "7c8cec7b25e432831a15056d651de6fd"
+}
+],
+"handshakeIdentitiesMatchSqlite": true,
+"runningOutcome": {
+"kind": "EXITED",
+"code": 17
+},
+"heldRecoveryOutcome": {
+"kind": "EXITED",
+"code": 17
+},
+"heldRecoveryExecutions": 1,
+"permitsAfterRecovery": [
+{
+"generation": 1,
+"job_id": "0677ad5065e24ec42a0f6444b45ba4d4",
+"state": "RELEASED"
+},
+{
+"generation": 2,
+"job_id": "7c8cec7b25e432831a15056d651de6fd",
+"state": "RELEASED"
+}
+],
+"surfaceComparison": [
+{
+"jobId": "0677ad5065e24ec42a0f6444b45ba4d4",
+"kind": "admit",
+"reason": "admitted",
+"generation": 1,
+"recordedAtMs": 1794500279817,
+"recordedObservationAgeMs": 38,
+"mode": "l0",
+"matchesSqliteCliProductionBridge": true
+},
+{
+"jobId": "7c8cec7b25e432831a15056d651de6fd",
+"kind": "wait",
+"reason": "memory_pressure",
+"generation": null,
+"recordedAtMs": 1794500280829,
+"recordedObservationAgeMs": 40,
+"mode": "memory_hold",
+"matchesSqliteCliProductionBridge": true
+},
+{
+"jobId": "7c8cec7b25e432831a15056d651de6fd",
+"kind": "admit",
+"reason": "admitted",
+"generation": 2,
+"recordedAtMs": 1794500283872,
+"recordedObservationAgeMs": 67,
+"mode": "l0",
+"matchesSqliteCliProductionBridge": true
+}
+],
+"audit": {
+"after": 4,
+"before": 4
+}
+},
+"launchCancellationOutageReconciliation": {
+"reservedRace": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/reserved-race.json",
+"sha256": "24446d143fc9401fabb04fc7be89ea118b7fd79055fcc835f371bdbeb83a5474",
+"bytes": 65671
+},
+"heldChecks": 20,
+"generation": 1,
+"newPermits": 0,
+"targetExecutionsDuringCritical": 0,
+"recoveryExecutions": 1,
+"reservationPreserved": true
+},
+"expiredReady": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/expired-ready.json",
+"sha256": "ef0e976edc42147d51752db38ff055f0b0608d665c8930819de9b0758feb0bc1",
+"bytes": 13938
+},
+"executionsBeforeRecovery": 0,
+"executionsAfterRecovery": 1,
+"onePermitSameJobGeneration": true,
+"knownUnspawnedMarkerReissued": true
+},
+"cancellation": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/queued-cancellation.json",
+"sha256": "b3effb4b9c247b3d7a808377652d7d58240a068a7225160d2eeb46482b4922bd",
+"bytes": 4070
+},
+"entries": [
+{
+"job_id": "dd118f647f2a7f768b914199622c0b88",
+"state": "CANCELLED"
+}
+],
+"executions": 0,
+"newPermits": 0,
+"exitCode": 1
+},
+"boundedOutage": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/bounded-outage.json",
+"sha256": "83352e24e65c1520365ffa954705bba4c960b2f1725570d49ea473c10e41c9bc",
+"bytes": 407
+},
+"elapsedMs": 13,
+"executions": 1,
+"exitCode": 17,
+"healthyCriticalHold": false
+},
+"legacyProtocol": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/legacy-protocol.json",
+"sha256": "cbd14aca09faf1bf34e6e91562401aa2a515d74d1d2ae725ada8a45b1cc8bad2",
+"bytes": 486
+},
+"enqueueAndPollFields": 4,
+"statusFields": 3,
+"pressureWaitReason": "MEMORY_BUDGET",
+"newPermits": 0
+},
+"negativeAck": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/unspawned-ack.json",
+"sha256": "7fdf676757773c021efc9b8ded1c9e726b920dc715218a2693b767c7c95041e0",
+"bytes": 3477
+},
+"knownUnspawnedReevaluated": true,
+"uncertainReleaseNotReplayed": true,
+"targetExecutions": 0,
+"retryError": {
+"code": "INVALID_JOB_TRANSITION"
+}
+}
+},
+"nativeSmoke": {
+"capture": {
+"path": "target/memory-pressure/task-8-recovery-5/native/accepted-workspace-test/native-smoke.json",
+"sha256": "8feb159a51c8c8e3e9927f6b1d590d142a4af435df21c33084225af15ef84071",
+"bytes": 15534
+},
+"source": "SystemSource",
+"separateFromInjection": true,
+"nativeCriticalForced": false,
+"observations": [
+{
+"sampler": {
+"daemon_instance": {
+"boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+"pid": 99726,
+"start_token": "1794500283969526"
+},
+"generation": 1,
+"monotonic_epoch": 1
+},
+"sequence": 1,
+"pressure": "normal",
+"ageMs": 12
+},
+{
+"sampler": {
+"daemon_instance": {
+"boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+"pid": 99726,
+"start_token": "1794500283969526"
+},
+"generation": 1,
+"monotonic_epoch": 1
+},
+"sequence": 2,
+"pressure": "normal",
+"ageMs": 4
+}
+],
+"interpretation": "Two actual native Normal observations. No native Critical or savings/performance claim."
+},
+"earlierTask6Reconciliation": {
+"status": "verified_as_original_scoped_evidence",
+"capture": {
+"path": "target/memory-pressure/task-6/attempt-2/native/injected.json",
+"sha256": "3754d66c15d7d969a276bbd2aed9d3d0fb7562e806f4fefa1a22c15d329f25a5",
+"bytes": 51484
+},
+"critical": {
+"checks": 21,
+"freshChecks": 21,
+"agesMinMaxMs": [
+36,
+994
+],
+"sequences": [
+2,
+3,
+4
+],
+"newHeldPermitsFromRows": 0,
+"newHeldStartsFromCounts": 0,
+"runningPermitReleasedWhileHeld": true,
+"heldEntryAlwaysQueued": true
+},
+"audit": {
+"after": 4,
+"before": 4
+},
+"heldRecoveryExecutions": 1,
+"runningAndHeldOutcomes": {
+"kind": "EXITED",
+"code": 17
+},
+"identitiesAndSqliteCliProductionBridgeReconciled": true,
+"rawCaptureRoot": "target/memory-pressure/task-6/attempt-2/native",
+"doesNotSubstituteForCurrentGates": true,
+"captureBindingAssessment": "Four explicit hash references plus three full embedded JSON comparisons. The remaining Unspawned capture is corroborative only; its scoped named test passes. All eight current-input captures have verified explicit hashes.",
+"priorReportPrecisionCorrection": "Task-9 described all eight earlier captures as explicitly hash-bound. This refresh verifies four explicit hash references and three embedded full-object comparisons; the remaining Unspawned file is scoped-log corroboration. Eight final-input captures are explicitly bound, so current receipt acceptance does not depend on the earlier claim."
+},
+"coverageAssessment": {
+"llvmFiles": 455,
+"lcovRecords": 455,
+"inventoryFiles": 210,
+"productionFiles": 121,
+"omittedLines": 1695,
+"declarationOnly": [
+"crates/arc-ipc/src/client/exchange_types.rs",
+"crates/arc-platform/src/lib.rs",
+"crates/arc-policy/src/lib.rs"
+],
+"sourceInventory": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/source-inventory.json",
+"sha256": "c0f1b9d20eed0ceb73e4808fd373ab1c695281cbfb98476ba5f308c037e7a73e",
+"bytes": 86664
+},
+"perCrate": [
+{
+"crate": "arc-core",
+"covered": 612,
+"total": 625,
+"percent": 97.92
+},
+{
+"crate": "arc-detector",
+"covered": 706,
+"total": 711,
+"percent": 99.29676511954993
+},
+{
+"crate": "arc-storage",
+"covered": 2750,
+"total": 2886,
+"percent": 95.28759528759528
+},
+{
+"crate": "arc-ipc",
+"covered": 1447,
+"total": 1504,
+"percent": 96.21010638297872
+},
+{
+"crate": "arc-daemon",
+"covered": 2882,
+"total": 3151,
+"percent": 91.46302761028245
+},
+{
+"crate": "arc-cli",
+"covered": 2188,
+"total": 2577,
+"percent": 84.90492821109818
+},
+{
+"crate": "arc-traffic",
+"covered": 111,
+"total": 111,
+"percent": 100.0
+},
+{
+"crate": "arc-desktop",
+"covered": 554,
+"total": 628,
+"percent": 88.21656050955414
+},
+{
+"crate": "arc-platform",
+"covered": 464,
+"total": 502,
+"percent": 92.43027888446215
+},
+{
+"crate": "arc-meter",
+"covered": 634,
+"total": 641,
+"percent": 98.90795631825273
+},
+{
+"crate": "arc-policy",
+"covered": 199,
+"total": 207,
+"percent": 96.13526570048309
+}
+],
+"minimumPercent": 84.90492821109818,
+"status": "independently_reconstructed_from_retained_exports",
+"collectionsRunByQa": 0,
+"nativeCommandsRunByQa": 0,
+"thresholdPercent": 80,
+"allElevenCratesAtOrAboveFloor": true,
+"staticSourceInventoryRecomputed": true,
+"staticOmissionAndTestOnlyClassificationsMatch": true,
+"profiles": {
+"files": 3103,
+"mergeMembershipVerified": true,
+"childProof": [
+{
+"binary": "arcctl",
+"pid": 34268,
+"profiles": [
+"arc-34268-18251859244496291201_0.profraw"
+],
+"exit": 0
+},
+{
+"binary": "arc-daemon",
+"pid": 34269,
+"profiles": [
+"arc-34269-15352392604352777426_0.profraw"
+],
+"exit": 1
+}
+],
+"exactPhysicalDirectorySetVerified": true
+},
+"reuse": {
+"verified": true,
+"oneNativeCollectionForFinalInputs": true,
+"historicalAccountingBaseline": "fbe76a5f15101ad415f355ef06f1deeb1f97d568",
+"missionAcceptedHead": "338631893b51b2e7cd4045e636bb1301ab4db955",
+"runId": "2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f",
+"preflightRunId": "2026-11-12T16-12-25-851Z-1b08f447-fb61-40dc-a215-033097fecfd4",
+"collectionCountScope": "Recovery-5 contains a six-command preflight without --no-report plus one successful current-input collection. Retained recovery-3 collection has a different source identity. Exactly one successful native collection matches the canonical final inputs; no recollection by QA or harness."
+},
+"collectionReceipt": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/receipt.json",
+"sha256": "ad77d22cd6b5e60464a765a2cf6255e9b9892be7ddb081b89e63805bb53de89a",
+"bytes": 3316338
+},
+"reuseReceipt": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/reuse.json",
+"sha256": "3bc23d1becc04bc9f1055838ad4df87e6768287b03244534e35da8553ec1ccf9",
+"bytes": 2334
+},
+"summary": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/summary.json",
+"sha256": "0dd25a7653e799019543c2966bb7eae13b30f3ca98e63ff51bf35e78ab836527",
+"bytes": 303962
+},
+"profilesManifest": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/profiles.json",
+"sha256": "96958604a29cd2e78bcc9cd5f758bdb7e7e88fa8f8bea861c4f53327a77095e5",
+"bytes": 1550736
+},
+"rawExports": {
+"lcov": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/raw.lcov",
+"sha256": "a2e05e1fa3e917a567f578948e599b2ddefc016bc388e71ab0bc875b74422247",
+"bytes": 3488083
+},
+"llvmJson": {
+"path": "target/memory-pressure/task-8-recovery-5/coverage/runs/2026-11-12T16-20-25-763Z-2e548c01-6da0-487b-a5c7-8d048f661f1f/raw.json",
+"sha256": "ea164d605271caa31b24f70748663fbf4d12732bb9b14c07c7d5b0f7cd7255b0",
+"bytes": 102866615
+}
+},
+"method": [
+"Load the retained LLVM export, require type llvm.coverage.json.export/version 3.1.0, and index files by their original filename. Parse every LCOV SF/DA/LF/LH record before canonicalizing paths.",
+"For each LLVM line, carry the last preceding segment; starts are non-gap segments with hasCount and isRegionEntry. A skipped leading region suppresses inherited coverage; any counted entry maps the line. Its count is max(prior count, non-gap entry counts). Compare this independent line map exactly with LCOV DA entries; LF/LH must equal LLVM summary counts.",
+"Union canonical file/line instances by maximum hit count. Verify all retained source-inventory file hashes and line counts; recompute the inventory statically with retained Cargo metadata, without invoking Cargo or coverage. Exclude only test-only modules and each inventoried cfg(test) omission. The three declaration-only unmapped files have no runtime executable lines.",
+"For each production file, denominator is mapped lines outside omissions; numerator counts positive DA hits. Compare mapped/uncovered line arrays and counts with the summary, then sum per crate and check covered*100 >= total*80. All 455 raw LLVM/LCOV records and all 121 production-file summaries reconcile.",
+"Hash all 3103 nonempty profile files, compare the exact profile-directory set, manifest and merge-list membership, and match explicit CLI/daemon child PIDs. Hash metadata/exports/collection/summary/reuse bytes; the architecture receipt names that same reuse file and its log says no collection. The collection receipt contains exactly one native workspace llvm-cov invocation for the final inputs."
+],
+"accountingReferences": [
+"scripts/coverage/accounting.ts:41",
+"scripts/coverage/accounting.ts:117",
+"scripts/coverage/run.ts:80",
+"scripts/coverage/run.ts:131"
+],
+"interpretation": "Current mission coverage is reconstructed, not recollected by QA. The retained coverage accounting baseline fbe76a5f15101ad415f355ef06f1deeb1f97d568 is the maintained tooling baseline, distinct from this mission accepted HEAD; no historical mission was recertified.",
+"reconstructedAt": "2026-11-12T17:33:18.073009+00:00"
+},
+"architectureAndInterfaceAssessment": [
+{
+"dimension": "Security/authentication",
+"references": [
+"crates/arc-daemon/src/admission.rs:36",
+"crates/arc-daemon/src/db_worker/policy.rs:139",
+"crates/arc-ipc/src/policy.rs:95",
+"crates/arc-ipc/src/policy/launch.rs:98"
+],
+"result": "Same-user auth precedes handler admission; launch binds verified socket observer. Object-only exact decoders, safe integers and byte caps preserve existing permissions."
+},
+{
+"dimension": "Compatibility/bounded reads",
+"references": [
+"crates/arc-ipc/src/policy.rs:13",
+"apps/desktop/src-tauri/src/bridge/policy.rs:36",
+"apps/desktop/src-tauri/src/bridge.rs:98",
+"crates/arc-daemon/src/policy_dispatch.rs:70"
+],
+"result": "Additive protocol-1 reads leave legacy replies unchanged. Query/result caps, 2-second absolute budget and existing single-flight cancellation are retained; only explicit UNSUPPORTED_CAPABILITY is unsupported."
+},
+{
+"dimension": "Grant freshness/identity and pressure composition",
+"references": [
+"crates/arc-storage/src/policy.rs:16",
+"crates/arc-storage/src/jobs/traffic/admission.rs:263",
+"crates/arc-daemon/src/db_worker/observation.rs:72",
+"crates/arc-policy/src/evaluator.rs:42"
+],
+"result": "IMMEDIATE precedes active-cache acquisition; registry/publication fence spans decision+permit commit. Existing running/nested reservations precede pressure; new root holds precede existing FIFO/window/budget rules."
+},
+{
+"dimension": "Launch, preservation and bounded native work",
+"references": [
+"crates/arc-meter/src/worker.rs:170",
+"crates/arc-meter/src/observation_cache.rs:198",
+"crates/arc-daemon/src/db_worker/policy.rs:73",
+"crates/arc-daemon/src/policy_dispatch.rs:152",
+"crates/arc-cli/src/exec/launch.rs:170",
+"crates/arc-storage/src/jobs/traffic/pressure.rs:127"
+],
+"result": "One source/worker/cache; host sampling stays outside writer/fence. READY expires within 2000 ms/freshness. No transaction spans ACK wait; same-connection confirmed Unspawned retracts marker, uncertain release cannot replay; pre-exec checks deadline/socket."
+},
+{
+"dimension": "Audit/retention/performance",
+"references": [
+"crates/arc-storage/src/policy.rs:49",
+"crates/arc-storage/src/policy.rs:125",
+"crates/arc-storage/src/policy/retention.rs:13",
+"crates/arc-daemon/src/db_worker/jobs.rs:67",
+"crates/arc-storage/tests/memory_pressure/retention.rs:8"
+],
+"result": "Parameterized single-writer semantic dedupe excludes ordinary age/time/sequence; 64/128 caps and batch 128, terminal-anchored 90 days, protected latest/reference records and read-time expiry. Bounded reads also update effective state; overhead is unmeasured."
+},
+{
+"dimension": "Desktop/CLI truthfulness and accessibility",
+"references": [
+"apps/desktop/src/dashboard/policy-read-state.ts:77",
+"apps/desktop/src/dashboard/job-policy-panel.tsx:93",
+"apps/desktop/src/dashboard/selected-job-panel.tsx:150",
+"crates/arc-cli/src/exec/policy.rs:25",
+"crates/arc-cli/src/job/policy.rs:25"
+],
+"result": "Textual existing detail and native keyboard disclosure, polite semantic status. Current observation ages independently from recorded age; retained stale/disconnected mode is unconfirmed; no active wait for Running/terminal. No rendered/assistive-tech pass claimed."
+},
+{
+"dimension": "Offline legacy-peer repair and deterministic IPC fixture",
+"references": [
+"apps/desktop/src-tauri/tests/daemon_bridge_support/meter_native.rs:72",
+"scripts/host-meter/prepare-legacy.ts:21",
+"crates/arc-ipc/src/meter/job/transport_tests.rs:41",
+"crates/arc-ipc/src/meter/job/transport_tests.rs:88",
+"crates/arc-ipc/src/meter/job/transport_tests.rs:195",
+"crates/arc-ipc/src/client.rs:154"
+],
+"result": "The compatibility test self-prepares a missing peer via the maintained locked offline preparer and separate target. The IPC fixture restores blocking accepted streams, bounds read/write operations and waits for readiness using poll plus a zero-capacity channel. Existing accept/read/exchange bounds and error assertions remain. Production maps a received METER_UNAVAILABLE to Unavailable; a lost response after send remains Uncertain. No production repair or interface change was needed."
+}
+],
+"examinedCaseColumns": [
+"case",
+"ownerTask",
+"source",
+"assessment"
+],
+"examinedCases": [
+[
+"allSupportedClassesWithFreeSlots",
+"task-2",
+"crates/arc-storage/tests/memory_pressure/admission.rs:124",
+"Five supported Cargo/Bun command reasons; positive reservations are held despite free capacity."
+],
+[
+"writerBacklog",
+"task-2",
+"crates/arc-storage/tests/memory_pressure/backlog.rs:25",
+"Cache callback occurs after IMMEDIATE; replacement sampler and reserved launch also checked by daemon repair fixture."
+],
+[
+"exactFreshnessAndPerFieldAge",
+"task-2",
+"crates/arc-policy/tests/support/evaluator_cases.rs:81",
+"Pressure-field age 3000 is fresh, 3001 is stale; sampled age is independently 2900 at the boundary."
+],
+[
+"samplerGenerationEpochAndRestart",
+"task-2",
+"crates/arc-policy/tests/support/evaluator_cases.rs:130",
+"Identity, epoch, generation and sequence invalidation; fresh generation clears bounded cursor."
+],
+[
+"wallAndMonotonicClockChanges",
+"task-2",
+"crates/arc-daemon/src/db_worker/policy_clock_tests.rs:24",
+"UTC backstep with reopened writer; monotonic regression and stale pressure remain fallback."
+],
+[
+"duplicatePolls",
+"task-2",
+"crates/arc-storage/tests/memory_pressure/retention.rs:8",
+"Ordinary sequences, time and ages do not append transitions; recorded age remains original."
+],
+[
+"queuedCancellation",
+"task-6",
+"apps/desktop/src-tauri/tests/memory_pressure/native_reserved.rs:114",
+"Actual CLI SIGINT records CANCELLED, zero target executions and zero permits; exit 1 is existing cancellation contract."
+],
+[
+"daemonRecovery",
+"task-2",
+"crates/arc-daemon/src/db_worker/policy_tests.rs:234",
+"Reopened worker retains one-shot uncertain release and prevents replay; queued admission/UTC restart separately covered."
+],
+[
+"verifiedAndInvalidNestedReuse",
+"task-2",
+"crates/arc-daemon/src/db_worker/policy_tests.rs:319",
+"Native descendant reuses active root generation; supplied lineage string alone stays queued. Additional storage test simulates ancestry and is labeled accordingly."
+],
+[
+"remoteUnknownUnsupportedBypass",
+"task-2",
+"crates/arc-storage/tests/memory_pressure/admission.rs:404",
+"Remote, UNKNOWN and unsupported classifications create neither queue jobs nor permits under Critical."
+],
+[
+"boundedOutageFailOpen",
+"task-6",
+"apps/desktop/src-tauri/tests/memory_pressure/native_reserved.rs:92",
+"Final captured stopped-daemon run: one execution, intended exit 17, 13 ms. The source asserts startup within 10 seconds; final CLI tests separately preserve healthy-hold non-fail-open behavior."
+],
+[
+"missingStaleFailedUnsupportedDeniedFallback",
+"task-2",
+"crates/arc-policy/tests/support/evaluator_cases.rs:6",
+"Explicit availability/reason and macos-memory-l0-v1; no fabricated Normal; failure/stop cache tests separate."
+],
+[
+"reservedButUnspawnedRace",
+"task-6",
+"apps/desktop/src-tauri/tests/memory_pressure/native_launch_races.rs:57",
+"Actual CLI checkpoint after reservation: twenty fresh Critical checks, existing generation unchanged, no target until Normal."
+],
+[
+"launchAckLossExpiryAndRestart",
+"task-6",
+"apps/desktop/src-tauri/tests/memory_pressure/native_launch_races.rs:155",
+"Actual expired READY: confirmed Unspawned retracts only marker; same job/generation later executes once. Lost/uncertain acknowledgements do not replay."
+],
+[
+"fifoWindowsReservations",
+"task-2",
+"crates/arc-storage/src/jobs/traffic/admission.rs:325",
+"Existing Traffic evaluator follows the pressure overlay; final workspace and named admission/FIFO tests preserve queue order, class windows and CPU/memory reservations."
+],
+[
+"legacyProtocolOne",
+"task-6",
+"apps/desktop/src-tauri/tests/memory_pressure/native_reserved.rs:155",
+"Legacy enqueue/poll retain four-field reply and MEMORY_BUDGET; queued status remains three fields without reason."
+],
+[
+"readTimeFreshnessAndRetainedDisplay",
+"task-3",
+"apps/desktop/src/dashboard/policy-read-state.ts:109",
+"Full read elapsed ages current observation; original recorded decision is unchanged; stale/disconnected labels suppress current-hold claim."
+],
+[
+"reservedStatusWait",
+"task-3",
+"crates/arc-cli/src/job/policy.rs:25",
+"Authoritative pressure wait can coexist with unconfirmed lifecycle; no invented Running state."
+]
+],
+"examinedCaseLinkPrefix": ".arc-verify/memory-pressure/integration.json#/edgeCases/cases/",
+"caseToTestLinkVerification": {
+"requiredCaseGroups": 18,
+"allCaseGroupsPresent": true,
+"finalLinksVerified": 44,
+"allNamedTestsPresentInFinalPassingLogs": true,
+"ownerTasks": {
+"task-1": "backend-contracts/shared contracts, migrations, registries",
+"task-2": "backend-admission/policy, writer, sampler adapter and audits",
+"task-3": "backend-surfaces/CLI, desktop bridge and presentation",
+"task-6": "backend-contracts/integration and native acceptance",
+"task-8": "backend-contracts/deterministic fixture repair and current gates"
+},
+"kind": "Retained deterministic unit/integration/CLI and production-component acceptance evidence; no new execution by QA."
+},
+"backendRepairAssessment": {
+"legacyCompatibility": {
+"source": "apps/desktop/src-tauri/tests/daemon_bridge_support/meter_native.rs:72",
+"reviewed": true,
+"selfPreparationEvidence": {
+"absenceRecord": {
+"path": "target/memory-pressure/task-8-recovery-3/legacy-absent-before-accepted-workspace.json",
+"sha256": "5745cf029c657181073c653d9ff4970e5a3c705334032bc6033c2c9031f292d2",
+"bytes": 166
+},
+"workspaceReceipt": {
+"path": "target/memory-pressure/task-8-recovery-3/accepted-workspace-test.receipt.json",
+"sha256": "fbaaa98e9f62fcbb201132406197977f6b676eb66beaf545f15044d1b169282b",
+"bytes": 1905
+},
+"automaticallyPreparedDuringWorkspaceTest": true,
+"preparerReceipt": {
+"path": "target/host-meter/legacy/latest.json",
+"sha256": "d0301b3f31ee5b8dd0705a331c2469ecdb463dd38bba695164b7eacfc2b90514",
+"bytes": 1484
+}
+},
+"currentWorkspaceReceipt": {
+"path": "target/memory-pressure/task-8-recovery-5/accepted-workspace-test.receipt.json",
+"sha256": "976b6043ce9b785d8809f34f642d9b29fe4e3467e4b137e26c0e6379fe9a2779",
+"bytes": 1905
+},
+"manualPreparationRequired": false,
+"assessment": "The test checks an accepted cached peer and runs the existing preparer only if absent. The preparer uses locked offline Cargo, a separate source/target and a 7200000-ms child termination bound. Absent-cache preparation was recorded during recovery 3; final current tests reuse the prepared peer. QA inspected the support/preparer and hash-matching absence/workspace/preparer artifacts without building it."
+},
+"ipcFixture": {
+"source": "crates/arc-ipc/src/meter/job/transport_tests.rs:41",
+"sourceReadOnly": true,
+"regressionSource": "crates/arc-ipc/src/meter/job/transport_tests.rs:88",
+"readinessSource": "crates/arc-ipc/src/meter/job/transport_tests.rs:195",
+"classificationSource": "crates/arc-ipc/src/client.rs:154",
+"red": {
+"path": "target/memory-pressure/task-8-recovery-4/transport-blocking-red.receipt.json",
+"sha256": "bdcb0498d65fbdcc06626dbefbac8fd3f4dd011f79784d805bfe5d7137d97d3b",
+"bytes": 1976
+},
+"green": {
+"path": "target/memory-pressure/task-8-recovery-5/accepted-ipc-test.receipt.json",
+"sha256": "3a20a1bdc9eeceb0b8e0cec63df0e1fb49667eaea404666f0dc72110fa17c4c4",
+"bytes": 1878
+},
+"currentWorkspace": {
+"path": "target/memory-pressure/task-8-recovery-5/accepted-workspace-test.receipt.json",
+"sha256": "976b6043ce9b785d8809f34f642d9b29fe4e3467e4b137e26c0e6379fe9a2779",
+"bytes": 1905
+},
+"inputDelta": {
+"path": "target/memory-pressure/task-8-recovery-5/repair-input-delta.json",
+"sha256": "7722a04322327f00d517e6d369bdc3ded99f0f86fbc192d94be756a3f3b0694e",
+"bytes": 474
+},
+"inputDeltaIndependentlyCompared": true,
+"assessment": "Retained red regression exits 101 with O_NONBLOCK left 4/right 0; final green exits 0 with 86 IPC tests, including 56 unit tests. Accepted peer streams now explicitly restore blocking I/O and set bounded writes; poll replaces accept sleeps; sync_channel readiness precedes the existing clamped client deadline. Existing classification/deadline/lost-ACK assertions remain. Production error classification already distinguishes explicit Unavailable from sent-request Uncertain; product code was not changed by this repair.",
+"failureLimits": "The framework excerpt lacks the original server syscall error. The red test establishes the fixture nonblocking defect; it does not prove the exact syscall that failed in the original framework attempt.",
+"noSleepsAdded": true,
+"existingTimeoutsWidened": false,
+"assertionsWeakened": false,
+"productionBehaviorChanged": false,
+"reassessedByTask": "task-11",
+"productionClassificationEvidenceCurrentHash": "d6ffad63b3edccee45d615651f8fb1dff730715e96c90c046865a2175927ce06"
+}
+},
+"configuredTargetObservations": {
+"status": "not_applicable",
+"requirementsSatisfied": true,
+"blocking": false,
+"inventory": "not_applicable",
+"health": "not_applicable",
+"availability": "not_applicable",
+"recentErrors": "not_applicable",
+"basis": "Operator correction 2, 2026-11-12T15:12:51.150Z, explicitly establishes that no container or service observation policy is configured for this mission. Current gates.json#/configuredTargets records exactly that basis. av.yaml is access-denied and was not bypassed."
+},
+"codeIntelligence": {
+"provider": "Serena",
+"mode": "unavailable",
+"tools": [],
+"limitation": "No Serena search/symbol/path tools were in the available tool catalog. Read existing diff and exact paths from assignment/receipts/known imports. No native project-code search substituted; this is a scoped boundary review, not an exhaustive discovery audit."
+},
+"verificationLimits": [
+"QA ran no builds, software test suites, fmt/clippy, native gates, coverage/reuse commands, historical evidence validators, live daemon requests, browser/Playwright, screens or GUI operations. Required backend results were read and reconciled from retained bytes.",
+"The original temporary acceptance databases, marker files and live processes are not retained for a new runtime query. SQLite rows, native handshakes, actual PID execution counts and CLI/registered production DesktopBridge replies are hash-bound captures from passing fixture assertions. QA independently reconciled these recorded channels without claiming fresh external effects.",
+"The controlled daemon fixture explicitly injects memory pressure through NativeSource while calling production startup, worker, routing, Traffic, storage and launch code. The native target is a Cargo-shaped execution fixture returning intended exit 17; it is not a project build or real memory-intensive workload. Zero new permits/starts applies to the fresh injected Critical interval and tested boundaries.",
+"The separate actual SystemSource smoke observed Normal only. Native Critical, OOM prevention, host performance/overhead or savings are not established. Terminal retention is deterministic clock-based test evidence, not a 90-day field study.",
+"Desktop contract/component/registered bridge tests verify labels, retained stale/disconnected/unsupported states, focus/selection and semantic announcement behavior. This review did not inspect a rendered webview, contrast or assistive technology; no human usability/accessibility study is claimed.",
+"Earlier removed isolated task-8 raw artifacts remain historical unavailable evidence. They were not recovered, relabeled or substituted for current verification; the new retained recovery-5 receipts resolve current QA-E1. Their presence under ignored target is local evidence only and is not a Git handoff.",
+"Chief owns downstream synthesis and final.md. Its existing task-10 report was read as context; this task changes the QA hash and evidence byte totals, so Chief must synchronize final references/inventory. Frozen product inputs remain unchanged. Framework task review, immutable mission verification and final review are preserved, not run or replaced by QA."
+],
+"reviewHistory": {
+"supersededReport": {
+"path": ".arc-verify/memory-pressure/qa.json",
+"sha256": "a8635b2a5921f2a418ab5b18222af3c513e559ffca35ecfd95e157add4c5d156",
+"bytes": 30468,
+"recordedAt": "2026-11-12T14:11:48.218243+00:00",
+"reviewedInputDigest": "3974e2f1ca7c96c1669361b3f6d91e77c42bcbdd65aeaa82a5182164ff119d5a",
+"reviewResult": "PARTIAL",
+"receiptBindingsVerified": false,
+"unresolvedBlockingFindings": 1,
+"summary": "Task-6 retained evidence reconciled and no confirmed product defect found, but final raw gate/coverage evidence was absent in the removed isolated task-8 environment. Its QA-E1 and partial result describe that earlier state, not current retained evidence."
+},
+"earlierRepair": {
+"attempt": 2,
+"scope": "Report accuracy correction only: remove the configured-target blocker and mark its observations not applicable; preserve the backend-owned final raw gate/coverage evidence gap.",
+"originalReviewRecordedAt": "2026-11-12T14:06:10.765145+00:00",
+"priorReportSha256": "7302548ccc2f3c318c285b632baaf9728d0a59b6441b5ba714fd5fe8f25525f0",
+"unchangedEvidenceSections": [
+"provenance",
+"findings",
+"receipts",
+"injectedReconciliation",
+"launchCancellationOutageReconciliation",
+"nativeSmoke",
+"coverageAssessment",
+"architectureAndInterfaceAssessment",
+"examinedCases",
+"acceptanceChecklist"
+],
+"rechecks": {
+"task6ReceiptLogPairsReverified": 15,
+"task6CapturesReverified": 8,
+"task8FinalChecksRechecked": 10,
+"task8RawArtifactReferencesRechecked": 37,
+"candidateRootsChecked": 2,
+"availableTask8RawArtifacts": 0,
+"recordedTask8WorkspaceExists": false,
+"gateAndIntegrationReportBindingsUnchanged": true
+}
+},
+"currentRepair": {
+"attempt": 3,
+"trigger": "Task-9 repair findings and binding operator correction 2/note 3. Reinspect current legacy-peer/IPC fixture repairs and verify retained mission-workspace receipts; do not rerun backend gates.",
+"priorAssessmentsPreservedAsHistory": true,
+"oldEvidenceGapRecheckedInCurrentEnvironment": true,
+"priorNativeGatesRerunByQa": false,
+"currentArtifactBytesVerified": true,
+"qaE1ResolvedByNewEvidence": true
+},
+"backendAttemptHistoryOwner": ".arc-verify/memory-pressure/gates.json#/previousAttempts",
+"backendAttemptHistoryUntouched": true,
+"acceptedTask9": {
+"taskId": "task-9",
+"recordedAt": "2026-11-12T17:04:51.178291+00:00",
+"sha256": "01e49b1c0716e853a0fcd4c21baa70d5960c9117bb159ac4416cb19c5c3bbf25",
+"bytes": 52894,
+"reviewedInputDigest": "629f0f10fdfe699fc134966e500574490593859951b50c9bbe40a40a3cf33ba0",
+"reviewResult": "PASS",
+"receiptBindingsVerified": true,
+"unresolvedBlockingFindings": 0,
+"acceptedWorkRunId": "6e418f7c-b0c8-4d4f-afac-16b98569f003",
+"acceptedReviewRunId": "aa1a8d08-e35a-448a-8854-bf70d8849486",
+"authority": "Accepted task-9 dependency and supplied framework review are historical evidence. This task independently rechecks the retained current bytes."
+},
+"task11Refresh": {
+"at": "2026-11-12T17:33:18.073009+00:00",
+"operatorBasis": "Correction 2 and note 3; task-11 corrective follow-up after accepted task-9. No superseded waiver used.",
+"currentEvidenceReconstructed": true,
+"previousNativeCommandsReplayed": false,
+"priorReportAndFrameworkReviewPreservedAsHistory": true,
+"currentGateDiffIsClosureMetadataOnly": true
+},
+"reviewerToolingAttempts": {
+"productOrGateFailures": 0,
+"correctedScratchFailures": [
+"Initial inline Python used reserved pass keyword in dict constructor: SyntaxError before execution.",
+"Scratch harness-log assertion expected unprinted digest/recollected text; corrected to its actual validated-receipt run ID and no-collection text.",
+"Scratch directory-count assertion included preflight; corrected to count actual successful collection receipts by current identity.",
+"Scratch task-6 assertion assumed every receipt has inputFilesUnchanged; corrected to preserve seven mapped versus eight earlier unmapped scopes.",
+"Initial report drafts exceeded the evidence budget and stopped before writing. Duplicate command bindings were replaced by their hash-bound canonical owner references."
+],
+"finalReadOnlyScriptsPassed": true,
+"scratchLocation": "/tmp/arc-pressure-task11-*; scratch helpers are not Git handoffs. Reproduction inputs and algorithms are recorded in this report and maintained accounting references."
+}
+},
+"commandsExecuted": [
+{
+"command": "git status --short; git log -1 --format; git diff HEAD -- crates/arc-ipc/src/meter/job/transport_tests.rs apps/desktop/src-tauri/tests/daemon_bridge_support/meter_native.rs",
+"outcome": "Exit 0; av.yaml access-denied diagnostic retained, no bypass/reset. Source/test/configuration read-only."
+},
+{
+"command": "bun -e (import inputIdentity from ./scripts/coverage/source.ts; compare complete result with frozen and coverage input manifests)",
+"outcome": "Exit 0: 581 files and both manifest objects/bytes agree; frozen SRS and contracts match. No native command."
+},
+{
+"command": "bun -e (sourceInventory with retained reuse.metadata; compare source-inventory.json); bun -e (declarationOnly on the three unmapped declaration files)",
+"outcome": "Exit 0: 210 inventory entries, 121 production files, 1695 omitted production lines and three declaration exemptions match."
+},
+{
+"command": "python3 /tmp/arc-pressure-task11-verify.py",
+"outcome": "Exit 0: 101 direct gate/reuse/history bindings, two embedded streams, 3103 profiles, ten final commands, 1045 Rust/219 Bun/86 IPC passes and 44 links in 18 case groups."
+},
+{
+"command": "python3 /tmp/arc-pressure-task11-coverage.py",
+"outcome": "Exit 0: 455 raw records and all 121 file summaries match exactly; eleven integer 80% floors pass, minimum 2188/2577."
+},
+{
+"command": "python3 /tmp/arc-pressure-task11-native.py",
+"outcome": "Exit 0: 21 fresh Critical checks, zero new permits/starts, preserved running exit 17, exactly one held recovery execution; reserved/expiry/cancellation/outage and separate Normal-only smoke reconcile. Fifteen task-6 receipt/log pairs verified at original scope."
+},
+{
+"command": "python3 inline (git ls-tree -rz HEAD plus hashlib Git-blob and SHA-256 comparisons; git diff --diff-filter=A; canonical JSON comparison; raw red/green/delta reads)",
+"outcome": "Exit 0: 2158 protected blobs match; 69 new source/tests maximum 439 lines; only IPC fixture differs from recovery-3 inputs. Current gates differs from pre-closure gate in six evidence metadata pointers only."
+},
+{
+"command": "python3 inline (physical .profraw directory/merge sets; retained mission receipt identities; legacy preparation proof hashes); scoped cat/sed/nl reads; git check-ignore --no-index .arc-verify/memory-pressure/qa.json",
+"outcome": "Read checks pass; exact 3103 profile set; one successful current-input collection plus preflight. check-ignore exits 1 as expected: QA deliverable is nonignored. No source search substituted for unavailable Serena."
+},
+{
+"command": "python3 /tmp/arc-pressure-task11-report.py; report-only JSON/integrity/input/budget checks; git add -- .arc-verify/memory-pressure/qa.json",
+"outcome": "Only qa.json written/staged. Report JSON and evidence budgets verified; other canonical bytes and source identity unchanged."
+}
+],
+"changedPaths": [
+".arc-verify/memory-pressure/qa.json"
+],
+"handoff": {
+"canonicalPath": ".arc-verify/memory-pressure/qa.json",
+"transport": "Nonignored Git-visible canonical JSON. No separate artifact channel. Chief/task-10 retains these exact bytes; final digest is returned outside the JSON to avoid a self hash.",
+"productSourceTestsConfigurationChanged": [],
+"missionStateChanged": false,
+"sourceRepairsImplemented": false,
+"externalDelivery": false,
+"nextOwner": "Chief Director",
+"nextAction": "Synchronize final.md QA reference and evidence inventory with task-11. Preserve downstream framework review/verification. gates.json closure counters describe the preceding snapshot; no gate rerun is required by this report refresh."
+},
+"acceptanceChecklist": {
+"materialAccurateIndependentReport": true,
+"currentInputsAndReceiptBytesVerified": true,
+"executionPermitsDecisionsAndSurfacesReconciled": true,
+"injectedAndNativeSeparated": true,
+"coverageReconstructedAndReuseVerified": true,
+"authenticationProtocolBoundsAndSourceSizesInspected": true,
+"historicalPreservationAssessedWithoutRecertification": true,
+"resolvedDefectsAndEvidenceGapsHaveOwnersAndReferences": true,
+"qaNoNativeGatesOrCoverage": true,
+"readyForChiefSynthesis": true
+},
+"outstanding": [
+"CPU/disk pressure control",
+"statistical learning",
+"vendor hooks",
+"native Windows",
+"full policy acceptance"
+],
+"evidencePolicy": {
+"canonicalMaximumFiles": 5,
+"canonicalMaximumBytes": 300000,
+"operatorMaximumBytesWithAdvisories": 420000,
+"advisoryPerFileMaximumBytes": 40000,
+"sharedCanonicalInputOwner": ".arc-verify/memory-pressure/gates.json#/inputs",
+"inventoryScope": "Actual files after this task-11 report write. Other canonical reports are read-only. gates.json closure inventory describes the preceding task-10 snapshot; Chief owns downstream synthesis.",
+"canonical": [
+{
+"path": ".arc-verify/memory-pressure/contract.md",
+"bytes": 19889
+},
+{
+"path": ".arc-verify/memory-pressure/final.md",
+"bytes": 14994
+},
+{
+"path": ".arc-verify/memory-pressure/gates.json",
+"bytes": 60493
+},
+{
+"path": ".arc-verify/memory-pressure/integration.json",
+"bytes": 150537
+},
+{
+"path": ".arc-verify/memory-pressure/qa.json",
+"bytes": 52606
+}
+],
+"canonicalBytes": 298519,
+"advisories": [
+{
+"path": ".arc-verify/memory-pressure/advice/design.md",
+"bytes": 34256
+},
+{
+"path": ".arc-verify/memory-pressure/advice/technical.md",
+"bytes": 34514
+},
+{
+"path": ".arc-verify/memory-pressure/advice/value.md",
+"bytes": 16291
+}
+],
+"totalBytes": 383580,
+"withinFiveFile300000ByteLimit": true,
+"withinOperatorAmendedLimit": true,
+"advisoryBytes": 85061,
+"remainingCanonicalBytes": 1481
+}
+}

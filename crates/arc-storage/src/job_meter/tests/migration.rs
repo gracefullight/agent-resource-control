@@ -37,8 +37,8 @@ fn three_migration_bytes_and_checksums_are_preserved_on_upgrade() {
         .unwrap();
     migrate(&mut c, MIGRATIONS).unwrap();
     assert_eq!(&history(&c)[..3], old.as_slice());
-    assert_eq!(history(&c).len(), 4);
-    assert_eq!(crate::assess_schema(&c).unwrap().supported_version, 4);
+    assert_eq!(history(&c).len(), 5);
+    assert_eq!(crate::assess_schema(&c).unwrap().supported_version, 5);
     unknown(&mut c, &r, UnknownReason::Legacy);
     assert_eq!(binding(&c, &r.job_id).unwrap().unwrap().terminal, Some(200));
     assert_eq!(

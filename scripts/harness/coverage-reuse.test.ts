@@ -4,7 +4,7 @@ import { delimiter, resolve } from "node:path";
 import { reuseFixture } from "./coverage-reuse-fixture";
 import { coverageEvidence, reuseCoverage } from "../coverage/coverage-receipts";
 import { coverageLayout } from "../coverage/output-layout";
-import { CRATES, METER_INPUTS, BASELINE } from "../coverage/config";
+import { CRATES, METER_INPUTS, MEMORY_PRESSURE_INPUTS, FROZEN_INPUTS, BASELINE } from "../coverage/config";
 import { hash, inputIdentity } from "../coverage/source";
 import { account } from "../coverage/accounting";
 import { enforce } from "../coverage/gate";
@@ -16,7 +16,7 @@ function withFixture(run:(f:ReturnType<typeof reuseFixture>)=>void) {
 }
 const reuse=(f:ReturnType<typeof reuseFixture>)=>reuseCoverage(f.root,f.path);
 
-test("synthetic same-input receipt recomputes all ten integer floors without collection",()=>withFixture(f=>{
+test("synthetic same-input receipt recomputes all eleven integer floors without collection",()=>withFixture(f=>{
   const result=reuse(f);
   expect(result.recollected).toBe(false);
   expect(result.sourceHash).toBe(inputIdentity(f.root).sha256);
@@ -35,9 +35,21 @@ test("reuse rejects consistent source hashes unrelated to the validated input di
   expect(()=>reuse(f)).toThrow("source hash/input digest mismatch");
 }));
 
+test("memory-pressure frozen inputs bind receipts while generated reports do not enter identity",()=>withFixture(f=>{
+  for(const name of ["gates.json","integration.json","qa.json","final.md"]) {
+    f.save(`.arc-verify/memory-pressure/${name}`,"Synthetic generated result\n");
+  }
+  f.save("target/memory-pressure/raw-log.txt","Synthetic raw log\n");
+  expect(inputIdentity(f.root).sha256).toBe(f.inputs.sha256);
+  expect(reuse(f).recollected).toBe(false);
+  const contract=MEMORY_PRESSURE_INPUTS[0];
+  delete f.bundle.frozenInputs[contract];f.writeBundle();
+  expect(()=>reuse(f)).toThrow(`frozen input mismatch ${contract}`);
+}));
+
 test("rebinding current input manifests cannot reuse an earlier source identity",()=>withFixture(f=>{
   for(const path of ["scripts/fixture.test.ts","apps/desktop/tests/fixture.test.ts","apps/desktop/tsconfig.json",
-    "scripts/coverage/config.ts","scripts/coverage/declaration-only.ts","Cargo.lock","bun.lock",METER_INPUTS[1]]) {
+    "scripts/coverage/config.ts","scripts/coverage/declaration-only.ts","Cargo.lock","bun.lock",METER_INPUTS[1],...MEMORY_PRESSURE_INPUTS]) {
     const file=resolve(f.root,path), bytes=readFileSync(file);
     writeFileSync(file,Buffer.concat([bytes,Buffer.from("\n")]));
     const current=inputIdentity(f.root);
@@ -45,6 +57,7 @@ test("rebinding current input manifests cannot reuse an earlier source identity"
     // Keep the manifest and frozen contract current, leaving the collection's
     // source hashes and reports at the earlier inputs.
     f.bundle.frozenInputs[METER_INPUTS[1]]=current.files[METER_INPUTS[1]];
+    for(const path of MEMORY_PRESSURE_INPUTS) f.bundle.frozenInputs[path]=current.files[path];
     f.rebind("summary",{...f.summary,inputs:current});
     expect(()=>coverageEvidence(f.root,f.bundle.evidence,f.inputs.sha256)).toThrow("source hash/input digest mismatch");
     expect(()=>reuse(f)).toThrow("source hash/input digest mismatch");
@@ -52,9 +65,9 @@ test("rebinding current input manifests cannot reuse an earlier source identity"
   }
 }));
 
-test("both added crates independently fail when missing or below 80%",()=>withFixture(f=>{
+test("each added crate independently fails when missing or below 80%",()=>withFixture(f=>{
   const lcov=readFileSync(resolve(f.root,f.bundle.evidence.rawReports.lcov.path),"utf8");
-  for(const crate of ["arc-platform","arc-meter"]) {
+  for(const crate of ["arc-platform","arc-meter","arc-policy"]) {
     const file=f.inventory.find(file=>file.crate===crate)!;
     const records=lcov.split("end_of_record\n").filter(Boolean);
     const below=records.map(record=>record.includes(resolve(f.root,file.path))?record.replace("DA:4,1","DA:4,0").replace("LH:4","LH:3"):record).join("end_of_record\n")+"end_of_record\n";
@@ -64,9 +77,9 @@ test("both added crates independently fail when missing or below 80%",()=>withFi
 }));
 
 test("reuse rejects changed source, tests, config, locks, SRS and frozen contract inputs",()=>withFixture(f=>{
-  for(const path of ["crates/arc-platform/src/lib.rs","crates/arc-meter/src/lib.rs","scripts/fixture.test.ts",
+  for(const path of ["crates/arc-platform/src/lib.rs","crates/arc-meter/src/lib.rs","crates/arc-policy/src/lib.rs","scripts/fixture.test.ts",
     "apps/desktop/tests/fixture.test.ts","apps/desktop/tsconfig.json","Cargo.toml","Cargo.lock","bun.lock",
-    "scripts/coverage/config.ts","scripts/coverage/declaration-only.ts",...METER_INPUTS]) {
+    "scripts/coverage/config.ts","scripts/coverage/declaration-only.ts",...FROZEN_INPUTS]) {
     const file=resolve(f.root,path), bytes=readFileSync(file);
     writeFileSync(file,Buffer.concat([bytes,Buffer.from("\n")]));
     expect(()=>reuse(f)).toThrow("stale or incomplete");

@@ -24,7 +24,7 @@ test("test-only lines/files never dilute production denominator",()=>{
   f.inventory.push({...f.inventory[0],path:"crates/arc-core/src/test_fixture.rs",testOnly:true});
   const result=account(f.lcov,f.inventory,f.root);
   expect(result.crates[0]).toMatchObject({covered:2,total:3,pass:false});
-  expect(result.files).toHaveLength(10);
+  expect(result.files).toHaveLength(11);
 });
 test("canonical aliases merge and never duplicate denominators",()=>{
   const f=fixture();
@@ -78,10 +78,10 @@ test("genuinely shared test-only import or block lines remain ambiguous",()=>{
     '#[cfg(test)]\nfn helper() {} fn production() {}',
   ]) expect(()=>analyzeSource(source)).toThrow("line accounting is ambiguous");
 });
-test("live inventory classifies all ten crate roots and test-only module trees",()=>{
+test("live inventory classifies all eleven crate roots and test-only module trees",()=>{
   const inventory=sourceInventory(resolve(import.meta.dir,"../.."));
-  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(10);
-  for(const crate of ["arc-platform","arc-meter"]) expect(inventory.some(x=>!x.testOnly && x.crate===crate)).toBe(true);
+  expect(new Set(inventory.filter(x=>!x.testOnly).map(x=>x.crate)).size).toBe(11);
+  for(const crate of ["arc-platform","arc-meter","arc-policy"]) expect(inventory.some(x=>!x.testOnly && x.crate===crate)).toBe(true);
   expect(inventory.find(x=>x.path==="apps/desktop/src-tauri/src/lib.rs")?.crate).toBe("arc-desktop");
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport_tests.rs")?.testOnly).toBe(true);
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport.rs")?.testOnly).toBe(false);
@@ -151,7 +151,7 @@ test("desktop production roots and test-only helper binaries use the explicit re
   } finally {rmSync(f.root,{recursive:true,force:true});}
 });
 
-test("workspace metadata requires exactly ten names at the registered manifest roots",()=>{
+test("workspace metadata requires exactly eleven names at the registered manifest roots",()=>{
   const f=fixture();
   try {
     const packages=CRATES.map(name=>{
@@ -178,7 +178,7 @@ test("freshness binds desktop configuration, test helpers, new source and verifi
     expect(()=>requireInputIdentity(f.root,original)).not.toThrow();
     expect(historicalSourceInventory(f.root).map(f=>f.crate).every(crate=>HISTORICAL_CRATES.includes(crate as typeof HISTORICAL_CRATES[number]))).toBe(true);
     for(const path of ["apps/desktop/src-tauri/tauri.conf.json","apps/desktop/tests/bridge-client.test.ts","bun.lock","scripts/coverage/config.ts",
-      "docs/requirements/ARC_SRS_2026-11-06.md",".arc-verify/host-meter/contract.md"]) {
+      "docs/requirements/ARC_SRS_2026-11-06.md",".arc-verify/host-meter/contract.md",".arc-verify/memory-pressure/contract.md"]) {
       const file=resolve(f.root,path), bytes=readFileSync(file);writeFileSync(file,Buffer.concat([bytes,Buffer.from("\n")]));
       expect(()=>requireInputIdentity(f.root,original)).toThrow("stale");writeFileSync(file,bytes);
     }
@@ -186,7 +186,7 @@ test("freshness binds desktop configuration, test helpers, new source and verifi
     mkdirSync(dirname(resolve(f.root,add)),{recursive:true});writeFileSync(resolve(f.root,add),"fn main() {}\n");
     expect(inputIdentity(f.root).files[add]).toBeDefined();
     expect(()=>requireInputIdentity(f.root,original)).toThrow("stale");unlinkSync(resolve(f.root,add));
-    for(const path of ["target/desktop-foundation/run/log.json","apps/desktop/dist/output.js","apps/desktop/src-tauri/gen/schemas/schema.json",".arc-verify/desktop-foundation/gates.json",".arc-verify/desktop-foundation/qa.md"]) {
+    for(const path of ["target/desktop-foundation/run/log.json","apps/desktop/dist/output.js","apps/desktop/src-tauri/gen/schemas/schema.json",".arc-verify/desktop-foundation/gates.json",".arc-verify/desktop-foundation/qa.md",".arc-verify/memory-pressure/integration.json",".arc-verify/memory-pressure/gates.json"]) {
       mkdirSync(dirname(resolve(f.root,path)),{recursive:true});writeFileSync(resolve(f.root,path),"generated\n");
     }
     expect(inputIdentity(f.root)).toEqual(original);
@@ -239,6 +239,21 @@ test("absent native declarations require matching bytes and a complete corrobora
     expect(()=>account(f.lcov,f.inventory,f.root,undefined,f.llvm)).toThrow("MISSING_FILE");
   } finally {rmSync(f.root,{recursive:true,force:true});}
 });
+test("arc-policy facade can lack native lines while executable policy modules stay required",()=>{
+  const source=readFileSync(resolve(import.meta.dir,"../../crates/arc-policy/src/lib.rs"),"utf8");
+  const f=declarationFixture(source);
+  try {
+    const result=account(f.lcov,f.inventory,f.root,undefined,f.llvm);
+    expect(result.files.find(x=>x.path===f.file.path)).toMatchObject({total:0,covered:0,declarationOnly:true});
+    expect(result.crates.every(x=>x.total>0 && x.pass)).toBe(true);
+    for(const name of ["decision","evaluator","observation"]) {
+      const executable=readFileSync(resolve(import.meta.dir,`../../crates/arc-policy/src/${name}.rs`),"utf8");
+      writeFileSync(resolve(f.root,f.file.path),executable);
+      f.file.sha256=hash(executable);f.file.lines=executable.split("\n").length;
+      expect(()=>account(f.lcov,f.inventory,f.root,undefined,f.llvm)).toThrow("MISSING_FILE");
+    }
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
 test("missing executable bodies, initializers and expansion hooks remain hard failures",()=>{
   const f=declarationFixture("pub struct Decl;\n");
   try {
@@ -281,7 +296,7 @@ test("Cargo-declared examples and their modules are diagnostic, production depen
     const diagnostic=f.record(f.diagnosticPath,[0,0,0,0])+f.record("crates/arc-platform/examples/parts.rs",[0]);
     const repaired=account(f.lcov+diagnostic,inventory,f.root,undefined,undefined,f.metadata);
     expect(repaired.crates).toEqual(account(f.lcov,f.inventory,f.root).crates);
-    expect(repaired.files).toHaveLength(10);
+    expect(repaired.files).toHaveLength(11);
     writeFileSync(f.path, f.lcov+diagnostic);
     expect(validateReport({path:f.path,started:0,before:"same",after:"same",inventory,root:f.root,testExit:0,metadata:f.metadata}).crates).toEqual(repaired.crates);
     // No blanket examples-directory allowance, including plausible sibling names.
@@ -332,8 +347,25 @@ test("reuse recomputes declared-example classification from the collection's Car
     const reused=reuseCoverage(f.root,f.path);
     expect(reused.recollected).toBe(false);
     expect(reused.result.crates).toEqual(f.summary.crates);
-    expect(reused.result.files).toHaveLength(10);
+    expect(reused.result.files).toHaveLength(11);
     expect(f.inventory.find(x=>x.classification==="cargo_example")?.testOnly).toBe(true);
     for(const crate of reused.result.crates) expect(crate).toMatchObject({covered:4,total:5,pass:true});
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
+
+test("partial inventories exclude only registered cross-crate test fixtures; current production accounting stays complete",()=>{
+  const f=fixture();
+  try {
+    for(const crate of CRATES) writeFileSync(resolve(f.root,CRATE_ROOTS[crate].manifest),`[package]\nname = "${crate}"\n`);
+    const file=resolve(f.root,"crates/arc-daemon/src/lib.rs"), fixtureSource="crates/arc-meter/src/fixtures.rs";
+    writeFileSync(resolve(f.root,fixtureSource),"pub fn sample() {}\n");
+    writeFileSync(file,'#[cfg(test)]\n#[path = "../../arc-meter/src/fixtures.rs"]\nmod memory;\npub fn production() {}\n');
+    const partial=historicalSourceInventory(f.root);
+    expect(partial.every(file=>HISTORICAL_CRATES.includes(file.crate as typeof HISTORICAL_CRATES[number]))).toBe(true);
+    expect(partial.some(file=>file.path===fixtureSource)).toBe(false);
+    expect(sourceInventory(f.root).find(file=>file.path===fixtureSource)?.testOnly).toBe(true);
+    writeFileSync(file,'#[path = "../../arc-meter/src/fixtures.rs"]\nmod memory;\n');
+    expect(()=>historicalSourceInventory(f.root)).toThrow("module outside src");
+    expect(sourceInventory(f.root).find(file=>file.path===fixtureSource)?.testOnly).toBe(false);
   } finally {rmSync(f.root,{recursive:true,force:true});}
 });

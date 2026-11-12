@@ -1,5 +1,6 @@
 import type { JobMeterSummary } from "@/bridge/job-meter.types";
 import type { MeterSnapshot } from "@/bridge/meter.types";
+import type { EffectivePolicy, JobPolicyResult } from "@/bridge/policy.types";
 
 // Job projection omits private command data. Meter carries only its bounded
 // daemon identity and observed local filesystem identity from the core schema.
@@ -118,6 +119,8 @@ export interface DesktopError {
   retryable: boolean;
 }
 export interface DesktopClient {
+  policyCurrent(): Promise<Received<EffectivePolicy>>;
+  policyJob(jobId: JobId): Promise<Received<JobPolicyResult>>;
   daemonHealth(): Promise<Received<DaemonHealth>>;
   meterSnapshot(): Promise<Received<MeterSnapshot>>;
   meterSummary(jobId: JobId): Promise<Received<JobMeterSummary>>;

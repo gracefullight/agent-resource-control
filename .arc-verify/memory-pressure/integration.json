@@ -1,0 +1,4321 @@
+{
+  "schemaVersion": 1,
+  "task": "task-6",
+  "actor": "backend-contracts",
+  "role": "installed backend-engineer",
+  "status": "completed",
+  "acceptedHead": "338631893b51b2e7cd4045e636bb1301ab4db955",
+  "recordedAt": "2026-11-12T11:50:10.243819+00:00",
+  "scope": "Integration acceptance for the first macOS POL-001/POL-003/POL-004 memory slice. Full gates, production-line floor and independent QA remain later assigned work.",
+  "skillsUsed": [
+    "oma-backend",
+    "oma-db",
+    "oma-frontend"
+  ],
+  "ownershipHandoff": "Sequential task-6 ownership consumes accepted tasks 2/3 code artifacts and tasks 4/5 Git-visible advisory reports. Only the listed integration/repair paths changed; saved assignment, mission graph and Actor assignments were not modified.",
+  "changedPaths": [
+    ".arc-verify/memory-pressure/integration.json",
+    "apps/desktop/src-tauri/tests/memory_pressure.rs",
+    "apps/desktop/src-tauri/tests/memory_pressure/native_launch_races.rs",
+    "apps/desktop/src-tauri/tests/memory_pressure/native_reserved.rs",
+    "apps/desktop/src-tauri/tests/memory_pressure/native_sequence.rs",
+    "apps/desktop/src-tauri/tests/memory_pressure/native_support.rs",
+    "apps/desktop/src/dashboard/job-policy-panel.tsx",
+    "apps/desktop/tests/fixtures/policy-interaction-cases.ts",
+    "crates/arc-cli/src/exec/launch.rs",
+    "crates/arc-cli/src/exec/launch/checkpoint.rs",
+    "crates/arc-cli/src/exec/launch/expiry_tests.rs",
+    "crates/arc-cli/src/exec/launch/tests.rs",
+    "crates/arc-cli/src/exec/policy.rs",
+    "crates/arc-cli/src/job.rs",
+    "crates/arc-cli/src/job/policy.rs",
+    "crates/arc-cli/tests/memory_pressure/status_reads.rs",
+    "crates/arc-daemon/Cargo.toml",
+    "crates/arc-daemon/src/db_worker/policy.rs",
+    "crates/arc-daemon/src/entry.rs",
+    "crates/arc-daemon/src/main.rs",
+    "crates/arc-daemon/src/policy_dispatch.rs",
+    "crates/arc-daemon/src/server.rs",
+    "crates/arc-daemon/tests/fixtures/memory_pressure_daemon.rs",
+    "crates/arc-daemon/tests/startup.rs",
+    "crates/arc-ipc/src/policy/launch.rs",
+    "crates/arc-storage/src/jobs/traffic.rs",
+    "crates/arc-storage/src/jobs/traffic/pressure.rs",
+    "crates/arc-storage/tests/memory_pressure/admission.rs",
+    "scripts/coverage/accounting.test.ts",
+    "scripts/coverage/source.ts"
+  ],
+  "inputBinding": {
+    "canonicalMissionDigestOwner": ".arc-verify/memory-pressure/gates.json#/inputs",
+    "secondAggregateMissionDigestCreated": false,
+    "sourceFiles": {
+      "apps/desktop/src-tauri/tests/memory_pressure.rs": "0ee0d6c6395d1715fbeecefc6da24e219519ad6416b85e0c91a6d4d073b03e0e",
+      "apps/desktop/src-tauri/tests/memory_pressure/native_launch_races.rs": "faf4777244dad1188ae63a46f41d4f0835d06a623a6b44a95d870097bd762bfa",
+      "apps/desktop/src-tauri/tests/memory_pressure/native_reserved.rs": "75d2fe726efc57eeed99f0481f679e6aa25e6bb75492cef036a8865bf1f55329",
+      "apps/desktop/src-tauri/tests/memory_pressure/native_sequence.rs": "2cffb4df16bcd0917d344981736613a064e205b2bff00e6c703b20a9f38ee18e",
+      "apps/desktop/src-tauri/tests/memory_pressure/native_support.rs": "cc66515a19ec1e4c3b3b25715c31ef7fecf6e9413f5dc790e29be1d45c29d425",
+      "apps/desktop/src/dashboard/job-policy-panel.tsx": "7e08daabe065489b377ec233142ce8382edff6b3572ce89dec2f6f6806734641",
+      "apps/desktop/tests/fixtures/policy-interaction-cases.ts": "58361ac2a6195dc8f8ffbead207725f0a3d2fd716e9db1bfe6ecadf82ad7ba28",
+      "crates/arc-cli/src/exec/launch.rs": "b546da339c97e52231a2ac8ba3507da7370e0931f53c98e86ea343b1195b2f8f",
+      "crates/arc-cli/src/exec/launch/checkpoint.rs": "71e7a2da2e1ebdf494288ff06447654cfa1f02d3c149e6e2dd9955b694aa4793",
+      "crates/arc-cli/src/exec/launch/expiry_tests.rs": "8414568ac28847f18d35b2f7e6401bfb6b934c59530c5e977f9deed0eaa37035",
+      "crates/arc-cli/src/exec/launch/tests.rs": "e6390ab68511c85e5b3ab1f73ec37ba002468c745437608f3840d5cbcda49f9d",
+      "crates/arc-cli/src/exec/policy.rs": "8bb4c527776097cefac0a01262080027423a3eee907bf3840fe7c50b51549b76",
+      "crates/arc-cli/src/job.rs": "a36101b509fe4bd2dc38b3f626b4f3a9e4ae1af67787a9174e1de4149db8f56b",
+      "crates/arc-cli/src/job/policy.rs": "49215ea59be4a7b161f11923e8bd9480337189f0c1d3f7ccba9f018778418d58",
+      "crates/arc-cli/tests/memory_pressure/status_reads.rs": "1dbd8ea80445c814b9195f5b66be19921b715a4b2143d3314b2a30497563bff6",
+      "crates/arc-daemon/Cargo.toml": "b36425627c3d7f61448107fb05c1477ef85c05142176e691d8bfb0b0add412e6",
+      "crates/arc-daemon/src/db_worker/policy.rs": "cd4f9d094b95af57777654c3c1a2f6a25f4f4c26516a27b190fb50d0cf7dbcf4",
+      "crates/arc-daemon/src/entry.rs": "ca6a7cb557ebdcbaf10d1670f6c282e82ddfe0081c87a36f9a29bc803f53a36a",
+      "crates/arc-daemon/src/main.rs": "aba36ce41a9488a3b14cb9e97235d4e7f52783160f920eca26a2fe610e8d66b1",
+      "crates/arc-daemon/src/policy_dispatch.rs": "351818622173fa7823da16d5651d38c8e3dbb32608584b7031c5aedb79c311f2",
+      "crates/arc-daemon/src/server.rs": "3317aaf11cbfcc2d8f5185c8195dfaf76879c6a450e749d8218e753ecc4f6c83",
+      "crates/arc-daemon/tests/fixtures/memory_pressure_daemon.rs": "cd00c552d67228e05a00b822834d310a3d5961eb0deecfc7945e59216f9aba37",
+      "crates/arc-daemon/tests/startup.rs": "d21b5e5d64379fd386b8be52152cf6d350eb8cccaef2bcb0caa3206dd5cfb32c",
+      "crates/arc-ipc/src/policy/launch.rs": "130722aa727922a56b761b5aebc19af7b74191d309e32caa6724669209bee93d",
+      "crates/arc-storage/src/jobs/traffic.rs": "700bdb249312db0647cd3e131e9762be3f6e4b5f67bbb344bc9a046745985e27",
+      "crates/arc-storage/src/jobs/traffic/pressure.rs": "6789986b3eee31c3145105f8ba5f81f0e66129a9f2bdb87829cb843d65738d35",
+      "crates/arc-storage/tests/memory_pressure/admission.rs": "c5a008512802fac8d032e281066326688aef0afad40d9bfb7189874008f1ce44",
+      "scripts/coverage/accounting.test.ts": "027437113be501388196a8fc6bad45e24694ed1b6bb233bbe6725388df607994",
+      "scripts/coverage/source.ts": "34c582e1c453ddfe93f19b336ad441653592bf5f4b4715e030e51eec6bed8c17"
+    },
+    "advisoryInputs": {
+      ".arc-verify/memory-pressure/advice/technical.md": {
+        "path": ".arc-verify/memory-pressure/advice/technical.md",
+        "sha256": "5141b0538cb9f21b8f779e443012f1bd4c6bbd59220727f4a5ededc9bb231b23",
+        "bytes": 34514
+      },
+      ".arc-verify/memory-pressure/advice/design.md": {
+        "path": ".arc-verify/memory-pressure/advice/design.md",
+        "sha256": "31b033c189b890cc7a496cfc8b3cc16916f6d76bf92237e8b91dc13ce07f8e90",
+        "bytes": 34256
+      }
+    },
+    "verificationScope": "Accepted repair commands record these same 29 owned per-file SHA-256 values before/after execution. Unchanged-scope earlier receipts remain explicitly scoped, not full final-mission certification. Task 8 owns the single complete final mission input digest and gates."
+  },
+  "injected": {
+    "sequence": [
+      "Normal",
+      "Critical",
+      "Normal"
+    ],
+    "source": "explicit Controlled NativeSource through entry::run -> server::serve_with_source -> lifecycle::supervise_with_source -> MeterWorker",
+    "productionPath": true,
+    "usesCfgTestFakeDaemon": false,
+    "defaultSystemSourcePreserved": true,
+    "normal": {
+      "jobId": "53905179c620a645d5c2cf0acba2054c",
+      "sqlite": {
+        "decision": "admit",
+        "job_id": "53905179c620a645d5c2cf0acba2054c",
+        "observation_json": "{\"availability\":\"available\",\"pressure\":\"normal\",\"age_ms\":43,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":4655,\"start_token\":\"1794483994932468\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":1,\"observed_at_ms\":1794483994938,\"observed_monotonic_ms\":0}",
+        "permit_generation": 1,
+        "policy_version": "macos-memory-pressure-v1",
+        "reason_code": "admitted",
+        "recorded_at_ms": 1794483994981
+      },
+      "desktop": {
+        "data": {
+          "decision_availability": "available",
+          "effective": {
+            "limits": {
+              "budget": {
+                "cpu_millis": 2000,
+                "memory_bytes": 4294967296
+              },
+              "build": {
+                "reservation": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 2147483648
+                },
+                "window": 1
+              },
+              "lint": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              },
+              "test": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              }
+            },
+            "mode": "l0",
+            "observation": {
+              "age_ms": 82,
+              "availability": "available",
+              "observed_at_ms": 1794483994938,
+              "observed_monotonic_ms": 0,
+              "pressure": "normal",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4655,
+                  "start_token": "1794483994932468"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 1,
+              "stale_after_ms": 3000
+            },
+            "policy_version": "macos-memory-pressure-v1",
+            "profile": "macos-memory-l0-v1",
+            "reason": "pressure_normal",
+            "schema_version": 1
+          },
+          "job_id": "53905179c620a645d5c2cf0acba2054c",
+          "last_decision": {
+            "decided_at_ms": 1794483994981,
+            "kind": "admit",
+            "observation": {
+              "age_ms": 43,
+              "availability": "available",
+              "observed_at_ms": 1794483994938,
+              "observed_monotonic_ms": 0,
+              "pressure": "normal",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4655,
+                  "start_token": "1794483994932468"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 1,
+              "stale_after_ms": 3000
+            },
+            "permit_generation": 1,
+            "policy_version": "macos-memory-pressure-v1",
+            "reason": "admitted"
+          },
+          "schema_version": 1
+        },
+        "received_at_ms": 1794483995022
+      },
+      "cliStatus": "Job: 53905179c620a645d5c2cf0acba2054c\nState: running\nQueue wait (ms): 0\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: Initial policy active (L0)\nPolicy reason: pressure_normal\nObservation availability: available\nObservation age (ms): 106\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":4655,\"start_token\":\"1794483994932468\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 1\nLast recorded job decision: admitted\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483994981\nRecorded observation age (ms): 43\n",
+      "cliMeter": {
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 4655,
+          "start_token": "1794483994932468"
+        },
+        "sequence": 1,
+        "age_ms": 109,
+        "cadence": {
+          "interval_ms": 1000,
+          "mode": "active",
+          "stale_after_ms": 3000
+        },
+        "memory_pressure": {
+          "observed_at_ms": 1794483994938,
+          "observed_monotonic_ms": 0,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": "normal"
+          },
+          "unit": "level"
+        }
+      }
+    },
+    "criticalPolicy": {
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "mode": "memory_hold",
+      "observation": {
+        "age_ms": 4,
+        "availability": "available",
+        "observed_at_ms": 1794483995942,
+        "observed_monotonic_ms": 1004,
+        "pressure": "critical",
+        "sampler": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4655,
+            "start_token": "1794483994932468"
+          },
+          "generation": 1,
+          "monotonic_epoch": 1
+        },
+        "sequence": 2,
+        "stale_after_ms": 3000
+      },
+      "policy_version": "macos-memory-pressure-v1",
+      "profile": "macos-memory-l0-v1",
+      "reason": "memory_critical",
+      "schema_version": 1
+    },
+    "critical": {
+      "newRootPermits": 0,
+      "newRootChildStarts": 0,
+      "childFinishedWhileHeld": true,
+      "freshThroughout": true,
+      "sameSamplerThroughout": true,
+      "checks": 21,
+      "checksAfterChildFinished": 20,
+      "observations": [
+        {
+          "sequence": 2,
+          "ageMs": 86,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "ACTIVE"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 117,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 243,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 359,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 483,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 615,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 736,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 865,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 994,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 1004,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 112,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 2014,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 243,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 2014,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 380,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 2014,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 508,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 2014,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 644,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 2014,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 783,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 2014,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 910,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 2014,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 36,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 3016,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 159,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 3016,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 292,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 3016,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 418,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 3016,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 546,
+          "staleAfterMs": 3000,
+          "observedMonotonicMs": 3016,
+          "existingPermitStates": [
+            "RELEASED"
+          ],
+          "heldEntry": {
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "state": "QUEUED"
+          },
+          "targetExecutions": 0
+        }
+      ]
+    },
+    "runningChildOutcomeUnchanged": true,
+    "runningChild": {
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+      "pid": 4657,
+      "start_token": "1794483994994180"
+    },
+    "runningResult": {
+      "data": {
+        "job": {
+          "completed_at_ms": 1794483996045,
+          "job_id": "53905179c620a645d5c2cf0acba2054c",
+          "launch_claimed_at_ms": 1794483994981,
+          "observation": {
+            "observed_at_ms": 1794483995037,
+            "reason": "OBSERVED_EXIT",
+            "status": "VERIFIED_MATCH",
+            "target": "CHILD"
+          },
+          "outcome": {
+            "code": 17,
+            "kind": "EXITED"
+          },
+          "phase": "COMPLETED",
+          "reason": "OBSERVED_EXIT",
+          "registered_at_ms": 1794483994981,
+          "revision": 5,
+          "updated_at_ms": 1794483996045
+        },
+        "kind": "found"
+      },
+      "received_at_ms": 1794483996052
+    },
+    "held": {
+      "jobId": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+      "sqlite": {
+        "decision": "wait",
+        "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+        "observation_json": "{\"availability\":\"available\",\"pressure\":\"critical\",\"age_ms\":33,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":4655,\"start_token\":\"1794483994932468\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":2,\"observed_at_ms\":1794483995942,\"observed_monotonic_ms\":1004}",
+        "permit_generation": null,
+        "policy_version": "macos-memory-pressure-v1",
+        "reason_code": "memory_pressure",
+        "recorded_at_ms": 1794483995975
+      },
+      "desktop": {
+        "data": {
+          "decision_availability": "available",
+          "effective": {
+            "limits": {
+              "budget": {
+                "cpu_millis": 2000,
+                "memory_bytes": 4294967296
+              },
+              "build": {
+                "reservation": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 2147483648
+                },
+                "window": 1
+              },
+              "lint": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              },
+              "test": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              }
+            },
+            "mode": "memory_hold",
+            "observation": {
+              "age_ms": 52,
+              "availability": "available",
+              "observed_at_ms": 1794483995942,
+              "observed_monotonic_ms": 1004,
+              "pressure": "critical",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4655,
+                  "start_token": "1794483994932468"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 2,
+              "stale_after_ms": 3000
+            },
+            "policy_version": "macos-memory-pressure-v1",
+            "profile": "macos-memory-l0-v1",
+            "reason": "memory_critical",
+            "schema_version": 1
+          },
+          "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+          "last_decision": {
+            "decided_at_ms": 1794483995975,
+            "kind": "wait",
+            "observation": {
+              "age_ms": 33,
+              "availability": "available",
+              "observed_at_ms": 1794483995942,
+              "observed_monotonic_ms": 1004,
+              "pressure": "critical",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4655,
+                  "start_token": "1794483994932468"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 2,
+              "stale_after_ms": 3000
+            },
+            "permit_generation": null,
+            "policy_version": "macos-memory-pressure-v1",
+            "reason": "memory_pressure"
+          },
+          "schema_version": 1
+        },
+        "received_at_ms": 1794483995996
+      },
+      "cliStatus": "Job: d3ff70e9c2efa1fb2eb707917bcbfe41\nState: queued\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: memory hold\nPolicy reason: memory_critical\nObservation availability: available\nObservation age (ms): 79\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":4655,\"start_token\":\"1794483994932468\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 2\nWait reason: Waiting for memory\nStarts automatically when memory permits; other queue rules still apply.\nLast recorded job decision: memory_pressure\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483995975\nRecorded observation age (ms): 33\n",
+      "cliMeter": {
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 4655,
+          "start_token": "1794483994932468"
+        },
+        "sequence": 2,
+        "age_ms": 84,
+        "cadence": {
+          "interval_ms": 1000,
+          "mode": "pressure",
+          "stale_after_ms": 3000
+        },
+        "memory_pressure": {
+          "observed_at_ms": 1794483995942,
+          "observed_monotonic_ms": 1004,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": "critical"
+          },
+          "unit": "level"
+        }
+      }
+    },
+    "recovery": {
+      "heldJobExecutions": 1,
+      "child": {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 4722,
+        "start_token": "1794483998988410"
+      },
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "l0",
+        "observation": {
+          "age_ms": 18,
+          "availability": "available",
+          "observed_at_ms": 1794483998959,
+          "observed_monotonic_ms": 4021,
+          "pressure": "normal",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4655,
+              "start_token": "1794483994932468"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 5,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "pressure_normal",
+        "schema_version": 1
+      },
+      "result": {
+        "data": {
+          "job": {
+            "completed_at_ms": 1794483998998,
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "launch_claimed_at_ms": 1794483998970,
+            "observation": {
+              "observed_at_ms": 1794483998992,
+              "reason": "OBSERVED_EXIT",
+              "status": "VERIFIED_MATCH",
+              "target": "CHILD"
+            },
+            "outcome": {
+              "code": 17,
+              "kind": "EXITED"
+            },
+            "phase": "COMPLETED",
+            "reason": "OBSERVED_EXIT",
+            "registered_at_ms": 1794483995975,
+            "revision": 5,
+            "updated_at_ms": 1794483998998
+          },
+          "kind": "found"
+        },
+        "received_at_ms": 1794483999052
+      },
+      "surface": {
+        "jobId": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+        "sqlite": {
+          "decision": "admit",
+          "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+          "observation_json": "{\"availability\":\"available\",\"pressure\":\"normal\",\"age_ms\":11,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":4655,\"start_token\":\"1794483994932468\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":5,\"observed_at_ms\":1794483998959,\"observed_monotonic_ms\":4021}",
+          "permit_generation": 2,
+          "policy_version": "macos-memory-pressure-v1",
+          "reason_code": "admitted",
+          "recorded_at_ms": 1794483998970
+        },
+        "desktop": {
+          "data": {
+            "decision_availability": "available",
+            "effective": {
+              "limits": {
+                "budget": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 4294967296
+                },
+                "build": {
+                  "reservation": {
+                    "cpu_millis": 2000,
+                    "memory_bytes": 2147483648
+                  },
+                  "window": 1
+                },
+                "lint": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                },
+                "test": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                }
+              },
+              "mode": "l0",
+              "observation": {
+                "age_ms": 47,
+                "availability": "available",
+                "observed_at_ms": 1794483998959,
+                "observed_monotonic_ms": 4021,
+                "pressure": "normal",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4655,
+                    "start_token": "1794483994932468"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 5,
+                "stale_after_ms": 3000
+              },
+              "policy_version": "macos-memory-pressure-v1",
+              "profile": "macos-memory-l0-v1",
+              "reason": "pressure_normal",
+              "schema_version": 1
+            },
+            "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+            "last_decision": {
+              "decided_at_ms": 1794483998970,
+              "kind": "admit",
+              "observation": {
+                "age_ms": 11,
+                "availability": "available",
+                "observed_at_ms": 1794483998959,
+                "observed_monotonic_ms": 4021,
+                "pressure": "normal",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4655,
+                    "start_token": "1794483994932468"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 5,
+                "stale_after_ms": 3000
+              },
+              "permit_generation": 2,
+              "policy_version": "macos-memory-pressure-v1",
+              "reason": "admitted"
+            },
+            "schema_version": 1
+          },
+          "received_at_ms": 1794483999008
+        },
+        "cliStatus": "Job: d3ff70e9c2efa1fb2eb707917bcbfe41\nState: failed\nExit code: 17\nQueue wait (ms): 2995\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: Initial policy active (L0)\nPolicy reason: pressure_normal\nObservation availability: available\nObservation age (ms): 72\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":4655,\"start_token\":\"1794483994932468\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 5\nLast recorded job decision: admitted\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483998970\nRecorded observation age (ms): 11\n",
+        "cliMeter": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4655,
+            "start_token": "1794483994932468"
+          },
+          "sequence": 5,
+          "age_ms": 76,
+          "cadence": {
+            "interval_ms": 1000,
+            "mode": "active",
+            "stale_after_ms": 3000
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794483998959,
+            "observed_monotonic_ms": 4021,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        }
+      }
+    },
+    "reconciledSqliteCliDesktop": true,
+    "sqliteChildren": [
+      {
+        "child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "child_pid": 4657,
+        "child_start_token": "1794483994994180",
+        "job_id": "53905179c620a645d5c2cf0acba2054c"
+      },
+      {
+        "child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "child_pid": 4722,
+        "child_start_token": "1794483998988410",
+        "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41"
+      }
+    ],
+    "childIdentities": [
+      {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 4657,
+        "start_token": "1794483994994180"
+      },
+      {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 4722,
+        "start_token": "1794483998988410"
+      }
+    ],
+    "independentStartMarkers": "each target appends its native PID before its execution barrier; each marker contains exactly that captured SQLite child PID once",
+    "permits": [
+      {
+        "generation": 1,
+        "job_id": "53905179c620a645d5c2cf0acba2054c",
+        "state": "RELEASED"
+      },
+      {
+        "generation": 2,
+        "job_id": "d3ff70e9c2efa1fb2eb707917bcbfe41",
+        "state": "RELEASED"
+      }
+    ],
+    "reservedRace": {
+      "jobId": "8b8c10bc2c443b3bbbe8db1583e63807",
+      "reservedGeneration": 1,
+      "actualCli": "arcctl",
+      "barrier": "after reservation, before final launch request",
+      "checkpoint": {
+        "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+        "observer": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 4539,
+          "start_token": "1794483987479460"
+        },
+        "permit_generation": 1
+      },
+      "normal": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "l0",
+        "observation": {
+          "age_ms": 25,
+          "availability": "available",
+          "observed_at_ms": 1794483987451,
+          "observed_monotonic_ms": 0,
+          "pressure": "normal",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 1,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "pressure_normal",
+        "schema_version": 1
+      },
+      "reservationBeforeCritical": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+            "observer_pid": 4539,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "critical": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 4,
+          "availability": "available",
+          "observed_at_ms": 1794483988460,
+          "observed_monotonic_ms": 1008,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "targetExecutionsDuringCritical": 0,
+      "newPermitsDuringCritical": 0,
+      "reservationUnchanged": true,
+      "recoveryExecutions": 1,
+      "handshake": {
+        "args": [
+          [
+            116,
+            101,
+            115,
+            116
+          ]
+        ],
+        "foreground": false,
+        "identity": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 4637,
+          "start_token": "1794483992528745"
+        },
+        "pgid": 4637,
+        "pid": 4637,
+        "ppid": 4539,
+        "sigchld_blocked": false,
+        "sigchld_ignored": false,
+        "sigcont_ignored": false,
+        "tty": false
+      },
+      "sqliteChild": {
+        "child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "child_pid": 4637,
+        "child_start_token": "1794483992528745",
+        "job_id": "8b8c10bc2c443b3bbbe8db1583e63807"
+      },
+      "permitsAfterRecovery": [
+        {
+          "generation": 1,
+          "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+          "state": "RELEASED"
+        }
+      ],
+      "outcome": {
+        "data": {
+          "job": {
+            "completed_at_ms": 1794483992542,
+            "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+            "launch_claimed_at_ms": 1794483987500,
+            "observation": {
+              "observed_at_ms": 1794483992534,
+              "reason": "OBSERVED_EXIT",
+              "status": "VERIFIED_MATCH",
+              "target": "CHILD"
+            },
+            "outcome": {
+              "code": 17,
+              "kind": "EXITED"
+            },
+            "phase": "COMPLETED",
+            "reason": "OBSERVED_EXIT",
+            "registered_at_ms": 1794483987500,
+            "revision": 5,
+            "updated_at_ms": 1794483992542
+          },
+          "kind": "found"
+        },
+        "received_at_ms": 1794483992602
+      },
+      "reconciledSqliteCliDesktop": true,
+      "heldSurface": {
+        "jobId": "8b8c10bc2c443b3bbbe8db1583e63807",
+        "sqlite": {
+          "decision": "wait",
+          "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+          "observation_json": "{\"availability\":\"available\",\"pressure\":\"critical\",\"age_ms\":18,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":4538,\"start_token\":\"1794483987447836\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":2,\"observed_at_ms\":1794483988460,\"observed_monotonic_ms\":1008}",
+          "permit_generation": 1,
+          "policy_version": "macos-memory-pressure-v1",
+          "reason_code": "memory_pressure",
+          "recorded_at_ms": 1794483988478
+        },
+        "desktop": {
+          "data": {
+            "decision_availability": "available",
+            "effective": {
+              "limits": {
+                "budget": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 4294967296
+                },
+                "build": {
+                  "reservation": {
+                    "cpu_millis": 2000,
+                    "memory_bytes": 2147483648
+                  },
+                  "window": 1
+                },
+                "lint": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                },
+                "test": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                }
+              },
+              "mode": "memory_hold",
+              "observation": {
+                "age_ms": 31,
+                "availability": "available",
+                "observed_at_ms": 1794483988460,
+                "observed_monotonic_ms": 1008,
+                "pressure": "critical",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4538,
+                    "start_token": "1794483987447836"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 2,
+                "stale_after_ms": 3000
+              },
+              "policy_version": "macos-memory-pressure-v1",
+              "profile": "macos-memory-l0-v1",
+              "reason": "memory_critical",
+              "schema_version": 1
+            },
+            "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+            "last_decision": {
+              "decided_at_ms": 1794483988478,
+              "kind": "wait",
+              "observation": {
+                "age_ms": 18,
+                "availability": "available",
+                "observed_at_ms": 1794483988460,
+                "observed_monotonic_ms": 1008,
+                "pressure": "critical",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4538,
+                    "start_token": "1794483987447836"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 2,
+                "stale_after_ms": 3000
+              },
+              "permit_generation": 1,
+              "policy_version": "macos-memory-pressure-v1",
+              "reason": "memory_pressure"
+            },
+            "schema_version": 1
+          },
+          "received_at_ms": 1794483988493
+        },
+        "cliStatus": "Job: 8b8c10bc2c443b3bbbe8db1583e63807\nState: outcome unknown\nReservation: retained\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: memory hold\nPolicy reason: memory_critical\nObservation availability: available\nObservation age (ms): 58\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":4538,\"start_token\":\"1794483987447836\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 2\nWait reason: Waiting for memory\nStarts automatically when memory permits; other queue rules still apply.\nLast recorded job decision: memory_pressure\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483988478\nRecorded observation age (ms): 18\n",
+        "cliMeter": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4538,
+            "start_token": "1794483987447836"
+          },
+          "sequence": 2,
+          "age_ms": 62,
+          "cadence": {
+            "interval_ms": 1000,
+            "mode": "pressure",
+            "stale_after_ms": 3000
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794483988460,
+            "observed_monotonic_ms": 1008,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "critical"
+            },
+            "unit": "level"
+          }
+        }
+      },
+      "recoverySurface": {
+        "jobId": "8b8c10bc2c443b3bbbe8db1583e63807",
+        "sqlite": {
+          "decision": "admit",
+          "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+          "observation_json": "{\"availability\":\"available\",\"pressure\":\"normal\",\"age_ms\":28,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":4538,\"start_token\":\"1794483987447836\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":6,\"observed_at_ms\":1794483992494,\"observed_monotonic_ms\":5042}",
+          "permit_generation": 1,
+          "policy_version": "macos-memory-pressure-v1",
+          "reason_code": "admitted",
+          "recorded_at_ms": 1794483992522
+        },
+        "desktop": {
+          "data": {
+            "decision_availability": "available",
+            "effective": {
+              "limits": {
+                "budget": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 4294967296
+                },
+                "build": {
+                  "reservation": {
+                    "cpu_millis": 2000,
+                    "memory_bytes": 2147483648
+                  },
+                  "window": 1
+                },
+                "lint": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                },
+                "test": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                }
+              },
+              "mode": "l0",
+              "observation": {
+                "age_ms": 58,
+                "availability": "available",
+                "observed_at_ms": 1794483992494,
+                "observed_monotonic_ms": 5042,
+                "pressure": "normal",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4538,
+                    "start_token": "1794483987447836"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 6,
+                "stale_after_ms": 3000
+              },
+              "policy_version": "macos-memory-pressure-v1",
+              "profile": "macos-memory-l0-v1",
+              "reason": "pressure_normal",
+              "schema_version": 1
+            },
+            "job_id": "8b8c10bc2c443b3bbbe8db1583e63807",
+            "last_decision": {
+              "decided_at_ms": 1794483992522,
+              "kind": "admit",
+              "observation": {
+                "age_ms": 28,
+                "availability": "available",
+                "observed_at_ms": 1794483992494,
+                "observed_monotonic_ms": 5042,
+                "pressure": "normal",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4538,
+                    "start_token": "1794483987447836"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 6,
+                "stale_after_ms": 3000
+              },
+              "permit_generation": 1,
+              "policy_version": "macos-memory-pressure-v1",
+              "reason": "admitted"
+            },
+            "schema_version": 1
+          },
+          "received_at_ms": 1794483992555
+        },
+        "cliStatus": "Job: 8b8c10bc2c443b3bbbe8db1583e63807\nState: failed\nExit code: 17\nQueue wait (ms): 0\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: Initial policy active (L0)\nPolicy reason: pressure_normal\nObservation availability: available\nObservation age (ms): 88\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":4538,\"start_token\":\"1794483987447836\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 6\nLast recorded job decision: admitted\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483992522\nRecorded observation age (ms): 28\n",
+        "cliMeter": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4538,
+            "start_token": "1794483987447836"
+          },
+          "sequence": 6,
+          "age_ms": 92,
+          "cadence": {
+            "interval_ms": 1000,
+            "mode": "active",
+            "stale_after_ms": 3000
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794483992494,
+            "observed_monotonic_ms": 5042,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        }
+      },
+      "heldObservations": [
+        {
+          "sequence": 2,
+          "ageMs": 65,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 204,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 347,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 502,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 648,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 782,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 2,
+          "ageMs": 919,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 63,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 228,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 392,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 547,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 702,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 849,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 3,
+          "ageMs": 1009,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 149,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 304,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 459,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 606,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 753,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        },
+        {
+          "sequence": 4,
+          "ageMs": 906,
+          "staleAfterMs": 3000,
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4538,
+              "start_token": "1794483987447836"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "targetExecutions": 0
+        }
+      ]
+    },
+    "receipt": "native-integration-final",
+    "rawCapture": {
+      "path": "target/memory-pressure/task-6/attempt-2/native/injected.json",
+      "sha256": "3754d66c15d7d969a276bbd2aed9d3d0fb7562e806f4fefa1a22c15d329f25a5",
+      "bytes": 51484
+    }
+  },
+  "grantBoundary": {
+    "transactionFreshnessAndIdentityVerified": true,
+    "ordering": "The same IMMEDIATE transaction acquires the bounded observation publication view after writer backlog, validates active sampler/generation/epoch, sequence and pressure-field age, then persists decision/permit before commit under the fence. Native work stays on MeterWorker.",
+    "launchOrdering": "READY has a distinct native deadline of at most 2000 ms/remaining freshness. The daemon drops the publication lease at that deadline even during a partial ACK read. A further bounded 2000 ms cleanup grace accepts only the matching same-connection ACK; it authorizes no spawn. Owner-verified Unspawned retraction runs on the single writer after dropping the lease. The CLI retries only after confirmed {}; Started, disconnect, malformed ACK or lost cleanup confirmation cannot replay a possible execution.",
+    "cases": {
+      "writerBacklog": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "backlog::critical_published_during_writer_backlog_replaces_prebacklog_normal"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::writer_backlog_reads_the_new_publication_and_native_sampling_continues"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::repairs::replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch"
+          ],
+          "passed": true
+        }
+      ],
+      "exactFreshnessAndPerFieldAge": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "evaluator_cases::pressure_field_age_is_independent_of_sample_health_and_exact_boundary_is_fresh"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "meter-pressure",
+          "tests": [
+            "worker::observation_cache::tests::final_launch_clock_caps_the_fence_at_exact_freshness_and_then_uses_explicit_l0"
+          ],
+          "passed": true
+        }
+      ],
+      "samplerGenerationEpochAndRestart": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "evaluator_cases::identities_epoch_generation_and_sequence_are_validated"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "meter-pressure",
+          "tests": [
+            "worker::observation_cache::tests::replacement_generation_has_no_old_snapshot_or_cursor_and_stop_does_not_hold"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::repairs::replacement_waits_for_outstanding_ready_then_uses_new_identity_and_critical"
+          ],
+          "passed": true
+        }
+      ],
+      "launchAckLossExpiryAndRestart": [
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_reserved::real_dispatcher_confirms_unspawned_cleanup_and_retains_uncertain_releases"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::launch::tests::expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::launch::tests::lost_launch_ack_never_replays_a_native_execution_or_changes_its_exit"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::repairs::expiry_before_release_rolls_back_or_retracts_marker_and_retry_is_exactly_once"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::disconnect_releases_publication_fence_and_durable_marker_prevents_release_replay"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_launch_races::expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_once"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::launch::tests::expiry::expired_ready_with_lost_negative_ack_never_retries_or_starts_a_target"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    "reservedRaceCapture": {
+      "path": "target/memory-pressure/task-6/attempt-2/native/reserved-race.json",
+      "sha256": "d661f6d93f58c3850822e99dac47ca8f08cdfc7696b5db57eaeb3dd886aac541",
+      "bytes": 65609
+    },
+    "expiredReadyRecovery": {
+      "actualCli": "arcctl",
+      "checkpoint": {
+        "policy": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "l0",
+          "observation": {
+            "age_ms": 75,
+            "availability": "available",
+            "observed_at_ms": 1794483985089,
+            "observed_monotonic_ms": 0,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 4476,
+                "start_token": "1794483985076316"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 1,
+            "stale_after_ms": 3000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "pressure_normal",
+          "schema_version": 1
+        },
+        "request": {
+          "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+          "observer": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4477,
+            "start_token": "1794483985125954"
+          },
+          "permit_generation": 1
+        }
+      },
+      "reservationBeforeExpiry": {
+        "entries": [
+          {
+            "generation": 1,
+            "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+            "state": "RESERVED"
+          }
+        ],
+        "jobs": [
+          {
+            "child_pid": null,
+            "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+            "observer_pid": 4477,
+            "outcome_kind": null,
+            "phase": "LAUNCHING"
+          }
+        ],
+        "permits": [
+          {
+            "generation": 1,
+            "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+            "state": "ACTIVE"
+          }
+        ]
+      },
+      "firstMarker": [
+        {
+          "created_at": 1794483985165,
+          "entity_id": "ccb091a54df1bf5f8360abb3496d84ee",
+          "id": "traffic-launch-ccb091a54df1bf5f8360abb3496d84ee"
+        }
+      ],
+      "finalMarker": [
+        {
+          "created_at": 1794483987366,
+          "entity_id": "ccb091a54df1bf5f8360abb3496d84ee",
+          "id": "traffic-launch-ccb091a54df1bf5f8360abb3496d84ee"
+        }
+      ],
+      "sameJobAndGeneration": true,
+      "unspawnedExpiryReevaluated": true,
+      "executionsBeforeRecovery": 0,
+      "targetExecutions": 1,
+      "handshake": {
+        "args": [
+          [
+            116,
+            101,
+            115,
+            116
+          ]
+        ],
+        "foreground": false,
+        "identity": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 4531,
+          "start_token": "1794483987368464"
+        },
+        "pgid": 4531,
+        "pid": 4531,
+        "ppid": 4477,
+        "sigchld_blocked": false,
+        "sigchld_ignored": false,
+        "sigcont_ignored": false,
+        "tty": false
+      },
+      "sqliteChild": {
+        "child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "child_pid": 4531,
+        "child_start_token": "1794483987368464",
+        "job_id": "ccb091a54df1bf5f8360abb3496d84ee"
+      },
+      "permits": [
+        {
+          "generation": 1,
+          "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+          "state": "RELEASED"
+        }
+      ],
+      "result": {
+        "data": {
+          "job": {
+            "completed_at_ms": 1794483987375,
+            "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+            "launch_claimed_at_ms": 1794483985151,
+            "observation": {
+              "observed_at_ms": 1794483987371,
+              "reason": "OBSERVED_EXIT",
+              "status": "VERIFIED_MATCH",
+              "target": "CHILD"
+            },
+            "outcome": {
+              "code": 17,
+              "kind": "EXITED"
+            },
+            "phase": "COMPLETED",
+            "reason": "OBSERVED_EXIT",
+            "registered_at_ms": 1794483985151,
+            "revision": 4,
+            "updated_at_ms": 1794483987375
+          },
+          "kind": "found"
+        },
+        "received_at_ms": 1794483987439
+      },
+      "reconciledSqliteCliDesktop": true,
+      "diagnostic": "fixture-stderr\n",
+      "surface": {
+        "jobId": "ccb091a54df1bf5f8360abb3496d84ee",
+        "sqlite": {
+          "decision": "admit",
+          "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+          "observation_json": "{\"availability\":\"available\",\"pressure\":\"normal\",\"age_ms\":61,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":4476,\"start_token\":\"1794483985076316\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":1,\"observed_at_ms\":1794483985089,\"observed_monotonic_ms\":0}",
+          "permit_generation": 1,
+          "policy_version": "macos-memory-pressure-v1",
+          "reason_code": "admitted",
+          "recorded_at_ms": 1794483985151
+        },
+        "desktop": {
+          "data": {
+            "decision_availability": "available",
+            "effective": {
+              "limits": {
+                "budget": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 4294967296
+                },
+                "build": {
+                  "reservation": {
+                    "cpu_millis": 2000,
+                    "memory_bytes": 2147483648
+                  },
+                  "window": 1
+                },
+                "lint": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                },
+                "test": {
+                  "reservation": {
+                    "cpu_millis": 1000,
+                    "memory_bytes": 1073741824
+                  },
+                  "window": 1
+                }
+              },
+              "mode": "l0",
+              "observation": {
+                "age_ms": 1288,
+                "availability": "available",
+                "observed_at_ms": 1794483986095,
+                "observed_monotonic_ms": 1005,
+                "pressure": "normal",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4476,
+                    "start_token": "1794483985076316"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 2,
+                "stale_after_ms": 3000
+              },
+              "policy_version": "macos-memory-pressure-v1",
+              "profile": "macos-memory-l0-v1",
+              "reason": "pressure_normal",
+              "schema_version": 1
+            },
+            "job_id": "ccb091a54df1bf5f8360abb3496d84ee",
+            "last_decision": {
+              "decided_at_ms": 1794483985151,
+              "kind": "admit",
+              "observation": {
+                "age_ms": 61,
+                "availability": "available",
+                "observed_at_ms": 1794483985089,
+                "observed_monotonic_ms": 0,
+                "pressure": "normal",
+                "sampler": {
+                  "daemon_instance": {
+                    "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                    "pid": 4476,
+                    "start_token": "1794483985076316"
+                  },
+                  "generation": 1,
+                  "monotonic_epoch": 1
+                },
+                "sequence": 1,
+                "stale_after_ms": 3000
+              },
+              "permit_generation": 1,
+              "policy_version": "macos-memory-pressure-v1",
+              "reason": "admitted"
+            },
+            "schema_version": 1
+          },
+          "received_at_ms": 1794483987385
+        },
+        "cliStatus": "Job: ccb091a54df1bf5f8360abb3496d84ee\nState: failed\nExit code: 17\nQueue wait (ms): 0\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: Initial policy active (L0)\nPolicy reason: pressure_normal\nObservation availability: available\nObservation age (ms): 1313\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":4476,\"start_token\":\"1794483985076316\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 2\nLast recorded job decision: admitted\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483985151\nRecorded observation age (ms): 61\n",
+        "cliMeter": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4476,
+            "start_token": "1794483985076316"
+          },
+          "sequence": 2,
+          "age_ms": 1316,
+          "cadence": {
+            "interval_ms": 1000,
+            "mode": "active",
+            "stale_after_ms": 3000
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794483986095,
+            "observed_monotonic_ms": 1005,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        }
+      },
+      "rawCapture": {
+        "path": "target/memory-pressure/task-6/attempt-2/native/expired-ready.json",
+        "sha256": "18f08a7cff8893dac71eb0f3f00c0b2fc59304d29024940b9e6f3d226d8bc286",
+        "bytes": 13925
+      },
+      "receipt": "native-integration-final"
+    }
+  },
+  "edgeCases": {
+    "allRequiredPassed": true,
+    "cases": {
+      "allSupportedClassesWithFreeSlots": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "admission::every_supported_class_holds_with_free_slots_and_duplicate_polls_do_not_append"
+          ],
+          "passed": true
+        }
+      ],
+      "writerBacklog": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "backlog::critical_published_during_writer_backlog_replaces_prebacklog_normal"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::writer_backlog_reads_the_new_publication_and_native_sampling_continues"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::repairs::replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch"
+          ],
+          "passed": true
+        }
+      ],
+      "exactFreshnessAndPerFieldAge": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "evaluator_cases::pressure_field_age_is_independent_of_sample_health_and_exact_boundary_is_fresh"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "meter-pressure",
+          "tests": [
+            "worker::observation_cache::tests::final_launch_clock_caps_the_fence_at_exact_freshness_and_then_uses_explicit_l0"
+          ],
+          "passed": true
+        }
+      ],
+      "samplerGenerationEpochAndRestart": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "evaluator_cases::identities_epoch_generation_and_sequence_are_validated"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "meter-pressure",
+          "tests": [
+            "worker::observation_cache::tests::replacement_generation_has_no_old_snapshot_or_cursor_and_stop_does_not_hold"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::repairs::replacement_waits_for_outstanding_ready_then_uses_new_identity_and_critical"
+          ],
+          "passed": true
+        }
+      ],
+      "wallAndMonotonicClockChanges": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "evaluator_cases::wall_clock_changes_cannot_refresh_and_invalid_monotonic_arithmetic_falls_back"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "meter-pressure",
+          "tests": [
+            "worker::observation_cache::tests::stale_critical_cannot_become_fresh_when_admission_or_launch_clock_regresses"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::clocks::queued_recovery_status_and_cancellation_survive_utc_backstep_across_restart"
+          ],
+          "passed": true
+        }
+      ],
+      "duplicatePolls": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "admission::every_supported_class_holds_with_free_slots_and_duplicate_polls_do_not_append"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "meter-pressure",
+          "tests": [
+            "worker::observation_cache::tests::duplicate_publication_is_immutable_and_a_regression_fails_health"
+          ],
+          "passed": true
+        }
+      ],
+      "queuedCancellation": [
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_reserved::real_queued_cancellation_under_critical_never_starts_or_receives_a_permit"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "admission::queued_cancellation_and_lost_grant_cancellation_never_regrant"
+          ],
+          "passed": true
+        }
+      ],
+      "daemonRecovery": [
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::clocks::queued_recovery_status_and_cancellation_survive_utc_backstep_across_restart"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::disconnect_releases_publication_fence_and_durable_marker_prevents_release_replay"
+          ],
+          "passed": true
+        }
+      ],
+      "verifiedAndInvalidNestedReuse": [
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::critical_preserves_native_verified_nested_reservation_but_not_a_claim_string"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "admission::claim_strings_and_failed_lineage_recheck_never_exempt_a_new_root"
+          ],
+          "passed": true
+        }
+      ],
+      "remoteUnknownUnsupportedBypass": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "admission::remote_unknown_and_unsupported_do_not_create_queue_permits_or_pressure_holds"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "traffic-bypass",
+          "tests": [
+            "bypass_is_immediate_even_with_a_full_window_and_fifo_waiter"
+          ],
+          "passed": true
+        }
+      ],
+      "boundedOutageFailOpen": [
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_reserved::bounded_daemon_outage_fail_open_executes_the_owned_target_once"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::launch::tests::a_healthy_hold_followed_by_connection_loss_is_not_outage_fail_open"
+          ],
+          "passed": true
+        }
+      ],
+      "missingStaleFailedUnsupportedDeniedFallback": [
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "admission::sampler_fallbacks_release_a_stale_critical_hold_without_inventing_normal"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "domain-pressure-final",
+          "tests": [
+            "evaluator_cases::every_pressure_and_unavailable_reading_has_a_truthful_versioned_result"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::published_failure_selects_l0_and_peer_mismatch_is_rejected"
+          ],
+          "passed": true
+        }
+      ],
+      "reservedButUnspawnedRace": [
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_launch_races::reserved_before_critical_is_held_without_target_execution_then_runs_once_after_recovery"
+          ],
+          "passed": true
+        }
+      ],
+      "launchAckLossExpiryAndRestart": [
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_reserved::real_dispatcher_confirms_unspawned_cleanup_and_retains_uncertain_releases"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::launch::tests::expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::launch::tests::lost_launch_ack_never_replays_a_native_execution_or_changes_its_exit"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::repairs::expiry_before_release_rolls_back_or_retracts_marker_and_retry_is_exactly_once"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "daemon-pressure",
+          "tests": [
+            "db_worker::policy::tests::disconnect_releases_publication_fence_and_durable_marker_prevents_release_replay"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_launch_races::expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_once"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::launch::tests::expiry::expired_ready_with_lost_negative_ack_never_retries_or_starts_a_target"
+          ],
+          "passed": true
+        }
+      ],
+      "fifoWindowsReservations": [
+        {
+          "receipt": "traffic-bypass",
+          "tests": [
+            "strict_fifo_blocks_later_candidates_even_if_their_class_fits"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "traffic-bypass",
+          "tests": [
+            "aggregate_cpu_and_memory_are_checked_across_classes_with_exact_boundaries"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "traffic-bypass",
+          "tests": [
+            "cargo_and_bun_share_test_window_and_each_global_budget"
+          ],
+          "passed": true
+        }
+      ],
+      "legacyProtocolOne": [
+        {
+          "receipt": "native-integration-final",
+          "tests": [
+            "native_reserved::legacy_protocol_one_enqueue_poll_and_status_keep_their_original_shapes_under_critical"
+          ],
+          "passed": true
+        }
+      ],
+      "readTimeFreshnessAndRetainedDisplay": [
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "exec::policy::tests::status_and_short_notice_account_for_exact_elapsed_read_boundary_without_mutating_history"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "status_reads::critical_expired_in_transit_is_last_received_and_cannot_claim_a_current_hold"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "display-bun-final",
+          "tests": [
+            "production Dashboard and typed bridge > open policy disclosure qualifies retained readings at 3000/3001 ms and disconnect without changing focus or history"
+          ],
+          "passed": true
+        },
+        {
+          "receipt": "display-bun-final",
+          "tests": [
+            "production Dashboard and typed bridge > authoritative pressure waits recover automatically without resubmit and preserve keyboard focus/outcome"
+          ],
+          "passed": true
+        }
+      ],
+      "reservedStatusWait": [
+        {
+          "receipt": "cli-status-delivery",
+          "tests": [
+            "status_reads::reserved_unconfirmed_lifecycle_preserves_authoritative_pressure_wait_without_claiming_running"
+          ],
+          "passed": true
+        }
+      ]
+    },
+    "nativeCancellation": {
+      "critical": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "memory_hold",
+        "observation": {
+          "age_ms": 16,
+          "availability": "available",
+          "observed_at_ms": 1794483994776,
+          "observed_monotonic_ms": 1010,
+          "pressure": "critical",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 4648,
+              "start_token": "1794483993762186"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 3000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "memory_critical",
+        "schema_version": 1
+      },
+      "diagnostic": "QUEUED\nWaiting for memory.\nStarts automatically when memory permits; other queue rules still apply.\nReference: fd20728b2f36874ce7d8c0afe97fb6b5\nNOT_STARTED\nExecution cancelled. No child was started.\n",
+      "entries": [
+        {
+          "job_id": "fd20728b2f36874ce7d8c0afe97fb6b5",
+          "state": "CANCELLED"
+        }
+      ],
+      "executions": 0,
+      "exitCode": 1,
+      "newPermits": 0,
+      "registeredBridge": {
+        "data": {
+          "decision_availability": "available",
+          "effective": {
+            "limits": {
+              "budget": {
+                "cpu_millis": 2000,
+                "memory_bytes": 4294967296
+              },
+              "build": {
+                "reservation": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 2147483648
+                },
+                "window": 1
+              },
+              "lint": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              },
+              "test": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              }
+            },
+            "mode": "memory_hold",
+            "observation": {
+              "age_ms": 145,
+              "availability": "available",
+              "observed_at_ms": 1794483994776,
+              "observed_monotonic_ms": 1010,
+              "pressure": "critical",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4648,
+                  "start_token": "1794483993762186"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 2,
+              "stale_after_ms": 3000
+            },
+            "policy_version": "macos-memory-pressure-v1",
+            "profile": "macos-memory-l0-v1",
+            "reason": "memory_critical",
+            "schema_version": 1
+          },
+          "job_id": "fd20728b2f36874ce7d8c0afe97fb6b5",
+          "last_decision": {
+            "decided_at_ms": 1794483994889,
+            "kind": "cancel",
+            "observation": {
+              "age_ms": 113,
+              "availability": "available",
+              "observed_at_ms": 1794483994776,
+              "observed_monotonic_ms": 1010,
+              "pressure": "critical",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4648,
+                  "start_token": "1794483993762186"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 2,
+              "stale_after_ms": 3000
+            },
+            "permit_generation": null,
+            "policy_version": "macos-memory-pressure-v1",
+            "reason": "cancelled"
+          },
+          "schema_version": 1
+        },
+        "received_at_ms": 1794483994924
+      }
+    },
+    "nativeOutage": {
+      "child": {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 4475,
+        "start_token": "1794483984756073"
+      },
+      "diagnostic": "TRACKING_UNAVAILABLE\nCommand started. ARC tracking is unavailable. A lifecycle record may be absent.\nDo not launch another copy to recover tracking.\nfixture-stderr\n",
+      "elapsedMs": 522,
+      "executions": 1,
+      "exitCode": 17,
+      "healthyCriticalHold": false
+    },
+    "legacyWire": {
+      "enqueue": {
+        "queued_at_ms": 1794483993645,
+        "reason": "MEMORY_BUDGET",
+        "sequence": 1,
+        "state": "QUEUED"
+      },
+      "jobId": "ef4961b5de2aa3e3747ff2131c26aea0",
+      "newPermits": 0,
+      "poll": {
+        "queued_at_ms": 1794483993645,
+        "reason": "MEMORY_BUDGET",
+        "sequence": 1,
+        "state": "QUEUED"
+      },
+      "pressureWaitMapsToLegacyMemoryBudget": true,
+      "protocolVersion": 1,
+      "status": {
+        "queued_at_ms": 1794483993645,
+        "sequence": 1,
+        "state": "QUEUED"
+      }
+    },
+    "evidenceKinds": "Clock/freshness/backlog/restart/retention cases explicitly use controlled clocks, observations or SQLite worker restarts. Native sequence, cancellation, reserved race and outage use real owned daemon/CLI/target processes; native pressure smoke is separate."
+  },
+  "audit": {
+    "transitionDedupeAndRetentionVerified": true,
+    "productionUnchangedPolling": {
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "postCompletionChecks": 20
+    },
+    "jobTransitionCap": 64,
+    "globalTransitionCap": 128,
+    "expiryBatchCap": 128,
+    "jobRetentionDays": 90,
+    "retentionEvidence": "Deterministic SQLite tests advance simulated terminal/current times; this is not a 90-day field study.",
+    "cases": [
+      {
+        "receipt": "domain-pressure-final",
+        "tests": [
+          "retention::semantic_transitions_dedupe_sequences_ages_and_time_and_bound_each_scope"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "domain-pressure-final",
+        "tests": [
+          "retention::ninety_days_are_anchored_to_terminal_lifecycle_not_poll_time"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "domain-pressure-final",
+        "tests": [
+          "retention::queued_cancellation_has_a_retention_anchor_and_cannot_renew_it"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "domain-pressure-final",
+        "tests": [
+          "retention::a_referenced_reservation_protects_only_the_latest_due_decision"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "domain-pressure-final",
+        "tests": [
+          "retention::expiry_is_bounded_and_last_job_lookup_uses_the_registered_index"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "domain-pressure-final",
+        "tests": [
+          "admission::audit_failure_rolls_back_permit_queue_and_policy_state_together"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "surfaces": {
+    "boundedAuthenticatedReads": true,
+    "protocol1Compatible": true,
+    "cliAndProductionDesktopAgree": true,
+    "staleDisconnectedAndUnsupportedPreserved": true,
+    "cliReads": [
+      "arcctl job status JOB_ID",
+      "arcctl meter snapshot --json"
+    ],
+    "desktopReads": [
+      "policy_job",
+      "policy_current",
+      "job_by_id",
+      "daemon_health"
+    ],
+    "productionBridge": "configure_with_ports registers the actual production commands and DesktopBridge; MockRuntime supplies shell ports without display or browser automation.",
+    "freshness": "CLI display adds monotonic read elapsed rounded upward to milliseconds, refuses a current hold after expiry and preserves recorded observation age. Desktop retains and qualifies last-received stale/disconnected fields without inventing L0.",
+    "cases": [
+      {
+        "receipt": "native-integration-final",
+        "tests": [
+          "native_reserved::legacy_protocol_one_enqueue_poll_and_status_keep_their_original_shapes_under_critical"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "native-integration-final",
+        "tests": [
+          "registered_policy::registered_policy_commands_reach_the_authenticated_bridge_and_preserve_decision_metadata"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "native-integration-final",
+        "tests": [
+          "consumer_reads::strict_job_validation_rejects_wrong_ids_arrays_unknown_fields_and_unsafe_numbers"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "daemon-pressure",
+        "tests": [
+          "db_worker::policy::tests::published_failure_selects_l0_and_peer_mismatch_is_rejected"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "cli-status-delivery",
+        "tests": [
+          "exec::policy::tests::status_and_short_notice_account_for_exact_elapsed_read_boundary_without_mutating_history"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "cli-status-delivery",
+        "tests": [
+          "status_reads::critical_expired_in_transit_is_last_received_and_cannot_claim_a_current_hold"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "display-bun-final",
+        "tests": [
+          "production Dashboard and typed bridge > open policy disclosure qualifies retained readings at 3000/3001 ms and disconnect without changing focus or history"
+        ],
+        "passed": true
+      },
+      {
+        "receipt": "display-bun-final",
+        "tests": [
+          "production Dashboard and typed bridge > authoritative pressure waits recover automatically without resubmit and preserve keyboard focus/outcome"
+        ],
+        "passed": true
+      }
+    ]
+  },
+  "nativeSmoke": {
+    "executed": true,
+    "source": "SystemSource",
+    "separateFromInjection": true,
+    "nativeCriticalForced": false,
+    "observations": [
+      {
+        "policy": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "l0",
+          "observation": {
+            "age_ms": 3,
+            "availability": "available",
+            "observed_at_ms": 1794483999286,
+            "observed_monotonic_ms": 0,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 4728,
+                "start_token": "1794483999062470"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 1,
+            "stale_after_ms": 31000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "pressure_normal",
+          "schema_version": 1
+        },
+        "registeredBridge": {
+          "data": {
+            "limits": {
+              "budget": {
+                "cpu_millis": 2000,
+                "memory_bytes": 4294967296
+              },
+              "build": {
+                "reservation": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 2147483648
+                },
+                "window": 1
+              },
+              "lint": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              },
+              "test": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              }
+            },
+            "mode": "l0",
+            "observation": {
+              "age_ms": 5,
+              "availability": "available",
+              "observed_at_ms": 1794483999286,
+              "observed_monotonic_ms": 0,
+              "pressure": "normal",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4728,
+                  "start_token": "1794483999062470"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 1,
+              "stale_after_ms": 31000
+            },
+            "policy_version": "macos-memory-pressure-v1",
+            "profile": "macos-memory-l0-v1",
+            "reason": "pressure_normal",
+            "schema_version": 1
+          },
+          "received_at_ms": 1794483999293
+        },
+        "cliMeter": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4728,
+            "start_token": "1794483999062470"
+          },
+          "sequence": 1,
+          "age_ms": 11,
+          "cadence": {
+            "interval_ms": 15000,
+            "mode": "idle",
+            "stale_after_ms": 31000
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794483999286,
+            "observed_monotonic_ms": 0,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        }
+      },
+      {
+        "policy": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "l0",
+          "observation": {
+            "age_ms": 8,
+            "availability": "available",
+            "observed_at_ms": 1794484014293,
+            "observed_monotonic_ms": 15007,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 4728,
+                "start_token": "1794483999062470"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 2,
+            "stale_after_ms": 31000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "pressure_normal",
+          "schema_version": 1
+        },
+        "registeredBridge": {
+          "data": {
+            "limits": {
+              "budget": {
+                "cpu_millis": 2000,
+                "memory_bytes": 4294967296
+              },
+              "build": {
+                "reservation": {
+                  "cpu_millis": 2000,
+                  "memory_bytes": 2147483648
+                },
+                "window": 1
+              },
+              "lint": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              },
+              "test": {
+                "reservation": {
+                  "cpu_millis": 1000,
+                  "memory_bytes": 1073741824
+                },
+                "window": 1
+              }
+            },
+            "mode": "l0",
+            "observation": {
+              "age_ms": 10,
+              "availability": "available",
+              "observed_at_ms": 1794484014293,
+              "observed_monotonic_ms": 15007,
+              "pressure": "normal",
+              "sampler": {
+                "daemon_instance": {
+                  "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                  "pid": 4728,
+                  "start_token": "1794483999062470"
+                },
+                "generation": 1,
+                "monotonic_epoch": 1
+              },
+              "sequence": 2,
+              "stale_after_ms": 31000
+            },
+            "policy_version": "macos-memory-pressure-v1",
+            "profile": "macos-memory-l0-v1",
+            "reason": "pressure_normal",
+            "schema_version": 1
+          },
+          "received_at_ms": 1794484014305
+        },
+        "cliMeter": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 4728,
+            "start_token": "1794483999062470"
+          },
+          "sequence": 2,
+          "age_ms": 26,
+          "cadence": {
+            "interval_ms": 15000,
+            "mode": "idle",
+            "stale_after_ms": 31000
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794484014293,
+            "observed_monotonic_ms": 15007,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        }
+      }
+    ],
+    "interpretation": "Actual SystemSource smoke observations are listed above (pressures: normal). They are separate from explicitly injected cases; no forced native Critical or performance benefit is claimed.",
+    "receipt": "native-integration-final",
+    "rawCapture": {
+      "path": "target/memory-pressure/task-6/attempt-2/native/native-smoke.json",
+      "sha256": "17e7d9e752c53e67dd79163aae348531a3d81cab83f1a769d70aad665ab22ea9",
+      "bytes": 15528
+    }
+  },
+  "interfaceCompatibility": {
+    "wireProtocolVersion": 1,
+    "sharedPolicyAndLaunchTypeDefinitionsChangedByTask6": false,
+    "legacyTrafficStatusFieldsAdded": false,
+    "legacyPressureWait": "MEMORY_BUDGET",
+    "launchAckSuccessBody": {},
+    "cliStatus": "Retains outcome unknown / Reservation: retained for extended unconfirmed lifecycle, while a fresh authoritative Wait decision independently displays Waiting for memory.",
+    "defaultDaemon": "SystemSource, per-user instance admission and existing SQLite writer are preserved. The explicit fixture binary supplies a controlled NativeSource through the same startup and supervisor.",
+    "knownUnspawnedAck": "Existing wire shape remains unchanged. Confirmed same-connection Unspawned retracts its one-shot marker; all uncertain/Started releases remain non-replayable. Cleanup grace never renews freshness or the publication lease."
+  },
+  "directorFindings": [
+    {
+      "id": "TD-1",
+      "status": "fixed",
+      "evidence": "Real dispatcher returns {} for Started and Unspawned ACK; native current-CLI sequence and explicit ACK tests pass."
+    },
+    {
+      "id": "TD-2/TD-3/TD-4",
+      "status": "verified in this scope",
+      "evidence": "Explicit production startup/source seam, actual independent target identities/counts and SQLite/CLI/registered-bridge reconciliation; named edge cases and separate SystemSource smoke."
+    },
+    {
+      "id": "TD-5/E-01",
+      "status": "replacement results recorded",
+      "evidence": "Task-2/3 historical raw receipts were not assumed present or current. This report embeds current command outcomes/test identities and keeps referenced raw logs under target. Schema fixture now advances to unsupported version 6 over supported version 5 and passes."
+    },
+    {
+      "id": "TD-6",
+      "status": "limits retained",
+      "evidence": "No throughput, resource-overhead or commercial benefit claim; source bounds and logic tests do not measure those."
+    },
+    {
+      "id": "D-01",
+      "status": "fixed",
+      "evidence": "Open stale/disconnected/unsupported policy disclosures say Last received and Retained; exact 3000/3001 ms state and preserved selection/focus assertions pass."
+    },
+    {
+      "id": "D-02",
+      "status": "fixed",
+      "evidence": "Monotonic elapsed-read projection, including fractional milliseconds and the short notice boundary; expired-in-transit CLI test passes without altering recorded age."
+    },
+    {
+      "id": "C-01",
+      "status": "deterministic focus assertions strengthened",
+      "evidence": "Explicit active-element assertions across automatic recovery and local freshness expiry. No real webview keyboard/assistive-technology claim."
+    }
+  ],
+  "checks": {
+    "domain-pressure-final": {
+      "name": "accepted-domain",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-policy",
+        "-p",
+        "arc-storage",
+        "-p",
+        "arc-ipc",
+        "--test",
+        "memory_pressure"
+      ],
+      "at": "2026-11-12T11:47:31.788812+00:00",
+      "elapsedSeconds": 1.805,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/accepted-domain.log",
+      "logBytes": 3787,
+      "logSha256": "94c97946f46414df4522794f1af36f2866be05b7fba22040e7d377dd4c27ed28",
+      "inputFilesUnchanged": true,
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/accepted-domain.json",
+        "sha256": "98bf67026ac8687d19b466c729bbc280f84a640bdd34800b6fb1083b2dfc46df",
+        "bytes": 4148
+      },
+      "passedTestNames": [
+        "evaluator_cases::every_pressure_and_unavailable_reading_has_a_truthful_versioned_result",
+        "evaluator_cases::pressure_field_age_is_independent_of_sample_health_and_exact_boundary_is_fresh",
+        "evaluator_cases::identities_epoch_generation_and_sequence_are_validated",
+        "evaluator_cases::wall_clock_changes_cannot_refresh_and_invalid_monotonic_arithmetic_falls_back",
+        "admission::remote_unknown_and_unsupported_do_not_create_queue_permits_or_pressure_holds",
+        "admission::audit_failure_rolls_back_permit_queue_and_policy_state_together",
+        "admission::queued_cancellation_and_lost_grant_cancellation_never_regrant",
+        "admission::claim_strings_and_failed_lineage_recheck_never_exempt_a_new_root",
+        "admission::every_supported_class_holds_with_free_slots_and_duplicate_polls_do_not_append",
+        "backlog::critical_published_during_writer_backlog_replaces_prebacklog_normal",
+        "retention::ninety_days_are_anchored_to_terminal_lifecycle_not_poll_time",
+        "retention::a_referenced_reservation_protects_only_the_latest_due_decision",
+        "retention::queued_cancellation_has_a_retention_anchor_and_cannot_renew_it",
+        "admission::sampler_fallbacks_release_a_stale_critical_hold_without_inventing_normal",
+        "retention::semantic_transitions_dedupe_sequences_ages_and_time_and_bound_each_scope",
+        "retention::expiry_is_bounded_and_last_job_lookup_uses_the_registered_index"
+      ],
+      "passedTests": 34,
+      "wrapperTimeoutMs": 7200000,
+      "inputBinding": "same 29 per-file hashes as inputBinding.sourceFiles; checked before and after this command",
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "daemon-pressure": {
+      "name": "accepted-daemon",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "memory_pressure"
+      ],
+      "at": "2026-11-12T11:48:52.416636+00:00",
+      "elapsedSeconds": 3.406,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/accepted-daemon.log",
+      "logBytes": 5825,
+      "logSha256": "dc0243ce81ab9907353b0928812e3ce64f39b8420bc82a3a723970ad04dc5911",
+      "inputFilesUnchanged": true,
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/accepted-daemon.json",
+        "sha256": "9e455391a30fa17e9d5f819e5f396c6dc2bbd139524cd8c90545f70fc2327615",
+        "bytes": 4094
+      },
+      "passedTestNames": [
+        "db_worker::policy::tests::repairs::expiry_before_release_rolls_back_or_retracts_marker_and_retry_is_exactly_once",
+        "db_worker::policy::tests::repairs::replacement_waits_for_outstanding_ready_then_uses_new_identity_and_critical",
+        "db_worker::policy::tests::repairs::replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch",
+        "db_worker::policy::tests::disconnect_releases_publication_fence_and_durable_marker_prevents_release_replay",
+        "db_worker::policy::tests::critical_preserves_native_verified_nested_reservation_but_not_a_claim_string",
+        "db_worker::policy::tests::writer_backlog_reads_the_new_publication_and_native_sampling_continues",
+        "db_worker::policy::tests::clocks::queued_recovery_status_and_cancellation_survive_utc_backstep_across_restart",
+        "db_worker::policy::tests::published_failure_selects_l0_and_peer_mismatch_is_rejected"
+      ],
+      "passedTests": 53,
+      "wrapperTimeoutMs": 7200000,
+      "inputBinding": "same 29 per-file hashes as inputBinding.sourceFiles; checked before and after this command",
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "meter-pressure": {
+      "name": "meter-pressure",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-meter"
+      ],
+      "cwd": ".",
+      "at": "2026-11-12T11:13:18.614805+00:00",
+      "elapsedSeconds": 1.697,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/meter-pressure.log",
+      "logBytes": 3635,
+      "logSha256": "90698749e76d4758cee654f36a8bf15ee5bcb30fb863ef6a1b2069484f2c2c4d",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/meter-pressure.json",
+        "sha256": "78481b9e6fc04379fedf6cb5d1483a882c95036c21b78fe9780f95e2a02b88c2",
+        "bytes": 554
+      },
+      "passedTestNames": [
+        "worker::observation_cache::tests::duplicate_publication_is_immutable_and_a_regression_fails_health",
+        "worker::observation_cache::tests::final_launch_clock_caps_the_fence_at_exact_freshness_and_then_uses_explicit_l0",
+        "worker::observation_cache::tests::replacement_generation_has_no_old_snapshot_or_cursor_and_stop_does_not_hold",
+        "worker::observation_cache::tests::stale_critical_cannot_become_fresh_when_admission_or_launch_clock_regresses"
+      ],
+      "passedTests": 30,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "cli-status-delivery": {
+      "name": "accepted-cli",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-cli",
+        "--bin",
+        "arcctl",
+        "--test",
+        "memory_pressure"
+      ],
+      "at": "2026-11-12T11:49:24.627495+00:00",
+      "elapsedSeconds": 1.628,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/accepted-cli.log",
+      "logBytes": 7088,
+      "logSha256": "96bfc2fde3ed4d3132d532eaac2bcd62a8df8f97f22354e6168997757fea098d",
+      "inputFilesUnchanged": true,
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/accepted-cli.json",
+        "sha256": "6af2dbbbb58707a2e27cb0e5133e60d1db6c458259e702a80eae57df971e8556",
+        "bytes": 4112
+      },
+      "passedTestNames": [
+        "exec::launch::tests::expiry::expired_ready_with_lost_negative_ack_never_retries_or_starts_a_target",
+        "exec::launch::tests::expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target",
+        "exec::policy::tests::status_and_short_notice_account_for_exact_elapsed_read_boundary_without_mutating_history",
+        "exec::launch::tests::lost_launch_ack_never_replays_a_native_execution_or_changes_its_exit",
+        "exec::launch::tests::a_healthy_hold_followed_by_connection_loss_is_not_outage_fail_open",
+        "status_reads::reserved_unconfirmed_lifecycle_preserves_authoritative_pressure_wait_without_claiming_running",
+        "status_reads::critical_expired_in_transit_is_last_received_and_cannot_claim_a_current_hold"
+      ],
+      "passedTests": 64,
+      "wrapperTimeoutMs": 7200000,
+      "inputBinding": "same 29 per-file hashes as inputBinding.sourceFiles; checked before and after this command",
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "traffic-bypass": {
+      "name": "traffic-bypass",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-traffic"
+      ],
+      "cwd": ".",
+      "at": "2026-11-12T11:15:13.249715+00:00",
+      "elapsedSeconds": 2.23,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/traffic-bypass.log",
+      "logBytes": 1285,
+      "logSha256": "01762596b1c8cc40641fa1a68327a32e9ff1809009e69f3dcb0d084bee156477",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/traffic-bypass.json",
+        "sha256": "3558158451ec6bf28962e3314c6684fb1a382fe3b752b46e6014fc2b3d641366",
+        "bytes": 555
+      },
+      "passedTestNames": [
+        "strict_fifo_blocks_later_candidates_even_if_their_class_fits",
+        "aggregate_cpu_and_memory_are_checked_across_classes_with_exact_boundaries",
+        "cargo_and_bun_share_test_window_and_each_global_budget",
+        "bypass_is_immediate_even_with_a_full_window_and_fifo_waiter"
+      ],
+      "passedTests": 6,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "native-integration-final": {
+      "name": "accepted-native",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-desktop",
+        "--test",
+        "memory_pressure",
+        "--",
+        "--nocapture"
+      ],
+      "at": "2026-11-12T11:46:23.705994+00:00",
+      "elapsedSeconds": 30.683,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/accepted-native.log",
+      "logBytes": 2010,
+      "logSha256": "cd85d922d5fe9772f8329aed5d9dcd4c6d6b90ff40d0fc6187d1af62f35533ca",
+      "inputFilesUnchanged": true,
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/accepted-native.json",
+        "sha256": "3808032bf2e7a103c594da5b66d22d6be08a6dade9eb5377673be0520a29e88e",
+        "bytes": 4125
+      },
+      "passedTestNames": [
+        "consumer_reads::strict_job_validation_rejects_wrong_ids_arrays_unknown_fields_and_unsafe_numbers",
+        "native_reserved::bounded_daemon_outage_fail_open_executes_the_owned_target_once",
+        "registered_policy::registered_policy_commands_reach_the_authenticated_bridge_and_preserve_decision_metadata",
+        "native_launch_races::expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_once",
+        "native_launch_races::reserved_before_critical_is_held_without_target_execution_then_runs_once_after_recovery",
+        "native_reserved::legacy_protocol_one_enqueue_poll_and_status_keep_their_original_shapes_under_critical",
+        "native_reserved::real_dispatcher_confirms_unspawned_cleanup_and_retains_uncertain_releases",
+        "native_reserved::real_queued_cancellation_under_critical_never_starts_or_receives_a_permit"
+      ],
+      "passedTests": 16,
+      "wrapperTimeoutMs": 7200000,
+      "inputBinding": "same 29 per-file hashes as inputBinding.sourceFiles; checked before and after this command",
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "startup-repair": {
+      "name": "startup-repair",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-daemon",
+        "--test",
+        "startup"
+      ],
+      "cwd": ".",
+      "at": "2026-11-12T11:15:13.378602+00:00",
+      "elapsedSeconds": 58.053,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/startup-repair.log",
+      "logBytes": 737,
+      "logSha256": "ac25832efb66004f090d5699aae1e282ec47f9778eda449dfcb68631b87cc192",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/startup-repair.json",
+        "sha256": "297173cd4e45b5a8cbf844e5897fa8ad1df21a121df67d8bb9029f1ded24793f",
+        "bytes": 584
+      },
+      "passedTestNames": [],
+      "passedTests": 2,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "display-bun-final": {
+      "name": "display-bun-final",
+      "command": [
+        "bun",
+        "test",
+        "apps/desktop/tests/dashboard.test.ts",
+        "apps/desktop/tests/contracts.test.ts",
+        "apps/desktop/tests/bridge-client.test.ts",
+        "apps/desktop/tests/lifecycle.test.ts",
+        "apps/desktop/tests/meter.test.ts"
+      ],
+      "cwd": ".",
+      "at": "2026-11-12T11:17:34.727409+00:00",
+      "elapsedSeconds": 10.181,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/display-bun-final.log",
+      "logBytes": 15393,
+      "logSha256": "619ed164191320810312c203e933343b679d1ac9e21e2a7748e6d6fdb1eb8e98",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/display-bun-final.json",
+        "sha256": "0d8081a52e3dc473d03f6d41f1ef80f803f4099f0e5a68cab95aae07aa72e249",
+        "bytes": 720
+      },
+      "passedTestNames": [
+        "production Dashboard and typed bridge > open policy disclosure qualifies retained readings at 3000/3001 ms and disconnect without changing focus or history",
+        "production Dashboard and typed bridge > authoritative pressure waits recover automatically without resubmit and preserve keyboard focus/outcome"
+      ],
+      "passedTests": 109,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "focused-tooling-final": {
+      "name": "repair-tooling",
+      "command": [
+        "bun",
+        "test",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/traffic-accounting.test.ts",
+        "scripts/coverage/gate.test.ts",
+        "scripts/harness/coverage-reuse.test.ts"
+      ],
+      "at": "2026-11-12T11:44:09.394290+00:00",
+      "elapsedSeconds": 12.964,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/repair-tooling.log",
+      "logBytes": 8120,
+      "logSha256": "7bb80869a505102b4643625e2e5f933dc0aea5ccecb2357dffe9ff900e044a1f",
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-tooling.json",
+        "sha256": "e397ad71a28938c6bc55555c607e9e078f922bcca7e9f3701977785a3ca49341",
+        "bytes": 680
+      },
+      "passedTestNames": [],
+      "passedTests": 86,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "desktop-typecheck": {
+      "name": "desktop-typecheck",
+      "command": [
+        "bun",
+        "run",
+        "desktop:typecheck"
+      ],
+      "cwd": ".",
+      "at": "2026-11-12T11:11:27.435236+00:00",
+      "elapsedSeconds": 2.266,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/desktop-typecheck.log",
+      "logBytes": 109,
+      "logSha256": "7c3cb6045e4508ad4ca264a0bdbb3207275c78410b843909c0ea071a97268c0f",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/desktop-typecheck.json",
+        "sha256": "208a51f4f4d9c5e58888c0c0729bcca779608d747cd4012254d0273ac8d07aac",
+        "bytes": 521
+      },
+      "passedTestNames": [],
+      "passedTests": 0,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "desktop-check": {
+      "name": "desktop-check",
+      "command": [
+        "bun",
+        "run",
+        "desktop:check"
+      ],
+      "cwd": ".",
+      "at": "2026-11-12T11:19:09.866915+00:00",
+      "elapsedSeconds": 0.206,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/desktop-check.log",
+      "logBytes": 95,
+      "logSha256": "4490ee8492f51b4fcf972476881192ed3ed2392bd9f6620fd1cc7bb3f490ade6",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/desktop-check.json",
+        "sha256": "ebfdddb795157f3115e78601dbbab8205c7c3489c56c742897d94563c1c31771",
+        "bytes": 508
+      },
+      "passedTestNames": [],
+      "passedTests": 0,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "coverage-preflight-scoped": {
+      "name": "coverage-preflight-scoped",
+      "command": [
+        "bun",
+        "scripts/coverage/run.ts",
+        "--preflight-only"
+      ],
+      "cwd": ".",
+      "at": "2026-11-12T11:20:32.705809+00:00",
+      "elapsedSeconds": 1.175,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/coverage-preflight-scoped.log",
+      "logBytes": 223,
+      "logSha256": "41ac166a81e57cd822bd79356843f731b6bb6eb1226b483f95efc5a80a06b3b2",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/coverage-preflight-scoped.json",
+        "sha256": "5d3e3370dc86f30a700281bd035937c0c20e7109c28d712a0b2efc0a4b0e6c67",
+        "bytes": 556
+      },
+      "passedTestNames": [],
+      "passedTests": 0,
+      "wrapperTimeoutMs": 7200000,
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "scoped-clippy": {
+      "name": "accepted-clippy",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-cli",
+        "-p",
+        "arc-daemon",
+        "-p",
+        "arc-desktop",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "at": "2026-11-12T11:49:50.887204+00:00",
+      "elapsedSeconds": 2.932,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/accepted-clippy.log",
+      "logBytes": 272,
+      "logSha256": "a49ae27a5bd8a5cacbbb159687e0805ff7c2a40a344ff1ef52db6302cac03735",
+      "inputFilesUnchanged": true,
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/accepted-clippy.json",
+        "sha256": "7878732b69f51c5579f4e0846eefecb401abfbdd538a8cd54e0f0910156bf66d",
+        "bytes": 4169
+      },
+      "passedTestNames": [],
+      "passedTests": 0,
+      "wrapperTimeoutMs": 7200000,
+      "inputBinding": "same 29 per-file hashes as inputBinding.sourceFiles; checked before and after this command",
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "build-accepted-integration": {
+      "name": "accepted-build",
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-cli",
+        "-p",
+        "arc-daemon",
+        "--bins"
+      ],
+      "at": "2026-11-12T11:46:08.714422+00:00",
+      "elapsedSeconds": 0.359,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/accepted-build.log",
+      "logBytes": 72,
+      "logSha256": "2461b00c8697c4189b2de92ca6fb05b5d72273c78a0a47b1ce4e83ccca077b70",
+      "inputFilesUnchanged": true,
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/accepted-build.json",
+        "sha256": "4205e944f438985bc4fb3d45cf9ebc11abaa227c5ad0cca0c5b373c9168fc8f1",
+        "bytes": 4093
+      },
+      "passedTestNames": [],
+      "passedTests": 0,
+      "wrapperTimeoutMs": 7200000,
+      "inputBinding": "same 29 per-file hashes as inputBinding.sourceFiles; checked before and after this command",
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    },
+    "format-delivery": {
+      "name": "accepted-format",
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "at": "2026-11-12T11:50:06.382863+00:00",
+      "elapsedSeconds": 1.412,
+      "exitCode": 0,
+      "log": "target/memory-pressure/task-6/attempt-2/accepted-format.log",
+      "logBytes": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inputFilesUnchanged": true,
+      "cwd": ".",
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/accepted-format.json",
+        "sha256": "dd4941f5123620c421e69492fe33e7d6e3d427d34c49540876933ed64788b830",
+        "bytes": 4030
+      },
+      "passedTestNames": [],
+      "passedTests": 0,
+      "wrapperTimeoutMs": 7200000,
+      "inputBinding": "same 29 per-file hashes as inputBinding.sourceFiles; checked before and after this command",
+      "testNamesScope": "case-referenced subset; passedTests is the executed runner total"
+    }
+  },
+  "failedAttempts": [
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/compile-foundation.json",
+        "sha256": "0a49014fe02778aa94629082fa3457f8ab98eb0a97463856822c2c4fc593a0f9",
+        "bytes": 672
+      },
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-cli",
+        "-p",
+        "arc-daemon",
+        "-p",
+        "arc-desktop",
+        "--test",
+        "memory_pressure",
+        "--no-run"
+      ],
+      "exitCode": 101,
+      "log": {
+        "path": "target/memory-pressure/task-6/compile-foundation.log",
+        "sha256": "53b5fd7e917c3ef7f620982d00dfc32db02f3ed700a6ffbdb503c0928174566b",
+        "bytes": 2886
+      },
+      "resolution": "Fixture binary initially lacked arc-platform as a normal dependency. Moved the existing workspace dependency from dev-only scope; build/check passes."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/native-acceptance.json",
+        "sha256": "c488e900e5835cfd7d89e484551c74f41391eddcbd953029392519ac5e9e3433",
+        "bytes": 632
+      },
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-desktop",
+        "--test",
+        "memory_pressure",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 101,
+      "log": {
+        "path": "target/memory-pressure/task-6/native-acceptance.log",
+        "sha256": "841a3b1a20154068c7da92ae121692f386ca6b92649b2c314e2767026335571d",
+        "bytes": 4349
+      },
+      "resolution": "New source synchronization compared CamelCase fixture labels with snake_case wire values. No native admission pass was claimed."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/native-acceptance-retry.json",
+        "sha256": "5cc8e60431b64fc3b16acf3504de5fceee0fef607e0e8e896140c597dc840ac1",
+        "bytes": 644
+      },
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-desktop",
+        "--test",
+        "memory_pressure",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 101,
+      "log": {
+        "path": "target/memory-pressure/task-6/native-acceptance-retry.log",
+        "sha256": "29f407509c31d64c1ea6814eb10ddc1b28a7f4775a94d57ba39505ce2e62fbd9",
+        "bytes": 3486
+      },
+      "resolution": "Intermediate case-only correction still mismatched wire spelling. Replaced string guessing with serialization of the typed MemoryPressure enum."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/native-complete.json",
+        "sha256": "07f91cd376e6ecd6671155a3553e144bad6ebbcfc0ff6cf71cc2b456adba0cdb",
+        "bytes": 627
+      },
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-desktop",
+        "--test",
+        "memory_pressure",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 101,
+      "log": {
+        "path": "target/memory-pressure/task-6/native-complete.log",
+        "sha256": "7f1623ba735cc5cd86d265b1f0a9dfdea4845ee5bc5b360f4887a37526bab0f0",
+        "bytes": 3212
+      },
+      "resolution": "Invented exit-130 cancellation expectation conflicted with existing preparation::stopped(Cancelled) contract. Corrected to exit 1 and added exact NOT_STARTED diagnostic, persisted CANCELLED and zero-execution/permit assertions."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/focused-tooling.json",
+        "sha256": "ec36e2bac4a8a2d80b627697fb6ddf7a450549bda82f9ed093bd75a9b680502e",
+        "bytes": 673
+      },
+      "command": [
+        "bun",
+        "test",
+        "scripts/coverage/accounting.test.ts",
+        "scripts/coverage/traffic-accounting.test.ts",
+        "scripts/coverage/gate.test.ts",
+        "scripts/harness/coverage-reuse.test.ts"
+      ],
+      "exitCode": 1,
+      "log": {
+        "path": "target/memory-pressure/task-6/focused-tooling.log",
+        "sha256": "a96b4265e57d6da4b8e3ec2eeb4e3cc8e7bc1cc555c9e5a419823c512fbae306",
+        "bytes": 10399
+      },
+      "resolution": "Partial inventory rejected a registered cross-crate test fixture. Restricted diagnostic-only exclusion now permits only registered out-of-scope test source; production remains strict and a regression tests both paths."
+    },
+    {
+      "command": "ps -axo pid,ppid,etime,command",
+      "outcome": "Operation not permitted",
+      "resolution": "No GUI workaround; owned fixture health and child handles established execution and cleanup."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-compile.json",
+        "sha256": "51b3cbcaba5b12c4671f237da81b66af7e8ec59c8da29421ba8939d382aee470",
+        "bytes": 674
+      },
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-cli",
+        "-p",
+        "arc-daemon",
+        "-p",
+        "arc-desktop",
+        "--test",
+        "memory_pressure",
+        "--no-run"
+      ],
+      "exitCode": 101,
+      "log": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-compile.log",
+        "sha256": "b2f3a0707b73888b941d9228eb3e788288226e094e319916f8c9763d10d03985",
+        "bytes": 5028
+      },
+      "resolution": "Borrow of pinned ACK future outlived its result. Scoped the future before moving the launch request; subsequent builds and checks pass."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-native.json",
+        "sha256": "7f252cfa5f8f2b3c4bde5f208de9adbba4be0bdb5429769e630022568d92be46",
+        "bytes": 633
+      },
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-desktop",
+        "--test",
+        "memory_pressure",
+        "--",
+        "--nocapture"
+      ],
+      "exitCode": 101,
+      "log": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-native.log",
+        "sha256": "bd02ecb96dc2710148216fa4b6644dce6c122be1a99ca3c31dadbcc6cccf6cae",
+        "bytes": 2798
+      },
+      "resolution": "Real reserved CLI exposed a missing pressure wait in Unconfirmed extended status. Preserved that lifecycle state and added authoritative wait rendering; native and CLI regression checks pass."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-clippy.json",
+        "sha256": "7eb72bc9cb7140f4449bcb08829baf627c13fa4e81f53279d7d3eb9b9b393362",
+        "bytes": 678
+      },
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "-p",
+        "arc-cli",
+        "-p",
+        "arc-daemon",
+        "-p",
+        "arc-desktop",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exitCode": 101,
+      "log": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-clippy.log",
+        "sha256": "b563a67fc1050ee1132546e231bfb1913e4012d2a4f5867ff957f80be4558932",
+        "bytes": 1664
+      },
+      "resolution": "Removed an unnecessary unit expression from the explicit checkpoint read loop; scoped Clippy passes."
+    },
+    {
+      "receipt": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-format.json",
+        "sha256": "138c912db0e4773ac09e003b653072f16bc8cd8f63537624a57a0108243ba93e",
+        "bytes": 538
+      },
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "exitCode": 1,
+      "log": {
+        "path": "target/memory-pressure/task-6/attempt-2/repair-format.log",
+        "sha256": "4098cf392bc7565b28bd39f3a3c69f6524ec39e975adcb7aa762637183cca0b4",
+        "bytes": 520
+      },
+      "resolution": "Formatted the empty match arm changed by Clippy cleanup; final cargo fmt --check passes."
+    }
+  ],
+  "integrity": {
+    "acceptedHead": "338631893b51b2e7cd4045e636bb1301ab4db955",
+    "acceptedHeadConfirmed": true,
+    "protectedHistoricalFilesUnchanged": 2154,
+    "migrationBytesPreserved": true,
+    "historicalEvidenceUnchanged": true,
+    "newSourceAndTestsBelow500Lines": true,
+    "newMissionSourceAndTests": [
+      {
+        "path": "apps/desktop/src-tauri/src/bridge/policy.rs",
+        "lines": 69
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/memory_pressure.rs",
+        "lines": 64
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/memory_pressure/consumer_reads.rs",
+        "lines": 222
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/memory_pressure/native_launch_races.rs",
+        "lines": 218
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/memory_pressure/native_reserved.rs",
+        "lines": 212
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/memory_pressure/native_sequence.rs",
+        "lines": 249
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/memory_pressure/native_support.rs",
+        "lines": 287
+      },
+      {
+        "path": "apps/desktop/src-tauri/tests/memory_pressure/registered_policy.rs",
+        "lines": 222
+      },
+      {
+        "path": "apps/desktop/src/bridge/policy-contract.ts",
+        "lines": 225
+      },
+      {
+        "path": "apps/desktop/src/bridge/policy.types.ts",
+        "lines": 95
+      },
+      {
+        "path": "apps/desktop/src/dashboard/job-policy-panel.tsx",
+        "lines": 157
+      },
+      {
+        "path": "apps/desktop/src/dashboard/policy-messages.ts",
+        "lines": 44
+      },
+      {
+        "path": "apps/desktop/src/dashboard/policy-read-state.ts",
+        "lines": 228
+      },
+      {
+        "path": "apps/desktop/tests/fixtures/memory-policy-fixture.ts",
+        "lines": 86
+      },
+      {
+        "path": "apps/desktop/tests/fixtures/policy-contract-cases.ts",
+        "lines": 162
+      },
+      {
+        "path": "apps/desktop/tests/fixtures/policy-interaction-cases.ts",
+        "lines": 262
+      },
+      {
+        "path": "apps/desktop/tests/fixtures/policy-read-cases.ts",
+        "lines": 266
+      },
+      {
+        "path": "crates/arc-cli/src/exec/launch.rs",
+        "lines": 224
+      },
+      {
+        "path": "crates/arc-cli/src/exec/launch/checkpoint.rs",
+        "lines": 48
+      },
+      {
+        "path": "crates/arc-cli/src/exec/launch/expiry_tests.rs",
+        "lines": 41
+      },
+      {
+        "path": "crates/arc-cli/src/exec/launch/tests.rs",
+        "lines": 439
+      },
+      {
+        "path": "crates/arc-cli/src/exec/policy.rs",
+        "lines": 148
+      },
+      {
+        "path": "crates/arc-cli/src/exec/traffic/admission_tests.rs",
+        "lines": 43
+      },
+      {
+        "path": "crates/arc-cli/src/job/policy.rs",
+        "lines": 94
+      },
+      {
+        "path": "crates/arc-cli/tests/memory_pressure.rs",
+        "lines": 40
+      },
+      {
+        "path": "crates/arc-cli/tests/memory_pressure/status_reads.rs",
+        "lines": 195
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/observation.rs",
+        "lines": 85
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/policy.rs",
+        "lines": 194
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/policy_clock_tests.rs",
+        "lines": 156
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/policy_fixture.rs",
+        "lines": 202
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/policy_repair_tests.rs",
+        "lines": 310
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/policy_tests.rs",
+        "lines": 404
+      },
+      {
+        "path": "crates/arc-daemon/src/db_worker/traffic_launch_fixture.rs",
+        "lines": 40
+      },
+      {
+        "path": "crates/arc-daemon/src/entry.rs",
+        "lines": 56
+      },
+      {
+        "path": "crates/arc-daemon/src/policy_connection.rs",
+        "lines": 42
+      },
+      {
+        "path": "crates/arc-daemon/src/policy_dispatch.rs",
+        "lines": 246
+      },
+      {
+        "path": "crates/arc-daemon/src/policy_dispatch_tests.rs",
+        "lines": 145
+      },
+      {
+        "path": "crates/arc-daemon/tests/fixtures/memory_pressure_daemon.rs",
+        "lines": 93
+      },
+      {
+        "path": "crates/arc-daemon/tests/memory_pressure.rs",
+        "lines": 43
+      },
+      {
+        "path": "crates/arc-ipc/src/policy.rs",
+        "lines": 224
+      },
+      {
+        "path": "crates/arc-ipc/src/policy/launch.rs",
+        "lines": 138
+      },
+      {
+        "path": "crates/arc-ipc/tests/fixtures/memory_pressure.rs",
+        "lines": 23
+      },
+      {
+        "path": "crates/arc-ipc/tests/memory_pressure.rs",
+        "lines": 99
+      },
+      {
+        "path": "crates/arc-meter/src/observation_cache.rs",
+        "lines": 244
+      },
+      {
+        "path": "crates/arc-meter/src/observation_cache_tests.rs",
+        "lines": 315
+      },
+      {
+        "path": "crates/arc-policy/src/decision.rs",
+        "lines": 208
+      },
+      {
+        "path": "crates/arc-policy/src/evaluator.rs",
+        "lines": 142
+      },
+      {
+        "path": "crates/arc-policy/src/lib.rs",
+        "lines": 22
+      },
+      {
+        "path": "crates/arc-policy/src/observation.rs",
+        "lines": 133
+      },
+      {
+        "path": "crates/arc-policy/tests/memory_pressure.rs",
+        "lines": 184
+      },
+      {
+        "path": "crates/arc-policy/tests/support/evaluator_cases.rs",
+        "lines": 211
+      },
+      {
+        "path": "crates/arc-policy/tests/support/memory_observation.rs",
+        "lines": 144
+      },
+      {
+        "path": "crates/arc-storage/migrations/0005_memory_pressure.sql",
+        "lines": 25
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/traffic/lineage_admission.rs",
+        "lines": 163
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/traffic/pressure.rs",
+        "lines": 198
+      },
+      {
+        "path": "crates/arc-storage/src/jobs/traffic/queue_recovery.rs",
+        "lines": 71
+      },
+      {
+        "path": "crates/arc-storage/src/policy.rs",
+        "lines": 299
+      },
+      {
+        "path": "crates/arc-storage/src/policy/retention.rs",
+        "lines": 83
+      },
+      {
+        "path": "crates/arc-storage/tests/memory_pressure.rs",
+        "lines": 129
+      },
+      {
+        "path": "crates/arc-storage/tests/memory_pressure/admission.rs",
+        "lines": 431
+      },
+      {
+        "path": "crates/arc-storage/tests/memory_pressure/backlog.rs",
+        "lines": 85
+      },
+      {
+        "path": "crates/arc-storage/tests/memory_pressure/clock_recovery.rs",
+        "lines": 81
+      },
+      {
+        "path": "crates/arc-storage/tests/memory_pressure/retention.rs",
+        "lines": 236
+      },
+      {
+        "path": "crates/arc-storage/tests/memory_pressure/running_launch.rs",
+        "lines": 147
+      }
+    ]
+  },
+  "evidencePolicy": {
+    "canonicalFilesReserved": [
+      "contract.md",
+      "gates.json",
+      "integration.json",
+      "qa.json",
+      "final.md"
+    ],
+    "canonicalByteBudget": 300000,
+    "advisoryException": "Operator note allows three advisory reports below 40000 bytes each, total tracked evidence at most 420000 bytes.",
+    "rawRoot": "target/memory-pressure/task-6/",
+    "rawLogsAreNotSeparateHandoffArtifacts": true
+  },
+  "execution": {
+    "checkTimeoutMs": 7200000,
+    "missionDurationLimitSec": 172800,
+    "workspaceTaskConcurrencyLimit": 3,
+    "hostRamBytes": 17179869184,
+    "hostCpuCount": 8,
+    "newAgentsSpawned": 0,
+    "externalDelivery": false,
+    "installedDaemonRestarted": false,
+    "screenOrBrowserTests": false,
+    "coverageCollections": 0
+  },
+  "remainingRisks": [
+    "Task-8 full six gates, 80% per-crate production coverage and remaining affected desktop build/Tauri checks are not certified by this scoped task.",
+    "Independent read-only QA and Chief synthesis remain assigned later work.",
+    "No configured external target was supplied to this Actor; av.yaml is access-denied and was not bypassed. Chief must reconcile any runtime-supplied targets.",
+    "Native smoke observed actual Normal only; injected Critical is logic evidence and does not show native Critical, OOM prevention or performance savings.",
+    "CPU/disk pressure control, statistical learning, vendor hooks, native Windows and full policy acceptance remain outstanding."
+  ],
+  "codeIntelligence": {
+    "provider": "Serena",
+    "mode": "unavailable",
+    "tools": [],
+    "fallback": "Scoped reads of already located files, direct imports and Git change metadata. No native recursive project-code search; denied ps read was not bypassed with GUI."
+  },
+  "preflightNote": "A first no-collection preflight used the default ignored baseline scratch root. Its new generated outputs were preserved, not treated as historical acceptance. The selected preflight uses ARC_COVERAGE_OUTPUT_ROOT=target/memory-pressure/coverage. No historical tracked bytes changed and no coverage was collected.",
+  "acceptanceChecklist": {
+    "productionSequence": true,
+    "runningOutcomeAndExactlyOnceRecovery": true,
+    "independentSqliteCliRegisteredBridgeReconciliation": true,
+    "allNamedEdgeCases": true,
+    "separateActualSystemSourceSmoke": true,
+    "compactGitVisibleReport": true,
+    "directorFindingsAndFocusedChecks": true
+  },
+  "attempt": 2,
+  "repairRound": {
+    "findings": [
+      {
+        "id": "P1",
+        "status": "fixed",
+        "evidence": [
+          {
+            "receipt": "native-integration-final",
+            "tests": [
+              "native_reserved::real_dispatcher_confirms_unspawned_cleanup_and_retains_uncertain_releases"
+            ],
+            "passed": true
+          },
+          {
+            "receipt": "cli-status-delivery",
+            "tests": [
+              "exec::launch::tests::expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target"
+            ],
+            "passed": true
+          },
+          {
+            "receipt": "cli-status-delivery",
+            "tests": [
+              "exec::launch::tests::lost_launch_ack_never_replays_a_native_execution_or_changes_its_exit"
+            ],
+            "passed": true
+          },
+          {
+            "receipt": "daemon-pressure",
+            "tests": [
+              "db_worker::policy::tests::repairs::expiry_before_release_rolls_back_or_retracts_marker_and_retry_is_exactly_once"
+            ],
+            "passed": true
+          },
+          {
+            "receipt": "daemon-pressure",
+            "tests": [
+              "db_worker::policy::tests::disconnect_releases_publication_fence_and_durable_marker_prevents_release_replay"
+            ],
+            "passed": true
+          },
+          {
+            "receipt": "native-integration-final",
+            "tests": [
+              "native_launch_races::expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_once"
+            ],
+            "passed": true
+          },
+          {
+            "receipt": "cli-status-delivery",
+            "tests": [
+              "exec::launch::tests::expiry::expired_ready_with_lost_negative_ack_never_retries_or_starts_a_target"
+            ],
+            "passed": true
+          }
+        ],
+        "behavior": "Real dispatcher/current CLI recovers a known-unspawned expired READY, keeps the same reservation generation, persists one final marker and completes one target execution. A lost negative ACK does not retry."
+      },
+      {
+        "id": "P2",
+        "status": "fixed",
+        "evidence": [
+          {
+            "receipt": "native-integration-final",
+            "tests": [
+              "native_launch_races::reserved_before_critical_is_held_without_target_execution_then_runs_once_after_recovery"
+            ],
+            "passed": true
+          }
+        ],
+        "behavior": "The actual arcctl pauses after its acknowledged reservation and before launch; fresh Critical is acknowledged before resuming. Twenty held checks retain the same reservation and record zero starts, then exactly one execution follows Normal recovery."
+      },
+      {
+        "id": "reserved-cli-status",
+        "status": "fixed",
+        "evidence": [
+          {
+            "receipt": "cli-status-delivery",
+            "tests": [
+              "status_reads::reserved_unconfirmed_lifecycle_preserves_authoritative_pressure_wait_without_claiming_running"
+            ],
+            "passed": true
+          }
+        ],
+        "behavior": "Unconfirmed lifecycle remains explicit; a separate authoritative pressure wait is now displayed."
+      }
+    ],
+    "acceptanceSeam": "ARC_PRESSURE_ACCEPTANCE_STAGE plus ARC_PRESSURE_ACCEPTANCE_BARRIER opts the actual arcctl into a bounded delay-only checkpoint at reserved or ready. It cannot mint a permit, change observations, bypass the final handshake, extend the launch deadline, or authorize a target.",
+    "rawReceiptInputHashes": 29,
+    "newSourceOrTestFilesInMission": 64,
+    "currentScopeRustPasses": 167,
+    "toolingPasses": 86,
+    "fullGatesAndCoverageOwner": "task-8",
+    "rawCapturesEmbeddedSelectivelyForGitVisibleHandoff": true
+  }
+}

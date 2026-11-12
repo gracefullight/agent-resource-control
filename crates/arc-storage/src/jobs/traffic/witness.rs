@@ -1,5 +1,5 @@
 //! Apply an authenticated child witness without replaying a command.
-use super::{get, store, valid_now, JobResult};
+use super::{get, ordered_now, store, valid_now, JobResult};
 use crate::jobs::{codec, reconcile};
 use arc_core::process_identity::{probe_live, IdentityStatus, ProcessIdentity};
 use arc_ipc::{
@@ -84,17 +84,17 @@ pub fn recover_unspawned(
     {
         return Ok(false);
     }
-    valid_now(evidence.observed_at_ms, Some(&job))?;
+    let now = ordered_now(evidence.observed_at_ms, &job)?;
     if let Some(outcome @ Outcome::SpawnFailed { .. }) = &evidence.spawn_failure {
         if !outcome.is_valid() {
             return Err(super::JobError::InvalidRequest);
         }
-        super::lifecycle::finish(&tx, &mut job, &entry, outcome, evidence.observed_at_ms)?;
+        super::lifecycle::finish(&tx, &mut job, &entry, outcome, now)?;
     } else if evidence.spawn_failure.is_some() {
         return Err(super::JobError::InvalidRequest);
     } else {
         super::lifecycle::connection_state(&tx, &job.job_id, "CANCELLED")?;
-        super::lifecycle::release_if_done(&tx, &job.job_id, &entry, evidence.observed_at_ms)?;
+        super::lifecycle::release_if_done(&tx, &job.job_id, &entry, now)?;
     }
     tx.commit()?;
     Ok(true)
@@ -177,16 +177,16 @@ pub fn recover_witness(connection: &mut Connection, evidence: &WitnessEvidence) 
     {
         return Ok(false);
     }
-    valid_now(evidence.observed_at_ms, Some(&job))?;
+    let now = ordered_now(evidence.observed_at_ms, &job)?;
     job.child = Some(evidence.child.clone());
-    job.child_verified_at_ms = Some(evidence.observed_at_ms);
+    job.child_verified_at_ms = Some(now);
     reconcile::update_observation(
         &mut job,
         ObservationTarget::Child,
         evidence.child_status,
-        evidence.observed_at_ms,
+        now,
     );
-    job.updated_at_ms = evidence.observed_at_ms;
+    job.updated_at_ms = now;
     job.revision += 1;
     codec::write(&tx, &job, false)?;
     if entry.state == "RESERVED" {
@@ -195,13 +195,7 @@ pub fn recover_witness(connection: &mut Connection, evidence: &WitnessEvidence) 
             [job.job_id.as_str()],
         )?;
     }
-    super::reconcile_exited_child(
-        &tx,
-        &job,
-        evidence.owner_status,
-        evidence.child_status,
-        evidence.observed_at_ms,
-    )?;
+    super::reconcile_exited_child(&tx, &job, evidence.owner_status, evidence.child_status, now)?;
     tx.commit()?;
     Ok(true)
 }

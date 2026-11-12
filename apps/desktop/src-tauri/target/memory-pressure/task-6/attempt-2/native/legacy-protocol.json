@@ -1,0 +1,23 @@
+{
+  "enqueue": {
+    "queued_at_ms": 1794483698292,
+    "reason": "MEMORY_BUDGET",
+    "sequence": 1,
+    "state": "QUEUED"
+  },
+  "jobId": "f1fe7ec4ba3a43bc948d56bf64abc36f",
+  "newPermits": 0,
+  "poll": {
+    "queued_at_ms": 1794483698292,
+    "reason": "MEMORY_BUDGET",
+    "sequence": 1,
+    "state": "QUEUED"
+  },
+  "pressureWaitMapsToLegacyMemoryBudget": true,
+  "protocolVersion": 1,
+  "status": {
+    "queued_at_ms": 1794483698292,
+    "sequence": 1,
+    "state": "QUEUED"
+  }
+}

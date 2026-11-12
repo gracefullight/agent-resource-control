@@ -14,10 +14,12 @@ import {
   within,
 } from "./fixtures/desktop-test-harness";
 import { meterFixture, meterReply, nextMeter } from "./fixtures/meter-fixture";
+import { registerPolicyLifecycleCases } from "./fixtures/policy-interaction-cases";
 
 afterEach(cleanup);
 
 describe("production desktop component lifecycle", () => {
+  registerPolicyLifecycleCases();
   test("hidden pending Meter replies retire before one serialized reopen cycle and new accounting window", async () => {
     const native = new NativeFixture(),
       first = meterFixture();
@@ -159,6 +161,8 @@ describe("production desktop component lifecycle", () => {
           "daemon_health",
           "meter_snapshot",
           "meter_summary",
+          "policy_current",
+          "policy_job",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",

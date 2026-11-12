@@ -1,0 +1,521 @@
+{
+  "actualObservations": [
+    {
+      "cliMeter": {
+        "age_ms": 20,
+        "cadence": {
+          "interval_ms": 15000,
+          "mode": "idle",
+          "stale_after_ms": 31000
+        },
+        "daemon": {
+          "cpu_accounting": "process_lifetime",
+          "cpu_core_seconds": {
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 0.022313
+            },
+            "unit": "core_seconds"
+          },
+          "observed_peak_rss_bytes": {
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "provenance": "derived",
+            "reading": {
+              "availability": "available",
+              "value": 7159808
+            },
+            "unit": "bytes"
+          },
+          "peak_observation_started_at_ms": 1794483703760,
+          "peak_observation_started_monotonic_ms": 0,
+          "rss_bytes": {
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 7159808
+            },
+            "unit": "bytes"
+          }
+        },
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 98828,
+          "start_token": "1794483703727391"
+        },
+        "host": {
+          "cpu_interval": null,
+          "cpu_utilization": {
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "provenance": "derived",
+            "reading": {
+              "availability": "first_interval"
+            },
+            "unit": "percent"
+          },
+          "filesystem": {
+            "available_bytes": {
+              "observed_at_ms": 1794483703760,
+              "observed_monotonic_ms": 0,
+              "provenance": "native",
+              "reading": {
+                "availability": "available",
+                "value": 82329600000
+              },
+              "unit": "bytes"
+            },
+            "capacity_bytes": {
+              "observed_at_ms": 1794483703760,
+              "observed_monotonic_ms": 0,
+              "provenance": "native",
+              "reading": {
+                "availability": "available",
+                "value": 494384795648
+              },
+              "unit": "bytes"
+            },
+            "free_bytes": {
+              "observed_at_ms": 1794483703760,
+              "observed_monotonic_ms": 0,
+              "provenance": "native",
+              "reading": {
+                "availability": "available",
+                "value": 82329600000
+              },
+              "unit": "bytes"
+            },
+            "identity": {
+              "filesystem_type": "apfs",
+              "is_local": true,
+              "mount_point": "/",
+              "path": "/",
+              "volume_id": "01000013:0000001a"
+            },
+            "pressure": {
+              "observed_at_ms": 1794483703760,
+              "observed_monotonic_ms": 0,
+              "provenance": "derived",
+              "reading": {
+                "availability": "available",
+                "value": "normal"
+              },
+              "unit": "level"
+            }
+          },
+          "memory_available_bytes": {
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 3899359232
+            },
+            "unit": "bytes"
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          },
+          "swap_used_bytes": {
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 15524757504
+            },
+            "unit": "bytes"
+          }
+        },
+        "sampled_at_ms": 1794483703760,
+        "sampled_monotonic_ms": 0,
+        "schema_version": 1,
+        "sequence": 1
+      },
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "l0",
+        "observation": {
+          "age_ms": 12,
+          "availability": "available",
+          "observed_at_ms": 1794483703760,
+          "observed_monotonic_ms": 0,
+          "pressure": "normal",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98828,
+              "start_token": "1794483703727391"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 1,
+          "stale_after_ms": 31000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "pressure_normal",
+        "schema_version": 1
+      },
+      "registeredBridge": {
+        "data": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "l0",
+          "observation": {
+            "age_ms": 14,
+            "availability": "available",
+            "observed_at_ms": 1794483703760,
+            "observed_monotonic_ms": 0,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98828,
+                "start_token": "1794483703727391"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 1,
+            "stale_after_ms": 31000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "pressure_normal",
+          "schema_version": 1
+        },
+        "received_at_ms": 1794483703776
+      }
+    },
+    {
+      "cliMeter": {
+        "age_ms": 34,
+        "cadence": {
+          "interval_ms": 15000,
+          "mode": "idle",
+          "stale_after_ms": 31000
+        },
+        "daemon": {
+          "cpu_accounting": "process_lifetime",
+          "cpu_core_seconds": {
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 4.148119
+            },
+            "unit": "core_seconds"
+          },
+          "observed_peak_rss_bytes": {
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "provenance": "derived",
+            "reading": {
+              "availability": "available",
+              "value": 9289728
+            },
+            "unit": "bytes"
+          },
+          "peak_observation_started_at_ms": 1794483703760,
+          "peak_observation_started_monotonic_ms": 0,
+          "rss_bytes": {
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 9289728
+            },
+            "unit": "bytes"
+          }
+        },
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 98828,
+          "start_token": "1794483703727391"
+        },
+        "host": {
+          "cpu_interval": {
+            "elapsed_ms": 15010,
+            "ended_at_ms": 1794483718770,
+            "ended_monotonic_ms": 15010,
+            "logical_cpu_count": 8,
+            "normalization": "host_capacity",
+            "started_at_ms": 1794483703760,
+            "started_monotonic_ms": 0
+          },
+          "cpu_utilization": {
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "provenance": "derived",
+            "reading": {
+              "availability": "available",
+              "value": 18.09913217623498
+            },
+            "unit": "percent"
+          },
+          "filesystem": {
+            "available_bytes": {
+              "observed_at_ms": 1794483718770,
+              "observed_monotonic_ms": 15010,
+              "provenance": "native",
+              "reading": {
+                "availability": "available",
+                "value": 82329600000
+              },
+              "unit": "bytes"
+            },
+            "capacity_bytes": {
+              "observed_at_ms": 1794483718770,
+              "observed_monotonic_ms": 15010,
+              "provenance": "native",
+              "reading": {
+                "availability": "available",
+                "value": 494384795648
+              },
+              "unit": "bytes"
+            },
+            "free_bytes": {
+              "observed_at_ms": 1794483718770,
+              "observed_monotonic_ms": 15010,
+              "provenance": "native",
+              "reading": {
+                "availability": "available",
+                "value": 82329600000
+              },
+              "unit": "bytes"
+            },
+            "identity": {
+              "filesystem_type": "apfs",
+              "is_local": true,
+              "mount_point": "/",
+              "path": "/",
+              "volume_id": "01000013:0000001a"
+            },
+            "pressure": {
+              "observed_at_ms": 1794483718770,
+              "observed_monotonic_ms": 15010,
+              "provenance": "derived",
+              "reading": {
+                "availability": "available",
+                "value": "normal"
+              },
+              "unit": "level"
+            }
+          },
+          "memory_available_bytes": {
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 3843833856
+            },
+            "unit": "bytes"
+          },
+          "memory_pressure": {
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          },
+          "swap_used_bytes": {
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 15524757504
+            },
+            "unit": "bytes"
+          }
+        },
+        "sampled_at_ms": 1794483718770,
+        "sampled_monotonic_ms": 15010,
+        "schema_version": 1,
+        "sequence": 2
+      },
+      "policy": {
+        "limits": {
+          "budget": {
+            "cpu_millis": 2000,
+            "memory_bytes": 4294967296
+          },
+          "build": {
+            "reservation": {
+              "cpu_millis": 2000,
+              "memory_bytes": 2147483648
+            },
+            "window": 1
+          },
+          "lint": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          },
+          "test": {
+            "reservation": {
+              "cpu_millis": 1000,
+              "memory_bytes": 1073741824
+            },
+            "window": 1
+          }
+        },
+        "mode": "l0",
+        "observation": {
+          "age_ms": 13,
+          "availability": "available",
+          "observed_at_ms": 1794483718770,
+          "observed_monotonic_ms": 15010,
+          "pressure": "normal",
+          "sampler": {
+            "daemon_instance": {
+              "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+              "pid": 98828,
+              "start_token": "1794483703727391"
+            },
+            "generation": 1,
+            "monotonic_epoch": 1
+          },
+          "sequence": 2,
+          "stale_after_ms": 31000
+        },
+        "policy_version": "macos-memory-pressure-v1",
+        "profile": "macos-memory-l0-v1",
+        "reason": "pressure_normal",
+        "schema_version": 1
+      },
+      "registeredBridge": {
+        "data": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "l0",
+          "observation": {
+            "age_ms": 21,
+            "availability": "available",
+            "observed_at_ms": 1794483718770,
+            "observed_monotonic_ms": 15010,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98828,
+                "start_token": "1794483703727391"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 2,
+            "stale_after_ms": 31000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "pressure_normal",
+          "schema_version": 1
+        },
+        "received_at_ms": 1794483718795
+      }
+    }
+  ],
+  "executed": true,
+  "nativeCriticalForced": false,
+  "separateFromInjection": true,
+  "source": "SystemSource"
+}

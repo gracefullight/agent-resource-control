@@ -5,6 +5,7 @@ edition.workspace = true
 
 [dependencies]
 arc-core.workspace = true
+arc-policy.workspace = true
 rusqlite = { workspace = true, features = ["bundled"] }
 sha2.workspace = true
 arc-ipc.workspace = true

@@ -305,6 +305,8 @@ fn unavailable_traffic_does_not_hide_recorded_terminal_outcomes() {
             let response = if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB {
                 server_failures.fetch_add(1, Ordering::SeqCst);
                 arc_ipc::Response::error(&request.request_id, arc_ipc::ERROR_PROTOCOL_INCOMPATIBLE)
+            } else if let Some(response) = policy_compat::unsupported_probe(&request) {
+                response
             } else {
                 assert_eq!(request.operation, arc_ipc::jobs::OPERATION_JOB_STATUS);
                 arc_ipc::exchange(&mut UnixStream::connect(&backend).unwrap(), &request).unwrap()
@@ -337,6 +339,7 @@ fn unavailable_traffic_does_not_hide_recorded_terminal_outcomes() {
         let text = String::from_utf8_lossy(&output.stdout);
         assert!(text.contains(&format!("State: {state}\n")), "{text}");
         assert!(text.contains("Scheduling: status unavailable"), "{text}");
+        assert!(text.contains("Memory admission: unsupported by this daemon"));
         if let Some(detail) = detail {
             assert!(text.contains(detail), "{text}");
         } else {

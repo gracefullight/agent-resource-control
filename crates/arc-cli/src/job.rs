@@ -1,4 +1,5 @@
 //! Read-only lifecycle discovery; timestamps are Unix milliseconds.
+mod policy;
 use arc_ipc::jobs::{
     JobId, ObservationStatus, ObservationTarget, Outcome, Phase, StatusRequest, StatusResult,
     OPERATION_JOB_STATUS,
@@ -138,6 +139,7 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
                     } else {
                         println!("Scheduling: unavailable for this record");
                     }
+                    policy::show(&job.job_id, false);
                     ExitCode::SUCCESS
                 }
             }
@@ -238,6 +240,10 @@ fn traffic_label(status: &arc_ipc::traffic::StatusResult) -> &'static str {
 fn render_traffic(id: &JobId, status: arc_ipc::traffic::StatusResult) -> ExitCode {
     use arc_ipc::traffic::StatusResult;
     println!("Job: {}", id.as_str());
+    let can_wait = matches!(
+        status,
+        StatusResult::Queued { .. } | StatusResult::Reserved { .. } | StatusResult::Unconfirmed {}
+    );
     match status {
         StatusResult::Queued { .. } => println!("State: queued"),
         StatusResult::Reserved { .. } => println!("State: starting"),
@@ -276,6 +282,7 @@ fn render_traffic(id: &JobId, status: arc_ipc::traffic::StatusResult) -> ExitCod
         }
     }
     println!("Last known: true");
+    policy::show(id, can_wait);
     ExitCode::SUCCESS
 }
 fn error(code: &str, text: &str) -> ExitCode {

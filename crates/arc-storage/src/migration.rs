@@ -24,6 +24,11 @@ pub const MIGRATIONS: &[Migration] = &[
         id: "0004_job_meter",
         sql: include_str!("../migrations/0004_job_meter.sql"),
     },
+    Migration {
+        version: 5,
+        id: "0005_memory_pressure",
+        sql: include_str!("../migrations/0005_memory_pressure.sql"),
+    },
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

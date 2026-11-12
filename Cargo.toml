@@ -9,6 +9,7 @@ members = [
     "crates/arc-traffic",
     "crates/arc-platform",
     "crates/arc-meter",
+    "crates/arc-policy",
     "apps/desktop/src-tauri",
 ]
 resolver = "2"
@@ -25,6 +26,7 @@ arc-storage = { path = "crates/arc-storage" }
 arc-traffic = { path = "crates/arc-traffic" }
 arc-platform = { path = "crates/arc-platform" }
 arc-meter = { path = "crates/arc-meter" }
+arc-policy = { path = "crates/arc-policy" }
 clap = { version = "4.6", features = ["derive"] }
 libc = "0.2"
 rusqlite = { version = "0.41", features = ["bundled"] }

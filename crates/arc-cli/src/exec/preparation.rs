@@ -5,6 +5,7 @@ use std::{
     fmt,
     io::{self, Write},
     path::Path,
+    process::ExitCode,
     sync::mpsc::{self, Sender},
     time::{Duration, Instant},
 };
@@ -241,6 +242,11 @@ pub(super) fn write_notice(message: &str) {
             std::thread::sleep(Duration::from_millis(1));
         }
     }
+}
+
+pub(crate) fn invalid() -> ExitCode {
+    eprintln!("INVALID_REQUEST\nUse arcctl exec -- <PROGRAM> [ARG...]. No child was started.");
+    ExitCode::from(2)
 }
 
 #[cfg(test)]

@@ -127,6 +127,7 @@ dependencies = [
  "arc-ipc",
  "arc-meter",
  "arc-platform",
+ "arc-policy",
  "arc-storage",
  "arc-traffic",
  "libc",
@@ -164,6 +165,7 @@ version = "0.1.0"
 dependencies = [
  "arc-core",
  "arc-detector",
+ "arc-policy",
  "arc-traffic",
  "libc",
  "serde",
@@ -176,6 +178,7 @@ version = "0.1.0"
 dependencies = [
  "arc-core",
  "arc-platform",
+ "arc-policy",
  "tokio",
 ]
 
@@ -188,11 +191,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "arc-policy"
+version = "0.1.0"
+dependencies = [
+ "arc-core",
+ "arc-traffic",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "arc-storage"
 version = "0.1.0"
 dependencies = [
  "arc-core",
  "arc-ipc",
+ "arc-policy",
  "arc-traffic",
  "libc",
  "rusqlite",

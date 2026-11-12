@@ -19,6 +19,7 @@ import {
   meterReply,
   sharedMeterSnapshot,
 } from "./fixtures/meter-fixture";
+import { registerPolicyContractCases } from "./fixtures/policy-contract-cases";
 
 const A = fixtures.exit_zero.data.job.job_id;
 const B = fixtures.exit_seventeen.data.job.job_id;
@@ -31,6 +32,7 @@ const invalidReply = { code: "invalid_reply", retryable: false };
 
 describe("delivered production protocol-1 bridge contract", () => {
   registerJobMeterContractCases();
+  registerPolicyContractCases();
   test("shared synthetic golden cases validate the exact Rust/TypeScript wire shapes", () => {
     expect(isReceived(fixtures.health, isDaemonHealth)).toBe(true);
     expect(isReceived(fixtures.recent, isRecentJobs)).toBe(true);

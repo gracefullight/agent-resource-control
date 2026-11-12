@@ -1,7 +1,11 @@
 //! One CLI-owned native child, independent of every metadata retry.
 mod accounting;
 mod descriptors;
+mod launch;
+mod lifecycle;
 mod lineage;
+use lifecycle::{complete, start_until};
+pub(crate) mod policy;
 mod preparation;
 mod signals;
 mod terminal;
@@ -9,64 +13,17 @@ mod traffic;
 pub(crate) mod transport;
 mod witness;
 use arc_core::process_identity::random_job_id;
-use arc_ipc::jobs::{
-    CompleteRequest, CompleteResult, JobId, Outcome, ProcessIdentity, SpawnReason, StartRequest,
-    StartResult, OPERATION_JOB_COMPLETE, OPERATION_JOB_START,
-};
-use serde_json::json;
+use arc_ipc::jobs::{JobId, Outcome, ProcessIdentity, SpawnReason, StartRequest};
 use std::{
     ffi::OsString,
     io,
     os::unix::process::ExitStatusExt,
-    path::Path,
     process::{Command, ExitCode},
     time::{Duration, Instant},
 };
 
-pub(crate) fn invalid() -> ExitCode {
-    eprintln!("INVALID_REQUEST\nUse arcctl exec -- <PROGRAM> [ARG...]. No child was started.");
-    ExitCode::from(2)
-}
-fn start_until(
-    socket: &Path,
-    input: StartRequest,
-    deadline: Instant,
-    cancelled: &dyn Fn() -> bool,
-) -> Result<StartResult, transport::Failure> {
-    use transport::Failure;
-    let value = transport::call_until(
-        socket,
-        OPERATION_JOB_START,
-        json!(input),
-        deadline,
-        cancelled,
-    )?;
-    let result: StartResult = serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
-    if result.job.job_id != *input.job_id()
-        || result.job.observer != *input.observer()
-        || !result.job.is_valid()
-    {
-        return Err(Failure::InvalidReply);
-    }
-    match &input {
-        StartRequest::Register { classification, .. }
-            if result.job.classification != *classification =>
-        {
-            return Err(Failure::InvalidReply)
-        }
-        StartRequest::Attach { child, .. } if result.job.child.as_ref() != Some(child) => {
-            return Err(Failure::InvalidReply)
-        }
-        _ => (),
-    }
-    if cancelled() {
-        return Err(Failure::Cancelled);
-    }
-    if Instant::now() >= deadline {
-        return Err(Failure::Uncertain);
-    }
-    Ok(result)
-}
+pub(crate) use preparation::invalid;
+
 pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     if argv.is_empty()
         || argv[0].is_empty()
@@ -90,7 +47,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         return preparation::stopped(transport::Failure::Local);
     };
     let classification = arc_detector::classify_argv(&argv);
-    let tracking = match traffic::prepare(
+    let mut tracking = match traffic::prepare(
         &socket,
         &job_id,
         &observer,
@@ -152,6 +109,56 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         }
         _ => (),
     }
+    let mut launch_gate = match launch::prepare(&socket, &job_id, &observer, &tracking, &signals) {
+        Ok(launch::Coordination::Fenced(gate)) => {
+            if gate.waited() {
+                if let traffic::Mode::Scheduled { waited, .. } = &mut tracking {
+                    *waited = true;
+                }
+            }
+            gate.install(&mut command);
+            Some(gate)
+        }
+        Ok(launch::Coordination::Legacy) => None,
+        Ok(launch::Coordination::Outage) => {
+            if let traffic::Mode::Scheduled {
+                witness,
+                route,
+                continuity,
+                ..
+            } = tracking
+            {
+                tracking = traffic::Mode::Uncertain {
+                    witness,
+                    route,
+                    continuity,
+                };
+            }
+            None
+        }
+        Err(error) => {
+            if let traffic::Mode::Scheduled {
+                generation,
+                witness,
+                route,
+                continuity,
+                ..
+            } = &tracking
+            {
+                witness.finish_unspawned(|| {
+                    traffic::cancel(
+                        &socket,
+                        &job_id,
+                        &observer,
+                        Some(*generation),
+                        *route,
+                        continuity,
+                    )
+                });
+            }
+            return preparation::stopped(error);
+        }
+    };
     let mut spawned_at = Instant::now();
     let spawned = match preparation::admit(
         || !signals.admit_spawn(),
@@ -162,6 +169,12 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     ) {
         Ok(spawned) => spawned,
         Err(error) => {
+            // Release the launch fence before cancellation needs the writer.
+            // Admission was denied locally, so no child could have spawned.
+            if let Some(gate) = &mut launch_gate {
+                let _ = gate.acknowledge(None);
+            }
+            drop(launch_gate.take());
             match &tracking {
                 traffic::Mode::Scheduled {
                     generation,
@@ -196,6 +209,17 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
             return preparation::stopped(error);
         }
     };
+    if let Some(gate) = &mut launch_gate {
+        let confirmed = match &spawned {
+            Ok(child) => ProcessIdentity::capture(child.id())
+                .is_ok_and(|identity| gate.acknowledge(Some(identity))),
+            Err(_) => gate.acknowledge(None),
+        };
+        if !confirmed {
+            preparation::write_notice("LAUNCH_RECORDING_UNCONFIRMED\nDo not launch another copy. Inspect arcctl job status.\n");
+        }
+    }
+    drop(launch_gate);
     let mut child = match spawned {
         Ok(child) => child,
         Err(error) if error.kind() == io::ErrorKind::Interrupted && signals.interrupted() => {
@@ -472,26 +496,4 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         signals::reraise(signal);
     }
     ExitCode::from(status.code().unwrap_or(1) as u8)
-}
-fn complete(
-    socket: &Path,
-    job_id: &JobId,
-    observer: &ProcessIdentity,
-    outcome: Outcome,
-) -> Result<(), ()> {
-    let request = CompleteRequest {
-        job_id: job_id.clone(),
-        observer: observer.clone(),
-        outcome,
-    };
-    let value = transport::call(socket, OPERATION_JOB_COMPLETE, json!(request))?;
-    let result: CompleteResult = serde_json::from_value(value).map_err(|_| ())?;
-    if !result.job.is_valid()
-        || result.job.job_id != request.job_id
-        || result.job.observer != request.observer
-        || result.job.outcome.as_ref() != Some(&request.outcome)
-    {
-        return Err(());
-    }
-    Ok(())
 }

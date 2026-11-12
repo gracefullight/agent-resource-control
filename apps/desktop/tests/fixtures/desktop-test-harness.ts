@@ -141,6 +141,8 @@ export class NativeFixture {
   health: unknown = clone(golden.health);
   metadata: unknown = clone(golden.metadata);
   meter: unknown = meterReply(sharedMeterSnapshot());
+  policy: unknown = null;
+  policies = new Map<string, unknown>();
   jobMeters = new Map<string, unknown>([
     [A, jobMeterReply(unknownJobMeter(A))],
     [B, jobMeterReply(unknownJobMeter(B))],
@@ -166,6 +168,8 @@ export class NativeFixture {
       command === "recent_jobs" ||
       command === "meter_snapshot" ||
       command === "meter_summary" ||
+      command === "policy_current" ||
+      command === "policy_job" ||
       command === "job_by_id";
     if (daemonRead)
       this.maxInFlight = Math.max(this.maxInFlight, ++this.inFlight);
@@ -176,6 +180,16 @@ export class NativeFixture {
         return await (typeof reply === "function" ? reply() : reply);
       }
       switch (command) {
+        case "policy_current":
+          if (this.policy === null)
+            throw { code: "unsupported", retryable: false };
+          return clone(this.policy);
+        case "policy_job": {
+          const id = args && "job_id" in args ? args.job_id : "";
+          const reply = this.policies.get(id);
+          if (!reply) throw { code: "unsupported", retryable: false };
+          return clone(reply);
+        }
         case "daemon_health":
           if (this.healthFailure) throw this.healthFailure;
           return clone(this.health);

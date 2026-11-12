@@ -4,6 +4,10 @@ import {
   JobMeterPanel,
   jobMeterAnnouncement,
 } from "@/dashboard/job-meter-panel";
+import {
+  JobPolicyPanel,
+  policyAnnouncement,
+} from "@/dashboard/job-policy-panel";
 import { outcomeLabel, RecordedOutcome } from "@/dashboard/recorded-outcome";
 import {
   desktopErrorMessages,
@@ -68,6 +72,12 @@ export function SelectedJobPanel({
           <p className="mt-4">{m.outcomeUnknown}</p>
         )}
       {detail.stale && <p className="mt-4 text-sm font-medium">{m.stale}</p>}
+      <JobPolicyPanel
+        section={snapshot.policy}
+        terminal={Boolean(
+          job && (job.outcome !== null || job.phase === "RUNNING"),
+        )}
+      />
       {job && detail.value && (
         <div className="mt-4 space-y-5">
           {detail.state === "not_found" && (
@@ -146,6 +156,11 @@ export function SelectedJobPanel({
           : ""}
         {selectedId && snapshot.jobMeter.value
           ? ` ${jobMeterAnnouncement(snapshot.jobMeter)}`
+          : ""}
+        {job ||
+        snapshot.policy.job?.data.job_id === selectedId ||
+        (!selectedId && (snapshot.policy.value || snapshot.policy.error))
+          ? ` ${policyAnnouncement(snapshot.policy, Boolean(job && (job.outcome !== null || job.phase === "RUNNING")))}`
           : ""}
       </p>
     </section>

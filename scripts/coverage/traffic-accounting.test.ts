@@ -3,9 +3,9 @@ import { account } from "./accounting";
 import { CRATES, HISTORICAL_CRATES } from "./config";
 import { fixture } from "./fixtures";
 
-test("the current ten-crate gate rejects missing and below-floor Traffic coverage", () => {
+test("the current eleven-crate gate rejects missing and below-floor Traffic coverage", () => {
   const f = fixture(), traffic = f.inventory.find(file => file.crate === "arc-traffic")!;
-  expect([...CRATES]).toEqual([...HISTORICAL_CRATES, "arc-traffic", "arc-desktop", "arc-platform", "arc-meter"]);
+  expect([...CRATES]).toEqual([...HISTORICAL_CRATES, "arc-traffic", "arc-desktop", "arc-platform", "arc-meter", "arc-policy"]);
   expect(account(f.lcov, f.inventory, f.root).crates.find(c=>c.crate==="arc-traffic")).toMatchObject({ crate: "arc-traffic", covered: 4, total: 5, pass: true });
   expect(() => account(f.inventory.filter(file => file !== traffic).map(file => f.record(file.path)).join(""), f.inventory, f.root)).toThrow("MISSING_CRATE: arc-traffic");
   const below = f.inventory.map(file => f.record(file.path, file === traffic ? [1, 1, 1, 0, 0] : [1, 1, 1, 1, 1])).join("");

@@ -1,4 +1,6 @@
 use crate::{Sampler, SamplingPolicy};
+#[path = "observation_cache.rs"]
+mod observation_cache;
 use arc_core::{
     meter::{MemoryPressure, MeterSnapshot, SamplingCadence, MAX_SAFE_INTEGER},
     process_identity::ProcessIdentity,
@@ -19,7 +21,8 @@ struct Control {
 struct Shared {
     control: Mutex<Control>,
     changed: Condvar,
-    latest: Mutex<Option<MeterSnapshot>>,
+    latest: Mutex<observation_cache::Cache>,
+    published: Condvar,
     epoch: Instant,
 }
 #[derive(Clone)]
@@ -47,6 +50,7 @@ impl SnapshotReader {
             .latest
             .lock()
             .unwrap_or_else(|e| e.into_inner())
+            .latest
             .clone()?;
         snapshot.age_ms = monotonic_ms.checked_sub(snapshot.sampled_monotonic_ms)?;
         (monotonic_ms <= MAX_SAFE_INTEGER).then_some(snapshot)
@@ -67,17 +71,28 @@ impl MeterWorker {
         epoch: Instant,
         policy: SamplingPolicy,
     ) -> io::Result<Self> {
-        let sampler = Sampler::new(identity).map_err(io::Error::other)?;
+        let sampler = Sampler::new(identity.clone()).map_err(io::Error::other)?;
         let shared = Arc::new(Shared {
             control: Mutex::new(Control::default()),
             changed: Condvar::new(),
-            latest: Mutex::new(None),
+            latest: Mutex::new(observation_cache::Cache::new(identity)),
+            published: Condvar::new(),
             epoch,
         });
         let owned = Arc::clone(&shared);
         let thread = thread::Builder::new()
             .name("arc-meter".into())
-            .spawn(move || run(source, sampler, owned, policy))?;
+            .spawn(move || {
+                let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                    run(source, sampler, Arc::clone(&owned), policy)
+                }));
+                owned.publication().status(if matches!(result, Ok(Ok(()))) {
+                    arc_policy::SamplerStatus::Stopped
+                } else {
+                    arc_policy::SamplerStatus::Failed
+                });
+                result.unwrap_or(Err("meter worker panicked"))
+            })?;
         Ok(Self {
             shared,
             thread: Some(thread),
@@ -177,7 +192,7 @@ fn run<S: NativeSource>(
             Some(MemoryPressure::Warning | MemoryPressure::Critical)
         );
         let cadence = snapshot.cadence;
-        *shared.latest.lock().unwrap_or_else(|e| e.into_inner()) = Some(snapshot);
+        shared.publication().publish(snapshot);
         let completed = Instant::now();
         let mut control = shared.control.lock().unwrap_or_else(|e| e.into_inner());
         loop {

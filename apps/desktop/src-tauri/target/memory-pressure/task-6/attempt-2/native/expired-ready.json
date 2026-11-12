@@ -1,0 +1,475 @@
+{
+  "actualCli": "arcctl",
+  "checkpoint": {
+    "policy": {
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "mode": "l0",
+      "observation": {
+        "age_ms": 55,
+        "availability": "available",
+        "observed_at_ms": 1794483694929,
+        "observed_monotonic_ms": 0,
+        "pressure": "normal",
+        "sampler": {
+          "daemon_instance": {
+            "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+            "pid": 98695,
+            "start_token": "1794483694925170"
+          },
+          "generation": 1,
+          "monotonic_epoch": 1
+        },
+        "sequence": 1,
+        "stale_after_ms": 3000
+      },
+      "policy_version": "macos-memory-pressure-v1",
+      "profile": "macos-memory-l0-v1",
+      "reason": "pressure_normal",
+      "schema_version": 1
+    },
+    "request": {
+      "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+      "observer": {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 98696,
+        "start_token": "1794483694956196"
+      },
+      "permit_generation": 1
+    }
+  },
+  "diagnostic": "fixture-stderr\n",
+  "executionsBeforeRecovery": 0,
+  "finalMarker": [
+    {
+      "created_at": 1794483697160,
+      "entity_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+      "id": "traffic-launch-5bd2a2dc16d4d91a2d47323ba05131b7"
+    }
+  ],
+  "firstMarker": [
+    {
+      "created_at": 1794483694985,
+      "entity_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+      "id": "traffic-launch-5bd2a2dc16d4d91a2d47323ba05131b7"
+    }
+  ],
+  "handshake": {
+    "args": [
+      [
+        116,
+        101,
+        115,
+        116
+      ]
+    ],
+    "foreground": false,
+    "identity": {
+      "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+      "pid": 98742,
+      "start_token": "1794483697162715"
+    },
+    "pgid": 98742,
+    "pid": 98742,
+    "ppid": 98696,
+    "sigchld_blocked": false,
+    "sigchld_ignored": false,
+    "sigcont_ignored": false,
+    "tty": false
+  },
+  "normal": {
+    "limits": {
+      "budget": {
+        "cpu_millis": 2000,
+        "memory_bytes": 4294967296
+      },
+      "build": {
+        "reservation": {
+          "cpu_millis": 2000,
+          "memory_bytes": 2147483648
+        },
+        "window": 1
+      },
+      "lint": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      },
+      "test": {
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "window": 1
+      }
+    },
+    "mode": "l0",
+    "observation": {
+      "age_ms": 24,
+      "availability": "available",
+      "observed_at_ms": 1794483694929,
+      "observed_monotonic_ms": 0,
+      "pressure": "normal",
+      "sampler": {
+        "daemon_instance": {
+          "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+          "pid": 98695,
+          "start_token": "1794483694925170"
+        },
+        "generation": 1,
+        "monotonic_epoch": 1
+      },
+      "sequence": 1,
+      "stale_after_ms": 3000
+    },
+    "policy_version": "macos-memory-pressure-v1",
+    "profile": "macos-memory-l0-v1",
+    "reason": "pressure_normal",
+    "schema_version": 1
+  },
+  "permits": [
+    {
+      "generation": 1,
+      "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+      "state": "RELEASED"
+    }
+  ],
+  "reconciledSqliteCliDesktop": true,
+  "reservationBeforeExpiry": {
+    "entries": [
+      {
+        "generation": 1,
+        "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+        "state": "RESERVED"
+      }
+    ],
+    "jobs": [
+      {
+        "child_pid": null,
+        "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+        "observer_pid": 98696,
+        "outcome_kind": null,
+        "phase": "LAUNCHING"
+      }
+    ],
+    "permits": [
+      {
+        "generation": 1,
+        "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+        "state": "ACTIVE"
+      }
+    ]
+  },
+  "result": {
+    "data": {
+      "job": {
+        "completed_at_ms": 1794483697170,
+        "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+        "launch_claimed_at_ms": 1794483694972,
+        "observation": {
+          "observed_at_ms": 1794483697165,
+          "reason": "OBSERVED_EXIT",
+          "status": "VERIFIED_MATCH",
+          "target": "CHILD"
+        },
+        "outcome": {
+          "code": 17,
+          "kind": "EXITED"
+        },
+        "phase": "COMPLETED",
+        "reason": "OBSERVED_EXIT",
+        "registered_at_ms": 1794483694972,
+        "revision": 4,
+        "updated_at_ms": 1794483697170
+      },
+      "kind": "found"
+    },
+    "received_at_ms": 1794483697226
+  },
+  "sameJobAndGeneration": true,
+  "sqliteChild": {
+    "child_boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+    "child_pid": 98742,
+    "child_start_token": "1794483697162715",
+    "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7"
+  },
+  "surface": {
+    "cliMeterJson": {
+      "age_ms": 1262,
+      "cadence": {
+        "interval_ms": 1000,
+        "mode": "active",
+        "stale_after_ms": 3000
+      },
+      "daemon": {
+        "cpu_accounting": "process_lifetime",
+        "cpu_core_seconds": {
+          "observed_at_ms": 1794483695939,
+          "observed_monotonic_ms": 1010,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 0.034315
+          },
+          "unit": "core_seconds"
+        },
+        "observed_peak_rss_bytes": {
+          "observed_at_ms": 1794483695939,
+          "observed_monotonic_ms": 1010,
+          "provenance": "derived",
+          "reading": {
+            "availability": "available",
+            "value": 9715712
+          },
+          "unit": "bytes"
+        },
+        "peak_observation_started_at_ms": 1794483694929,
+        "peak_observation_started_monotonic_ms": 0,
+        "rss_bytes": {
+          "observed_at_ms": 1794483695939,
+          "observed_monotonic_ms": 1010,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 9715712
+          },
+          "unit": "bytes"
+        }
+      },
+      "daemon_instance": {
+        "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+        "pid": 98695,
+        "start_token": "1794483694925170"
+      },
+      "host": {
+        "cpu_interval": {
+          "elapsed_ms": 1010,
+          "ended_at_ms": 1794483695939,
+          "ended_monotonic_ms": 1010,
+          "logical_cpu_count": 8,
+          "normalization": "host_capacity",
+          "started_at_ms": 1794483694929,
+          "started_monotonic_ms": 0
+        },
+        "cpu_utilization": {
+          "observed_at_ms": 1794483695939,
+          "observed_monotonic_ms": 1010,
+          "provenance": "derived",
+          "reading": {
+            "availability": "available",
+            "value": 17.90341578327444
+          },
+          "unit": "percent"
+        },
+        "filesystem": {
+          "available_bytes": {
+            "observed_at_ms": 1794483695939,
+            "observed_monotonic_ms": 1010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 82329600000
+            },
+            "unit": "bytes"
+          },
+          "capacity_bytes": {
+            "observed_at_ms": 1794483695939,
+            "observed_monotonic_ms": 1010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 494384795648
+            },
+            "unit": "bytes"
+          },
+          "free_bytes": {
+            "observed_at_ms": 1794483695939,
+            "observed_monotonic_ms": 1010,
+            "provenance": "native",
+            "reading": {
+              "availability": "available",
+              "value": 82329600000
+            },
+            "unit": "bytes"
+          },
+          "identity": {
+            "filesystem_type": "apfs",
+            "is_local": true,
+            "mount_point": "/",
+            "path": "/",
+            "volume_id": "01000013:0000001a"
+          },
+          "pressure": {
+            "observed_at_ms": 1794483695939,
+            "observed_monotonic_ms": 1010,
+            "provenance": "derived",
+            "reading": {
+              "availability": "available",
+              "value": "normal"
+            },
+            "unit": "level"
+          }
+        },
+        "memory_available_bytes": {
+          "observed_at_ms": 1794483695939,
+          "observed_monotonic_ms": 1010,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 3938500608
+          },
+          "unit": "bytes"
+        },
+        "memory_pressure": {
+          "observed_at_ms": 1794483695939,
+          "observed_monotonic_ms": 1010,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": "normal"
+          },
+          "unit": "level"
+        },
+        "swap_used_bytes": {
+          "observed_at_ms": 1794483695939,
+          "observed_monotonic_ms": 1010,
+          "provenance": "native",
+          "reading": {
+            "availability": "available",
+            "value": 15524757504
+          },
+          "unit": "bytes"
+        }
+      },
+      "sampled_at_ms": 1794483695939,
+      "sampled_monotonic_ms": 1010,
+      "schema_version": 1,
+      "sequence": 2
+    },
+    "cliStatus": "Job: 5bd2a2dc16d4d91a2d47323ba05131b7\nState: failed\nExit code: 17\nQueue wait (ms): 0\nLast known: true\nEffective policy: macos-memory-pressure-v1\nPolicy profile: macos-memory-l0-v1\nPolicy mode: Initial policy active (L0)\nPolicy reason: pressure_normal\nObservation availability: available\nObservation age (ms): 1257\nObservation sampler: {\"daemon_instance\":{\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\",\"pid\":98695,\"start_token\":\"1794483694925170\"},\"generation\":1,\"monotonic_epoch\":1}\nObservation sequence: 2\nLast recorded job decision: admitted\nDecision policy: macos-memory-pressure-v1\nDecision Unix ms: 1794483694972\nRecorded observation age (ms): 43\n",
+    "desktop": {
+      "data": {
+        "decision_availability": "available",
+        "effective": {
+          "limits": {
+            "budget": {
+              "cpu_millis": 2000,
+              "memory_bytes": 4294967296
+            },
+            "build": {
+              "reservation": {
+                "cpu_millis": 2000,
+                "memory_bytes": 2147483648
+              },
+              "window": 1
+            },
+            "lint": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            },
+            "test": {
+              "reservation": {
+                "cpu_millis": 1000,
+                "memory_bytes": 1073741824
+              },
+              "window": 1
+            }
+          },
+          "mode": "l0",
+          "observation": {
+            "age_ms": 1236,
+            "availability": "available",
+            "observed_at_ms": 1794483695939,
+            "observed_monotonic_ms": 1010,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98695,
+                "start_token": "1794483694925170"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 2,
+            "stale_after_ms": 3000
+          },
+          "policy_version": "macos-memory-pressure-v1",
+          "profile": "macos-memory-l0-v1",
+          "reason": "pressure_normal",
+          "schema_version": 1
+        },
+        "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+        "last_decision": {
+          "decided_at_ms": 1794483694972,
+          "kind": "admit",
+          "observation": {
+            "age_ms": 43,
+            "availability": "available",
+            "observed_at_ms": 1794483694929,
+            "observed_monotonic_ms": 0,
+            "pressure": "normal",
+            "sampler": {
+              "daemon_instance": {
+                "boot_id": "2687879a-f0b8-4b44-a7d6-934eb47cac3c",
+                "pid": 98695,
+                "start_token": "1794483694925170"
+              },
+              "generation": 1,
+              "monotonic_epoch": 1
+            },
+            "sequence": 1,
+            "stale_after_ms": 3000
+          },
+          "permit_generation": 1,
+          "policy_version": "macos-memory-pressure-v1",
+          "reason": "admitted"
+        },
+        "schema_version": 1
+      },
+      "received_at_ms": 1794483697177
+    },
+    "jobId": "5bd2a2dc16d4d91a2d47323ba05131b7",
+    "sqlite": {
+      "decision": "admit",
+      "job_id": "5bd2a2dc16d4d91a2d47323ba05131b7",
+      "observation_json": "{\"availability\":\"available\",\"pressure\":\"normal\",\"age_ms\":43,\"stale_after_ms\":3000,\"sampler\":{\"daemon_instance\":{\"pid\":98695,\"start_token\":\"1794483694925170\",\"boot_id\":\"2687879a-f0b8-4b44-a7d6-934eb47cac3c\"},\"generation\":1,\"monotonic_epoch\":1},\"sequence\":1,\"observed_at_ms\":1794483694929,\"observed_monotonic_ms\":0}",
+      "permit_generation": 1,
+      "policy_version": "macos-memory-pressure-v1",
+      "reason_code": "admitted",
+      "recorded_at_ms": 1794483694972
+    }
+  },
+  "targetExecutions": 1,
+  "unspawnedExpiryReevaluated": true
+}

@@ -1,6 +1,6 @@
 import { relative, resolve } from "node:path";
 import { account } from "./accounting";
-import { BASELINE, CRATES, METER_INPUTS, METER_SRS_SHA256, PINS } from "./config";
+import { BASELINE, CRATES, METER_INPUTS, METER_SRS_SHA256, FROZEN_INPUTS, PINS } from "./config";
 import { enforce, requireVersion, requireWorkspace } from "./gate";
 import { readEvidence, referenceFile, type EvidenceRef } from "./evidence";
 import { hash, sourceInventory, requireInputIdentity, type CargoMetadata } from "./source";
@@ -74,7 +74,7 @@ export function reuseCoverage(root:string, path:string) {
   if(receipt.schemaVersion!==1 || receipt.acceptedBaseline!==BASELINE || summary.acceptedBaseline!==BASELINE ||
     receipt.runId!==bundle.runId || summary.runId!==bundle.runId) throw Error("COVERAGE_REUSE: run/baseline mismatch");
   const current=requireInputIdentity(root,summary.inputs);
-  for(const path of METER_INPUTS) {
+  for(const path of FROZEN_INPUTS) {
     if(!current.files[path] || bundle.frozenInputs?.[path]!==current.files[path]) throw Error(`COVERAGE_REUSE: frozen input mismatch ${path}`);
   }
   if(current.files[METER_INPUTS[0]]!==METER_SRS_SHA256) throw Error("COVERAGE_REUSE: authoritative SRS mismatch");

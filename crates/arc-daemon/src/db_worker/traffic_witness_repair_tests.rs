@@ -63,6 +63,9 @@ async fn exercise(point: FailurePoint) {
             let (mut stream, _) = listener.accept().unwrap();
             let peer = crate::platform::peer_pid(&stream).unwrap();
             let request: Request = arc_ipc::read_message(&mut stream).unwrap();
+            if super::launch_fixture::dispatch(&runtime, &client, &stream, &request) {
+                continue;
+            }
             if request.operation == OPERATION_TRAFFIC_CAPABILITIES {
                 arc_ipc::write_response(
                     &mut stream,

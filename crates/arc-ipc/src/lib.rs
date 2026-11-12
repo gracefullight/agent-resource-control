@@ -8,6 +8,7 @@
 pub mod client;
 pub mod jobs;
 pub mod meter;
+pub mod policy;
 mod schema;
 pub mod traffic;
 pub use schema::{

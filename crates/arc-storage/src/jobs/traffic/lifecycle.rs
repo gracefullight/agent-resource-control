@@ -1,5 +1,6 @@
 use super::{
-    admission::OwnerEvidence, get, matching_job, store, valid_now, JobError as E, JobResult,
+    admission::OwnerEvidence, get, matching_job, ordered_now, store, valid_now, JobError as E,
+    JobResult,
 };
 use crate::jobs::{codec, reconcile};
 use arc_core::process_identity::{probe, probe_live, IdentityStatus};
@@ -84,6 +85,7 @@ fn attach_inner(
     evidence: &ChildEvidence,
     now: u64,
 ) -> JobResult<()> {
+    let now = ordered_now(now, job)?;
     if let Some(prior) = &job.child {
         return if prior == child {
             Ok(())
@@ -153,6 +155,7 @@ pub(super) fn finish(
     outcome: &Outcome,
     now: u64,
 ) -> JobResult<()> {
+    let now = ordered_now(now, job)?;
     if let Some(prior) = &job.outcome {
         return if prior == outcome {
             Ok(())
@@ -197,7 +200,13 @@ fn recovered_unknown(job: &JobSnapshot, entry: &store::Entry) -> bool {
 /// Cancellation with a generation asserts that the authenticated owner has
 /// confirmed no spawn. An unacknowledged grant or running child stays reserved.
 pub fn cancel(connection: &mut Connection, request: &JobRequest, now: u64) -> JobResult<Reply> {
-    cancel_inner(connection, request, false, now)
+    cancel_inner(
+        connection,
+        request,
+        false,
+        now,
+        &arc_policy::evaluator::MissingObservation,
+    )
 }
 
 /// Confirm that the authenticated owner did not spawn a child, even when the
@@ -214,7 +223,27 @@ pub fn confirm_cancel_unspawned(
         return Err(E::InvalidRequest);
     };
     owner.verify(observer)?;
-    cancel_inner(connection, request, true, now)
+    cancel_inner(
+        connection,
+        request,
+        true,
+        now,
+        &arc_policy::evaluator::MissingObservation,
+    )
+}
+
+pub fn cancel_observed(
+    connection: &mut Connection,
+    request: &JobRequest,
+    owner: &OwnerEvidence,
+    now: u64,
+    provider: &dyn arc_policy::ObservationProvider,
+) -> JobResult<Reply> {
+    let JobRequest::Cancel { observer, .. } = request else {
+        return Err(E::InvalidRequest);
+    };
+    owner.verify(observer)?;
+    cancel_inner(connection, request, true, now, provider)
 }
 
 fn cancel_inner(
@@ -222,6 +251,7 @@ fn cancel_inner(
     request: &JobRequest,
     confirmed_unspawned: bool,
     now: u64,
+    provider: &dyn arc_policy::ObservationProvider,
 ) -> JobResult<Reply> {
     valid_now(now, None)?;
     if !request.is_valid() {
@@ -235,44 +265,56 @@ fn cancel_inner(
     else {
         return Err(E::InvalidRequest);
     };
-    let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
-    let Some(e) = store::entry(&tx, job_id)? else {
-        if permit_generation.is_some() {
-            return Err(E::Conflict);
+    crate::policy::transaction(connection, provider, |tx, effective| {
+        let Some(e) = store::entry(tx, job_id)? else {
+            if permit_generation.is_some() {
+                return Err(E::Conflict);
+            }
+            let reply = store::put_tombstone(tx, job_id, observer, "CANCELLED", now)?;
+            return Ok(reply);
+        };
+        let job = matching_job(tx, job_id, observer)?;
+        let now = ordered_now(now, &job)?;
+        check_generation(&e, *permit_generation)?;
+        match e.state.as_str() {
+            "QUEUED" => {
+                valid_now(now, Some(&job))?;
+                connection_state(tx, job_id, "CANCELLED")?;
+            }
+            "RESERVED" | "RETAINED"
+                if (permit_generation.is_some() || confirmed_unspawned) && job.child.is_none() =>
+            {
+                valid_now(now, Some(&job))?;
+                connection_state(tx, job_id, "CANCELLED")?;
+                release_if_done(tx, job_id, &e, now)?;
+            }
+            "RESERVED" => {
+                valid_now(now, Some(&job))?;
+                connection_state(tx, job_id, "RETAINED")?;
+            }
+            "RUNNING" | "RETAINED" | "COMPLETED" | "CANCELLED" | "ABANDONED" => (),
+            _ => return Err(E::StorageFailure),
         }
-        let reply = store::put_tombstone(&tx, job_id, observer, "CANCELLED", now)?;
-        tx.commit()?;
-        return Ok(reply);
-    };
-    let job = matching_job(&tx, job_id, observer)?;
-    check_generation(&e, *permit_generation)?;
-    match e.state.as_str() {
-        "QUEUED" => {
-            valid_now(now, Some(&job))?;
-            connection_state(&tx, job_id, "CANCELLED")?;
+        let updated = store::entry(tx, job_id)?.ok_or(E::StorageFailure)?;
+        let reply = if matches!(updated.state.as_str(), "RUNNING" | "RETAINED") {
+            Reply::ReservationRetained {}
+        } else {
+            store::result(tx, job_id, &job, &updated, WaitReason::Fifo)?
+        };
+        if updated.state == "CANCELLED" {
+            crate::policy::mark_terminal(tx, job_id, now)?;
+            crate::policy::record(
+                tx,
+                job_id,
+                effective,
+                arc_policy::DecisionKind::Cancel,
+                arc_policy::DecisionReason::Cancelled,
+                updated.generation,
+                now,
+            )?;
         }
-        "RESERVED" | "RETAINED"
-            if (permit_generation.is_some() || confirmed_unspawned) && job.child.is_none() =>
-        {
-            valid_now(now, Some(&job))?;
-            connection_state(&tx, job_id, "CANCELLED")?;
-            release_if_done(&tx, job_id, &e, now)?;
-        }
-        "RESERVED" => {
-            valid_now(now, Some(&job))?;
-            connection_state(&tx, job_id, "RETAINED")?;
-        }
-        "RUNNING" | "RETAINED" | "COMPLETED" | "CANCELLED" | "ABANDONED" => (),
-        _ => return Err(E::StorageFailure),
-    }
-    let updated = store::entry(&tx, job_id)?.ok_or(E::StorageFailure)?;
-    let reply = if matches!(updated.state.as_str(), "RUNNING" | "RETAINED") {
-        Reply::ReservationRetained {}
-    } else {
-        store::result(&tx, job_id, &job, &updated, WaitReason::Fifo)?
-    };
-    tx.commit()?;
-    Ok(reply)
+        Ok(reply)
+    })
 }
 
 /// Record fail-open. Missing or queued jobs become owner-bound tombstones;
@@ -304,10 +346,12 @@ pub fn fallback(
         return Ok(reply);
     };
     let mut job = matching_job(&tx, job_id, observer)?;
+    let now = ordered_now(now, &job)?;
     check_generation(&e, *permit_generation)?;
     if e.state == "QUEUED" {
         valid_now(now, Some(&job))?;
         connection_state(&tx, job_id, "ABANDONED")?;
+        crate::policy::mark_terminal(&tx, job_id, now)?;
     } else if matches!(e.state.as_str(), "RESERVED" | "RUNNING" | "RETAINED") {
         if let Some(child) = child {
             attach_inner(
@@ -371,6 +415,14 @@ pub(super) fn release_if_done(
     entry: &store::Entry,
     now: u64,
 ) -> JobResult<()> {
+    if store::entry(connection, id)?.is_some_and(|entry| {
+        matches!(
+            entry.state.as_str(),
+            "COMPLETED" | "CANCELLED" | "ABANDONED"
+        )
+    }) {
+        crate::policy::mark_terminal(connection, id, now)?;
+    }
     let root = entry.root.as_ref().unwrap_or(id);
     let active_children: bool = connection.query_row("SELECT EXISTS(SELECT 1 FROM traffic_entries WHERE root_job_id=?1 AND state IN ('RESERVED','RUNNING','RETAINED'))", [root.as_str()], |r| r.get(0))?;
     let root_state: String = connection.query_row(
@@ -418,66 +470,6 @@ pub(in crate::jobs) fn reconcile_exited_child(
     Ok(true)
 }
 
-/// Stale queue-head cleanup never releases a grant. Probe outside the writer;
-/// recheck the complete tuple, revision and queued state inside the transaction.
-#[derive(Debug, Clone)]
-pub struct QueueObservation {
-    id: JobId,
-    observer: ProcessIdentity,
-    revision: u64,
-    status: IdentityStatus,
-    observed_at: u64,
-}
-impl QueueObservation {
-    pub fn gather(job: &JobSnapshot, now: u64) -> Self {
-        Self {
-            id: job.job_id.clone(),
-            observer: job.observer.clone(),
-            revision: job.revision,
-            status: probe_live(&job.observer),
-            observed_at: now,
-        }
-    }
-    #[cfg(test)]
-    pub(super) fn simulated(job: &JobSnapshot, status: IdentityStatus, now: u64) -> Self {
-        Self {
-            id: job.job_id.clone(),
-            observer: job.observer.clone(),
-            revision: job.revision,
-            status,
-            observed_at: now,
-        }
-    }
-}
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ReconcileResult {
-    Abandoned,
-    Unchanged,
-    Stale,
-    NotFound,
-}
-pub fn reconcile_queued(
-    connection: &mut Connection,
-    evidence: &QueueObservation,
-) -> JobResult<ReconcileResult> {
-    valid_now(evidence.observed_at, None)?;
-    let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
-    let Some(e) = store::entry(&tx, &evidence.id)? else {
-        return Ok(ReconcileResult::NotFound);
-    };
-    let job = get(&tx, &evidence.id)?.ok_or(E::StorageFailure)?;
-    if job.observer != evidence.observer || job.revision != evidence.revision || e.state != "QUEUED"
-    {
-        return Ok(ReconcileResult::Stale);
-    }
-    if !matches!(
-        evidence.status,
-        IdentityStatus::Missing | IdentityStatus::Mismatch
-    ) {
-        return Ok(ReconcileResult::Unchanged);
-    }
-    valid_now(evidence.observed_at, Some(&job))?;
-    connection_state(&tx, &evidence.id, "ABANDONED")?;
-    tx.commit()?;
-    Ok(ReconcileResult::Abandoned)
-}
+#[path = "queue_recovery.rs"]
+mod queue_recovery;
+pub use queue_recovery::{reconcile_queued, QueueObservation, ReconcileResult};

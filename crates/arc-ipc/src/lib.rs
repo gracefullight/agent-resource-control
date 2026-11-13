@@ -6,6 +6,7 @@
 
 #[cfg(unix)]
 pub mod client;
+pub mod governor;
 pub mod jobs;
 pub mod meter;
 pub mod policy;

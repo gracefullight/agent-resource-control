@@ -5,6 +5,7 @@
 mod classify;
 mod doctor;
 mod exec;
+mod governor;
 mod job;
 mod meter;
 
@@ -40,6 +41,11 @@ struct Cli {
 
 #[derive(Debug, Subcommand)]
 enum Command {
+    /// Control the durable Governor switch
+    Daemon {
+        #[command(subcommand)]
+        command: governor::DaemonCommand,
+    },
     /// Inspect host resources, daemon overhead or one persisted job summary
     Meter {
         #[command(subcommand)]
@@ -179,6 +185,7 @@ fn run(command: Command) -> Result<(), String> {
     let socket = arc_core::socket_path().map_err(|_| DAEMON_UNAVAILABLE)?;
     match command {
         Command::Exec { .. } | Command::Job { .. } => unreachable!("handled before diagnostics"),
+        Command::Daemon { command } => governor::run(&socket, command),
         Command::Status => status(&socket).map_err(str::to_owned),
         Command::Meter {
             command: meter::MeterCommand::Snapshot { .. },

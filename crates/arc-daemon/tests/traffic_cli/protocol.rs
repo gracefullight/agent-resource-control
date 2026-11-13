@@ -199,7 +199,9 @@ fn traffic_outage_fails_open_once_within_the_exchange_budget() {
                 .set_read_timeout(Some(Duration::from_secs(2)))
                 .unwrap();
             let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
-            if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES {
+            if let Some(response) = policy_compat::unsupported_probe(&request) {
+                arc_ipc::write_response(&mut stream, &response).unwrap();
+            } else if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES {
                 let response = arc_ipc::Response::ok(
                     &request.request_id,
                     serde_json::to_value(arc_ipc::traffic::Capabilities::supported()).unwrap(),
@@ -273,8 +275,9 @@ fn new_cli_uses_legacy_lifecycle_after_explicit_unsupported_probe() {
                 .set_read_timeout(Some(Duration::from_secs(2)))
                 .unwrap();
             let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
-            let response = if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES
-            {
+            let response = if let Some(response) = policy_compat::unsupported_probe(&request) {
+                response
+            } else if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES {
                 worker_probes.fetch_add(1, Ordering::SeqCst);
                 arc_ipc::Response::error(&request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
             } else {

@@ -12,7 +12,7 @@ use arc_policy::{
     DecisionKind as K, DecisionReason as D, EffectivePolicy, ObservationProvider, PolicyMode,
 };
 use arc_traffic::{decide, Active, Decision, Policy};
-use rusqlite::{params, Connection};
+use rusqlite::{params, Connection, OptionalExtension};
 
 /// Native liveness observation, collected outside the writer transaction.
 #[derive(Debug, Clone)]
@@ -74,6 +74,31 @@ pub fn enqueue_observed(
     now: u64,
     provider: &dyn ObservationProvider,
 ) -> JobResult<Reply> {
+    enqueue_governed(
+        connection,
+        request,
+        evidence,
+        policy,
+        new_context,
+        proof,
+        now,
+        provider,
+        false,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub(super) fn enqueue_governed(
+    connection: &mut Connection,
+    request: &JobRequest,
+    evidence: &OwnerEvidence,
+    policy: &Policy,
+    new_context: &LineageContext,
+    proof: Option<&LineageProof>,
+    now: u64,
+    provider: &dyn ObservationProvider,
+    negotiated: bool,
+) -> JobResult<Reply> {
     valid_now(now, None)?;
     if !request.is_valid() {
         return Err(E::InvalidRequest);
@@ -129,6 +154,13 @@ pub fn enqueue_observed(
             Decision::Admit { .. } => (),
             Decision::Wait(_) => return Err(E::InvalidRequest),
         }
+        evidence.verify(observer)?;
+        let switch = crate::governor::get_switch(tx)?;
+        if !negotiated && !switch.enabled && proof.is_none() {
+            return Ok(Reply::Bypassed {
+                reason: arc_ipc::traffic::BypassReason::Unsupported,
+            });
+        }
         let job = JobSnapshot {
             job_id: job_id.clone(),
             phase: Phase::Registered,
@@ -157,6 +189,12 @@ pub fn enqueue_observed(
             params![job_id.as_str(), now as i64],
         )?;
         tx.execute("INSERT INTO traffic_entries(job_id,state,queued_at_ms,inherited_context) VALUES (?1,'QUEUED',?2,?3)", params![job_id.as_str(), now as i64, lineage_context.as_ref().map(LineageContext::as_str)])?;
+        if negotiated {
+            tx.execute(
+                "INSERT INTO governor_jobs(job_id,mode,switch_revision) VALUES(?1,'SCHEDULED',?2)",
+                params![job_id.as_str(), switch.revision as i64],
+            )?;
+        }
         let e = store::entry(tx, job_id)?.ok_or(E::StorageFailure)?;
         let reply = try_grant(
             tx,
@@ -267,6 +305,20 @@ fn try_grant(
     mut admission: Admission<'_>,
 ) -> JobResult<Reply> {
     admission.now = ordered_now(admission.now, job)?;
+    if !(e.state == "QUEUED"
+        && admission.proof.is_some()
+        && super::governor::disposition(connection, &job.job_id)?.is_none_or(|d| !d.unreserved))
+        && super::governor::prepare(connection, &job.job_id, admission.now)?
+    {
+        // An eligibility reply is projected by the negotiated wrapper, never
+        // mistaken for an actual permit or native launch release.
+        return Ok(Reply::Queued {
+            sequence: e.sequence,
+            queued_at_ms: e.queued_at,
+            reason: WaitReason::Fifo,
+        });
+    }
+    let e = &store::entry(connection, &job.job_id)?.ok_or(E::StorageFailure)?;
     if e.state != "QUEUED" {
         let reply = store::result(connection, &job.job_id, job, e, WaitReason::Fifo)?;
         if matches!(e.state.as_str(), "RESERVED" | "RUNNING" | "RETAINED") {
@@ -359,8 +411,22 @@ fn try_grant(
             if config.reservation != reservation {
                 return Err(E::StorageFailure);
             }
-            connection.execute("INSERT INTO permits(id,job_id,state,cpu_cores_est,memory_bytes_est,reserved_at,cpu_millis_est,generation) VALUES (?1,?1,'ACTIVE',?2,?3,?4,?5,?6)", params![job.job_id.as_str(), reservation.cpu_millis as f64 / 1000.0, reservation.memory_bytes as i64, admission.now as i64, reservation.cpu_millis as i64, e.sequence as i64])?;
-            connection.execute("UPDATE traffic_entries SET state='RESERVED',granted_at_ms=?2,generation=sequence,context=?3 WHERE job_id=?1 AND state='QUEUED'", params![job.job_id.as_str(), admission.now as i64, admission.context.as_str()])?;
+            let previous: Option<i64> = connection
+                .query_row(
+                    "SELECT generation FROM permits WHERE job_id=?1",
+                    [job.job_id.as_str()],
+                    |r| r.get(0),
+                )
+                .optional()?;
+            let generation = previous
+                .map_or(Some(e.sequence), |n| u64::try_from(n).ok()?.checked_add(1))
+                .filter(|n| *n <= arc_ipc::governor::MAX_SAFE_INTEGER)
+                .ok_or(E::StorageFailure)?;
+            let stored=connection.execute("INSERT INTO permits(id,job_id,state,cpu_cores_est,memory_bytes_est,reserved_at,cpu_millis_est,generation) VALUES (?1,?1,'ACTIVE',?2,?3,?4,?5,?6) ON CONFLICT(job_id) DO UPDATE SET state='ACTIVE',cpu_cores_est=excluded.cpu_cores_est,memory_bytes_est=excluded.memory_bytes_est,reserved_at=excluded.reserved_at,released_at=NULL,cpu_millis_est=excluded.cpu_millis_est,generation=excluded.generation WHERE permits.state='RELEASED'", params![job.job_id.as_str(), reservation.cpu_millis as f64 / 1000.0, reservation.memory_bytes as i64, admission.now as i64, reservation.cpu_millis as i64, generation as i64])?;
+            if stored != 1 {
+                return Err(E::Conflict);
+            }
+            connection.execute("UPDATE traffic_entries SET state='RESERVED',granted_at_ms=?2,generation=?4,context=?3 WHERE job_id=?1 AND state='QUEUED'", params![job.job_id.as_str(), admission.now as i64, admission.context.as_str(), generation as i64])?;
             let mut claimed = job.clone();
             claim(connection, &mut claimed, admission.now)?;
             let granted = store::entry(connection, &job.job_id)?.ok_or(E::StorageFailure)?;
@@ -370,7 +436,7 @@ fn try_grant(
                 admission.effective,
                 K::Admit,
                 D::Admitted,
-                Some(e.sequence),
+                Some(generation),
                 admission.now,
             )?;
             store::result(

@@ -27,6 +27,7 @@ pub(super) struct Witness {
     file: File,
     path: PathBuf,
     initial: [u8; RECORD_SIZE],
+    admission_key: [u8; 64],
     armed: Cell<bool>,
 }
 
@@ -72,6 +73,11 @@ impl Witness {
             file,
             path,
             initial,
+            admission_key: key
+                .as_str()
+                .as_bytes()
+                .try_into()
+                .map_err(|_| io::ErrorKind::InvalidInput)?,
             armed: Cell::new(false),
         };
         witness
@@ -90,6 +96,35 @@ impl Witness {
 
     pub(super) fn arm(&self) {
         self.armed.set(true);
+    }
+
+    /// Bind the existing owner/job witness to the committed unreserved release
+    /// before installing a pre-exec hook. Recovery authenticates this nonce,
+    /// rather than the earlier admission/lineage claim.
+    pub(super) fn bind_release(&mut self, release: &str) -> io::Result<()> {
+        let key = LineageContext::try_from(format!("{release}{release}"))
+            .map_err(|_| io::ErrorKind::InvalidInput)?;
+        self.bind_key(
+            key.as_str()
+                .as_bytes()
+                .try_into()
+                .map_err(|_| io::ErrorKind::InvalidInput)?,
+        )
+    }
+
+    /// An expired, acknowledged-unspawned release can return to scheduled
+    /// admission on resume. Its recovery key remains the original enqueue key.
+    pub(super) fn restore_admission(&mut self) -> io::Result<()> {
+        self.bind_key(self.admission_key)
+    }
+
+    fn bind_key(&mut self, key: [u8; 64]) -> io::Result<()> {
+        if self.initial[40..104] == key {
+            return Ok(());
+        }
+        self.initial[40..104].copy_from_slice(&key);
+        self.file.write_all_at(&self.initial, 0)?;
+        self.file.sync_all()
     }
 
     pub(super) fn install(&self, command: &mut Command) {
@@ -246,6 +281,7 @@ mod tests {
             file: File::open("/dev/null").unwrap(),
             path: "/dev/null".into(),
             initial: [0; RECORD_SIZE],
+            admission_key: [0; 64],
             armed: Cell::new(false),
         };
         let mut command = Command::new("/bin/sh");

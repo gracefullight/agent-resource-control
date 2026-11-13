@@ -9,7 +9,7 @@ use std::{
     time::Duration,
 };
 #[path = "policy_fixture.rs"]
-mod fixture;
+pub(crate) mod fixture;
 use fixture::Fixture;
 #[path = "policy_clock_tests.rs"]
 mod clocks;

@@ -59,6 +59,12 @@ pub struct ObservationInput<'a> {
 /// natively here. Publication takes the same fence; lock order is writer then
 /// publication, and the publisher never takes the writer lock.
 pub trait ObservationProvider: Send + Sync {
+    /// Nonblocking launch/control coordination, acquired after IMMEDIATE and
+    /// before publication. Pure providers have no outstanding native releases.
+    fn try_control(&self) -> Option<Box<dyn Send>> {
+        Some(Box::new(()))
+    }
+
     fn with_observation(&self, consume: &mut dyn FnMut(ObservationInput<'_>));
 }
 

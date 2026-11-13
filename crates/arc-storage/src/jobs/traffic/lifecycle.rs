@@ -77,7 +77,7 @@ pub fn attach(
     Ok(reply)
 }
 
-fn attach_inner(
+pub(super) fn attach_inner(
     connection: &Connection,
     job: &mut JobSnapshot,
     e: &store::Entry,

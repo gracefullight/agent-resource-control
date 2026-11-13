@@ -40,7 +40,8 @@ fn independently_executed_old_peer_gets_only_legacy_lifecycle_on_bun_fallback() 
             .lines()
             .map(|line| serde_json::from_str(line).unwrap())
             .collect();
-        assert_eq!(requests[0]["operation"], "traffic.bun.capabilities");
+        assert_eq!(requests[0]["operation"], "governor.capabilities");
+        assert_eq!(requests[1]["operation"], "traffic.bun.capabilities");
         let registrations: Vec<_> = requests
             .iter()
             .filter(|r| r["operation"] == "job.start" && r["payload"]["action"] == "REGISTER")
@@ -97,17 +98,7 @@ fn old_peer_replaces_probed_daemon_before_bun_enqueue() {
             .spawn()
             .unwrap(),
     );
-    let mut accepted = None;
-    eventually(|| {
-        accepted = listener.accept().ok();
-        accepted.is_some()
-    });
-    let (mut downstream, _) = accepted.unwrap();
-    downstream.set_nonblocking(false).unwrap();
-    downstream
-        .set_read_timeout(Some(Duration::from_secs(5)))
-        .unwrap();
-    let request: arc_ipc::Request = arc_ipc::read_message(&mut downstream).unwrap();
+    let (mut downstream, request) = policy_compat::next_legacy(&listener);
     assert_eq!(
         request.operation,
         arc_ipc::traffic::OPERATION_BUN_CAPABILITIES

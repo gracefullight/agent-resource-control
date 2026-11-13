@@ -197,9 +197,7 @@ pub(super) fn result(
             return Err(JobError::InvalidTransition);
         }
         "COMPLETED" => Reply::Completed {
-            queue_wait_ms: e
-                .granted_at
-                .ok_or(JobError::StorageFailure)?
+            queue_wait_ms: grant_time(connection, id, e)?
                 .checked_sub(e.queued_at)
                 .ok_or(JobError::StorageFailure)?,
             outcome: job.outcome.clone().ok_or(JobError::StorageFailure)?,
@@ -208,6 +206,17 @@ pub(super) fn result(
         "ABANDONED" => Reply::Abandoned {},
         _ => return Err(JobError::StorageFailure),
     })
+}
+
+fn grant_time(connection: &Connection, id: &JobId, e: &Entry) -> JobResult<u64> {
+    if let Some(at) = e.granted_at {
+        return Ok(at);
+    }
+    Ok(connection.query_row(
+        "SELECT unreserved_at_ms FROM governor_jobs WHERE job_id=?1 AND mode='UNRESERVED'",
+        [id.as_str()],
+        |r| r.get::<_, i64>(0),
+    )? as u64)
 }
 
 /// A status never contains the opaque lineage context.
@@ -233,6 +242,7 @@ pub fn status(connection: &Connection, id: &JobId) -> JobResult<StatusResult> {
             sequence: e.sequence,
             queued_at_ms: e.queued_at,
         },
+        "RESERVED" | "RETAINED" if e.generation.is_none() => StatusResult::Unconfirmed {},
         "RESERVED" | "RETAINED" => StatusResult::Reserved {
             sequence: e.sequence,
             queued_at_ms: e.queued_at,
@@ -240,9 +250,7 @@ pub fn status(connection: &Connection, id: &JobId) -> JobResult<StatusResult> {
             reservation: reservation(connection, id, &e)?,
         },
         "RUNNING" => StatusResult::Running {
-            queue_wait_ms: e
-                .granted_at
-                .ok_or(JobError::StorageFailure)?
+            queue_wait_ms: grant_time(connection, id, &e)?
                 .checked_sub(e.queued_at)
                 .ok_or(JobError::StorageFailure)?,
         },
@@ -254,9 +262,7 @@ pub fn status(connection: &Connection, id: &JobId) -> JobResult<StatusResult> {
             return Err(JobError::UnsupportedStatus);
         }
         "COMPLETED" => StatusResult::Completed {
-            queue_wait_ms: e
-                .granted_at
-                .ok_or(JobError::StorageFailure)?
+            queue_wait_ms: grant_time(connection, id, &e)?
                 .checked_sub(e.queued_at)
                 .ok_or(JobError::StorageFailure)?,
             outcome: job.outcome.ok_or(JobError::StorageFailure)?,

@@ -9,7 +9,7 @@ fn bun_fault_daemon_child() {
 
 #[test]
 fn committed_bun_grant_lost_before_old_peer_replacement_recovers_original_store() {
-    use arc_ipc::traffic::OPERATION_BUN_JOB;
+    use arc_ipc::governor::OPERATION_JOB;
     use std::{os::unix::fs::DirBuilderExt, path::Path, process::Child};
 
     struct Owned(Child);
@@ -144,6 +144,7 @@ while True:
             "bun-lost-{}",
             arc_core::process_identity::random_job_id().unwrap()
         ));
+        eprintln!("lost-grant fixture={} cancel={cancel}", root.display());
         fs::DirBuilder::new().mode(0o700).create(&root).unwrap();
         let project = root.join("bun");
         fs::create_dir(&project).unwrap();
@@ -225,12 +226,14 @@ while True:
             .collect();
         assert!(requests
             .iter()
-            .all(|r| r["operation"] == OPERATION_BUN_JOB && r["payload"]["job_id"] == id));
+            .all(|r| r["operation"] == OPERATION_JOB
+                && r["payload"]["action"] == "TRAFFIC"
+                && r["payload"]["request"]["job_id"] == id));
         if !cancel {
-            assert!(requests.iter().any(|r| r["payload"]["action"] == "ENQUEUE"));
+            assert!(requests.iter().any(|r| r["payload"]["request"]["action"] == "ENQUEUE"));
             assert!(requests
                 .iter()
-                .any(|r| r["payload"]["action"] == "FALLBACK"));
+                .any(|r| r["payload"]["request"]["action"] == "FALLBACK"));
         }
         old.0.kill().unwrap();
         old.0.wait().unwrap();
@@ -261,6 +264,39 @@ while True:
             [&id], |r| Ok((r.get(0)?,r.get(1)?)),
         ).unwrap();
         assert_eq!(counts, (1, 1));
+        let job = arc_storage::jobs::get(
+            &db,
+            &arc_ipc::jobs::JobId::try_from(id.clone()).unwrap(),
+        )
+        .unwrap()
+        .unwrap();
+        // Outage completion can persist the wrapper's observed outcome without
+        // a live child attachment. The old peer's captured FALLBACK and native
+        // marker independently identify the one child; never invent an attach.
+        let children: Vec<arc_core::process_identity::ProcessIdentity> = requests
+            .iter()
+            .filter_map(|r| {
+                let child = &r["payload"]["request"]["child"];
+                (!child.is_null()).then(|| serde_json::from_value(child.clone()).unwrap())
+            })
+            .collect();
+        assert_eq!(children.len(), usize::from(!cancel));
+        for child in &children {
+            assert_ne!(
+                arc_core::process_identity::probe_live(child),
+                arc_core::process_identity::IdentityStatus::VerifiedMatch
+            );
+        }
+        if !cancel {
+            assert_eq!(job.outcome, Some(arc_ipc::jobs::Outcome::Exited { code: 0 }));
+        }
+        eprintln!(
+            "lost-grant-reconciled={}",
+            serde_json::json!({"cancel":cancel,"jobId":id,"nativeChildren":children,"sqliteChild":job.child,
+                "outcome":job.outcome,"entries":counts.0,"permits":counts.1,
+                "activePermits":active(&root),"targetExecutions":usize::from(!cancel),
+                "wrapperSettled":true,"originalStoreRecovered":true})
+        );
         drop(db);
         stop(&mut restored);
         fs::remove_dir_all(root).unwrap();

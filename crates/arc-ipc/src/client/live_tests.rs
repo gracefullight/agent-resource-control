@@ -21,13 +21,46 @@ static NEXT: AtomicUsize = AtomicUsize::new(0);
 
 #[test]
 fn bun_unsupported_is_no_commit_only_without_an_earlier_possible_commit() {
-    use crate::traffic::OPERATION_BUN_JOB;
+    unsupported_after_send(crate::traffic::OPERATION_BUN_JOB);
+}
+#[test]
+fn governor_unsupported_is_no_commit_only_without_an_earlier_possible_commit() {
+    unsupported_after_send(crate::governor::OPERATION_JOB);
+}
+#[test]
+fn governor_unsupported_after_unconfirmed_store_cannot_claim_rejection() {
+    let peer = Peer::new(1, |stream, request| {
+        crate::write_response(
+            stream,
+            &Response::error(request.request_id, crate::ERROR_UNSUPPORTED_CAPABILITY),
+        )
+        .unwrap();
+    });
+    let continuity = super::Continuity::default();
+    continuity.record(None);
+    let request = Request::new("prior-store", crate::governor::OPERATION_JOB);
+    assert_eq!(
+        super::exchange_until(
+            &peer.path,
+            &request,
+            Instant::now() + Duration::from_secs(2),
+            &|| false,
+            &mut false,
+            super::ExchangeOptions {
+                continuity: Some(&continuity),
+                retry_busy: true
+            }
+        ),
+        Err(Failure::Uncertain)
+    );
+}
+fn unsupported_after_send(operation: &'static str) {
     for mode in 0..4 {
         let calls = if mode == 1 || mode == 2 { 2 } else { 1 };
         let mut count = 0;
         let peer = Peer::new(calls, move |stream, request| {
             count += 1;
-            assert_eq!(request.operation, OPERATION_BUN_JOB);
+            assert_eq!(request.operation, operation);
             if count == 1 && mode == 1 {
                 return;
             }
@@ -41,7 +74,7 @@ fn bun_unsupported_is_no_commit_only_without_an_earlier_possible_commit() {
         let mut prior = mode == 3;
         let result = call_until_tracked(
             &peer.path,
-            OPERATION_BUN_JOB,
+            operation,
             serde_json::json!({"action":"ENQUEUE"}),
             Instant::now() + Duration::from_secs(2),
             &|| false,

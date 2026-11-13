@@ -25,6 +25,7 @@ fn arrive(listener: &UnixListener) -> (UnixStream, Value) {
         Err(error) => panic!("CLI checkpoint accept: {error}"),
     });
     let stream = accepted.unwrap();
+    stream.set_nonblocking(false).unwrap();
     stream
         .set_read_timeout(Some(Duration::from_secs(2)))
         .unwrap();
@@ -60,8 +61,11 @@ fn reserved_before_critical_is_held_without_target_execution_then_runs_once_afte
     let normal = case.pressure("Normal", 0);
     let socket = case.fixture.root.join("reserved-barrier.sock");
     let barrier = UnixListener::bind(&socket).unwrap();
-    let mut run = Run::start_with_barrier(&case, "reserved", "test", Some(("reserved", &socket)));
-    let (mut release, request) = arrive(&barrier);
+    let mut run =
+        Run::start_with_barrier(&case, "reserved", "test", Some(("reserved,held", &socket)));
+    let (mut release, checkpoint) = arrive(&barrier);
+    assert_eq!(checkpoint["mode"], "RESERVED");
+    let request = &checkpoint["request"];
     let id = request["job_id"].as_str().unwrap();
     let generation = request["permit_generation"].as_u64().unwrap();
     assert_eq!(request["observer"]["pid"], run.wrapper.child.id());
@@ -81,13 +85,17 @@ fn reserved_before_critical_is_held_without_target_execution_then_runs_once_afte
     );
     // The actual CLI now resumes its final launch handshake under fresh Critical.
     release.write_all(b"x").unwrap();
+    let (mut recovery_release, held_checkpoint) = arrive(&barrier);
+    assert_eq!(held_checkpoint["release"]["result"]["state"], "HELD");
     eventually(|| {
         case.rpc("policy.job", json!({"job_id":id}))["last_decision"]["reason"] == "memory_pressure"
     });
     let held_surface = reconcile(&case, id, "memory_hold", "memory_pressure");
     let mut held = vec![];
-    for _ in 0..20 {
-        let policy = case.current();
+    let mut previous = critical["observation"]["sequence"].as_u64().unwrap();
+    for _ in 0..2 {
+        let policy = case.pressure("Critical", previous);
+        previous = policy["observation"]["sequence"].as_u64().unwrap();
         assert_eq!(policy["mode"], "memory_hold");
         assert_eq!(policy["observation"]["availability"], "available");
         assert_eq!(
@@ -109,7 +117,6 @@ fn reserved_before_critical_is_held_without_target_execution_then_runs_once_afte
             .rows("SELECT id FROM audit_events WHERE event_type='TRAFFIC_LAUNCH_FENCE'")
             .is_empty());
         held.push(json!({"policy":policy,"reservation":stored,"targetExecutions":run.count()}));
-        thread::sleep(Duration::from_millis(100));
     }
     assert!(
         held.last().unwrap()["policy"]["observation"]["sequence"]
@@ -123,6 +130,10 @@ fn reserved_before_critical_is_held_without_target_execution_then_runs_once_afte
             .as_u64()
             .unwrap(),
     );
+    // The HELD checkpoint has no launch lease. Observe recovery before allowing
+    // the CLI to request READY, so a legitimate transient POLICY_UNAVAILABLE
+    // during READY cannot race the fixture's pressure synchronization.
+    recovery_release.write_all(b"x").unwrap();
     let child = run.started();
     assert_eq!(run.finish().code(), Some(17));
     let recovery = reconcile(&case, id, "l0", "admitted");
@@ -141,12 +152,46 @@ fn reserved_before_critical_is_held_without_target_execution_then_runs_once_afte
         "reserved-race",
         &json!({"jobId":id,"reservedGeneration":generation,
         "actualCli":"arcctl","barrier":"after reservation, before final launch request",
-        "checkpoint":request,"normal":normal,"reservationBeforeCritical":before,"critical":critical,
+        "checkpoint":request,"heldCheckpoint":held_checkpoint,"normal":normal,"reservationBeforeCritical":before,"critical":critical,
         "held":held,"heldSurface":held_surface,"targetExecutionsDuringCritical":0,
         "permitsDuringCritical":1,"newPermitsDuringCritical":0,"reservationUnchanged":true,
         "recovered":recovered,"recoveryExecutions":run.count(),"handshake":run.handshake,
         "sqliteChild":persisted,"permitsAfterRecovery":permits,"recoverySurface":recovery,
         "outcome":result,"reconciledSqliteCliDesktop":true}),
+    );
+    case.stop();
+}
+
+#[test]
+fn policy_read_during_ready_reports_typed_unavailable_then_recovers_after_ack() {
+    let _serial = serialization::serial();
+    let mut case = Case::new(true);
+    case.pressure("Normal", 0);
+    let socket = case.fixture.root.join("read-fence.sock");
+    let barrier = UnixListener::bind(&socket).unwrap();
+    let mut run = Run::start_with_barrier(&case, "read-target", "test", Some(("ready", &socket)));
+    let (mut release, ready) = arrive(&barrier);
+    let response = case.response("policy.current", Value::Null);
+    assert_eq!(response.status, "error");
+    assert_eq!(
+        response.error.as_ref().unwrap().code,
+        arc_ipc::policy::ERROR_POLICY_UNAVAILABLE
+    );
+    eprintln!(
+        "ready-read-fence operation=policy.current response={}",
+        serde_json::to_string(&response).unwrap()
+    );
+    release.write_all(b"x").unwrap();
+    run.started();
+    assert_eq!(run.finish().code(), Some(17));
+    let recovered = case.current();
+    assert_eq!(recovered["mode"], "l0");
+    let permits = case.rows("SELECT state FROM permits");
+    assert_eq!(permits, vec![json!({"state":"RELEASED"})]);
+    save(
+        "ready-read-fence",
+        &json!({"operation":"policy.current","response":response,
+        "checkpoint":ready,"recovered":recovered,"executions":run.count(),"permits":permits}),
     );
     case.stop();
 }
@@ -160,11 +205,16 @@ fn expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_
     let barrier = UnixListener::bind(&socket).unwrap();
     let mut run = Run::start_with_barrier(&case, "expiry", "test", Some(("ready", &socket)));
     let (mut release, ready) = arrive(&barrier);
-    let request = &ready["request"];
+    assert_eq!(ready["request"]["mode"], "RESERVED");
+    assert_eq!(ready["release"]["state"], "RESERVED");
+    let request = &ready["request"]["request"];
     let id = request["job_id"].as_str().unwrap();
     let generation = request["permit_generation"].as_u64().unwrap();
     assert_eq!(request["observer"]["pid"], run.wrapper.child.id());
-    assert_eq!(ready["policy"]["observation"]["availability"], "available");
+    assert_eq!(
+        ready["release"]["result"]["policy"]["observation"]["availability"],
+        "available"
+    );
     let reserved = reservation(&case, id, generation);
     let first = case.rows(
         "SELECT id,entity_id,created_at FROM audit_events WHERE event_type='TRAFFIC_LAUNCH_FENCE'",

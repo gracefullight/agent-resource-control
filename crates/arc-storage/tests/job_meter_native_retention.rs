@@ -137,7 +137,9 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     let legacy = rusqlite::Connection::open(&legacy_path).unwrap();
     legacy
         .execute_batch(
-            "DROP INDEX idx_policy_decisions_job_time;
+            "DROP TABLE governor_jobs;
+        DROP TABLE governor_mutation_receipts;
+        DROP INDEX idx_policy_decisions_job_time;
         DROP INDEX idx_policy_decisions_expiry;
         ALTER TABLE policy_states DROP COLUMN policy_version;
         ALTER TABLE policy_states DROP COLUMN state_json;
@@ -150,7 +152,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
         ALTER TABLE policy_decisions DROP COLUMN expires_at_ms;
         DROP TABLE job_meter_summaries;
         DROP INDEX idx_lifecycle_observer_identity; DROP INDEX idx_lifecycle_child_identity;
-        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure');
+        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure','0006_governor');
         PRAGMA user_version=3;",
         )
         .unwrap();
@@ -166,7 +168,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     assert_eq!(legacy_summary.queue_wait, QueueWait::unknown());
     let schema = arc_storage::assess_schema(&upgraded).unwrap();
     assert!(schema.history_verified);
-    assert_eq!(schema.applied_version, Some(5));
+    assert_eq!(schema.applied_version, Some(6));
     upgraded.close().unwrap();
     let observed = json!({"test":"real_native_measurement_obeys_ninety_day_boundary_without_resurrection",
         "controlledClock":{"terminalAtMs":200,"retentionMs":JOB_METADATA_RETENTION_MS,"beforeMs":boundary-1,"boundaryMs":boundary},

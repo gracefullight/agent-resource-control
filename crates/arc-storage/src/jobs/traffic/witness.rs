@@ -79,7 +79,8 @@ pub fn recover_unspawned(
         || job.observer != evidence.snapshot.observer
         || job.child.is_some()
         || job.outcome.is_some()
-        || entry.inherited.as_ref() != Some(&evidence.key)
+        || (entry.inherited.as_ref() != Some(&evidence.key)
+            && !super::governor::matches_witness(&tx, &job.job_id, &evidence.key)?)
         || !matches!(entry.state.as_str(), "RESERVED" | "RETAINED")
     {
         return Ok(false);
@@ -172,7 +173,8 @@ pub fn recover_witness(connection: &mut Connection, evidence: &WitnessEvidence) 
         || job.observer != evidence.snapshot.observer
         || job.child.is_some()
         || job.outcome.is_some()
-        || entry.inherited.as_ref() != Some(&evidence.key)
+        || (entry.inherited.as_ref() != Some(&evidence.key)
+            && !super::governor::matches_witness(&tx, &job.job_id, &evidence.key)?)
         || !matches!(entry.state.as_str(), "RESERVED" | "RETAINED")
     {
         return Ok(false);

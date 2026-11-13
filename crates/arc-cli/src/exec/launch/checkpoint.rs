@@ -13,7 +13,9 @@ pub(super) fn pause(
     value: &Value,
     cancelled: &dyn Fn() -> bool,
 ) -> Result<(), Failure> {
-    if std::env::var("ARC_PRESSURE_ACCEPTANCE_STAGE").as_deref() != Ok(stage) {
+    if !std::env::var("ARC_PRESSURE_ACCEPTANCE_STAGE")
+        .is_ok_and(|stages| stages.split(',').any(|selected| selected == stage))
+    {
         return Ok(());
     }
     let path = std::env::var_os("ARC_PRESSURE_ACCEPTANCE_BARRIER").ok_or(Failure::Local)?;

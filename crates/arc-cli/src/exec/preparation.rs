@@ -249,6 +249,26 @@ pub(crate) fn invalid() -> ExitCode {
     ExitCode::from(2)
 }
 
+pub(super) fn completion_notice(job_id: &JobId, status: &std::process::ExitStatus) -> String {
+    use std::os::unix::process::ExitStatusExt;
+    let observed = status.code().map_or_else(
+        || {
+            format!(
+                "The child terminated by signal {}.",
+                status.signal().unwrap_or(0)
+            )
+        },
+        |code| format!("The child exited with code {code}."),
+    );
+    format!("COMPLETION_UNCONFIRMED\nJob: {}\n{observed} Recording is unconfirmed. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str())
+}
+
+pub(super) fn valid_argv(argv: &[std::ffi::OsString]) -> bool {
+    !argv.is_empty()
+        && !argv[0].is_empty()
+        && !argv.iter().any(|s| s.as_encoded_bytes().contains(&0))
+}
+
 #[cfg(test)]
 mod tests {
     use super::super::transport::Failure;

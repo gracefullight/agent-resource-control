@@ -91,6 +91,14 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
             stream.set_nonblocking(false).unwrap();
             let peer = crate::platform::peer_pid(&stream).unwrap();
             let request: Request = arc_ipc::read_message(&mut stream).unwrap();
+            if request.operation == arc_ipc::governor::OPERATION_CAPABILITIES {
+                arc_ipc::write_response(
+                    &mut stream,
+                    &Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY),
+                )
+                .unwrap();
+                continue;
+            }
             if super::launch_fixture::dispatch(&runtime, &client, &stream, &request) {
                 continue;
             }
@@ -289,6 +297,14 @@ async fn cancel_after_lost_grant(program: &'static str) {
             stream.set_nonblocking(false).unwrap();
             let peer = crate::platform::peer_pid(&stream).unwrap();
             let request: Request = arc_ipc::read_message(&mut stream).unwrap();
+            if request.operation == arc_ipc::governor::OPERATION_CAPABILITIES {
+                arc_ipc::write_response(
+                    &mut stream,
+                    &Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY),
+                )
+                .unwrap();
+                continue;
+            }
             let (probe, operation, capability) = if program == "bun" {
                 (
                     OPERATION_BUN_CAPABILITIES,

@@ -6,6 +6,7 @@
 //! operation is keyed by the original job ID and never launches a child.
 
 mod admission;
+pub mod governor;
 mod pressure;
 pub use pressure::{
     acknowledge_unspawned_launch, discard_unreleased_launch, enqueue, launch, poll_with_proof,
@@ -77,11 +78,11 @@ pub fn recovery_candidates(
         return Err(JobError::InvalidRequest);
     }
     let mut statement = connection.prepare(
-        "SELECT t.sequence,t.job_id,t.inherited_context FROM traffic_entries t \
+        "SELECT t.sequence,t.job_id,COALESCE((SELECT g.release_id||g.release_id FROM governor_jobs g WHERE g.job_id=t.job_id AND g.mode='UNRESERVED'),t.inherited_context) FROM traffic_entries t \
          JOIN job_lifecycle l ON l.job_id=t.job_id \
-         JOIN permits p ON p.job_id=COALESCE(t.root_job_id,t.job_id) \
+         LEFT JOIN permits p ON p.job_id=COALESCE(t.root_job_id,t.job_id) \
            AND p.state='ACTIVE' AND p.generation=t.generation \
-         WHERE t.sequence>?1 AND ((t.state IN ('RUNNING','RETAINED') \
+         WHERE t.sequence>?1 AND (p.job_id IS NOT NULL OR EXISTS(SELECT 1 FROM governor_jobs g WHERE g.job_id=t.job_id AND g.mode='UNRESERVED' AND g.release_id IS NOT NULL)) AND ((t.state IN ('RUNNING','RETAINED') \
            AND l.child_pid IS NOT NULL AND l.child_verified_at_ms IS NOT NULL) \
            OR (t.state IN ('RESERVED','RETAINED') AND l.child_pid IS NULL)) \
          ORDER BY t.sequence LIMIT ?2",

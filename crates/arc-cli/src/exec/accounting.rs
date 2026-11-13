@@ -23,7 +23,8 @@ pub(super) fn lineage(
 ) {
     let confirmed = match tracking {
         super::traffic::Mode::Legacy(super::preparation::Tracking::Managed) => true,
-        super::traffic::Mode::Scheduled { continuity, .. } => continuity.confirmed(),
+        super::traffic::Mode::Scheduled { continuity, .. }
+        | super::traffic::Mode::Unreserved { continuity, .. } => continuity.confirmed(),
         _ => false,
     };
     let relation = if confirmed {

@@ -104,21 +104,33 @@ impl Case {
         }
     }
     pub fn rpc(&self, operation: &str, payload: Value) -> Value {
+        let response = self.response(operation, payload.clone());
+        assert_eq!(
+            response.status,
+            "ok",
+            "operation={operation} payload={payload} response={}",
+            serde_json::to_string(&response).unwrap()
+        );
+        response.result.unwrap()
+    }
+    pub fn response(&self, operation: &str, payload: Value) -> Response {
         let mut request = Request::new("pressure-acceptance", operation);
         request.payload = payload;
         let response: Response = arc_ipc::exchange(&mut self.fixture.connect(), &request).unwrap();
         assert_eq!(response.request_id, request.request_id);
-        assert_eq!(response.status, "ok", "{response:?}");
-        response.result.unwrap()
+        response
     }
     pub fn current(&self) -> Value {
         self.rpc("policy.current", Value::Null)
     }
-    pub fn pressure(&self, level: &str, previous: u64) -> Value {
+    pub fn publish_pressure(&self, level: &str) {
         assert!(self.injected);
         let temp = self.fixture.root.join("pressure-next");
         fs::write(&temp, level).unwrap();
         fs::rename(temp, self.fixture.root.join("pressure")).unwrap();
+    }
+    pub fn pressure(&self, level: &str, previous: u64) -> Value {
+        self.publish_pressure(level);
         let expected = match level {
             "Normal" => arc_core::meter::MemoryPressure::Normal,
             "Warning" => arc_core::meter::MemoryPressure::Warning,

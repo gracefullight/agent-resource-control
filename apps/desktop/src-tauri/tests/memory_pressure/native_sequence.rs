@@ -164,8 +164,21 @@ fn production_normal_critical_normal_reconciles_real_execution_sqlite_cli_and_re
     );
     let last = case.current();
     assert_eq!(last["mode"], "memory_hold");
-    let recovered = case.pressure("Normal", last["observation"]["sequence"].as_u64().unwrap());
+    case.publish_pressure("Normal");
     let held_child = waiting.started();
+    // The child handshake alone can precede its launch ACK. Wait for durable
+    // attachment before a policy read, which correctly rejects an active lease.
+    eventually(|| {
+        case.rows("SELECT child_pid FROM job_lifecycle")
+            .iter()
+            .any(|row| row["child_pid"] == held_child.pid)
+    });
+    let recovered = case.pressure("Normal", last["observation"]["sequence"].as_u64().unwrap());
+    assert_eq!(recovered["observation"]["pressure"], "normal");
+    assert!(
+        recovered["observation"]["sequence"].as_u64().unwrap()
+            > last["observation"]["sequence"].as_u64().unwrap()
+    );
     assert_ne!(running_child, held_child);
     assert_eq!(waiting.finish().code(), Some(17));
     let recovery_surface = reconcile(&case, &held_id, "l0", "admitted");

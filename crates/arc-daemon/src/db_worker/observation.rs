@@ -10,6 +10,7 @@ use std::{
 pub(crate) struct Observations(
     pub(super) Mutex<Option<SnapshotReader>>,
     Arc<EmptyPublication>,
+    Arc<EmptyPublication>,
 );
 #[derive(Default)]
 struct EmptyPublication {
@@ -69,6 +70,19 @@ impl Observations {
         Some((end, Box::new(EmptyLease(Arc::clone(&self.1), id))))
     }
 
+    /// Common nonblocking lease also exists when the sampler is absent/failed.
+    /// Never wait here: its holder may need this writer for UNSPAWNED cleanup.
+    pub(super) fn control_fence(&self, end: Instant) -> Option<(Instant, Box<dyn Send>)> {
+        let mut state = self.2.state.lock().unwrap_or_else(|e| e.into_inner());
+        if state.1.is_some_and(|(_, end)| Instant::now() < end) {
+            return None;
+        }
+        state.0 = state.0.wrapping_add(1);
+        let id = state.0;
+        state.1 = Some((id, end));
+        Some((end, Box::new(EmptyLease(Arc::clone(&self.2), id))))
+    }
+
     /// Call after acquiring IMMEDIATE. Keep the registry lock through the
     /// observation/launch callback so replacement linearizes with admission.
     pub(super) fn reader(&self) -> MutexGuard<'_, Option<SnapshotReader>> {
@@ -76,6 +90,13 @@ impl Observations {
     }
 }
 impl ObservationProvider for Observations {
+    fn try_control(&self) -> Option<Box<dyn Send>> {
+        self.control_fence(
+            Instant::now() + std::time::Duration::from_millis(arc_policy::MAX_LAUNCH_FENCE_MS),
+        )
+        .map(|(_, lease)| lease)
+    }
+
     fn with_observation(&self, consume: &mut dyn FnMut(ObservationInput<'_>)) {
         match self.reader().as_ref() {
             Some(reader) => reader.with_observation(consume),

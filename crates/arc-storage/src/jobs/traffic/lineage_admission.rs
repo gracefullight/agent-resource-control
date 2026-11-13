@@ -27,9 +27,22 @@ pub struct LineageProof {
     revision: u64,
     pub(super) generation: u64,
     anchor: ProcessIdentity,
+    observed_owner: Option<ProcessIdentity>,
     recheck: fn(&ProcessIdentity, &ProcessIdentity) -> bool,
 }
 impl LineageProof {
+    /// Freeze an independently repeated native observation before submitting to
+    /// the writer. Governor decisions recheck only durable anchors/revisions
+    /// inside IMMEDIATE; never perform native inspection while holding SQLite.
+    pub fn observe_before_write(mut self, observer: &ProcessIdentity) -> Option<Self> {
+        if !(self.recheck)(observer, &self.anchor) {
+            return None;
+        }
+        self.observed_owner = Some(observer.clone());
+        self.recheck = |_, _| true;
+        Some(self)
+    }
+
     pub(in crate::jobs::traffic) fn matches(&self, root: &JobId, generation: u64) -> bool {
         self.root_id == *root && self.generation == generation
     }
@@ -52,6 +65,7 @@ impl LineageProof {
             generation: snapshot.generation,
             anchor: anchor.clone(),
             recheck,
+            observed_owner: None,
         }
     }
 }
@@ -155,6 +169,10 @@ pub(in crate::jobs::traffic) fn validate_lineage(
         || snapshot.generation != proof.generation
         || (snapshot.root.observer != proof.anchor
             && snapshot.root.child.as_ref() != Some(&proof.anchor))
+        || proof
+            .observed_owner
+            .as_ref()
+            .is_some_and(|owner| owner != observer)
         || !(proof.recheck)(observer, &proof.anchor)
     {
         return Err(E::IdentityUnavailable);

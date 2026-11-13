@@ -1,15 +1,11 @@
 import { isJobId, normalizeDesktopError } from "@/bridge/client";
-import type {
-  DaemonHealth,
-  DesktopClient,
-  DesktopError,
-  JobId,
-  RecentJobs,
-} from "@/bridge/types";
+import type { DesktopClient, JobId } from "@/bridge/types";
 import {
   type DashboardSnapshot,
   emptyDetail,
-  emptySection,
+  initialDashboardSnapshot,
+  invalidReply,
+  TRANSIENT_CODES,
 } from "@/dashboard/desktop-refresh-state";
 import {
   type CancelTimer,
@@ -19,6 +15,7 @@ import {
   refreshDelay,
   STALE_AFTER_MS,
 } from "@/dashboard/desktop-refresh-timing";
+import { GovernorSwitchStateOwner } from "@/dashboard/governor-switch-state";
 
 export type { RefreshClock } from "@/dashboard/desktop-refresh-timing";
 export {
@@ -38,33 +35,24 @@ export type {
   SelectedDetail,
 } from "@/dashboard/desktop-refresh-state";
 
-const TRANSIENT_CODES = new Set(["unavailable", "uncertain", "busy"]);
-
-const invalidReply = (): DesktopError => ({
-  code: "invalid_reply",
-  retryable: false,
-});
-
 // A single owner serializes native calls (the Rust bridge has a bounded permit).
 // At most the latest recent page and the selected detail are retained. Native
 // calls finish under their own deadline; retiring a generation discards replies
 // without queueing or pretending that an in-flight socket read was cancelled.
 export class DesktopRefreshController {
+  private readonly governor = new GovernorSwitchStateOwner(
+    () => this.publish({ governor: this.governor.section }),
+    () => this.clock.now(),
+  );
   private readonly meter = new MeterReadState();
   private readonly jobMeter = new JobMeterReadState();
   private readonly policy = new PolicyReadState();
-  private snapshot: DashboardSnapshot = {
-    connection: "loading",
-    active: false,
-    refreshing: false,
-    health: emptySection<DaemonHealth>(),
+  private snapshot: DashboardSnapshot = initialDashboardSnapshot({
     meter: this.meter.section,
     jobMeter: this.jobMeter.section,
     policy: this.policy.section,
-    recent: emptySection<RecentJobs>(),
-    selectedId: null,
-    detail: emptyDetail(),
-  };
+    governor: this.governor.section,
+  });
   private listeners = new Set<() => void>();
   private generation = 0;
   private connectionEpoch = 0;
@@ -115,7 +103,9 @@ export class DesktopRefreshController {
     this.meter.retire();
     this.jobMeter.retire();
     this.policy.retire();
+    this.governor.retire();
     this.publish({
+      governor: this.governor.section,
       active: false,
       refreshing: false,
       meter: this.meter.section,
@@ -125,6 +115,11 @@ export class DesktopRefreshController {
       recent: { ...this.snapshot.recent, loading: false },
       detail: { ...this.snapshot.detail, loading: false },
     });
+  };
+
+  setGovernor = (enabled: boolean): void => {
+    this.governor.request(enabled);
+    void this.pump();
   };
 
   refresh = (): void => {
@@ -189,10 +184,13 @@ export class DesktopRefreshController {
     this.running = true;
     try {
       while (
-        this.snapshot.active &&
-        (this.refreshRequested || this.detailRequested)
+        this.governor.needsWork ||
+        (this.snapshot.active &&
+          (this.refreshRequested || this.detailRequested))
       ) {
-        if (this.refreshRequested) {
+        if (this.governor.needsWork) {
+          await this.governor.work(this.client);
+        } else if (this.refreshRequested) {
           this.refreshRequested = false;
           this.detailRequested = false;
           this.cycleActive = true;
@@ -216,6 +214,8 @@ export class DesktopRefreshController {
 
   private async cycle(generation: number): Promise<void> {
     const epoch = this.connectionEpoch;
+    await this.governor.read(this.client);
+    if (!this.current(generation, epoch)) return;
     this.publish({
       refreshing: true,
       health: { ...this.snapshot.health, loading: true },
@@ -457,7 +457,6 @@ export class DesktopRefreshController {
       });
     }
   }
-
   private schedule(): void {
     this.cancelRefresh?.();
     this.cancelRefresh = null;
@@ -482,6 +481,9 @@ export class DesktopRefreshController {
       this.jobMeter,
       this.policy,
     );
+    const governorDelay = this.governor.expire(now);
+    patch.governor = this.governor.section;
+    if (governorDelay !== null) remaining.push(governorDelay);
     if (Object.keys(patch).length) this.publish(patch);
     if (this.snapshot.active && remaining.length)
       this.cancelStale = this.clock.schedule(
@@ -489,7 +491,6 @@ export class DesktopRefreshController {
         Math.min(...remaining),
       );
   }
-
   private cancelTimers(): void {
     this.cancelRefresh?.();
     this.cancelStale?.();

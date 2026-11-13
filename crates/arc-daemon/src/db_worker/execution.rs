@@ -50,6 +50,26 @@ pub(super) fn install_progress(
         .map_err(DbError::Sql)
 }
 
+/// SQLite invokes this immediately before a write COMMIT, including statements
+/// too small for the progress callback. Cancellation/deadline before this point
+/// rolls back; loss afterwards remains uncertain and uses durable readback.
+pub(super) fn install_commit(
+    connection: &mut Connection,
+    shared: Arc<Shared>,
+) -> Result<(), DbError> {
+    connection
+        .commit_hook(Some(move || {
+            shared.stopping.load(Ordering::Acquire)
+                || shared
+                    .active
+                    .lock()
+                    .unwrap_or_else(|e| e.into_inner())
+                    .as_ref()
+                    .is_some_and(|active| active.check(&shared).is_err())
+        }))
+        .map_err(DbError::Sql)
+}
+
 pub(super) fn install_busy(
     connection: &mut Connection,
     shared: Arc<Shared>,
@@ -123,6 +143,7 @@ pub(super) fn run(
                                 operation,
                                 Some(&shared.observation),
                             );
+                            hooks.after_operation(&shared)?;
                             // A deadline here can follow COMMIT. The stable key resolves ambiguity.
                             check(&shared)?;
                             Ok(DbValue::Lifecycle(Box::new(value)))
@@ -274,6 +295,8 @@ pub(super) fn query<T>(
 #[derive(Default)]
 pub(super) struct Hooks {
     #[cfg(test)]
+    pub(super) after_operation: Option<WorkerTestHooks>,
+    #[cfg(test)]
     pub(super) gate: Option<WorkerTestHooks>,
     #[cfg(test)]
     pub(super) expensive: Option<std::sync::mpsc::SyncSender<()>>,
@@ -286,6 +309,18 @@ pub(super) struct Hooks {
 }
 
 impl Hooks {
+    fn after_operation(&mut self, _shared: &Shared) -> Result<(), DbError> {
+        #[cfg(test)]
+        if let Some(hooks) = self.after_operation.take() {
+            let _ = hooks.started.try_send(());
+            hooks
+                .release
+                .recv_timeout(Duration::from_secs(5))
+                .map_err(|_| DbError::Deadline)?;
+        }
+        Ok(())
+    }
+
     #[cfg(test)]
     pub(super) fn gate(hooks: WorkerTestHooks) -> Self {
         Self {

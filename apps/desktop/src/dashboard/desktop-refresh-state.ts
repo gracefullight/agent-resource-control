@@ -6,6 +6,7 @@ import type {
   Received,
   RecentJobs,
 } from "@/bridge/types";
+import type { GovernorSection } from "@/dashboard/governor-switch-state";
 import type { JobMeterSection } from "@/dashboard/job-meter-read-state";
 import type { MeterSection } from "@/dashboard/meter-read-state";
 import type { PolicySection } from "@/dashboard/policy-read-state";
@@ -27,6 +28,7 @@ export interface DashboardSnapshot {
   health: RecordedSection<DaemonHealth>;
   meter: MeterSection;
   policy: PolicySection;
+  governor: GovernorSection;
   jobMeter: JobMeterSection;
   recent: RecordedSection<RecentJobs>;
   selectedId: JobId | null;
@@ -43,3 +45,28 @@ export const emptyDetail = (): SelectedDetail => ({
   state: "idle",
   lookupReceivedAt: null,
 });
+
+export const TRANSIENT_CODES = new Set(["unavailable", "uncertain", "busy"]);
+
+export const invalidReply = (): DesktopError => ({
+  code: "invalid_reply",
+  retryable: false,
+});
+
+export function initialDashboardSnapshot(
+  sections: Pick<
+    DashboardSnapshot,
+    "meter" | "jobMeter" | "policy" | "governor"
+  >,
+): DashboardSnapshot {
+  return {
+    connection: "loading",
+    active: false,
+    refreshing: false,
+    health: emptySection<DaemonHealth>(),
+    recent: emptySection<RecentJobs>(),
+    selectedId: null,
+    detail: emptyDetail(),
+    ...sections,
+  };
+}

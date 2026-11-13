@@ -27,20 +27,55 @@ pub(super) enum Coordination {
 }
 pub(super) struct Gate {
     session: Session,
-    request: LaunchRequest,
+    request: GateRequest,
     waited: bool,
     deadline: Instant,
 }
 
+enum GateRequest {
+    Legacy(LaunchRequest),
+    Governor {
+        request: arc_ipc::governor::GovernorLaunchRequest,
+        result: arc_ipc::governor::GovernorLaunchResult,
+    },
+}
 mod checkpoint;
+mod governor;
+
+pub(super) fn after_queue(
+    value: &serde_json::Value,
+    cancelled: &dyn Fn() -> bool,
+) -> Result<(), Failure> {
+    checkpoint::pause("queued", value, cancelled)
+}
+
+/// Delay-only acceptance seam after native spawn, before ACK/attachment. A
+/// failed or cancelled checkpoint cannot turn an existing child into unspawned.
+pub(super) fn after_spawn(id: &JobId, child_pid: u32, signals: &Signals) {
+    let _ = checkpoint::pause(
+        "spawned",
+        &json!({"job_id":id,"child_pid":child_pid}),
+        &|| signals.interrupted(),
+    );
+}
 
 pub(super) fn prepare(
     socket: &Path,
     id: &JobId,
     observer: &ProcessIdentity,
-    mode: &Mode,
+    mode: &mut Mode,
     signals: &Signals,
 ) -> Result<Coordination, Failure> {
+    if matches!(
+        mode,
+        Mode::Unreserved { .. }
+            | Mode::Scheduled {
+                route: super::traffic::Route::Governor,
+                ..
+            }
+    ) {
+        return governor::prepare(socket, id, observer, mode, signals);
+    }
     let Mode::Scheduled {
         generation,
         continuity,
@@ -137,7 +172,7 @@ fn wait(
                 }
                 let mut gate = Gate {
                     session,
-                    request: input.clone(),
+                    request: GateRequest::Legacy(input.clone()),
                     waited: held,
                     deadline,
                 };
@@ -200,22 +235,73 @@ impl Gate {
         }
     }
     pub(super) fn acknowledge(&mut self, child: Option<ProcessIdentity>) -> bool {
-        let input = &self.request;
-        let ack = match child {
-            Some(child) => LaunchAck::Started {
-                job_id: input.job_id.clone(),
-                observer: input.observer.clone(),
-                permit_generation: input.permit_generation,
-                child,
-            },
-            None => LaunchAck::Unspawned {
-                job_id: input.job_id.clone(),
-                observer: input.observer.clone(),
-                permit_generation: input.permit_generation,
-            },
+        use arc_ipc::governor::*;
+        let (operation, payload) = match &self.request {
+            GateRequest::Legacy(input) => {
+                let ack = match child {
+                    Some(child) => LaunchAck::Started {
+                        job_id: input.job_id.clone(),
+                        observer: input.observer.clone(),
+                        permit_generation: input.permit_generation,
+                        child,
+                    },
+                    None => LaunchAck::Unspawned {
+                        job_id: input.job_id.clone(),
+                        observer: input.observer.clone(),
+                        permit_generation: input.permit_generation,
+                    },
+                };
+                (OPERATION_TRAFFIC_LAUNCH_ACK, json!(ack))
+            }
+            GateRequest::Governor { request, result } => {
+                let ack = match result {
+                    GovernorLaunchResult::Unreserved { release_id, .. } => {
+                        GovernorLaunchAck::Unreserved {
+                            ack: match child {
+                                Some(child) => GovernorUnreservedAck::Started {
+                                    job_id: request.job_id().clone(),
+                                    observer: request.observer().clone(),
+                                    release_id: release_id.clone(),
+                                    child,
+                                },
+                                None => GovernorUnreservedAck::Unspawned {
+                                    job_id: request.job_id().clone(),
+                                    observer: request.observer().clone(),
+                                    release_id: release_id.clone(),
+                                },
+                            },
+                        }
+                    }
+                    GovernorLaunchResult::Reserved { .. } => {
+                        let GovernorLaunchRequest::Reserved { request } = request else {
+                            return false;
+                        };
+                        GovernorLaunchAck::Reserved {
+                            ack: match child {
+                                Some(child) => LaunchAck::Started {
+                                    job_id: request.job_id.clone(),
+                                    observer: request.observer.clone(),
+                                    permit_generation: request.permit_generation,
+                                    child,
+                                },
+                                None => LaunchAck::Unspawned {
+                                    job_id: request.job_id.clone(),
+                                    observer: request.observer.clone(),
+                                    permit_generation: request.permit_generation,
+                                },
+                            },
+                        }
+                    }
+                    _ => return false,
+                };
+                if !ack.matches(request, result) {
+                    return false;
+                }
+                (OPERATION_LAUNCH_ACK, json!(ack))
+            }
         };
-        let mut request = Request::new(crate::request_id(), OPERATION_TRAFFIC_LAUNCH_ACK);
-        request.payload = json!(ack);
+        let mut request = Request::new(crate::request_id(), operation);
+        request.payload = payload;
         matches!(self.session.exchange(&request, &|| false), Ok(value) if value.as_object().is_some_and(|o| o.is_empty()))
     }
 }

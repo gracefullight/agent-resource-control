@@ -243,6 +243,7 @@ describe("production Dashboard and typed bridge", () => {
     expect(
       view.native.calls.every((call) =>
         [
+          "governor_get_switch",
           "daemon_health",
           "meter_snapshot",
           "meter_summary",

@@ -183,6 +183,17 @@ pub fn discard_unreleased_launch(
     if removed != 1 {
         return Err(E::InvalidTransition);
     }
+    // An OFF commit may have preserved this possibly delivered reservation.
+    // Known-unspawned cleanup makes it eligible now, in the same transaction
+    // as marker removal, without requiring a new client poll to free capacity.
+    if super::governor::disposition(&tx, &request.job_id)?.is_some() {
+        let state = crate::governor::get_switch(&tx)?;
+        super::governor::prepare(
+            &tx,
+            &request.job_id,
+            job.updated_at_ms.max(state.updated_at_ms.unwrap_or(0)),
+        )?;
+    }
     tx.commit()?;
     Ok(())
 }

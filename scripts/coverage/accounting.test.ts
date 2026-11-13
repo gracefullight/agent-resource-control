@@ -52,6 +52,16 @@ test("external cfg test module keeps its declared path; arbitrary filenames are 
   const a=analyzeSource('#[cfg(test)]\n#[path = "other.rs"]\nmod tests;\nmod tests_in_production;');
   expect(a.modules).toEqual([{name:"tests",path:"other.rs",testOnly:true},{name:"tests_in_production",path:undefined,testOnly:false}]);
 });
+test("visible external test modules retain paths before their cfg-disabled item is skipped",()=>{
+  for(const visibility of ["pub", "pub(crate)", "pub(super)", "pub(in crate::db_worker)"]) {
+    const a=analyzeSource(`#[cfg(all(test, target_os = "macos"))]\n#[path = "policy_tests.rs"]\n${visibility} mod tests;\nfn production() {}\n`);
+    expect(a.modules).toEqual([{name:"tests",path:"policy_tests.rs",testOnly:true}]);
+    expect([...a.omitted]).toEqual([1,2,3]);
+    const ordinary=analyzeSource(`#[path = "visible.rs"]\n${visibility} mod shared;\n`);
+    expect(ordinary.modules).toEqual([{name:"shared",path:"visible.rs",testOnly:false}]);
+    expect(ordinary.omitted.size).toBe(0);
+  }
+});
 test("test-only grouped use consumes its semicolon and retains adjacent production",()=>{
   const source='#[cfg(test)]\nuse test_calls::{call_until, call_until_no_busy_retry, call_until_tracked, call_with};\nfn production() {}\n';
   expect([...analyzeSource(source).omitted]).toEqual([1,2]);

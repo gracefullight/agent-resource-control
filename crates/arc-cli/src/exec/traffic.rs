@@ -28,18 +28,26 @@ pub(super) const CONTEXT_ENV: &str = "ARC_TRAFFIC_LINEAGE";
 pub(super) enum Route {
     Cargo,
     Bun,
+    Governor,
 }
 impl Route {
     fn operation(self) -> &'static str {
         match self {
             Self::Cargo => OPERATION_TRAFFIC_JOB,
             Self::Bun => OPERATION_BUN_JOB,
+            Self::Governor => arc_ipc::governor::OPERATION_JOB,
         }
     }
 }
 
 pub(super) enum Mode {
     Legacy(Tracking),
+    Unreserved {
+        waited: bool,
+        witness: Witness,
+        continuity: Continuity,
+        release_id: Option<String>,
+    },
     Scheduled {
         generation: u64,
         context: LineageContext,
@@ -55,6 +63,37 @@ pub(super) enum Mode {
     },
 }
 
+impl Mode {
+    pub(super) fn finish_unspawned(&self, socket: &Path, id: &JobId, observer: &ProcessIdentity) {
+        match self {
+            Self::Scheduled {
+                witness,
+                generation,
+                route,
+                continuity,
+                ..
+            } => witness.finish_unspawned(|| {
+                cancel(socket, id, observer, Some(*generation), *route, continuity)
+            }),
+            Self::Unreserved {
+                witness,
+                continuity,
+                ..
+            } => witness.finish_unspawned(|| {
+                cancel(socket, id, observer, None, Route::Governor, continuity)
+            }),
+            Self::Uncertain {
+                witness,
+                route,
+                continuity,
+            } => witness.finish_unspawned(|| {
+                cancel(socket, id, observer, None, *route, continuity) && *route != Route::Bun
+            }),
+            _ => (),
+        }
+    }
+}
+
 fn job(
     socket: &Path,
     request: &JobRequest,
@@ -64,6 +103,20 @@ fn job(
     possibly_committed: &mut bool,
     continuity: &Continuity,
 ) -> Result<JobResult, Failure> {
+    if route == Route::Governor {
+        return match super::governor::call(
+            socket,
+            &arc_ipc::governor::GovernorJobRequest::Traffic {
+                request: request.clone(),
+            },
+            deadline,
+            cancelled,
+            continuity,
+        )? {
+            arc_ipc::governor::GovernorJobResult::Traffic { result } => Ok(result),
+            _ => Err(Failure::Uncertain),
+        };
+    }
     let value = transport::call_until_with_continuity(
         socket,
         route.operation(),

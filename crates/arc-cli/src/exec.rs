@@ -1,6 +1,7 @@
 //! One CLI-owned native child, independent of every metadata retry.
 mod accounting;
 mod descriptors;
+mod governor;
 mod launch;
 mod lifecycle;
 mod lineage;
@@ -25,10 +26,7 @@ use std::{
 pub(crate) use preparation::invalid;
 
 pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
-    if argv.is_empty()
-        || argv[0].is_empty()
-        || argv.iter().any(|s| s.as_encoded_bytes().contains(&0))
-    {
+    if !preparation::valid_argv(&argv) {
         return invalid();
     }
     let deadline = Instant::now() + Duration::from_millis(1800);
@@ -47,7 +45,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         return preparation::stopped(transport::Failure::Local);
     };
     let classification = arc_detector::classify_argv(&argv);
-    let mut tracking = match traffic::prepare(
+    let mut tracking = match governor::prepare(
         &socket,
         &job_id,
         &observer,
@@ -58,6 +56,53 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         Ok(tracking) => tracking,
         Err(error) => return preparation::stopped(error),
     };
+    let mut launch_gate =
+        match launch::prepare(&socket, &job_id, &observer, &mut tracking, &signals) {
+            Ok(launch::Coordination::Fenced(gate)) => {
+                if gate.waited() {
+                    if let traffic::Mode::Scheduled { waited, .. }
+                    | traffic::Mode::Unreserved { waited, .. } = &mut tracking
+                    {
+                        *waited = true;
+                    }
+                }
+                Some(gate)
+            }
+            Ok(launch::Coordination::Legacy) => None,
+            Ok(launch::Coordination::Outage) => {
+                let old = std::mem::replace(
+                    &mut tracking,
+                    traffic::Mode::Legacy(preparation::Tracking::Uncertain),
+                );
+                tracking = match old {
+                    traffic::Mode::Scheduled {
+                        witness,
+                        route,
+                        continuity,
+                        ..
+                    } => traffic::Mode::Uncertain {
+                        witness,
+                        route,
+                        continuity,
+                    },
+                    traffic::Mode::Unreserved {
+                        witness,
+                        continuity,
+                        ..
+                    } => traffic::Mode::Uncertain {
+                        witness,
+                        route: traffic::Route::Governor,
+                        continuity,
+                    },
+                    other => other,
+                };
+                None
+            }
+            Err(error) => {
+                tracking.finish_unspawned(&socket, &job_id, &observer);
+                return preparation::stopped(error);
+            }
+        };
     let (accounting_relation, accounting_record) =
         accounting::lineage(&socket, &observer, &job_id, &tracking);
     let mut command = Command::new(&argv[0]);
@@ -76,6 +121,12 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         } => match lineage::Lineage::create(&socket, &observer, context) {
             Ok(lineage) => Some(lineage),
             Err(_) => {
+                // The lineage write happens after authorization. Retract the
+                // known-unspawned release before cleanup queues writer work.
+                if let Some(gate) = &mut launch_gate {
+                    let _ = gate.acknowledge(None);
+                }
+                drop(launch_gate.take());
                 witness.finish_unspawned(|| {
                     traffic::cancel(
                         &socket,
@@ -104,61 +155,16 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     signals.prepare_child(&mut command);
     descriptors::restore_in_child(&mut command);
     match &tracking {
-        traffic::Mode::Scheduled { witness, .. } | traffic::Mode::Uncertain { witness, .. } => {
+        traffic::Mode::Scheduled { witness, .. }
+        | traffic::Mode::Unreserved { witness, .. }
+        | traffic::Mode::Uncertain { witness, .. } => {
             witness.install(&mut command);
         }
         _ => (),
     }
-    let mut launch_gate = match launch::prepare(&socket, &job_id, &observer, &tracking, &signals) {
-        Ok(launch::Coordination::Fenced(gate)) => {
-            if gate.waited() {
-                if let traffic::Mode::Scheduled { waited, .. } = &mut tracking {
-                    *waited = true;
-                }
-            }
-            gate.install(&mut command);
-            Some(gate)
-        }
-        Ok(launch::Coordination::Legacy) => None,
-        Ok(launch::Coordination::Outage) => {
-            if let traffic::Mode::Scheduled {
-                witness,
-                route,
-                continuity,
-                ..
-            } = tracking
-            {
-                tracking = traffic::Mode::Uncertain {
-                    witness,
-                    route,
-                    continuity,
-                };
-            }
-            None
-        }
-        Err(error) => {
-            if let traffic::Mode::Scheduled {
-                generation,
-                witness,
-                route,
-                continuity,
-                ..
-            } = &tracking
-            {
-                witness.finish_unspawned(|| {
-                    traffic::cancel(
-                        &socket,
-                        &job_id,
-                        &observer,
-                        Some(*generation),
-                        *route,
-                        continuity,
-                    )
-                });
-            }
-            return preparation::stopped(error);
-        }
-    };
+    if let Some(gate) = &launch_gate {
+        gate.install(&mut command);
+    }
     let mut spawned_at = Instant::now();
     let spawned = match preparation::admit(
         || !signals.admit_spawn(),
@@ -175,41 +181,42 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 let _ = gate.acknowledge(None);
             }
             drop(launch_gate.take());
-            match &tracking {
-                traffic::Mode::Scheduled {
-                    generation,
-                    witness,
-                    route,
-                    continuity,
-                    ..
-                } => {
-                    witness.finish_unspawned(|| {
-                        traffic::cancel(
-                            &socket,
-                            &job_id,
-                            &observer,
-                            Some(*generation),
-                            *route,
-                            continuity,
-                        )
-                    });
-                }
-                traffic::Mode::Uncertain {
-                    witness,
-                    route,
-                    continuity,
-                } => {
-                    witness.finish_unspawned(|| {
-                        traffic::cancel(&socket, &job_id, &observer, None, *route, continuity)
-                            && *route != traffic::Route::Bun
-                    });
-                }
-                _ => (),
-            }
+            tracking.finish_unspawned(&socket, &job_id, &observer);
             return preparation::stopped(error);
         }
     };
-    if let Some(gate) = &mut launch_gate {
+    if let Ok(child) = &spawned {
+        launch::after_spawn(&job_id, child.id(), &signals);
+    }
+    let spawn_failure = spawned.as_ref().err().map(|error| {
+        let reason = match error.kind() {
+            io::ErrorKind::NotFound => SpawnReason::NotFound,
+            io::ErrorKind::PermissionDenied => SpawnReason::PermissionDenied,
+            io::ErrorKind::InvalidInput => SpawnReason::InvalidInput,
+            io::ErrorKind::WouldBlock | io::ErrorKind::OutOfMemory => {
+                SpawnReason::ResourceUnavailable
+            }
+            _ => SpawnReason::Other,
+        };
+        Outcome::SpawnFailed {
+            reason,
+            os_code: error.raw_os_error(),
+        }
+    });
+    let cancelled_spawn = spawned
+        .as_ref()
+        .err()
+        .is_some_and(|error| error.kind() == io::ErrorKind::Interrupted && signals.interrupted());
+    let unreserved_failure = match (&tracking, &spawn_failure) {
+        (traffic::Mode::Unreserved { witness, .. }, Some(outcome)) if !cancelled_spawn => {
+            // Persist terminal evidence while the release is still claimed.
+            // UNSPAWNED would clear its authority and requeue the failed job.
+            witness.finish_spawn_failed(outcome, || false);
+            true
+        }
+        _ => false,
+    };
+    if let Some(gate) = launch_gate.as_mut().filter(|_| !unreserved_failure) {
         let confirmed = match &spawned {
             Ok(child) => ProcessIdentity::capture(child.id())
                 .is_ok_and(|identity| gate.acknowledge(Some(identity))),
@@ -223,53 +230,11 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     let mut child = match spawned {
         Ok(child) => child,
         Err(error) if error.kind() == io::ErrorKind::Interrupted && signals.interrupted() => {
-            match &tracking {
-                traffic::Mode::Scheduled {
-                    generation,
-                    witness,
-                    route,
-                    continuity,
-                    ..
-                } => {
-                    witness.finish_unspawned(|| {
-                        traffic::cancel(
-                            &socket,
-                            &job_id,
-                            &observer,
-                            Some(*generation),
-                            *route,
-                            continuity,
-                        )
-                    });
-                }
-                traffic::Mode::Uncertain {
-                    witness,
-                    route,
-                    continuity,
-                } => {
-                    witness.finish_unspawned(|| {
-                        traffic::cancel(&socket, &job_id, &observer, None, *route, continuity)
-                            && *route != traffic::Route::Bun
-                    });
-                }
-                _ => (),
-            }
+            tracking.finish_unspawned(&socket, &job_id, &observer);
             return preparation::stopped(transport::Failure::Cancelled);
         }
-        Err(error) => {
-            let reason = match error.kind() {
-                io::ErrorKind::NotFound => SpawnReason::NotFound,
-                io::ErrorKind::PermissionDenied => SpawnReason::PermissionDenied,
-                io::ErrorKind::InvalidInput => SpawnReason::InvalidInput,
-                io::ErrorKind::WouldBlock | io::ErrorKind::OutOfMemory => {
-                    SpawnReason::ResourceUnavailable
-                }
-                _ => SpawnReason::Other,
-            };
-            let outcome = Outcome::SpawnFailed {
-                reason,
-                os_code: error.raw_os_error(),
-            };
+        Err(_) => {
+            let outcome = spawn_failure.expect("failed native spawn has its terminal outcome");
             match &tracking {
                 traffic::Mode::Legacy(preparation::Tracking::Managed) => {
                     let _ = complete(&socket, &job_id, &observer, outcome);
@@ -292,6 +257,25 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                             continuity,
                         )
                     });
+                }
+                traffic::Mode::Unreserved {
+                    witness,
+                    continuity,
+                    release_id,
+                    ..
+                } => {
+                    // Failure evidence was synced before dropping the fence.
+                    // Only committed terminal completion can discard it.
+                    witness.discard_if(release_id.as_ref().is_some_and(|release| {
+                        governor::complete(
+                            &socket,
+                            &job_id,
+                            &observer,
+                            release,
+                            outcome.clone(),
+                            continuity,
+                        )
+                    }));
                 }
                 traffic::Mode::Uncertain {
                     witness,
@@ -323,7 +307,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         traffic::Mode::Uncertain { .. } => {
             preparation::started(preparation::Tracking::Uncertain, &job_id)
         }
-        traffic::Mode::Scheduled { waited, .. } => {
+        traffic::Mode::Scheduled { waited, .. } | traffic::Mode::Unreserved { waited, .. } => {
             let mut diagnostics = preparation::Diagnostics::default();
             if *waited {
                 diagnostics.emit(format_args!("STARTED\nCommand started."));
@@ -367,6 +351,15 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
                 continuity,
             ) && continuity.confirmed()
         }),
+        traffic::Mode::Unreserved {
+            continuity,
+            release_id,
+            ..
+        } => child_identity.clone().is_some_and(|identity| {
+            release_id.as_ref().is_some_and(|release| {
+                governor::attach(&socket, &job_id, &observer, release, identity, continuity)
+            })
+        }),
         traffic::Mode::Uncertain {
             route, continuity, ..
         } => {
@@ -403,7 +396,9 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     let meter_report = if attached
         && matches!(
             &tracking,
-            traffic::Mode::Legacy(preparation::Tracking::Managed) | traffic::Mode::Scheduled { .. }
+            traffic::Mode::Legacy(preparation::Tracking::Managed)
+                | traffic::Mode::Scheduled { .. }
+                | traffic::Mode::Unreserved { .. }
         ) {
         accounting::report(
             &job_id,
@@ -451,6 +446,18 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
             }
             completed
         }
+        traffic::Mode::Unreserved {
+            witness,
+            continuity,
+            release_id,
+            ..
+        } => {
+            let completed = release_id.as_ref().is_some_and(|release| {
+                governor::complete(&socket, &job_id, &observer, release, outcome, continuity)
+            });
+            witness.discard_if(completed);
+            completed
+        }
         traffic::Mode::Uncertain {
             witness,
             route,
@@ -474,16 +481,10 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         _ => true,
     };
     if !completed {
-        let observed = status.code().map_or_else(
-            || {
-                format!(
-                    "The child terminated by signal {}.",
-                    status.signal().unwrap_or(0)
-                )
-            },
-            |code| format!("The child exited with code {code}."),
-        );
-        diagnostics.emit(format_args!("COMPLETION_UNCONFIRMED\nJob: {}\n{observed} Recording is unconfirmed. Inspect arcctl job status for this job. Do not launch another copy.", job_id.as_str()));
+        diagnostics.emit(format_args!(
+            "{}",
+            preparation::completion_notice(&job_id, &status)
+        ));
     }
     if let Some(report) = meter_report {
         let _ = accounting::deliver(&socket, &report, report_deadline);

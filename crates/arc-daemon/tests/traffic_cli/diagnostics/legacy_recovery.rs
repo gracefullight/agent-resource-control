@@ -38,8 +38,7 @@ fn lost_committed_bun_grant_survives_old_peer_replacement() {
                 }
             }
         };
-        let mut probe = accept();
-        let request: arc_ipc::Request = arc_ipc::read_message(&mut probe).unwrap();
+        let (mut probe, request) = policy_compat::next_legacy(&listener);
         assert_eq!(
             request.operation,
             arc_ipc::traffic::OPERATION_BUN_CAPABILITIES
@@ -283,12 +282,12 @@ fn acknowledged_bun_queue_survives_old_peer_replacement_and_original_store_recov
         .lines()
         .map(|s| serde_json::from_str(s).unwrap())
         .collect();
-    assert!(requests.iter().any(|r| r["operation"] == "traffic.bun.job"
-        && r["payload"]["action"] == "ENQUEUE"
-        && r["payload"]["job_id"] == id.as_str()));
+    assert!(requests.iter().any(|r| r["operation"] == "governor.job"
+        && r["payload"]["request"]["action"] == "ENQUEUE"
+        && r["payload"]["request"]["job_id"] == id.as_str()));
     assert!(requests
         .iter()
-        .any(|r| r["operation"] == "traffic.bun.job" && r["payload"]["action"] == "FALLBACK"));
+        .any(|r| r["operation"] == "governor.job" && r["payload"]["request"]["action"] == "FALLBACK"));
     assert!(requests
         .iter()
         .all(|r| r["operation"] != "traffic.job" && r["operation"] != "job.start"));

@@ -27,8 +27,7 @@ fn lost_cargo_enqueue_then_replacement_fallback_keeps_original_witness() {
     // This fault peer commits to the original store and drops the enqueue
     // acknowledgement while the wrapper is stopped. It never serves retries.
     let admitting = thread::spawn(move || {
-        let (mut stream, _) = listener.accept().unwrap();
-        let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
+        let (mut stream, request) = policy_compat::next_legacy(&listener);
         assert_eq!(
             request.operation,
             arc_ipc::traffic::OPERATION_TRAFFIC_CAPABILITIES
@@ -42,8 +41,7 @@ fn lost_cargo_enqueue_then_replacement_fallback_keeps_original_witness() {
         )
         .unwrap();
         drop(stream);
-        let (mut stream, _) = listener.accept().unwrap();
-        let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
+        let (stream, request) = policy_compat::next_legacy(&listener);
         assert_eq!(request.operation, arc_ipc::traffic::OPERATION_TRAFFIC_JOB);
         let input = arc_ipc::traffic::decode_job_for(&request.operation, &request.payload).unwrap();
         let JobRequest::Enqueue {
@@ -220,8 +218,7 @@ fn lost_bun_grant_then_successful_retry_against_another_store_keeps_original_wit
     // Fault fixture executes the real storage admission with the actual CLI
     // peer PID, then deliberately loses the committed response.
     let admitting = thread::spawn(move || {
-        let (mut stream, _) = listener.accept().unwrap();
-        let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
+        let (mut stream, request) = policy_compat::next_legacy(&listener);
         assert_eq!(
             request.operation,
             arc_ipc::traffic::OPERATION_BUN_CAPABILITIES
@@ -235,8 +232,7 @@ fn lost_bun_grant_then_successful_retry_against_another_store_keeps_original_wit
         )
         .unwrap();
         drop(stream);
-        let (mut stream, _) = listener.accept().unwrap();
-        let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
+        let (stream, request) = policy_compat::next_legacy(&listener);
         let input = arc_ipc::traffic::decode_job_for(&request.operation, &request.payload).unwrap();
         let JobRequest::Enqueue {
             job_id, observer, ..

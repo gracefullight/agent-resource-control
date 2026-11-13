@@ -4,7 +4,26 @@ use crate::{
     error::DesktopError,
     lifecycle::{CreditLink, DesktopState, LifecycleEvent},
 };
+use arc_ipc::governor::{
+    GetGovernorSwitchRequest, GovernorMutationResult, GovernorSwitchReadResult,
+    SetGovernorSwitchRequest,
+};
 use tauri::State;
+
+#[tauri::command]
+pub async fn governor_get_switch(
+    state: State<'_, DesktopState>,
+    query: GetGovernorSwitchRequest,
+) -> Result<Received<GovernorSwitchReadResult>, DesktopError> {
+    state.bridge.governor_get_switch_async(query).await
+}
+#[tauri::command]
+pub async fn governor_set_switch(
+    state: State<'_, DesktopState>,
+    request: SetGovernorSwitchRequest,
+) -> Result<Received<GovernorMutationResult>, DesktopError> {
+    state.bridge.governor_set_switch_async(request).await
+}
 
 #[tauri::command]
 pub async fn policy_current(

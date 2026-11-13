@@ -20,6 +20,7 @@ use std::{
 
 const READ_DEADLINE: Duration = Duration::from_secs(2);
 
+mod governor;
 mod job_meter;
 mod policy;
 

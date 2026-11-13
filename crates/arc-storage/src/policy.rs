@@ -19,6 +19,7 @@ pub fn transaction<T>(
     apply: impl FnOnce(&Connection, &EffectivePolicy) -> JobResult<T>,
 ) -> JobResult<T> {
     let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+    let _control = provider.try_control().ok_or(E::Busy)?;
     let mut pending = Some((tx, apply));
     let mut result = None;
     provider.with_observation(&mut |input| {

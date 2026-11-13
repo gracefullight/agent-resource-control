@@ -16,6 +16,7 @@ pub(crate) enum Operation {
     Traffic(super::traffic::Operation),
     Meter(super::job_meter::Operation),
     Policy(super::policy::Operation),
+    Governor(super::governor::Operation),
 }
 pub(crate) enum Value {
     Start(Result<StartResult, JobError>),
@@ -26,6 +27,7 @@ pub(crate) enum Value {
     Traffic(super::traffic::Value),
     Meter(super::job_meter::Value),
     Policy(Result<super::policy::Value, JobError>),
+    Governor(Result<super::governor::Value, JobError>),
 }
 pub(crate) fn now() -> u64 {
     SystemTime::now()
@@ -43,6 +45,9 @@ pub(crate) fn execute_observed(
     reader: Option<&super::observation::Observations>,
 ) -> Value {
     let value = match op {
+        Operation::Governor(operation) => {
+            Value::Governor(super::governor::execute(connection, operation, reader))
+        }
         Operation::Start(request, evidence, observed_at_ms) => {
             Value::Start(jobs::start(connection, &request, &evidence, observed_at_ms))
         }

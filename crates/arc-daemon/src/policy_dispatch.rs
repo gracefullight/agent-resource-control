@@ -17,6 +17,7 @@ use std::{
 use tokio::net::UnixStream;
 
 pub(crate) enum Input {
+    Governor(super::governor_dispatch::Input),
     Current,
     Job(arc_ipc::jobs::JobId),
     Launch(launch::LaunchRequest),
@@ -24,6 +25,7 @@ pub(crate) enum Input {
 }
 pub(crate) type Fence = (Instant, Box<dyn Send>);
 pub(crate) enum Value {
+    Governor(super::governor_dispatch::Value),
     Current(policy::EffectivePolicy),
     Job(Box<policy::JobPolicyResult>),
     Acknowledged,
@@ -47,6 +49,9 @@ pub(crate) async fn dispatch(
     handler: Option<&Handler>,
     metrics: &Arc<RuntimeMetrics>,
 ) -> bool {
+    if super::governor_dispatch::dispatch(stream, request, limits, handler, metrics).await {
+        return true;
+    }
     if request.protocol_version != PROTOCOL_VERSION {
         return false;
     }
@@ -121,6 +126,7 @@ pub(crate) async fn dispatch(
         .unwrap_or(Err(arc_ipc::ERROR_DB_BUSY)),
     };
     match result {
+        Ok(Value::Governor(_)) => unreachable!("separate Governor dispatcher"),
         Err(code) => {
             let code = if launch_request.is_none() && code == arc_ipc::ERROR_DB_BUSY {
                 policy::ERROR_POLICY_UNAVAILABLE
@@ -220,7 +226,7 @@ async fn read_ack(
     Ok((request.request_id, ack))
 }
 
-async fn write(
+pub(super) async fn write(
     stream: &UnixStream,
     response: &Response,
     end: Instant,

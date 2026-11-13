@@ -19,6 +19,7 @@ mod recovery;
 #[path = "traffic_witness.rs"]
 mod witness;
 use recovery::recover;
+pub(super) use recovery::recover as recover_for_governor;
 
 pub(crate) fn recover_at_start(connection: &mut rusqlite::Connection) -> Result<(), JobError> {
     recovery::recover_at_start(connection)
@@ -162,7 +163,7 @@ async fn call(
     }
 }
 
-fn context() -> io::Result<LineageContext> {
+pub(super) fn context() -> io::Result<LineageContext> {
     let mut bytes = [0u8; 32];
     std::fs::File::open("/dev/urandom")?.read_exact(&mut bytes)?;
     LineageContext::try_from(bytes.iter().map(|b| format!("{b:02x}")).collect::<String>())

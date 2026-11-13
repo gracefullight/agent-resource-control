@@ -120,6 +120,7 @@ export function DesktopApplication({
         <DesktopDashboard
           snapshot={snapshot}
           onRefresh={controller.refresh}
+          onGovernorChange={controller.setGovernor}
           onSelect={controller.select}
           visible={destination === "dashboard" && snapshot.active}
           {...format}

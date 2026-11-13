@@ -69,6 +69,8 @@ fn install<R: Runtime>(
         .on_menu_event(lifecycle::on_menu_event)
         .on_tray_icon_event(lifecycle::on_tray_icon_event)
         .invoke_handler(tauri::generate_handler![
+            commands::governor_get_switch,
+            commands::governor_set_switch,
             commands::daemon_health,
             commands::meter_snapshot,
             commands::meter_summary,

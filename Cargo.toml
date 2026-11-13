@@ -34,3 +34,5 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 sha2 = "0.11"
 tokio = { version = "1", default-features = false, features = ["macros", "net", "rt-multi-thread", "signal", "sync", "time"] }
+# Used only by contract tests/export; never linked into a production crate.
+ts-rs = { version = "=12.0.1", default-features = false, features = ["serde-compat"] }

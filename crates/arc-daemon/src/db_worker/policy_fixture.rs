@@ -35,7 +35,7 @@ impl arc_meter::NativeSource for InjectedSource {
         sample
     }
 }
-pub(super) struct Fixture {
+pub(crate) struct Fixture {
     pub worker: DbWorker,
     pub meter: arc_meter::MeterWorker,
     pub client: DbClient,

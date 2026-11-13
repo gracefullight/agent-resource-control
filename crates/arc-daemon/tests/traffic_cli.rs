@@ -21,6 +21,7 @@ fn binary(name: &str) -> PathBuf {
     Path::new(env!("CARGO_BIN_EXE_arc-daemon")).with_file_name(name)
 }
 
+#[track_caller]
 fn eventually(mut check: impl FnMut() -> bool) {
     let deadline = Instant::now() + Duration::from_secs(45);
     while !check() {

@@ -7,6 +7,7 @@ import { RecordedTime, type TimeFormat } from "@/components/recorded-time";
 import { Button } from "@/components/ui/button";
 import { DesktopMeter } from "@/dashboard/desktop-meter";
 import type { DashboardSnapshot } from "@/dashboard/desktop-refresh-controller";
+import { GovernorMasterSwitch } from "@/dashboard/governor-master-switch";
 import { RecentJobsList } from "@/dashboard/recent-jobs-list";
 import { SelectedJobPanel } from "@/dashboard/selected-job-panel";
 import {
@@ -18,12 +19,14 @@ import {
 interface DesktopDashboardProps extends TimeFormat {
   snapshot: DashboardSnapshot;
   onRefresh(): void;
+  onGovernorChange(enabled: boolean): void;
   onSelect(jobId: string): void;
   visible: boolean;
 }
 export function DesktopDashboard({
   snapshot,
   onRefresh,
+  onGovernorChange,
   onSelect,
   visible,
   ...format
@@ -107,6 +110,11 @@ export function DesktopDashboard({
         )}
         <p className="mt-2 text-xs text-muted-foreground">{m.healthScope}</p>
         {!snapshot.active && <p className="mt-2 text-sm">{m.paused}</p>}
+        <GovernorMasterSwitch
+          section={snapshot.governor}
+          onChange={onGovernorChange}
+          {...format}
+        />
       </section>
       <DesktopMeter section={snapshot.meter} {...format} />
       <p className="text-sm text-muted-foreground">{m.inspectionHelp}</p>

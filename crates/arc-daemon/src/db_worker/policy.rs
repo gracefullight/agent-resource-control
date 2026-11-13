@@ -63,6 +63,12 @@ fn execute_with_clock(
             proof,
         } => {
             let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
+            let control_end =
+                Instant::now() + std::time::Duration::from_millis(arc_policy::MAX_LAUNCH_FENCE_MS);
+            let control = reader
+                .map(|r| r.control_fence(control_end))
+                .unwrap_or_else(|| Some((control_end, Box::new(()) as Box<dyn Send>)))
+                .ok_or(E::Busy)?;
             // Resolve after IMMEDIATE, never before a possible writer backlog.
             let active = reader.map(|source| source.reader());
             let snapshot = active.as_ref().and_then(|source| source.as_ref());
@@ -122,12 +128,19 @@ fn execute_with_clock(
                 (Ok(result), fence)
             };
             let result = result?;
+            let fence = fence.map(|(end, fence)| {
+                (
+                    end.min(control_end),
+                    Box::new((control, fence)) as Box<dyn Send>,
+                )
+            });
             if matches!(result, LaunchResult::Ready { .. })
                 && fence.as_ref().is_none_or(|(end, _)| clock() >= *end)
             {
                 // No release left this writer. If COMMIT consumed the final
                 // freshness budget, retract only this known-undelivered marker.
                 // Cleanup failure is uncertainty, never a retryable rejection.
+                drop(fence);
                 repository::discard_unreleased_launch(connection, &request)
                     .map_err(|_| E::InvalidTransition)?;
                 return Err(E::Busy);
@@ -142,8 +155,14 @@ pub(crate) async fn handle(
     peer: u32,
     deadline: Instant,
 ) -> Result<Value, &'static str> {
+    if let Input::Governor(input) = input {
+        return super::governor::handle(client, input, peer, deadline)
+            .await
+            .map(Value::Governor);
+    }
     let unspawned = matches!(&input, Input::Unspawned(_));
     let operation = match input {
+        Input::Governor(_) => unreachable!(),
         Input::Current => Operation::Current,
         Input::Job(id) => Operation::Job(id),
         Input::Launch(request) | Input::Unspawned(request) => {
@@ -191,4 +210,4 @@ pub(crate) async fn handle(
 
 #[cfg(all(test, target_os = "macos"))]
 #[path = "policy_tests.rs"]
-mod tests;
+pub(crate) mod tests;

@@ -104,9 +104,9 @@ fn registered_pressure_schema_is_current_after_actual_local_migration_and_reopen
     let path = directory.join("db.sqlite3");
     let connection = arc_storage::open_and_migrate(&path).unwrap();
     let schema = assess_schema(&connection).unwrap();
-    assert_eq!(schema.applied_version, Some(5));
-    assert_eq!(schema.supported_version, 5);
-    assert_eq!(schema.schema_migrations, 5);
+    assert_eq!(schema.applied_version, Some(6));
+    assert_eq!(schema.supported_version, 6);
+    assert_eq!(schema.schema_migrations, 6);
     assert!(schema.history_verified);
     connection.close().unwrap();
     let reopened = arc_storage::open_and_migrate(&path).unwrap();

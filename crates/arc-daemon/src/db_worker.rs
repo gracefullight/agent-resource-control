@@ -2,6 +2,8 @@
 
 #[path = "db_worker/execution.rs"]
 mod execution;
+#[path = "db_worker/governor.rs"]
+pub(crate) mod governor;
 #[path = "db_worker/job_meter.rs"]
 pub(crate) mod job_meter;
 #[path = "db_worker/jobs.rs"]
@@ -178,6 +180,7 @@ impl DbWorker {
             .busy_timeout(config.busy_timeout)
             .map_err(DbError::Sql)?;
         execution::install_progress(&mut connection, Arc::clone(&shared))?;
+        execution::install_commit(&mut connection, Arc::clone(&shared))?;
         execution::install_busy(
             &mut connection,
             Arc::clone(&shared),

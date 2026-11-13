@@ -1,3 +1,9 @@
+import type {
+  GetGovernorSwitchRequest,
+  GovernorMutationResult,
+  GovernorSwitchReadResult,
+  SetGovernorSwitchRequest,
+} from "@/bridge/governor.generated";
 import type { JobMeterSummary } from "@/bridge/job-meter.types";
 import type { MeterSnapshot } from "@/bridge/meter.types";
 import type { EffectivePolicy, JobPolicyResult } from "@/bridge/policy.types";
@@ -119,6 +125,12 @@ export interface DesktopError {
   retryable: boolean;
 }
 export interface DesktopClient {
+  governorGetSwitch(
+    query: GetGovernorSwitchRequest,
+  ): Promise<Received<GovernorSwitchReadResult>>;
+  governorSetSwitch(
+    request: SetGovernorSwitchRequest,
+  ): Promise<Received<GovernorMutationResult>>;
   policyCurrent(): Promise<Received<EffectivePolicy>>;
   policyJob(jobId: JobId): Promise<Received<JobPolicyResult>>;
   daemonHealth(): Promise<Received<DaemonHealth>>;

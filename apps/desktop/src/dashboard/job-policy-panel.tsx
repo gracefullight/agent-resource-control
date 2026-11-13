@@ -1,4 +1,6 @@
 import type { PolicyObservation } from "@/bridge/policy.types";
+import { governorMessages } from "@/dashboard/governor-messages";
+import type { GovernorSection } from "@/dashboard/governor-switch-state";
 import {
   decisionReasonMessages,
   policyMessages as m,
@@ -10,7 +12,16 @@ import { desktopErrorMessages } from "@/desktop-messages";
 export function policyAnnouncement(
   section: PolicySection,
   terminal = false,
+  governor?: GovernorSection,
 ): string {
+  if (
+    governor?.value?.data.enabled === false &&
+    !governor.stale &&
+    !governor.error
+  )
+    return governorMessages.pausedHelp;
+  if (governor && (!governor.value || governor.stale || governor.error))
+    return m.unknown;
   if (section.error?.code === "unsupported") return m.unsupported;
   if (section.error)
     return `${section.value ? m.retained : m.unknown} ${desktopErrorMessages[section.error.code]}`;
@@ -83,24 +94,36 @@ function ObservationDetails({
 export function JobPolicyPanel({
   section,
   terminal = false,
+  governor,
 }: {
   section: PolicySection;
   terminal?: boolean;
+  governor?: GovernorSection;
 }) {
   const effective = section.value?.data,
     result = section.job?.data,
     decision = result?.last_decision;
+  const paused =
+    governor?.value?.data.enabled === false &&
+    !governor.stale &&
+    !governor.error;
   const confirmedHold =
+    (!governor || (!!governor.value && !governor.stale && !governor.error)) &&
+    !paused &&
     !terminal &&
     !section.error &&
     !section.stale &&
     effective?.mode === "memory_hold" &&
     decision?.reason === "memory_pressure";
-  const retained = section.stale || !!section.error;
+  const retained =
+    section.stale ||
+    !!section.error ||
+    paused ||
+    (!!governor && (!governor.value || governor.stale || !!governor.error));
   return (
     <section aria-label={m.heading} className="mt-4 space-y-2 text-sm">
       <h3 className="font-semibold">{m.heading}</h3>
-      <p>{policyAnnouncement(section, terminal)}</p>
+      <p>{policyAnnouncement(section, terminal, governor)}</p>
       {confirmedHold && <p>{m.recovery}</p>}
       {decision?.reason === "memory_pressure" && !confirmedHold && (
         <p>{m.historicalHold}</p>

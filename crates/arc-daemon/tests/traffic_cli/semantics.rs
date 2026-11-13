@@ -434,8 +434,7 @@ fn bun_probe_rejects_malformed_or_mismatched_replies_and_lost_reply_fails_open_o
         let listener = UnixListener::bind(&f.socket).unwrap();
         let peer = thread::spawn(move || {
             for _ in 0..if mode == "lost" { 3 } else { 1 } {
-                let (mut stream, _) = listener.accept().unwrap();
-                let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
+                let (mut stream, request) = policy_compat::next_legacy(&listener);
                 assert_eq!(
                     request.operation,
                     arc_ipc::traffic::OPERATION_BUN_CAPABILITIES

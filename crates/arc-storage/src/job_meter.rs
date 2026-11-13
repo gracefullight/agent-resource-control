@@ -205,7 +205,7 @@ fn queue(connection: &Connection, id: &str, aware: bool) -> MeterResult<QueueWai
     }
     let timestamps = connection
         .query_row(
-            "SELECT queued_at_ms,granted_at_ms FROM traffic_entries WHERE job_id=?1",
+            "SELECT t.queued_at_ms,COALESCE(t.granted_at_ms,g.unreserved_at_ms) FROM traffic_entries t LEFT JOIN governor_jobs g ON g.job_id=t.job_id WHERE t.job_id=?1",
             [id],
             |row| Ok((row.get::<_, i64>(0)?, row.get::<_, Option<i64>>(1)?)),
         )

@@ -21,7 +21,15 @@ pub(in crate::exec) fn cancel(
     let request = JobRequest::Cancel {
         job_id: id.clone(),
         observer: observer.clone(),
-        permit_generation: generation,
+        // A Governor pause can retire this generation before a no-spawn
+        // cleanup reaches the writer. Cancellation belongs to this owner/job,
+        // including a later readmission of the same job. The writer still
+        // retains any attached/running child; legacy generation checks remain.
+        permit_generation: if route == Route::Governor {
+            None
+        } else {
+            generation
+        },
     };
     let result = job(
         socket,

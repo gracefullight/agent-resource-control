@@ -20,7 +20,7 @@ fn upgrade_from_original_registry_preserves_rows_checksums_and_reopen() {
     );
     drop(c);
     let mut c = db.open();
-    assert_eq!(assess_schema(&c).unwrap().applied_version, Some(5));
+    assert_eq!(assess_schema(&c).unwrap().applied_version, Some(6));
     let retained: (String, i64, String) = c
         .query_row(
             "SELECT id,applied_at,checksum FROM schema_migrations WHERE id='0001_phase0'",
@@ -43,7 +43,7 @@ fn upgrade_from_original_registry_preserves_rows_checksums_and_reopen() {
         c.query_row("SELECT COUNT(*) FROM schema_migrations", [], |r| r
             .get::<_, i64>(0))
             .unwrap(),
-        5
+        6
     );
 }
 #[test]

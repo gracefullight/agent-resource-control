@@ -21,6 +21,8 @@ mod legacy_projection;
 use legacy_projection::project_legacy_snapshot;
 
 pub(crate) use arc_ipc::ERROR_DB_BUSY;
+#[path = "governor_dispatch.rs"]
+pub(crate) mod governor_dispatch;
 #[path = "policy_dispatch.rs"]
 pub(crate) mod policy_dispatch;
 

@@ -348,7 +348,7 @@ async fn typed_worker_errors_reach_protocol_and_actual_cli_then_recover() {
             doctor.status.success() && doctor.stderr.is_empty(),
             "{doctor:?}"
         );
-        assert_eq!(doctor.stdout, b"ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 5. Migration history verified.\n");
+        assert_eq!(doctor.stdout, b"ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 6. Migration history verified.\n");
         eprintln!(
             "classification-receipt: {}",
             serde_json::json!({"sqlite_code":code,"protocol":1,"wire":wire,"cli_stderr":cli_error,"status_recovered":true,"doctor_recovered":true})

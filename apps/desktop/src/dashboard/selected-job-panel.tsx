@@ -74,6 +74,7 @@ export function SelectedJobPanel({
       {detail.stale && <p className="mt-4 text-sm font-medium">{m.stale}</p>}
       <JobPolicyPanel
         section={snapshot.policy}
+        governor={snapshot.governor}
         terminal={Boolean(
           job && (job.outcome !== null || job.phase === "RUNNING"),
         )}
@@ -160,7 +161,7 @@ export function SelectedJobPanel({
         {job ||
         snapshot.policy.job?.data.job_id === selectedId ||
         (!selectedId && (snapshot.policy.value || snapshot.policy.error))
-          ? ` ${policyAnnouncement(snapshot.policy, Boolean(job && (job.outcome !== null || job.phase === "RUNNING")))}`
+          ? ` ${policyAnnouncement(snapshot.policy, Boolean(job && (job.outcome !== null || job.phase === "RUNNING")), snapshot.governor)}`
           : ""}
       </p>
     </section>

@@ -118,6 +118,7 @@ describe("production desktop component lifecycle", () => {
     const pending = deferred<unknown>();
     native.enqueue("daemon_health", () => pending.promise);
     const view = mountDesktop(native);
+    await settle(); // Governor read precedes the deliberately pending health read.
     await act(async () => {
       view.visibility.hide();
       view.visibility.show();
@@ -158,6 +159,7 @@ describe("production desktop component lifecycle", () => {
     expect(
       view.native.calls.every((call) =>
         [
+          "governor_get_switch",
           "daemon_health",
           "meter_snapshot",
           "meter_summary",

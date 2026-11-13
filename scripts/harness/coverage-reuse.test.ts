@@ -4,7 +4,7 @@ import { delimiter, resolve } from "node:path";
 import { reuseFixture } from "./coverage-reuse-fixture";
 import { coverageEvidence, reuseCoverage } from "../coverage/coverage-receipts";
 import { coverageLayout } from "../coverage/output-layout";
-import { CRATES, METER_INPUTS, MEMORY_PRESSURE_INPUTS, FROZEN_INPUTS, BASELINE } from "../coverage/config";
+import { CRATES, METER_INPUTS, MEMORY_PRESSURE_INPUTS, GOVERNOR_INPUTS, FROZEN_INPUTS, BASELINE } from "../coverage/config";
 import { hash, inputIdentity } from "../coverage/source";
 import { account } from "../coverage/accounting";
 import { enforce } from "../coverage/gate";
@@ -43,6 +43,19 @@ test("memory-pressure frozen inputs bind receipts while generated reports do not
   expect(inputIdentity(f.root).sha256).toBe(f.inputs.sha256);
   expect(reuse(f).recollected).toBe(false);
   const contract=MEMORY_PRESSURE_INPUTS[0];
+  delete f.bundle.frozenInputs[contract];f.writeBundle();
+  expect(()=>reuse(f)).toThrow(`frozen input mismatch ${contract}`);
+}));
+
+test("Governor contract is a frozen input and generated Governor receipts cannot invalidate collection",()=>withFixture(f=>{
+  for(const name of ["gates.json","integration.json","qa.json","final.md"]) {
+    f.save(`.arc-verify/governor/${name}`,"Synthetic generated result\n");
+  }
+  f.save("target/governor/raw-log.txt","Synthetic raw log\n");
+  expect(inputIdentity(f.root).sha256).toBe(f.inputs.sha256);
+  expect(reuse(f).recollected).toBe(false);
+  const contract=GOVERNOR_INPUTS[0];
+  expect(FROZEN_INPUTS).toContain(contract);
   delete f.bundle.frozenInputs[contract];f.writeBundle();
   expect(()=>reuse(f)).toThrow(`frozen input mismatch ${contract}`);
 }));

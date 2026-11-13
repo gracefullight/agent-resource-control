@@ -142,6 +142,10 @@ export class NativeFixture {
   metadata: unknown = clone(golden.metadata);
   meter: unknown = meterReply(sharedMeterSnapshot());
   policy: unknown = null;
+  governor: unknown = {
+    data: { switch: { key: "governor.enabled", enabled: true, revision: 0 } },
+    received_at_ms: T,
+  };
   policies = new Map<string, unknown>();
   jobMeters = new Map<string, unknown>([
     [A, jobMeterReply(unknownJobMeter(A))],
@@ -164,6 +168,8 @@ export class NativeFixture {
   invoke: DesktopInvoke = async (command, args) => {
     this.calls.push({ command, args });
     const daemonRead =
+      command === "governor_get_switch" ||
+      command === "governor_set_switch" ||
       command === "daemon_health" ||
       command === "recent_jobs" ||
       command === "meter_snapshot" ||
@@ -180,6 +186,10 @@ export class NativeFixture {
         return await (typeof reply === "function" ? reply() : reply);
       }
       switch (command) {
+        case "governor_get_switch":
+          return clone(this.governor);
+        case "governor_set_switch":
+          throw { code: "rejected", retryable: false };
         case "policy_current":
           if (this.policy === null)
             throw { code: "unsupported", retryable: false };

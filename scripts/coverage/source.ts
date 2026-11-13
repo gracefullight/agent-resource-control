@@ -89,16 +89,19 @@ export function analyzeSource(source: string) {
       attrs.push(ts.slice(i+2,end).map(t=>t.text)); i=end; continue;
     }
     const testOnly=attrs.some(a=>a[0]==="cfg" && cfgWithoutTest(a.slice(2,-1))===false);
-    if(ts[i].text==="mod" && ts[i+2]?.text===";") {
+    let keyword=i;
+    if(["pub","crate"].includes(ts[keyword].text)) {
+      keyword++;
+      if(ts[keyword]?.text==="(") keyword=closing(ts,keyword)+1;
+    }
+    // A cfg-disabled visible item is skipped at its `pub` token. Record its
+    // external module before skipping, retaining the real path and cfg proof.
+    // Production-visible items are recorded once at their later `mod` token.
+    if((keyword===i || testOnly) && ts[keyword]?.text==="mod" && ts[keyword+2]?.text===";") {
       const path=attrs.find(a=>a[0]==="path")?.[2];
-      modules.push({name:ts[i+1].text,path:path?JSON.parse(path):undefined,testOnly});
+      modules.push({name:ts[keyword+1].text,path:path?JSON.parse(path):undefined,testOnly});
     }
     if(testOnly) {
-      let keyword=i;
-      if(["pub","crate"].includes(ts[keyword].text)) {
-        keyword++;
-        if(ts[keyword]?.text==="(") keyword=closing(ts,keyword)+1;
-      }
       const groupedUse=ts[keyword]?.text==="use";
       let end=i, angles=0;
       for(;end<ts.length;end++) {

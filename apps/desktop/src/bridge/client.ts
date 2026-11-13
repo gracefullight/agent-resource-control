@@ -1,4 +1,23 @@
 import { invoke } from "@tauri-apps/api/core";
+import {
+  CREDIT_LINKS,
+  ERROR_CODES,
+  PHASES,
+  REASONS,
+} from "@/bridge/desktop-contract.constants";
+import type {
+  GetGovernorSwitchRequest,
+  GovernorMutationResult,
+  GovernorSwitchReadResult,
+  SetGovernorSwitchRequest,
+} from "@/bridge/governor.generated";
+import {
+  boundedGovernorValue,
+  isGovernorMutationResult,
+  isGovernorQuery,
+  isGovernorReadResult,
+  isGovernorRequest,
+} from "@/bridge/governor-contract";
 import type { JobMeterSummary } from "@/bridge/job-meter.types";
 import { isJobMeterSummary } from "@/bridge/job-meter-contract";
 import type { MeterSnapshot } from "@/bridge/meter.types";
@@ -21,47 +40,9 @@ import type {
   RecentJobs,
 } from "@/bridge/types";
 
-const PHASES = [
-  "REGISTERED",
-  "LAUNCHING",
-  "RUNNING",
-  "COMPLETED",
-  "SIGNALED",
-  "SPAWN_FAILED",
-  "OUTCOME_UNKNOWN",
-] as const;
-const REASONS = [
-  "NONE",
-  "REGISTERED_NOT_CLAIMED",
-  "CLAIMED_NOT_ATTACHED",
-  "OBSERVER_MISSING_NOT_CLAIMED",
-  "OBSERVER_MISSING",
-  "PROCESS_MISSING",
-  "IDENTITY_MISMATCH",
-  "IDENTITY_UNAVAILABLE",
-  "CHILD_VERIFIED",
-  "OBSERVED_EXIT",
-  "OBSERVED_SIGNAL",
-  "OBSERVED_SPAWN_FAILURE",
-] as const;
-const ERROR_CODES = [
-  "unavailable",
-  "uncertain",
-  "busy",
-  "rejected",
-  "protocol",
-  "invalid_reply",
-  "invalid_request",
-  "invalid_endpoint",
-  "local",
-  "cancelled",
-  "unsupported",
-  "opener_failed",
-  "window_unavailable",
-] as const;
-const CREDIT_LINKS = ["github", "linkedin", "oma"] as const;
-
 export type DesktopCommand =
+  | "governor_get_switch"
+  | "governor_set_switch"
   | "policy_current"
   | "policy_job"
   | "daemon_health"
@@ -78,7 +59,11 @@ export type DesktopCommand =
 // Injection seam for deterministic tests; consumers get only the fixed methods.
 export type DesktopInvoke = (
   command: DesktopCommand,
-  args?: { job_id: JobId } | { link: CreditLink },
+  args?:
+    | { job_id: JobId }
+    | { link: CreditLink }
+    | { query: GetGovernorSwitchRequest }
+    | { request: SetGovernorSwitchRequest },
 ) => Promise<unknown>;
 
 function exactObject(
@@ -369,7 +354,10 @@ export function createDesktopClient(
   async function read<T>(
     command: DesktopCommand,
     validate: (value: unknown) => value is T,
-    args?: { job_id: JobId },
+    args?:
+      | { job_id: JobId }
+      | { query: GetGovernorSwitchRequest }
+      | { request: SetGovernorSwitchRequest },
   ): Promise<T> {
     try {
       const reply = await nativeInvoke(command, args);
@@ -399,6 +387,33 @@ export function createDesktopClient(
     }
   }
   return {
+    governorGetSwitch: async (query) => {
+      if (!isGovernorQuery(query)) throw invalidRequest();
+      return read(
+        "governor_get_switch",
+        (value): value is Received<GovernorSwitchReadResult> =>
+          isReceived(
+            value,
+            (data): data is GovernorSwitchReadResult =>
+              boundedGovernorValue(data) && isGovernorReadResult(data, query),
+          ),
+        { query },
+      );
+    },
+    governorSetSwitch: async (request) => {
+      if (!isGovernorRequest(request)) throw invalidRequest();
+      return read(
+        "governor_set_switch",
+        (value): value is Received<GovernorMutationResult> =>
+          isReceived(
+            value,
+            (data): data is GovernorMutationResult =>
+              boundedGovernorValue(data) &&
+              isGovernorMutationResult(data, request),
+          ),
+        { request },
+      );
+    },
     policyCurrent: () =>
       read("policy_current", (value): value is Received<EffectivePolicy> =>
         isReceived(value, isEffectivePolicy),

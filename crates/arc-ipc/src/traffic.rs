@@ -12,12 +12,18 @@ pub use arc_traffic::{BypassReason, Resources, WaitReason};
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
+pub mod diagnostics;
+pub mod scripts;
+
 pub const OPERATION_TRAFFIC_CAPABILITIES: &str = "traffic.capabilities";
 pub const OPERATION_TRAFFIC_JOB: &str = "traffic.job";
 pub const OPERATION_BUN_CAPABILITIES: &str = "traffic.bun.capabilities";
 pub const OPERATION_BUN_JOB: &str = "traffic.bun.job";
 pub const CAPABILITY: &str = "traffic.v1";
 pub const BUN_CAPABILITY: &str = "traffic.bun.v1";
+pub const OPERATION_BUN_SCRIPTS_CAPABILITIES: &str = "traffic.bun-scripts.capabilities";
+pub const OPERATION_BUN_SCRIPTS_JOB: &str = "traffic.bun-scripts.job";
+pub const BUN_SCRIPTS_CAPABILITY: &str = "traffic.bun-scripts.v1";
 pub const MAX_TRAFFIC_PAYLOAD_BYTES: usize = 8192;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -36,6 +42,12 @@ impl Capabilities {
     pub fn bun_supported() -> Self {
         Self {
             capability: BUN_CAPABILITY.to_owned(),
+        }
+    }
+
+    pub fn scripts_supported() -> Self {
+        Self {
+            capability: BUN_SCRIPTS_CAPABILITY.to_owned(),
         }
     }
 }
@@ -59,8 +71,32 @@ pub fn decode_probe(payload: &serde_json::Value) -> Result<(), &'static str> {
 /// Validate the matching response on an already authenticated connection.
 /// Only the explicit unsupported response permits a legacy-client fallback.
 pub fn interpret_probe(request: &Request, response: &Response) -> ProbeResult {
+    interpret_probe_for(
+        request,
+        response,
+        OPERATION_TRAFFIC_CAPABILITIES,
+        CAPABILITY,
+    )
+}
+
+/// The expected operation/capability pair is selected locally, never by the peer.
+pub fn interpret_probe_for(
+    request: &Request,
+    response: &Response,
+    operation: &str,
+    capability: &str,
+) -> ProbeResult {
+    if !matches!(
+        (operation, capability),
+        (OPERATION_TRAFFIC_CAPABILITIES, CAPABILITY)
+            | (OPERATION_BUN_CAPABILITIES, BUN_CAPABILITY)
+            | (OPERATION_BUN_SCRIPTS_CAPABILITIES, BUN_SCRIPTS_CAPABILITY)
+            | (diagnostics::OPERATION_CAPABILITIES, diagnostics::CAPABILITY)
+    ) {
+        return ProbeResult::Invalid;
+    }
     if request.protocol_version != PROTOCOL_VERSION
-        || request.operation != OPERATION_TRAFFIC_CAPABILITIES
+        || request.operation != operation
         || decode_probe(&request.payload).is_err()
         || response.protocol_version != PROTOCOL_VERSION
         || request.request_id != response.request_id
@@ -84,7 +120,7 @@ pub fn interpret_probe(request: &Request, response: &Response) -> ProbeResult {
             .as_ref()
             .filter(|v| v.is_object())
             .and_then(|value| Capabilities::deserialize(value).ok())
-            .is_some_and(|result| result.capability == CAPABILITY);
+            .is_some_and(|result| result.capability == capability);
         if valid {
             return ProbeResult::Supported;
         }
@@ -249,13 +285,18 @@ pub fn decode_job_for(
     operation: &str,
     payload: &serde_json::Value,
 ) -> Result<JobRequest, &'static str> {
+    // An old/replacement peer rejects an unknown operation before interpreting
+    // its payload. Unsupported is never evidence about an earlier lost ACK.
+    if !matches!(operation, OPERATION_TRAFFIC_JOB | OPERATION_BUN_JOB) {
+        return Err(ERROR_UNSUPPORTED_CAPABILITY);
+    }
     let request = decode_job(payload)?;
     let valid = match (&request, operation) {
         (JobRequest::Enqueue { classification, .. }, OPERATION_BUN_JOB) => {
             classification.reason == crate::Reason::BunTest
         }
         (JobRequest::Enqueue { classification, .. }, OPERATION_TRAFFIC_JOB) => {
-            classification.reason != crate::Reason::BunTest
+            classification.legacy() == *classification
         }
         (JobRequest::Status { .. } | JobRequest::StatusV2 { .. }, OPERATION_BUN_JOB) => false,
         (_, OPERATION_BUN_JOB | OPERATION_TRAFFIC_JOB) => true,

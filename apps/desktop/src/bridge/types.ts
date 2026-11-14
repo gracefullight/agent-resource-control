@@ -7,6 +7,7 @@ import type {
 import type { JobMeterSummary } from "@/bridge/job-meter.types";
 import type { MeterSnapshot } from "@/bridge/meter.types";
 import type { EffectivePolicy, JobPolicyResult } from "@/bridge/policy.types";
+import type { DiagnosticResult } from "@/bridge/traffic-scripts.generated";
 
 // Job projection omits private command data. Meter carries only its bounded
 // daemon identity and observed local filesystem identity from the core schema.
@@ -125,6 +126,7 @@ export interface DesktopError {
   retryable: boolean;
 }
 export interface DesktopClient {
+  trafficJobDiagnostics(jobId: JobId): Promise<Received<DiagnosticResult>>;
   governorGetSwitch(
     query: GetGovernorSwitchRequest,
   ): Promise<Received<GovernorSwitchReadResult>>;

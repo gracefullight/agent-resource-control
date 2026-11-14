@@ -13,6 +13,7 @@ pub(crate) use crate::connection::policy_dispatch::{Input, Value};
 pub(crate) enum Operation {
     Current,
     Job(JobId),
+    Diagnostics(JobId),
     Unspawned {
         request: LaunchRequest,
         owner: repository::OwnerEvidence,
@@ -57,6 +58,13 @@ fn execute_with_clock(
                     .map(|value| Value::Job(Box::new(value)))
             })
         }
+        Operation::Diagnostics(id) => repository::diagnostics(
+            connection,
+            &id,
+            &arc_traffic::Policy::default(),
+            jobs::now(),
+        )
+        .map(|value| Value::Diagnostics(Box::new(value))),
         Operation::Launch {
             request,
             owner,
@@ -165,6 +173,7 @@ pub(crate) async fn handle(
         Input::Governor(_) => unreachable!(),
         Input::Current => Operation::Current,
         Input::Job(id) => Operation::Job(id),
+        Input::Diagnostics(id) => Operation::Diagnostics(id),
         Input::Launch(request) | Input::Unspawned(request) => {
             use arc_core::process_identity::{probe_live, IdentityStatus};
             if request.observer.pid != peer

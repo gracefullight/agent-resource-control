@@ -5,6 +5,8 @@ mod budget;
 mod lexer;
 mod parser;
 mod rules;
+pub mod scripts;
+pub use scripts::resolver::analyze_script_argv;
 mod types;
 
 pub use budget::{

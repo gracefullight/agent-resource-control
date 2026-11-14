@@ -153,7 +153,7 @@ export function isEffectivePolicy(v: unknown): v is EffectivePolicy {
       : v.reason === `observation_${o.availability}`)
   );
 }
-function decision(v: unknown): v is RecordedDecision {
+export function isRecordedDecision(v: unknown): v is RecordedDecision {
   if (
     !object(v, [
       "policy_version",
@@ -218,7 +218,7 @@ export function isJobPolicyResult(
         : "",
     ) &&
     (v.decision_availability === "available"
-      ? decision(v.last_decision)
+      ? isRecordedDecision(v.last_decision)
       : v.last_decision === null) &&
     bounded(v)
   );

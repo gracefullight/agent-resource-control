@@ -7,7 +7,7 @@ use super::{
 };
 use arc_ipc::{
     client::Session,
-    jobs::{JobId, ProcessIdentity},
+    jobs::{JobId, Outcome, ProcessIdentity, SpawnReason},
     policy::{launch::*, ObservationAvailability},
     Request,
 };
@@ -42,6 +42,15 @@ enum GateRequest {
 mod checkpoint;
 mod governor;
 
+/// Delay-only cancellation fixture before the first durable submission. The
+/// existing explicit acceptance controls are inert in ordinary execution.
+pub(super) fn before_enqueue(
+    value: &serde_json::Value,
+    cancelled: &dyn Fn() -> bool,
+) -> Result<(), Failure> {
+    checkpoint::pause("before_enqueue", value, cancelled)
+}
+
 pub(super) fn after_queue(
     value: &serde_json::Value,
     cancelled: &dyn Fn() -> bool,
@@ -70,7 +79,7 @@ pub(super) fn prepare(
         mode,
         Mode::Unreserved { .. }
             | Mode::Scheduled {
-                route: super::traffic::Route::Governor,
+                route: super::traffic::Route::Governor | super::traffic::Route::BunScripts,
                 ..
             }
     ) {
@@ -308,3 +317,18 @@ impl Gate {
 
 #[cfg(test)]
 mod tests;
+
+/// Preserve the native spawn error in the shared terminal outcome vocabulary.
+pub(super) fn spawn_failure(error: &io::Error) -> Outcome {
+    let reason = match error.kind() {
+        io::ErrorKind::NotFound => SpawnReason::NotFound,
+        io::ErrorKind::PermissionDenied => SpawnReason::PermissionDenied,
+        io::ErrorKind::InvalidInput => SpawnReason::InvalidInput,
+        io::ErrorKind::WouldBlock | io::ErrorKind::OutOfMemory => SpawnReason::ResourceUnavailable,
+        _ => SpawnReason::Other,
+    };
+    Outcome::SpawnFailed {
+        reason,
+        os_code: error.raw_os_error(),
+    }
+}

@@ -165,6 +165,7 @@ describe("production desktop component lifecycle", () => {
           "meter_summary",
           "policy_current",
           "policy_job",
+          "traffic_job_diagnostics",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",

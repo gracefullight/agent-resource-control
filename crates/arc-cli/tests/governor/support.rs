@@ -42,20 +42,21 @@ impl Drop for Socket {
         fs::remove_dir_all(&self.root).unwrap();
     }
 }
-pub fn next(listener: &UnixListener) -> (UnixStream, Request) {
+pub fn accept(listener: &UnixListener) -> UnixStream {
     listener.set_nonblocking(true).unwrap();
     let deadline = Instant::now() + Duration::from_secs(10);
     loop {
         match listener.accept() {
-            Ok((mut stream, _)) => {
+            Ok((stream, _)) => {
+                // macOS inherits O_NONBLOCK from the polling listener.
                 stream.set_nonblocking(false).unwrap();
                 stream
                     .set_read_timeout(Some(Duration::from_secs(5)))
                     .unwrap();
-                return {
-                    let request = read(&mut stream);
-                    (stream, request)
-                };
+                stream
+                    .set_write_timeout(Some(Duration::from_secs(5)))
+                    .unwrap();
+                return stream;
             }
             Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
                 assert!(Instant::now() < deadline, "missing client request");
@@ -64,6 +65,11 @@ pub fn next(listener: &UnixListener) -> (UnixStream, Request) {
             Err(error) => panic!("fixture accept: {error}"),
         }
     }
+}
+pub fn next(listener: &UnixListener) -> (UnixStream, Request) {
+    let mut stream = accept(listener);
+    let request = read(&mut stream);
+    (stream, request)
 }
 pub fn read(stream: &mut UnixStream) -> Request {
     arc_ipc::read_message(stream).unwrap()

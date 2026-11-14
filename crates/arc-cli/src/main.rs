@@ -120,6 +120,12 @@ Examples:
 enum JobCommand {
     /// Show one job or the 50 most recent last-known records
     Status { job_id: Option<String> },
+    /// Read negotiated, last-recorded classification and admission facts
+    Diagnostics {
+        job_id: String,
+        #[arg(long)]
+        json: bool,
+    },
 }
 
 fn main() -> ExitCode {
@@ -166,6 +172,9 @@ fn main() -> ExitCode {
         Command::Job {
             command: JobCommand::Status { job_id },
         } => return job::run(job_id),
+        Command::Job {
+            command: JobCommand::Diagnostics { job_id, json },
+        } => return job::diagnostics::run(job_id, json),
         command => command,
     };
     let classification = matches!(&command, Command::Classify { .. });

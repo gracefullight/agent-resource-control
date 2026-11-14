@@ -23,6 +23,7 @@ const READ_DEADLINE: Duration = Duration::from_secs(2);
 mod governor;
 mod job_meter;
 mod policy;
+mod traffic_diagnostics;
 
 enum Endpoint {
     System,

@@ -122,28 +122,35 @@ pub(super) fn active(connection: &Connection) -> JobResult<Active> {
         let class: String = row.get(0)?;
         let cpu = u64::try_from(row.get::<_, i64>(1)?).map_err(|_| JobError::StorageFailure)?;
         let memory = u64::try_from(row.get::<_, i64>(2)?).map_err(|_| JobError::StorageFailure)?;
-        if cpu == 0 || memory == 0 {
-            return Err(JobError::StorageFailure);
-        }
-        let count = match class.as_str() {
-            "BUILD" => &mut result.build,
-            "TEST" => &mut result.test,
-            "LINT" => &mut result.lint,
-            _ => return Err(JobError::StorageFailure),
-        };
-        *count = count.checked_add(1).ok_or(JobError::StorageFailure)?;
-        result.resources.cpu_millis = result
-            .resources
-            .cpu_millis
-            .checked_add(cpu)
-            .ok_or(JobError::StorageFailure)?;
-        result.resources.memory_bytes = result
-            .resources
-            .memory_bytes
-            .checked_add(memory)
-            .ok_or(JobError::StorageFailure)?;
+        accumulate(&mut result, &class, cpu, memory)?;
     }
     Ok(result)
+}
+
+pub(super) fn accumulate(result: &mut Active, class: &str, cpu: u64, memory: u64) -> JobResult<()> {
+    if cpu == 0 || memory == 0 {
+        return Err(JobError::StorageFailure);
+    }
+    let count = match class {
+        "BUILD" => &mut result.build,
+        "TEST" => &mut result.test,
+        "LINT" => &mut result.lint,
+        "TYPECHECK" => &mut result.typecheck,
+        _ => return Err(JobError::StorageFailure),
+    };
+    let next = count.checked_add(1).ok_or(JobError::StorageFailure)?;
+    let sum = |a: u64, b: u64| {
+        a.checked_add(b)
+            .filter(|sum| *sum <= arc_traffic::MAX_RESOURCE_VALUE)
+            .ok_or(JobError::StorageFailure)
+    };
+    let resources = Resources {
+        cpu_millis: sum(result.resources.cpu_millis, cpu)?,
+        memory_bytes: sum(result.resources.memory_bytes, memory)?,
+    };
+    *count = next;
+    result.resources = resources;
+    Ok(())
 }
 
 pub(super) fn reservation(connection: &Connection, id: &JobId, e: &Entry) -> JobResult<Resources> {
@@ -282,6 +289,7 @@ pub(super) fn policy_class(
             TrafficClass::Build => "BUILD",
             TrafficClass::Test => "TEST",
             TrafficClass::Lint => "LINT",
+            TrafficClass::Typecheck => "TYPECHECK",
         },
         policy.class(class),
     )

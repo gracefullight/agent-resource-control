@@ -394,7 +394,7 @@ fn classify_response(request: &Request) -> Response {
     let Ok(input) = ClassifyRequest::deserialize(&request.payload) else {
         return Response::error(&request.request_id, ERROR_INVALID_REQUEST);
     };
-    let result = arc_detector::classify(&input);
+    let result = arc_detector::classify(&input).legacy();
     Response::ok(&request.request_id, json!(result))
 }
 

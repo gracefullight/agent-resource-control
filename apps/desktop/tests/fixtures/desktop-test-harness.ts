@@ -147,6 +147,7 @@ export class NativeFixture {
     received_at_ms: T,
   };
   policies = new Map<string, unknown>();
+  traffic = new Map<string, unknown>();
   jobMeters = new Map<string, unknown>([
     [A, jobMeterReply(unknownJobMeter(A))],
     [B, jobMeterReply(unknownJobMeter(B))],
@@ -176,6 +177,7 @@ export class NativeFixture {
       command === "meter_summary" ||
       command === "policy_current" ||
       command === "policy_job" ||
+      command === "traffic_job_diagnostics" ||
       command === "job_by_id";
     if (daemonRead)
       this.maxInFlight = Math.max(this.maxInFlight, ++this.inFlight);
@@ -186,6 +188,12 @@ export class NativeFixture {
         return await (typeof reply === "function" ? reply() : reply);
       }
       switch (command) {
+        case "traffic_job_diagnostics": {
+          const id = args && "job_id" in args ? args.job_id : "";
+          const reply = this.traffic.get(id);
+          if (!reply) throw { code: "unsupported", retryable: false };
+          return clone(reply);
+        }
         case "governor_get_switch":
           return clone(this.governor);
         case "governor_set_switch":

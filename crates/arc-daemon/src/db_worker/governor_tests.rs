@@ -430,3 +430,6 @@ mod recovery;
 
 #[path = "governor_transport_tests.rs"]
 mod transport;
+
+#[path = "governor_tests/scripts.rs"]
+mod scripts;

@@ -1,4 +1,5 @@
 //! Read-only lifecycle discovery; timestamps are Unix milliseconds.
+pub(crate) mod diagnostics;
 mod policy;
 use arc_ipc::jobs::{
     JobId, ObservationStatus, ObservationTarget, Outcome, Phase, StatusRequest, StatusResult,

@@ -158,5 +158,6 @@ mod lineage;
 mod recovery;
 mod recovery_2;
 mod recovery_3;
+mod scripts;
 mod uncertain;
 mod witness;

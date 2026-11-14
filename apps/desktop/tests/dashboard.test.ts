@@ -249,6 +249,7 @@ describe("production Dashboard and typed bridge", () => {
           "meter_summary",
           "policy_current",
           "policy_job",
+          "traffic_job_diagnostics",
           "recent_jobs",
           "job_by_id",
           "desktop_metadata",
@@ -565,7 +566,7 @@ describe("production Dashboard and typed bridge", () => {
     const view = mountDesktop();
     await settle();
     const status = panel(view).getByRole("status");
-    const firstAnnouncement = `Selected job ${A}: Succeeded · Exit code 0 Job measurements: Legacy measurement unavailable Memory admission details are not supported by this daemon.`;
+    const firstAnnouncement = `Selected job ${A}: Succeeded · Exit code 0 Job measurements: Legacy measurement unavailable Memory admission details are not supported by this daemon. Scheduling details are not supported by this daemon.`;
     expect(status.getAttribute("aria-live")).toBe("polite");
     expect(status.textContent).toBe(firstAnnouncement);
     const mutations: MutationRecord[] = [];
@@ -617,7 +618,7 @@ describe("production Dashboard and typed bridge", () => {
       await settle();
       expect(panel(view).getByRole("status")).toBe(status);
       expect(status.textContent).toBe(
-        `Selected job ${B}: Failed · Exit code 17 Job measurements: Legacy measurement unavailable Memory admission details are not supported by this daemon.`,
+        `Selected job ${B}: Failed · Exit code 17 Job measurements: Legacy measurement unavailable Memory admission details are not supported by this daemon. Scheduling details are not supported by this daemon.`,
       );
       expect(drainMutations().length).toBeGreaterThan(0);
       expect(panel(view).getByText("Failed · Exit code 17")).toBeDefined();

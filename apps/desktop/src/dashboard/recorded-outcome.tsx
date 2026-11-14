@@ -11,7 +11,9 @@ import {
   spawnReasonMessages,
 } from "@/desktop-messages";
 
-export function outcomeLabel(job: JobDetail | null | undefined): string {
+export function outcomeLabel(
+  job: Pick<JobDetail, "outcome"> | null | undefined,
+): string {
   const outcome = job?.outcome;
   if (!outcome) return m.outcomeUnknown;
   switch (outcome.kind) {
@@ -27,7 +29,7 @@ export function outcomeLabel(job: JobDetail | null | undefined): string {
 }
 
 interface RecordedOutcomeProps {
-  job: JobDetail;
+  job: Pick<JobDetail, "outcome">;
 }
 export function RecordedOutcome({ job }: RecordedOutcomeProps) {
   const outcome = job.outcome;

@@ -29,6 +29,7 @@ pub enum TrafficClass {
     Build,
     Test,
     Lint,
+    Typecheck,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -42,6 +43,7 @@ pub struct Policy {
     pub build: ClassPolicy,
     pub test: ClassPolicy,
     pub lint: ClassPolicy,
+    pub typecheck: ClassPolicy,
     pub budget: Resources,
 }
 
@@ -70,6 +72,13 @@ impl Default for Policy {
                     memory_bytes: gib,
                 },
             },
+            typecheck: ClassPolicy {
+                window: 1,
+                reservation: Resources {
+                    cpu_millis: 1_000,
+                    memory_bytes: gib,
+                },
+            },
             budget: Resources {
                 cpu_millis: 2_000,
                 memory_bytes: 4 * gib,
@@ -84,7 +93,7 @@ impl Policy {
         if !self.budget.valid_positive() {
             return Err(PolicyError::InvalidBudget);
         }
-        for class in [self.build, self.test, self.lint] {
+        for class in [self.build, self.test, self.lint, self.typecheck] {
             if class.window == 0 || !class.reservation.valid_positive() {
                 return Err(PolicyError::InvalidClassPolicy);
             }
@@ -102,6 +111,7 @@ impl Policy {
             TrafficClass::Build => self.build,
             TrafficClass::Test => self.test,
             TrafficClass::Lint => self.lint,
+            TrafficClass::Typecheck => self.typecheck,
         }
     }
 }
@@ -112,6 +122,7 @@ pub struct Active {
     pub build: u32,
     pub test: u32,
     pub lint: u32,
+    pub typecheck: u32,
     pub resources: Resources,
 }
 
@@ -121,6 +132,7 @@ impl Active {
             TrafficClass::Build => self.build,
             TrafficClass::Test => self.test,
             TrafficClass::Lint => self.lint,
+            TrafficClass::Typecheck => self.typecheck,
         }
     }
 }
@@ -176,9 +188,14 @@ pub fn decide(
         return Err(PolicyError::InvalidClassification);
     }
     let class = match (classification.classification, classification.reason) {
-        (JobClass::Build, Reason::CargoBuild) => TrafficClass::Build,
-        (JobClass::Test, Reason::CargoTest | Reason::BunTest) => TrafficClass::Test,
-        (JobClass::Lint, Reason::CargoClippy | Reason::CargoFmt) => TrafficClass::Lint,
+        (JobClass::Build, Reason::CargoBuild | Reason::BunScriptBuild) => TrafficClass::Build,
+        (JobClass::Test, Reason::CargoTest | Reason::BunTest | Reason::BunScriptTest) => {
+            TrafficClass::Test
+        }
+        (JobClass::Lint, Reason::CargoClippy | Reason::CargoFmt | Reason::BunScriptLint) => {
+            TrafficClass::Lint
+        }
+        (JobClass::Typecheck, Reason::BunScriptTypecheck) => TrafficClass::Typecheck,
         _ if classification.locality == Locality::Remote => {
             return Ok(Decision::Bypass(BypassReason::Remote));
         }

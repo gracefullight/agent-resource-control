@@ -6,6 +6,8 @@
 //! operation is keyed by the original job ID and never launches a child.
 
 mod admission;
+mod diagnostics;
+pub use diagnostics::diagnostics;
 pub mod governor;
 mod pressure;
 pub use pressure::{

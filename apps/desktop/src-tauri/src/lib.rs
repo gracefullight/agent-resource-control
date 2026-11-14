@@ -76,6 +76,7 @@ fn install<R: Runtime>(
             commands::meter_summary,
             commands::policy_current,
             commands::policy_job,
+            commands::traffic_job_diagnostics,
             commands::recent_jobs,
             commands::job_by_id,
             commands::desktop_metadata,

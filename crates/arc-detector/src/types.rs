@@ -8,6 +8,8 @@ pub enum JobClass {
     Test,
     #[serde(rename = "LINT")]
     Lint,
+    #[serde(rename = "TYPECHECK")]
+    Typecheck,
     #[serde(rename = "REMOTE_CI")]
     RemoteCi,
     #[serde(rename = "REMOTE_EXEC")]
@@ -38,6 +40,14 @@ pub enum Reason {
     CargoTest,
     #[serde(rename = "BUN_TEST")]
     BunTest,
+    #[serde(rename = "BUN_SCRIPT_BUILD")]
+    BunScriptBuild,
+    #[serde(rename = "BUN_SCRIPT_TEST")]
+    BunScriptTest,
+    #[serde(rename = "BUN_SCRIPT_LINT")]
+    BunScriptLint,
+    #[serde(rename = "BUN_SCRIPT_TYPECHECK")]
+    BunScriptTypecheck,
     #[serde(rename = "CARGO_CLIPPY")]
     CargoClippy,
     #[serde(rename = "CARGO_FMT")]
@@ -119,7 +129,7 @@ pub struct Classification {
 impl Classification {
     pub(crate) fn new(classification: JobClass, reason: Reason) -> Self {
         let (locality, uncertainty) = match classification {
-            JobClass::Build | JobClass::Test | JobClass::Lint => {
+            JobClass::Build | JobClass::Test | JobClass::Lint | JobClass::Typecheck => {
                 (Locality::HostLocal, Uncertainty::None)
             }
             JobClass::RemoteCi | JobClass::RemoteExec => (Locality::Remote, Uncertainty::None),
@@ -140,16 +150,43 @@ impl Classification {
     pub fn is_consistent(&self) -> bool {
         use {JobClass as C, Reason as R};
         let reason_valid = match self.reason {
-            R::CargoBuild => self.classification == C::Build,
-            R::CargoTest | R::BunTest => self.classification == C::Test,
-            R::CargoClippy | R::CargoFmt => self.classification == C::Lint,
+            R::CargoBuild | R::BunScriptBuild => self.classification == C::Build,
+            R::CargoTest | R::BunTest | R::BunScriptTest => self.classification == C::Test,
+            R::CargoClippy | R::CargoFmt | R::BunScriptLint => self.classification == C::Lint,
+            R::BunScriptTypecheck => self.classification == C::Typecheck,
             R::GhWorkflowRun | R::GhRunWatch | R::GhRunView => self.classification == C::RemoteCi,
             R::SshRemoteCommand => self.classification == C::RemoteExec,
-            R::CompoundLocal => matches!(self.classification, C::Build | C::Test | C::Lint),
+            R::CompoundLocal => matches!(
+                self.classification,
+                C::Build | C::Test | C::Lint | C::Typecheck
+            ),
             R::CompoundRemote => matches!(self.classification, C::RemoteCi | C::RemoteExec),
             R::CompoundMixed => self.classification == C::Mixed,
             _ => self.classification == C::Unknown,
         };
         reason_valid && *self == Self::new(self.classification, self.reason)
+    }
+
+    /// Vocabulary introduced only on the negotiated package-script operation.
+    pub fn is_bun_script(&self) -> bool {
+        matches!(
+            self.reason,
+            Reason::BunScriptBuild
+                | Reason::BunScriptTest
+                | Reason::BunScriptLint
+                | Reason::BunScriptTypecheck
+        )
+    }
+
+    /// Exact protocol-1 vocabulary predating Bun admission. Never project storage.
+    pub fn legacy(self) -> Self {
+        if self.reason == Reason::BunTest
+            || self.is_bun_script()
+            || self.classification == JobClass::Typecheck
+        {
+            Self::unknown(Reason::UnresolvedCommand)
+        } else {
+            self
+        }
     }
 }

@@ -41,6 +41,7 @@ fn direct_classes_have_independent_windows_and_fixed_reservations() {
             TrafficClass::Build => active.build = policy.build.window,
             TrafficClass::Test => active.test = policy.test.window,
             TrafficClass::Lint => active.lint = policy.lint.window,
+            TrafficClass::Typecheck => active.typecheck = policy.typecheck.window,
         }
         assert_eq!(
             decision(&args, active, &policy, true),
@@ -172,6 +173,7 @@ fn bypass_is_immediate_even_with_a_full_window_and_fifo_waiter() {
         build: 1,
         test: 1,
         lint: 1,
+        typecheck: 1,
         resources: policy.budget,
     };
     for (args, reason) in [

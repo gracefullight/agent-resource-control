@@ -1,5 +1,7 @@
 use super::*;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+#[path = "traffic_scripts_dispatch_tests.rs"]
+mod scripts;
 fn fallback() -> policy::EffectivePolicy {
     use arc_policy::{
         evaluator::{evaluate, MissingObservation},

@@ -1,0 +1,787 @@
+{
+  "classifications": [
+    {
+      "classification": "BUILD",
+      "locality": "HOST_LOCAL",
+      "reason": "CARGO_BUILD",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "BUILD",
+      "locality": "HOST_LOCAL",
+      "reason": "BUN_SCRIPT_BUILD",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "BUILD",
+      "locality": "HOST_LOCAL",
+      "reason": "COMPOUND_LOCAL",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "TEST",
+      "locality": "HOST_LOCAL",
+      "reason": "CARGO_TEST",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "TEST",
+      "locality": "HOST_LOCAL",
+      "reason": "BUN_TEST",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "TEST",
+      "locality": "HOST_LOCAL",
+      "reason": "BUN_SCRIPT_TEST",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "TEST",
+      "locality": "HOST_LOCAL",
+      "reason": "COMPOUND_LOCAL",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "LINT",
+      "locality": "HOST_LOCAL",
+      "reason": "BUN_SCRIPT_LINT",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "LINT",
+      "locality": "HOST_LOCAL",
+      "reason": "CARGO_CLIPPY",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "LINT",
+      "locality": "HOST_LOCAL",
+      "reason": "CARGO_FMT",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "LINT",
+      "locality": "HOST_LOCAL",
+      "reason": "COMPOUND_LOCAL",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "TYPECHECK",
+      "locality": "HOST_LOCAL",
+      "reason": "BUN_SCRIPT_TYPECHECK",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "TYPECHECK",
+      "locality": "HOST_LOCAL",
+      "reason": "COMPOUND_LOCAL",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_CI",
+      "locality": "REMOTE",
+      "reason": "GH_WORKFLOW_RUN",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_CI",
+      "locality": "REMOTE",
+      "reason": "GH_RUN_WATCH",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_CI",
+      "locality": "REMOTE",
+      "reason": "GH_RUN_VIEW",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_CI",
+      "locality": "REMOTE",
+      "reason": "COMPOUND_REMOTE",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_EXEC",
+      "locality": "REMOTE",
+      "reason": "SSH_REMOTE_COMMAND",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_EXEC",
+      "locality": "REMOTE",
+      "reason": "COMPOUND_REMOTE",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "MIXED",
+      "locality": "MIXED",
+      "reason": "COMPOUND_MIXED",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "EMPTY_COMMAND",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "UNSUPPORTED_SHELL",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "UNSUPPORTED_SYNTAX",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "UNRESOLVED_COMMAND",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "UNRESOLVED_SCRIPT",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "UNRESOLVED_EXPANSION",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "UNRESOLVED_COMPOUND",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "SSH_FORWARDING",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "SSH_AMBIGUOUS",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "DOCKER_ENDPOINT_UNKNOWN",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "INPUT_LIMIT",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "TOKEN_LIMIT",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "INVOCATION_LIMIT",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "NESTING_LIMIT",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "WORK_LIMIT",
+      "uncertainty": "OBSERVE"
+    }
+  ],
+  "generatedFrom": "Rust arc-ipc::traffic::diagnostics; explicit test-only export",
+  "limits": {
+    "budget": {
+      "cpu_millis": 2000,
+      "memory_bytes": 4294967296
+    },
+    "build": {
+      "reservation": {
+        "cpu_millis": 2000,
+        "memory_bytes": 2147483648
+      },
+      "window": 1
+    },
+    "lint": {
+      "reservation": {
+        "cpu_millis": 1000,
+        "memory_bytes": 1073741824
+      },
+      "window": 1
+    },
+    "test": {
+      "reservation": {
+        "cpu_millis": 1000,
+        "memory_bytes": 1073741824
+      },
+      "window": 1
+    },
+    "typecheck": {
+      "reservation": {
+        "cpu_millis": 1000,
+        "memory_bytes": 1073741824
+      },
+      "window": 1
+    }
+  },
+  "queries": [
+    {
+      "job_id": "0123456789abcdef0123456789abcdef"
+    }
+  ],
+  "results": [
+    {
+      "admission": {
+        "granted_at_ms": null,
+        "last_decision": null,
+        "outcome": null,
+        "permit_active": false,
+        "permit_generation": null,
+        "queue_wait_ms": null,
+        "queued_at_ms": 10,
+        "reservation": null,
+        "root_job_id": null,
+        "sequence": 1,
+        "state": "QUEUED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": 12,
+        "last_decision": null,
+        "outcome": null,
+        "permit_active": true,
+        "permit_generation": 1,
+        "queue_wait_ms": null,
+        "queued_at_ms": 10,
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "root_job_id": "0123456789abcdef0123456789abcdef",
+        "sequence": 1,
+        "state": "RESERVED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": 12,
+        "last_decision": null,
+        "outcome": null,
+        "permit_active": true,
+        "permit_generation": 1,
+        "queue_wait_ms": 2,
+        "queued_at_ms": 10,
+        "reservation": {
+          "cpu_millis": 1000,
+          "memory_bytes": 1073741824
+        },
+        "root_job_id": "0123456789abcdef0123456789abcdef",
+        "sequence": 1,
+        "state": "RUNNING",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": null,
+        "last_decision": null,
+        "outcome": {
+          "code": 17,
+          "kind": "EXITED"
+        },
+        "permit_active": false,
+        "permit_generation": null,
+        "queue_wait_ms": 2,
+        "queued_at_ms": 10,
+        "reservation": null,
+        "root_job_id": null,
+        "sequence": 1,
+        "state": "COMPLETED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": null,
+        "last_decision": null,
+        "outcome": null,
+        "permit_active": false,
+        "permit_generation": null,
+        "queue_wait_ms": null,
+        "queued_at_ms": 10,
+        "reservation": null,
+        "root_job_id": null,
+        "sequence": 1,
+        "state": "CANCELLED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": null,
+        "last_decision": null,
+        "outcome": null,
+        "permit_active": false,
+        "permit_generation": null,
+        "queue_wait_ms": null,
+        "queued_at_ms": 10,
+        "reservation": null,
+        "root_job_id": null,
+        "sequence": 1,
+        "state": "ABANDONED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": null,
+        "last_decision": null,
+        "outcome": null,
+        "permit_active": false,
+        "permit_generation": null,
+        "queue_wait_ms": null,
+        "queued_at_ms": 10,
+        "reservation": null,
+        "root_job_id": null,
+        "sequence": 1,
+        "state": "UNCONFIRMED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": null,
+        "last_decision": null,
+        "outcome": null,
+        "permit_active": false,
+        "permit_generation": null,
+        "queue_wait_ms": null,
+        "queued_at_ms": 10,
+        "reservation": null,
+        "root_job_id": null,
+        "sequence": 1,
+        "state": "UNRESERVED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "TYPECHECK",
+        "locality": "HOST_LOCAL",
+        "reason": "BUN_SCRIPT_TYPECHECK",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": null,
+      "classification": null,
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    }
+  ]
+}

@@ -183,7 +183,7 @@ fn mark_unreserved(mode: &mut Mode, release: String, held: bool) -> Result<(), F
             witness,
             continuity,
             waited,
-            route: Route::Governor,
+            route: Route::Governor | Route::BunScripts,
             ..
         } = old
         else {

@@ -98,8 +98,16 @@ pub fn decode_mutation_result(
 }
 pub fn decode_job(payload: &Value) -> Result<GovernorJobRequest, &'static str> {
     let request: GovernorJobRequest = decode(payload, MAX_EXECUTION_BYTES)?;
-    request
-        .is_valid()
+    let classification_allowed = match &request {
+        GovernorJobRequest::Traffic {
+            request: crate::traffic::JobRequest::Enqueue { classification, .. },
+        } => {
+            classification.reason == crate::Reason::BunTest
+                || classification.legacy() == *classification
+        }
+        _ => true,
+    };
+    (request.is_valid() && classification_allowed)
         .then_some(request)
         .ok_or(ERROR_INVALID_REQUEST)
 }

@@ -51,7 +51,7 @@ impl DesktopBridge {
         &self,
         query: GetGovernorSwitchRequest,
     ) -> Result<Received<GovernorSwitchReadResult>, DesktopError> {
-        let value = self.governor_exchange(
+        let value = self.session_exchange(
             OPERATION_GET_SWITCH,
             json!(query),
             Instant::now() + READ_DEADLINE,
@@ -65,7 +65,7 @@ impl DesktopBridge {
         &self,
         request: SetGovernorSwitchRequest,
     ) -> Result<Received<GovernorMutationResult>, DesktopError> {
-        let value = self.governor_exchange(
+        let value = self.session_exchange(
             OPERATION_SET_SWITCH,
             json!(request),
             Instant::now() + READ_DEADLINE,
@@ -77,7 +77,9 @@ impl DesktopBridge {
         self.received(result)
             .map_err(|_| DesktopError::new(ErrorCode::Uncertain))
     }
-    fn governor_exchange(
+    // Negotiated reads share this authenticated, non-replaying transport so
+    // additive operations retain explicit unsupported replies.
+    pub(super) fn session_exchange(
         &self,
         operation: &'static str,
         payload: Value,
@@ -107,7 +109,7 @@ impl DesktopBridge {
             static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
             let mut request = Request::new(
                 format!(
-                    "desktop-governor-{}-{}",
+                    "desktop-session-{}-{}",
                     std::process::id(),
                     NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
                 ),

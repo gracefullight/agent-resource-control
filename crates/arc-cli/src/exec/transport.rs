@@ -7,6 +7,8 @@ use std::{
     path::Path,
     time::{Duration, Instant},
 };
+mod negotiated;
+pub(crate) use negotiated::negotiated;
 
 // Read-only status and post-spawn metadata retain their existing bounded API.
 pub(crate) fn call(socket: &Path, operation: &str, payload: Value) -> Result<Value, ()> {
@@ -81,6 +83,10 @@ pub(super) fn call_until_with_continuity(
     possibly_committed: &mut bool,
     continuity: Option<&Continuity>,
 ) -> Result<Value, Failure> {
+    #[cfg(test)]
+    if let Some(result) = preparation_tests::scripted_exchange(operation, &payload, deadline) {
+        return result;
+    }
     let mut request = Request::new(crate::request_id(), operation);
     request.payload = payload;
     arc_ipc::client::exchange_until(

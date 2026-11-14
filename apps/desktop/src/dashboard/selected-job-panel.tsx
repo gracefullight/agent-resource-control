@@ -8,6 +8,10 @@ import {
   JobPolicyPanel,
   policyAnnouncement,
 } from "@/dashboard/job-policy-panel";
+import {
+  JobTrafficPanel,
+  trafficAnnouncement,
+} from "@/dashboard/job-traffic-panel";
 import { outcomeLabel, RecordedOutcome } from "@/dashboard/recorded-outcome";
 import {
   desktopErrorMessages,
@@ -27,6 +31,15 @@ export function SelectedJobPanel({
 }: SelectedJobPanelProps) {
   const { selectedId, detail, recent } = snapshot;
   const job = detail.value?.data;
+  const diagnosticOutcome = snapshot.traffic.value?.data.admission?.outcome;
+  const recordedOutcome = {
+    outcome: job?.outcome ?? diagnosticOutcome ?? null,
+  };
+  const executionKnown = Boolean(
+    recordedOutcome.outcome ||
+      job?.phase === "RUNNING" ||
+      snapshot.traffic.value?.data.admission?.state === "RUNNING",
+  );
   const outsideRecent =
     selectedId &&
     recent.value &&
@@ -67,6 +80,7 @@ export function SelectedJobPanel({
       )}
       {selectedId &&
         !job &&
+        !diagnosticOutcome &&
         !detail.loading &&
         detail.state !== "not_found" && (
           <p className="mt-4">{m.outcomeUnknown}</p>
@@ -75,19 +89,27 @@ export function SelectedJobPanel({
       <JobPolicyPanel
         section={snapshot.policy}
         governor={snapshot.governor}
-        terminal={Boolean(
-          job && (job.outcome !== null || job.phase === "RUNNING"),
-        )}
+        terminal={executionKnown}
       />
+      {selectedId && (
+        <JobTrafficPanel
+          section={snapshot.traffic}
+          detail={detail}
+          governor={snapshot.governor}
+          {...format}
+        />
+      )}
+      {(job || diagnosticOutcome) && (
+        <div className="mt-4">
+          <h3 className="mb-2 text-sm text-muted-foreground">{m.outcome}</h3>
+          <RecordedOutcome job={recordedOutcome} />
+        </div>
+      )}
       {job && detail.value && (
         <div className="mt-4 space-y-5">
           {detail.state === "not_found" && (
             <h3 className="text-sm font-semibold">{m.retainedDetail}</h3>
           )}
-          <div>
-            <h3 className="mb-2 text-sm text-muted-foreground">{m.outcome}</h3>
-            <RecordedOutcome job={job} />
-          </div>
           <p className="text-xs text-muted-foreground">{m.lastKnown}</p>
           <dl className="grid min-w-0 gap-4 text-sm sm:grid-cols-2">
             <div>
@@ -149,10 +171,10 @@ export function SelectedJobPanel({
         />
       )}
       <p role="status" aria-live="polite" className="sr-only">
-        {selectedId && job
+        {selectedId && (job || diagnosticOutcome)
           ? message(m.selectedAnnouncement, {
               id: selectedId,
-              outcome: outcomeLabel(job),
+              outcome: outcomeLabel(recordedOutcome),
             })
           : ""}
         {selectedId && snapshot.jobMeter.value
@@ -161,7 +183,10 @@ export function SelectedJobPanel({
         {job ||
         snapshot.policy.job?.data.job_id === selectedId ||
         (!selectedId && (snapshot.policy.value || snapshot.policy.error))
-          ? ` ${policyAnnouncement(snapshot.policy, Boolean(job && (job.outcome !== null || job.phase === "RUNNING")), snapshot.governor)}`
+          ? ` ${policyAnnouncement(snapshot.policy, executionKnown, snapshot.governor)}`
+          : ""}
+        {selectedId && (job || snapshot.traffic.value)
+          ? ` ${trafficAnnouncement(snapshot.traffic, detail, snapshot.governor)}`
           : ""}
       </p>
     </section>

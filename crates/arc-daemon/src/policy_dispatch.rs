@@ -20,6 +20,7 @@ pub(crate) enum Input {
     Governor(super::governor_dispatch::Input),
     Current,
     Job(arc_ipc::jobs::JobId),
+    Diagnostics(arc_ipc::jobs::JobId),
     Launch(launch::LaunchRequest),
     Unspawned(launch::LaunchRequest),
 }
@@ -28,6 +29,7 @@ pub(crate) enum Value {
     Governor(super::governor_dispatch::Value),
     Current(policy::EffectivePolicy),
     Job(Box<policy::JobPolicyResult>),
+    Diagnostics(Box<arc_ipc::traffic::diagnostics::DiagnosticResult>),
     Acknowledged,
     Launch {
         result: launch::LaunchResult,
@@ -49,6 +51,9 @@ pub(crate) async fn dispatch(
     handler: Option<&Handler>,
     metrics: &Arc<RuntimeMetrics>,
 ) -> bool {
+    if diagnostics::dispatch(stream, request, limits, handler, metrics).await {
+        return true;
+    }
     if super::governor_dispatch::dispatch(stream, request, limits, handler, metrics).await {
         return true;
     }
@@ -126,7 +131,7 @@ pub(crate) async fn dispatch(
         .unwrap_or(Err(arc_ipc::ERROR_DB_BUSY)),
     };
     match result {
-        Ok(Value::Governor(_)) => unreachable!("separate Governor dispatcher"),
+        Ok(Value::Governor(_) | Value::Diagnostics(_)) => unreachable!("separate dispatcher"),
         Err(code) => {
             let code = if launch_request.is_none() && code == arc_ipc::ERROR_DB_BUSY {
                 policy::ERROR_POLICY_UNAVAILABLE
@@ -250,3 +255,6 @@ pub(super) async fn write(
 #[cfg(test)]
 #[path = "policy_dispatch_tests.rs"]
 mod tests;
+
+#[path = "traffic_diagnostics_dispatch.rs"]
+mod diagnostics;

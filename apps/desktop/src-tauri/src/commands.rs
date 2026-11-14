@@ -10,6 +10,14 @@ use arc_ipc::governor::{
 };
 use tauri::State;
 
+#[tauri::command(rename_all = "snake_case")]
+pub async fn traffic_job_diagnostics(
+    state: State<'_, DesktopState>,
+    job_id: String,
+) -> Result<Received<DiagnosticResult>, DesktopError> {
+    state.bridge.traffic_job_diagnostics_async(job_id).await
+}
+
 #[tauri::command]
 pub async fn governor_get_switch(
     state: State<'_, DesktopState>,

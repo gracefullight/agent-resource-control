@@ -141,7 +141,9 @@ fn lost_ack_is_reconciled_without_another_write() {
 #[test]
 fn missing_ack_retries_only_identical_bytes_and_keeps_absolute_deadline() {
     let report = fixture();
-    let end = Instant::now() + REPORT_WINDOW;
+    // Observe the exact deadline passed to retries without making this unit
+    // test depend on being scheduled inside the native 500 ms report window.
+    let end = Instant::now() + Duration::from_secs(60);
     let requests = RefCell::new(Vec::new());
     assert!(deliver_with(
         &report,
@@ -155,17 +157,21 @@ fn missing_ack_retries_only_identical_bytes_and_keeps_absolute_deadline() {
                 Err(Failure::InvalidReply)
             } else {
                 assert!(*committed);
+                assert_eq!(budget, end, "retry renewed the terminal-derived deadline");
                 Ok(())
             }
         },
-        |_, _| Ok(JobMeterSummary {
-            schema_version: 1,
-            job_id: report.job_id.clone(),
-            accounting: SummaryAccounting::Unknown {
-                reason: UnknownReason::Unavailable
-            },
-            queue_wait: QueueWait::unknown()
-        })
+        |_, budget| {
+            assert!(budget <= end);
+            Ok(JobMeterSummary {
+                schema_version: 1,
+                job_id: report.job_id.clone(),
+                accounting: SummaryAccounting::Unknown {
+                    reason: UnknownReason::Unavailable,
+                },
+                queue_wait: QueueWait::unknown(),
+            })
+        }
     ));
     let requests = requests.borrow();
     assert_eq!(requests.len(), 2);

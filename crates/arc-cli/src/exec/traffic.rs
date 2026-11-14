@@ -29,13 +29,18 @@ pub(super) enum Route {
     Cargo,
     Bun,
     Governor,
+    BunScripts,
 }
 impl Route {
+    pub(super) fn governed(self) -> bool {
+        matches!(self, Self::Governor | Self::BunScripts)
+    }
     fn operation(self) -> &'static str {
         match self {
             Self::Cargo => OPERATION_TRAFFIC_JOB,
             Self::Bun => OPERATION_BUN_JOB,
             Self::Governor => arc_ipc::governor::OPERATION_JOB,
+            Self::BunScripts => arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
         }
     }
 }
@@ -103,8 +108,8 @@ fn job(
     possibly_committed: &mut bool,
     continuity: &Continuity,
 ) -> Result<JobResult, Failure> {
-    if route == Route::Governor {
-        return match super::governor::call(
+    if route.governed() {
+        return match super::governor::call_routed(
             socket,
             &arc_ipc::governor::GovernorJobRequest::Traffic {
                 request: request.clone(),
@@ -112,6 +117,8 @@ fn job(
             deadline,
             cancelled,
             continuity,
+            route,
+            possibly_committed,
         )? {
             arc_ipc::governor::GovernorJobResult::Traffic { result } => Ok(result),
             _ => Err(Failure::Uncertain),

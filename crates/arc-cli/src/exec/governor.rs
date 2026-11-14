@@ -1,4 +1,5 @@
 //! Negotiated current-client admission. Eligibility never authorizes spawn.
+mod lifecycle;
 use super::{
     preparation::write_notice,
     signals::Signals,
@@ -13,6 +14,7 @@ use arc_ipc::{
     traffic::{JobRequest, JobResult, LineageContext},
     Request,
 };
+pub(super) use lifecycle::{attach, complete};
 use serde_json::json;
 use std::{
     path::Path,
@@ -28,6 +30,16 @@ pub(super) fn prepare(
     signals: &Signals,
 ) -> Result<Mode, Failure> {
     use arc_detector::{Locality, Reason};
+    let route = if classification.is_bun_script() {
+        Route::BunScripts
+    } else {
+        Route::Governor
+    };
+    let fallback_classification = if classification.is_bun_script() {
+        classification.legacy()
+    } else {
+        classification
+    };
     if classification.locality != Locality::HostLocal
         || !matches!(
             classification.reason,
@@ -36,31 +48,73 @@ pub(super) fn prepare(
                 | Reason::CargoClippy
                 | Reason::CargoFmt
                 | Reason::BunTest
+                | Reason::BunScriptBuild
+                | Reason::BunScriptTest
+                | Reason::BunScriptLint
+                | Reason::BunScriptTypecheck
         )
     {
         return traffic::prepare(socket, id, observer, classification, deadline, signals);
     }
     let cancelled = || signals.interrupted();
-    let probe =
+    let probe_operation = if route == Route::BunScripts {
+        arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
+    } else {
+        OPERATION_CAPABILITIES
+    };
+    let probe = if route == Route::BunScripts {
+        super::transport::negotiated(
+            socket,
+            probe_operation,
+            serde_json::Value::Null,
+            deadline,
+            &cancelled,
+            &mut false,
+            None,
+        )
+    } else {
         Session::connect_until(socket, deadline, &cancelled, None).and_then(|mut session| {
             session.exchange(
-                &Request::new(crate::request_id(), OPERATION_CAPABILITIES),
+                &Request::new(crate::request_id(), probe_operation),
                 &cancelled,
             )
-        });
+        })
+    };
     match probe {
         Err(Failure::Unsupported) => {
-            return traffic::prepare(socket, id, observer, classification, deadline, signals)
+            return traffic::prepare(
+                socket,
+                id,
+                observer,
+                fallback_classification,
+                deadline,
+                signals,
+            )
         }
         Err(Failure::Unavailable | Failure::Uncertain | Failure::Busy) => {
-            return traffic::prepare(socket, id, observer, classification, deadline, signals)
+            return traffic::prepare(
+                socket,
+                id,
+                observer,
+                fallback_classification,
+                deadline,
+                signals,
+            )
         }
         Err(error) => return Err(error),
         Ok(value) => {
-            let caps: GovernorCapabilities =
-                serde_json::from_value(value.clone()).map_err(|_| Failure::InvalidReply)?;
-            if !value.is_object() || !caps.is_valid() {
-                return Err(Failure::InvalidReply);
+            if route == Route::BunScripts {
+                let caps: arc_ipc::traffic::Capabilities =
+                    serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
+                if caps.capability != arc_ipc::traffic::BUN_SCRIPTS_CAPABILITY {
+                    return Err(Failure::InvalidReply);
+                }
+            } else {
+                let caps: GovernorCapabilities =
+                    serde_json::from_value(value.clone()).map_err(|_| Failure::InvalidReply)?;
+                if !value.is_object() || !caps.is_valid() {
+                    return Err(Failure::InvalidReply);
+                }
             }
         }
     }
@@ -83,12 +137,14 @@ pub(super) fn prepare(
         classification,
         lineage_context: Some(claim.clone()),
     };
+    super::launch::before_enqueue(&json!({"request":enqueue}), &cancelled)?;
     let result = await_admission(
         AdmissionPeer {
             socket,
             id,
             observer,
             continuity: &continuity,
+            route,
         },
         &enqueue,
         inherited.is_some(),
@@ -106,7 +162,7 @@ pub(super) fn prepare(
             context,
             waited,
             witness,
-            route: Route::Governor,
+            route,
             continuity,
         }),
         Ok(Admission::Unreserved { waited }) => Ok(Mode::Unreserved {
@@ -118,24 +174,49 @@ pub(super) fn prepare(
         Err(Failure::Unavailable | Failure::Uncertain | Failure::InvalidEndpoint) => {
             Ok(Mode::Uncertain {
                 witness,
-                route: Route::Governor,
+                route,
                 continuity,
             })
         }
+        Err(Failure::Unsupported) if route == Route::BunScripts => {
+            // await_admission only returns Unsupported when no prior attempt
+            // could have committed, even if the peer changed after the probe.
+            witness.discard();
+            preparation_fallback(socket, id, observer, classification, deadline, signals)
+        }
         Ok(Admission::Unconfirmed) => {
             witness.finish_unspawned(|| {
-                traffic::cancel(socket, id, observer, None, Route::Governor, &continuity)
+                traffic::cancel(socket, id, observer, None, route, &continuity)
             });
             Err(Failure::Uncertain)
         }
         Err(error) => {
             // A missing release acknowledgement must never become outage spawn.
             witness.finish_unspawned(|| {
-                traffic::cancel(socket, id, observer, None, Route::Governor, &continuity)
+                traffic::cancel(socket, id, observer, None, route, &continuity)
             });
             Err(error)
         }
     }
+}
+
+fn preparation_fallback(
+    socket: &Path,
+    id: &JobId,
+    observer: &ProcessIdentity,
+    classification: arc_ipc::Classification,
+    deadline: Instant,
+    signals: &Signals,
+) -> Result<Mode, Failure> {
+    super::preparation::prepare(
+        socket,
+        id,
+        observer,
+        classification.legacy(),
+        deadline,
+        signals,
+    )
+    .map(Mode::Legacy)
 }
 
 enum Admission {
@@ -154,6 +235,7 @@ struct AdmissionPeer<'a> {
     id: &'a JobId,
     observer: &'a ProcessIdentity,
     continuity: &'a Continuity,
+    route: Route,
 }
 fn await_admission(
     peer: AdmissionPeer<'_>,
@@ -168,14 +250,16 @@ fn await_admission(
         id,
         observer,
         continuity,
+        route,
     } = peer;
     let mut request = initial.clone();
     let mut waited = false;
+    let mut possibly_committed = false;
     loop {
         if cancelled() {
             return Err(Failure::Cancelled);
         }
-        let result = call(
+        let result = call_routed(
             socket,
             &GovernorJobRequest::Traffic {
                 request: request.clone(),
@@ -183,6 +267,8 @@ fn await_admission(
             deadline,
             cancelled,
             continuity,
+            route,
+            &mut possibly_committed,
         );
         match result {
             Ok(GovernorJobResult::Unreserved { job_id, .. }) if &job_id == id => {
@@ -232,7 +318,12 @@ fn await_admission(
                 }
                 _ => return Err(Failure::InvalidReply),
             },
-            Err(Failure::Busy) => (),
+            Err(Failure::Busy) => {
+                if route == Route::BunScripts {
+                    std::thread::sleep(Duration::from_millis(20));
+                }
+            }
+            Err(Failure::Unsupported) if possibly_committed => return Err(Failure::Uncertain),
             Err(error) => return Err(error),
             Ok(_) => return Err(Failure::InvalidReply),
         }
@@ -247,6 +338,10 @@ pub(super) fn repoll(
     mode: &mut Mode,
     cancelled: &dyn Fn() -> bool,
 ) -> Result<(), Failure> {
+    let route = match mode {
+        Mode::Scheduled { route, .. } => *route,
+        _ => Route::Governor,
+    };
     let continuity = match mode {
         Mode::Scheduled { continuity, .. } | Mode::Unreserved { continuity, .. } => continuity,
         _ => return Err(Failure::InvalidReply),
@@ -259,6 +354,7 @@ pub(super) fn repoll(
             id,
             observer,
             continuity,
+            route,
         },
         &JobRequest::Poll {
             job_id: id.clone(),
@@ -304,7 +400,7 @@ pub(super) fn repoll(
             context,
             waited: waited || prior_waited,
             witness,
-            route: Route::Governor,
+            route,
             continuity,
         },
         Admission::Unreserved { waited } => Mode::Unreserved {
@@ -324,51 +420,49 @@ pub(super) fn call(
     cancelled: &dyn Fn() -> bool,
     continuity: &Continuity,
 ) -> Result<GovernorJobResult, Failure> {
+    call_routed(
+        socket,
+        request,
+        deadline,
+        cancelled,
+        continuity,
+        Route::Governor,
+        &mut false,
+    )
+}
+
+pub(super) fn call_routed(
+    socket: &Path,
+    request: &GovernorJobRequest,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    continuity: &Continuity,
+    route: Route,
+    possibly_committed: &mut bool,
+) -> Result<GovernorJobResult, Failure> {
+    if route == Route::BunScripts {
+        // Session authenticates the endpoint and validates request ID/protocol.
+        // Unlike release requests, an admission may be reconciled using the
+        // same job/witness after a lost reply; an old peer cannot erase it.
+        let value = super::transport::negotiated(
+            socket,
+            arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
+            json!(request),
+            deadline,
+            cancelled,
+            possibly_committed,
+            Some(continuity),
+        )?;
+        return decode_job_result(&value).map_err(|_| Failure::InvalidReply);
+    }
     let value = super::transport::call_until_with_continuity(
         socket,
         OPERATION_JOB,
         json!(request),
         deadline,
         cancelled,
-        &mut false,
+        possibly_committed,
         Some(continuity),
     )?;
     decode_job_result(&value).map_err(|_| Failure::InvalidReply)
-}
-pub(super) fn attach(
-    socket: &Path,
-    id: &JobId,
-    observer: &ProcessIdentity,
-    release: &str,
-    child: ProcessIdentity,
-    continuity: &Continuity,
-) -> bool {
-    matches!(
-        call(
-            socket,
-            &GovernorJobRequest::Attach {
-                job_id: id.clone(),
-                observer: observer.clone(),
-                release_id: release.into(),
-                child
-            },
-            Instant::now() + Duration::from_secs(2),
-            &|| false,
-            continuity
-        ),
-        Ok(GovernorJobResult::Traffic {
-            result: JobResult::Running {}
-        })
-    ) && continuity.confirmed()
-}
-pub(super) fn complete(
-    socket: &Path,
-    id: &JobId,
-    observer: &ProcessIdentity,
-    release: &str,
-    outcome: arc_ipc::jobs::Outcome,
-    continuity: &Continuity,
-) -> bool {
-    matches!(call(socket, &GovernorJobRequest::Complete { job_id: id.clone(), observer: observer.clone(), release_id: release.into(), outcome: outcome.clone() }, Instant::now()+Duration::from_secs(2), &|| false, continuity), Ok(GovernorJobResult::Traffic { result: JobResult::Completed { outcome: actual, .. } }) if actual == outcome)
-        && continuity.confirmed()
 }

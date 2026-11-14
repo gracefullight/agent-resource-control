@@ -5,6 +5,7 @@ use arc_ipc::jobs::{
     IdentityObservation, JobId, JobSnapshot, JobSummary, LifecycleReason, Outcome, Phase,
 };
 pub use arc_ipc::policy::{EffectivePolicy, JobPolicyResult};
+pub use arc_ipc::traffic::diagnostics::DiagnosticResult;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize)]

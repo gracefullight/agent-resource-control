@@ -5,6 +5,7 @@ mod governor;
 mod launch;
 mod lifecycle;
 mod lineage;
+mod metadata;
 use lifecycle::{complete, start_until};
 pub(crate) mod policy;
 mod preparation;
@@ -14,7 +15,7 @@ mod traffic;
 pub(crate) mod transport;
 mod witness;
 use arc_core::process_identity::random_job_id;
-use arc_ipc::jobs::{JobId, Outcome, ProcessIdentity, SpawnReason, StartRequest};
+use arc_ipc::jobs::{JobId, Outcome, ProcessIdentity, StartRequest};
 use std::{
     ffi::OsString,
     io,
@@ -44,7 +45,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     else {
         return preparation::stopped(transport::Failure::Local);
     };
-    let classification = arc_detector::classify_argv(&argv);
+    let classification = metadata::classify(&argv);
     let mut tracking = match governor::prepare(
         &socket,
         &job_id,
@@ -188,21 +189,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     if let Ok(child) = &spawned {
         launch::after_spawn(&job_id, child.id(), &signals);
     }
-    let spawn_failure = spawned.as_ref().err().map(|error| {
-        let reason = match error.kind() {
-            io::ErrorKind::NotFound => SpawnReason::NotFound,
-            io::ErrorKind::PermissionDenied => SpawnReason::PermissionDenied,
-            io::ErrorKind::InvalidInput => SpawnReason::InvalidInput,
-            io::ErrorKind::WouldBlock | io::ErrorKind::OutOfMemory => {
-                SpawnReason::ResourceUnavailable
-            }
-            _ => SpawnReason::Other,
-        };
-        Outcome::SpawnFailed {
-            reason,
-            os_code: error.raw_os_error(),
-        }
-    });
+    let spawn_failure = spawned.as_ref().err().map(launch::spawn_failure);
     let cancelled_spawn = spawned
         .as_ref()
         .err()

@@ -48,6 +48,8 @@ pub(crate) async fn dispatch(
             | OPERATION_JOB
             | OPERATION_LAUNCH
             | OPERATION_LAUNCH_ACK
+            | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
+            | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB
     ) {
         return false;
     }
@@ -70,12 +72,30 @@ pub(crate) async fn dispatch(
         send(capabilities_response(request)).await;
         return true;
     }
+    if request.operation == arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES {
+        send(
+            if arc_ipc::traffic::decode_probe(&request.payload).is_ok() {
+                Response::ok(
+                    &request.request_id,
+                    serde_json::json!(arc_ipc::traffic::Capabilities::scripts_supported()),
+                )
+            } else {
+                Response::error(&request.request_id, arc_ipc::ERROR_INVALID_REQUEST)
+            },
+        )
+        .await;
+        return true;
+    }
     let input = match request.operation.as_str() {
         OPERATION_GET_SWITCH => decode_get_switch(&request.payload).map(Input::Get),
         OPERATION_SET_SWITCH | OPERATION_PAUSE | OPERATION_RESUME => {
             decode_set_switch(&request.operation, &request.payload).map(Input::Set)
         }
         OPERATION_JOB => decode_job(&request.payload).map(Input::Job),
+        arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB => {
+            arc_ipc::traffic::scripts::decode_job(&request.operation, &request.payload)
+                .map(Input::Job)
+        }
         OPERATION_LAUNCH => decode_launch(&request.payload).map(Input::Launch),
         _ => Err(arc_ipc::ERROR_INVALID_REQUEST),
     };
@@ -89,7 +109,7 @@ pub(crate) async fn dispatch(
         &input,
         Ok(Input::Job(GovernorJobRequest::Traffic {
             request: arc_ipc::traffic::JobRequest::Enqueue { classification, .. }
-        })) if classification.reason == arc_ipc::Reason::BunTest
+        })) if classification.reason == arc_ipc::Reason::BunTest || classification.is_bun_script()
     );
     let work_end = end
         - limits

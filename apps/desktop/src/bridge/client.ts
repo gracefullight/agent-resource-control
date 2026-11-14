@@ -24,6 +24,8 @@ import type { MeterSnapshot } from "@/bridge/meter.types";
 import { isMeterSnapshot } from "@/bridge/meter-contract";
 import type { EffectivePolicy, JobPolicyResult } from "@/bridge/policy.types";
 import { isEffectivePolicy, isJobPolicyResult } from "@/bridge/policy-contract";
+import type { DiagnosticResult } from "@/bridge/traffic-scripts.generated";
+import { isTrafficDiagnosticResult } from "@/bridge/traffic-scripts-contract";
 import type {
   CreditLink,
   DaemonHealth,
@@ -41,6 +43,7 @@ import type {
 } from "@/bridge/types";
 
 export type DesktopCommand =
+  | "traffic_job_diagnostics"
   | "governor_get_switch"
   | "governor_set_switch"
   | "policy_current"
@@ -387,6 +390,17 @@ export function createDesktopClient(
     }
   }
   return {
+    trafficJobDiagnostics: async (jobId) => {
+      if (!isJobId(jobId)) throw invalidRequest();
+      return read(
+        "traffic_job_diagnostics",
+        (value): value is Received<DiagnosticResult> =>
+          isReceived(value, (data): data is DiagnosticResult =>
+            isTrafficDiagnosticResult(data, jobId),
+          ),
+        { job_id: jobId },
+      );
+    },
     governorGetSwitch: async (query) => {
       if (!isGovernorQuery(query)) throw invalidRequest();
       return read(

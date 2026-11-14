@@ -9,6 +9,14 @@ pub(crate) struct Parser<'a> {
     look: Option<Token>,
     loaded: bool,
 }
+pub(crate) struct Invocation {
+    pub words: Vec<String>,
+    pub depth: usize,
+}
+enum Output<'a> {
+    Classes(&'a mut Vec<Classification>),
+    Commands(&'a mut Vec<Invocation>),
+}
 impl<'a> Parser<'a> {
     pub(crate) fn new(source: &'a str) -> Self {
         Self {
@@ -43,21 +51,31 @@ impl<'a> Parser<'a> {
         b: &mut Budget,
         leaves: &mut Vec<Classification>,
     ) -> Checked<()> {
-        self.list(depth, false, b, leaves)
+        self.list(depth, false, b, &mut Output::Classes(leaves))
+    }
+    /// The same restricted grammar, with recognition deferred to the script
+    /// resolver. Neither parser entry point evaluates shell syntax.
+    pub(crate) fn commands(
+        &mut self,
+        depth: usize,
+        b: &mut Budget,
+        commands: &mut Vec<Invocation>,
+    ) -> Checked<()> {
+        self.list(depth, false, b, &mut Output::Commands(commands))
     }
     fn list(
         &mut self,
         depth: usize,
         grouped: bool,
         b: &mut Budget,
-        leaves: &mut Vec<Classification>,
+        output: &mut Output<'_>,
     ) -> Checked<()> {
         b.depth(depth)?;
         self.blank_lines(b)?;
         if self.peek(b)?.is_none() && !grouped {
             return Ok(());
         }
-        self.primary(depth, b, leaves)?;
+        self.primary(depth, b, output)?;
         loop {
             match self.take(b)? {
                 None if !grouped => return Ok(()),
@@ -71,20 +89,15 @@ impl<'a> Parser<'a> {
                 Some(Token::Pipe | Token::And | Token::Or) => {}
                 _ => return Err(Reason::UnsupportedSyntax),
             }
-            self.primary(depth, b, leaves)?;
+            self.primary(depth, b, output)?;
         }
     }
-    fn primary(
-        &mut self,
-        depth: usize,
-        b: &mut Budget,
-        leaves: &mut Vec<Classification>,
-    ) -> Checked<()> {
+    fn primary(&mut self, depth: usize, b: &mut Budget, output: &mut Output<'_>) -> Checked<()> {
         match self.take(b)? {
             Some(Token::Open) => {
                 b.depth(depth + 1)?;
                 b.charge(1)?; // group node
-                self.list(depth + 1, true, b, leaves)
+                self.list(depth + 1, true, b, output)
             }
             Some(Token::Word(first, plain)) => {
                 b.invocation()?;
@@ -107,6 +120,13 @@ impl<'a> Parser<'a> {
                 }
                 // Every recognition visit is charged, including opaque arguments.
                 b.charge(words.len())?;
+                let Output::Classes(leaves) = output else {
+                    let Output::Commands(commands) = output else {
+                        unreachable!()
+                    };
+                    commands.push(Invocation { words, depth });
+                    return Ok(());
+                };
                 if b.one_of(&words[0], &["sh", "bash", "zsh"])? {
                     if words.len() == 3 && b.one_of(&words[1], &["-c", "-lc"])? {
                         b.depth(depth + 1)?;

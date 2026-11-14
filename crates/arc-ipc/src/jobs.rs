@@ -136,7 +136,7 @@ impl StatusResult {
     }
 }
 
-fn required_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+pub(crate) fn required_option<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
 where
     D: serde::Deserializer<'de>,
     T: serde::Deserialize<'de>,
@@ -148,7 +148,7 @@ where
 pub fn decode_start(payload: &serde_json::Value) -> Result<StartRequest, &'static str> {
     let request: StartRequest = decode_payload(payload)?;
     (request.is_valid()
-        && !matches!(&request, StartRequest::Register { classification, .. } if classification.reason == crate::Reason::BunTest))
+        && !matches!(&request, StartRequest::Register { classification, .. } if classification.legacy() != *classification))
         .then_some(request)
         .ok_or(crate::ERROR_INVALID_REQUEST)
 }

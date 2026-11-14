@@ -3,8 +3,12 @@ import type { DesktopClient, JobId } from "@/bridge/types";
 import {
   type DashboardSnapshot,
   emptyDetail,
+  failedDetail,
   initialDashboardSnapshot,
   invalidReply,
+  loadingDetail,
+  missingDetail,
+  readyDetail,
   TRANSIENT_CODES,
 } from "@/dashboard/desktop-refresh-state";
 import {
@@ -28,6 +32,7 @@ import { consistentDetail } from "@/dashboard/job-detail-consistency";
 import { JobMeterReadState } from "@/dashboard/job-meter-read-state";
 import { MeterReadState } from "@/dashboard/meter-read-state";
 import { PolicyReadState } from "@/dashboard/policy-read-state";
+import { TrafficReadState } from "@/dashboard/traffic-read-state";
 
 export type {
   DashboardSnapshot,
@@ -47,6 +52,7 @@ export class DesktopRefreshController {
   private readonly meter = new MeterReadState();
   private readonly jobMeter = new JobMeterReadState();
   private readonly policy = new PolicyReadState();
+  private readonly traffic = new TrafficReadState();
   private snapshot: DashboardSnapshot = initialDashboardSnapshot({
     meter: this.meter.section,
     jobMeter: this.jobMeter.section,
@@ -87,6 +93,7 @@ export class DesktopRefreshController {
     this.meter.reprobe();
     this.jobMeter.reprobe();
     this.policy.reprobe();
+    this.traffic.reprobe();
     this.refreshRequested = true;
     this.publish({ active: true });
     this.expire();
@@ -103,6 +110,7 @@ export class DesktopRefreshController {
     this.meter.retire();
     this.jobMeter.retire();
     this.policy.retire();
+    this.traffic.retire();
     this.governor.retire();
     this.publish({
       governor: this.governor.section,
@@ -111,6 +119,7 @@ export class DesktopRefreshController {
       meter: this.meter.section,
       jobMeter: this.jobMeter.section,
       policy: this.policy.section,
+      traffic: this.traffic.section,
       health: { ...this.snapshot.health, loading: false },
       recent: { ...this.snapshot.recent, loading: false },
       detail: { ...this.snapshot.detail, loading: false },
@@ -126,6 +135,7 @@ export class DesktopRefreshController {
     this.meter.reprobe();
     this.jobMeter.reprobe();
     this.policy.reprobe();
+    this.traffic.reprobe();
     this.requestRefresh();
   };
 
@@ -146,6 +156,7 @@ export class DesktopRefreshController {
     this.selectionGeneration++;
     this.detailAt = null;
     this.policy.select();
+    this.traffic.select();
     this.jobMeter.select(
       this.snapshot.active && this.snapshot.connection === "connected",
     );
@@ -154,6 +165,7 @@ export class DesktopRefreshController {
       detail: emptyDetail(),
       jobMeter: this.jobMeter.section,
       policy: this.policy.section,
+      traffic: this.traffic.section,
     });
     if (this.snapshot.active && this.snapshot.connection === "connected") {
       this.detailRequested = true;
@@ -237,12 +249,14 @@ export class DesktopRefreshController {
       this.meter.retire();
       this.jobMeter.retire(failure);
       this.policy.retire(failure);
+      this.traffic.retire(failure);
       this.selectionGeneration++;
       this.automatic = failure.retryable && TRANSIENT_CODES.has(failure.code);
       this.publish({
         meter: this.meter.section,
         jobMeter: this.jobMeter.section,
         policy: this.policy.section,
+        traffic: this.traffic.section,
         connection:
           failure.code === "unavailable" || failure.code === "uncertain"
             ? "disconnected"
@@ -375,6 +389,17 @@ export class DesktopRefreshController {
         },
       );
     if (current()) await this.readPolicy(generation, epoch);
+    if (current())
+      await this.traffic.read(
+        this.client,
+        jobId,
+        current,
+        () => this.clock.now(),
+        () => {
+          this.publish({ traffic: this.traffic.section });
+          this.expire();
+        },
+      );
   }
 
   private async readDetail(generation: number, epoch: number): Promise<void> {
@@ -385,35 +410,18 @@ export class DesktopRefreshController {
       this.current(generation, epoch) &&
       selection === this.selectionGeneration &&
       this.snapshot.selectedId === jobId;
-    const previousUpdated = this.snapshot.detail.value?.data.updated_at_ms;
     const summaryUpdated = this.snapshot.recent.value?.data.jobs.find(
       (job) => job.job_id === jobId,
     )?.updated_at_ms;
     this.publish({
-      detail: {
-        ...this.snapshot.detail,
-        state: "loading",
-        loading: true,
-        stale:
-          this.snapshot.detail.stale ||
-          (previousUpdated !== undefined &&
-            summaryUpdated !== undefined &&
-            summaryUpdated > previousUpdated),
-      },
+      detail: loadingDetail(this.snapshot.detail, summaryUpdated),
     });
     try {
       const reply = await this.client.jobById(jobId);
       if (!currentSelection()) return;
       if (reply.data.kind === "not_found") {
         this.publish({
-          detail: {
-            ...this.snapshot.detail,
-            state: "not_found",
-            loading: false,
-            lookupReceivedAt: reply.received_at_ms,
-            error: null,
-            stale: this.snapshot.detail.value !== null,
-          },
+          detail: missingDetail(this.snapshot.detail, reply.received_at_ms),
         });
         return;
       }
@@ -430,16 +438,11 @@ export class DesktopRefreshController {
       );
       this.detailAt = this.clock.now();
       this.publish({
-        detail: {
-          value: { data: job, received_at_ms: reply.received_at_ms },
-          state: "ready",
-          loading: false,
-          lookupReceivedAt: reply.received_at_ms,
-          error: null,
-          stale:
-            latestSummary !== undefined &&
-            job.updated_at_ms < latestSummary.updated_at_ms,
-        },
+        detail: readyDetail(
+          job,
+          reply.received_at_ms,
+          latestSummary?.updated_at_ms,
+        ),
       });
       this.expire();
     } catch (error) {
@@ -447,13 +450,7 @@ export class DesktopRefreshController {
       const failure = normalizeDesktopError(error);
       this.automatic = failure.retryable && TRANSIENT_CODES.has(failure.code);
       this.publish({
-        detail: {
-          ...this.snapshot.detail,
-          state: "error",
-          loading: false,
-          error: failure,
-          stale: this.snapshot.detail.value !== null,
-        },
+        detail: failedDetail(this.snapshot.detail, failure),
       });
     }
   }
@@ -482,6 +479,9 @@ export class DesktopRefreshController {
       this.policy,
     );
     const governorDelay = this.governor.expire(now);
+    const trafficDelay = this.traffic.expire(now, STALE_AFTER_MS);
+    patch.traffic = this.traffic.section;
+    if (trafficDelay !== null) remaining.push(trafficDelay);
     patch.governor = this.governor.section;
     if (governorDelay !== null) remaining.push(governorDelay);
     if (Object.keys(patch).length) this.publish(patch);

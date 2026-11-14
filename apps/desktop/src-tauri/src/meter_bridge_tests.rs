@@ -7,10 +7,7 @@ use std::{
     fs,
     os::unix::{fs::PermissionsExt, net::UnixListener},
     path::PathBuf,
-    sync::{
-        atomic::{AtomicU64, Ordering},
-        mpsc,
-    },
+    sync::atomic::{AtomicU64, Ordering},
     thread,
     time::Duration,
 };
@@ -47,7 +44,7 @@ impl SocketFixture {
                 .map(|value| {
                     let (mut stream, _) = listener.accept().unwrap();
                     stream
-                        .set_read_timeout(Some(Duration::from_secs(3)))
+                        .set_read_timeout(Some(Duration::from_secs(60)))
                         .unwrap();
                     let request: Request = arc_ipc::read_message(&mut stream).unwrap();
                     let response = if let Some(code) = value.as_str() {
@@ -143,39 +140,36 @@ fn meter_rejects_bad_projection_without_losing_other_reads() {
 }
 
 #[test]
-fn meter_shares_the_existing_single_permit_and_shutdown() {
+fn meter_native_deadline_releases_permit_and_shutdown_rejects_new_reads() {
     let fixture = SocketFixture::new();
     let listener = fixture.listener.try_clone().unwrap();
-    let (accepted, ready) = mpsc::channel();
-    let (release, released) = mpsc::channel();
     let server = thread::spawn(move || {
-        let (mut stream, _) = listener.accept().unwrap();
-        stream
-            .set_read_timeout(Some(Duration::from_secs(3)))
-            .unwrap();
-        let request: Request = arc_ipc::read_message(&mut stream).unwrap();
-        accepted.send(()).unwrap();
-        released.recv_timeout(Duration::from_secs(3)).unwrap();
-        let _ = arc_ipc::write_response(&mut stream, &Response::ok(request.request_id, golden()));
+        let mut pending_id = None;
+        loop {
+            let (mut stream, _) = listener.accept().unwrap();
+            stream
+                .set_read_timeout(Some(Duration::from_secs(60)))
+                .unwrap();
+            let request: Request = arc_ipc::read_message(&mut stream).unwrap();
+            assert_eq!(request.operation, OPERATION_METER_SNAPSHOT);
+            let first = pending_id.get_or_insert_with(|| request.request_id.clone());
+            if *first == request.request_id {
+                use std::io::Read;
+                assert_eq!(stream.read(&mut [0]).unwrap(), 0, "deadline closes socket");
+            } else {
+                arc_ipc::write_response(&mut stream, &Response::ok(request.request_id, golden()))
+                    .unwrap();
+                break;
+            }
+        }
     });
-    let bridge = fixture.bridge.clone();
-    let reader = thread::spawn(move || bridge.meter_snapshot());
-    ready.recv_timeout(Duration::from_secs(3)).unwrap();
-    assert_eq!(
-        fixture.bridge.daemon_health().unwrap_err().code,
-        ErrorCode::Busy
-    );
     assert_eq!(
         fixture.bridge.meter_snapshot().unwrap_err().code,
-        ErrorCode::Busy
+        ErrorCode::Uncertain
     );
-    fixture.bridge.shutdown();
-    release.send(()).unwrap();
-    assert_eq!(
-        reader.join().unwrap().unwrap_err().code,
-        ErrorCode::Cancelled
-    );
+    assert!(fixture.bridge.meter_snapshot().unwrap().data.is_valid());
     server.join().unwrap();
+    fixture.bridge.shutdown();
     assert_eq!(
         fixture.bridge.meter_snapshot().unwrap_err().code,
         ErrorCode::Cancelled

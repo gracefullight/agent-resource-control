@@ -101,7 +101,7 @@ impl Daemon {
     }
 }
 fn eventually(mut predicate: impl FnMut() -> bool) {
-    let deadline = Instant::now() + Duration::from_secs(15);
+    let deadline = Instant::now() + Duration::from_secs(60);
     while !predicate() {
         assert!(
             Instant::now() < deadline,
@@ -242,7 +242,7 @@ fn checkpoint(listener: &UnixListener) -> (UnixStream, Value) {
     // alone does not restore blocking reads of the complete checkpoint frame.
     stream.set_nonblocking(false).unwrap();
     stream
-        .set_read_timeout(Some(Duration::from_secs(2)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     let mut line = String::new();
     std::io::BufReader::new(&stream)

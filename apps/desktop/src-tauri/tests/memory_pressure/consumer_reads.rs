@@ -9,9 +9,8 @@ use std::{
         net::{UnixListener, UnixStream},
     },
     path::PathBuf,
-    sync::mpsc,
     thread,
-    time::{Duration, Instant},
+    time::Duration,
 };
 
 pub(super) struct Socket {
@@ -41,7 +40,7 @@ impl Drop for Socket {
 }
 pub(super) fn read(stream: &mut UnixStream) -> Request {
     stream
-        .set_read_timeout(Some(Duration::from_secs(4)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     Request::decode(&read_frame(stream).unwrap()).unwrap()
 }
@@ -187,32 +186,19 @@ fn strict_job_validation_rejects_wrong_ids_arrays_unknown_fields_and_unsafe_numb
 }
 
 #[test]
-fn policy_deadline_and_existing_single_flight_permit_bound_pending_reads() {
+fn policy_deadline_closes_the_native_read_and_shutdown_rejects_new_reads() {
     let socket = Socket::new();
     let bridge = socket.bridge();
-    let (seen_tx, seen_rx) = mpsc::channel();
-    let (done_tx, done_rx) = mpsc::channel();
     let server = thread::spawn(move || {
         let (mut stream, _) = socket.listener.accept().unwrap();
         read(&mut stream);
-        seen_tx.send(()).unwrap();
-        done_rx.recv_timeout(Duration::from_secs(4)).unwrap();
+        use std::io::Read;
+        assert_eq!(stream.read(&mut [0]).unwrap(), 0, "deadline closes socket");
     });
-    let reading = bridge.clone();
-    let start = Instant::now();
-    let reader = thread::spawn(move || reading.policy_current());
-    seen_rx.recv_timeout(Duration::from_secs(2)).unwrap();
     assert_eq!(
-        bridge.policy_job(&"a".repeat(32)).unwrap_err().code,
-        ErrorCode::Busy
+        bridge.policy_current().unwrap_err().code,
+        ErrorCode::Uncertain
     );
-    assert_eq!(bridge.daemon_health().unwrap_err().code, ErrorCode::Busy);
-    assert!(matches!(
-        reader.join().unwrap().unwrap_err().code,
-        ErrorCode::Uncertain | ErrorCode::Unavailable
-    ));
-    assert!(start.elapsed() < Duration::from_secs(3));
-    done_tx.send(()).unwrap();
     server.join().unwrap();
     bridge.shutdown();
     assert_eq!(

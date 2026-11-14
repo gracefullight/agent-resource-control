@@ -37,6 +37,7 @@ pub(crate) fn execute(
     operation: Operation,
     reader: Option<&super::super::observation::Observations>,
 ) -> Result<Value, E> {
+    let now = || reader.map_or_else(Instant::now, |r| r.now());
     let provider: &dyn ObservationProvider = reader
         .map(|r| r as &dyn ObservationProvider)
         .unwrap_or(&arc_policy::evaluator::MissingObservation);
@@ -139,7 +140,7 @@ pub(crate) fn execute(
                 .map(|r| r.control_fence(end))
                 .unwrap_or_else(|| Some((end, Box::new(()) as Box<dyn Send>)))
                 .ok_or(E::Busy)?;
-            if Instant::now() >= end {
+            if now() >= end {
                 return Err(E::Busy);
             }
             let Some(job) = arc_storage::jobs::get(&tx, request.job_id())? else {
@@ -187,8 +188,7 @@ pub(crate) fn execute(
                 )?;
                 tx.commit()?;
                 if let GovernorLaunchResult::Unreserved { valid_for_ms, .. } = &mut result {
-                    let remaining =
-                        end.saturating_duration_since(Instant::now()).as_millis() as u64;
+                    let remaining = end.saturating_duration_since(now()).as_millis() as u64;
                     // Nothing left this writer on an expired release. Cleanup
                     // uses a new short transaction after dropping both leases.
                     if remaining == 0 {
@@ -247,7 +247,7 @@ pub(crate) fn execute(
                             jobs::now(),
                         )?;
                         if matches!(result, arc_ipc::policy::launch::LaunchResult::Ready { .. })
-                            && deadline.is_none_or(|d| Instant::now() >= d.min(end))
+                            && deadline.is_none_or(|d| now() >= d.min(end))
                         {
                             return Err(E::Busy);
                         }
@@ -277,7 +277,7 @@ pub(crate) fn execute(
                 });
                 let result = result?;
                 if matches!(result, arc_ipc::policy::launch::LaunchResult::Ready { .. })
-                    && (fence.is_none() || Instant::now() >= end)
+                    && (fence.is_none() || now() >= end)
                 {
                     return Err(E::Busy);
                 }
@@ -289,7 +289,7 @@ pub(crate) fn execute(
             let fence =
                 fence.map(|(at, fence)| (at.min(end), Box::new((control, fence)) as Box<dyn Send>));
             if matches!(result, arc_ipc::policy::launch::LaunchResult::Ready { .. })
-                && fence.as_ref().is_none_or(|(at, _)| Instant::now() >= *at)
+                && fence.as_ref().is_none_or(|(at, _)| now() >= *at)
             {
                 drop(fence);
                 repository::discard_unreleased_launch(connection, request)?;

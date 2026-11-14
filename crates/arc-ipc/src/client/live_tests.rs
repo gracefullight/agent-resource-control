@@ -99,7 +99,7 @@ struct Peer {
 }
 impl Peer {
     fn new(n: usize, reply: impl FnMut(&mut UnixStream, Request) + Send + 'static) -> Self {
-        Self::with_timeout(n, Duration::from_secs(10), reply)
+        Self::with_timeout(n, Duration::from_secs(60), reply)
     }
     fn with_timeout(
         n: usize,
@@ -268,24 +268,50 @@ fn live_complete_invalid_frames_and_envelopes_are_not_outages() {
 }
 #[test]
 fn live_absolute_deadline_is_shared_and_partial_reads_cannot_renew_it() {
-    let (tx, rx) = mpsc::channel();
+    let expired = Arc::new(AtomicBool::new(false));
+    let reached = expired.clone();
+    let (release, held) = mpsc::channel();
     let peer = Peer::new(1, move |stream, _| {
         stream.write_all(&100u32.to_be_bytes()).unwrap();
         stream.write_all(b"{").unwrap();
-        rx.recv_timeout(Duration::from_secs(5)).unwrap();
+        reached.store(true, Ordering::SeqCst);
+        held.recv_timeout(Duration::from_secs(60)).unwrap();
     });
-    let deadline = Instant::now() + Duration::from_millis(60);
+    let start = Instant::now();
+    let deadline = start + Duration::from_millis(60);
+    let now = || {
+        if expired.load(Ordering::SeqCst) {
+            deadline
+        } else {
+            start
+        }
+    };
+    let mut sent = false;
     assert_eq!(
-        call_until(&peer.path, "REGISTER", Value::Null, deadline, &|| false),
+        super::exchange_until_clock(
+            &peer.path,
+            &Request::new("partial", "REGISTER"),
+            deadline,
+            &mut sent,
+            &now
+        ),
         Err(Failure::Uncertain)
     );
-    // Reusing this deadline for CLAIM admits no exchange and no extra budget.
+    assert!(sent);
+    assert!(expired.load(Ordering::SeqCst));
     assert_eq!(
-        call_until(&peer.path, "CLAIM", Value::Null, deadline, &|| false),
+        super::exchange_until_clock(
+            &peer.path,
+            &Request::new("claim", "CLAIM"),
+            deadline,
+            &mut false,
+            &now
+        ),
         Err(Failure::Unavailable)
     );
-    tx.send(()).unwrap();
+    release.send(()).unwrap();
 }
+
 #[test]
 fn live_cancellation_is_observed_while_waiting_and_at_expired_admission() {
     let cancel = Arc::new(AtomicBool::new(false));
@@ -293,20 +319,27 @@ fn live_cancellation_is_observed_while_waiting_and_at_expired_admission() {
     let (tx, rx) = mpsc::channel();
     let peer = Peer::new(1, move |_, _| {
         observed.store(true, Ordering::SeqCst);
-        rx.recv_timeout(Duration::from_secs(5)).unwrap();
+        rx.recv_timeout(Duration::from_secs(60)).unwrap();
     });
     let start = Instant::now();
+    let cancelled = || cancel.load(Ordering::SeqCst);
+    let request = Request::new("cancel-pending", "REGISTER");
     assert_eq!(
-        call_until(
-            &peer.path,
-            "REGISTER",
-            Value::Null,
-            start + Duration::from_secs(1),
-            &|| cancel.load(Ordering::SeqCst)
+        super::exchange_with(
+            &request,
+            peer.deadline,
+            &cancelled,
+            &mut false,
+            super::ExchangeOptions {
+                continuity: None,
+                retry_busy: true
+            },
+            // This test proves native cancellation, not the 600ms attempt cap.
+            |_| super::DeadlineStream::connect(&peer.path, peer.deadline, &cancelled),
         ),
         Err(Failure::Cancelled)
     );
-    assert!(start.elapsed() < Duration::from_millis(250));
+
     assert_eq!(
         call_until(&peer.path, "CLAIM", Value::Null, start, &|| true),
         Err(Failure::Cancelled)

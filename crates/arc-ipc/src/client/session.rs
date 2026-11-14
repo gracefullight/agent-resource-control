@@ -50,6 +50,7 @@ impl Session {
             cancelled,
             sent: false,
             peer_identity: None,
+            clock: &Instant::now,
         };
         if cancelled() {
             return Err(Failure::Cancelled);

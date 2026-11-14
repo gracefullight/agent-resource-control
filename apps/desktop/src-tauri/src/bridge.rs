@@ -22,6 +22,8 @@ const READ_DEADLINE: Duration = Duration::from_secs(2);
 
 mod governor;
 mod job_meter;
+#[cfg(test)]
+mod permit_tests;
 mod policy;
 mod traffic_diagnostics;
 
@@ -171,6 +173,11 @@ impl DesktopBridge {
             return Err(DesktopError::new(ErrorCode::Cancelled));
         }
         let received_at_ms = (self.0.clock)();
+        // Timestamp acquisition can finish after shutdown. Never publish an
+        // in-flight receipt once cancellation has won that boundary.
+        if self.is_shutdown() {
+            return Err(DesktopError::new(ErrorCode::Cancelled));
+        }
         if received_at_ms > MAX_TIMESTAMP {
             return Err(DesktopError::new(ErrorCode::Local));
         }

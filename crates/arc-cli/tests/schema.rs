@@ -37,7 +37,7 @@ fn cli(result: Value, error: Option<&str>) -> Output {
     listener.set_nonblocking(true).unwrap();
     let code = error.map(str::to_owned);
     let server = thread::spawn(move || {
-        let deadline = Instant::now() + Duration::from_secs(8);
+        let deadline = Instant::now() + Duration::from_secs(60);
         let mut stream = loop {
             match listener.accept() {
                 Ok((stream, _)) => break stream,
@@ -52,10 +52,10 @@ fn cli(result: Value, error: Option<&str>) -> Output {
         // The framed reader needs blocking I/O with the deadlines below.
         stream.set_nonblocking(false).unwrap();
         stream
-            .set_read_timeout(Some(Duration::from_secs(5)))
+            .set_read_timeout(Some(Duration::from_secs(60)))
             .unwrap();
         stream
-            .set_write_timeout(Some(Duration::from_secs(5)))
+            .set_write_timeout(Some(Duration::from_secs(60)))
             .unwrap();
         let request: Request = arc_ipc::read_message(&mut stream).unwrap();
         assert_eq!(request.protocol_version, 1);

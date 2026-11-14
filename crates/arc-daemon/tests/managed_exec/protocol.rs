@@ -223,7 +223,9 @@ fn unreaped_quick_exit_keeps_identity_but_is_not_reported_running() {
             observer: observer(),
         },
     );
-    let mut child = std::process::Command::new("/usr/bin/true").spawn().unwrap();
+    let mut child = super::runtime::OwnedChild::new(
+        std::process::Command::new("/usr/bin/true").spawn().unwrap(),
+    );
     let mut info = unsafe { std::mem::zeroed() };
     assert_eq!(
         unsafe {

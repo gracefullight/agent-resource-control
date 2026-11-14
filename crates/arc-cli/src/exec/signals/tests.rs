@@ -34,7 +34,7 @@ fn read(fd: RawFd) -> i32 {
         revents: 0,
     };
     assert_eq!(
-        unsafe { libc::poll(&mut poll, 1, 5000) },
+        unsafe { libc::poll(&mut poll, 1, 60000) },
         1,
         "native barrier timeout"
     );
@@ -135,7 +135,7 @@ fn isolated_sigchld(name: &str, ignored: bool, body: impl FnOnce()) {
         .stderr(std::process::Stdio::piped())
         .spawn()
         .unwrap();
-    let end = Instant::now() + Duration::from_secs(15);
+    let end = Instant::now() + Duration::from_secs(60);
     loop {
         if let Some(status) = child.try_wait().unwrap() {
             let output = child.wait_with_output().unwrap();
@@ -451,7 +451,7 @@ fn shared_job_terminal_signals_between_spawn_and_attach_arrive_once() {
             // never be forwarded into this shared foreground job a second time.
             // The child's event only acknowledges its own delivery; the parent
             // handler may run later on a different scheduled thread.
-            let deadline = Instant::now() + Duration::from_secs(5);
+            let deadline = Instant::now() + Duration::from_secs(60);
             while !signals.interrupted() && Instant::now() < deadline {
                 std::thread::yield_now();
             }

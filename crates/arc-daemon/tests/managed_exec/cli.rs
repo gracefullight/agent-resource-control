@@ -70,7 +70,7 @@ fn exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution()
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped());
-        let mut child = c.spawn().unwrap();
+        let mut child = super::runtime::OwnedChild::new(c.spawn().unwrap());
         child
             .stdin
             .take()
@@ -199,7 +199,7 @@ fn daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_repla
         let identity: arc_core::process_identity::ProcessIdentity =
             serde_json::from_value(msg["identity"].clone()).unwrap();
         let job_id = recent(&f);
-        let end = Instant::now() + Duration::from_secs(5);
+        let end = Instant::now() + Duration::from_secs(60);
         while protocol::status(&f, &job_id).phase != Phase::Running {
             assert!(Instant::now() < end);
             thread::yield_now();

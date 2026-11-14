@@ -22,7 +22,7 @@ impl Drop for ReleaseOnDrop {
                 .and_then(|pid| ProcessIdentity::capture(pid).ok())
         });
         if let Some(child) = &child {
-            let deadline = Instant::now() + Duration::from_secs(5);
+            let deadline = Instant::now() + Duration::from_secs(60);
             while probe_live(child) == IdentityStatus::VerifiedMatch && Instant::now() < deadline {
                 thread::sleep(Duration::from_millis(10));
             }
@@ -212,10 +212,15 @@ fn restart_retains_unknown_child_until_configured_grace_then_logs_release() {
     let f = Fixture::new();
     let mut daemon = f.spawn("test");
     let projects = projects(&f.root, "unknown_grace");
+    let mut release_on_drop = ReleaseOnDrop {
+        project: projects[0].clone(),
+        child: None,
+    };
     install_cargo_observer(&f);
     blocked_attachment(&f);
     let mut wrapper = spawn_observed_build(&f, &projects[0], true);
     let (id, child) = setup(&f, &mut wrapper, &projects[0]);
+    release_on_drop.child = Some(child.clone());
     daemon.stop(libc::SIGTERM);
     database(&f)
         .execute_batch("DROP TRIGGER fixture_hold_attachment")
@@ -239,18 +244,61 @@ fn restart_retains_unknown_child_until_configured_grace_then_logs_release() {
         f.root.join("prior-runtime.json"),
     )
     .unwrap();
+    // Inject only the recorded observation clock, never a recovery transition.
+    // ordered_now clamps the daemon's wall clock to this future observation,
+    // so coverage/startup scheduling cannot consume the configured grace.
+    let frozen = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_millis() as i64
+        + 86_400_000;
+    let observe_at = |at: i64| {
+        assert_eq!(
+            database(&f)
+                .execute(
+                    "UPDATE job_lifecycle SET updated_at_ms=?1 WHERE job_id=?2",
+                    (at, id.as_str()),
+                )
+                .unwrap(),
+            1
+        );
+    };
+    observe_at(frozen);
     let mut command = f.command();
     command
         .env("ARC_IPC_PROFILE", "test")
         .env("ARC_TRAFFIC_RECOVERY_GRACE_MS", "500");
     let mut restarted = OwnedChild::new(command.spawn().unwrap());
     f.wait_for(&mut restarted, "arc-daemon ready.");
+    // Startup itself must create the retention event before any status request.
+    let events = || {
+        database(&f).prepare(
+        "SELECT event_type,created_at FROM audit_events WHERE entity_id=?1 AND event_type IN ('TRAFFIC_UNKNOWN_OWNER','TRAFFIC_GRACE_EXPIRED') ORDER BY created_at,event_type"
+    ).unwrap().query_map([id.as_str()], |r| Ok((r.get::<_, String>(0)?, r.get::<_, i64>(1)?)))
+        .unwrap().collect::<Result<Vec<_>,_>>().unwrap()
+    };
+    assert_eq!(events(), vec![("TRAFFIC_UNKNOWN_OWNER".to_owned(), frozen)]);
     assert!(matches!(status(&f, &id), StatusResult::Unconfirmed {}));
     assert_eq!(active(&f).1, 1);
+    observe_at(frozen + 499);
+    assert!(matches!(status(&f, &id), StatusResult::Unconfirmed {}));
+    assert_eq!(
+        active(&f).1,
+        1,
+        "daemon must retain before configured grace"
+    );
+    assert_eq!(events().len(), 1);
+    observe_at(frozen + 500);
+    assert_eq!(active(&f).1, 1, "clock injection must not release a permit");
     eventually(|| matches!(status(&f, &id), StatusResult::Abandoned {}));
     assert_eq!(active(&f).1, 0);
-    let events: i64 = database(&f).query_row("SELECT count(*) FROM audit_events WHERE entity_id=?1 AND event_type IN ('TRAFFIC_UNKNOWN_OWNER','TRAFFIC_GRACE_EXPIRED')", [id.as_str()], |row| row.get(0)).unwrap();
-    assert_eq!(events, 2);
+    assert_eq!(
+        events(),
+        vec![
+            ("TRAFFIC_UNKNOWN_OWNER".to_owned(), frozen),
+            ("TRAFFIC_GRACE_EXPIRED".to_owned(), frozen + 500),
+        ]
+    );
     assert_eq!(cargo_launches(&projects[0]), vec![child.pid]);
     assert_eq!(invocations(&projects[0]), 1);
     restarted.stop(libc::SIGTERM);

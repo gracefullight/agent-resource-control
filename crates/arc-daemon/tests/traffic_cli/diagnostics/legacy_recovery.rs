@@ -20,13 +20,13 @@ fn lost_committed_bun_grant_survives_old_peer_replacement() {
     // This is a fixture, not a full daemon process or an admission proxy.
     let admitting_peer = thread::spawn(move || {
         let accept = || {
-            let deadline = Instant::now() + Duration::from_secs(10);
+            let deadline = Instant::now() + Duration::from_secs(60);
             loop {
                 match listener.accept() {
                     Ok((stream, _)) => {
                         stream.set_nonblocking(false).unwrap();
                         stream
-                            .set_read_timeout(Some(Duration::from_secs(5)))
+                            .set_read_timeout(Some(Duration::from_secs(60)))
                             .unwrap();
                         break stream;
                     }
@@ -106,13 +106,13 @@ fn lost_committed_bun_grant_survives_old_peer_replacement() {
         .unwrap();
         assert!(matches!(result, JobResult::Granted { .. }));
         committed_tx.send(job_id.clone()).unwrap();
-        drop_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+        drop_rx.recv_timeout(Duration::from_secs(60)).unwrap();
         // No response is written: admission has committed but the CLI must retry.
         drop(stream);
     });
 
     let (project, mut bun) = status_compat::real_bun_fixture(&f, "lost_grant_bun");
-    let id = committed_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+    let id = committed_rx.recv_timeout(Duration::from_secs(60)).unwrap();
     assert_eq!(entry(&f, bun.child.id()).unwrap().0, "RESERVED");
     assert_eq!(active(&f).1, 1);
     assert!(!project.join("started").exists());

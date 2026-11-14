@@ -2,8 +2,8 @@
 pub(crate) mod diagnostics;
 mod policy;
 use arc_ipc::jobs::{
-    JobId, ObservationStatus, ObservationTarget, Outcome, Phase, StatusRequest, StatusResult,
-    OPERATION_JOB_STATUS,
+    JobId, JobSummary, ObservationStatus, ObservationTarget, Outcome, Phase, StatusRequest,
+    StatusResult, OPERATION_JOB_STATUS,
 };
 use serde_json::json;
 use std::{
@@ -66,31 +66,13 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
                     if jobs.is_empty() {
                         println!("No lifecycle records.");
                     }
-                    let deadline = Instant::now() + Duration::from_millis(250);
-                    for job in jobs {
-                        let state = if job.phase == Phase::Completed {
-                            // A completed lifecycle has the observed outcome;
-                            // avoid an extra Traffic exchange for each terminal row.
-                            lifecycle_label_until(&job.job_id, deadline)
-                        } else {
-                            match traffic_status_until(&job.job_id, deadline, false) {
-                                TrafficQuery::Unsupported | TrafficQuery::NotFound => {
-                                    if job.phase == Phase::Registered {
-                                        "registered"
-                                    } else {
-                                        label(job.phase)
-                                    }
-                                }
-                                TrafficQuery::Found(status) => traffic_label(&status),
-                                TrafficQuery::Unavailable => match job.phase {
-                                    // The validated lifecycle summary already records
-                                    // these terminal outcomes, even if Traffic is busy.
-                                    Phase::Signaled | Phase::SpawnFailed => label(job.phase),
-                                    _ => "unknown",
-                                },
-                            }
-                        };
-                        println!(
+                    visit_recent(
+                        &jobs,
+                        Instant::now,
+                        lookup_lifecycle_until,
+                        |id, end| traffic_status_until(id, end, false),
+                        |job, state| {
+                            println!(
                             "Job: {}\nState: {}\nRegistered (Unix ms): {}\nUpdated (Unix ms): {}\nReason: {}\nLast known: true",
                             job.job_id.as_str(),
                             state,
@@ -98,7 +80,8 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
                             job.updated_at_ms,
                             json!(job.reason).as_str().unwrap_or("IDENTITY_UNAVAILABLE")
                         );
-                    }
+                        },
+                    );
                     if truncated {
                         println!("Truncated: showing the 50 most recent records.");
                     }
@@ -152,7 +135,43 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
     }
 }
 
-fn lifecycle_label_until(id: &JobId, deadline: Instant) -> &'static str {
+// The production traversal owns the single deadline. Tests inject observation
+// and lookups here, so constructing a fresh deadline inside the loop is caught.
+fn visit_recent(
+    jobs: &[JobSummary],
+    mut now: impl FnMut() -> Instant,
+    mut lifecycle: impl FnMut(&JobId, Instant) -> &'static str,
+    mut traffic: impl FnMut(&JobId, Instant) -> TrafficQuery,
+    mut emit: impl FnMut(&JobSummary, &'static str),
+) {
+    let deadline = now() + Duration::from_millis(250);
+    for job in jobs {
+        let state = if job.phase == Phase::Completed {
+            if now() >= deadline {
+                "outcome unknown"
+            } else {
+                lifecycle(&job.job_id, deadline)
+            }
+        } else {
+            match traffic(&job.job_id, deadline) {
+                TrafficQuery::Unsupported | TrafficQuery::NotFound => {
+                    if job.phase == Phase::Registered {
+                        "registered"
+                    } else {
+                        label(job.phase)
+                    }
+                }
+                TrafficQuery::Found(status) => traffic_label(&status),
+                TrafficQuery::Unavailable => match job.phase {
+                    Phase::Signaled | Phase::SpawnFailed => label(job.phase),
+                    _ => "unknown",
+                },
+            }
+        };
+        emit(job, state);
+    }
+}
+fn lookup_lifecycle_until(id: &JobId, deadline: Instant) -> &'static str {
     let Ok(socket) = arc_core::socket_path() else {
         return "outcome unknown";
     };
@@ -312,6 +331,52 @@ fn outcome_label(phase: Phase, outcome: Option<&Outcome>) -> &'static str {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn completed_lookups_share_the_original_250_ms_budget_and_skip_after_expiry() {
+        let start = Instant::now();
+        let end = start + Duration::from_millis(250);
+        for admitted in [false, true] {
+            let now = std::cell::Cell::new(start);
+            let jobs: Vec<JobSummary> = (1..=3)
+                .map(|n| {
+                    serde_json::from_value(json!({
+                        "job_id":format!("{n:032x}"),"phase":"COMPLETED",
+                        "registered_at_ms":1,"updated_at_ms":2,"reason":"OBSERVED_EXIT"
+                    }))
+                    .unwrap()
+                })
+                .collect();
+            let mut calls = 0;
+            let mut observed = Vec::new();
+            visit_recent(
+                &jobs,
+                || {
+                    let time = now.get();
+                    if !admitted {
+                        now.set(end);
+                    }
+                    time
+                },
+                |id, same_end| {
+                    assert_eq!(id, &jobs[0].job_id);
+                    assert_eq!(same_end, end);
+                    calls += 1;
+                    now.set(end);
+                    "outcome unknown"
+                },
+                |_, _| panic!("completed rows must not issue Traffic reads"),
+                |job, state| observed.push((job.job_id.clone(), state)),
+            );
+            assert_eq!(calls, usize::from(admitted));
+            assert_eq!(
+                observed,
+                jobs.iter()
+                    .map(|job| (job.job_id.clone(), "outcome unknown"))
+                    .collect::<Vec<_>>()
+            );
+        }
+    }
 
     #[test]
     fn status_labels_require_a_recorded_exit() {

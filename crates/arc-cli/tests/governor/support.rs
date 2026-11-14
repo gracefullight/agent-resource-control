@@ -1,3 +1,4 @@
+pub use crate::native::OwnedChild;
 use arc_ipc::{Request, Response};
 use serde_json::Value;
 use std::{
@@ -44,17 +45,17 @@ impl Drop for Socket {
 }
 pub fn accept(listener: &UnixListener) -> UnixStream {
     listener.set_nonblocking(true).unwrap();
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let deadline = Instant::now() + Duration::from_secs(60);
     loop {
         match listener.accept() {
             Ok((stream, _)) => {
                 // macOS inherits O_NONBLOCK from the polling listener.
                 stream.set_nonblocking(false).unwrap();
                 stream
-                    .set_read_timeout(Some(Duration::from_secs(5)))
+                    .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 stream
-                    .set_write_timeout(Some(Duration::from_secs(5)))
+                    .set_write_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 return stream;
             }
@@ -78,16 +79,9 @@ pub fn reply(stream: &mut UnixStream, request: &Request, value: Value) {
     arc_ipc::write_response(stream, &Response::ok(&request.request_id, value)).unwrap();
 }
 pub fn output(mut command: Command) -> Output {
-    let mut child = command.spawn().unwrap();
-    let deadline = Instant::now() + Duration::from_secs(25);
-    while child.try_wait().unwrap().is_none() {
-        if Instant::now() >= deadline {
-            let _ = child.kill();
-            let result = child.wait_with_output().unwrap();
-            panic!("CLI deadline: {}", String::from_utf8_lossy(&result.stderr));
-        }
-        thread::sleep(Duration::from_millis(2));
-    }
+    finish_output(OwnedChild::new(command.spawn().unwrap()))
+}
+pub fn finish_output(mut child: OwnedChild) -> Output {
     child.wait_with_output().unwrap()
 }
 pub fn state(enabled: bool, revision: u64) -> Value {

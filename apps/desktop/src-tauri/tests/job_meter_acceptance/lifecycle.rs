@@ -182,11 +182,14 @@ fn real_stop_continue_and_escaped_descendant_keep_explicit_partial_scope() {
     assert_eq!(report(&stopped)["run_elapsed"]["includes_stopped"], true);
     let escaped_path = case.fixture.root.join("escaped.json");
     let mut c = command(&case, false, "escaped");
-    c.env("ARC_METER_TEST_ESCAPED", &escaped_path);
+    let release = case.fixture.root.join("escape-release");
+    c.env("ARC_METER_TEST_ESCAPED", &escaped_path)
+        .env("ARC_METER_TEST_ESCAPE_RELEASE", &release);
     let mut escaped = Run::launch(&case, c);
     assert!(escaped.finish().success());
     let descendant: ProcessIdentity =
         serde_json::from_slice(&fs::read(&escaped_path).unwrap()).unwrap();
+    escaped.wrapper.own_process(descendant.clone());
     assert_eq!(probe_live(&descendant), IdentityStatus::VerifiedMatch);
     let uncovered = summary(&case, &job_id(&case, escaped.identity.pid));
     assert_eq!(report(&uncovered)["completeness"], "partial");
@@ -200,6 +203,7 @@ fn real_stop_continue_and_escaped_descendant_keep_explicit_partial_scope() {
             .unwrap()
             < 0.1
     );
+    fs::write(release, b"release").unwrap();
     eventually(|| probe_live(&descendant) == IdentityStatus::Missing);
     save(
         "real_stop_continue_and_escaped_descendant_keep_explicit_partial_scope",

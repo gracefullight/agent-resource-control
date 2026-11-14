@@ -187,7 +187,7 @@ pub(super) fn run(
     #[cfg(test)]
     if let Some(exit) = hooks.exit.take() {
         let _ = exit.started.try_send(());
-        let end = Instant::now() + Duration::from_secs(1);
+        let end = Instant::now() + Duration::from_secs(60);
         loop {
             match exit.release.recv_timeout(Duration::from_millis(5)) {
                 Ok(()) | Err(std::sync::mpsc::RecvTimeoutError::Disconnected) => break,
@@ -315,7 +315,7 @@ impl Hooks {
             let _ = hooks.started.try_send(());
             hooks
                 .release
-                .recv_timeout(Duration::from_secs(5))
+                .recv_timeout(Duration::from_secs(60))
                 .map_err(|_| DbError::Deadline)?;
         }
         Ok(())
@@ -333,7 +333,7 @@ impl Hooks {
         #[cfg(test)]
         if let Some(hooks) = self.park.take() {
             let _ = hooks.started.try_send(());
-            let end = Instant::now() + Duration::from_secs(2);
+            let end = Instant::now() + Duration::from_secs(60);
             while !_shared.stopping.load(Ordering::Acquire) && Instant::now() < end {
                 // recv_timeout uses thread::park internally and could consume
                 // the very unpark token this race fixture is meant to prove.

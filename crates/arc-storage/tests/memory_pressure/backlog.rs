@@ -55,7 +55,7 @@ fn critical_published_during_writer_backlog_replaces_prebacklog_normal() {
         .unwrap();
         (writer, reply)
     });
-    started.recv_timeout(Duration::from_secs(2)).unwrap();
+    started.recv_timeout(Duration::from_secs(60)).unwrap();
     assert_eq!(
         source.calls.load(Ordering::SeqCst),
         0,

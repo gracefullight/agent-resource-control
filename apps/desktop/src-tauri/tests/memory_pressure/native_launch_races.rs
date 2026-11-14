@@ -27,7 +27,7 @@ fn arrive(listener: &UnixListener) -> (UnixStream, Value) {
     let stream = accepted.unwrap();
     stream.set_nonblocking(false).unwrap();
     stream
-        .set_read_timeout(Some(Duration::from_secs(2)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     let mut line = String::new();
     BufReader::new(&stream).read_line(&mut line).unwrap();

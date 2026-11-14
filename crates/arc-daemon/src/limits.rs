@@ -14,6 +14,8 @@ pub(crate) struct RuntimeLimits {
     pub db_execution_timeout: Duration,
     pub db_busy_timeout: Duration,
     pub shutdown_timeout: Duration,
+    #[cfg(test)]
+    pub test_roundtrip_limit: Duration,
 }
 
 impl Default for RuntimeLimits {
@@ -29,11 +31,30 @@ impl Default for RuntimeLimits {
             db_execution_timeout: Duration::from_millis(1_000),
             db_busy_timeout: Duration::from_millis(100),
             shutdown_timeout: Duration::from_millis(3_500),
+            #[cfg(test)]
+            test_roundtrip_limit: Duration::from_secs(4),
         }
     }
 }
 
 impl RuntimeLimits {
+    /// Only compiled into native test controllers. Several parent/child
+    /// handshakes each have a 60s watchdog; hold work across all of them without
+    /// racing a production deadline. Shutdown still uses its production budget.
+    #[cfg(test)]
+    pub(crate) fn holding_fixture() -> Self {
+        let holding = Duration::from_secs(600);
+        Self {
+            header_timeout: holding,
+            frame_timeout: holding,
+            write_timeout: holding,
+            db_response_timeout: holding,
+            db_execution_timeout: holding,
+            test_roundtrip_limit: holding * 3,
+            ..Self::default()
+        }
+    }
+
     pub(crate) fn test_profile() -> Self {
         Self {
             connections: NonZeroUsize::new(8).unwrap(),
@@ -93,12 +114,16 @@ impl RuntimeLimits {
         {
             return Err(invalid());
         }
+        #[cfg(not(test))]
+        let roundtrip_limit = Duration::from_secs(4);
+        #[cfg(test)]
+        let roundtrip_limit = self.test_roundtrip_limit;
         match self
             .frame_timeout
             .checked_add(self.db_response_timeout)
             .and_then(|sum| sum.checked_add(self.write_timeout))
         {
-            Some(sum) if sum <= Duration::from_secs(4) => Ok(()),
+            Some(sum) if sum <= roundtrip_limit => Ok(()),
             _ => Err(invalid()),
         }
     }
@@ -114,6 +139,41 @@ fn invalid() -> io::Error {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn production_deadlines_remain_exact() {
+        let limits = RuntimeLimits::default();
+        assert_eq!(
+            [
+                limits.header_timeout,
+                limits.frame_timeout,
+                limits.write_timeout,
+                limits.db_response_timeout,
+                limits.db_execution_timeout,
+                limits.db_busy_timeout,
+                limits.shutdown_timeout,
+            ],
+            [1000, 2000, 500, 1500, 1000, 100, 3500].map(Duration::from_millis)
+        );
+    }
+
+    #[test]
+    fn native_holding_fixture_is_explicit_and_keeps_production_shutdown_deadline() {
+        let fixture = RuntimeLimits::holding_fixture();
+        fixture.validate().unwrap();
+        assert!(fixture.db_execution_timeout >= Duration::from_secs(60) * 5);
+        assert_eq!(
+            fixture.shutdown_timeout,
+            RuntimeLimits::default().shutdown_timeout
+        );
+        assert!(RuntimeLimits::from_profile(Some(std::ffi::OsStr::new("holding"))).is_err());
+        assert_eq!(
+            RuntimeLimits::from_profile(None)
+                .unwrap()
+                .test_roundtrip_limit,
+            Duration::from_secs(4)
+        );
+    }
 
     #[test]
     fn limits_reject_invalid_config_and_profiles() {

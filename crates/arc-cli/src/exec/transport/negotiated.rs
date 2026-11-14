@@ -14,15 +14,12 @@ use std::{
 
 pub(crate) fn negotiated(
     socket: &Path,
-    operation: &str,
-    payload: Value,
+    request: Request,
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
     possibly_committed: &mut bool,
     continuity: Option<&Continuity>,
 ) -> Result<Value, Failure> {
-    let mut request = Request::new(crate::request_id(), operation);
-    request.payload = payload;
     let mut attempts = 0;
     loop {
         if cancelled() {
@@ -274,10 +271,14 @@ mod tests {
                 continuity.record(None);
             }
             let mut committed = mode == "previously-sent";
+            let mut request = Request::new(
+                crate::request_id(),
+                arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
+            );
+            request.payload = serde_json::json!({"action":"TRAFFIC","request":{"action":"POLL","job_id":"a".repeat(32)}});
             let result = negotiated(
                 &path,
-                arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
-                serde_json::json!({"action":"TRAFFIC","request":{"action":"POLL","job_id":"a".repeat(32)}}),
+                request,
                 Instant::now() + Duration::from_secs(2),
                 &|| cancelled.load(Ordering::SeqCst),
                 &mut committed,

@@ -1,6 +1,8 @@
 //! Exercise the worker against shared modules before production registration.
 // The temporary integration target does not consume every shared runtime API.
 #![allow(dead_code)]
+#[path = "support/native_fixture.rs"]
+mod native_fixture;
 
 #[path = "../src/admission.rs"]
 mod admission;

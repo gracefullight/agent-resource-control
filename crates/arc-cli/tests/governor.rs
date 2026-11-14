@@ -218,7 +218,7 @@ fn conflict_is_a_failed_control_and_invalid_revision_identity_never_dispatches()
 #[path = "governor/execution.rs"]
 mod execution;
 
-#[cfg(target_os = "macos")]
+#[cfg(unix)]
 #[allow(dead_code)] // Reuse the maintained owned-process/coordination fixture ports.
 #[path = "../../arc-daemon/tests/support/native_fixture.rs"]
 mod native;

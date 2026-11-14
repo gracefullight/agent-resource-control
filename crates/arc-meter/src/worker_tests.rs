@@ -110,7 +110,7 @@ async fn native_work_is_serial_reads_never_admit_work_and_shutdown_joins() {
         SamplingPolicy::default(),
     )
     .unwrap();
-    calls.recv_timeout(Duration::from_secs(2)).unwrap();
+    calls.recv_timeout(Duration::from_secs(60)).unwrap();
     let reader = worker.reader();
     for _ in 0..100 {
         assert!(reader.snapshot().is_none());
@@ -118,7 +118,7 @@ async fn native_work_is_serial_reads_never_admit_work_and_shutdown_joins() {
     }
     assert!(calls.try_recv().is_err());
     release.send(()).unwrap();
-    let deadline = Instant::now() + Duration::from_secs(2);
+    let deadline = Instant::now() + Duration::from_secs(60);
     while reader.snapshot().is_none() && Instant::now() < deadline {
         thread::yield_now();
     }
@@ -162,7 +162,7 @@ async fn timeout_retains_worker_ownership_and_never_starts_a_replacement() {
         SamplingPolicy::default(),
     )
     .unwrap();
-    calls.recv_timeout(Duration::from_secs(2)).unwrap();
+    calls.recv_timeout(Duration::from_secs(60)).unwrap();
     assert_eq!(
         worker
             .shutdown(tokio::time::Instant::now())

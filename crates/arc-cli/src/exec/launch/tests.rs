@@ -41,7 +41,7 @@ impl Drop for Socket {
 }
 fn read(stream: &mut UnixStream) -> Request {
     stream
-        .set_read_timeout(Some(Duration::from_secs(3)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     Request::decode(&read_frame(stream).unwrap()).unwrap()
 }
@@ -273,7 +273,7 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
                 closed_tx.send(()).unwrap();
             } else {
                 closed_tx.send(()).unwrap();
-                done_rx.recv_timeout(Duration::from_secs(3)).unwrap();
+                done_rx.recv_timeout(Duration::from_secs(60)).unwrap();
             }
         });
         let Coordination::Fenced(mut gate) =
@@ -281,7 +281,7 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
         else {
             panic!("expected gate");
         };
-        closed_rx.recv_timeout(Duration::from_secs(3)).unwrap();
+        closed_rx.recv_timeout(Duration::from_secs(60)).unwrap();
         if !lost {
             gate.deadline = Instant::now();
         }

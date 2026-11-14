@@ -236,6 +236,15 @@ pub fn interpret_report(
     decode_report_receipt(value, &report).map_err(|_| JobMeterError::InvalidReply)
 }
 
+#[cfg(unix)]
+fn clamp_deadline(
+    now: std::time::Instant,
+    deadline: std::time::Instant,
+    max_ms: u64,
+) -> std::time::Instant {
+    deadline.min(now + std::time::Duration::from_millis(max_ms))
+}
+
 /// Existing owner-authenticated transport; one clamped absolute deadline across
 /// all retries. No execution, daemon launch or background uploader is created.
 #[cfg(unix)]
@@ -249,23 +258,45 @@ pub fn report_until(
 ) -> Result<ReportReceipt, crate::client::Failure> {
     use crate::client::{exchange_until, ExchangeOptions, Failure};
     let request = report_request(request_id, report).map_err(|_| Failure::Local)?;
-    let deadline = deadline.min(
-        std::time::Instant::now() + std::time::Duration::from_millis(METER_REPORT_MAX_BUDGET_MS),
-    );
-    let value = exchange_until(
-        socket,
+    report_exchange(
         &request,
+        report,
         deadline,
-        cancelled,
+        std::time::Instant::now(),
         possibly_committed,
-        ExchangeOptions {
-            continuity: None,
-            retry_busy: true,
+        |request, deadline, committed| {
+            exchange_until(
+                socket,
+                request,
+                deadline,
+                cancelled,
+                committed,
+                ExchangeOptions {
+                    continuity: None,
+                    retry_busy: true,
+                },
+            )
         },
-    )?;
+    )
+}
+#[cfg(unix)]
+fn report_exchange(
+    request: &Request,
+    report: &JobMeterReport,
+    original: std::time::Instant,
+    now: std::time::Instant,
+    possibly_committed: &mut bool,
+    exchange: impl FnOnce(
+        &Request,
+        std::time::Instant,
+        &mut bool,
+    ) -> Result<Value, crate::client::Failure>,
+) -> Result<ReportReceipt, crate::client::Failure> {
+    let deadline = clamp_deadline(now, original, METER_REPORT_MAX_BUDGET_MS);
+    let value = exchange(request, deadline, possibly_committed)?;
     decode_report_receipt(&value, report).map_err(|_| {
         *possibly_committed = true;
-        Failure::InvalidReply
+        crate::client::Failure::InvalidReply
     })
 }
 #[cfg(unix)]
@@ -278,8 +309,10 @@ pub fn summary_until(
 ) -> Result<JobMeterSummary, crate::client::Failure> {
     use crate::client::{exchange_until, ExchangeOptions, Failure};
     let request = summary_request(request_id, job_id).map_err(|_| Failure::Local)?;
-    let deadline = deadline.min(
-        std::time::Instant::now() + std::time::Duration::from_millis(METER_SUMMARY_MAX_BUDGET_MS),
+    let deadline = clamp_deadline(
+        std::time::Instant::now(),
+        deadline,
+        METER_SUMMARY_MAX_BUDGET_MS,
     );
     let value = exchange_until(
         socket,

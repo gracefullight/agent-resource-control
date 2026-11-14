@@ -140,6 +140,7 @@ pub(super) fn deliver(socket: &Path, report: &JobMeterReport, deadline: Instant)
                 &|| false,
             )
         },
+        Instant::now,
     )
 }
 
@@ -148,25 +149,26 @@ fn deliver_with(
     deadline: Instant,
     mut write: impl FnMut(&str, &JobMeterReport, Instant, &mut bool) -> Result<(), Failure>,
     mut read: impl FnMut(&str, Instant) -> Result<JobMeterSummary, Failure>,
+    now: impl Fn() -> Instant,
 ) -> bool {
-    if Instant::now() >= deadline {
+    if now() >= deadline {
         return false;
     }
     let request_id = format!("job-meter-{}", report.report_id);
     let mut committed = false;
-    let first_end = deadline.min(Instant::now() + Duration::from_millis(200));
+    let first_end = deadline.min(now() + Duration::from_millis(200));
     match write(&request_id, report, first_end, &mut committed) {
         Ok(()) if !committed => return true,
         Ok(()) => (),
         Err(Failure::Uncertain | Failure::Busy | Failure::InvalidReply) if committed => (),
         Err(_) => return false,
     }
-    if Instant::now() >= deadline {
+    if now() >= deadline {
         return false;
     }
     match read(
         &report.job_id,
-        deadline.min(Instant::now() + Duration::from_millis(150)),
+        deadline.min(now() + Duration::from_millis(150)),
     ) {
         Ok(summary) if summary.is_valid() && summary.job_id == report.job_id => {
             match summary.accounting {
@@ -185,7 +187,7 @@ fn deliver_with(
         ) => return false,
         Err(_) => (),
     }
-    if Instant::now() >= deadline {
+    if now() >= deadline {
         return false;
     }
     write(&request_id, report, deadline, &mut committed).is_ok()

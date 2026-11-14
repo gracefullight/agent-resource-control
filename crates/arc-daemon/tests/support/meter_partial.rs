@@ -34,7 +34,7 @@ fn partial_native_failures_preserve_available_fields_cli_health_and_jobs() {
     let mut child = runtime::OwnedChild::new(command.spawn().unwrap());
     fixture.wait_for(&mut child, "arc-daemon ready.");
     let identity = ProcessIdentity::capture(child.child.id()).unwrap();
-    let deadline = Instant::now() + Duration::from_secs(5);
+    let deadline = Instant::now() + Duration::from_secs(60);
     let sample: MeterSnapshot = loop {
         let output = Command::new(fixture.binary("arcctl"))
             .args(["meter", "snapshot", "--json"])

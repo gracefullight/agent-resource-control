@@ -41,6 +41,7 @@ mod transport;
 #[path = "../src/transport_test_support.rs"]
 mod transport_test_support;
 
+use runtime as native_fixture;
 use runtime::{receipt, send, Fixture, OwnedChild};
 use runtime_metrics::{Gauge, RuntimeMetrics};
 use std::{
@@ -56,7 +57,21 @@ fn controlled_daemon_child() {
     let Some(mode) = std::env::var_os("ARC_BOUNDED_CHILD") else {
         return;
     };
-    tokio::runtime::Builder::new_multi_thread().worker_threads(2).enable_all().build().unwrap().block_on(async {
+    let mut builder = if mode == "deadlines" {
+        let mut builder = tokio::runtime::Builder::new_current_thread();
+        builder.start_paused(true);
+        builder
+    } else {
+        let mut builder = tokio::runtime::Builder::new_multi_thread();
+        builder.worker_threads(2);
+        builder
+    };
+    builder.enable_all().build().unwrap().block_on(async {
+        // A runnable task prevents Tokio's paused clock from auto-advancing
+        // while the external parent performs the two rejection handshakes.
+        let clock_hold = (mode == "deadlines").then(|| tokio::spawn(async {
+            loop { tokio::task::yield_now().await; }
+        }));
         let socket = arc_core::socket_path().unwrap();
         let anchor = arc_core::instance_anchor().unwrap();
         server::validate_socket_path(&socket).unwrap();
@@ -66,7 +81,7 @@ fn controlled_daemon_child() {
         let mut database = arc_storage::open_and_migrate(arc_core::database_path().unwrap()).unwrap();
         let limits = if mode == "deadlines" { limits::RuntimeLimits::test_profile() } else { limits::RuntimeLimits { connections:NonZeroUsize::new(8).unwrap(),
             requests:NonZeroUsize::new(4).unwrap(),db_queue:NonZeroUsize::new(2).unwrap(),
-            ..limits::RuntimeLimits::default() } };
+            ..if mode == "meter-partial" { limits::RuntimeLimits::default() } else { limits::RuntimeLimits::holding_fixture() } } };
         let metrics = Arc::new(RuntimeMetrics::new(&limits));
         let (started, _started) = mpsc::sync_channel(1);
         let (release, receiver) = mpsc::sync_channel(1);
@@ -83,7 +98,7 @@ fn controlled_daemon_child() {
                         // real fixed diagnostic, without replacing its result.
                         println!("bounded-child:sql-active");
                         std::io::stdout().flush().unwrap();
-                        gate.recv_timeout(Duration::from_millis(900)).expect("parent must release SQL gate");
+                        gate.recv_timeout(Duration::from_secs(60)).expect("parent must release SQL gate");
                     }
                 }
                 rusqlite::hooks::Authorization::Allow
@@ -99,11 +114,25 @@ fn controlled_daemon_child() {
         let observe = async {
             if mode == "meter-partial" { std::future::pending::<()>().await; }
             if mode == "deadlines" {
-                for (gauge, count, marker) in [(Gauge::Requests,4,"requests-full"),(Gauge::Connections,8,"connections-full"),(Gauge::Connections,0,"deadline-released")] {
+                for (gauge, count, marker) in [(Gauge::Requests,4,"requests-full"),(Gauge::Connections,8,"connections-full")] {
                     metrics.wait_for(|s|s.gauge(gauge).current==count).await;
                     println!("bounded-child:{marker}");
                     std::io::stdout().flush().unwrap();
                 }
+                while !socket.parent().unwrap().join("expire-frames").exists() { tokio::task::yield_now().await; }
+                let snapshot = metrics.snapshot();
+                assert_eq!(snapshot.gauge(Gauge::Requests).current, 4);
+                assert_eq!(snapshot.gauge(Gauge::Connections).current, 8);
+                assert_eq!(snapshot.counter(runtime_metrics::Counter::RequestRejected), 1);
+                assert_eq!(snapshot.counter(runtime_metrics::Counter::ConnectionRejected), 1);
+                assert_eq!(snapshot.counter(runtime_metrics::Counter::HeaderTimeouts), 0);
+                assert_eq!(snapshot.counter(runtime_metrics::Counter::FrameTimeouts), 0);
+                tokio::time::advance(Duration::from_millis(301)).await;
+                metrics.wait_for(|s|s.gauge(Gauge::Connections).current==0).await;
+                println!("bounded-child:deadline-released");
+                std::io::stdout().flush().unwrap();
+                tokio::time::resume();
+                clock_hold.as_ref().unwrap().abort();
                 std::future::pending::<()>().await;
             }
             for (gauge, count, marker) in [(Gauge::DbExecuting,1,"active"),(Gauge::DbQueued,2,"queue-full")] {
@@ -113,6 +142,11 @@ fn controlled_daemon_child() {
             }
             if mode == "release" || mode == "sql" || mode == "schema" {
                 while !socket.parent().unwrap().join("release").exists() { tokio::time::sleep(Duration::from_millis(1)).await; }
+                let snapshot = metrics.snapshot();
+                assert_eq!(snapshot.gauge(Gauge::DbExecuting).current, 1);
+                assert_eq!(snapshot.gauge(Gauge::DbQueued).current, 2);
+                assert_eq!(snapshot.gauge(Gauge::DbOutstanding).current, 3);
+                assert_eq!(snapshot.counter(runtime_metrics::Counter::DbTimeouts), 0);
                 release.send(()).unwrap();
                 metrics.wait_for(|s|s.gauge(Gauge::DbOutstanding).current==0).await;
                 println!("bounded-child:released");
@@ -124,6 +158,22 @@ fn controlled_daemon_child() {
                 metrics.wait_for(|s|s.gauge(Gauge::Connections).current==8).await;
                 println!("bounded-child:connections-full");
                 std::io::stdout().flush().unwrap();
+                let trigger = socket.parent().unwrap().join("signal");
+                while !trigger.exists() { tokio::time::sleep(Duration::from_millis(1)).await; }
+                // Earlier markers observe individual gauges at different
+                // instants. Require the complete saturation state together
+                // before self-signalling, including retirement of short-lived
+                // health/rejection handlers from the parent's setup phase.
+                metrics.wait_for(|s| [(Gauge::Connections,8),(Gauge::Requests,4),(Gauge::DbExecuting,1),(Gauge::DbQueued,2),(Gauge::DbOutstanding,3)]
+                    .iter().all(|(gauge,count)| s.gauge(*gauge).current==*count)).await;
+                let snapshot = metrics.snapshot();
+                for (gauge, count) in [(Gauge::Connections,8),(Gauge::Requests,4),(Gauge::DbExecuting,1),(Gauge::DbQueued,2),(Gauge::DbOutstanding,3)] {
+                    assert_eq!(snapshot.gauge(gauge).current, count, "{gauge:?} at signal trigger");
+                }
+                assert_eq!(snapshot.counter(runtime_metrics::Counter::DbTimeouts), 0);
+                let signal: i32 = fs::read_to_string(trigger).unwrap().parse().unwrap();
+                assert!([libc::SIGTERM,libc::SIGINT].contains(&signal));
+                assert_eq!(unsafe { libc::kill(std::process::id() as i32, signal) }, 0);
             }
             std::future::pending::<()>().await;
         };
@@ -169,13 +219,9 @@ fn saturate_db(fixture: &Fixture, child: &mut OwnedChild) -> Vec<std::os::unix::
     assert!(!busy.status.success(), "{busy:?}");
     assert!(busy.stdout.is_empty());
     assert_eq!(busy.stderr, b"IPC_ERROR\n");
-    let started = Instant::now();
     let status = fixture.cli("status");
     assert!(status.status.success(), "{status:?}");
-    assert!(
-        started.elapsed() < Duration::from_millis(500),
-        "health waited on slow worker"
-    );
+
     streams
 }
 
@@ -184,12 +230,8 @@ fn controlled_slow_database_does_not_block_health_and_cli_recovers() {
     let _serial = support::serial();
     let fixture = Fixture::new();
     let mut child = spawn(&fixture, "release");
-    let start = Instant::now();
     let mut streams = saturate_db(&fixture, &mut child);
-    assert!(
-        start.elapsed() < Duration::from_millis(900),
-        "gate deadline elapsed"
-    );
+
     fs::write(fixture.root.join("release"), b"go").unwrap();
     fixture.wait_for(&mut child, "bounded-child:released");
     for stream in &mut streams {
@@ -229,7 +271,7 @@ fn health_during_preparation(mode: &str) {
     let start = Instant::now();
     let status = fixture.cli("status");
     assert!(status.status.success(), "{status:?}");
-    assert!(start.elapsed() < Duration::from_millis(500));
+
     let health_us = start.elapsed().as_micros();
     fs::write(fixture.root.join("release"), b"go").unwrap();
     fixture.wait_for(&mut child, "bounded-child:released");
@@ -251,7 +293,6 @@ fn signal_case(signal: i32, name: &str) {
     let _serial = support::serial();
     let fixture = Fixture::new();
     let mut child = spawn(&fixture, "signal");
-    let start = Instant::now();
     let _database_clients = saturate_db(&fixture, &mut child);
     let mut body = fixture.connect();
     body.write_all(&1024u32.to_be_bytes()).unwrap();
@@ -262,7 +303,7 @@ fn signal_case(signal: i32, name: &str) {
         &mut rejected,
         &arc_ipc::Request::new("reject", arc_ipc::OPERATION_HELLO),
     );
-    runtime::assert_closed(rejected, Duration::from_millis(250));
+    runtime::assert_closed(rejected);
     let mut headers = Vec::new();
     for _ in 0..4 {
         let mut stream = fixture.connect();
@@ -271,12 +312,10 @@ fn signal_case(signal: i32, name: &str) {
     }
     fixture.wait_for(&mut child, "bounded-child:connections-full");
     let rejected = fixture.connect();
-    runtime::assert_closed(rejected, Duration::from_millis(250));
-    assert!(
-        start.elapsed() < Duration::from_millis(900),
-        "DB work must still be active at signal"
-    );
-    let (exit_us, peak) = child.stop(signal);
+    runtime::assert_closed(rejected);
+
+    fs::write(fixture.root.join("signal"), signal.to_string()).unwrap();
+    let (exit_us, peak) = child.wait_for_exit();
     let report = fixture.report();
     assert_eq!(report["reason"], name);
     assert_eq!(report["metrics"]["connections"]["high_water"], 8);

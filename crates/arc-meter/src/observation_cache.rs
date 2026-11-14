@@ -97,16 +97,19 @@ impl Cache {
 }
 impl Shared {
     pub(super) fn publication(&self) -> MutexGuard<'_, Cache> {
+        self.publication_with_clock(|| (self.fence_clock)())
+    }
+    fn publication_with_clock(&self, now: impl Fn() -> Instant) -> MutexGuard<'_, Cache> {
         let mut cache = self.latest.lock().unwrap_or_else(|e| e.into_inner());
         cache.publishing = true;
         while let Some((_, end)) = cache.lease {
-            if Instant::now() >= end {
+            if now() >= end {
                 cache.lease = None;
                 break;
             }
             cache = self
                 .published
-                .wait_timeout(cache, end.saturating_duration_since(Instant::now()))
+                .wait_timeout(cache, end.saturating_duration_since(now()))
                 .unwrap_or_else(|e| e.into_inner())
                 .0;
         }
@@ -197,6 +200,14 @@ impl SnapshotReader {
         clock: impl FnOnce() -> Option<u64>,
         consume: impl FnOnce(ObservationInput<'_>, Option<Instant>) -> (T, bool),
     ) -> (T, Option<PublicationFence>) {
+        self.with_launch_clocks(clock, || (self.0.fence_clock)(), consume)
+    }
+    fn with_launch_clocks<T>(
+        &self,
+        clock: impl FnOnce() -> Option<u64>,
+        instant: impl Fn() -> Instant,
+        consume: impl FnOnce(ObservationInput<'_>, Option<Instant>) -> (T, bool),
+    ) -> (T, Option<PublicationFence>) {
         let mut cache = self.0.latest.lock().unwrap_or_else(|e| e.into_inner());
         let (snapshot, now) = cache.reading(clock());
         let input = cache.input(snapshot.as_ref(), now);
@@ -212,12 +223,12 @@ impl SnapshotReader {
                 arc_policy::MAX_LAUNCH_FENCE_MS
             };
         let bound = remaining.min(arc_policy::MAX_LAUNCH_FENCE_MS);
-        let end = Instant::now() + Duration::from_millis(bound);
+        let end = instant() + Duration::from_millis(bound);
         let available = bound > 0
             && !cache.publishing
             && cache
                 .lease
-                .is_none_or(|(_, deadline)| Instant::now() >= deadline);
+                .is_none_or(|(_, deadline)| instant() >= deadline);
         let (value, ready) = consume(input, available.then_some(end));
         cache.remember(snapshot);
         if !ready || !available {

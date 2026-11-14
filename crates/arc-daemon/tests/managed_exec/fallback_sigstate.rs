@@ -50,7 +50,7 @@ fn fallback_preserves_inherited_ignored_and_blocked_sigchld() {
                         Ok(())
                     });
                 }
-                let mut child = c.spawn().unwrap();
+                let mut child = super::runtime::OwnedChild::new(c.spawn().unwrap());
                 let (mut barrier, info) = accept(&listener);
                 barrier.write_all(b"x").unwrap();
                 assert_eq!(info["sigchld_ignored"], ignored);

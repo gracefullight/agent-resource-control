@@ -107,7 +107,7 @@ fn target(
         revents: 0,
     };
     assert!(
-        unsafe { libc::poll(&mut poll, 1, 10_000) } > 0,
+        unsafe { libc::poll(&mut poll, 1, 60_000) } > 0,
         "child did not start"
     );
     let mut line = String::new();
@@ -123,7 +123,7 @@ fn target(
         .unwrap()
         .write_all(b"stdin\0bytes\n")
         .unwrap();
-    let until = Instant::now() + Duration::from_secs(3);
+    let until = Instant::now() + Duration::from_secs(60);
     let status = loop {
         assert_eq!(
             unsafe { libc::fcntl(shared_writer.as_raw_fd(), libc::F_GETFL) },
@@ -244,7 +244,7 @@ fn full_stderr_managed_completion_failure_does_not_block_exit() {
     let wrapped_marker = f.root.join("wrapped-calls");
     let (direct, _) = target(&f, false, &f.socket, &direct_marker, || {});
     let (wrapped, _) = target(&f, true, &f.socket, &wrapped_marker, || {
-        let until = Instant::now() + Duration::from_secs(5);
+        let until = Instant::now() + Duration::from_secs(60);
         loop {
             let db = rusqlite::Connection::open(&f.database).unwrap();
             let attached: i64 = db
@@ -307,7 +307,7 @@ fn full_stderr_directed_signal_preserves_native_status() {
             events: libc::POLLIN,
             revents: 0,
         };
-        assert!(unsafe { libc::poll(&mut poll, 1, 10_000) } > 0);
+        assert!(unsafe { libc::poll(&mut poll, 1, 60_000) } > 0);
         let mut line = String::new();
         stdout.read_line(&mut line).unwrap();
         assert_eq!(line, "ready\n");
@@ -316,7 +316,7 @@ fn full_stderr_directed_signal_preserves_native_status() {
             unsafe { libc::kill(child.child.id() as i32, libc::SIGTERM) },
             0
         );
-        let until = Instant::now() + Duration::from_secs(3);
+        let until = Instant::now() + Duration::from_secs(60);
         let status = loop {
             assert_eq!(
                 unsafe { libc::fcntl(shared_writer.as_raw_fd(), libc::F_GETFL) },

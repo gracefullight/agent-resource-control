@@ -155,7 +155,7 @@ async fn writer_backlog_reads_the_new_publication_and_native_sampling_continues(
         .client
         .try_doctor(Instant::now() + Duration::from_secs(10))
         .unwrap();
-    entered.recv_timeout(Duration::from_secs(2)).unwrap();
+    entered.recv_timeout(Duration::from_secs(60)).unwrap();
     let client = f.client.clone();
     let owner = f.owner.clone();
     let id = f.id(1);

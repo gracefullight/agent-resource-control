@@ -29,7 +29,9 @@ pub(crate) fn execute(
     operation: Operation,
     reader: Option<&super::observation::Observations>,
 ) -> Result<Value, E> {
-    execute_with_clock(connection, operation, reader, Instant::now)
+    execute_with_clock(connection, operation, reader, || {
+        reader.map_or_else(Instant::now, |r| r.now())
+    })
 }
 fn execute_with_clock(
     connection: &mut Connection,
@@ -71,8 +73,8 @@ fn execute_with_clock(
             proof,
         } => {
             let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
-            let control_end =
-                Instant::now() + std::time::Duration::from_millis(arc_policy::MAX_LAUNCH_FENCE_MS);
+            let control_end = reader.map_or_else(Instant::now, |r| r.now())
+                + std::time::Duration::from_millis(arc_policy::MAX_LAUNCH_FENCE_MS);
             let control = reader
                 .map(|r| r.control_fence(control_end))
                 .unwrap_or_else(|| Some((control_end, Box::new(()) as Box<dyn Send>)))
@@ -110,7 +112,7 @@ fn execute_with_clock(
                 arc_policy::evaluator::MissingObservation.with_observation(&mut |input| {
                     effective = Some(arc_policy::evaluator::evaluate(input))
                 });
-                let end = Instant::now()
+                let end = reader.map_or_else(Instant::now, |r| r.now())
                     + std::time::Duration::from_millis(arc_policy::MAX_LAUNCH_FENCE_MS);
                 let fence = match reader {
                     Some(source) => source.fallback_fence(end),

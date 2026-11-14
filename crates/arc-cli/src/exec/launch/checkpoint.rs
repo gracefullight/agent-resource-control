@@ -21,14 +21,14 @@ pub(super) fn pause(
     let path = std::env::var_os("ARC_PRESSURE_ACCEPTANCE_BARRIER").ok_or(Failure::Local)?;
     let mut stream = UnixStream::connect(path).map_err(|_| Failure::Local)?;
     stream
-        .set_write_timeout(Some(Duration::from_millis(100)))
+        .set_write_timeout(Some(Duration::from_secs(60)))
         .map_err(|_| Failure::Local)?;
     stream
         .set_read_timeout(Some(Duration::from_millis(50)))
         .map_err(|_| Failure::Local)?;
     serde_json::to_writer(&mut stream, value).map_err(|_| Failure::Local)?;
     stream.write_all(b"\n").map_err(|_| Failure::Local)?;
-    let end = Instant::now() + Duration::from_secs(10);
+    let end = Instant::now() + Duration::from_secs(60);
     let mut byte = [0u8];
     loop {
         if cancelled() {

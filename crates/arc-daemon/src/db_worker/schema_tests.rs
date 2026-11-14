@@ -21,7 +21,7 @@ async fn schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned(
                     if let Some(receiver) = once.take() {
                         started.send(()).unwrap();
                         receiver
-                            .recv_timeout(Duration::from_secs(2))
+                            .recv_timeout(Duration::from_secs(60))
                             .expect("test releases schema gate");
                     }
                 }
@@ -41,7 +41,7 @@ async fn schema_assessment_cancellation_deadline_and_shutdown_keep_worker_owned(
                 deadline()
             })
             .unwrap();
-        observed.recv_timeout(Duration::from_secs(1)).unwrap();
+        observed.recv_timeout(Duration::from_secs(60)).unwrap();
         match mode {
             "shutdown" => {
                 worker.begin_shutdown();

@@ -139,7 +139,7 @@ impl Peer {
         let stopped = stop.clone();
         let observed = requests.clone();
         let join = thread::spawn(move || {
-            let deadline = Instant::now() + Duration::from_secs(10);
+            let deadline = Instant::now() + Duration::from_secs(60);
             for _ in 0..count {
                 let mut stream = loop {
                     if stopped.load(Ordering::Acquire) {
@@ -156,10 +156,10 @@ impl Peer {
                 };
                 stream.set_nonblocking(false).unwrap();
                 stream
-                    .set_read_timeout(Some(Duration::from_secs(3)))
+                    .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 stream
-                    .set_write_timeout(Some(Duration::from_secs(3)))
+                    .set_write_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 let request = arc_ipc::read_message(&mut stream).unwrap();
                 observed.fetch_add(1, Ordering::Relaxed);

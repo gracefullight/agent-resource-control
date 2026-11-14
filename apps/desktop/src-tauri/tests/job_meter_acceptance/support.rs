@@ -25,7 +25,7 @@ pub fn now() -> u64 {
         .as_millis() as u64
 }
 pub fn eventually(mut condition: impl FnMut() -> bool) {
-    let end = Instant::now() + Duration::from_secs(10);
+    let end = Instant::now() + Duration::from_secs(60);
     while !condition() {
         assert!(
             Instant::now() < end,
@@ -184,11 +184,13 @@ impl Run {
         let marker = base.with_extension("marker");
         let stdout = base.with_extension("stdout");
         let stderr = base.with_extension("stderr");
+        let owners = base.with_extension("owners");
         command
+            .env("ARC_FIXTURE_OWNERS", &owners)
             .env("ARC_METER_TEST_MARKER", &marker)
             .stdout(fs::File::create(&stdout).unwrap())
             .stderr(fs::File::create(&stderr).unwrap());
-        let wrapper = native::OwnedChild::new(command.spawn().unwrap());
+        let wrapper = native::OwnedChild::spawn_with_descendants(command, owners).unwrap();
         let identity = ProcessIdentity::capture(wrapper.child.id()).unwrap();
         Self {
             wrapper,

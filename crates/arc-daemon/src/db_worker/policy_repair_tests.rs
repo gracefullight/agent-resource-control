@@ -6,7 +6,7 @@ use arc_policy::ObservationProvider;
 
 pub(super) async fn critical_sampler(f: &Fixture) -> arc_meter::MeterWorker {
     let sampler = f.sampler(1);
-    let end = Instant::now() + Duration::from_secs(2);
+    let end = Instant::now() + Duration::from_secs(60);
     loop {
         if sampler.reader().snapshot().is_some_and(|s| {
             s.host.memory_pressure.reading.value() == Some(&MemoryPressure::Critical)
@@ -109,7 +109,7 @@ async fn replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch() 
                 )
                 .await
             });
-            observed.recv_timeout(Duration::from_secs(2)).unwrap();
+            observed.recv_timeout(Duration::from_secs(60)).unwrap();
             f.client.bind_observation(replacement.reader());
             tx.commit().unwrap();
             let reply: JobResult = serde_json::from_value(pending.await.unwrap().unwrap()).unwrap();
@@ -124,7 +124,7 @@ async fn replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch() 
             drop(replacement);
             continue;
         };
-        observed.recv_timeout(Duration::from_secs(2)).unwrap();
+        observed.recv_timeout(Duration::from_secs(60)).unwrap();
         f.client.bind_observation(replacement.reader());
         old.with_observation(&mut |input| {
             assert_eq!(
@@ -154,7 +154,7 @@ async fn replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch() 
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn replacement_waits_for_outstanding_ready_then_uses_new_identity_and_critical() {
-    let f = Fixture::new(None).await;
+    let f = Fixture::frozen().await;
     let generation = generation(f.enqueue(1).await);
     let old = f.meter.reader();
     // Rebinding the same sampler must be idempotent, not retire it.
@@ -177,7 +177,7 @@ async fn replacement_waits_for_outstanding_ready_then_uses_new_identity_and_crit
         client.bind_observation(reader);
         done.send(()).unwrap();
     });
-    let end = Instant::now() + Duration::from_secs(1);
+    let end = Instant::now() + Duration::from_secs(60);
     while f.client.shared.observation.0.try_lock().is_ok() {
         assert!(Instant::now() < end, "replacement entered registry fence");
         std::thread::yield_now();
@@ -187,7 +187,7 @@ async fn replacement_waits_for_outstanding_ready_then_uses_new_identity_and_crit
         Err(mpsc::TryRecvError::Empty)
     ));
     drop(ready);
-    completed.recv_timeout(Duration::from_secs(2)).unwrap();
+    completed.recv_timeout(Duration::from_secs(60)).unwrap();
     replacing.join().unwrap();
     match f.policy(Input::Current).await {
         Value::Current(value) => assert_eq!(value.mode, PolicyMode::MemoryHold),

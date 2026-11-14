@@ -5,6 +5,9 @@
 #[path = "../../arc-ipc/tests/fixtures/memory_pressure.rs"]
 mod fixture;
 #[allow(dead_code)]
+#[path = "../../arc-daemon/tests/support/native_fixture.rs"]
+mod native;
+#[allow(dead_code)]
 #[path = "governor/support.rs"]
 mod support;
 #[path = "traffic_scripts/mod.rs"]

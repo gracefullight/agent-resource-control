@@ -5,4 +5,4 @@ test('independent native result', async () => {
   while (!existsSync(process.env.TBS_RELEASE!)) await Bun.sleep(10);
   expect(6 * 7).toBe(42);
   console.log('TBS_TEST_OK');
-});
+}, 60000);

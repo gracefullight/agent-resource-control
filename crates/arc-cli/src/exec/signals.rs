@@ -194,7 +194,15 @@ impl Signals {
     fn wait_with(
         &self,
         child: &mut std::process::Child,
+        before_suspend: impl FnMut(),
+    ) -> io::Result<Termination> {
+        self.wait_with_clock(child, before_suspend, Instant::now)
+    }
+    fn wait_with_clock(
+        &self,
+        child: &mut std::process::Child,
         mut before_suspend: impl FnMut(),
+        mut now: impl FnMut() -> Instant,
     ) -> io::Result<Termination> {
         let mask = Mask::block();
         let mut wake_mask = mask.0;
@@ -221,7 +229,7 @@ impl Signals {
                 };
                 let status = event.status.into_raw();
                 if libc::WIFEXITED(status) || libc::WIFSIGNALED(status) {
-                    let observed_at = Instant::now();
+                    let observed_at = now();
                     self.reaped();
                     return Ok(Termination {
                         status: event.status,

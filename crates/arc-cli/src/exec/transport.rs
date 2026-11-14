@@ -84,11 +84,27 @@ pub(super) fn call_until_with_continuity(
     continuity: Option<&Continuity>,
 ) -> Result<Value, Failure> {
     #[cfg(test)]
-    if let Some(result) = preparation_tests::scripted_exchange(operation, &payload, deadline) {
+    if let Some(result) =
+        preparation_tests::scripted_exchange(operation, &payload, deadline, cancelled)
+    {
         return result;
     }
     let mut request = Request::new(crate::request_id(), operation);
     request.payload = payload;
+    if matches!(
+        operation,
+        arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
+            | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB
+    ) {
+        return negotiated(
+            socket,
+            request,
+            deadline,
+            cancelled,
+            possibly_committed,
+            continuity,
+        );
+    }
     arc_ipc::client::exchange_until(
         socket,
         &request,

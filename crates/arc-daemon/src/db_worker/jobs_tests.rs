@@ -37,7 +37,7 @@ async fn lifecycle_cancellation_before_commit_releases_shared_capacity_and_never
     )
     .unwrap();
     let client = worker.client();
-    let deadline = Instant::now() + Duration::from_secs(3);
+    let deadline = Instant::now() + Duration::from_secs(60);
     let request = StartRequest::Register {
         job_id: JobId::try_from("00000000000000000000000000000001".to_string()).unwrap(),
         observer: ProcessIdentity::capture(std::process::id()).unwrap(),
@@ -55,7 +55,7 @@ async fn lifecycle_cancellation_before_commit_releases_shared_capacity_and_never
             Operation::Start(request.clone(), evidence, super::now()),
         )
         .unwrap();
-    observed.recv_timeout(Duration::from_secs(1)).unwrap();
+    observed.recv_timeout(Duration::from_secs(60)).unwrap();
     drop(ticket);
     metrics
         .wait_for(|s| s.gauge(Gauge::DbOutstanding).current == 0)

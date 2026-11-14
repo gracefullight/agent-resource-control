@@ -20,10 +20,10 @@ fn accepted_fixture_streams_have_bounded_bidirectional_io() {
     let socket = Socket::new();
     let mut client = UnixStream::connect(socket.root.join("s")).unwrap();
     client
-        .set_read_timeout(Some(Duration::from_secs(5)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     client
-        .set_write_timeout(Some(Duration::from_secs(5)))
+        .set_write_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     let request = arc_ipc::Request::new("fixture-io", "fixture.roundtrip");
     arc_ipc::write_message(&mut client, &request).unwrap();
@@ -35,11 +35,11 @@ fn accepted_fixture_streams_have_bounded_bidirectional_io() {
     assert_eq!(flags & libc::O_NONBLOCK, 0);
     assert_eq!(
         accepted.read_timeout().unwrap(),
-        Some(Duration::from_secs(5))
+        Some(Duration::from_secs(60))
     );
     assert_eq!(
         accepted.write_timeout().unwrap(),
-        Some(Duration::from_secs(5))
+        Some(Duration::from_secs(60))
     );
     reply(&mut accepted, &observed, json!({"roundtrip": true}));
     let response: Response = arc_ipc::read_message(&mut client).unwrap();
@@ -83,6 +83,12 @@ pub(super) fn command(socket: &Socket) -> Command {
         .env("ARC_FIXTURE_MARKER", socket.root.join("starts"))
         .env_remove("ARC_TRAFFIC_LINEAGE");
     command
+}
+fn output_with_input(mut command: Command, input: &[u8]) -> std::process::Output {
+    command.stdin(std::process::Stdio::piped());
+    let mut child = OwnedChild::new(command.spawn().unwrap());
+    child.stdin.take().unwrap().write_all(input).unwrap();
+    finish_output(child)
 }
 pub(super) fn unsupported(stream: &mut std::os::unix::net::UnixStream, request: &arc_ipc::Request) {
     arc_ipc::write_response(
@@ -346,26 +352,7 @@ fn negotiated_four_classes_preserve_original_argv_cwd_env_streams_exit_and_signa
             .env("PRIVATE_ENV", "preserved-value")
             .env("ARC_FIXTURE_CONTROL", socket.root.join("target-control"));
         let result = if mode == "echo" {
-            command.stdin(std::process::Stdio::piped());
-            let mut child = command.spawn().unwrap();
-            child
-                .stdin
-                .take()
-                .unwrap()
-                .write_all(b"native stdin\n")
-                .unwrap();
-            let deadline = std::time::Instant::now() + std::time::Duration::from_secs(25);
-            while child.try_wait().unwrap().is_none() {
-                if std::time::Instant::now() >= deadline {
-                    child.kill().unwrap();
-                    panic!(
-                        "native CLI timeout: {:?}",
-                        child.wait_with_output().unwrap()
-                    );
-                }
-                thread::sleep(std::time::Duration::from_millis(2));
-            }
-            child.wait_with_output().unwrap()
+            output_with_input(command, b"native stdin\n")
         } else {
             output(command)
         };
@@ -429,4 +416,36 @@ fn negotiated_four_classes_preserve_original_argv_cwd_env_streams_exit_and_signa
         );
         assert!(!socket.root.join("literal").exists());
     }
+}
+
+#[test]
+fn failed_native_stdin_write_reaps_the_owned_child_before_fixture_removal() {
+    let socket = Socket::new();
+    let root = socket.root.clone();
+    let pid_file = root.join("owned-pid");
+    let mut command = Command::new("python3");
+    command
+        .args(["-c", "import os,pathlib,signal; pathlib.Path(os.environ['ARC_OWNED_PID']).write_text(str(os.getpid())); os.close(0); signal.pause()"])
+        .env("ARC_OWNED_PID", &pid_file)
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null());
+    let unwind = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+        output_with_input(command, &vec![b'x'; 1024 * 1024]);
+    }));
+    assert!(
+        unwind.is_err(),
+        "closed stdin must fail the actual fixture write"
+    );
+    let pid: i32 = fs::read_to_string(pid_file).unwrap().parse().unwrap();
+    assert_eq!(
+        unsafe { libc::waitpid(pid, std::ptr::null_mut(), libc::WNOHANG) },
+        -1
+    );
+    assert_eq!(
+        std::io::Error::last_os_error().raw_os_error(),
+        Some(libc::ECHILD)
+    );
+    assert!(root.exists());
+    drop(socket);
+    assert!(!root.exists());
 }

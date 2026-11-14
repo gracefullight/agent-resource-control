@@ -95,7 +95,7 @@ fn legacy_busy_unknowns_do_not_hide_later_known_recent_outcomes() {
             };
             stream.set_nonblocking(false).unwrap();
             stream
-                .set_read_timeout(Some(Duration::from_secs(2)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
             let response = if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB {
@@ -207,7 +207,7 @@ fn busy_traffic_preserves_known_signal_and_spawn_failure_without_hiding_later_ro
             };
             stream.set_nonblocking(false).unwrap();
             stream
-                .set_read_timeout(Some(Duration::from_secs(2)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
             let response = if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB {
@@ -299,7 +299,7 @@ fn unavailable_traffic_does_not_hide_recorded_terminal_outcomes() {
             };
             stream.set_nonblocking(false).unwrap();
             stream
-                .set_read_timeout(Some(Duration::from_secs(2)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
             let response = if request.operation == arc_ipc::traffic::OPERATION_TRAFFIC_JOB {

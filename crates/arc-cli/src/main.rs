@@ -9,6 +9,11 @@ mod governor;
 mod job;
 mod meter;
 
+#[cfg(test)]
+#[allow(dead_code)]
+#[path = "../../arc-daemon/tests/support/native_fixture.rs"]
+mod native_fixture;
+
 use arc_ipc::{
     self, Request, Response, OPERATION_DOCTOR, OPERATION_HELLO, PROTOCOL_VERSION, STATUS_OK,
 };

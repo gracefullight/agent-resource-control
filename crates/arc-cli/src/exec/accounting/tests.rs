@@ -1,6 +1,10 @@
 use super::*;
 use arc_platform::child_wait::{CpuTimeval, TerminalUsage};
-use std::{cell::RefCell, os::unix::process::ExitStatusExt, process::ExitStatus};
+use std::{
+    cell::{Cell, RefCell},
+    os::unix::process::ExitStatusExt,
+    process::ExitStatus,
+};
 
 fn terminal(usage: bool) -> Termination {
     let zero = CpuTimeval {
@@ -116,7 +120,8 @@ fn invalid_duration_and_uncertain_lineage_are_explicit_and_never_additive() {
 #[test]
 fn lost_ack_is_reconciled_without_another_write() {
     let report = fixture();
-    let end = Instant::now() + REPORT_WINDOW;
+    let now = Instant::now();
+    let end = now + REPORT_WINDOW;
     let stored = summary(&report);
     let writes = RefCell::new(0);
     assert!(deliver_with(
@@ -127,23 +132,26 @@ fn lost_ack_is_reconciled_without_another_write() {
             assert_eq!(request, format!("job-meter-{}", report.report_id));
             assert_eq!(actual, &report);
             assert!(budget <= end);
+            assert_eq!(budget, now + Duration::from_millis(200));
             *committed = true;
             Err(Failure::Uncertain)
         },
         |job, budget| {
             assert_eq!(job, report.job_id);
             assert!(budget <= end);
+            assert_eq!(budget, now + Duration::from_millis(150));
             Ok(stored.clone())
-        }
+        },
+        || now,
     ));
     assert_eq!(*writes.borrow(), 1);
 }
 #[test]
 fn missing_ack_retries_only_identical_bytes_and_keeps_absolute_deadline() {
     let report = fixture();
-    // Observe the exact deadline passed to retries without making this unit
-    // test depend on being scheduled inside the native 500 ms report window.
-    let end = Instant::now() + Duration::from_secs(60);
+    let now = Instant::now();
+    let clock = Cell::new(now);
+    let end = now + REPORT_WINDOW;
     let requests = RefCell::new(Vec::new());
     assert!(deliver_with(
         &report,
@@ -153,6 +161,8 @@ fn missing_ack_retries_only_identical_bytes_and_keeps_absolute_deadline() {
             requests.push((request.to_owned(), serde_json::to_vec(actual).unwrap()));
             assert!(budget <= end);
             if requests.len() == 1 {
+                assert_eq!(budget, now + Duration::from_millis(200));
+                clock.set(budget);
                 *committed = true;
                 Err(Failure::InvalidReply)
             } else {
@@ -163,6 +173,8 @@ fn missing_ack_retries_only_identical_bytes_and_keeps_absolute_deadline() {
         },
         |_, budget| {
             assert!(budget <= end);
+            assert_eq!(budget, now + Duration::from_millis(350));
+            clock.set(budget);
             Ok(JobMeterSummary {
                 schema_version: 1,
                 job_id: report.job_id.clone(),
@@ -171,7 +183,8 @@ fn missing_ack_retries_only_identical_bytes_and_keeps_absolute_deadline() {
                 },
                 queue_wait: QueueWait::unknown(),
             })
-        }
+        },
+        || clock.get(),
     ));
     let requests = requests.borrow();
     assert_eq!(requests.len(), 2);
@@ -180,18 +193,20 @@ fn missing_ack_retries_only_identical_bytes_and_keeps_absolute_deadline() {
 #[test]
 fn conflicts_expiry_unsupported_and_expired_budget_cannot_retry() {
     let report = fixture();
+    let now = Instant::now();
     for mut stored in [summary(&report), summary(&report), summary(&report)] {
         if let SummaryAccounting::Recorded { report } = &mut stored.accounting {
             report.report_id = "f".repeat(32);
         }
         assert!(!deliver_with(
             &report,
-            Instant::now() + REPORT_WINDOW,
+            now + REPORT_WINDOW,
             |_, _, _, committed| {
                 *committed = true;
                 Err(Failure::Uncertain)
             },
-            |_, _| Ok(stored.clone())
+            |_, _| Ok(stored.clone()),
+            || now,
         ));
     }
     for failure in [
@@ -204,20 +219,22 @@ fn conflicts_expiry_unsupported_and_expired_budget_cannot_retry() {
     ] {
         assert!(!deliver_with(
             &report,
-            Instant::now() + REPORT_WINDOW,
+            now + REPORT_WINDOW,
             |_, _, _, _| Err(failure),
-            |_, _| panic!("must not read/retry definitive failure")
+            |_, _| panic!("must not read/retry definitive failure"),
+            || now,
         ));
     }
     assert!(!deliver_with(
         &report,
-        Instant::now() - Duration::from_millis(1),
+        now - Duration::from_millis(1),
         |_, _, _, _| panic!("exhausted deadline must not write"),
-        |_, _| unreachable!()
+        |_, _| unreachable!(),
+        || now,
     ));
     assert!(!deliver_with(
         &report,
-        Instant::now() + REPORT_WINDOW,
+        now + REPORT_WINDOW,
         |_, _, _, committed| {
             *committed = true;
             Err(Failure::Busy)
@@ -227,6 +244,41 @@ fn conflicts_expiry_unsupported_and_expired_budget_cannot_retry() {
             job_id: report.job_id.clone(),
             accounting: SummaryAccounting::Expired {},
             queue_wait: QueueWait::unknown()
-        })
+        }),
+        || now,
     ));
+}
+
+#[test]
+fn time_consumed_by_delivery_or_reconciliation_cannot_renew_terminal_budget() {
+    assert_eq!(REPORT_WINDOW, Duration::from_millis(500));
+    let report = fixture();
+    let now = Instant::now();
+    let end = now + REPORT_WINDOW;
+    for expire_after_write in [false, true] {
+        let clock = Cell::new(now);
+        let writes = Cell::new(0);
+        let reads = Cell::new(0);
+        assert!(!deliver_with(
+            &report,
+            end,
+            |_, _, _, committed| {
+                writes.set(writes.get() + 1);
+                assert_eq!(writes.get(), 1, "expired terminal report must not retry");
+                *committed = true;
+                if expire_after_write {
+                    clock.set(end);
+                }
+                Err(Failure::Uncertain)
+            },
+            |_, _| {
+                reads.set(reads.get() + 1);
+                clock.set(end);
+                Err(Failure::Unavailable)
+            },
+            || clock.get(),
+        ));
+        assert_eq!(writes.get(), 1);
+        assert_eq!(reads.get(), u32::from(!expire_after_write));
+    }
 }

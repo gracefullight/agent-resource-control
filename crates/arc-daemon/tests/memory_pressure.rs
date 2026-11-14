@@ -14,6 +14,8 @@ mod job_meter_dispatch;
 mod limits;
 #[path = "../src/meter.rs"]
 mod meter;
+#[path = "support/native_fixture.rs"]
+mod native_fixture;
 #[path = "../src/platform.rs"]
 mod platform;
 #[path = "../src/runtime_metrics.rs"]

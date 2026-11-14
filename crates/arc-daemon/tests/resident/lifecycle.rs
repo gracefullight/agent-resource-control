@@ -25,10 +25,10 @@ fn resident_contract_holds_until_sigterm() {
     incompatible.protocol_version = 99;
     let mut stream = UnixStream::connect(&fixture.socket).unwrap();
     stream
-        .set_read_timeout(Some(Duration::from_secs(5)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     stream
-        .set_write_timeout(Some(Duration::from_secs(5)))
+        .set_write_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     let response = arc_ipc::exchange(&mut stream, &incompatible).unwrap();
     assert_eq!(response.status, STATUS_ERROR);
@@ -48,7 +48,7 @@ fn resident_contract_holds_until_sigterm() {
     // An oversized declaration must be rejected before waiting for any body.
     let mut oversized = UnixStream::connect(&fixture.socket).unwrap();
     oversized
-        .set_read_timeout(Some(Duration::from_secs(5)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     std::io::Write::write_all(
         &mut oversized,

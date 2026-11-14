@@ -90,7 +90,7 @@ fn lost_cargo_enqueue_then_replacement_fallback_keeps_original_witness() {
             JobResult::Granted { .. }
         ));
         commit_tx.send(job_id.clone()).unwrap();
-        disconnect_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+        disconnect_rx.recv_timeout(Duration::from_secs(60)).unwrap();
         drop(stream);
         drop(listener);
     });
@@ -123,7 +123,7 @@ fn runs_once() {
         .stdout(Stdio::null())
         .stderr(Stdio::from(File::create(project.join("stderr")).unwrap()));
     let mut cargo = BuildChild::new(OwnedChild::new(command.spawn().unwrap()), &f, true);
-    let id = commit_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+    let id = commit_rx.recv_timeout(Duration::from_secs(60)).unwrap();
     assert_eq!(active(&f).1, 1);
     assert_eq!(
         unsafe { libc::kill(cargo.child.id() as i32, libc::SIGSTOP) },
@@ -276,11 +276,11 @@ fn lost_bun_grant_then_successful_retry_against_another_store_keeps_original_wit
             JobResult::Granted { .. }
         ));
         commit_tx.send(job_id.clone()).unwrap();
-        release_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+        release_rx.recv_timeout(Duration::from_secs(60)).unwrap();
         drop(stream);
     });
     let (project, mut bun) = status_compat::real_bun_fixture(&f, "two_store_lost");
-    let id = commit_rx.recv_timeout(Duration::from_secs(10)).unwrap();
+    let id = commit_rx.recv_timeout(Duration::from_secs(60)).unwrap();
     assert_eq!(active(&f).1, 1);
     assert_eq!(
         unsafe { libc::kill(bun.child.id() as i32, libc::SIGSTOP) },

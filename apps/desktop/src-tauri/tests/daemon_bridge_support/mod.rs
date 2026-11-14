@@ -9,7 +9,7 @@ use arc_desktop::{
 };
 use arc_ipc::{
     jobs::{JobSnapshot, Phase, StatusRequest, StatusResult, OPERATION_JOB_STATUS},
-    Request, Response,
+    Request,
 };
 use serde_json::{json, Value};
 use std::{
@@ -25,7 +25,9 @@ use std::{
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 mod client_process;
+mod fault_server;
 pub use client_process::{desktop_client, is_client_process, run_client_process};
+pub use fault_server::FaultServer;
 
 fn now_ms() -> u128 {
     SystemTime::now()
@@ -252,7 +254,7 @@ impl RealDaemon {
     }
 
     pub fn wait_running(&self, identity: &ProcessIdentity) -> Received<JobLookup> {
-        let deadline = Instant::now() + Duration::from_secs(5);
+        let deadline = Instant::now() + Duration::from_secs(60);
         loop {
             let recent = self.bridge.recent_jobs().unwrap();
             assert!(recent.data.jobs.len() <= 50);
@@ -278,68 +280,9 @@ impl RealDaemon {
         &self,
         fault: Fault,
         snapshot: Option<JobSnapshot>,
-    ) -> (DesktopBridge, thread::JoinHandle<Value>) {
+    ) -> (DesktopBridge, FaultServer) {
         let socket = self.fixture.root.join(format!("{}.sock", fault.name()));
-        let listener = UnixListener::bind(&socket).unwrap();
-        fs::set_permissions(&socket, fs::Permissions::from_mode(0o600)).unwrap();
-        let server = thread::spawn(move || {
-            let (mut stream, value) = execution::accept(&listener);
-            let request: Request = serde_json::from_value(value).unwrap();
-            assert_eq!(request.protocol_version, 1);
-            assert_eq!(request.operation, OPERATION_JOB_STATUS);
-            assert_eq!(request.payload["query"], "BY_ID");
-            match fault {
-                Fault::Json => arc_ipc::write_frame(&mut stream, b"{broken-json").unwrap(),
-                Fault::Oversized => stream
-                    .write_all(&(arc_ipc::MAX_FRAME_BYTES + 1).to_be_bytes())
-                    .unwrap(),
-                Fault::Shape => arc_ipc::write_response(
-                    &mut stream,
-                    &Response::ok(&request.request_id, json!({"kind":"FOUND","job":[]})),
-                )
-                .unwrap(),
-                Fault::Correlation => arc_ipc::write_response(
-                    &mut stream,
-                    &Response::ok("wrong-correlation", json!({"kind":"NOT_FOUND"})),
-                )
-                .unwrap(),
-                Fault::Protocol => {
-                    let mut reply = Response::ok(&request.request_id, json!({"kind":"NOT_FOUND"}));
-                    reply.protocol_version = 99;
-                    arc_ipc::write_response(&mut stream, &reply).unwrap();
-                }
-                Fault::Selection => arc_ipc::write_response(
-                    &mut stream,
-                    &Response::ok(
-                        &request.request_id,
-                        json!(StatusResult::Found {
-                            job: Box::new(snapshot.unwrap())
-                        }),
-                    ),
-                )
-                .unwrap(),
-                Fault::Stall => {
-                    // Keep the peer open until the production deadline closes
-                    // its connection; no timing-dependent fixed server sleep.
-                    let deadline = Instant::now() + Duration::from_secs(4);
-                    stream.set_nonblocking(true).unwrap();
-                    let mut byte = [0];
-                    use std::io::Read;
-                    loop {
-                        match stream.read(&mut byte) {
-                            Ok(0) => break,
-                            Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
-                                assert!(Instant::now() < deadline);
-                                thread::sleep(Duration::from_millis(5));
-                            }
-                            result => panic!("unexpected stalled-client bytes {result:?}"),
-                        }
-                    }
-                }
-            }
-            json!({"protocolVersion": request.protocol_version, "operation": request.operation,
-                "query": request.payload, "fault": fault.name()})
-        });
+        let server = FaultServer::start(&socket, fault, snapshot);
         (DesktopBridge::from_socket_path(socket), server)
     }
 }
@@ -415,7 +358,7 @@ impl Drop for HeldJob {
         if let Some(mut barrier) = self.barrier.take() {
             let _ = barrier.write_all(b"x");
             drop(barrier);
-            let deadline = Instant::now() + Duration::from_secs(3);
+            let deadline = Instant::now() + Duration::from_secs(60);
             while self.wrapper.child.try_wait().ok().flatten().is_none()
                 && Instant::now() < deadline
             {

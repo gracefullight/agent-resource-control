@@ -162,7 +162,7 @@ fn ambiguous_bun_replacement_keeps_witness_and_never_registers_a_second_job() {
                 };
                 stream.set_nonblocking(false).unwrap();
                 stream
-                    .set_read_timeout(Some(Duration::from_secs(2)))
+                    .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
                 worker_captured.lock().unwrap().push(request.clone());
@@ -382,7 +382,7 @@ fn delayed_recent_status_reports_unknown_for_unattached_and_dead_queued_jobs() {
             };
             stream.set_nonblocking(false).unwrap();
             stream
-                .set_read_timeout(Some(Duration::from_secs(1)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             let Ok(request) = arc_ipc::read_message::<_, arc_ipc::Request>(&mut stream) else {
                 continue;

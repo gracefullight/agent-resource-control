@@ -1,5 +1,6 @@
 //! Exercise lost acknowledgements against a real CLI and durable SQLite worker.
 use super::*;
+use crate::native_fixture::OwnedChild;
 use crate::{
     db_worker::{DbConfig, DbWorker},
     limits::RuntimeLimits,
@@ -121,18 +122,20 @@ async fn exercise(point: FailurePoint) {
         .unwrap()
         .to_path_buf();
     let marker = root.join("should-not-exist");
-    let mut cli = Command::new(bin.join("arcctl"))
-        .args(["exec", "--", "cargo", "build"])
-        .env(arc_core::ARC_SOCKET_PATH, &socket)
-        .env("PATH", &root)
-        .env("ARC_FIXTURE_MARKER", &marker)
-        .env_remove("ARC_TRAFFIC_LINEAGE")
-        .stdin(Stdio::null())
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .spawn()
-        .unwrap();
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let mut cli = OwnedChild::new(
+        Command::new(bin.join("arcctl"))
+            .args(["exec", "--", "cargo", "build"])
+            .env(arc_core::ARC_SOCKET_PATH, &socket)
+            .env("PATH", &root)
+            .env("ARC_FIXTURE_MARKER", &marker)
+            .env_remove("ARC_TRAFFIC_LINEAGE")
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap(),
+    );
+    let deadline = Instant::now() + Duration::from_secs(60);
     loop {
         if cli.try_wait().unwrap().is_some() {
             break;

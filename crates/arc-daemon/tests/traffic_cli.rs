@@ -23,7 +23,7 @@ fn binary(name: &str) -> PathBuf {
 
 #[track_caller]
 fn eventually(mut check: impl FnMut() -> bool) {
-    let deadline = Instant::now() + Duration::from_secs(45);
+    let deadline = Instant::now() + Duration::from_secs(60);
     while !check() {
         assert!(Instant::now() < deadline, "Traffic fixture timed out");
         thread::sleep(Duration::from_millis(10));

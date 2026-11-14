@@ -159,7 +159,7 @@ fn native_pty_foreground_input_modes_and_terminal_signals_match_direct_child() {
                     pty.master.write_all(b"hello\n").unwrap();
                 }
                 if matches!(mode, "stopped" | "stop-killed") {
-                    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(5);
+                    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
                     loop {
                         let mut status = 0;
                         let pid = unsafe {
@@ -196,7 +196,7 @@ fn native_pty_foreground_input_modes_and_terminal_signals_match_direct_child() {
                 pty.master.write_all(&[3]).unwrap();
                 let mut ack = [0];
                 barrier.set_nonblocking(true).unwrap();
-                let deadline = std::time::Instant::now() + std::time::Duration::from_secs(5);
+                let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
                 loop {
                     output.extend(pty.output());
                     match barrier.read(&mut ack) {
@@ -220,7 +220,7 @@ fn native_pty_foreground_input_modes_and_terminal_signals_match_direct_child() {
                     .write_all(&[if mode == "quit-exit" { 28 } else { 3 }])
                     .unwrap();
             }
-            let deadline = std::time::Instant::now() + std::time::Duration::from_secs(15);
+            let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
             let status = loop {
                 output.extend(pty.output());
                 if let Some(status) = child.child.try_wait().unwrap() {
@@ -324,7 +324,7 @@ fn native_background_terminal_read_can_be_foregrounded_and_resumed() {
         let (mut barrier, msg) = accept(&listener);
         assert_eq!(msg["foreground"], false);
         barrier.write_all(b"x").unwrap();
-        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(8);
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
         loop {
             let mut status = 0;
             let pid = unsafe {

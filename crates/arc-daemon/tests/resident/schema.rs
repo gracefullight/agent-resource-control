@@ -60,8 +60,8 @@ fn live_schema_failures_use_bounded_worker_reach_cli_and_preserve_records_and_hi
         connection.execute_batch(sql).unwrap();
         let before = snapshot(&connection);
         let mut stream = UnixStream::connect(&fixture.socket).unwrap();
-        stream.set_read_timeout(Some(Duration::from_secs(5))).unwrap();
-        stream.set_write_timeout(Some(Duration::from_secs(5))).unwrap();
+        stream.set_read_timeout(Some(Duration::from_secs(60))).unwrap();
+        stream.set_write_timeout(Some(Duration::from_secs(60))).unwrap();
         let response = arc_ipc::exchange(&mut stream, &Request::new("schema", OPERATION_DOCTOR)).unwrap();
         assert_eq!(response.protocol_version, 1);
         assert_eq!(response.status, STATUS_ERROR);
@@ -101,10 +101,10 @@ fn baseline_client_adapter_accepts_actual_new_daemon_production_report() {
     wait_until_ready(&mut daemon, &fixture.socket);
     let mut stream = UnixStream::connect(&fixture.socket).unwrap();
     stream
-        .set_read_timeout(Some(Duration::from_secs(5)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     stream
-        .set_write_timeout(Some(Duration::from_secs(5)))
+        .set_write_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     // Literal original request without payload, and baseline count-only validation.
     arc_ipc::write_frame(

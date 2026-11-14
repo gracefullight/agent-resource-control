@@ -66,7 +66,7 @@ fn delayed_status(
         for index in 0..if unsupported { 2 } else { 3 } {
             let (mut stream, _) = socket.listener.accept().unwrap();
             stream
-                .set_read_timeout(Some(Duration::from_secs(3)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             let request = Request::decode(&arc_ipc::read_frame(&mut stream).unwrap()).unwrap();
             let response = match index {

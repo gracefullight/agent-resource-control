@@ -167,7 +167,10 @@ async fn handle_inner(
                 owner,
                 proof,
                 release_id: nonce()?,
-                end: end.min(Instant::now() + Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS)),
+                end: end.min(
+                    client.shared.observation.now()
+                        + Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS),
+                ),
             }
         }
         Input::Unspawned { request, result } => {

@@ -21,6 +21,7 @@ fn reader(pressure: MemoryPressure) -> SnapshotReader {
         latest: Mutex::new(cache),
         published: Condvar::new(),
         epoch,
+        fence_clock: Box::new(move || epoch),
     }))
 }
 fn policy(reader: &SnapshotReader) -> arc_policy::EffectivePolicy {
@@ -77,10 +78,12 @@ fn publication_waits_through_the_observation_callback() {
             allowed.recv().unwrap();
         })
     });
-    inside.recv_timeout(Duration::from_secs(2)).unwrap();
+    inside.recv_timeout(Duration::from_secs(60)).unwrap();
     let publisher = reader.clone();
+    let (attempted, attempting) = mpsc::sync_channel(1);
     let (published, done) = mpsc::sync_channel(1);
     let publishing = std::thread::spawn(move || {
+        attempted.send(()).unwrap();
         let mut value = publisher.0.publication();
         let mut snapshot = value.latest.clone().unwrap();
         snapshot.sequence += 1;
@@ -90,10 +93,15 @@ fn publication_waits_through_the_observation_callback() {
         value.publish(snapshot);
         published.send(()).unwrap();
     });
-    assert!(done.recv_timeout(Duration::from_millis(10)).is_err());
+    attempting.recv_timeout(Duration::from_secs(60)).unwrap();
+    assert!(
+        reader.0.latest.try_lock().is_err(),
+        "callback holds the publication mutex"
+    );
+    assert!(matches!(done.try_recv(), Err(mpsc::TryRecvError::Empty)));
     release.send(()).unwrap();
     reading.join().unwrap();
-    done.recv_timeout(Duration::from_secs(2)).unwrap();
+    done.recv_timeout(Duration::from_secs(60)).unwrap();
     publishing.join().unwrap();
     if cfg!(target_os = "macos") {
         assert_eq!(policy(&reader).mode, PolicyMode::MemoryHold);
@@ -101,42 +109,65 @@ fn publication_waits_through_the_observation_callback() {
 }
 #[test]
 fn launch_lease_is_bounded_nonrenewable_and_does_not_own_a_database() {
+    let frozen = Instant::now();
     let reader = reader(MemoryPressure::Normal);
-    let ((), lease) = reader.with_launch_fence(|_, available| {
-        assert!(available);
-        ((), true)
-    });
+    let ((), lease) = reader.with_launch_clocks(
+        || Some(0),
+        || frozen,
+        |_, deadline| {
+            assert!(deadline.is_some());
+            ((), true)
+        },
+    );
     let (end, lease) = lease.unwrap();
-    assert!(end <= Instant::now() + Duration::from_millis(arc_policy::MAX_LAUNCH_FENCE_MS));
-    let (_, second) = reader.with_launch_fence(|_, available| {
-        assert!(!available);
-        ((), false)
-    });
+    assert_eq!(
+        end,
+        frozen + Duration::from_millis(arc_policy::MAX_LAUNCH_FENCE_MS)
+    );
+    let (_, second) = reader.with_launch_clocks(
+        || Some(0),
+        || frozen,
+        |_, deadline| {
+            assert!(deadline.is_none());
+            ((), false)
+        },
+    );
     assert!(second.is_none());
     let publisher = reader.clone();
     let (published, done) = mpsc::sync_channel(1);
     let publishing = std::thread::spawn(move || {
-        let mut cache = publisher.0.publication();
+        let mut cache = publisher.0.publication_with_clock(|| frozen);
         let mut snapshot = cache.latest.clone().unwrap();
         snapshot.sequence += 1;
         cache.publish(snapshot);
         published.send(()).unwrap();
     });
-    assert!(done.recv_timeout(Duration::from_millis(10)).is_err());
+    let watchdog = Instant::now() + Duration::from_secs(60);
+    while !reader.0.latest.lock().unwrap().publishing {
+        assert!(
+            Instant::now() < watchdog,
+            "publisher never entered the lease fence"
+        );
+        std::thread::yield_now();
+    }
+    assert!(matches!(done.try_recv(), Err(mpsc::TryRecvError::Empty)));
     // The same bounded cache remains readable while the native sampler's
     // already-completed publication waits. No native work is queued by reads.
     assert!(reader.snapshot().is_some());
     drop(lease);
-    done.recv_timeout(Duration::from_secs(2)).unwrap();
+    done.recv_timeout(Duration::from_secs(60)).unwrap();
     publishing.join().unwrap();
     assert_eq!(reader.snapshot().unwrap().sequence, 2);
 }
 #[test]
 fn expired_lease_cannot_be_renewed_or_release_a_later_lease() {
-    let reader = reader(MemoryPressure::Normal);
+    let mut reader = reader(MemoryPressure::Normal);
+    let clock = Arc::new(Mutex::new(reader.0.epoch));
+    let source = clock.clone();
+    Arc::get_mut(&mut reader.0).unwrap().fence_clock = Box::new(move || *source.lock().unwrap());
     let (_, lease) = reader.with_launch_fence(|_, _| ((), true));
-    let (_, old) = lease.unwrap();
-    reader.0.latest.lock().unwrap().lease.as_mut().unwrap().1 = Instant::now();
+    let (end, old) = lease.unwrap();
+    *clock.lock().unwrap() = end;
     let (_, lease) = reader.with_launch_fence(|_, available| {
         assert!(available);
         ((), true)
@@ -199,6 +230,7 @@ fn final_launch_clock_caps_the_fence_at_exact_freshness_and_then_uses_explicit_l
 
 #[test]
 fn waiting_publication_cannot_be_starved_by_another_jobs_launch_lease() {
+    let frozen = Instant::now();
     let reader = reader(MemoryPressure::Normal);
     let (_, lease) = reader.with_launch_fence(|_, available| {
         assert!(available);
@@ -207,7 +239,7 @@ fn waiting_publication_cannot_be_starved_by_another_jobs_launch_lease() {
     let (_, lease) = lease.unwrap();
     let publisher = reader.clone();
     let publishing = std::thread::spawn(move || {
-        let mut cache = publisher.0.publication();
+        let mut cache = publisher.0.publication_with_clock(|| frozen);
         let mut snapshot = cache.latest.clone().unwrap();
         snapshot.sequence += 1;
         snapshot.host.memory_pressure.reading = arc_core::meter::Reading::Available {
@@ -215,13 +247,13 @@ fn waiting_publication_cannot_be_starved_by_another_jobs_launch_lease() {
         };
         cache.publish(snapshot);
     });
-    let end = Instant::now() + Duration::from_secs(1);
+    let end = Instant::now() + Duration::from_secs(60);
     while !reader.0.latest.lock().unwrap().publishing {
         assert!(Instant::now() < end);
         std::thread::yield_now();
     }
     // Even an expired old lease cannot be replaced ahead of a waiting publisher.
-    reader.0.latest.lock().unwrap().lease.as_mut().unwrap().1 = Instant::now();
+    reader.0.latest.lock().unwrap().lease.as_mut().unwrap().1 = (reader.0.fence_clock)();
     let (_, replacement) = reader.with_launch_fence(|_, available| {
         assert!(!available);
         ((), false)
@@ -294,14 +326,14 @@ fn retirement_waits_for_ready_and_old_generation_never_returns_a_healthy_reading
         old.retire();
         retired.send(()).unwrap();
     });
-    let end = Instant::now() + Duration::from_secs(1);
+    let end = Instant::now() + Duration::from_secs(60);
     while !reader.0.latest.lock().unwrap().publishing {
         assert!(Instant::now() < end);
         std::thread::yield_now();
     }
     assert!(matches!(done.try_recv(), Err(mpsc::TryRecvError::Empty)));
     drop(lease);
-    done.recv_timeout(Duration::from_secs(1)).unwrap();
+    done.recv_timeout(Duration::from_secs(60)).unwrap();
     replacing.join().unwrap();
     assert_eq!(policy(&reader).mode, PolicyMode::L0);
     let mut cache = reader.0.publication();

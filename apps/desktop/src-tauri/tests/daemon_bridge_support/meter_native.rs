@@ -24,7 +24,7 @@ fn cli(case: &RealDaemon) -> Output {
     command.output().unwrap()
 }
 fn next(case: &RealDaemon, previous: u64) -> MeterSnapshot {
-    let deadline = Instant::now() + Duration::from_secs(35);
+    let deadline = Instant::now() + Duration::from_secs(60);
     loop {
         let output = cli(case);
         if output.status.success() {

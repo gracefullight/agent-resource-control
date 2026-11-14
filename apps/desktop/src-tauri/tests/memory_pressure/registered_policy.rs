@@ -102,7 +102,7 @@ fn job() -> JobPolicyResult {
 
 fn next_request(listener: &UnixListener) -> (UnixStream, Request) {
     listener.set_nonblocking(true).unwrap();
-    let deadline = Instant::now() + Duration::from_secs(4);
+    let deadline = Instant::now() + Duration::from_secs(60);
     loop {
         match listener.accept() {
             Ok((mut stream, _)) => {

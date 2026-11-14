@@ -1,5 +1,6 @@
 //! Real CLI, real SQLite worker, and deterministic dropped Traffic replies.
 use super::*;
+use crate::native_fixture::OwnedChild;
 use crate::{
     db_worker::{DbConfig, DbWorker},
     limits::RuntimeLimits,
@@ -186,28 +187,30 @@ async fn exercise(program: &'static str, boundary: Boundary, after_commit: bool)
     symlink(bin.join("arc-exec-fixture"), root.join(program)).unwrap();
     let marker = root.join("calls");
     let stderr = root.join("cli.stderr");
-    let mut cli = Command::new(bin.join("arcctl"))
-        .args([
-            "exec",
-            "--",
-            program,
-            if program == "bun" { "test" } else { "build" },
-        ])
-        .env(arc_core::ARC_SOCKET_PATH, &socket)
-        .env("PATH", &root)
-        .env("ARC_FIXTURE_MODE", "echo")
-        .env("ARC_FIXTURE_MARKER", &marker)
-        .env_remove("ARC_TRAFFIC_LINEAGE")
-        // Echo reads to EOF. Keep the real child alive until the fixture has
-        // acknowledged Attach, including any dropped first acknowledgement.
-        // A fast exit is valid production behavior, but cannot exercise that
-        // fault boundary deterministically.
-        .stdin(Stdio::piped())
-        .stdout(Stdio::null())
-        .stderr(fs::File::create(&stderr).unwrap())
-        .spawn()
-        .unwrap();
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let mut cli = OwnedChild::new(
+        Command::new(bin.join("arcctl"))
+            .args([
+                "exec",
+                "--",
+                program,
+                if program == "bun" { "test" } else { "build" },
+            ])
+            .env(arc_core::ARC_SOCKET_PATH, &socket)
+            .env("PATH", &root)
+            .env("ARC_FIXTURE_MODE", "echo")
+            .env("ARC_FIXTURE_MARKER", &marker)
+            .env_remove("ARC_TRAFFIC_LINEAGE")
+            // Echo reads to EOF. Keep the real child alive until the fixture has
+            // acknowledged Attach, including any dropped first acknowledgement.
+            // A fast exit is valid production behavior, but cannot exercise that
+            // fault boundary deterministically.
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(fs::File::create(&stderr).unwrap())
+            .spawn()
+            .unwrap(),
+    );
+    let deadline = Instant::now() + Duration::from_secs(60);
     let status = loop {
         if attached.load(Ordering::SeqCst) {
             drop(cli.stdin.take());
@@ -283,7 +286,7 @@ async fn cancel_after_lost_grant(program: &'static str) {
     listener.set_nonblocking(true).unwrap();
     let runtime = tokio::runtime::Handle::current();
     let server = thread::spawn(move || {
-        let deadline = Instant::now() + Duration::from_secs(10);
+        let deadline = Instant::now() + Duration::from_secs(60);
         loop {
             let (mut stream, _) = match listener.accept() {
                 Ok(pair) => pair,
@@ -356,24 +359,26 @@ async fn cancel_after_lost_grant(program: &'static str) {
         .to_path_buf();
     symlink(bin.join("arc-exec-fixture"), root.join(program)).unwrap();
     let marker = root.join("calls");
-    let mut cli = Command::new(bin.join("arcctl"))
-        .args([
-            "exec",
-            "--",
-            program,
-            if program == "bun" { "test" } else { "build" },
-        ])
-        .env(arc_core::ARC_SOCKET_PATH, &socket)
-        .env("PATH", &root)
-        .env("ARC_FIXTURE_MODE", "echo")
-        .env("ARC_FIXTURE_MARKER", &marker)
-        .env_remove("ARC_TRAFFIC_LINEAGE")
-        .stdin(Stdio::null())
-        .stdout(Stdio::null())
-        .stderr(Stdio::null())
-        .spawn()
-        .unwrap();
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let mut cli = OwnedChild::new(
+        Command::new(bin.join("arcctl"))
+            .args([
+                "exec",
+                "--",
+                program,
+                if program == "bun" { "test" } else { "build" },
+            ])
+            .env(arc_core::ARC_SOCKET_PATH, &socket)
+            .env("PATH", &root)
+            .env("ARC_FIXTURE_MODE", "echo")
+            .env("ARC_FIXTURE_MARKER", &marker)
+            .env_remove("ARC_TRAFFIC_LINEAGE")
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap(),
+    );
+    let deadline = Instant::now() + Duration::from_secs(60);
     let status = loop {
         if let Some(status) = cli.try_wait().unwrap() {
             break status;

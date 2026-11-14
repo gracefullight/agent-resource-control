@@ -10,6 +10,10 @@ use std::{
     time::{Duration, Instant},
 };
 
+pub(super) fn deadline(now: Instant) -> Instant {
+    now + Duration::from_millis(1800)
+}
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(super) enum Tracking {
     Managed,
@@ -273,6 +277,14 @@ pub(super) fn valid_argv(argv: &[std::ffi::OsString]) -> bool {
 mod tests {
     use super::super::transport::Failure;
     use super::admit;
+    #[test]
+    fn preparation_budget_is_exactly_1800_ms_from_injected_now() {
+        let now = std::time::Instant::now();
+        assert_eq!(
+            super::deadline(now).duration_since(now),
+            std::time::Duration::from_millis(1800)
+        );
+    }
     #[test]
     fn cancellation_at_spawn_admission_cannot_invoke_spawn() {
         let mut invoked = false;

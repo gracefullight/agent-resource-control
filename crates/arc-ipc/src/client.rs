@@ -46,13 +46,65 @@ pub fn exchange_until(
     )
 }
 
+// Native regression seam: the same clock owns admission, retry and poll expiry.
+// No test clock or alternate timeout is selectable in a production build.
+#[cfg(test)]
+pub(crate) fn exchange_until_clock(
+    socket: &Path,
+    request: &Request,
+    deadline: Instant,
+    possibly_committed: &mut bool,
+    now: &dyn Fn() -> Instant,
+) -> Result<Value, Failure> {
+    exchange_with_clock(
+        request,
+        deadline,
+        &|| false,
+        possibly_committed,
+        ExchangeOptions {
+            continuity: None,
+            retry_busy: true,
+        },
+        |end| {
+            DeadlineStream::connect_with_auth_clock(
+                socket,
+                end,
+                &|| false,
+                peer::ensure_same_user,
+                now,
+            )
+        },
+        now,
+    )
+}
+
 fn exchange_with<S: TrackedStream>(
     request: &Request,
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
     possibly_committed: &mut bool,
     options: ExchangeOptions<'_>,
+    connect: impl FnMut(Instant) -> Result<S, ConnectFailure>,
+) -> Result<Value, Failure> {
+    exchange_with_clock(
+        request,
+        deadline,
+        cancelled,
+        possibly_committed,
+        options,
+        connect,
+        Instant::now,
+    )
+}
+
+fn exchange_with_clock<S: TrackedStream>(
+    request: &Request,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    options: ExchangeOptions<'_>,
     mut connect: impl FnMut(Instant) -> Result<S, ConnectFailure>,
+    mut now: impl FnMut() -> Instant,
 ) -> Result<Value, Failure> {
     let operation = request.operation.as_str();
     let mut uncertain = *possibly_committed;
@@ -62,11 +114,11 @@ fn exchange_with<S: TrackedStream>(
         if cancelled() {
             return Err(Failure::Cancelled);
         }
-        if Instant::now() >= deadline {
+        if now() >= deadline {
             break;
         }
         attempts += 1;
-        let attempt_deadline = deadline.min(Instant::now() + Duration::from_millis(600));
+        let attempt_deadline = deadline.min(now() + Duration::from_millis(600));
         let mut stream = match connect(attempt_deadline) {
             Ok(stream) => stream,
             Err(error) => {
@@ -122,7 +174,7 @@ fn exchange_with<S: TrackedStream>(
                         // A responsive but saturated worker is not an outage.
                         // Back off and retry the same request within the shared
                         // deadline rather than failing open after three replies.
-                        let remaining = deadline.saturating_duration_since(Instant::now());
+                        let remaining = deadline.saturating_duration_since(now());
                         std::thread::sleep(remaining.min(Duration::from_millis(20)));
                         continue;
                     }
@@ -239,6 +291,7 @@ struct DeadlineStream<'a> {
     cancelled: &'a dyn Fn() -> bool,
     sent: bool,
     peer_identity: Option<arc_core::process_identity::ProcessIdentity>,
+    clock: &'a dyn Fn() -> Instant,
 }
 impl<'a> DeadlineStream<'a> {
     fn connect(
@@ -253,6 +306,15 @@ impl<'a> DeadlineStream<'a> {
         deadline: Instant,
         cancelled: &'a dyn Fn() -> bool,
         authenticate: impl FnOnce(&UnixStream) -> io::Result<()>,
+    ) -> Result<Self, ConnectFailure> {
+        Self::connect_with_auth_clock(path, deadline, cancelled, authenticate, &Instant::now)
+    }
+    fn connect_with_auth_clock(
+        path: &Path,
+        deadline: Instant,
+        cancelled: &'a dyn Fn() -> bool,
+        authenticate: impl FnOnce(&UnixStream) -> io::Result<()>,
+        clock: &'a dyn Fn() -> Instant,
     ) -> Result<Self, ConnectFailure> {
         let mut address: libc::sockaddr_un = unsafe { std::mem::zeroed() };
         let bytes = path.as_os_str().as_bytes();
@@ -293,6 +355,7 @@ impl<'a> DeadlineStream<'a> {
             cancelled,
             sent: false,
             peer_identity: None,
+            clock,
         };
         if connected < 0 {
             result.ready(libc::POLLOUT).map_err(|error| {
@@ -328,7 +391,7 @@ impl<'a> DeadlineStream<'a> {
             if (self.cancelled)() {
                 return Err(io::ErrorKind::ConnectionAborted.into());
             }
-            let remaining = self.deadline.saturating_duration_since(Instant::now());
+            let remaining = self.deadline.saturating_duration_since((self.clock)());
             if remaining.is_zero() {
                 return Err(io::ErrorKind::TimedOut.into());
             }

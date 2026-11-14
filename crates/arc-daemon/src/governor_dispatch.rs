@@ -35,6 +35,19 @@ pub(crate) async fn dispatch(
     handler: Option<&Handler>,
     metrics: &Arc<RuntimeMetrics>,
 ) -> bool {
+    dispatch_with_clock(stream, request, limits, handler, metrics, Instant::now).await
+}
+
+// Native dispatch uses Instant::now. Paused router fixtures supply the same
+// monotonic domain as their transport timers; no production budget changes.
+pub(crate) async fn dispatch_with_clock(
+    stream: &UnixStream,
+    request: &Request,
+    limits: &RuntimeLimits,
+    handler: Option<&Handler>,
+    metrics: &Arc<RuntimeMetrics>,
+    now: impl Fn() -> Instant,
+) -> bool {
     if request.protocol_version != PROTOCOL_VERSION {
         return false;
     }
@@ -53,7 +66,7 @@ pub(crate) async fn dispatch(
     ) {
         return false;
     }
-    let end = Instant::now()
+    let end = now()
         + if request.operation == OPERATION_LAUNCH {
             Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS)
         } else {
@@ -114,7 +127,7 @@ pub(crate) async fn dispatch(
     let work_end = end
         - limits
             .write_timeout
-            .min(end.saturating_duration_since(Instant::now()) / 2);
+            .min(end.saturating_duration_since(now()) / 2);
     let result = match (input, crate::platform::peer_pid(stream)) {
         (Err(e), _) => Err(e),
         (_, Err(_)) => Err(arc_ipc::ERROR_INVALID_REQUEST),
@@ -171,9 +184,7 @@ pub(crate) async fn dispatch(
             } => {
                 let launch_end = fence.as_ref().map_or(end, |(at, _)| (*at).min(end));
                 if let GovernorLaunchResult::Unreserved { valid_for_ms, .. } = &mut result {
-                    let left = launch_end
-                        .saturating_duration_since(Instant::now())
-                        .as_millis() as u64;
+                    let left = launch_end.saturating_duration_since(now()).as_millis() as u64;
                     if left == 0 {
                         drop(fence);
                         send(Response::error(&request.request_id, arc_ipc::ERROR_DB_BUSY)).await;

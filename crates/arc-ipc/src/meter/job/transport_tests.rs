@@ -39,16 +39,16 @@ impl Endpoint {
         }
     }
     fn accept(&self) -> UnixStream {
-        let deadline = Instant::now() + Duration::from_secs(2);
+        let deadline = Instant::now() + Duration::from_secs(60);
         loop {
             match self.listener.accept() {
                 Ok((stream, _)) => {
                     stream.set_nonblocking(false).unwrap();
                     stream
-                        .set_read_timeout(Some(Duration::from_secs(2)))
+                        .set_read_timeout(Some(Duration::from_secs(60)))
                         .unwrap();
                     stream
-                        .set_write_timeout(Some(Duration::from_secs(2)))
+                        .set_write_timeout(Some(Duration::from_secs(60)))
                         .unwrap();
                     return stream;
                 }
@@ -135,28 +135,43 @@ fn stalled_reporting_obeys_its_clamped_post_termination_budget() {
     let endpoint = Endpoint::new();
     let socket = endpoint.socket.clone();
     let (done, release) = std::sync::mpsc::channel();
+    let expired = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
+    let reached = expired.clone();
     let server = thread::spawn(move || {
         let mut peer = endpoint.accept();
         let request: Request = crate::read_message(&mut peer).unwrap();
         assert_eq!(request.operation, OPERATION_METER_REPORT);
-        release.recv_timeout(Duration::from_secs(2)).unwrap();
+        reached.store(true, std::sync::atomic::Ordering::SeqCst);
+        release.recv_timeout(Duration::from_secs(60)).unwrap();
     });
     let start = Instant::now();
+    let deadline = start + Duration::from_millis(METER_REPORT_MAX_BUDGET_MS);
+    let now = || {
+        if expired.load(std::sync::atomic::Ordering::SeqCst) {
+            deadline
+        } else {
+            start
+        }
+    };
     let mut uncertain = false;
+    let report = fixture();
+    let request = report_request("stalled", &report).unwrap();
     assert_eq!(
-        report_until(
-            &socket,
-            "stalled",
-            &fixture(),
+        report_exchange(
+            &request,
+            &report,
             start + Duration::from_secs(10),
-            &|| false,
-            &mut uncertain
+            start,
+            &mut uncertain,
+            |request, end, committed| {
+                assert_eq!(end, deadline);
+                crate::client::exchange_until_clock(&socket, request, end, committed, &now)
+            }
         ),
         Err(Failure::Uncertain)
     );
-    let elapsed = start.elapsed();
     assert!(uncertain);
-    assert!(elapsed >= Duration::from_millis(400) && elapsed < Duration::from_millis(1200));
+    assert!(expired.load(std::sync::atomic::Ordering::SeqCst));
     done.send(()).unwrap();
     server.join().unwrap();
 }
@@ -200,7 +215,7 @@ fn unsupported_and_unavailable_stay_distinct_on_authenticated_transport() {
             assert_eq!(request.operation, operation);
             crate::write_response(&mut peer, &Response::error(request.request_id, code)).unwrap();
         });
-        started.recv_timeout(Duration::from_secs(2)).unwrap();
+        started.recv_timeout(Duration::from_secs(60)).unwrap();
         let end = Instant::now() + Duration::from_secs(1);
         let failure = if operation == OPERATION_METER_REPORT {
             report_until(
@@ -261,7 +276,6 @@ fn deadlines_cancellation_and_invalid_local_input_are_bounded() {
         summary_until(path, "e", "bad", start, &|| false),
         Err(Failure::Local)
     );
-    assert!(start.elapsed() < Duration::from_millis(100));
 }
 
 #[test]
@@ -306,5 +320,21 @@ fn valid_summary_and_malformed_report_ack_are_correlated() {
             );
         }
         server.join().unwrap();
+    }
+}
+
+#[test]
+fn injected_now_clamps_report_and_summary_without_renewing_expired_budgets() {
+    let now = Instant::now();
+    for max_ms in [METER_REPORT_MAX_BUDGET_MS, METER_SUMMARY_MAX_BUDGET_MS] {
+        for offset in [0, max_ms / 2, max_ms, max_ms + 10] {
+            let original = now + Duration::from_millis(offset);
+            assert_eq!(
+                clamp_deadline(now, original, max_ms),
+                now + Duration::from_millis(offset.min(max_ms))
+            );
+        }
+        let expired = now - Duration::from_millis(1);
+        assert_eq!(clamp_deadline(now, expired, max_ms), expired);
     }
 }

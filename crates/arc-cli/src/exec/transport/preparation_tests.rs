@@ -16,8 +16,14 @@ use std::{
 
 // Thread-local scripted transport lets the actual admission/fallback functions
 // expose their deadlines without timing a subprocess or changing production I/O.
-type ScriptedExchange =
-    Box<dyn FnMut(&str, &serde_json::Value, Instant) -> Result<serde_json::Value, Failure>>;
+type ScriptedExchange = Box<
+    dyn FnMut(
+        &str,
+        &serde_json::Value,
+        Instant,
+        &dyn Fn() -> bool,
+    ) -> Result<serde_json::Value, Failure>,
+>;
 thread_local! {
     static EXCHANGE: RefCell<Option<ScriptedExchange>> = RefCell::new(None);
 }
@@ -25,11 +31,12 @@ pub(super) fn scripted_exchange(
     operation: &str,
     payload: &serde_json::Value,
     deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
 ) -> Option<Result<serde_json::Value, Failure>> {
     EXCHANGE.with(|slot| {
         slot.borrow_mut()
             .as_mut()
-            .map(|exchange| exchange(operation, payload, deadline))
+            .map(|exchange| exchange(operation, payload, deadline, cancelled))
     })
 }
 struct ScriptedExchangeGuard;
@@ -71,13 +78,27 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
     let socket = root.join("missing-ipc");
     let signals = Signals::install(true).unwrap();
     for expired in [false, true] {
-        for bun in [false, true] {
-            let original = if expired {
-                Instant::now() - Duration::from_secs(1)
+        for kind in 0..3 {
+            let bun = kind == 1;
+            let script = kind == 2;
+            let injected_now = if expired {
+                Instant::now() - Duration::from_secs(2)
             } else {
-                Instant::now() + Duration::from_secs(60)
+                Instant::now()
             };
-            let (probe, operation, capability, argv) = if bun {
+            let original = crate::exec::preparation::deadline(injected_now);
+            assert_eq!(
+                original.duration_since(injected_now),
+                Duration::from_millis(1800)
+            );
+            let (probe, operation, capability, argv) = if script {
+                (
+                    arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES,
+                    arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
+                    arc_ipc::traffic::BUN_SCRIPTS_CAPABILITY,
+                    ["bun".into(), "run".into()],
+                )
+            } else if bun {
                 (
                     "traffic.bun.capabilities",
                     "traffic.bun.job",
@@ -101,7 +122,7 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
             EXCHANGE.with(|slot| {
                 assert!(slot
                     .borrow_mut()
-                    .replace(Box::new(move |actual, payload, deadline| {
+                    .replace(Box::new(move |actual, payload, deadline, _| {
                         assert_eq!(
                             deadline, original,
                             "{actual} renewed the pre-spawn deadline"
@@ -110,7 +131,7 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
                         if actual == probe {
                             Ok(serde_json::json!({"capability":capability}))
                         } else if actual == operation {
-                            if bun {
+                            if bun || script {
                                 Err(Failure::Unsupported)
                             } else {
                                 Ok(serde_json::json!(arc_ipc::traffic::JobResult::Bypassed {
@@ -131,7 +152,15 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
                 &socket,
                 &id,
                 &observer,
-                arc_detector::classify_argv(&argv),
+                if script {
+                    serde_json::from_value(serde_json::json!({
+                        "classification":"TYPECHECK", "locality":"HOST_LOCAL",
+                        "reason":"BUN_SCRIPT_TYPECHECK", "uncertainty":"NONE"
+                    }))
+                    .unwrap()
+                } else {
+                    arc_detector::classify_argv(&argv)
+                },
                 original,
                 &signals,
             );
@@ -287,3 +316,113 @@ fn invalid_addresses_preserve_nonlaunching_cli_preparation() {
         assert_eq!(result, Err(Failure::InvalidEndpoint));
     }
 }
+
+#[test]
+fn acknowledged_preparation_cancellation_never_launches() {
+    use std::{
+        io::{Read, Write},
+        os::fd::AsRawFd,
+        process::{Command, Stdio},
+    };
+    const NAME: &str =
+        "exec::transport::preparation_tests::acknowledged_preparation_cancellation_never_launches";
+    if let Ok(action) = std::env::var("ARC_CANCEL_AT") {
+        let marker = PathBuf::from(std::env::var_os("ARC_CANCEL_MARKER").unwrap());
+        EXCHANGE.with(|slot| {
+            *slot.borrow_mut() = Some(Box::new(move |operation, payload, end, cancelled| {
+                if operation == arc_ipc::governor::OPERATION_CAPABILITIES {
+                    return Err(Failure::Unsupported);
+                }
+                assert_eq!(operation, "job.start");
+                let request: StartRequest = serde_json::from_value(payload.clone()).unwrap();
+                let stage = payload["action"].as_str().unwrap();
+                if stage != action {
+                    let StartRequest::Register {
+                        job_id,
+                        observer,
+                        classification,
+                    } = request
+                    else {
+                        panic!("expected REGISTER")
+                    };
+                    return Ok(serde_json::to_value(registered(
+                        &job_id,
+                        &observer,
+                        classification,
+                    ))
+                    .unwrap());
+                }
+                println!("preparing:{stage}");
+                std::io::stdout().flush().unwrap();
+                // This transport admission barrier is explicitly released by a real
+                // SIGTERM. No production timeout is extended or reset while held.
+                let watchdog = Instant::now() + Duration::from_secs(60);
+                while !cancelled() {
+                    assert!(Instant::now() < watchdog);
+                    std::thread::yield_now();
+                }
+                assert!(end <= watchdog);
+                Err(Failure::Cancelled)
+            }))
+        });
+        let result = crate::exec::run(vec![
+            "/usr/bin/touch".into(),
+            marker.clone().into_os_string(),
+        ]);
+        assert_eq!(result, std::process::ExitCode::FAILURE);
+        assert!(!marker.exists());
+        std::process::exit(1);
+    }
+    let root = arc_core::runtime_root().unwrap().join(format!(
+        "cancel-{}",
+        arc_core::process_identity::random_job_id().unwrap()
+    ));
+    std::fs::create_dir(&root).unwrap();
+    let marker = root.join("no-child");
+    for stage in ["REGISTER", "CLAIM"] {
+        let mut child = native::OwnedChild::new(
+            Command::new(std::env::current_exe().unwrap())
+                .args(["--exact", NAME, "--nocapture"])
+                .env("ARC_CANCEL_AT", stage)
+                .env("ARC_CANCEL_MARKER", &marker)
+                .env(arc_core::ARC_SOCKET_PATH, root.join("unused"))
+                .stdout(Stdio::piped())
+                .stderr(Stdio::piped())
+                .stdin(Stdio::null())
+                .spawn()
+                .unwrap(),
+        );
+        let mut stdout = child.stdout.take().unwrap();
+        let fd = stdout.as_raw_fd();
+        assert!(unsafe { libc::fcntl(fd, libc::F_SETFL, libc::O_NONBLOCK) } >= 0);
+        let mut observed = Vec::new();
+        let watchdog = Instant::now() + Duration::from_secs(60);
+        while !String::from_utf8_lossy(&observed).contains(&format!("preparing:{stage}\n")) {
+            let mut bytes = [0; 1024];
+            match stdout.read(&mut bytes) {
+                Ok(0) => panic!(
+                    "preparation child exited: {}",
+                    String::from_utf8_lossy(&observed)
+                ),
+                Ok(n) => observed.extend_from_slice(&bytes[..n]),
+                Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+                    std::thread::sleep(Duration::from_millis(1))
+                }
+                Err(e) => panic!("{e}"),
+            }
+            assert!(Instant::now() < watchdog, "preparation admission watchdog");
+        }
+        child.stdout = Some(stdout);
+        assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
+        let output = child.wait_with_output().unwrap();
+        assert_eq!(output.status.code(), Some(1));
+        assert_eq!(
+            output.stderr,
+            b"NOT_STARTED\nExecution cancelled. No child was started.\n"
+        );
+        assert!(!marker.exists());
+    }
+    std::fs::remove_dir(root).unwrap();
+}
+
+use crate::native_fixture as native;

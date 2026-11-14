@@ -14,7 +14,7 @@ impl GovernorFixture for Fixture {
             self.client.clone(),
             input,
             self.owner.pid,
-            Instant::now() + Duration::from_secs(5),
+            Instant::now() + Duration::from_secs(60),
         )
         .await
         .unwrap()
@@ -80,8 +80,9 @@ struct Child(std::process::Child);
 impl Child {
     fn spawn() -> Self {
         Self(
-            std::process::Command::new("/bin/sleep")
-                .arg("30")
+            std::process::Command::new("/bin/sh")
+                .args(["-c", "read value"])
+                .stdin(std::process::Stdio::piped())
                 .spawn()
                 .unwrap(),
         )
@@ -273,20 +274,20 @@ async fn governor_concurrent_setters_read_current_cas_after_backlog_and_peer_is_
     let f = Fixture::new(Some(hook)).await;
     let blocker = f
         .client
-        .try_doctor(Instant::now() + Duration::from_secs(10))
+        .try_doctor(Instant::now() + Duration::from_secs(60))
         .unwrap();
-    entered.recv_timeout(Duration::from_secs(2)).unwrap();
+    entered.recv_timeout(Duration::from_secs(60)).unwrap();
     let a = f
         .client
         .try_job(
-            Instant::now() + Duration::from_secs(10),
+            Instant::now() + Duration::from_secs(60),
             jobs::Operation::Governor(Operation::Set(intent(0, false, 1))),
         )
         .unwrap();
     let b = f
         .client
         .try_job(
-            Instant::now() + Duration::from_secs(10),
+            Instant::now() + Duration::from_secs(60),
             jobs::Operation::Governor(Operation::Set(intent(0, false, 2))),
         )
         .unwrap();
@@ -316,7 +317,7 @@ async fn governor_concurrent_setters_read_current_cas_after_backlog_and_peer_is_
             f.client.clone(),
             enqueue(&f, 1),
             f.owner.pid + 1,
-            Instant::now() + Duration::from_secs(2)
+            Instant::now() + Duration::from_secs(60)
         )
         .await,
         Err(arc_ipc::ERROR_INVALID_REQUEST)
@@ -329,14 +330,14 @@ async fn governor_cancelled_queued_write_has_no_effect_and_missing_receipt_is_no
     let f = Fixture::new(Some(hook)).await;
     let blocker = f
         .client
-        .try_doctor(Instant::now() + Duration::from_secs(10))
+        .try_doctor(Instant::now() + Duration::from_secs(60))
         .unwrap();
-    entered.recv_timeout(Duration::from_secs(2)).unwrap();
+    entered.recv_timeout(Duration::from_secs(60)).unwrap();
     let q = intent(0, false, 1);
     let pending = f
         .client
         .try_job(
-            Instant::now() + Duration::from_secs(10),
+            Instant::now() + Duration::from_secs(60),
             jobs::Operation::Governor(Operation::Set(q.clone())),
         )
         .unwrap();
@@ -362,7 +363,7 @@ async fn governor_commit_ack_is_not_published_early_and_postcommit_cancellation_
 {
     let mut f = Fixture::new(None).await;
     f.worker
-        .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+        .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
         .await
         .unwrap();
     let (hook, entered, release) = gate();
@@ -371,7 +372,7 @@ async fn governor_commit_ack_is_not_published_early_and_postcommit_cancellation_
         DbConfig {
             queue_capacity: std::num::NonZeroUsize::new(8).unwrap(),
             busy_timeout: Duration::from_millis(50),
-            execution_timeout: Duration::from_secs(10),
+            execution_timeout: Duration::from_secs(60),
         },
         Arc::new(crate::runtime_metrics::RuntimeMetrics::new(
             &crate::limits::RuntimeLimits::default(),
@@ -388,11 +389,11 @@ async fn governor_commit_ack_is_not_published_early_and_postcommit_cancellation_
     let mut pending = f
         .client
         .try_job(
-            Instant::now() + Duration::from_secs(10),
+            Instant::now() + Duration::from_secs(60),
             jobs::Operation::Governor(Operation::Set(q.clone())),
         )
         .unwrap();
-    entered.recv_timeout(Duration::from_secs(2)).unwrap();
+    entered.recv_timeout(Duration::from_secs(60)).unwrap();
     // Operation returned after COMMIT but the writer hasn't sent an ACK.
     assert!(!state::get_switch(&ro(&f)).unwrap().enabled);
     assert!(matches!(

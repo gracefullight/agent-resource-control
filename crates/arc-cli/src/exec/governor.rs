@@ -63,7 +63,7 @@ pub(super) fn prepare(
         OPERATION_CAPABILITIES
     };
     let probe = if route == Route::BunScripts {
-        super::transport::negotiated(
+        super::transport::call_until_with_continuity(
             socket,
             probe_operation,
             serde_json::Value::Null,
@@ -444,7 +444,7 @@ pub(super) fn call_routed(
         // Session authenticates the endpoint and validates request ID/protocol.
         // Unlike release requests, an admission may be reconciled using the
         // same job/witness after a lost reply; an old peer cannot erase it.
-        let value = super::transport::negotiated(
+        let value = super::transport::call_until_with_continuity(
             socket,
             arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
             json!(request),

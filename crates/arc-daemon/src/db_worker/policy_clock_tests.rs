@@ -7,7 +7,7 @@ async fn restart(f: &mut Fixture, bind: bool) {
         DbConfig {
             queue_capacity: std::num::NonZeroUsize::new(8).unwrap(),
             busy_timeout: Duration::from_millis(50),
-            execution_timeout: Duration::from_secs(2),
+            execution_timeout: Duration::from_secs(60),
         },
         Arc::new(crate::runtime_metrics::RuntimeMetrics::new(
             &crate::limits::RuntimeLimits::default(),
@@ -25,7 +25,7 @@ async fn queued_recovery_status_and_cancellation_survive_utc_backstep_across_res
     let mut f = Fixture::new(None).await;
     f.level(1).await;
     f.worker
-        .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+        .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
         .await
         .unwrap();
     let future = jobs::now() + 86_400_000;
@@ -63,7 +63,7 @@ async fn queued_recovery_status_and_cancellation_survive_utc_backstep_across_res
         f.client.clone(),
         request,
         f.owner.pid,
-        Instant::now() + Duration::from_secs(2),
+        Instant::now() + Duration::from_secs(60),
     )
     .await
     .unwrap();
@@ -102,12 +102,13 @@ async fn queued_recovery_status_and_cancellation_survive_utc_backstep_across_res
 
 #[tokio::test]
 async fn daemon_without_bound_sampler_reports_missing_l0_and_can_release_once() {
-    let mut f = Fixture::new(None).await;
+    let mut f = Fixture::frozen().await;
     f.worker
-        .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+        .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
         .await
         .unwrap();
     restart(&mut f, false).await;
+    f.client.shared.observation.freeze(Instant::now());
     let generation = generation(f.enqueue(1).await);
     let release = f
         .policy(Input::Launch(LaunchRequest {
@@ -135,7 +136,7 @@ async fn daemon_without_bound_sampler_reports_missing_l0_and_can_release_once() 
         client.bind_observation(reader);
         done.send(()).unwrap();
     });
-    let end = Instant::now() + Duration::from_secs(1);
+    let end = Instant::now() + Duration::from_secs(60);
     while f.client.shared.observation.0.try_lock().is_ok() {
         assert!(Instant::now() < end, "first sampler entered registry fence");
         std::thread::yield_now();
@@ -145,7 +146,7 @@ async fn daemon_without_bound_sampler_reports_missing_l0_and_can_release_once() 
         Err(mpsc::TryRecvError::Empty)
     ));
     drop(release);
-    completed.recv_timeout(Duration::from_secs(2)).unwrap();
+    completed.recv_timeout(Duration::from_secs(60)).unwrap();
     binding.join().unwrap();
     match f.policy(Input::Current).await {
         Value::Current(value) => assert_eq!(value.mode, PolicyMode::MemoryHold),

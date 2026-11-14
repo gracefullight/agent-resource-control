@@ -87,10 +87,10 @@ impl Fixture {
                 // connection; Darwin can then reject socket option changes.
                 if stream.set_nonblocking(false).is_err()
                     || stream
-                        .set_read_timeout(Some(Duration::from_millis(800)))
+                        .set_read_timeout(Some(Duration::from_secs(60)))
                         .is_err()
                     || stream
-                        .set_write_timeout(Some(Duration::from_millis(800)))
+                        .set_write_timeout(Some(Duration::from_secs(60)))
                         .is_err()
                 {
                     continue;
@@ -130,6 +130,7 @@ impl Fixture {
             .env(arc_core::ARC_SOCKET_PATH, &self.socket)
             .env("PATH", &self.root)
             .env("ARC_FIXTURE_ACCOUNTING", mode)
+            .env("ARC_FIXTURE_OWNERS", self.root.join("owners"))
             .env("ARC_METER_TEST_MARKER", self.root.join("marker"))
             .env("ARC_METER_TEST_CLI", env!("CARGO_BIN_EXE_arcctl"));
         command
@@ -139,7 +140,9 @@ impl Drop for Fixture {
     fn drop(&mut self) {
         self.stop.store(true, Ordering::SeqCst);
         let result = self.worker.take().unwrap().join();
-        let _ = fs::remove_dir_all(&self.root);
+        if !self.root.join("owned-cleanup-incomplete").exists() {
+            let _ = fs::remove_dir_all(&self.root);
+        }
         if !std::thread::panicking() {
             result.unwrap();
         }

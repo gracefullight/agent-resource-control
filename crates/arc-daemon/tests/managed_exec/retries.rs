@@ -36,7 +36,7 @@ impl Proxy {
         let stop = Arc::new(AtomicBool::new(false));
         let stopped = stop.clone();
         let join = thread::spawn(move || {
-            let deadline = Instant::now() + Duration::from_secs(15);
+            let deadline = Instant::now() + Duration::from_secs(60);
             let mut counts = BTreeMap::new();
             while !stopped.load(Ordering::SeqCst) {
                 assert!(Instant::now() < deadline, "proxy fixture deadline");
@@ -50,7 +50,7 @@ impl Proxy {
                 };
                 stream.set_nonblocking(false).unwrap();
                 stream
-                    .set_read_timeout(Some(Duration::from_secs(2)))
+                    .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 let request: Request = arc_ipc::read_message(&mut stream).unwrap();
                 let key = if request.operation == OPERATION_JOB_START {
@@ -68,7 +68,7 @@ impl Proxy {
                 }
                 let mut target = UnixStream::connect(&backend).unwrap();
                 target
-                    .set_read_timeout(Some(Duration::from_secs(2)))
+                    .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 let response = arc_ipc::exchange(&mut target, &request).unwrap();
                 if mode == "around-commit" && *count == 2 {
@@ -113,7 +113,7 @@ fn cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17() {
             .stdin(Stdio::null())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped());
-        let mut child = c.spawn().unwrap();
+        let mut child = super::runtime::OwnedChild::new(c.spawn().unwrap());
         wait(&mut child);
         let output = child.wait_with_output().unwrap();
         let counts = proxy.finish();

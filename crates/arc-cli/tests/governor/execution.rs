@@ -65,7 +65,7 @@ fn execution(case: Case) {
         Some(thread::spawn(move || {
             let (mut stream, _) = listener.accept().unwrap();
             stream
-                .set_read_timeout(Some(std::time::Duration::from_secs(5)))
+                .set_read_timeout(Some(std::time::Duration::from_secs(60)))
                 .unwrap();
             let mut line = String::new();
             std::io::BufReader::new(stream.try_clone().unwrap())
@@ -350,7 +350,7 @@ fn execution(case: Case) {
         // native Meter path. Release from the observed child handshake only.
         let (mut target, _) = child_listener.accept().unwrap();
         target
-            .set_read_timeout(Some(std::time::Duration::from_secs(5)))
+            .set_read_timeout(Some(std::time::Duration::from_secs(60)))
             .unwrap();
         let hello: Value =
             serde_json::from_slice(&arc_ipc::read_frame(&mut target).unwrap()).unwrap();

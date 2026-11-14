@@ -37,7 +37,7 @@ pub(crate) async fn request(stream: &UnixStream, request: &Request) -> Response 
 }
 
 pub(crate) async fn response(stream: &UnixStream) -> Response {
-    let deadline = Instant::now() + Duration::from_secs(2);
+    let deadline = Instant::now() + Duration::from_secs(60);
     let declared = transport::read_header(stream, deadline).await.unwrap();
     let body = transport::read_body(stream, declared, deadline)
         .await

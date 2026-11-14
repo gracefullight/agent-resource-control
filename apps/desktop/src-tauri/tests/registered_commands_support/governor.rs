@@ -75,25 +75,20 @@ fn registered_governor_busy_lost_reply_and_malformed_ack_are_uncertain_without_w
     }
 }
 #[test]
-fn governor_bridge_single_flight_owns_dropped_waiter_and_pre_dispatch_rejection() {
+fn governor_native_ack_and_pre_dispatch_shutdown_rejection_are_not_replayed() {
     use arc_ipc::governor::*;
-    let (sent,received)=mpsc::channel();
-    let (release,continue_after)=mpsc::channel();
+    // Permit/drop/pre-dispatch behavior is channel-controlled in
+    // bridge::permit_tests; this native peer retains the wire and shutdown proof.
     let peer=Peer::new(1,move |stream,request| {
-        sent.send(()).unwrap();
-        continue_after.recv_timeout(Duration::from_secs(3)).unwrap();
+        assert_eq!(request.operation, OPERATION_SET_SWITCH);
         arc_ipc::write_response(stream,&Response::ok(request.request_id,governor_committed())).unwrap();
     });
     let bridge=peer.bridge();
-    let worker=bridge.clone();
-    let handle=tauri::async_runtime::spawn(async move { worker.governor_set_switch_async(governor_request()).await });
-    received.recv_timeout(Duration::from_secs(3)).unwrap();
-    // Retiring a JS/read waiter cannot release the blocking task's permit.
-    drop(handle);
-    assert_eq!(bridge.governor_get_switch(GetGovernorSwitchRequest::default()).unwrap_err().code,ErrorCode::Busy);
+    tauri::async_runtime::block_on(bridge.governor_set_switch_async(governor_request())).unwrap();
+    assert_eq!(peer.requests.load(Ordering::Relaxed),1);
+    bridge.shutdown();
     assert_eq!(bridge.governor_set_switch(governor_request()).unwrap_err().code,ErrorCode::Rejected);
-    release.send(()).unwrap();
-    drop(peer);
+    assert_eq!(bridge.governor_get_switch(GetGovernorSwitchRequest::default()).unwrap_err().code,ErrorCode::Cancelled);
 }
 #[test]
 fn governor_bridge_never_forges_commit_confirmation_from_an_unsafe_clock() {

@@ -41,10 +41,20 @@ pub(crate) struct Fixture {
     pub client: DbClient,
     pub owner: arc_core::process_identity::ProcessIdentity,
     level: Arc<AtomicU8>,
+    frozen: bool,
     root: std::path::PathBuf,
 }
 impl Fixture {
     pub async fn new(hooks: Option<crate::db_worker::WorkerTestHooks>) -> Self {
+        Self::with_fence_clock(hooks, None).await
+    }
+    pub async fn frozen() -> Self {
+        Self::with_fence_clock(None, Some(Instant::now())).await
+    }
+    async fn with_fence_clock(
+        hooks: Option<crate::db_worker::WorkerTestHooks>,
+        frozen: Option<Instant>,
+    ) -> Self {
         let owner =
             arc_core::process_identity::ProcessIdentity::capture(std::process::id()).unwrap();
         let root = arc_core::runtime_root().unwrap().join(format!(
@@ -57,7 +67,7 @@ impl Fixture {
         let config = DbConfig {
             queue_capacity: std::num::NonZeroUsize::new(8).unwrap(),
             busy_timeout: Duration::from_millis(50),
-            execution_timeout: Duration::from_secs(10),
+            execution_timeout: Duration::from_secs(60),
         };
         let worker = match hooks {
             Some(hooks) => {
@@ -68,7 +78,7 @@ impl Fixture {
         .unwrap();
         let level = Arc::new(AtomicU8::new(0));
         let epoch = Instant::now();
-        let meter = arc_meter::MeterWorker::start(
+        let meter = arc_meter::MeterWorker::start_with_fence_clock(
             InjectedSource {
                 level: Arc::clone(&level),
                 epoch,
@@ -76,10 +86,14 @@ impl Fixture {
             owner.clone(),
             epoch,
             arc_meter::SamplingPolicy::new(10_000, 1000, 1000).unwrap(),
+            move || frozen.unwrap_or_else(Instant::now),
         )
         .unwrap();
         meter.activity().set_active(true);
         let client = worker.client();
+        if let Some(now) = frozen {
+            client.shared.observation.freeze(now);
+        }
         client.bind_observation(meter.reader());
         let fixture = Self {
             worker,
@@ -87,6 +101,7 @@ impl Fixture {
             client,
             owner,
             level,
+            frozen: frozen.is_some(),
             root,
         };
         fixture.wait_level(0).await;
@@ -111,7 +126,7 @@ impl Fixture {
         worker
     }
     async fn wait_level(&self, level: u8) {
-        let deadline = Instant::now() + Duration::from_secs(5);
+        let deadline = Instant::now() + Duration::from_secs(60);
         loop {
             let matches = self.meter.reader().snapshot().is_some_and(|s| {
                 match &s.host.memory_pressure.reading {
@@ -135,7 +150,13 @@ impl Fixture {
                 Instant::now() < deadline,
                 "injected observation publication deadline"
             );
-            tokio::time::sleep(Duration::from_millis(2)).await;
+            if self.frozen {
+                // Paused transport fixtures advance only their expiry phase;
+                // native publication is synchronized without advancing time.
+                tokio::task::yield_now().await;
+            } else {
+                tokio::time::sleep(Duration::from_millis(2)).await;
+            }
         }
     }
     pub async fn level(&self, level: u8) {
@@ -171,7 +192,7 @@ impl Fixture {
                 self.client.clone(),
                 request,
                 self.owner.pid,
-                Instant::now() + Duration::from_secs(5),
+                Instant::now() + Duration::from_secs(60),
             )
             .await
             .unwrap(),
@@ -183,18 +204,18 @@ impl Fixture {
             self.client.clone(),
             input,
             self.owner.pid,
-            Instant::now() + Duration::from_secs(5),
+            Instant::now() + Duration::from_secs(60),
         )
         .await
         .unwrap()
     }
     pub async fn shutdown(mut self) {
         self.worker
-            .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+            .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
             .await
             .unwrap();
         self.meter
-            .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+            .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
             .await
             .unwrap();
         std::fs::remove_dir_all(&self.root).unwrap();

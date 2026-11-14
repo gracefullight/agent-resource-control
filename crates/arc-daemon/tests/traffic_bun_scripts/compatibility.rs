@@ -115,10 +115,8 @@ pub fn old_peer_and_outage(read: Read) {
             !log(&p.join("bodies")).is_empty()
         });
         let preparation = start.elapsed();
-        assert!(
-            preparation < Duration::from_secs(3),
-            "absolute 1800 ms preparation deadline was restarted: {preparation:?}"
-        );
+        // Exact absolute preparation budgets are checked with an injected
+        // clock; native startup is established by the body marker above.
         assert_eq!(run.count("bun"), 1);
         assert_eq!(case.active()["permits"], 0);
         let requests = peer.finish();

@@ -28,7 +28,7 @@ fn committed_bun_grant_lost_before_old_peer_replacement_recovers_original_store(
         }
     }
     fn until(mut predicate: impl FnMut() -> bool) {
-        let deadline = Instant::now() + Duration::from_secs(15);
+        let deadline = Instant::now() + Duration::from_secs(60);
         while !predicate() {
             assert!(
                 Instant::now() < deadline,

@@ -28,7 +28,7 @@ pub fn binary(name: &str) -> PathBuf {
     path
 }
 pub fn eventually(mut condition: impl FnMut() -> bool) {
-    let end = Instant::now() + Duration::from_secs(35);
+    let end = Instant::now() + Duration::from_secs(60);
     while !condition() {
         assert!(
             Instant::now() < end,

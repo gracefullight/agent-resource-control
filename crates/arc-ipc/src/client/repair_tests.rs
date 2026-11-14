@@ -146,7 +146,7 @@ fn untrusted_result(kind: io::ErrorKind, disconnect_first: bool) {
     let processed = Arc::new(AtomicUsize::new(0));
     let observed = processed.clone();
     let server = thread::spawn(move || {
-        let until = Instant::now() + Duration::from_secs(5);
+        let until = Instant::now() + Duration::from_secs(60);
         while !done.load(Ordering::SeqCst) && Instant::now() < until {
             let (mut stream, _) = match listener.accept() {
                 Ok(value) => value,
@@ -187,7 +187,7 @@ fn untrusted_result(kind: io::ErrorKind, disconnect_first: bool) {
             }
         })
     });
-    let end = Instant::now() + Duration::from_secs(2);
+    let end = Instant::now() + Duration::from_secs(60);
     while processed.load(Ordering::SeqCst) < attempts.get() && Instant::now() < end {
         thread::sleep(Duration::from_millis(1));
     }
@@ -251,4 +251,70 @@ fn cancellation_overrides_invalid_endpoint_after_send() {
         },
     );
     assert_eq!(result, Err(Failure::Cancelled));
+}
+
+#[test]
+fn injected_clock_keeps_attempts_inside_one_absolute_preparation_deadline() {
+    for budget in [600, 1000, 1800] {
+        let origin = Instant::now();
+        let now = Cell::new(origin);
+        let deadline = origin + Duration::from_millis(budget);
+        let attempts = Cell::new(0);
+        let mut sent = false;
+        let result = super::exchange_with_clock(
+            &Request::new("one-key", "REGISTER"),
+            deadline,
+            &|| false,
+            &mut sent,
+            super::ExchangeOptions {
+                continuity: None,
+                retry_busy: true,
+            },
+            |end| {
+                let n = attempts.get();
+                assert_eq!(
+                    end,
+                    deadline.min(origin + Duration::from_millis((n + 1) * 600))
+                );
+                attempts.set(n + 1);
+                now.set(end);
+                Ok(Disconnect::default())
+            },
+            || now.get(),
+        );
+        assert_eq!(result, Err(Failure::Uncertain));
+        assert!(sent);
+        assert_eq!(attempts.get(), budget.div_ceil(600));
+        assert_eq!(now.get(), deadline);
+    }
+}
+
+#[test]
+fn cancellation_wins_at_every_exact_preparation_deadline_boundary_without_connecting() {
+    let start = Instant::now();
+    let end = start + Duration::from_millis(1800);
+    for now in [
+        end - Duration::from_nanos(1),
+        end,
+        end + Duration::from_nanos(1),
+    ] {
+        let request = crate::Request::new("boundary", "job.start");
+        assert_eq!(
+            super::exchange_with_clock(
+                &request,
+                end,
+                &|| true,
+                &mut false,
+                super::ExchangeOptions {
+                    continuity: None,
+                    retry_busy: true
+                },
+                |_| -> Result<super::DeadlineStream<'_>, super::ConnectFailure> {
+                    panic!("cancelled preparation connected")
+                },
+                || now
+            ),
+            Err(super::Failure::Cancelled)
+        );
+    }
 }

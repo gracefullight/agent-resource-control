@@ -6,7 +6,7 @@ async fn governor_off_survives_writer_restart_and_original_receipt_replays() {
     let q = intent(0, false, 1);
     let before = set(&f, q.clone()).await;
     f.worker
-        .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+        .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
         .await
         .unwrap();
     f.worker = DbWorker::start(
@@ -14,7 +14,7 @@ async fn governor_off_survives_writer_restart_and_original_receipt_replays() {
         DbConfig {
             queue_capacity: std::num::NonZeroUsize::new(8).unwrap(),
             busy_timeout: Duration::from_millis(50),
-            execution_timeout: Duration::from_secs(10),
+            execution_timeout: Duration::from_secs(60),
         },
         Arc::new(crate::runtime_metrics::RuntimeMetrics::new(
             &crate::limits::RuntimeLimits::default(),
@@ -41,7 +41,7 @@ async fn governor_off_survives_writer_restart_and_original_receipt_replays() {
 }
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn governor_common_release_lease_orders_setter_and_grants_without_sampler() {
-    let f = Fixture::new(None).await;
+    let f = Fixture::frozen().await;
     // Remove the sampler to exercise the common lease independently of pressure.
     *f.client.shared.observation.0.lock().unwrap() = None;
     set(&f, intent(0, false, 1)).await;
@@ -59,7 +59,7 @@ async fn governor_common_release_lease_orders_setter_and_grants_without_sampler(
             f.client.clone(),
             Input::Set(intent(1, true, 2)),
             f.owner.pid,
-            Instant::now() + Duration::from_secs(2)
+            Instant::now() + Duration::from_secs(60)
         )
         .await,
         Err(arc_ipc::ERROR_DB_BUSY)
@@ -69,7 +69,7 @@ async fn governor_common_release_lease_orders_setter_and_grants_without_sampler(
             f.client.clone(),
             enqueue(&f, 2),
             f.owner.pid,
-            Instant::now() + Duration::from_secs(2)
+            Instant::now() + Duration::from_secs(60)
         )
         .await,
         Err(arc_ipc::ERROR_DB_BUSY)
@@ -141,7 +141,7 @@ async fn governor_reserved_conversion_and_native_launch_order_are_serialized() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn governor_reserved_release_winning_pause_retains_permit_and_never_releases_twice() {
-    let f = Fixture::new(None).await;
+    let f = Fixture::frozen().await;
     let Value::Job(GovernorJobResult::Traffic {
         result: arc_ipc::traffic::JobResult::Granted {
             permit_generation, ..
@@ -173,7 +173,7 @@ async fn governor_reserved_release_winning_pause_retains_permit_and_never_releas
             f.client.clone(),
             Input::Set(intent(0, false, 1)),
             f.owner.pid,
-            Instant::now() + Duration::from_secs(2)
+            Instant::now() + Duration::from_secs(60)
         )
         .await,
         Err(arc_ipc::ERROR_DB_BUSY)
@@ -221,7 +221,7 @@ async fn governor_reserved_release_winning_pause_retains_permit_and_never_releas
 async fn governor_postcommit_deadline_is_uncertain_but_receipt_proves_commit() {
     let mut f = Fixture::new(None).await;
     f.worker
-        .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+        .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
         .await
         .unwrap();
     let (hook, entered, release) = gate();
@@ -230,7 +230,7 @@ async fn governor_postcommit_deadline_is_uncertain_but_receipt_proves_commit() {
         DbConfig {
             queue_capacity: std::num::NonZeroUsize::new(8).unwrap(),
             busy_timeout: Duration::from_millis(50),
-            execution_timeout: Duration::from_secs(10),
+            execution_timeout: Duration::from_secs(60),
         },
         Arc::new(crate::runtime_metrics::RuntimeMetrics::new(
             &crate::limits::RuntimeLimits::default(),
@@ -243,14 +243,18 @@ async fn governor_postcommit_deadline_is_uncertain_but_receipt_proves_commit() {
     .unwrap();
     f.client = f.worker.client();
     let q = intent(0, false, 1);
-    let pending = f
+    let mut pending = f
         .client
         .try_job(
-            Instant::now() + Duration::from_millis(150),
+            Instant::now() + Duration::from_secs(60),
             jobs::Operation::Governor(Operation::Set(q.clone())),
         )
         .unwrap();
-    entered.recv_timeout(Duration::from_secs(2)).unwrap();
+    entered.recv_timeout(Duration::from_secs(60)).unwrap();
+    // The real writer has committed and is held before publishing its ACK.
+    // Expire the actual receive owner only after that synchronization point;
+    // host startup or coverage overhead cannot choose the pre-commit outcome.
+    pending.deadline = Instant::now() - Duration::from_millis(1);
     assert!(matches!(
         pending.receive_value().await,
         Err(crate::db_worker::DbError::Deadline)
@@ -275,7 +279,7 @@ async fn governor_postcommit_deadline_is_uncertain_but_receipt_proves_commit() {
 async fn governor_cancellation_after_switch_update_before_commit_rolls_back_every_fact() {
     let mut f = Fixture::new(None).await;
     f.worker
-        .shutdown(tokio::time::Instant::now() + Duration::from_secs(2))
+        .shutdown(tokio::time::Instant::now() + Duration::from_secs(60))
         .await
         .unwrap();
     let mut connection = arc_storage::open_and_migrate(f.path()).unwrap();
@@ -292,7 +296,7 @@ async fn governor_cancellation_after_switch_update_before_commit_rolls_back_ever
             ) {
                 if let Some(allowed) = allowed.take() {
                     entered.send(()).unwrap();
-                    allowed.recv_timeout(Duration::from_secs(3)).unwrap();
+                    allowed.recv_timeout(Duration::from_secs(60)).unwrap();
                 }
             }
             rusqlite::hooks::Authorization::Allow
@@ -303,7 +307,7 @@ async fn governor_cancellation_after_switch_update_before_commit_rolls_back_ever
         DbConfig {
             queue_capacity: std::num::NonZeroUsize::new(8).unwrap(),
             busy_timeout: Duration::from_millis(50),
-            execution_timeout: Duration::from_secs(10),
+            execution_timeout: Duration::from_secs(60),
         },
         Arc::new(crate::runtime_metrics::RuntimeMetrics::new(
             &crate::limits::RuntimeLimits::default(),
@@ -315,11 +319,11 @@ async fn governor_cancellation_after_switch_update_before_commit_rolls_back_ever
     let pending = f
         .client
         .try_job(
-            Instant::now() + Duration::from_secs(10),
+            Instant::now() + Duration::from_secs(60),
             jobs::Operation::Governor(Operation::Set(q.clone())),
         )
         .unwrap();
-    observed.recv_timeout(Duration::from_secs(2)).unwrap();
+    observed.recv_timeout(Duration::from_secs(60)).unwrap();
     // The switch UPDATE ran; reader sees only committed prior ON state.
     assert!(state::get_switch(&ro(&f)).unwrap().enabled);
     drop(pending);
@@ -344,9 +348,9 @@ async fn governor_backlogged_pause_resume_and_enqueue_use_fresh_critical_after_w
     let (hook, entered, release) = gate();
     let f = Fixture::new(Some(hook)).await;
     let before = f.meter.reader().snapshot().unwrap();
-    let end = Instant::now() + Duration::from_secs(10);
+    let end = Instant::now() + Duration::from_secs(60);
     let blocker = f.client.try_doctor(end).unwrap();
-    entered.recv_timeout(Duration::from_secs(2)).unwrap();
+    entered.recv_timeout(Duration::from_secs(60)).unwrap();
     let pause = f
         .client
         .try_job(

@@ -277,7 +277,7 @@ fn run_case(first: usize, managed: bool) {
     let connection = database(&fixture);
     let mut first_end_us = None;
     let mut release_observation = None;
-    let deadline = Instant::now() + Duration::from_secs(45);
+    let deadline = Instant::now() + Duration::from_secs(60);
     while first_end_us.is_none() || (managed && release_observation.is_none()) {
         if first_end_us.is_none() && body_stopped(&first_body) {
             first_end_us = Some(unix_us());

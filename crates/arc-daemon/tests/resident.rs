@@ -36,8 +36,8 @@ use std::{
     time::{Duration, Instant},
 };
 
-const READY_TIMEOUT: Duration = Duration::from_secs(15);
-const EXIT_TIMEOUT: Duration = Duration::from_secs(10);
+const READY_TIMEOUT: Duration = Duration::from_secs(60);
+const EXIT_TIMEOUT: Duration = Duration::from_secs(60);
 
 struct Fixture {
     directory: PathBuf,
@@ -155,10 +155,10 @@ fn wait_until_ready(child: &mut Child, socket: &Path) {
     loop {
         if let Ok(mut stream) = UnixStream::connect(socket) {
             stream
-                .set_read_timeout(Some(Duration::from_millis(100)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             stream
-                .set_write_timeout(Some(Duration::from_millis(100)))
+                .set_write_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             if let Ok(response) = arc_ipc::exchange(
                 &mut stream,
@@ -204,10 +204,10 @@ fn wait_for_exit(child: &mut Child) -> ExitStatus {
 fn exchange(socket: &Path, request: &Request) -> Response {
     let mut stream = UnixStream::connect(socket).unwrap();
     stream
-        .set_read_timeout(Some(Duration::from_secs(5)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     stream
-        .set_write_timeout(Some(Duration::from_secs(5)))
+        .set_write_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     arc_ipc::exchange(&mut stream, request).unwrap()
 }

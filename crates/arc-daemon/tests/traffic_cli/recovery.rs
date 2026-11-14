@@ -235,7 +235,7 @@ fn queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage() {
             .unwrap(),
         1
     );
-    let deadline = Instant::now() + Duration::from_secs(4);
+    let deadline = Instant::now() + Duration::from_secs(60);
     while !marker.exists() && Instant::now() < deadline {
         thread::sleep(Duration::from_millis(10));
     }
@@ -410,7 +410,7 @@ fn cached_cargo_launch_still_executes_one_native_child() {
         let stderr = project.join(format!("cache-{iteration}.stderr"));
         let mut wrapper = spawn_cached_build(&f, &project, &stderr);
         let mut observed = BTreeSet::new();
-        let deadline = Instant::now() + Duration::from_secs(45);
+        let deadline = Instant::now() + Duration::from_secs(60);
         loop {
             for child in children(wrapper.child.id()) {
                 if cargo_pid(child) {

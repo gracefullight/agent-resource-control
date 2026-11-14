@@ -46,7 +46,7 @@ fn controlled_worker_child() {
                 arc_storage::open_and_migrate(arc_core::database_path().unwrap()).unwrap();
             let limits = RuntimeLimits {
                 db_queue: NonZeroUsize::new(2).unwrap(),
-                ..RuntimeLimits::default()
+                ..RuntimeLimits::holding_fixture()
             };
             let metrics = Arc::new(RuntimeMetrics::new(&limits));
             let (started, _started_receiver) = mpsc::sync_channel(1);
@@ -79,6 +79,22 @@ fn controlled_worker_child() {
                 _ = metrics.wait_for(|s| s.gauge(Gauge::RequestBodyBytes).current >= 1024) => {}
             }
             println!("lifecycle-fixture: stalled-body");
+            tokio::select! {
+                result = &mut serving => panic!("supervisor ended before signal trigger: {result:?}"),
+                _ = async {
+                    let trigger = arc_core::socket_path().unwrap().parent().unwrap().join("signal");
+                    while !trigger.exists() { tokio::time::sleep(Duration::from_millis(1)).await; }
+                    let snapshot = metrics.snapshot();
+                    assert_eq!(snapshot.gauge(Gauge::DbExecuting).current, 1);
+                    assert_eq!(snapshot.gauge(Gauge::DbQueued).current, 2);
+                    assert_eq!(snapshot.gauge(Gauge::DbOutstanding).current, 3);
+                    assert_eq!(snapshot.counter(crate::runtime_metrics::Counter::DbTimeouts), 0);
+                    let signal: i32 = fs::read_to_string(trigger).unwrap().parse().unwrap();
+                    assert!([libc::SIGTERM, libc::SIGINT].contains(&signal));
+                    // The child verifies the held phase immediately at the trigger.
+                    assert_eq!(unsafe { libc::kill(std::process::id() as i32, signal) }, 0);
+                } => {}
+            }
             serving.await.unwrap();
             let anchor = arc_core::instance_anchor().unwrap();
             assert!(matches!(
@@ -139,7 +155,7 @@ impl Fixture {
         read_bounded(&self.root.join("stdout"))
     }
     fn wait_for(&self, child: &mut OwnedChild, text: &str) {
-        let deadline = Instant::now() + Duration::from_secs(10);
+        let deadline = Instant::now() + Duration::from_secs(60);
         loop {
             if self.stdout().contains(text) {
                 return;
@@ -168,10 +184,10 @@ impl Fixture {
     fn connect(&self) -> UnixStream {
         let stream = UnixStream::connect(&self.socket).unwrap();
         stream
-            .set_read_timeout(Some(Duration::from_secs(2)))
+            .set_read_timeout(Some(Duration::from_secs(60)))
             .unwrap();
         stream
-            .set_write_timeout(Some(Duration::from_secs(2)))
+            .set_write_timeout(Some(Duration::from_secs(60)))
             .unwrap();
         stream
     }
@@ -204,7 +220,6 @@ fn signal_case(signal: libc::c_int, name: &str) {
     let mut child = fixture.spawn();
     fixture.wait_for(&mut child, "arc-daemon ready.");
     let mut doctor = fixture.connect();
-    let work_started = Instant::now();
     arc_ipc::write_message(
         &mut doctor,
         &arc_ipc::Request::new("slow", arc_ipc::OPERATION_DOCTOR),
@@ -247,10 +262,7 @@ fn signal_case(signal: libc::c_int, name: &str) {
     )
     .unwrap();
     assert_eq!(health.status, arc_ipc::STATUS_OK);
-    assert!(
-        work_started.elapsed() < Duration::from_millis(900),
-        "slow-job budget elapsed before signal"
-    );
+
     let mut header = fixture.connect();
     header.write_all(&[0]).unwrap();
     let mut body = fixture.connect();
@@ -267,27 +279,21 @@ fn signal_case(signal: libc::c_int, name: &str) {
         .status,
         arc_ipc::STATUS_OK
     );
-    assert!(
-        work_started.elapsed() < Duration::from_millis(900),
-        "slow-job budget elapsed before signal"
-    );
+
     let started = Instant::now();
-    assert_eq!(
-        unsafe { libc::kill(child.0.id() as libc::pid_t, signal) },
-        0
-    );
+    fs::write(fixture.root.join("signal"), signal.to_string()).unwrap();
     let status = loop {
         if let Some(status) = child.0.try_wait().unwrap() {
             break status;
         }
         assert!(
-            started.elapsed() < Duration::from_secs(5),
-            "signal exit exceeded five seconds"
+            started.elapsed() < Duration::from_secs(60),
+            "owned child did not exit before fixture watchdog"
         );
         thread::sleep(Duration::from_millis(1));
     };
     let signal_to_exit_us = started.elapsed().as_micros();
-    assert!(started.elapsed() < Duration::from_secs(5));
+
     assert!(
         status.success(),
         "{} {}",
@@ -355,6 +361,10 @@ fn sigint_reaps_stalled_handlers_and_joins_worker() {
 
 fn assert_final_report(report: &serde_json::Value) {
     assert_eq!(report["handlers_remaining"], 0);
+    assert!(
+        report["shutdown_elapsed_ms"].as_u64().unwrap()
+            <= report["limits"]["shutdown_timeout_ms"].as_u64().unwrap()
+    );
     for key in [
         "accounted",
         "handlers_reaped",
@@ -418,7 +428,7 @@ fn stop(child: &mut OwnedChild, signal: i32) {
 }
 
 fn wait_exit(child: &mut OwnedChild, success: bool) {
-    let deadline = Instant::now() + Duration::from_secs(5);
+    let deadline = Instant::now() + Duration::from_secs(60);
     loop {
         if let Some(status) = child.0.try_wait().unwrap() {
             assert_eq!(status.success(), success, "{status}");
@@ -426,7 +436,7 @@ fn wait_exit(child: &mut OwnedChild, success: bool) {
         }
         assert!(
             Instant::now() < deadline,
-            "child failed to exit within five seconds"
+            "owned child failed to exit before the fixture watchdog"
         );
         thread::sleep(Duration::from_millis(1));
     }

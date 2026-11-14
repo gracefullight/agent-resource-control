@@ -181,7 +181,7 @@ impl FailureFixture {
                 }
             }
             drop(listener);
-            let deadline = Instant::now() + Duration::from_secs(2);
+            let deadline = Instant::now() + Duration::from_secs(60);
             worker.begin_shutdown();
             handlers.shutdown(deadline).await.unwrap();
             let exit = worker.shutdown(deadline).await.unwrap();
@@ -227,7 +227,7 @@ impl FailureFixture {
                 .spawn()
                 .unwrap(),
         );
-        let deadline = Instant::now() + Duration::from_secs(3);
+        let deadline = Instant::now() + Duration::from_secs(60);
         while child.0.try_wait().unwrap().is_none() {
             assert!(Instant::now() < deadline, "owned CLI exceeded deadline");
             tokio::time::sleep(Duration::from_millis(1)).await;

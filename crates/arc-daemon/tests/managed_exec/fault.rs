@@ -135,7 +135,7 @@ impl Fault {
                     Err(e) => panic!("{e}"),
                 };
                 stream.set_nonblocking(false).unwrap();
-                let fallback = match stream.set_read_timeout(Some(Duration::from_secs(2))) {
+                let fallback = match stream.set_read_timeout(Some(Duration::from_secs(60))) {
                     Ok(()) => false,
                     Err(error) if error.raw_os_error() == Some(libc::EINVAL) => {
                         stream.set_nonblocking(true).unwrap();
@@ -147,7 +147,7 @@ impl Fault {
                     // Observe a prefix without consuming the request. This
                     // barrier proves a write happened before disconnection.
                     let mut prefix = [0u8; 1];
-                    let deadline = Instant::now() + Duration::from_secs(2);
+                    let deadline = Instant::now() + Duration::from_secs(60);
                     loop {
                         let size = unsafe {
                             libc::recv(
@@ -272,7 +272,7 @@ impl Fault {
                 }
                 let mut target = UnixStream::connect(&backend).unwrap();
                 target
-                    .set_read_timeout(Some(Duration::from_secs(2)))
+                    .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 let response = arc_ipc::exchange(&mut target, &r).unwrap();
                 assert_eq!(response.status, "ok", "real commit barrier");
@@ -305,7 +305,7 @@ impl Fault {
         }
     }
     pub fn wait_for_request(&self) {
-        let end = Instant::now() + Duration::from_secs(5);
+        let end = Instant::now() + Duration::from_secs(60);
         while !self.reached.load(Ordering::SeqCst) {
             assert!(Instant::now() < end, "metadata admission barrier");
             thread::sleep(Duration::from_millis(1));
@@ -332,14 +332,19 @@ impl Drop for Fault {
 fn nonblocking_timeout_fallback_preserves_framed_requests_and_deadlines() {
     let (mut read, mut write) = UnixStream::pair().unwrap();
     read.set_nonblocking(true).unwrap();
+    assert_eq!(
+        read.read(&mut [0u8; 1]).unwrap_err().kind(),
+        io::ErrorKind::WouldBlock
+    );
+    let (release, held) = std::sync::mpsc::channel();
     let sender = thread::spawn(move || {
-        thread::sleep(Duration::from_millis(10));
         arc_ipc::write_message(&mut write, &Request::new("fixture", "job.start")).unwrap();
-        thread::sleep(Duration::from_millis(50));
+        // EOF cannot win the later timeout assertion if the parent is delayed.
+        let _ = held.recv_timeout(Duration::from_secs(60));
     });
     let request: Request = arc_ipc::read_message(&mut BoundedReader {
         stream: &mut read,
-        deadline: Instant::now() + Duration::from_secs(1),
+        deadline: Instant::now() + Duration::from_secs(60),
     })
     .unwrap();
     assert_eq!(request.request_id, "fixture");
@@ -350,6 +355,7 @@ fn nonblocking_timeout_fallback_preserves_framed_requests_and_deadlines() {
     .read(&mut [0u8; 1])
     .unwrap_err();
     assert_eq!(error.kind(), io::ErrorKind::TimedOut);
+    release.send(()).unwrap();
     sender.join().unwrap();
 }
 
@@ -385,12 +391,13 @@ fn proxy_handles_empty_disconnect_before_valid_fault_request() {
     drop(UnixStream::connect(&fault.path).unwrap());
     let mut stream = UnixStream::connect(&fault.path).unwrap();
     stream
-        .set_read_timeout(Some(Duration::from_secs(2)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     let mut request = Request::new("regression", "job.start");
     request.payload = serde_json::json!({"action":"REGISTER"});
     let response = arc_ipc::exchange(&mut stream, &request).unwrap();
     assert_eq!(response.error.unwrap().code, arc_ipc::ERROR_DB_BUSY);
+    fault.wait_for_request();
     let report = fault.finish();
     assert_eq!(report.counts.get("REGISTER"), Some(&1));
     let events: Vec<_> = report

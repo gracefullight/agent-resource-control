@@ -251,7 +251,7 @@ fn registered_traffic_diagnostics_reject_malformed_and_inconsistent_results() {
 }
 
 #[test]
-fn traffic_diagnostics_bridge_retains_single_flight_and_releases_failed_reads() {
+fn traffic_diagnostics_wire_errors_release_reads_and_shutdown_stops_dispatch() {
     use arc_ipc::traffic::diagnostics as d;
     for operation in [d::OPERATION_CAPABILITIES, d::OPERATION_JOB] {
         let peer = Peer::new(
@@ -275,29 +275,12 @@ fn traffic_diagnostics_bridge_retains_single_flight_and_releases_failed_reads() 
         );
         assert!(bridge.daemon_health().is_ok());
     }
-    let (sent, received) = mpsc::channel();
-    let (release, proceed) = mpsc::channel();
-    let peer = Peer::new(2, move |stream, request| {
-        let result = if request.operation == d::OPERATION_CAPABILITIES {
-            json!({"capability":d::CAPABILITY})
-        } else {
-            assert_eq!(request.operation, d::OPERATION_JOB);
-            sent.send(()).unwrap();
-            proceed.recv_timeout(Duration::from_secs(3)).unwrap();
-            traffic_fixtures()["results"][0].clone()
-        };
-        arc_ipc::write_response(stream, &Response::ok(request.request_id, result)).unwrap();
-    });
+    // Shared exclusion and dropped-waiter ownership use held blocking closures
+    // in bridge::permit_tests, independent of native socket expiry.
+    let peer = traffic_peer(traffic_fixtures()["results"][0].clone());
     let bridge = peer.bridge();
-    let worker = bridge.clone();
-    let handle = tauri::async_runtime::spawn(async move {
-        worker.traffic_job_diagnostics_async(JOB.to_owned()).await
-    });
-    received.recv_timeout(Duration::from_secs(3)).unwrap();
-    drop(handle);
-    assert_eq!(bridge.daemon_health().unwrap_err().code, ErrorCode::Busy);
-    release.send(()).unwrap();
-    drop(peer);
+    tauri::async_runtime::block_on(bridge.traffic_job_diagnostics_async(JOB.to_owned())).unwrap();
+    assert_eq!(peer.requests.load(Ordering::Relaxed), 2);
     bridge.shutdown();
     assert_eq!(
         bridge.traffic_job_diagnostics(JOB).unwrap_err().code,

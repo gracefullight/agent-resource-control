@@ -192,7 +192,7 @@ fn killed_queued_wrapper_does_not_leave_notice_pipe_open() {
         &f,
         true,
     );
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let deadline = Instant::now() + Duration::from_secs(60);
     let helper = loop {
         if let Some(pid) = children(wrapper.child.id()).first().copied() {
             assert_eq!(
@@ -214,7 +214,7 @@ fn killed_queued_wrapper_does_not_leave_notice_pipe_open() {
     wrapper.child.wait().unwrap();
 
     // Do not drain the pipe: the helper must time out even while its write blocks.
-    let deadline = Instant::now() + Duration::from_secs(3);
+    let deadline = Instant::now() + Duration::from_secs(60);
     let closed = loop {
         let mut fd = libc::pollfd {
             fd: reader.as_raw_fd(),

@@ -16,7 +16,7 @@ pub(super) fn unsupported_probe(request: &arc_ipc::Request) -> Option<arc_ipc::R
 pub(super) fn next_legacy(
     listener: &std::os::unix::net::UnixListener,
 ) -> (std::os::unix::net::UnixStream, arc_ipc::Request) {
-    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(10);
+    let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
     loop {
         let (mut stream, _) = match listener.accept() {
             Ok(pair) => pair,
@@ -32,7 +32,7 @@ pub(super) fn next_legacy(
         };
         stream.set_nonblocking(false).unwrap();
         stream
-            .set_read_timeout(Some(std::time::Duration::from_secs(5)))
+            .set_read_timeout(Some(std::time::Duration::from_secs(60)))
             .unwrap();
         let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
         if request.operation == arc_ipc::governor::OPERATION_CAPABILITIES {

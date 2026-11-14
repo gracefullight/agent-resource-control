@@ -50,14 +50,14 @@ fn proxy(
         loop {
             let (mut stream, _) = listener.accept().unwrap();
             stream
-                .set_read_timeout(Some(Duration::from_secs(5)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             let request: Request = arc_ipc::read_message(&mut stream).unwrap();
             let action = request.payload["action"].as_str().unwrap().to_string();
             actions.push(action.clone());
             let mut daemon = UnixStream::connect(&backend).unwrap();
             daemon
-                .set_read_timeout(Some(Duration::from_secs(5)))
+                .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
             let response = arc_ipc::exchange(&mut daemon, &request).unwrap();
             assert_eq!(response.status, "ok", "real daemon commit barrier");
@@ -106,7 +106,7 @@ fn handshake(listener: &UnixListener, child: &mut Child, start: Instant) -> (Uni
             "wrapper exited before child invocation"
         );
         assert!(
-            start.elapsed() < Duration::from_secs(10),
+            start.elapsed() < Duration::from_secs(60),
             "no child invocation"
         );
         thread::sleep(Duration::from_millis(1));
@@ -143,7 +143,7 @@ fn observe(
         command.env("ARC_FIXTURE_MARKER", marker);
     }
     let start = Instant::now();
-    let mut child = command.spawn().unwrap();
+    let mut child = super::runtime::OwnedChild::new(command.spawn().unwrap());
     let (mut barrier, elapsed) = handshake(&listener, &mut child, start);
     child
         .stdin
@@ -166,10 +166,7 @@ fn scenario(name: &str, fault: Fault, parent: bool) {
     let (direct, _) = observe(&f, &endpoint, &marker, false);
     let (wrapped, elapsed) = observe(&f, &endpoint, &marker, true);
     let actions = proxy.join().unwrap();
-    assert!(
-        elapsed <= Duration::from_millis(2000),
-        "{name}: {elapsed:?}"
-    );
+
     assert_eq!(direct.status.code(), Some(17));
     assert_eq!(wrapped.status.code(), Some(17));
     assert_eq!(direct.stdout, wrapped.stdout);

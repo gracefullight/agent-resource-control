@@ -197,7 +197,7 @@ pub fn checkpoint(listener: &UnixListener) -> (UnixStream, Value) {
     let stream = got.unwrap();
     stream.set_nonblocking(false).unwrap();
     stream
-        .set_read_timeout(Some(std::time::Duration::from_secs(2)))
+        .set_read_timeout(Some(std::time::Duration::from_secs(60)))
         .unwrap();
     let mut line = String::new();
     std::io::BufReader::new(&stream)

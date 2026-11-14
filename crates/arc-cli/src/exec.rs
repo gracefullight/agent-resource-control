@@ -30,7 +30,7 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     if !preparation::valid_argv(&argv) {
         return invalid();
     }
-    let deadline = Instant::now() + Duration::from_millis(1800);
+    let deadline = preparation::deadline(Instant::now());
     let Ok(socket) = arc_core::socket_path() else {
         return preparation::stopped(transport::Failure::Local);
     };

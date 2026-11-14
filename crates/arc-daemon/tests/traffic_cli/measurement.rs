@@ -18,7 +18,7 @@ impl Intervals {
 // The only socket opened by this queued wrapper is its admission poll. Observe
 // separate socket lifetimes without stopping the process or proxying its peer ID.
 fn queued_poll_sockets(pid: u32, project: &Path) -> usize {
-    let deadline = Instant::now() + Duration::from_secs(10);
+    let deadline = Instant::now() + Duration::from_secs(60);
     let mut previous = false;
     let mut observed = 0;
     while observed < 2 {

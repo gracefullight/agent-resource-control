@@ -21,6 +21,10 @@ mod transport;
 #[cfg(test)]
 mod lifecycle_tests;
 #[cfg(test)]
+#[allow(dead_code)]
+#[path = "../tests/support/native_fixture.rs"]
+mod native_fixture;
+#[cfg(test)]
 #[allow(dead_code)] // The standalone transport target uses the remaining test helpers.
 mod transport_test_support;
 

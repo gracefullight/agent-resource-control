@@ -4,6 +4,11 @@ use crate::{
     admission::Requests, connection, limits::RuntimeLimits, runtime_metrics::RuntimeMetrics,
 };
 use arc_ipc::{Request, Response};
+
+#[path = "governor_tests/transport_fixture.rs"]
+mod controlled;
+use controlled::{connect as controlled_connect, ManualTime};
+
 async fn connect(f: &Fixture) -> (tokio::net::UnixStream, tokio::task::JoinHandle<()>) {
     let (server, client) = tokio::net::UnixStream::pair().unwrap();
     let limits = RuntimeLimits::default();
@@ -142,28 +147,24 @@ async fn governor_lost_launch_ack_disconnect_and_reconnect_never_issue_another_r
     close(client, server).await;
     f.shutdown().await;
 }
-#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+#[tokio::test(start_paused = true)]
 async fn governor_unspawned_ack_after_expiry_drops_both_leases_before_writer_cleanup() {
-    let f = Fixture::new(None).await;
+    let time = ManualTime::new();
+    let f = Fixture::frozen().await;
     set(&f, intent(0, false, 1)).await;
     f.governor(enqueue(&f, 1)).await;
-    let (client, server) = connect(&f).await;
+    let (client, server, expired) = controlled_connect(&f).await;
     let q = GovernorLaunchRequest::Unreserved {
         job_id: f.id(1),
         observer: f.owner.clone(),
     };
-    let begin = Instant::now();
     let release = request(&client, OPERATION_LAUNCH, serde_json::json!(q)).await;
     let result = decode_launch_result(release.result.as_ref().unwrap()).unwrap();
     let GovernorLaunchResult::Unreserved { release_id, .. } = &result else {
         panic!()
     };
-    // Expiry is the production absolute std::Instant budget, not a timer guess
-    // about whether a child has spawned. We send an explicit known-unspawned ACK.
-    tokio::time::sleep_until(tokio::time::Instant::from_std(
-        begin + Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS + 10),
-    ))
-    .await;
+    tokio::time::advance(Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS + 10)).await;
+    expired.await.unwrap(); // actual router dropped both production leases
     let ack = GovernorLaunchAck::Unreserved {
         ack: GovernorUnreservedAck::Unspawned {
             job_id: f.id(1),
@@ -188,11 +189,14 @@ async fn governor_unspawned_ack_after_expiry_drops_both_leases_before_writer_cle
         GovernorMutationResult::Committed { .. }
     ));
     close(client, server).await;
+    time.finish().await;
+    tokio::time::resume();
     f.shutdown().await;
 }
 
 async fn late_unspawned_ack_after_cancel(resume: bool) {
-    let f = Fixture::new(None).await;
+    let time = ManualTime::new();
+    let f = Fixture::frozen().await;
     let Value::Job(GovernorJobResult::Traffic {
         result: arc_ipc::traffic::JobResult::Granted {
             permit_generation, ..
@@ -203,7 +207,7 @@ async fn late_unspawned_ack_after_cancel(resume: bool) {
     };
     set(&f, intent(0, false, 1)).await;
     assert_eq!(counts(&f), (1, 0));
-    let (client, server) = connect(&f).await;
+    let (client, server, expired) = controlled_connect(&f).await;
     let q = GovernorLaunchRequest::Reserved {
         request: arc_ipc::policy::launch::LaunchRequest {
             job_id: f.id(1),
@@ -211,19 +215,14 @@ async fn late_unspawned_ack_after_cancel(resume: bool) {
             permit_generation,
         },
     };
-    let begin = Instant::now();
     let release = request(&client, OPERATION_LAUNCH, serde_json::json!(q)).await;
     let result = decode_launch_result(release.result.as_ref().unwrap()).unwrap();
     let GovernorLaunchResult::Unreserved { release_id, .. } = &result else {
         panic!("pause must convert the retired reservation to an unreserved release")
     };
-    // Cross the actual absolute lease boundary while the original production
-    // connection is still waiting for its matching ACK within the grace period.
-    tokio::time::sleep_until(tokio::time::Instant::from_std(
-        begin + Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS + 10),
-    ))
-    .await;
-    let (control, control_server) = connect(&f).await;
+    tokio::time::advance(Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS + 10)).await;
+    expired.await.unwrap();
+    let (control, control_server, _) = controlled_connect(&f).await;
     let cancelled = request(
         &control,
         OPERATION_JOB,
@@ -278,7 +277,7 @@ async fn late_unspawned_ack_after_cancel(resume: bool) {
 
     // Reconnect through the real framed router: neither polling nor either
     // spelling of the old launch can create a fresh release or permit.
-    let (client, server) = connect(&f).await;
+    let (client, server, _) = controlled_connect(&f).await;
     let poll = GovernorJobRequest::Traffic {
         request: JobRequest::Poll {
             job_id: f.id(1),
@@ -342,15 +341,17 @@ async fn late_unspawned_ack_after_cancel(resume: bool) {
     );
     drop(db);
     close(client, server).await;
+    time.finish().await;
+    tokio::time::resume();
     f.shutdown().await;
 }
 
-#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+#[tokio::test(start_paused = true)]
 async fn governor_late_unspawned_ack_preserves_cancelled_after_lease_expiry() {
     late_unspawned_ack_after_cancel(false).await;
 }
 
-#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+#[tokio::test(start_paused = true)]
 async fn governor_late_unspawned_ack_preserves_cancelled_after_resume() {
     late_unspawned_ack_after_cancel(true).await;
 }
@@ -363,7 +364,7 @@ async fn governor_backlogged_unknown_write_is_uncertain_and_reconnect_reads_auth
         .client
         .try_doctor(Instant::now() + Duration::from_secs(10))
         .unwrap();
-    entered.recv_timeout(Duration::from_secs(2)).unwrap();
+    entered.recv_timeout(Duration::from_secs(60)).unwrap();
     let (client, server) = connect(&f).await;
     let response = request(
         &client,
@@ -391,7 +392,7 @@ async fn governor_backlogged_unknown_write_is_uncertain_and_reconnect_reads_auth
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
 async fn governor_busy_job_route_preserves_retryable_db_busy_instead_of_read_unavailability() {
-    let f = Fixture::new(None).await;
+    let f = Fixture::frozen().await;
     set(&f, intent(0, false, 1)).await;
     f.governor(enqueue(&f, 1)).await;
     let launch = GovernorLaunchRequest::Unreserved {

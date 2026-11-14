@@ -38,7 +38,7 @@ impl Fixture {
         listener.set_nonblocking(true).unwrap();
         thread::scope(|scope| {
             let peer = scope.spawn(|| {
-                let deadline = Instant::now() + Duration::from_secs(3);
+                let deadline = Instant::now() + Duration::from_secs(60);
                 let mut stream = loop {
                     match listener.accept() {
                         Ok((stream, _)) => break stream,
@@ -51,10 +51,10 @@ impl Fixture {
                 };
                 stream.set_nonblocking(false).unwrap();
                 stream
-                    .set_read_timeout(Some(Duration::from_secs(2)))
+                    .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 stream
-                    .set_write_timeout(Some(Duration::from_secs(2)))
+                    .set_write_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
                 let request: Request = arc_ipc::read_message(&mut stream).unwrap();
                 assert_eq!(request.protocol_version, 1);

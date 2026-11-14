@@ -24,6 +24,7 @@ struct Shared {
     latest: Mutex<observation_cache::Cache>,
     published: Condvar,
     epoch: Instant,
+    fence_clock: Box<dyn Fn() -> Instant + Send + Sync>,
 }
 #[derive(Clone)]
 pub struct Activity(Arc<Shared>);
@@ -71,6 +72,17 @@ impl MeterWorker {
         epoch: Instant,
         policy: SamplingPolicy,
     ) -> io::Result<Self> {
+        Self::start_with_fence_clock(source, identity, epoch, policy, Instant::now)
+    }
+    /// Supply the publication/launch clock together. Native sampling and its
+    /// cadence keep their own real clock; callers can hold a lease deterministically.
+    pub fn start_with_fence_clock<S: NativeSource>(
+        source: S,
+        identity: ProcessIdentity,
+        epoch: Instant,
+        policy: SamplingPolicy,
+        fence_clock: impl Fn() -> Instant + Send + Sync + 'static,
+    ) -> io::Result<Self> {
         let sampler = Sampler::new(identity.clone()).map_err(io::Error::other)?;
         let shared = Arc::new(Shared {
             control: Mutex::new(Control::default()),
@@ -78,6 +90,7 @@ impl MeterWorker {
             latest: Mutex::new(observation_cache::Cache::new(identity)),
             published: Condvar::new(),
             epoch,
+            fence_clock: Box::new(fence_clock),
         });
         let owned = Arc::clone(&shared);
         let thread = thread::Builder::new()

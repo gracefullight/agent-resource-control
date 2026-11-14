@@ -273,7 +273,7 @@ impl Drop for SupervisedTarget {
                 libc::kill(self.wrapper.child.id() as i32, libc::SIGCONT);
             }
         }
-        let end = std::time::Instant::now() + std::time::Duration::from_secs(5);
+        let end = std::time::Instant::now() + std::time::Duration::from_secs(60);
         while self.wrapper.child.try_wait().ok().flatten().is_none()
             && std::time::Instant::now() < end
         {
@@ -337,7 +337,7 @@ fn native_nonterminal_inherited_sigcont_target_stop_wrapper_continue_and_complet
         unsafe {
             assert_eq!(libc::kill(owned.target.pid as i32, libc::SIGSTOP), 0);
         }
-        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(5);
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
         while !target_stopped(&owned.target) {
             assert!(
                 std::time::Instant::now() < deadline,
@@ -370,7 +370,7 @@ fn native_nonterminal_inherited_sigcont_target_stop_wrapper_continue_and_complet
         unsafe {
             assert_eq!(libc::kill(owner.pid as i32, libc::SIGCONT), 0);
         }
-        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(5);
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(60);
         loop {
             let mut status = 0;
             let pid = unsafe {

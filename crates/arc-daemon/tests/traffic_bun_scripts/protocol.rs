@@ -10,10 +10,10 @@ pub fn bounded_stream(stream: UnixStream) -> UnixStream {
     // only bound frame IO after restoring blocking mode on each accepted stream.
     stream.set_nonblocking(false).unwrap();
     stream
-        .set_read_timeout(Some(Duration::from_secs(2)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     stream
-        .set_write_timeout(Some(Duration::from_secs(2)))
+        .set_write_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     stream
 }
@@ -46,10 +46,10 @@ fn checkpoint_streams_have_bounded_bidirectional_io() {
     let listener = UnixListener::bind(&path).unwrap();
     let mut client = UnixStream::connect(path).unwrap();
     client
-        .set_read_timeout(Some(Duration::from_secs(2)))
+        .set_read_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     client
-        .set_write_timeout(Some(Duration::from_secs(2)))
+        .set_write_timeout(Some(Duration::from_secs(60)))
         .unwrap();
     client.write_all(b"{\"checkpoint\":true}\n").unwrap();
     let (mut accepted, observed) = checkpoint(&listener);
@@ -59,11 +59,11 @@ fn checkpoint_streams_have_bounded_bidirectional_io() {
     assert_eq!(flags & libc::O_NONBLOCK, 0);
     assert_eq!(
         accepted.read_timeout().unwrap(),
-        Some(Duration::from_secs(2))
+        Some(Duration::from_secs(60))
     );
     assert_eq!(
         accepted.write_timeout().unwrap(),
-        Some(Duration::from_secs(2))
+        Some(Duration::from_secs(60))
     );
     accepted.write_all(b"x").unwrap();
     use std::io::Read;

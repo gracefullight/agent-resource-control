@@ -213,7 +213,7 @@ fn broken_stderr_managed_completion_failure_preserves_child_exit() {
     let direct = run_target(&f, false, &f.socket, &marker, false, || {});
     fs::remove_file(&marker).unwrap();
     let wrapped = run_target(&f, true, &f.socket, &marker, false, || {
-        let end = Instant::now() + Duration::from_secs(5);
+        let end = Instant::now() + Duration::from_secs(60);
         loop {
             let db = rusqlite::Connection::open(&f.database).unwrap();
             let attached: i64 = db

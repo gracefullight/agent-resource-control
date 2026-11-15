@@ -1,0 +1,15 @@
+// swift-tools-version: 5.9
+import PackageDescription
+let package = Package(
+    name: "Fixture",
+    platforms: [.macOS(.v13)],
+    products: [.library(name: "Fixture", targets: ["Fixture"])],
+    dependencies: [],
+    targets: [
+        .target(name: "Fixture", plugins: ["FixtureBuildPlugin"]),
+        .testTarget(name: "FixtureTests", dependencies: ["Fixture"]),
+        .executableTarget(name: "FixtureBuildTool", path: "Tools/FixtureBuildTool"),
+        .plugin(name: "FixtureBuildPlugin", capability: .buildTool(),
+                dependencies: ["FixtureBuildTool"])
+    ]
+)

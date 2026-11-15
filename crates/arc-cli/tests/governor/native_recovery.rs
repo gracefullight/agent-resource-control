@@ -1,4 +1,14 @@
 //! Production daemon, native CLI, read-only SQLite; no socket result mocks.
+#[path = "native_recovery/native_environment.rs"]
+mod native_environment;
+#[path = "native_recovery/native_routes.rs"]
+mod native_routes;
+#[path = "native_recovery/owned_tree.rs"]
+mod owned_tree;
+#[path = "native_recovery/owned_tree_registration_tests.rs"]
+mod owned_tree_registration_tests;
+#[path = "native_recovery/owned_tree_tests.rs"]
+mod owned_tree_tests;
 #[path = "native_recovery/python_tests.rs"]
 mod python_tests;
 
@@ -33,7 +43,9 @@ impl Daemon {
             .join("arc-pressure-daemon-fixture");
         assert!(
             binary.is_file(),
-            "build the workspace native fixture: {}",
+            "missing {}: with the same CARGO_TARGET_DIR, prepare the daemon using \
+             cargo test --offline -p arc-daemon --test traffic_native_tools \
+             shared_registration_is_exact_and_family_signatures_compile",
             binary.display()
         );
         let fixture = native::Fixture::with_binary(binary);

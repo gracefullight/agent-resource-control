@@ -34,6 +34,20 @@ pub enum Locality {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Reason {
+    #[serde(rename = "GO_BUILD")]
+    GoBuild,
+    #[serde(rename = "GO_TEST")]
+    GoTest,
+    #[serde(rename = "GO_VET")]
+    GoVet,
+    #[serde(rename = "SWIFT_BUILD")]
+    SwiftBuild,
+    #[serde(rename = "SWIFT_TEST")]
+    SwiftTest,
+    #[serde(rename = "CMAKE_BUILD")]
+    CmakeBuild,
+    #[serde(rename = "CTEST")]
+    Ctest,
     #[serde(rename = "CARGO_BUILD")]
     CargoBuild,
     #[serde(rename = "CARGO_TEST")]
@@ -154,11 +168,20 @@ impl Classification {
     pub fn is_consistent(&self) -> bool {
         use {JobClass as C, Reason as R};
         let reason_valid = match self.reason {
-            R::CargoBuild | R::BunScriptBuild => self.classification == C::Build,
-            R::CargoTest | R::BunTest | R::BunScriptTest | R::PythonPytest | R::PythonUnittest => {
-                self.classification == C::Test
+            R::CargoBuild | R::BunScriptBuild | R::GoBuild | R::SwiftBuild | R::CmakeBuild => {
+                self.classification == C::Build
             }
-            R::CargoClippy | R::CargoFmt | R::BunScriptLint => self.classification == C::Lint,
+            R::CargoTest
+            | R::BunTest
+            | R::BunScriptTest
+            | R::PythonPytest
+            | R::PythonUnittest
+            | R::GoTest
+            | R::SwiftTest
+            | R::Ctest => self.classification == C::Test,
+            R::CargoClippy | R::CargoFmt | R::BunScriptLint | R::GoVet => {
+                self.classification == C::Lint
+            }
             R::BunScriptTypecheck => self.classification == C::Typecheck,
             R::GhWorkflowRun | R::GhRunWatch | R::GhRunView => self.classification == C::RemoteCi,
             R::SshRemoteCommand => self.classification == C::RemoteExec,
@@ -189,11 +212,26 @@ impl Classification {
         matches!(self.reason, Reason::PythonPytest | Reason::PythonUnittest)
     }
 
+    /// Vocabulary carried only by the negotiated native-tools operations.
+    pub fn is_native_tool(&self) -> bool {
+        matches!(
+            self.reason,
+            Reason::GoBuild
+                | Reason::GoTest
+                | Reason::GoVet
+                | Reason::SwiftBuild
+                | Reason::SwiftTest
+                | Reason::CmakeBuild
+                | Reason::Ctest
+        )
+    }
+
     /// Exact protocol-1 vocabulary predating negotiated additions. Never project storage.
     pub fn legacy(self) -> Self {
         if self.reason == Reason::BunTest
             || self.is_bun_script()
             || self.is_python_test()
+            || self.is_native_tool()
             || self.classification == JobClass::Typecheck
         {
             Self::unknown(Reason::UnresolvedCommand)

@@ -1,0 +1,32 @@
+import PackagePlugin
+import Foundation
+
+@main
+struct FixtureBuildPlugin: BuildToolPlugin {
+    func createBuildCommands(context: PluginContext, target: Target) throws -> [Command] {
+        let environment = ProcessInfo.processInfo.environment
+        guard let form = environment["ARC_SWIFT_FORM"],
+              ["swift-build", "swift-test"].contains(form) else {
+            throw NSError(domain: "ARC_SWIFT_FIXTURE_ENVIRONMENT", code: 1,
+                          userInfo: [NSLocalizedDescriptionKey:
+                            "ARC_SWIFT_FIXTURE_ENVIRONMENT: missing or invalid ARC_SWIFT_FORM"])
+        }
+        guard form == "swift-build" else {
+            return []
+        }
+        let tool = try context.tool(named: "FixtureBuildTool")
+        // SwiftPM selects this writable location and the host tool's actual path.
+        let evidence = context.pluginWorkDirectory.appending("arc-swift-evidence")
+        let generated = context.pluginWorkDirectory.appending("ARCGenerated.swift")
+        return [.buildCommand(
+            displayName: "ARC Swift native BUILD fixture",
+            executable: tool.path,
+            arguments: [evidence.string, tool.path.string, generated.string],
+            // Build commands have a separate environment boundary from the plugin.
+            // Retain fixture lineage, private caches and inherited instrumentation.
+            environment: environment,
+            inputFiles: [tool.path],
+            outputFiles: [evidence.appending("semantic.json"), generated]
+        )]
+    }
+}

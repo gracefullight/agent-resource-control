@@ -20,6 +20,8 @@ mod recovery;
 mod witness;
 use recovery::recover;
 pub(super) use recovery::recover as recover_for_governor;
+#[path = "traffic_configuration.rs"]
+pub(crate) mod configuration;
 
 pub(crate) fn recover_at_start(connection: &mut rusqlite::Connection) -> Result<(), JobError> {
     recovery::recover_at_start(connection)
@@ -66,6 +68,10 @@ pub(crate) fn execute_observed(
     op: Operation,
     reader: Option<&super::observation::Observations>,
 ) -> Value {
+    let policy = match configuration::current() {
+        Ok(policy) => policy,
+        Err(_) => return Value::Reply(Err(JobError::StorageFailure)),
+    };
     let provider: &dyn arc_policy::ObservationProvider = reader
         .map(|r| r as &dyn arc_policy::ObservationProvider)
         .unwrap_or(&arc_policy::evaluator::MissingObservation);
@@ -106,7 +112,7 @@ pub(crate) fn execute_observed(
                     connection,
                     &request,
                     owner.as_ref().expect("owner evidence"),
-                    &arc_traffic::Policy::default(),
+                    policy,
                     &context,
                     proof.as_ref(),
                     now,
@@ -116,7 +122,7 @@ pub(crate) fn execute_observed(
                     connection,
                     &request,
                     owner.as_ref().expect("owner evidence"),
-                    &arc_traffic::Policy::default(),
+                    policy,
                     &context,
                     proof.as_ref(),
                     now,

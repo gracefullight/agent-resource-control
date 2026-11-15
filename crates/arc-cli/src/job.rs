@@ -379,6 +379,51 @@ mod tests {
     }
 
     #[test]
+    fn fifty_completed_rows_resolve_with_one_controlled_deadline() {
+        let start = Instant::now();
+        let deadline = start + Duration::from_millis(250);
+        let jobs: Vec<JobSummary> = (2..=51)
+            .map(|n| {
+                serde_json::from_value(json!({
+                    "job_id":format!("{n:032x}"),"phase":"COMPLETED",
+                    "registered_at_ms":1,"updated_at_ms":2,"reason":"OBSERVED_EXIT"
+                }))
+                .unwrap()
+            })
+            .collect();
+        let mut calls = 0;
+        let mut observed = Vec::new();
+        visit_recent(
+            &jobs,
+            || start,
+            |id, end| {
+                assert_eq!(end, deadline);
+                assert_eq!(id, &jobs[calls].job_id);
+                let code = if (calls + 2) % 2 == 0 { 0 } else { 17 };
+                calls += 1;
+                outcome_label(Phase::Completed, Some(&Outcome::Exited { code }))
+            },
+            |_, _| panic!("completed rows must not issue Traffic reads"),
+            |job, state| observed.push((job.job_id.clone(), state)),
+        );
+        assert_eq!(calls, 50);
+        assert_eq!(
+            observed,
+            jobs.iter()
+                .enumerate()
+                .map(|(index, job)| (
+                    job.job_id.clone(),
+                    if (index + 2) % 2 == 0 {
+                        "succeeded"
+                    } else {
+                        "failed"
+                    }
+                ))
+                .collect::<Vec<_>>()
+        );
+    }
+
+    #[test]
     fn status_labels_require_a_recorded_exit() {
         assert_eq!(
             outcome_label(Phase::Completed, Some(&Outcome::Exited { code: 0 })),

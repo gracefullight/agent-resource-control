@@ -25,6 +25,13 @@ mod tests {
             ("TEST", "BUN_TEST"),
             ("TEST", "PYTHON_PYTEST"),
             ("TEST", "PYTHON_UNITTEST"),
+            ("BUILD", "GO_BUILD"),
+            ("TEST", "GO_TEST"),
+            ("LINT", "GO_VET"),
+            ("BUILD", "SWIFT_BUILD"),
+            ("TEST", "SWIFT_TEST"),
+            ("BUILD", "CMAKE_BUILD"),
+            ("TEST", "CTEST"),
         ] {
             let stored = serde_json::json!({"job":{"classification":{"classification":class,
                 "locality":"HOST_LOCAL","reason":reason,"uncertainty":"NONE"}}});

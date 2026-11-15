@@ -2,7 +2,11 @@ import { afterEach, describe, expect, test } from "bun:test";
 import type { DiagnosticResult } from "@/bridge/traffic-scripts.generated";
 import { isTrafficDiagnosticResult } from "@/bridge/traffic-scripts-contract";
 import type { JobDetail } from "@/bridge/types";
-import { trafficMessages as m } from "@/dashboard/traffic-messages";
+import {
+  trafficMessages as m,
+  trafficClassMessages,
+  trafficClassWaitMessages,
+} from "@/dashboard/traffic-messages";
 import { TrafficReadState } from "@/dashboard/traffic-read-state";
 import {
   A,
@@ -21,7 +25,7 @@ import {
   within,
 } from "./fixtures/desktop-test-harness";
 import {
-  pythonTraffic,
+  toolTraffic,
   trafficFixture,
   trafficReply,
   trafficWait,
@@ -276,173 +280,181 @@ const refresh = async (view: ReturnType<typeof mountDesktop>) => {
   await settle();
 };
 
-describe.each(["PYTHON_PYTEST", "PYTHON_UNITTEST"] as const)(
-  "recorded %s scheduling facts",
-  (reason) => {
-    test("TEST waiting, grants, execution, cancellation and uncertainty remain distinct", async () => {
-      for (const [state, label] of [
-        ["QUEUED", "Waiting for another test"],
-        ["RESERVED", "Permit granted · command start unconfirmed"],
-        ["RUNNING", "Running"],
-        ["CANCELLED", "Cancelled · not started"],
-        ["ABANDONED", "Tracking abandoned · execution outcome unconfirmed"],
-        ["UNCONFIRMED", "Admission unconfirmed"],
-        ["UNRESERVED", "No local reservation recorded"],
-      ] as const) {
-        const result = pythonTraffic(
-          state === "QUEUED" ? trafficWait(A) : trafficFixture(A, state),
-          reason,
-        );
-        const view = mountDesktop(nativeWith(result));
-        await settle();
-        expect(traffic(view).getByText("Test")).toBeDefined();
+describe.each([
+  "PYTHON_PYTEST",
+  "PYTHON_UNITTEST",
+  "GO_BUILD",
+  "GO_TEST",
+  "GO_VET",
+  "SWIFT_BUILD",
+  "SWIFT_TEST",
+  "CMAKE_BUILD",
+  "CTEST",
+] as const)("recorded %s scheduling facts", (reason) => {
+  const classification = toolTraffic(trafficWait(A), reason).classification;
+  if (!classification) throw new Error("Missing tool classification");
+  const classLabel = trafficClassMessages[classification.classification];
+  const waitLabel =
+    trafficClassWaitMessages[classification.classification] ?? "";
+  test("Class waiting, grants, execution, cancellation and uncertainty remain distinct", async () => {
+    for (const [state, label] of [
+      ["QUEUED", waitLabel],
+      ["RESERVED", "Permit granted · command start unconfirmed"],
+      ["RUNNING", "Running"],
+      ["CANCELLED", "Cancelled · not started"],
+      ["ABANDONED", "Tracking abandoned · execution outcome unconfirmed"],
+      ["UNCONFIRMED", "Admission unconfirmed"],
+      ["UNRESERVED", "No local reservation recorded"],
+    ] as const) {
+      const result = toolTraffic(
+        state === "QUEUED" ? trafficWait(A) : trafficFixture(A, state),
+        reason,
+      );
+      const view = mountDesktop(nativeWith(result));
+      await settle();
+      expect(traffic(view).getByText(classLabel)).toBeDefined();
+      expect(traffic(view).getByText(`Last recorded: ${label}`)).toBeDefined();
+      expect(
+        traffic(view).getByText(`Recorded ${classLabel} window`)
+          .nextElementSibling?.textContent,
+      ).toBe("1");
+      expect(selected(view).getByText("Outcome unknown")).toBeDefined();
+      expect(selected(view).queryByText(/Succeeded/)).toBeNull();
+      if (result.admission?.queue_wait_ms === null)
         expect(
-          traffic(view).getByText(`Last recorded: ${label}`),
+          traffic(view).getByText(m.queueWait).nextElementSibling?.textContent,
+        ).toBe("Unknown");
+      cleanup();
+    }
+  });
+
+  test("native outcomes and released or shared permits remain independent of legacy lifecycle reads", async () => {
+    for (const [outcome, expected] of [
+      [{ kind: "EXITED", code: 0 }, "Succeeded · Exit code 0"],
+      [{ kind: "EXITED", code: 17 }, "Failed · Exit code 17"],
+      [
+        { kind: "SIGNALED", signal: 15, core_dumped: false },
+        "Terminated by signal 15",
+      ],
+    ] as const) {
+      for (const permit_active of [true, false]) {
+        const result = toolTraffic(trafficFixture(A, "RUNNING"), reason);
+        if (!result.admission) throw new Error("Missing tool outcome fixture");
+        result.admission.state = "COMPLETED";
+        result.admission.outcome = outcome;
+        result.admission.permit_active = permit_active;
+        const native = nativeWith(result);
+        native.jobs.delete(A);
+        const view = mountDesktop(native);
+        await settle();
+        expect(selected(view).getByText(expected)).toBeDefined();
+        expect(
+          traffic(view).getByText(`Last recorded: ${m.outcome}`),
         ).toBeDefined();
         expect(
-          traffic(view).getByText("Recorded Test window").nextElementSibling
-            ?.textContent,
-        ).toBe("1");
-        expect(selected(view).getByText("Outcome unknown")).toBeDefined();
-        expect(selected(view).queryByText(/Succeeded/)).toBeNull();
-        if (result.admission?.queue_wait_ms === null)
-          expect(
-            traffic(view).getByText(m.queueWait).nextElementSibling
-              ?.textContent,
-          ).toBe("Unknown");
+          traffic(view).getByText(
+            permit_active ? m.permitActive : m.permitReleased,
+          ),
+        ).toBeDefined();
         cleanup();
       }
-    });
+    }
+  });
 
-    test("native outcomes and released or shared permits remain independent of legacy lifecycle reads", async () => {
-      for (const [outcome, expected] of [
-        [{ kind: "EXITED", code: 0 }, "Succeeded · Exit code 0"],
-        [{ kind: "EXITED", code: 17 }, "Failed · Exit code 17"],
-        [
-          { kind: "SIGNALED", signal: 15, core_dumped: false },
-          "Terminated by signal 15",
-        ],
-      ] as const) {
-        for (const permit_active of [true, false]) {
-          const result = pythonTraffic(trafficFixture(A, "RUNNING"), reason);
-          if (!result.admission)
-            throw new Error("Missing Python outcome fixture");
-          result.admission.state = "COMPLETED";
-          result.admission.outcome = outcome;
-          result.admission.permit_active = permit_active;
-          const native = nativeWith(result);
-          native.jobs.delete(A);
-          const view = mountDesktop(native);
-          await settle();
-          expect(selected(view).getByText(expected)).toBeDefined();
-          expect(
-            traffic(view).getByText(`Last recorded: ${m.outcome}`),
-          ).toBeDefined();
-          expect(
-            traffic(view).getByText(
-              permit_active ? m.permitActive : m.permitReleased,
-            ),
-          ).toBeDefined();
-          cleanup();
-        }
-      }
+  test("stale, unsupported and legacy-projected reads retain the tool facts without inventing a result", async () => {
+    const initial = toolTraffic(trafficFixture(A, "RUNNING"), reason);
+    const native = nativeWith(initial);
+    const view = mountDesktop(native);
+    await settle();
+    native.enqueue("traffic_job_diagnostics", () => {
+      throw { code: "unavailable", retryable: true };
     });
-
-    test("stale, unsupported and legacy-projected reads retain the Python facts without inventing a result", async () => {
-      const initial = pythonTraffic(trafficWait(A), reason);
-      const native = nativeWith(initial);
-      const view = mountDesktop(native);
-      await settle();
-      native.enqueue("traffic_job_diagnostics", () => {
-        throw { code: "unavailable", retryable: true };
-      });
-      await advance(view.clock, 5000);
-      expect(traffic(view).getByText(`${m.retained} ${m.stale}`)).toBeDefined();
-      const legacy = clone(initial);
-      legacy.classification = {
-        classification: "UNKNOWN",
-        locality: "UNKNOWN",
-        reason: "UNRESOLVED_COMMAND",
-        uncertainty: "OBSERVE",
-      };
-      legacy.admission = null;
-      native.traffic.set(A, trafficReply(legacy));
-      await refresh(view);
-      expect(traffic(view).getByText(m.missing)).toBeDefined();
-      expect(traffic(view).getByText("Test")).toBeDefined();
-      expect(selected(view).getByText("Outcome unknown")).toBeDefined();
-      native.enqueue("traffic_job_diagnostics", () => {
-        throw { code: "unsupported", retryable: false };
-      });
-      await refresh(view);
-      expect(traffic(view).getByText(m.unsupported)).toBeDefined();
-      const reads = native.count("traffic_job_diagnostics");
-      await advance(view.clock, 5000);
-      expect(native.count("traffic_job_diagnostics")).toBe(reads);
-      native.traffic.set(A, trafficReply(initial));
-      await refresh(view);
-      expect(traffic(view).queryByText(`${m.retained} ${m.stale}`)).toBeNull();
-      expect(native.count("governor_set_switch")).toBe(0);
-      cleanup();
-      const fallback = mountDesktop(nativeWith(legacy));
-      await settle();
-      expect(
-        traffic(fallback).getByText(`Last recorded: ${m.bypass}`),
-      ).toBeDefined();
-      expect(traffic(fallback).queryByText("Test")).toBeNull();
-      expect(selected(fallback).getByText("Outcome unknown")).toBeDefined();
+    await advance(view.clock, 5000);
+    expect(traffic(view).getByText(`${m.retained} ${m.stale}`)).toBeDefined();
+    const legacy = clone(initial);
+    legacy.classification = {
+      classification: "UNKNOWN",
+      locality: "UNKNOWN",
+      reason: "UNRESOLVED_COMMAND",
+      uncertainty: "OBSERVE",
+    };
+    legacy.admission = null;
+    native.traffic.set(A, trafficReply(legacy));
+    await refresh(view);
+    expect(traffic(view).getByText(m.missing)).toBeDefined();
+    expect(
+      traffic(view).getByText(`Last recorded: ${m.admissionUnknown}`),
+    ).toBeDefined();
+    expect(traffic(view).getByText(m.permitActive)).toBeDefined();
+    expect(traffic(view).queryByText(`Last recorded: ${m.bypass}`)).toBeNull();
+    expect(traffic(view).getByText(classLabel)).toBeDefined();
+    expect(selected(view).getByText("Outcome unknown")).toBeDefined();
+    native.enqueue("traffic_job_diagnostics", () => {
+      throw { code: "unsupported", retryable: false };
     });
+    await refresh(view);
+    expect(traffic(view).getByText(m.unsupported)).toBeDefined();
+    const reads = native.count("traffic_job_diagnostics");
+    await advance(view.clock, 5000);
+    expect(native.count("traffic_job_diagnostics")).toBe(reads);
+    native.traffic.set(A, trafficReply(initial));
+    await refresh(view);
+    expect(traffic(view).queryByText(`${m.retained} ${m.stale}`)).toBeNull();
+    expect(native.count("governor_set_switch")).toBe(0);
+    cleanup();
+    const fallback = mountDesktop(nativeWith(legacy));
+    await settle();
+    expect(
+      traffic(fallback).getByText(`Last recorded: ${m.admissionUnknown}`),
+    ).toBeDefined();
+    expect(traffic(fallback).queryByText(classLabel)).toBeNull();
+    expect(selected(fallback).getByText("Outcome unknown")).toBeDefined();
+  });
 
-    test("keyboard focus and polite state announcements survive Python polling and confirmed pause", async () => {
-      const native = nativeWith(pythonTraffic(trafficWait(A), reason));
-      native.jobs.set(B, found(pendingJob(B)));
-      native.traffic.set(
-        B,
-        trafficReply(pythonTraffic(trafficWait(B), reason)),
-      );
-      const view = mountDesktop(native);
-      await settle();
-      const [first, second] = view.getAllByRole("option");
-      if (!first || !second) throw new Error("Missing rows");
-      await act(async () => first.focus());
-      await view.user.keyboard("{End}{Home}{ArrowDown} ");
-      await settle();
-      expect(document.activeElement).toBe(second);
-      expect(second.getAttribute("aria-selected")).toBe("true");
-      const status = selected(view)
-        .getAllByRole("status")
-        .find((e) => e.classList.contains("sr-only"));
-      if (!status) throw new Error("Missing polite announcement");
-      expect(status.getAttribute("aria-live")).toBe("polite");
-      expect(status.textContent).toContain("Waiting for another test");
-      const initial = status.textContent;
-      const poll = pythonTraffic(trafficWait(B), reason);
-      poll.recorded_at_ms = 21;
-      native.traffic.set(B, trafficReply(poll));
-      await advance(view.clock, 5000);
-      expect(status.textContent).toBe(initial);
-      native.governor = {
-        data: {
-          switch: {
-            key: "governor.enabled",
-            enabled: false,
-            revision: 1,
-            updated_at_ms: 20,
-          },
+  test("keyboard focus and polite state announcements survive tool polling and confirmed pause", async () => {
+    const native = nativeWith(toolTraffic(trafficWait(A), reason));
+    native.jobs.set(B, found(pendingJob(B)));
+    native.traffic.set(B, trafficReply(toolTraffic(trafficWait(B), reason)));
+    const view = mountDesktop(native);
+    await settle();
+    const [first, second] = view.getAllByRole("option");
+    if (!first || !second) throw new Error("Missing rows");
+    await act(async () => first.focus());
+    await view.user.keyboard("{End}{Home}{ArrowDown} ");
+    await settle();
+    expect(document.activeElement).toBe(second);
+    expect(second.getAttribute("aria-selected")).toBe("true");
+    const status = selected(view)
+      .getAllByRole("status")
+      .find((e) => e.classList.contains("sr-only"));
+    if (!status) throw new Error("Missing polite announcement");
+    expect(status.getAttribute("aria-live")).toBe("polite");
+    expect(status.textContent).toContain(waitLabel);
+    const initial = status.textContent;
+    const poll = toolTraffic(trafficWait(B), reason);
+    poll.recorded_at_ms = 21;
+    native.traffic.set(B, trafficReply(poll));
+    await advance(view.clock, 5000);
+    expect(status.textContent).toBe(initial);
+    native.governor = {
+      data: {
+        switch: {
+          key: "governor.enabled",
+          enabled: false,
+          revision: 1,
+          updated_at_ms: 20,
         },
-        received_at_ms: T,
-      };
-      await advance(view.clock, 5000);
-      expect(status.textContent).toContain("Scheduling paused");
-      expect(
-        traffic(view).queryByText("Last recorded: Waiting for another test"),
-      ).toBeNull();
-      expect(document.activeElement).toBe(second);
-      expect(native.count("governor_set_switch")).toBe(0);
-      expect(native.maxInFlight).toBe(1);
-    });
-  },
-);
+      },
+      received_at_ms: T,
+    };
+    await advance(view.clock, 5000);
+    expect(status.textContent).toContain("Scheduling paused");
+    expect(traffic(view).queryByText(`Last recorded: ${waitLabel}`)).toBeNull();
+    expect(document.activeElement).toBe(second);
+    expect(native.count("governor_set_switch")).toBe(0);
+    expect(native.maxInFlight).toBe(1);
+  });
+});
 
 describe("recorded Bun-script classification and scheduling diagnostics", () => {
   test("D08 an in-flight refresh ages retained facts and recovery clears the stale qualifier", async () => {
@@ -746,7 +758,7 @@ describe("recorded Bun-script classification and scheduling diagnostics", () => 
       await settle();
       expect(
         traffic(view).getByText(
-          `Last recorded: ${key === "REMOTE_CI" ? m.remote : m.bypass}`,
+          `Last recorded: ${key === "REMOTE_CI" ? m.remote : key === "MIXED" ? m.bypass : m.admissionUnknown}`,
         ),
       ).toBeDefined();
       expect(selected(view).getByText("Succeeded · Exit code 0")).toBeDefined();

@@ -1,0 +1,16 @@
+import XCTest
+import Foundation
+import Darwin
+@testable import Fixture
+
+// BODY
+
+final class FixtureTests: XCTestCase {
+    func testNative() throws {
+        let project = try fixtureRequired("TBS_PROJECT", in: ProcessInfo.processInfo.environment)
+        try fixtureBody(root: project, readInput: true)
+        XCTAssertEqual(fixtureAnswer(), 42)
+        XCTAssertEqual(ProcessInfo.processInfo.environment["ARC_SWIFT_FAIL"], "0",
+                       "ARC_SWIFT_INTENDED_TEST_FAILURE")
+    }
+}

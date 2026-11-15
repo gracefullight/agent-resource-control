@@ -45,7 +45,32 @@ fn disappeared(pid: u32) -> io::Result<bool> {
 }
 
 pub(super) fn capture(pid: u32) -> io::Result<Option<ProcessIdentity>> {
-    capture_with(pid, ProcessIdentity::capture, disappeared)
+    let end = std::time::Instant::now() + std::time::Duration::from_millis(100);
+    retry_capture_with(
+        || capture_with(pid, ProcessIdentity::capture, disappeared),
+        || {
+            if std::time::Instant::now() >= end {
+                return false;
+            }
+            std::thread::sleep(std::time::Duration::from_millis(1));
+            true
+        },
+    )
+}
+
+fn retry_capture_with(
+    mut observe: impl FnMut() -> io::Result<Option<ProcessIdentity>>,
+    mut retry: impl FnMut() -> bool,
+) -> io::Result<Option<ProcessIdentity>> {
+    loop {
+        match observe() {
+            // Darwin can briefly omit the identity during exit while signal
+            // zero still sees the process. Retry the observation, never infer
+            // absence or signal a PID with an unverified identity.
+            Err(_) if retry() => (),
+            result => return result,
+        }
+    }
 }
 
 pub(super) fn children_with(
@@ -96,7 +121,7 @@ pub(super) fn children(parent: u32) -> io::Result<Vec<u32>> {
     })
 }
 
-fn child_identity(parent: u32, pid: u32) -> io::Result<Option<ProcessIdentity>> {
+pub(super) fn child_identity(parent: u32, pid: u32) -> io::Result<Option<ProcessIdentity>> {
     let Some(identity) = capture(pid)? else {
         return Ok(None);
     };
@@ -196,4 +221,77 @@ pub(super) fn report_errors(errors: Vec<String>) {
 
 pub(super) fn take_unwind_errors() -> Vec<String> {
     UNWIND_ERRORS.with(|errors| std::mem::take(&mut *errors.borrow_mut()))
+}
+
+#[cfg(test)]
+mod capture_retry_tests {
+    use super::*;
+
+    #[test]
+    fn transient_unknown_identity_can_recover_without_becoming_absence() {
+        let identity = ProcessIdentity::capture(std::process::id()).unwrap();
+        let mut observations = 0;
+        let result = retry_capture_with(
+            || {
+                observations += 1;
+                capture_with(
+                    identity.pid,
+                    |_| {
+                        if observations == 1 {
+                            Err(io::Error::other("transition"))
+                        } else {
+                            Ok(identity.clone())
+                        }
+                    },
+                    |_| Ok(false),
+                )
+            },
+            || true,
+        )
+        .unwrap();
+        assert_eq!(result, Some(identity));
+        assert_eq!(observations, 2);
+    }
+
+    #[test]
+    fn retry_returns_absence_only_after_an_independent_disappearance_probe() {
+        let mut observations = 0;
+        let result = retry_capture_with(
+            || {
+                observations += 1;
+                capture_with(
+                    42,
+                    |_| Err(io::Error::other("transition")),
+                    |_| Ok(observations == 2),
+                )
+            },
+            || true,
+        )
+        .unwrap();
+        assert_eq!(result, None);
+        assert_eq!(observations, 2);
+    }
+
+    #[test]
+    fn persistent_denial_exhausts_the_retry_bound_and_remains_an_error() {
+        let mut observations = 0;
+        let mut retries = 2;
+        let result = retry_capture_with(
+            || {
+                observations += 1;
+                capture_with(
+                    42,
+                    |_| Err(io::Error::from(io::ErrorKind::PermissionDenied)),
+                    |_| Ok(false),
+                )
+            },
+            || {
+                let more = retries > 0;
+                retries -= i32::from(more);
+                more
+            },
+        );
+        assert_eq!(result.unwrap_err().kind(), io::ErrorKind::PermissionDenied);
+        assert_eq!(observations, 3);
+    }
 }

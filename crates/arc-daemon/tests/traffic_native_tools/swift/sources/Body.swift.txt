@@ -1,0 +1,75 @@
+// Runs only as native fixture project code, never during classification.
+struct FixtureEnvironmentError: Error, CustomStringConvertible {
+    let description: String
+}
+
+func fixtureRequired(_ key: String, in environment: [String: String]) throws -> String {
+    guard let value = environment[key], !value.isEmpty else {
+        throw FixtureEnvironmentError(description:
+            "ARC_SWIFT_FIXTURE_ENVIRONMENT: missing or empty required variable \(key)")
+    }
+    return value
+}
+
+func fixtureBody(root: String, readInput: Bool) throws {
+    let env = ProcessInfo.processInfo.environment
+    // Log only the fixture's explicit contract, never the complete environment.
+    var fixture: [String: String] = [:]
+    for key in ["TBS_PROJECT", "TBS_BODY", "TBS_RELEASE", "TBS_VALUE",
+                "ARC_SWIFT_FORM", "ARC_SWIFT_FAIL", "SDKROOT", "CFFIXED_USER_HOME",
+                "XDG_CONFIG_HOME", "SWIFTPM_MODULECACHE_OVERRIDE", "CLANG_MODULE_CACHE_PATH"] {
+        fixture[key] = try fixtureRequired(key, in: env)
+    }
+    let form = try fixtureRequired("ARC_SWIFT_FORM", in: env)
+    let release = try fixtureRequired("TBS_RELEASE", in: env)
+    let value = try fixtureRequired("TBS_VALUE", in: env)
+    let inherited = env.filter { $0.key == "LLVM_PROFILE_FILE" || $0.key.hasPrefix("ARC_COVERAGE") }
+    try FileManager.default.createDirectory(atPath: root, withIntermediateDirectories: true)
+    let fd = open(root + "/bodies", O_WRONLY | O_CREAT | O_APPEND, 0o600)
+    precondition(fd >= 0, "native evidence open: \(root), errno=\(errno)")
+    let bytes = Array("body\n".utf8)
+    _ = bytes.withUnsafeBytes { Darwin.write(fd, $0.baseAddress, $0.count) }
+    close(fd)
+    let gatePath = root + "/gate.ts"
+    precondition(mkfifo(gatePath, 0o600) == 0)
+    let entry: [String: Any] = [
+        "pid": getpid(), "ppid": getppid(), "argv": CommandLine.arguments,
+        "evidenceRoot": root, "cwd": FileManager.default.currentDirectoryPath,
+        "form": form, "environment": fixture, "coverage": inherited
+    ]
+    try JSONSerialization.data(withJSONObject: entry, options: [.sortedKeys])
+        .write(to: URL(fileURLWithPath: root + "/entry.json"), options: [.atomic])
+    if !FileManager.default.fileExists(atPath: release) {
+        let gate = open(gatePath, O_RDONLY)
+        precondition(gate >= 0)
+        var byte: UInt8 = 0
+        precondition(Darwin.read(gate, &byte, 1) == 1)
+        close(gate)
+    }
+    let input = readInput ? FileHandle.standardInput.readDataToEndOfFile() : Data()
+    let record: [String: Any] = [
+        "cwd": FileManager.default.currentDirectoryPath,
+        "form": form, "environment": fixture, "value": value,
+        "stdin": Array(input), "coverage": inherited,
+        "moduleCache": try fixtureRequired("SWIFTPM_MODULECACHE_OVERRIDE", in: env),
+        "clangCache": try fixtureRequired("CLANG_MODULE_CACHE_PATH", in: env)
+    ]
+    let data = try JSONSerialization.data(withJSONObject: record, options: [.sortedKeys])
+    try data.write(to: URL(fileURLWithPath: root + "/semantic.json"))
+    // SwiftPM merges child pipes asynchronously. Locally merge only this
+    // fixture's two descriptors so the two writes reach SwiftPM in order.
+    // Build-tool output is captured on stderr; XCTest output is on stdout.
+    // Restore the descriptor before XCTest emits its own result records.
+    let redirected = form == "swift-build" ? STDOUT_FILENO : STDERR_FILENO
+    let destination = form == "swift-build" ? STDERR_FILENO : STDOUT_FILENO
+    let saved = dup(redirected)
+    precondition(saved >= 0 && dup2(destination, redirected) >= 0)
+    defer {
+        precondition(dup2(saved, redirected) >= 0)
+        close(saved)
+    }
+    // These progress-shaped lines are fixture bytes, not SwiftPM diagnostics.
+    // They intentionally sit outside the selected markers on both native forms.
+    FileHandle.standardOutput.write(Data("ordinary swift stdout before\n[1/2] Fixture\n[2/2] FixtureTests-product\n<ARC_SWIFT_STDOUT>\nSWIFT_NATIVE_STDOUT\nliteral $HOME ' value 日本語\n</ARC_SWIFT_STDOUT>\nordinary swift stdout after\n".utf8))
+    FileHandle.standardError.write(Data("ordinary swift stderr before\n[3/4] Fixture\n[4/4] FixtureTests-product\n<ARC_SWIFT_STDERR>\nSWIFT_NATIVE_STDERR\nliteral $HOME ' value 日本語\n</ARC_SWIFT_STDERR>\nordinary swift stderr after\n".utf8))
+}

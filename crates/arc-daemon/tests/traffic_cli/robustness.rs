@@ -253,8 +253,59 @@ fn queued_cli_waits_through_real_sqlite_busy_then_starts_after_release() {
     let projects = projects(&f.root, "busy");
     let mut first = spawn_build(&f, &projects[0], true);
     eventually(|| projects[0].join("started").exists());
-    let mut second = spawn_build(&f, &projects[1], true);
-    eventually(|| entry(&f, second.child.id()).is_some_and(|e| e.0 == "QUEUED"));
+    // Pause exactly after the persisted queue reply. No poll deadline runs
+    // while the checkpoint is held, so the real lock probe cannot consume it.
+    let barrier_path = f.root.join("busy-barrier");
+    let barrier = std::os::unix::net::UnixListener::bind(&barrier_path).unwrap();
+    barrier.set_nonblocking(true).unwrap();
+    let mut second = BuildChild::new(
+        OwnedChild::new(
+            Command::new(binary("arcctl"))
+                .args(["exec", "--", "cargo", "build", "--offline"])
+                .current_dir(&projects[1])
+                .env(arc_core::ARC_SOCKET_PATH, &f.socket)
+                .env("CARGO_TARGET_DIR", projects[1].join("target"))
+                .env("TRAFFIC_TEST_MARKER", projects[1].join("started"))
+                .env("TRAFFIC_TEST_RELEASE", projects[1].join("release"))
+                .env("ARC_PRESSURE_ACCEPTANCE_STAGE", "queued")
+                .env("ARC_PRESSURE_ACCEPTANCE_BARRIER", &barrier_path)
+                .env_remove("ARC_TRAFFIC_LINEAGE")
+                .stdin(Stdio::null())
+                .stdout(Stdio::null())
+                .stderr(Stdio::from(
+                    File::create(projects[1].join("stderr")).unwrap(),
+                ))
+                .spawn()
+                .unwrap(),
+        ),
+        &f,
+        true,
+    );
+    let checkpoint_deadline = Instant::now() + Duration::from_secs(60);
+    let mut checkpoint = loop {
+        match barrier.accept() {
+            Ok((stream, _)) => break stream,
+            Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                assert!(second.child.try_wait().unwrap().is_none());
+                assert!(
+                    Instant::now() < checkpoint_deadline,
+                    "queue checkpoint timed out"
+                );
+                thread::yield_now();
+            }
+            Err(error) => panic!("queue checkpoint accept: {error}"),
+        }
+    };
+    checkpoint.set_nonblocking(false).unwrap();
+    checkpoint
+        .set_read_timeout(Some(Duration::from_secs(60)))
+        .unwrap();
+    let mut payload = String::new();
+    std::io::BufRead::read_line(&mut std::io::BufReader::new(&mut checkpoint), &mut payload)
+        .unwrap();
+    let checkpoint_data: serde_json::Value = serde_json::from_str(&payload).unwrap();
+    assert_eq!(checkpoint_data["request"]["action"], "ENQUEUE");
+    assert!(entry(&f, second.child.id()).is_some_and(|e| e.0 == "QUEUED"));
     let lock = database(&f);
     lock.execute_batch("BEGIN IMMEDIATE").unwrap();
     let probe = JobRequest::Enqueue {
@@ -263,17 +314,23 @@ fn queued_cli_waits_through_real_sqlite_busy_then_starts_after_release() {
         classification: cargo_class("BUILD", "CARGO_BUILD"),
         lineage_context: None,
     };
-    for _ in 0..4 {
-        let response = traffic(&f, &probe);
-        assert_eq!(response.error.unwrap().code, arc_ipc::ERROR_DB_BUSY);
-    }
-    thread::sleep(Duration::from_millis(350));
+    let response = traffic(&f, &probe);
+    assert_eq!(response.error.unwrap().code, arc_ipc::ERROR_DB_BUSY);
+    assert!(!projects[1].join("started").exists());
+    checkpoint.write_all(b"x").unwrap();
+    let mut closed = [0u8; 1];
+    assert_eq!(checkpoint.read(&mut closed).unwrap(), 0);
+    // Each socket lifetime is one actual queued poll from this CLI. Seeing
+    // the second while the lock is held proves it retried after the first.
+    assert_eq!(
+        measurement::queued_poll_sockets(second.child.id(), &projects[1]),
+        2
+    );
     assert!(second.child.try_wait().unwrap().is_none());
     assert!(!projects[1].join("started").exists());
     lock.execute_batch("ROLLBACK").unwrap();
     drop(lock);
-    thread::sleep(Duration::from_millis(150));
-    assert!(entry(&f, second.child.id()).is_some_and(|e| e.0 == "QUEUED"));
+    eventually(|| entry(&f, second.child.id()).is_some_and(|e| e.0 == "QUEUED"));
     assert_eq!(active(&f).1, 1);
     assert!(!projects[1].join("started").exists());
     fs::write(projects[0].join("release"), "release").unwrap();

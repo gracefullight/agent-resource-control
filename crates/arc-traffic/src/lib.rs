@@ -188,18 +188,29 @@ pub fn decide(
         return Err(PolicyError::InvalidClassification);
     }
     let class = match (classification.classification, classification.reason) {
-        (JobClass::Build, Reason::CargoBuild | Reason::BunScriptBuild) => TrafficClass::Build,
+        (
+            JobClass::Build,
+            Reason::CargoBuild
+            | Reason::BunScriptBuild
+            | Reason::GoBuild
+            | Reason::SwiftBuild
+            | Reason::CmakeBuild,
+        ) => TrafficClass::Build,
         (
             JobClass::Test,
             Reason::CargoTest
             | Reason::BunTest
             | Reason::BunScriptTest
             | Reason::PythonPytest
-            | Reason::PythonUnittest,
+            | Reason::PythonUnittest
+            | Reason::GoTest
+            | Reason::SwiftTest
+            | Reason::Ctest,
         ) => TrafficClass::Test,
-        (JobClass::Lint, Reason::CargoClippy | Reason::CargoFmt | Reason::BunScriptLint) => {
-            TrafficClass::Lint
-        }
+        (
+            JobClass::Lint,
+            Reason::CargoClippy | Reason::CargoFmt | Reason::BunScriptLint | Reason::GoVet,
+        ) => TrafficClass::Lint,
         (JobClass::Typecheck, Reason::BunScriptTypecheck) => TrafficClass::Typecheck,
         _ if classification.locality == Locality::Remote => {
             return Ok(Decision::Bypass(BypassReason::Remote));

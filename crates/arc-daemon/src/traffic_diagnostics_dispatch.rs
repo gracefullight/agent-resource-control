@@ -19,6 +19,8 @@ pub(super) async fn dispatch(
                 | wire::OPERATION_JOB
                 | wire::OPERATION_PYTHON_CAPABILITIES
                 | wire::OPERATION_PYTHON_JOB
+                | arc_ipc::traffic::native::OPERATION_DIAGNOSTICS_CAPABILITIES
+                | arc_ipc::traffic::native::OPERATION_DIAGNOSTICS_JOB
         )
     {
         return false;
@@ -37,13 +39,19 @@ pub(super) async fn dispatch(
     };
     if matches!(
         request.operation.as_str(),
-        wire::OPERATION_CAPABILITIES | wire::OPERATION_PYTHON_CAPABILITIES
+        wire::OPERATION_CAPABILITIES
+            | wire::OPERATION_PYTHON_CAPABILITIES
+            | arc_ipc::traffic::native::OPERATION_DIAGNOSTICS_CAPABILITIES
     ) {
         send(
             if arc_ipc::traffic::decode_probe(&request.payload).is_ok() {
                 Response::ok(
                     &request.request_id,
-                    serde_json::json!({"capability": if request.operation == wire::OPERATION_PYTHON_CAPABILITIES { wire::PYTHON_CAPABILITY } else { wire::CAPABILITY }}),
+                    serde_json::json!({"capability": match request.operation.as_str() {
+                        arc_ipc::traffic::native::OPERATION_DIAGNOSTICS_CAPABILITIES => arc_ipc::traffic::native::DIAGNOSTICS_CAPABILITY,
+                        wire::OPERATION_PYTHON_CAPABILITIES => wire::PYTHON_CAPABILITY,
+                        _ => wire::CAPABILITY,
+                    }}),
                 )
             } else {
                 Response::error(&request.request_id, arc_ipc::ERROR_INVALID_REQUEST)
@@ -75,6 +83,8 @@ pub(super) async fn dispatch(
             if value.is_valid() && value.job_id == expected {
                 let value = if request.operation == wire::OPERATION_JOB {
                     value.legacy()
+                } else if request.operation == wire::OPERATION_PYTHON_JOB {
+                    value.before_native()
                 } else {
                     *value
                 };

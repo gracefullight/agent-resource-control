@@ -1,0 +1,34 @@
+package nativefixture
+
+import (
+    "os"
+    "os/exec"
+    "path/filepath"
+    "strconv"
+    "syscall"
+    "testing"
+)
+
+func TestInterruptRoot(t *testing.T) {
+    binary, err := os.Executable()
+    if err != nil { t.Fatal(err) }
+    child := exec.Command(binary, "-test.run=TestInterruptLeaf", "-test.timeout=30s")
+    child.Stdout, child.Stderr = os.Stdout, os.Stderr
+    if err := child.Start(); err != nil { t.Fatal(err) }
+    // This is a real native test descendant, never a substituted tool.
+    if err := os.WriteFile(filepath.Join(os.Getenv("TBS_PROJECT"), "interrupt-root"),
+        []byte(strconv.Itoa(os.Getpid())), 0600); err != nil { t.Fatal(err) }
+    if err := child.Wait(); err != nil { t.Fatal(err) }
+}
+
+func TestInterruptLeaf(t *testing.T) {
+    root := os.Getenv("TBS_PROJECT")
+    fifo := filepath.Join(root, "interrupt-fifo")
+    if err := syscall.Mkfifo(fifo, 0600); err != nil { t.Fatal(err) }
+    if err := os.WriteFile(filepath.Join(root, "interrupt-leaf"),
+        []byte(strconv.Itoa(os.Getpid())), 0600); err != nil { t.Fatal(err) }
+    // No writer is opened: an explicit blocked native descendant for cleanup.
+    reader, err := os.Open(fifo)
+    if err != nil { t.Fatal(err) }
+    reader.Close()
+}

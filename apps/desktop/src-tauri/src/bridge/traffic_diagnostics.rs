@@ -37,35 +37,42 @@ impl DesktopBridge {
         // peer's capability. Only explicit unsupported permits the old read;
         // all probes and the selected query share one deadline and permit.
         let deadline = Instant::now() + READ_DEADLINE;
-        let python = match self.probe_traffic_diagnostics(
-            diagnostics::OPERATION_PYTHON_CAPABILITIES,
-            diagnostics::PYTHON_CAPABILITY,
-            deadline,
-        ) {
-            Ok(()) => true,
-            Err(error) if error.code == ErrorCode::Unsupported => {
-                self.probe_traffic_diagnostics(
-                    diagnostics::OPERATION_CAPABILITIES,
-                    diagnostics::CAPABILITY,
-                    deadline,
-                )?;
-                false
+        use arc_ipc::traffic::native;
+        let mut selected = None;
+        for (probe, operation, capability) in [
+            (
+                native::OPERATION_DIAGNOSTICS_CAPABILITIES,
+                native::OPERATION_DIAGNOSTICS_JOB,
+                native::DIAGNOSTICS_CAPABILITY,
+            ),
+            (
+                diagnostics::OPERATION_PYTHON_CAPABILITIES,
+                diagnostics::OPERATION_PYTHON_JOB,
+                diagnostics::PYTHON_CAPABILITY,
+            ),
+            (
+                diagnostics::OPERATION_CAPABILITIES,
+                diagnostics::OPERATION_JOB,
+                diagnostics::CAPABILITY,
+            ),
+        ] {
+            match self.probe_traffic_diagnostics(probe, capability, deadline) {
+                Ok(()) => {
+                    selected = Some(operation);
+                    break;
+                }
+                Err(error) if error.code == ErrorCode::Unsupported => continue,
+                Err(error) => return Err(error),
             }
-            Err(error) => return Err(error),
-        };
-        let value = self.session_exchange(
-            if python {
-                diagnostics::OPERATION_PYTHON_JOB
-            } else {
-                diagnostics::OPERATION_JOB
-            },
-            json!({ "job_id": id }),
-            deadline,
-            false,
-        )?;
+        }
+        let operation = selected.ok_or_else(|| DesktopError::new(ErrorCode::Unsupported))?;
+        let value = self.session_exchange(operation, json!({ "job_id": id }), deadline, false)?;
         let result = diagnostics::decode_result(&value, &id)
             .map_err(|_| DesktopError::new(ErrorCode::InvalidReply))?;
-        if !python && result.classification.is_some_and(|c| c.is_python_test()) {
+        if result.classification.is_some_and(|c| {
+            (operation != native::OPERATION_DIAGNOSTICS_JOB && c.is_native_tool())
+                || (operation == diagnostics::OPERATION_JOB && c.is_python_test())
+        }) {
             return Err(DesktopError::new(ErrorCode::InvalidReply));
         }
         self.received(result)

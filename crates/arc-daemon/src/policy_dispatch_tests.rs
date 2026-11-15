@@ -1,5 +1,7 @@
 use super::*;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+#[path = "traffic_native_dispatch_tests.rs"]
+mod native;
 #[path = "traffic_python_dispatch_tests.rs"]
 mod python;
 #[path = "traffic_scripts_dispatch_tests.rs"]

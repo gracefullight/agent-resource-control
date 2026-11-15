@@ -63,7 +63,7 @@ fn execute_with_clock(
         Operation::Diagnostics(id) => repository::diagnostics(
             connection,
             &id,
-            &arc_traffic::Policy::default(),
+            traffic::configuration::current().map_err(|_| E::StorageFailure)?,
             jobs::now(),
         )
         .map(|value| Value::Diagnostics(Box::new(value))),

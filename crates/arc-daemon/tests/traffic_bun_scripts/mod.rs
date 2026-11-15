@@ -123,6 +123,9 @@ pub fn write(path: &Path, data: impl AsRef<[u8]>) {
 /// unrelated compilers or package installations in their fixture setup.
 pub trait RunnerTools {
     fn shims(&self) -> &Path;
+    fn cpu_budget_millis(&self) -> u64 {
+        2000
+    }
 }
 impl RunnerTools for projects::Tools {
     fn shims(&self) -> &Path {
@@ -160,7 +163,10 @@ impl<T> Case<T> {
         tools: T,
         tool_receipt: Value,
         shims: Value,
-    ) -> Self {
+    ) -> Self
+    where
+        T: RunnerTools,
+    {
         assert_eq!(std::env::consts::OS, "macos");
         let fixture = native::Fixture::with_binary(binary(if injected {
             "arc-pressure-daemon-fixture"
@@ -182,6 +188,10 @@ impl<T> Case<T> {
             ));
         fs::create_dir_all(&artifacts).unwrap();
         let mut cmd = fixture.command();
+        cmd.env(
+            "ARC_TRAFFIC_CPU_BUDGET_MILLIS",
+            tools.cpu_budget_millis().to_string(),
+        );
         cmd.env("ARC_PRESSURE_CONTROL", fixture.root.join("pressure"));
         let mut daemon = native::OwnedChild::new(cmd.spawn().unwrap());
         fixture.wait_for(&mut daemon, "arc-daemon ready.");

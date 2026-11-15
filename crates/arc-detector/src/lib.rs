@@ -3,6 +3,7 @@ mod argv;
 pub use argv::{analyze_argv, classify_argv};
 mod budget;
 mod lexer;
+pub mod native;
 mod parser;
 mod python;
 mod rules;

@@ -1,0 +1,14 @@
+import Foundation
+import Darwin
+
+// BODY
+
+precondition(CommandLine.arguments.count == 4)
+try fixtureBody(root: CommandLine.arguments[1], readInput: false)
+// SwiftPM compiles this declared output. Generate the intended compiler error
+// only after the build-tool fixture has entered and its barrier is released.
+let fails = try fixtureRequired("ARC_SWIFT_FAIL", in: ProcessInfo.processInfo.environment) == "1"
+let source = fails
+    ? "#error(\"ARC_SWIFT_INTENDED_BUILD_FAILURE\")\n"
+    : "// ARC Swift native build succeeded\n"
+try source.write(toFile: CommandLine.arguments[3], atomically: true, encoding: .utf8)

@@ -34,6 +34,9 @@ pub fn analyze_argv(argv: &[OsString]) -> (Classification, AnalysisStats) {
             return Err(Reason::EmptyCommand);
         }
         budget.invocation()?;
+        if let Some(classification) = crate::native::recognize(&words, &mut budget)? {
+            return Ok(classification);
+        }
         if let Some(classification) = crate::python::recognize(&words, &mut budget)? {
             return Ok(classification);
         }

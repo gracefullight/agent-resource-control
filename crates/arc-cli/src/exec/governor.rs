@@ -1,4 +1,5 @@
 //! Negotiated current-client admission. Eligibility never authorizes spawn.
+mod admission;
 mod lifecycle;
 use super::{
     preparation::write_notice,
@@ -7,6 +8,9 @@ use super::{
     transport::{Continuity, Failure},
     witness::Witness,
 };
+#[cfg(test)]
+pub(in crate::exec) use admission::test_clock;
+use admission::{await_admission, Admission, AdmissionPeer};
 use arc_ipc::{
     client::Session,
     governor::*,
@@ -34,30 +38,35 @@ pub(super) fn prepare(
         Route::BunScripts
     } else if classification.is_python_test() {
         Route::PythonTests
+    } else if classification.is_native_tool() {
+        Route::NativeTools
     } else {
         Route::Governor
     };
-    let fallback_classification =
-        if classification.is_bun_script() || classification.is_python_test() {
-            classification.legacy()
-        } else {
-            classification
-        };
+    let fallback_classification = if classification.is_bun_script()
+        || classification.is_python_test()
+        || classification.is_native_tool()
+    {
+        classification.legacy()
+    } else {
+        classification
+    };
     if classification.locality != Locality::HostLocal
-        || !matches!(
-            classification.reason,
-            Reason::CargoBuild
-                | Reason::CargoTest
-                | Reason::CargoClippy
-                | Reason::CargoFmt
-                | Reason::BunTest
-                | Reason::BunScriptBuild
-                | Reason::BunScriptTest
-                | Reason::BunScriptLint
-                | Reason::BunScriptTypecheck
-                | Reason::PythonPytest
-                | Reason::PythonUnittest
-        )
+        || !(classification.is_native_tool()
+            || matches!(
+                classification.reason,
+                Reason::CargoBuild
+                    | Reason::CargoTest
+                    | Reason::CargoClippy
+                    | Reason::CargoFmt
+                    | Reason::BunTest
+                    | Reason::BunScriptBuild
+                    | Reason::BunScriptTest
+                    | Reason::BunScriptLint
+                    | Reason::BunScriptTypecheck
+                    | Reason::PythonPytest
+                    | Reason::PythonUnittest
+            ))
     {
         return traffic::prepare(socket, id, observer, classification, deadline, signals);
     }
@@ -70,6 +79,10 @@ pub(super) fn prepare(
         Route::PythonTests => Some((
             arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES,
             arc_ipc::traffic::PYTHON_TESTS_CAPABILITY,
+        )),
+        Route::NativeTools => Some((
+            arc_ipc::traffic::native::OPERATION_CAPABILITIES,
+            arc_ipc::traffic::native::CAPABILITY,
         )),
         _ => None,
     };
@@ -192,7 +205,12 @@ pub(super) fn prepare(
                 continuity,
             })
         }
-        Err(Failure::Unsupported) if matches!(route, Route::BunScripts | Route::PythonTests) => {
+        Err(Failure::Unsupported)
+            if matches!(
+                route,
+                Route::BunScripts | Route::PythonTests | Route::NativeTools
+            ) =>
+        {
             // await_admission only returns Unsupported when no prior attempt
             // could have committed, even if the peer changed after the probe.
             witness.discard();
@@ -231,118 +249,6 @@ fn preparation_fallback(
         signals,
     )
     .map(Mode::Legacy)
-}
-
-enum Admission {
-    Unconfirmed,
-    Reserved {
-        generation: u64,
-        context: LineageContext,
-        waited: bool,
-    },
-    Unreserved {
-        waited: bool,
-    },
-}
-struct AdmissionPeer<'a> {
-    socket: &'a Path,
-    id: &'a JobId,
-    observer: &'a ProcessIdentity,
-    continuity: &'a Continuity,
-    route: Route,
-}
-fn await_admission(
-    peer: AdmissionPeer<'_>,
-    initial: &JobRequest,
-    inherited: bool,
-    claim: Option<&LineageContext>,
-    mut deadline: Instant,
-    cancelled: &dyn Fn() -> bool,
-) -> Result<Admission, Failure> {
-    let AdmissionPeer {
-        socket,
-        id,
-        observer,
-        continuity,
-        route,
-    } = peer;
-    let mut request = initial.clone();
-    let mut waited = false;
-    let mut possibly_committed = false;
-    loop {
-        if cancelled() {
-            return Err(Failure::Cancelled);
-        }
-        let result = call_routed(
-            socket,
-            &GovernorJobRequest::Traffic {
-                request: request.clone(),
-            },
-            deadline,
-            cancelled,
-            continuity,
-            route,
-            &mut possibly_committed,
-        );
-        match result {
-            Ok(GovernorJobResult::Unreserved { job_id, .. }) if &job_id == id => {
-                return Ok(Admission::Unreserved { waited })
-            }
-            Ok(GovernorJobResult::Unconfirmed { .. }) => return Ok(Admission::Unconfirmed),
-            Ok(GovernorJobResult::Traffic { result }) => match result {
-                JobResult::Granted {
-                    permit_generation,
-                    lineage_context,
-                    ..
-                } => {
-                    return Ok(Admission::Reserved {
-                        generation: permit_generation,
-                        context: lineage_context,
-                        waited,
-                    })
-                }
-                JobResult::Reused {
-                    permit_generation, ..
-                } => {
-                    return Ok(Admission::Reserved {
-                        generation: permit_generation,
-                        context: claim.cloned().ok_or(Failure::InvalidReply)?,
-                        waited,
-                    })
-                }
-                JobResult::Queued { .. } => {
-                    if !waited {
-                        write_notice("QUEUED\nWaiting to start.\n");
-                        waited = true;
-                        super::launch::after_queue(&json!({"request":request}), cancelled)?;
-                    }
-                    std::thread::sleep(Duration::from_millis(40));
-                    request = if inherited {
-                        initial.clone()
-                    } else {
-                        JobRequest::Poll {
-                            job_id: id.clone(),
-                            observer: observer.clone(),
-                        }
-                    };
-                }
-                JobResult::Cancelled {} => return Err(Failure::Cancelled),
-                JobResult::NotFound {} if waited || matches!(initial, JobRequest::Poll { .. }) => {
-                    return Err(Failure::Uncertain)
-                }
-                _ => return Err(Failure::InvalidReply),
-            },
-            Err(Failure::Busy) => {
-                if matches!(route, Route::BunScripts | Route::PythonTests) {
-                    std::thread::sleep(Duration::from_millis(20));
-                }
-            }
-            Err(Failure::Unsupported) if possibly_committed => return Err(Failure::Uncertain),
-            Err(error) => return Err(error),
-            Ok(_) => return Err(Failure::InvalidReply),
-        }
-        deadline = Instant::now() + Duration::from_millis(1800);
-    }
 }
 
 pub(super) fn repoll(

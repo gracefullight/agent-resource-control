@@ -14,6 +14,13 @@ fn classifications() -> Vec<Classification> {
         BunTest,
         PythonPytest,
         PythonUnittest,
+        GoBuild,
+        GoTest,
+        GoVet,
+        SwiftBuild,
+        SwiftTest,
+        CmakeBuild,
+        Ctest,
         BunScriptBuild,
         BunScriptTest,
         BunScriptLint,
@@ -171,6 +178,11 @@ fn fixture_values() -> Value {
         let mut result = results[3].clone(); // completed, permit released
         result["classification"] = json!({"classification":"TEST", "locality":"HOST_LOCAL",
             "reason":reason,"uncertainty":"NONE"});
+        results.push(result);
+    }
+    for classification in arc_detector::native::CLASSIFICATIONS {
+        let mut result = results[3].clone();
+        result["classification"] = json!(classification);
         results.push(result);
     }
     for value in &results {

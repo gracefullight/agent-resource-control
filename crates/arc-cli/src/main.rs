@@ -66,6 +66,13 @@ Fallback applies to tracking outages. Invalid protocol replies and local prepara
   arcctl exec -- pytest tests/test_native.py::test_one -q
   arcctl exec -- .venv/bin/python -m pytest -k 'fast or smoke'
   arcctl exec -- python -m unittest discover -s tests
+  arcctl exec -- go build -p 2 ./...
+  arcctl exec -- go test -run TestSmoke ./...
+  arcctl exec -- go vet ./...
+  arcctl exec -- swift build --package-path ./Package -c release -j 2
+  arcctl exec -- swift test --package-path ./Package --filter Smoke
+  arcctl exec -- cmake --build ./build --config Debug -j 2
+  arcctl exec -- ctest --test-dir ./build --output-on-failure
   arcctl exec -- printf '%s\\n' 'two words'
   arcctl exec -- '/path/with spaces/tool' '' '--help' '|'
 
@@ -75,6 +82,7 @@ If the daemon is unavailable or tracking is unconfirmed due to an outage or exha
 Each admission exchange has a bounded outage budget; a healthy queued job waits for a permit.
 Direct local cargo build, cargo test, cargo clippy, cargo fmt and one-shot bun test jobs use the default Traffic windows and resource reservations when the daemon supports them. Supported pytest, python -m pytest and python -m unittest forms share the TEST window through a negotiated capability. Virtual-environment executable paths are recognized lexically; ARC preserves the chosen executable and arguments. See docs/managed-exec.md for the finite selector/option grammar. Bun watch, hot and unresolved forms bypass scheduling.
 Cancellation, invalid arguments, invalid protocol replies, local preparation failures and explicit authenticated rejection do not start a child.
+On macOS, bounded go build, swift build and cmake --build forms share BUILD; go test, swift test and ctest share TEST; go vet shares LINT. Native tools negotiate traffic.native-tools within protocol 1. Bare names and explicit native executable paths are recognized lexically without running tools or project code. Unsupported flags, wrappers, unresolved targets and script/dashboard modes bypass admission and execute the original command once; examples include go test -exec custom ./..., swift test --list-tests, cmake --build build --target custom and ctest -S dashboard.cmake. See the paired supported/bypass examples in docs/managed-exec.md.
 Tracking diagnostics go to stderr; the child keeps its native streams, exit status and terminal behavior.
 Stopping the daemon does not stop the running child.
 Use arcctl job status to list last-known lifecycle records.

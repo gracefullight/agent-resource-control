@@ -35,8 +35,10 @@ fn accept(listener: &UnixListener) -> UnixStream {
 }
 
 #[test]
-fn python_diagnostics_negotiate_and_only_explicit_unsupported_uses_legacy_reads() {
+fn diagnostics_negotiate_native_python_and_legacy_without_hiding_invalid_replies() {
+    use arc_ipc::traffic::native;
     for mode in [
+        "native",
         "python",
         "old",
         "unsupported",
@@ -45,6 +47,9 @@ fn python_diagnostics_negotiate_and_only_explicit_unsupported_uses_legacy_reads(
         "wrong-id",
         "wrong-protocol",
         "invalid-fact",
+        "native-on-python",
+        "native-on-old",
+        "python-on-old",
     ] {
         let fixture = crate::native_fixture::Fixture::with_binary(PathBuf::new());
         let listener = UnixListener::bind(&fixture.socket).unwrap();
@@ -54,71 +59,85 @@ fn python_diagnostics_negotiate_and_only_explicit_unsupported_uses_legacy_reads(
         ))
         .unwrap();
         let mut payload = wire["results"][3].clone();
-        payload["classification"] = json!({"classification":"TEST", "locality":"HOST_LOCAL", "reason":"PYTHON_PYTEST", "uncertainty":"NONE"});
-        let stored: DiagnosticResult = serde_json::from_value(payload.clone()).unwrap();
+        let python = matches!(mode, "python" | "old" | "python-on-old");
+        payload["classification"] = json!({"classification":"TEST","locality":"HOST_LOCAL",
+            "reason":if python { "PYTHON_PYTEST" } else { "GO_TEST" },"uncertainty":"NONE"});
+        let stored: DiagnosticResult = serde_json::from_value(payload).unwrap();
         let expected = if mode == "old" {
             stored.clone().legacy()
         } else {
             stored.clone()
         };
+        let routes = [
+            (
+                native::OPERATION_DIAGNOSTICS_CAPABILITIES,
+                native::OPERATION_DIAGNOSTICS_JOB,
+                native::DIAGNOSTICS_CAPABILITY,
+            ),
+            (
+                OPERATION_PYTHON_CAPABILITIES,
+                OPERATION_PYTHON_JOB,
+                PYTHON_CAPABILITY,
+            ),
+            (OPERATION_CAPABILITIES, OPERATION_JOB, CAPABILITY),
+        ];
+        let selected = match mode {
+            "python" | "native-on-python" => 1,
+            "old" | "native-on-old" | "python-on-old" => 2,
+            "unsupported" => 3,
+            _ => 0,
+        };
+        let invalid_probe = matches!(
+            mode,
+            "bad-cap" | "array-cap" | "wrong-id" | "wrong-protocol"
+        );
+        let count = if selected == 3 {
+            3
+        } else {
+            selected + 1 + usize::from(!invalid_probe)
+        };
         let server = thread::spawn(move || {
-            let count = match mode {
-                "old" => 3,
-                "unsupported" | "python" | "invalid-fact" => 2,
-                _ => 1,
-            };
             let mut requests = Vec::new();
             for index in 0..count {
                 let mut stream = accept(&listener);
                 let request: Request = read_message(&mut stream).unwrap();
                 assert_eq!(request.protocol_version, 1);
-                let expected_op = if index == 0 {
-                    OPERATION_PYTHON_CAPABILITIES
-                } else if matches!(mode, "old" | "unsupported") && index == 1 {
-                    OPERATION_CAPABILITIES
-                } else if mode == "old" {
-                    OPERATION_JOB
+                let expected_op = if index <= selected {
+                    routes[index].0
                 } else {
-                    OPERATION_PYTHON_JOB
+                    routes[selected].1
                 };
                 assert_eq!(request.operation, expected_op);
-                let response = if index == 0 && matches!(mode, "old" | "unsupported")
-                    || mode == "unsupported"
-                {
-                    Response::error(&request.request_id, ERROR_UNSUPPORTED_CAPABILITY)
-                } else if expected_op.ends_with("capabilities") {
+                let mut response = if index < selected {
                     assert!(request.payload.is_null());
-                    let capability = if expected_op == OPERATION_CAPABILITIES {
-                        CAPABILITY
-                    } else {
-                        PYTHON_CAPABILITY
-                    };
+                    Response::error(&request.request_id, ERROR_UNSUPPORTED_CAPABILITY)
+                } else if index == selected {
+                    assert!(request.payload.is_null());
+                    let capability = routes[selected].2;
                     let value = match mode {
                         "bad-cap" => json!({"capability":"wrong"}),
                         "array-cap" => json!([capability]),
                         _ => json!({"capability":capability}),
                     };
-                    let mut response = Response::ok(&request.request_id, value);
-                    if mode == "wrong-id" {
-                        response.request_id = "different".into();
-                    }
-                    if mode == "wrong-protocol" {
-                        response.protocol_version = 2;
-                    }
-                    response
+                    Response::ok(&request.request_id, value)
                 } else {
                     assert_eq!(request.payload, json!({"job_id":stored.job_id}));
-                    let result = if mode == "old" {
+                    let mut value = json!(if mode == "old" {
                         stored.clone().legacy()
                     } else {
                         stored.clone()
-                    };
-                    let mut value = json!(result);
+                    });
                     if mode == "invalid-fact" {
                         value["classification"]["locality"] = json!("REMOTE");
                     }
                     Response::ok(&request.request_id, value)
                 };
+                if mode == "wrong-id" {
+                    response.request_id = "different".into();
+                }
+                if mode == "wrong-protocol" {
+                    response.protocol_version = 2;
+                }
                 write_response(&mut stream, &response).unwrap();
                 requests.push(request.operation);
             }
@@ -127,23 +146,21 @@ fn python_diagnostics_negotiate_and_only_explicit_unsupported_uses_legacy_reads(
         let result = read(&fixture.socket, &expected.job_id);
         let requests = server.join().unwrap();
         match mode {
-            "python" | "old" => {
+            "native" | "python" | "old" => {
                 assert_eq!(result, Ok(expected.clone()));
                 let rendered = render(&expected);
                 assert!(rendered.contains("Liveness refreshed: false"));
-                assert!(rendered.contains(if mode == "python" {
-                    "PYTHON_PYTEST"
-                } else {
-                    "UNRESOLVED_COMMAND"
+                assert!(rendered.contains(match mode {
+                    "native" => "GO_TEST",
+                    "python" => "PYTHON_PYTEST",
+                    _ => "UNRESOLVED_COMMAND",
                 }));
             }
             "unsupported" => assert_eq!(result, Err(Failure::Unsupported)),
             "wrong-protocol" => assert_eq!(result, Err(Failure::Protocol)),
             _ => assert_eq!(result, Err(Failure::InvalidReply), "{mode}"),
         }
-        assert_eq!(
-            requests.contains(&OPERATION_CAPABILITIES.to_owned()),
-            matches!(mode, "old" | "unsupported")
-        );
+        assert_eq!(requests.len(), count);
+        assert_eq!(requests[0], native::OPERATION_DIAGNOSTICS_CAPABILITIES);
     }
 }

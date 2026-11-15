@@ -1,0 +1,33 @@
+package nativefixture
+
+import (
+    "encoding/json"
+    "fmt"
+    "io"
+    "os"
+    "path/filepath"
+    "testing"
+)
+
+func TestNative(t *testing.T) {
+    root := os.Getenv("TBS_PROJECT")
+    input, err := io.ReadAll(os.Stdin)
+    if err != nil { t.Fatal(err) }
+    cwd, err := os.Getwd()
+    if err != nil { t.Fatal(err) }
+    facts, err := json.Marshal(map[string]interface{}{
+        "cwd": cwd, "value": os.Getenv("TBS_VALUE"), "input": input,
+        "argv": os.Args[1:], "binary": filepath.Base(os.Args[0]), "library": Value(),
+    })
+    if err != nil { t.Fatal(err) }
+    if err := os.WriteFile(filepath.Join(root, "native.json"), facts, 0600); err != nil { t.Fatal(err) }
+    bodies, err := os.OpenFile(filepath.Join(root, "test-bodies"), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+    if err != nil { t.Fatal(err) }
+    if _, err = fmt.Fprintln(bodies, "real TestNative body"); err != nil { t.Fatal(err) }
+    if err = bodies.Close(); err != nil { t.Fatal(err) }
+    fmt.Println("NATIVE_STDOUT: literal $HOME ' value 日本語")
+    fmt.Fprintln(os.Stderr, "NATIVE_STDERR: native test stream")
+    if _, err := os.Stat(filepath.Join(root, "fail-test")); err == nil {
+        t.Fatal("intended native Go assertion failure")
+    }
+}

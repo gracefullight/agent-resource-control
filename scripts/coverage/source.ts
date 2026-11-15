@@ -102,16 +102,16 @@ export function analyzeSource(source: string) {
       modules.push({name:ts[keyword+1].text,path:path?JSON.parse(path):undefined,testOnly});
     }
     if(testOnly) {
-      const groupedUse=ts[keyword]?.text==="use";
+      const semicolonItem=ts[keyword]?.text==="use" || ts[keyword]?.text==="let";
       let end=i, angles=0;
       for(;end<ts.length;end++) {
         const t=ts[end].text;
-        // Braces in a use tree group paths; the item still ends at `;`.
-        // Block-bodied items continue ending at their closing brace.
-        if(t==="{") {end=closing(ts,end);if(!groupedUse) break;continue;}
+        // Braces in use trees and let initializers are part of the statement;
+        // their semicolon ends the omitted span. Block-bodied items end at `}`.
+        if(t==="{") {end=closing(ts,end);if(!semicolonItem) break;continue;}
         if(t==="<") angles++;
         if(t===">" && ts[end-1]?.text!=="-" && angles) angles--;
-        if(t===";" || (t==="," && !angles)) break;
+        if(t===";" || (t==="," && !angles && !semicolonItem)) break;
         if(t==="[" || t==="(") end=closing(ts,end);
       }
       if(end>=ts.length) throw Error("SOURCE: unsupported test-only item");

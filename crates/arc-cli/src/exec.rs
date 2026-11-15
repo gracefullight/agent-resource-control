@@ -6,6 +6,7 @@ mod launch;
 mod lifecycle;
 mod lineage;
 mod metadata;
+mod native_environment;
 use lifecycle::{complete, start_until};
 pub(crate) mod policy;
 mod preparation;
@@ -143,12 +144,10 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
         },
         _ => None,
     };
-    // Protocol-1 clients cannot read the sidecar, and it is no longer an
-    // ancestor after a wrapper dies. Preserve any caller-supplied value.
-    if std::env::var_os(traffic::CONTEXT_ENV).is_none() {
-        if let traffic::Mode::Scheduled { context, .. } = &tracking {
-            command.env(traffic::CONTEXT_ENV, context.as_str());
-        }
+    // Older clients need the environment claim for legacy families. Native
+    // tools instead inherit the caller's environment exactly.
+    if let traffic::Mode::Scheduled { context, .. } = &tracking {
+        native_environment::configure(&mut command, classification, context);
     }
     if !shared_job {
         command.process_group(0);

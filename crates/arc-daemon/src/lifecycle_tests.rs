@@ -281,7 +281,11 @@ fn signal_case(signal: libc::c_int, name: &str) {
     );
 
     let started = Instant::now();
-    fs::write(fixture.root.join("signal"), signal.to_string()).unwrap();
+    // Publish only after the complete payload is written: the child watches
+    // for the destination's existence and immediately parses its contents.
+    let pending_signal = fixture.root.join("signal.pending");
+    fs::write(&pending_signal, signal.to_string()).unwrap();
+    fs::rename(&pending_signal, fixture.root.join("signal")).unwrap();
     let status = loop {
         if let Some(status) = child.0.try_wait().unwrap() {
             break status;

@@ -1,4 +1,5 @@
 //! CLI-only preparation decisions following shared-client failures.
+mod native_tools;
 mod python_tests;
 use super::{call_until, Failure};
 use crate::exec::preparation::{prepare_with, Tracking};

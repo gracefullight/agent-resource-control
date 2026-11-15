@@ -22,7 +22,8 @@ export const trafficMessages = {
   classUnknown: "Classification unavailable",
   queuedUnknown: "Queued · wait cause unavailable",
   outcome: "Execution outcome recorded",
-  bypass: "Scheduling bypassed · unresolved or mixed workload",
+  bypass: "Scheduling bypassed · mixed workload",
+  admissionUnknown: "Scheduling details unavailable; reservations unconfirmed",
   remote: "Remote workload · no local reservation",
   details: "Scheduling and reservation details",
   estimates:

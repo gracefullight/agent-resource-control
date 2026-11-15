@@ -1,3 +1,4 @@
+use arc_ipc::traffic::native as n;
 // The production router is exercised with authenticated socket fixtures here.
 // Production-daemon/SQLite/native-tool reconciliation remains task-9 evidence.
 fn traffic_fixtures() -> Value {
@@ -11,11 +12,11 @@ fn traffic_peer(result: Value) -> Peer {
     Peer::new(2, move |stream, request| {
         assert_eq!(request.protocol_version, 1);
         let result = match request.operation.as_str() {
-            d::OPERATION_PYTHON_CAPABILITIES => {
+            n::OPERATION_DIAGNOSTICS_CAPABILITIES => {
                 assert!(request.payload.is_null());
-                json!({"capability": d::PYTHON_CAPABILITY})
+                json!({"capability": n::DIAGNOSTICS_CAPABILITY})
             }
-            d::OPERATION_PYTHON_JOB => {
+            n::OPERATION_DIAGNOSTICS_JOB => {
                 assert_eq!(
                     d::decode_request(&request.payload).unwrap().job_id.as_str(),
                     JOB
@@ -52,7 +53,7 @@ fn registered_traffic_diagnostics_preserve_rust_facts_without_changing_legacy_dt
 }
 
 #[test]
-fn registered_python_diagnostics_fall_back_only_to_negotiated_legacy_facts() {
+fn registered_diagnostics_fall_back_through_both_older_capabilities() {
     use arc_ipc::traffic::diagnostics as d;
     let fixtures = traffic_fixtures();
     let mut python = fixtures["results"][0].clone();
@@ -62,12 +63,16 @@ fn registered_python_diagnostics_fall_back_only_to_negotiated_legacy_facts() {
     });
     let id = JobId::try_from(JOB.to_owned()).unwrap();
     let legacy = serde_json::to_value(d::decode_result(&python, &id).unwrap().legacy()).unwrap();
-    for result in [fixtures["results"][0].clone(), legacy.clone(), python.clone()] {
+    for result in [
+        fixtures["results"][0].clone(),
+        legacy.clone(),
+        python.clone(),
+    ] {
         let reply = result.clone();
-        let peer = Peer::new(3, move |stream, request| {
+        let peer = Peer::new(4, move |stream, request| {
             assert_eq!(request.protocol_version, 1);
             let response = match request.operation.as_str() {
-                d::OPERATION_PYTHON_CAPABILITIES => {
+                n::OPERATION_DIAGNOSTICS_CAPABILITIES | d::OPERATION_PYTHON_CAPABILITIES => {
                     assert!(request.payload.is_null());
                     Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
                 }
@@ -83,13 +88,14 @@ fn registered_python_diagnostics_fall_back_only_to_negotiated_legacy_facts() {
             };
             arc_ipc::write_response(stream, &response).unwrap();
         });
-        let actual = App::new(peer.bridge()).invoke("traffic_job_diagnostics", json!({"job_id":JOB}));
+        let actual =
+            App::new(peer.bridge()).invoke("traffic_job_diagnostics", json!({"job_id":JOB}));
         if result == python {
             assert_eq!(actual, Err(error("invalid_reply", false)));
         } else {
             assert_eq!(actual.unwrap()["data"], result);
         }
-        assert_eq!(peer.requests.load(Ordering::Relaxed), 3);
+        assert_eq!(peer.requests.load(Ordering::Relaxed), 4);
     }
     assert_eq!(legacy["classification"]["classification"], "UNKNOWN");
     assert_eq!(legacy["classification"]["reason"], "UNRESOLVED_COMMAND");
@@ -131,15 +137,15 @@ fn registered_traffic_diagnostics_require_the_exact_independent_capability() {
     for caps in [
         Value::Null,
         json!([]),
-        json!([d::PYTHON_CAPABILITY]),
+        json!([n::DIAGNOSTICS_CAPABILITY]),
         json!({"capability":"traffic.v1"}),
         json!({"capability":"traffic.bun-scripts.v1"}),
         json!({"capability":d::CAPABILITY}),
-        json!({"capability":d::PYTHON_CAPABILITY,"extra":SENTINEL}),
+        json!({"capability":n::DIAGNOSTICS_CAPABILITY,"extra":SENTINEL}),
         json!({"capability":"x".repeat(513)}),
     ] {
         let peer = Peer::new(1, move |stream, request| {
-            assert_eq!(request.operation, d::OPERATION_PYTHON_CAPABILITIES);
+            assert_eq!(request.operation, n::OPERATION_DIAGNOSTICS_CAPABILITIES);
             arc_ipc::write_response(stream, &Response::ok(request.request_id, caps.clone()))
                 .unwrap();
         });
@@ -155,12 +161,16 @@ fn registered_traffic_diagnostics_require_the_exact_independent_capability() {
 fn registered_traffic_diagnostics_keep_old_and_replaced_peers_explicitly_unavailable() {
     use arc_ipc::traffic::diagnostics as d;
     for replacement in [false, true] {
-        let peer = Peer::new(3, move |stream, request| {
+        let peer = Peer::new(if replacement { 3 } else { 4 }, move |stream, request| {
             let response = match request.operation.as_str() {
-                d::OPERATION_PYTHON_CAPABILITIES if replacement => {
-                    Response::ok(request.request_id, json!({"capability":d::PYTHON_CAPABILITY}))
-                }
-                d::OPERATION_PYTHON_CAPABILITIES | d::OPERATION_CAPABILITIES | d::OPERATION_PYTHON_JOB => {
+                n::OPERATION_DIAGNOSTICS_CAPABILITIES if replacement => Response::ok(
+                    request.request_id,
+                    json!({"capability":n::DIAGNOSTICS_CAPABILITY}),
+                ),
+                n::OPERATION_DIAGNOSTICS_CAPABILITIES
+                | d::OPERATION_PYTHON_CAPABILITIES
+                | d::OPERATION_CAPABILITIES
+                | n::OPERATION_DIAGNOSTICS_JOB => {
                     Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
                 }
                 arc_ipc::OPERATION_HEALTH => Response::ok(request.request_id, health()),
@@ -179,7 +189,7 @@ fn registered_traffic_diagnostics_keep_old_and_replaced_peers_explicitly_unavail
         );
         assert_eq!(
             peer.requests.load(Ordering::Relaxed),
-            3
+            if replacement { 3 } else { 4 }
         );
     }
 }
@@ -188,19 +198,25 @@ fn registered_traffic_diagnostics_keep_old_and_replaced_peers_explicitly_unavail
 fn traffic_diagnostics_reprobe_each_read_and_do_not_replay_lost_replies() {
     use arc_ipc::traffic::diagnostics as d;
     let mut probes = 0;
-    let peer = Peer::new(4, move |stream, request| {
-        let response = if request.operation == d::OPERATION_CAPABILITIES {
+    let peer = Peer::new(5, move |stream, request| {
+        let response = if matches!(
+            request.operation.as_str(),
+            d::OPERATION_CAPABILITIES | d::OPERATION_PYTHON_CAPABILITIES
+        ) {
             Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
-        } else if request.operation == d::OPERATION_PYTHON_CAPABILITIES {
+        } else if request.operation == n::OPERATION_DIAGNOSTICS_CAPABILITIES {
             probes += 1;
             assert!(request.payload.is_null());
             if probes == 1 {
-                Response::ok(request.request_id, json!({"capability":d::PYTHON_CAPABILITY}))
+                Response::ok(
+                    request.request_id,
+                    json!({"capability":n::DIAGNOSTICS_CAPABILITY}),
+                )
             } else {
                 Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
             }
         } else {
-            assert_eq!(request.operation, d::OPERATION_PYTHON_JOB);
+            assert_eq!(request.operation, n::OPERATION_DIAGNOSTICS_JOB);
             Response::ok(request.request_id, traffic_fixtures()["results"][0].clone())
         };
         arc_ipc::write_response(stream, &response).unwrap();
@@ -211,17 +227,20 @@ fn traffic_diagnostics_reprobe_each_read_and_do_not_replay_lost_replies() {
         bridge.traffic_job_diagnostics(JOB).unwrap_err().code,
         ErrorCode::Unsupported
     );
-    assert_eq!(peer.requests.load(Ordering::Relaxed), 4);
+    assert_eq!(peer.requests.load(Ordering::Relaxed), 5);
 
     let peer = Peer::new(2, |stream, request| {
-        if request.operation == d::OPERATION_PYTHON_CAPABILITIES {
+        if request.operation == n::OPERATION_DIAGNOSTICS_CAPABILITIES {
             arc_ipc::write_response(
                 stream,
-                &Response::ok(request.request_id, json!({"capability":d::PYTHON_CAPABILITY})),
+                &Response::ok(
+                    request.request_id,
+                    json!({"capability":n::DIAGNOSTICS_CAPABILITY}),
+                ),
             )
             .unwrap();
         } else {
-            assert_eq!(request.operation, d::OPERATION_PYTHON_JOB);
+            assert_eq!(request.operation, n::OPERATION_DIAGNOSTICS_JOB);
             // Close after receiving the read, without an acknowledgment.
         }
     });
@@ -300,15 +319,24 @@ fn registered_traffic_diagnostics_reject_malformed_and_inconsistent_results() {
 
 #[test]
 fn traffic_diagnostics_wire_errors_release_reads_and_shutdown_stops_dispatch() {
-    use arc_ipc::traffic::diagnostics as d;
-    for operation in [d::OPERATION_PYTHON_CAPABILITIES, d::OPERATION_PYTHON_JOB] {
+    for operation in [
+        n::OPERATION_DIAGNOSTICS_CAPABILITIES,
+        n::OPERATION_DIAGNOSTICS_JOB,
+    ] {
         let peer = Peer::new(
-            if operation == d::OPERATION_PYTHON_JOB { 3 } else { 2 },
+            if operation == n::OPERATION_DIAGNOSTICS_JOB {
+                3
+            } else {
+                2
+            },
             move |stream, request| {
                 let response = if request.operation == operation {
                     Response::error(request.request_id, arc_ipc::ERROR_DB_BUSY)
-                } else if request.operation == d::OPERATION_PYTHON_CAPABILITIES {
-                    Response::ok(request.request_id, json!({"capability":d::PYTHON_CAPABILITY}))
+                } else if request.operation == n::OPERATION_DIAGNOSTICS_CAPABILITIES {
+                    Response::ok(
+                        request.request_id,
+                        json!({"capability":n::DIAGNOSTICS_CAPABILITY}),
+                    )
                 } else {
                     assert_eq!(request.operation, arc_ipc::OPERATION_HEALTH);
                     Response::ok(request.request_id, health())
@@ -334,4 +362,37 @@ fn traffic_diagnostics_wire_errors_release_reads_and_shutdown_stops_dispatch() {
         bridge.traffic_job_diagnostics(JOB).unwrap_err().code,
         ErrorCode::Cancelled
     );
+}
+
+#[test]
+fn registered_native_diagnostics_fallback_never_accepts_unnegotiated_native_facts() {
+    use arc_ipc::traffic::diagnostics as d;
+    for native in [false, true] {
+        let mut record = traffic_fixtures()["results"][0].clone();
+        record["classification"] = json!({"classification":"TEST","locality":"HOST_LOCAL",
+            "reason":if native { "GO_TEST" } else { "PYTHON_PYTEST" },"uncertainty":"NONE"});
+        let expected = record.clone();
+        let peer = Peer::new(3, move |stream, request| {
+            let response = match request.operation.as_str() {
+                n::OPERATION_DIAGNOSTICS_CAPABILITIES => {
+                    Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
+                }
+                d::OPERATION_PYTHON_CAPABILITIES => Response::ok(
+                    request.request_id,
+                    json!({"capability":d::PYTHON_CAPABILITY}),
+                ),
+                d::OPERATION_PYTHON_JOB => Response::ok(request.request_id, record.clone()),
+                _ => panic!("unexpected fallback operation"),
+            };
+            arc_ipc::write_response(stream, &response).unwrap();
+        });
+        let actual =
+            App::new(peer.bridge()).invoke("traffic_job_diagnostics", json!({"job_id":JOB}));
+        if native {
+            assert_eq!(actual, Err(error("invalid_reply", false)));
+        } else {
+            assert_eq!(actual.unwrap()["data"], expected);
+        }
+        assert_eq!(peer.requests.load(Ordering::Relaxed), 3);
+    }
 }

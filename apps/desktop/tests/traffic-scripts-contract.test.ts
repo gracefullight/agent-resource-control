@@ -10,7 +10,7 @@ import {
   isTrafficDiagnosticResult,
 } from "@/bridge/traffic-scripts-contract";
 import {
-  pythonTraffic,
+  toolTraffic,
   trafficFixture,
   trafficReply,
   trafficWait,
@@ -30,8 +30,18 @@ const OTHER = "a".repeat(32);
 const clone = <T>(value: T): T => structuredClone(value);
 
 describe("Rust-derived negotiated Traffic contract", () => {
-  test("Python reasons accept only local certain TEST facts and retain strict admission validation", async () => {
-    for (const reason of ["PYTHON_PYTEST", "PYTHON_UNITTEST"] as const) {
+  test("Tool reasons accept only their local certain class facts and retain strict admission validation", async () => {
+    for (const reason of [
+      "PYTHON_PYTEST",
+      "PYTHON_UNITTEST",
+      "GO_BUILD",
+      "GO_TEST",
+      "GO_VET",
+      "SWIFT_BUILD",
+      "SWIFT_TEST",
+      "CMAKE_BUILD",
+      "CTEST",
+    ] as const) {
       for (const state of [
         "QUEUED",
         "RESERVED",
@@ -42,7 +52,7 @@ describe("Rust-derived negotiated Traffic contract", () => {
         "UNCONFIRMED",
         "UNRESERVED",
       ] as const) {
-        const result = pythonTraffic(trafficFixture(JOB, state), reason);
+        const result = toolTraffic(trafficFixture(JOB, state), reason);
         expect(isTrafficDiagnosticResult(result, JOB)).toBe(true);
         const calls: unknown[] = [];
         const client = createDesktopClient(async (command, args) => {
@@ -52,7 +62,12 @@ describe("Rust-derived negotiated Traffic contract", () => {
         expect((await client.trafficJobDiagnostics(JOB)).data).toEqual(result);
         expect(calls).toEqual([["traffic_job_diagnostics", { job_id: JOB }]]);
         for (const patch of [
-          { classification: "BUILD" },
+          {
+            classification:
+              result.classification?.classification === "BUILD"
+                ? "TEST"
+                : "BUILD",
+          },
           { classification: "UNKNOWN" },
           { locality: "REMOTE" },
           { uncertainty: "OBSERVE" },
@@ -72,7 +87,7 @@ describe("Rust-derived negotiated Traffic contract", () => {
           ).rejects.toEqual({ code: "invalid_reply", retryable: false });
         }
       }
-      const queued = pythonTraffic(trafficWait(JOB), reason);
+      const queued = toolTraffic(trafficWait(JOB), reason);
       expect(
         isTrafficDiagnosticResult({
           ...queued,

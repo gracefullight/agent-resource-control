@@ -56,6 +56,18 @@ export type PythonReason = Extract<
   TrafficClassification["reason"],
   "PYTHON_PYTEST" | "PYTHON_UNITTEST"
 >;
+export type ToolReason =
+  | PythonReason
+  | Extract<
+      TrafficClassification["reason"],
+      | "GO_BUILD"
+      | "GO_TEST"
+      | "GO_VET"
+      | "SWIFT_BUILD"
+      | "SWIFT_TEST"
+      | "CMAKE_BUILD"
+      | "CTEST"
+    >;
 
 // Select the maintained Rust-generated classification; do not regenerate DTOs
 // or infer a Python class from a legacy lifecycle projection.
@@ -63,11 +75,18 @@ export function pythonTraffic(
   data: DiagnosticResult,
   reason: PythonReason = "PYTHON_PYTEST",
 ): DiagnosticResult {
+  return toolTraffic(data, reason);
+}
+
+export function toolTraffic(
+  data: DiagnosticResult,
+  reason: ToolReason,
+): DiagnosticResult {
   const classification = wire.classifications.find((c) => c.reason === reason);
   if (!isTrafficClassification(classification))
-    throw new Error("Missing Rust Python classification");
+    throw new Error("Missing Rust tool classification");
   const result = { ...structuredClone(data), classification };
   if (!isTrafficDiagnosticResult(result))
-    throw new Error("Invalid synthetic Python traffic fixture");
+    throw new Error("Invalid synthetic tool traffic fixture");
   return result;
 }

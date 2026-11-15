@@ -45,25 +45,52 @@ fn read(socket: &Path, job: &JobId) -> Result<DiagnosticResult, Failure> {
         Session::connect_until(socket, deadline, &|| false, None)?
             .exchange(&Request::new(crate::request_id(), operation), &|| false)
     };
-    let (value, operation, capability) = match probe(OPERATION_PYTHON_CAPABILITIES) {
-        Ok(value) => (value, OPERATION_PYTHON_JOB, PYTHON_CAPABILITY),
-        Err(Failure::Unsupported) => (probe(OPERATION_CAPABILITIES)?, OPERATION_JOB, CAPABILITY),
-        Err(error) => return Err(error),
-    };
-    if !value.is_object() {
-        return Err(Failure::InvalidReply);
+    use arc_ipc::traffic::native;
+    let mut selected = None;
+    for (cap_operation, operation, capability) in [
+        (
+            native::OPERATION_DIAGNOSTICS_CAPABILITIES,
+            native::OPERATION_DIAGNOSTICS_JOB,
+            native::DIAGNOSTICS_CAPABILITY,
+        ),
+        (
+            OPERATION_PYTHON_CAPABILITIES,
+            OPERATION_PYTHON_JOB,
+            PYTHON_CAPABILITY,
+        ),
+        (OPERATION_CAPABILITIES, OPERATION_JOB, CAPABILITY),
+    ] {
+        let value = match probe(cap_operation) {
+            Ok(value) => value,
+            Err(Failure::Unsupported) => continue,
+            Err(error) => return Err(error),
+        };
+        if !value.is_object() {
+            return Err(Failure::InvalidReply);
+        }
+        let caps: Capabilities =
+            serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
+        if caps.capability != capability {
+            return Err(Failure::InvalidReply);
+        }
+        selected = Some(operation);
+        break;
     }
-    let caps: Capabilities = serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
-    if caps.capability != capability {
-        return Err(Failure::InvalidReply);
-    }
+    let operation = selected.ok_or(Failure::Unsupported)?;
     let mut query = Request::new(crate::request_id(), operation);
     query.payload = json!(DiagnosticRequest {
         job_id: job.clone()
     });
     let mut session = Session::connect_until(socket, deadline, &|| false, None)?;
     let value = session.exchange(&query, &|| false)?;
-    decode_result(&value, job).map_err(|_| Failure::InvalidReply)
+    let result = decode_result(&value, job).map_err(|_| Failure::InvalidReply)?;
+    if result.classification.is_some_and(|c| {
+        (operation != native::OPERATION_DIAGNOSTICS_JOB && c.is_native_tool())
+            || (operation == OPERATION_JOB && c.is_python_test())
+    }) {
+        return Err(Failure::InvalidReply);
+    }
+    Ok(result)
 }
 
 #[cfg(test)]

@@ -4,6 +4,9 @@ use arc_storage::open_and_migrate;
 use std::process::ExitCode;
 
 pub(crate) async fn run(meter: Option<arc_meter::MeterWorker>) -> ExitCode {
+    if let Err(error) = crate::db_worker::traffic::configuration::current() {
+        return fail_daemon(&error);
+    }
     let database_path = match arc_core::database_path() {
         Ok(path) => path,
         Err(error) => return fail_database(&error),

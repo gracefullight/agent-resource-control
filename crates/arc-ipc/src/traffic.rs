@@ -13,6 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 
 pub mod diagnostics;
+pub mod native;
 pub mod python;
 pub mod scripts;
 
@@ -102,6 +103,11 @@ pub fn interpret_probe_for(
             | (OPERATION_BUN_CAPABILITIES, BUN_CAPABILITY)
             | (OPERATION_BUN_SCRIPTS_CAPABILITIES, BUN_SCRIPTS_CAPABILITY)
             | (OPERATION_PYTHON_TESTS_CAPABILITIES, PYTHON_TESTS_CAPABILITY)
+            | (native::OPERATION_CAPABILITIES, native::CAPABILITY)
+            | (
+                native::OPERATION_DIAGNOSTICS_CAPABILITIES,
+                native::DIAGNOSTICS_CAPABILITY
+            )
             | (diagnostics::OPERATION_CAPABILITIES, diagnostics::CAPABILITY)
             | (
                 diagnostics::OPERATION_PYTHON_CAPABILITIES,

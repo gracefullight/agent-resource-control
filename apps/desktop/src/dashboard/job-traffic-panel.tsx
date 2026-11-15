@@ -25,13 +25,12 @@ function trafficStatus(
   const result = section.value?.data,
     admission = result?.admission;
   const job = detail?.value?.data;
+  if (section.missing) return m.admissionUnknown;
   if (!admission) {
     if (result?.classification?.locality === "REMOTE") return m.remote;
-    if (
-      result?.classification?.uncertainty === "OBSERVE" ||
-      result?.classification?.locality === "MIXED"
-    )
-      return m.bypass;
+    if (result?.classification?.locality === "MIXED") return m.bypass;
+    if (result?.classification?.uncertainty === "OBSERVE")
+      return m.admissionUnknown;
   }
   // A known native outcome wins over historical waits. Recovery facts cannot
   // be revived by a RUNNING lifecycle snapshot retained from an earlier read.

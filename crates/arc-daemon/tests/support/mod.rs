@@ -43,7 +43,9 @@ pub fn serial() -> Serial {
     assert!(metadata.is_file());
     assert_eq!(metadata.uid(), uid);
     assert_eq!(metadata.mode() & 0o7777, 0o600);
-    let deadline = Instant::now() + Duration::from_secs(90);
+    // Cold native suites in another managed checkout can retain this shared
+    // lock for several minutes. This is coordination, not a job-start barrier.
+    let deadline = Instant::now() + Duration::from_secs(600);
     loop {
         match file.try_lock() {
             Ok(()) => {

@@ -109,7 +109,11 @@ pub(crate) fn negotiated(
                         Failure::Unsupported
                     }
                 }
-                arc_ipc::ERROR_DB_BUSY => Failure::Busy,
+                arc_ipc::ERROR_DB_BUSY => {
+                    // The worker can report busy after committing the sent request.
+                    *possibly_committed |= io.sent;
+                    Failure::Busy
+                }
                 arc_ipc::ERROR_PROTOCOL_INCOMPATIBLE => Failure::Protocol,
                 "" => {
                     *possibly_committed |= io.sent;
@@ -213,6 +217,7 @@ mod tests {
         for operation in [
             arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
             arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB,
+            arc_ipc::traffic::native::OPERATION_JOB,
         ] {
             for mode in [
                 "unsupported",
@@ -296,6 +301,7 @@ mod tests {
                 if matches!(
                     mode,
                     "previously-sent"
+                        | "busy"
                         | "lost"
                         | "partial"
                         | "invalid-json"

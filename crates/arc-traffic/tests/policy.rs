@@ -28,6 +28,13 @@ fn direct_classes_have_independent_windows_and_fixed_reservations() {
         (vec!["bun", "test"], TrafficClass::Test),
         (vec!["cargo", "clippy"], TrafficClass::Lint),
         (vec!["cargo", "fmt"], TrafficClass::Lint),
+        (vec!["go", "build"], TrafficClass::Build),
+        (vec!["go", "test"], TrafficClass::Test),
+        (vec!["go", "vet"], TrafficClass::Lint),
+        (vec!["swift", "build"], TrafficClass::Build),
+        (vec!["swift", "test"], TrafficClass::Test),
+        (vec!["cmake", "--build", "build"], TrafficClass::Build),
+        (vec!["ctest"], TrafficClass::Test),
     ] {
         assert_eq!(
             decision(&args, Active::default(), &policy, true),

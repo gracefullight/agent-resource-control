@@ -80,6 +80,27 @@ fn also_production() {}
   expect([...analyzeSource(source).omitted]).toEqual([1,2,3,4,5,7,8]);
   expect([...analyzeSource('#[cfg(any(test, unix))]\nuse super::{a, nested::{b,c}};\nfn production() {}').omitted]).toEqual([]);
 });
+test("test-only let initializers end at their semicolon without omitting production",()=>{
+  const source=`fn admission() {
+    #[cfg(not(test))]
+    let timing = Timing { now: actual, sleep: real };
+    #[cfg(test)]
+    let timing = Timing {
+        now: fake,
+        sleep: |first, second| { pair(first, second) },
+    };
+    use_timing(timing);
+}
+`;
+  const analysis=analyzeSource(source);
+  expect([...analysis.omitted]).toEqual([4,5,6,7,8]);
+  expect(analysis.spans).toEqual([{start:4,end:8,reason:"cfg false when test is disabled"}]);
+  const closures='#[cfg(test)]\nlet f = |a, b| if a { b } else { 0 };\nfn production() {}';
+  expect([...analyzeSource(closures).omitted]).toEqual([1,2]);
+  const letElse='#[cfg(test)]\nlet Some(value) = input else { return; };\nfn production() {}';
+  expect([...analyzeSource(letElse).omitted]).toEqual([1,2]);
+  expect(()=>analyzeSource('#[cfg(test)]\nlet timing = Timing { now: fake }; use_timing(timing);')).toThrow("line accounting is ambiguous");
+});
 test("genuinely shared test-only import or block lines remain ambiguous",()=>{
   for(const source of [
     '#[cfg(test)]\nuse test_calls::{one, two}; fn production() {}',
@@ -95,6 +116,15 @@ test("live inventory classifies all eleven crate roots and test-only module tree
   expect(inventory.find(x=>x.path==="apps/desktop/src-tauri/src/lib.rs")?.crate).toBe("arc-desktop");
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport_tests.rs")?.testOnly).toBe(true);
   expect(inventory.find(x=>x.path==="crates/arc-daemon/src/transport.rs")?.testOnly).toBe(false);
+  const path="crates/arc-cli/src/exec/governor/admission.rs";
+  const admission=inventory.find(x=>x.path===path);
+  const lines=readFileSync(resolve(import.meta.dir,"../..",path),"utf8").split("\n");
+  const production=lines.findIndex(line=>line.includes("now: &Instant::now"))+1;
+  const testOnly=lines.findIndex(line=>line.includes("now: &test_clock::now"))+1;
+  expect(admission?.testOnly).toBe(false);
+  expect(production).toBeGreaterThan(0);expect(testOnly).toBeGreaterThan(0);
+  expect(admission?.omitted).not.toContain(production);
+  expect(admission?.omitted).toContain(testOnly);
 });
 
 test("record summaries must match DA lines before repeated instances merge",()=>{

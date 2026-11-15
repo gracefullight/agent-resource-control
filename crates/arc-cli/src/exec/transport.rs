@@ -87,6 +87,13 @@ pub(super) fn call_until_with_continuity(
     if let Some(result) =
         preparation_tests::scripted_exchange(operation, &payload, deadline, cancelled)
     {
+        // Match negotiated I/O: a sent native admission with DB_BUSY may have
+        // committed even when the test transport returns its reply directly.
+        if operation == arc_ipc::traffic::native::OPERATION_JOB
+            && matches!(result, Err(Failure::Busy))
+        {
+            *possibly_committed = true;
+        }
         return result;
     }
     let mut request = Request::new(crate::request_id(), operation);
@@ -97,6 +104,8 @@ pub(super) fn call_until_with_continuity(
             | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB
             | arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES
             | arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB
+            | arc_ipc::traffic::native::OPERATION_CAPABILITIES
+            | arc_ipc::traffic::native::OPERATION_JOB
     ) {
         return negotiated(
             socket,

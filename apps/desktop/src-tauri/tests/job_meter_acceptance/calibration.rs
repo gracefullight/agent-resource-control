@@ -29,10 +29,47 @@ fn at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces(
     let _serial = serialization::serial();
     let mut case = setup("at-mtr-01");
     let source = workspace().join("scripts/job-meter/native-workload.c");
+    let calibration_source = case.fixture.root.join("native-workload-calibration.c");
     let workload = case.fixture.root.join("native-workload");
+    // The shared C reference starts its elapsed clock after identity and boot
+    // queries, whereas ARC starts immediately before spawn. Anchor the test's
+    // independent reference to Darwin's native process birth timestamp, then
+    // measure the remaining workload with CLOCK_MONOTONIC. The 09:57 failure
+    // output was not retained; this is a boundary correction, not a claim
+    // that its cause was reproduced. CPU getrusage remains unchanged.
+    let original = fs::read_to_string(&source).unwrap();
+    let before_start = "double started = now(), deadline = started + duration;";
+    let elapsed_arg = "now() - started);";
+    let elapsed_field = "\\\"elapsed_seconds\\\":%.9f,\\\"workers\\\":[";
+    assert_eq!(original.matches(before_start).count(), 1);
+    assert_eq!(original.matches(elapsed_arg).count(), 1);
+    assert_eq!(original.matches(elapsed_field).count(), 1);
+    let reference = original
+        .replace(
+            "#include <time.h>",
+            "#include <time.h>\n#include <sys/time.h>",
+        )
+        .replace(
+            before_start,
+            r#"struct timeval reference_wall;
+    if (gettimeofday(&reference_wall, NULL)) fail("gettimeofday");
+    double reference_startup = (double)reference_wall.tv_sec + (double)reference_wall.tv_usec / 1e6
+                             - (double)own.start / 1e6;
+    if (!isfinite(reference_startup) || reference_startup < 0) return 2;
+    double started = now(), deadline = started + duration;"#,
+        )
+        .replace(
+            elapsed_arg,
+            "now() - started + reference_startup, reference_startup);",
+        )
+        .replace(
+            elapsed_field,
+            "\\\"elapsed_seconds\\\":%.9f,\\\"birth_to_work_seconds\\\":%.9f,\\\"workers\\\":[",
+        );
+    fs::write(&calibration_source, reference).unwrap();
     let compiler = Command::new("clang")
         .args(["-std=c11", "-O2", "-Wall", "-Wextra", "-Werror"])
-        .arg(&source)
+        .arg(&calibration_source)
         .arg("-o")
         .arg(&workload)
         .output()
@@ -94,13 +131,20 @@ fn at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces(
     let allowed = 0.1f64.max(0.05 * independent);
     let elapsed = recorded["run_elapsed"]["seconds"].as_f64().unwrap();
     let reference_elapsed = reference["elapsed_seconds"].as_f64().unwrap();
+    let startup = reference["birth_to_work_seconds"].as_f64().unwrap();
+    assert!(startup >= 0.0 && startup < reference_elapsed);
+    // Preserve the original tolerance calculated from the workload-only
+    // interval; adding the birth boundary must not enlarge the tolerance.
+    let elapsed_tolerance = 0.1f64.max(0.05 * (reference_elapsed - startup));
+    println!(
+        "native calibration measured={elapsed:.6}s reference={reference_elapsed:.6}s tolerance={elapsed_tolerance:.6}s error={:.6}s birth_to_work={:.6}s",
+        (elapsed - reference_elapsed).abs(),
+        startup
+    );
     // Independent native calibration retains its accuracy comparison. The
     // outer escape limit allows coverage overhead, not a product deadline.
     assert!(elapsed >= 9.5 && reference_elapsed >= 9.5);
-    assert!((elapsed - reference_elapsed).abs() <= 0.1f64.max(0.05 * reference_elapsed));
-    println!(
-        "native calibration elapsed={elapsed:.6}s reference={reference_elapsed:.6}s bound=60s"
-    );
+    assert!((elapsed - reference_elapsed).abs() <= elapsed_tolerance);
     assert!(elapsed < 60.0 && reference_elapsed < 60.0);
     assert!(independent > 1.0, "workers must consume actual CPU");
     assert!(
@@ -147,8 +191,10 @@ fn at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces(
             "restart":{"before":before,"after":after,"offlineHealthError":offline,"health":health,
                 "recentStderr":recent_errors,"socketOwnerMode":"0600","privateRuntimeMode":"0700"},
             "sources":[{"path":"scripts/job-meter/native-workload.c","sha256":digest(&source)},
+                {"path":"generated native-workload-calibration.c","sha256":digest(&calibration_source)},
                 {"path":"apps/desktop/src-tauri/tests/job_meter_acceptance/calibration.rs",
                  "sha256":digest(&workspace().join("apps/desktop/src-tauri/tests/job_meter_acceptance/calibration.rs"))}],
+            "elapsedReference":"Darwin process birth wall timestamp to a paired wall/monotonic sample, then monotonic to the final reference sample",
             "measurementTail":"C reference is sampled after all waits and before final formatting/exit; terminal wait4 includes that tail.",
             "basis":"Independent C getrusage SELF + waited CHILDREN integer microseconds; production PID-specific wait4. No production conversion helper used by reference.",
             "snapshot":snapshot,"launches":1,"fixture":{"runtime":case.fixture.root,"database":case.fixture.database,"socket":case.fixture.socket}

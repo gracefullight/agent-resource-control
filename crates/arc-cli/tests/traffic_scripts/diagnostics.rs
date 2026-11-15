@@ -1,4 +1,5 @@
 use crate::support::*;
+use arc_ipc::traffic::native;
 use arc_ipc::traffic::{self, diagnostics::*};
 use serde_json::{json, Value};
 use std::{
@@ -14,6 +15,12 @@ fn wire() -> Value {
 }
 
 fn probe(listener: &UnixListener, legacy: bool) -> (UnixStream, arc_ipc::Request) {
+    if legacy {
+        let (mut stream, request) = next(listener);
+        assert_eq!(request.operation, OPERATION_PYTHON_CAPABILITIES);
+        assert!(request.payload.is_null());
+        super::execution::unsupported(&mut stream, &request);
+    }
     let (stream, request) = next(listener);
     assert_eq!(request.protocol_version, 1);
     assert_eq!(
@@ -21,7 +28,7 @@ fn probe(listener: &UnixListener, legacy: bool) -> (UnixStream, arc_ipc::Request
         if legacy {
             OPERATION_CAPABILITIES
         } else {
-            OPERATION_PYTHON_CAPABILITIES
+            native::OPERATION_DIAGNOSTICS_CAPABILITIES
         }
     );
     assert!(request.payload.is_null());
@@ -41,7 +48,7 @@ fn negotiate(listener: &UnixListener, legacy: bool) -> &'static str {
             capability: if legacy {
                 CAPABILITY
             } else {
-                PYTHON_CAPABILITY
+                native::DIAGNOSTICS_CAPABILITY
             }
             .into()
         }),
@@ -49,7 +56,7 @@ fn negotiate(listener: &UnixListener, legacy: bool) -> &'static str {
     if legacy {
         OPERATION_JOB
     } else {
-        OPERATION_PYTHON_JOB
+        native::OPERATION_DIAGNOSTICS_JOB
     }
 }
 
@@ -159,7 +166,7 @@ fn unsupported_unavailable_invalid_and_mismatched_reads_never_become_not_recorde
                     if mode == "wrong-capability" {
                         json!(traffic::Capabilities::supported())
                     } else {
-                        json!({"capability":if legacy { CAPABILITY } else { PYTHON_CAPABILITY }})
+                        json!({"capability":if legacy { CAPABILITY } else { native::DIAGNOSTICS_CAPABILITY }})
                     },
                 );
                 if mode == "wrong-capability" {
@@ -172,7 +179,7 @@ fn unsupported_unavailable_invalid_and_mismatched_reads_never_become_not_recorde
                     if legacy {
                         OPERATION_JOB
                     } else {
-                        OPERATION_PYTHON_JOB
+                        native::OPERATION_DIAGNOSTICS_JOB
                     }
                 );
                 assert_eq!(

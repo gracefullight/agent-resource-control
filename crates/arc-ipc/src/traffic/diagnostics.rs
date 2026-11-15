@@ -177,9 +177,22 @@ pub struct DiagnosticResult {
 }
 impl DiagnosticResult {
     /// Older diagnostic readers know the Bun vocabulary but cannot decode
-    /// Python facts. Project a response copy, never the persisted admission.
+    /// Python/native facts. Project a response copy, never the persisted admission.
     pub fn legacy(mut self) -> Self {
-        if self.classification.is_some_and(|c| c.is_python_test()) {
+        if self
+            .classification
+            .is_some_and(|c| c.is_python_test() || c.is_native_tool())
+        {
+            self.classification = self.classification.map(Classification::legacy);
+            self.admission = None;
+        }
+        self
+    }
+
+    /// Python-aware readers still predate native tools. Project a reply copy,
+    /// omitting admission because UNKNOWN cannot establish reservation absence.
+    pub fn before_native(mut self) -> Self {
+        if self.classification.is_some_and(|c| c.is_native_tool()) {
             self.classification = self.classification.map(Classification::legacy);
             self.admission = None;
         }
@@ -239,7 +252,7 @@ pub fn interpret_result(
 ) -> Result<DiagnosticResult, &'static str> {
     if !matches!(
         request.operation.as_str(),
-        OPERATION_JOB | OPERATION_PYTHON_JOB
+        OPERATION_JOB | OPERATION_PYTHON_JOB | super::native::OPERATION_DIAGNOSTICS_JOB
     ) {
         return Err(ERROR_UNSUPPORTED_CAPABILITY);
     }

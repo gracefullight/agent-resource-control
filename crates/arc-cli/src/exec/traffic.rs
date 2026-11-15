@@ -30,17 +30,19 @@ pub(super) enum Route {
     Bun,
     Governor,
     BunScripts,
+    PythonTests,
 }
 impl Route {
     pub(super) fn governed(self) -> bool {
-        matches!(self, Self::Governor | Self::BunScripts)
+        matches!(self, Self::Governor | Self::BunScripts | Self::PythonTests)
     }
-    fn operation(self) -> &'static str {
+    pub(super) fn operation(self) -> &'static str {
         match self {
             Self::Cargo => OPERATION_TRAFFIC_JOB,
             Self::Bun => OPERATION_BUN_JOB,
             Self::Governor => arc_ipc::governor::OPERATION_JOB,
             Self::BunScripts => arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
+            Self::PythonTests => arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB,
         }
     }
 }

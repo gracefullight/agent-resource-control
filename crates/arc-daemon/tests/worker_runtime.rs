@@ -314,7 +314,11 @@ fn signal_case(signal: i32, name: &str) {
     let rejected = fixture.connect();
     runtime::assert_closed(rejected);
 
-    fs::write(fixture.root.join("signal"), signal.to_string()).unwrap();
+    // Publish only the complete value: the child observes existence before
+    // reading, and fs::write creates the destination before writing its bytes.
+    let pending_signal = fixture.root.join("signal.pending");
+    fs::write(&pending_signal, signal.to_string()).unwrap();
+    fs::rename(pending_signal, fixture.root.join("signal")).unwrap();
     let (exit_us, peak) = child.wait_for_exit();
     let report = fixture.report();
     assert_eq!(report["reason"], name);

@@ -95,6 +95,8 @@ pub(super) fn call_until_with_continuity(
         operation,
         arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
             | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB
+            | arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES
+            | arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB
     ) {
         return negotiated(
             socket,

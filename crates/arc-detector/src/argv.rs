@@ -34,6 +34,9 @@ pub fn analyze_argv(argv: &[OsString]) -> (Classification, AnalysisStats) {
             return Err(Reason::EmptyCommand);
         }
         budget.invocation()?;
+        if let Some(classification) = crate::python::recognize(&words, &mut budget)? {
+            return Ok(classification);
+        }
         if Budget::eq(&mut budget, &words[0], "bun")?
             && match words.get(1) {
                 Some(word) => Budget::eq(&mut budget, word, "test")?,

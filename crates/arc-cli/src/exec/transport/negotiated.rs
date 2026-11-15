@@ -210,104 +210,104 @@ mod tests {
 
     #[test]
     fn lost_or_malformed_ack_and_negative_evidence_remain_distinct_for_the_same_attempt() {
-        for mode in [
-            "unsupported",
-            "previously-sent",
-            "ambiguous-peer",
-            "lost",
-            "partial",
-            "invalid-json",
-            "wrong-id",
-            "future-protocol",
-            "busy",
-            "cancelled",
+        for operation in [
+            arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
+            arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB,
         ] {
-            let root = std::env::temp_dir().join(format!(
-                "arc-script-peer-{}",
-                arc_core::process_identity::random_job_id().unwrap()
-            ));
-            fs::create_dir(&root).unwrap();
-            let path = root.join("s");
-            let listener = UnixListener::bind(&path).unwrap();
-            let cancelled = Arc::new(AtomicBool::new(false));
-            let server_cancelled = cancelled.clone();
-            let server = thread::spawn(move || {
-                let (mut stream, _) = listener.accept().unwrap();
-                let request: Request = arc_ipc::read_message(&mut stream).unwrap();
-                assert_eq!(
-                    request.operation,
-                    arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB
-                );
-                assert_eq!(request.payload["request"]["job_id"], "a".repeat(32));
-                match mode {
-                    "lost" => (),
-                    "partial" => {
-                        stream.write_all(&100u32.to_be_bytes()).unwrap();
-                        stream.write_all(b"{").unwrap();
-                    }
-                    "invalid-json" => arc_ipc::write_frame(&mut stream, b"{").unwrap(),
-                    "cancelled" => server_cancelled.store(true, Ordering::SeqCst),
-                    _ => {
-                        let mut response = arc_ipc::Response::error(
-                            &request.request_id,
-                            if mode == "busy" {
-                                arc_ipc::ERROR_DB_BUSY
-                            } else {
-                                arc_ipc::ERROR_UNSUPPORTED_CAPABILITY
-                            },
-                        );
-                        if mode == "wrong-id" {
-                            response.request_id = "not-the-request".into();
+            for mode in [
+                "unsupported",
+                "previously-sent",
+                "ambiguous-peer",
+                "lost",
+                "partial",
+                "invalid-json",
+                "wrong-id",
+                "future-protocol",
+                "busy",
+                "cancelled",
+            ] {
+                let root = std::env::temp_dir().join(format!(
+                    "arc-script-peer-{}",
+                    arc_core::process_identity::random_job_id().unwrap()
+                ));
+                fs::create_dir(&root).unwrap();
+                let path = root.join("s");
+                let listener = UnixListener::bind(&path).unwrap();
+                let cancelled = Arc::new(AtomicBool::new(false));
+                let server_cancelled = cancelled.clone();
+                let server = thread::spawn(move || {
+                    let (mut stream, _) = listener.accept().unwrap();
+                    let request: Request = arc_ipc::read_message(&mut stream).unwrap();
+                    assert_eq!(request.operation, operation);
+                    assert_eq!(request.payload["request"]["job_id"], "a".repeat(32));
+                    match mode {
+                        "lost" => (),
+                        "partial" => {
+                            stream.write_all(&100u32.to_be_bytes()).unwrap();
+                            stream.write_all(b"{").unwrap();
                         }
-                        if mode == "future-protocol" {
-                            response.protocol_version = 2;
+                        "invalid-json" => arc_ipc::write_frame(&mut stream, b"{").unwrap(),
+                        "cancelled" => server_cancelled.store(true, Ordering::SeqCst),
+                        _ => {
+                            let mut response = arc_ipc::Response::error(
+                                &request.request_id,
+                                if mode == "busy" {
+                                    arc_ipc::ERROR_DB_BUSY
+                                } else {
+                                    arc_ipc::ERROR_UNSUPPORTED_CAPABILITY
+                                },
+                            );
+                            if mode == "wrong-id" {
+                                response.request_id = "not-the-request".into();
+                            }
+                            if mode == "future-protocol" {
+                                response.protocol_version = 2;
+                            }
+                            arc_ipc::write_response(&mut stream, &response).unwrap();
                         }
-                        arc_ipc::write_response(&mut stream, &response).unwrap();
                     }
+                });
+                let continuity = Continuity::default();
+                if mode == "ambiguous-peer" {
+                    continuity.record(None);
                 }
-            });
-            let continuity = Continuity::default();
-            if mode == "ambiguous-peer" {
-                continuity.record(None);
+                let mut committed = mode == "previously-sent";
+                let mut request = Request::new(crate::request_id(), operation);
+                request.payload = serde_json::json!({"action":"TRAFFIC","request":{"action":"POLL","job_id":"a".repeat(32)}});
+                let result = crate::exec::transport::call_until_with_continuity(
+                    &path,
+                    operation,
+                    request.payload,
+                    Instant::now() + Duration::from_secs(2),
+                    &|| cancelled.load(Ordering::SeqCst),
+                    &mut committed,
+                    Some(&continuity),
+                );
+                let expected = match mode {
+                    "unsupported" => Failure::Unsupported,
+                    "previously-sent" | "ambiguous-peer" | "lost" | "partial" => Failure::Uncertain,
+                    "invalid-json" | "wrong-id" => Failure::InvalidReply,
+                    "future-protocol" => Failure::Protocol,
+                    "busy" => Failure::Busy,
+                    "cancelled" => Failure::Cancelled,
+                    _ => unreachable!(),
+                };
+                assert_eq!(result, Err(expected), "{mode}");
+                if matches!(
+                    mode,
+                    "previously-sent"
+                        | "lost"
+                        | "partial"
+                        | "invalid-json"
+                        | "wrong-id"
+                        | "future-protocol"
+                        | "cancelled"
+                ) {
+                    assert!(committed, "{mode}");
+                }
+                server.join().unwrap();
+                fs::remove_dir_all(root).unwrap();
             }
-            let mut committed = mode == "previously-sent";
-            let mut request = Request::new(
-                crate::request_id(),
-                arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
-            );
-            request.payload = serde_json::json!({"action":"TRAFFIC","request":{"action":"POLL","job_id":"a".repeat(32)}});
-            let result = negotiated(
-                &path,
-                request,
-                Instant::now() + Duration::from_secs(2),
-                &|| cancelled.load(Ordering::SeqCst),
-                &mut committed,
-                Some(&continuity),
-            );
-            let expected = match mode {
-                "unsupported" => Failure::Unsupported,
-                "previously-sent" | "ambiguous-peer" | "lost" | "partial" => Failure::Uncertain,
-                "invalid-json" | "wrong-id" => Failure::InvalidReply,
-                "future-protocol" => Failure::Protocol,
-                "busy" => Failure::Busy,
-                "cancelled" => Failure::Cancelled,
-                _ => unreachable!(),
-            };
-            assert_eq!(result, Err(expected), "{mode}");
-            if matches!(
-                mode,
-                "previously-sent"
-                    | "lost"
-                    | "partial"
-                    | "invalid-json"
-                    | "wrong-id"
-                    | "future-protocol"
-                    | "cancelled"
-            ) {
-                assert!(committed, "{mode}");
-            }
-            server.join().unwrap();
-            fs::remove_dir_all(root).unwrap();
         }
     }
 }

@@ -23,6 +23,8 @@ mod tests {
             ("LINT", "BUN_SCRIPT_LINT"),
             ("TYPECHECK", "BUN_SCRIPT_TYPECHECK"),
             ("TEST", "BUN_TEST"),
+            ("TEST", "PYTHON_PYTEST"),
+            ("TEST", "PYTHON_UNITTEST"),
         ] {
             let stored = serde_json::json!({"job":{"classification":{"classification":class,
                 "locality":"HOST_LOCAL","reason":reason,"uncertainty":"NONE"}}});

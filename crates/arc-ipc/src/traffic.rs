@@ -13,6 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 
 pub mod diagnostics;
+pub mod python;
 pub mod scripts;
 
 pub const OPERATION_TRAFFIC_CAPABILITIES: &str = "traffic.capabilities";
@@ -24,6 +25,9 @@ pub const BUN_CAPABILITY: &str = "traffic.bun.v1";
 pub const OPERATION_BUN_SCRIPTS_CAPABILITIES: &str = "traffic.bun-scripts.capabilities";
 pub const OPERATION_BUN_SCRIPTS_JOB: &str = "traffic.bun-scripts.job";
 pub const BUN_SCRIPTS_CAPABILITY: &str = "traffic.bun-scripts.v1";
+pub const OPERATION_PYTHON_TESTS_CAPABILITIES: &str = "traffic.python-tests.capabilities";
+pub const OPERATION_PYTHON_TESTS_JOB: &str = "traffic.python-tests.job";
+pub const PYTHON_TESTS_CAPABILITY: &str = "traffic.python-tests.v1";
 pub const MAX_TRAFFIC_PAYLOAD_BYTES: usize = 8192;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -48,6 +52,12 @@ impl Capabilities {
     pub fn scripts_supported() -> Self {
         Self {
             capability: BUN_SCRIPTS_CAPABILITY.to_owned(),
+        }
+    }
+
+    pub fn python_supported() -> Self {
+        Self {
+            capability: PYTHON_TESTS_CAPABILITY.to_owned(),
         }
     }
 }
@@ -91,7 +101,12 @@ pub fn interpret_probe_for(
         (OPERATION_TRAFFIC_CAPABILITIES, CAPABILITY)
             | (OPERATION_BUN_CAPABILITIES, BUN_CAPABILITY)
             | (OPERATION_BUN_SCRIPTS_CAPABILITIES, BUN_SCRIPTS_CAPABILITY)
+            | (OPERATION_PYTHON_TESTS_CAPABILITIES, PYTHON_TESTS_CAPABILITY)
             | (diagnostics::OPERATION_CAPABILITIES, diagnostics::CAPABILITY)
+            | (
+                diagnostics::OPERATION_PYTHON_CAPABILITIES,
+                diagnostics::PYTHON_CAPABILITY
+            )
     ) {
         return ProbeResult::Invalid;
     }

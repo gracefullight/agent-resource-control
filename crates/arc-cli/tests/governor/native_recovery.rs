@@ -1,4 +1,7 @@
 //! Production daemon, native CLI, read-only SQLite; no socket result mocks.
+#[path = "native_recovery/python_tests.rs"]
+mod python_tests;
+
 use super::{native, native_process, serialization, support::output};
 use arc_core::process_identity::{probe_live, IdentityStatus, ProcessIdentity};
 use serde_json::{json, Value};

@@ -63,6 +63,8 @@ pub(crate) async fn dispatch_with_clock(
             | OPERATION_LAUNCH_ACK
             | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
             | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB
+            | arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES
+            | arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB
     ) {
         return false;
     }
@@ -85,12 +87,22 @@ pub(crate) async fn dispatch_with_clock(
         send(capabilities_response(request)).await;
         return true;
     }
-    if request.operation == arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES {
+    if matches!(
+        request.operation.as_str(),
+        arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
+            | arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES
+    ) {
         send(
             if arc_ipc::traffic::decode_probe(&request.payload).is_ok() {
                 Response::ok(
                     &request.request_id,
-                    serde_json::json!(arc_ipc::traffic::Capabilities::scripts_supported()),
+                    serde_json::json!(if request.operation
+                        == arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES
+                    {
+                        arc_ipc::traffic::Capabilities::python_supported()
+                    } else {
+                        arc_ipc::traffic::Capabilities::scripts_supported()
+                    }),
                 )
             } else {
                 Response::error(&request.request_id, arc_ipc::ERROR_INVALID_REQUEST)
@@ -107,6 +119,10 @@ pub(crate) async fn dispatch_with_clock(
         OPERATION_JOB => decode_job(&request.payload).map(Input::Job),
         arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB => {
             arc_ipc::traffic::scripts::decode_job(&request.operation, &request.payload)
+                .map(Input::Job)
+        }
+        arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB => {
+            arc_ipc::traffic::python::decode_job(&request.operation, &request.payload)
                 .map(Input::Job)
         }
         OPERATION_LAUNCH => decode_launch(&request.payload).map(Input::Launch),

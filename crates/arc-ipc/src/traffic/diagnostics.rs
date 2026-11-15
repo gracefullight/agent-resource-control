@@ -12,6 +12,9 @@ use serde::{Deserialize, Serialize};
 pub const CAPABILITY: &str = "traffic.diagnostics.v1";
 pub const OPERATION_CAPABILITIES: &str = "traffic.diagnostics.capabilities";
 pub const OPERATION_JOB: &str = "traffic.diagnostics.job";
+pub const PYTHON_CAPABILITY: &str = "traffic.python-tests.diagnostics.v1";
+pub const OPERATION_PYTHON_CAPABILITIES: &str = "traffic.python-tests.diagnostics.capabilities";
+pub const OPERATION_PYTHON_JOB: &str = "traffic.python-tests.diagnostics.job";
 pub const MAX_QUERY_BYTES: usize = 512;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -173,6 +176,16 @@ pub struct DiagnosticResult {
     pub limits: ScriptPolicyLimits,
 }
 impl DiagnosticResult {
+    /// Older diagnostic readers know the Bun vocabulary but cannot decode
+    /// Python facts. Project a response copy, never the persisted admission.
+    pub fn legacy(mut self) -> Self {
+        if self.classification.is_some_and(|c| c.is_python_test()) {
+            self.classification = self.classification.map(Classification::legacy);
+            self.admission = None;
+        }
+        self
+    }
+
     pub fn is_valid(&self) -> bool {
         self.schema_version == 1
             && self.recorded_at_ms <= MAX_TIMESTAMP
@@ -224,7 +237,10 @@ pub fn interpret_result(
     request: &Request,
     response: &Response,
 ) -> Result<DiagnosticResult, &'static str> {
-    if request.operation != OPERATION_JOB {
+    if !matches!(
+        request.operation.as_str(),
+        OPERATION_JOB | OPERATION_PYTHON_JOB
+    ) {
         return Err(ERROR_UNSUPPORTED_CAPABILITY);
     }
     if request.protocol_version != PROTOCOL_VERSION || response.protocol_version != PROTOCOL_VERSION

@@ -189,9 +189,14 @@ pub fn decide(
     }
     let class = match (classification.classification, classification.reason) {
         (JobClass::Build, Reason::CargoBuild | Reason::BunScriptBuild) => TrafficClass::Build,
-        (JobClass::Test, Reason::CargoTest | Reason::BunTest | Reason::BunScriptTest) => {
-            TrafficClass::Test
-        }
+        (
+            JobClass::Test,
+            Reason::CargoTest
+            | Reason::BunTest
+            | Reason::BunScriptTest
+            | Reason::PythonPytest
+            | Reason::PythonUnittest,
+        ) => TrafficClass::Test,
         (JobClass::Lint, Reason::CargoClippy | Reason::CargoFmt | Reason::BunScriptLint) => {
             TrafficClass::Lint
         }

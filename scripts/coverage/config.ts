@@ -27,6 +27,7 @@ export const METER_SRS_SHA256 = "a8ef945251f9f3fd7c3e337d4efc77ff9914f95114212ca
 export const MEMORY_PRESSURE_INPUTS = [".arc-verify/memory-pressure/contract.md"] as const;
 export const GOVERNOR_INPUTS = [".arc-verify/governor/contract.md"] as const;
 export const BUN_SCRIPT_INPUTS = [".arc-verify/traffic-bun-scripts/contract.md"] as const;
-export const FROZEN_INPUTS = [...METER_INPUTS, ...MEMORY_PRESSURE_INPUTS, ...GOVERNOR_INPUTS, ...BUN_SCRIPT_INPUTS] as const;
+export const PYTHON_TEST_INPUTS = [".arc-verify/python-tests/contract.md"] as const;
+export const FROZEN_INPUTS = [...METER_INPUTS, ...MEMORY_PRESSURE_INPUTS, ...GOVERNOR_INPUTS, ...BUN_SCRIPT_INPUTS, ...PYTHON_TEST_INPUTS] as const;
 // Retain historical references; harness bytes are guarded by differential tests.
 export const PROTECTED = [HARNESS, "crates/arc-storage/migrations/0001_phase0.sql"];

@@ -34,14 +34,50 @@ impl DesktopBridge {
         id: JobId,
     ) -> Result<Received<DiagnosticResult>, DesktopError> {
         // Probe on every read: a replacement peer cannot inherit an earlier
-        // peer's capability. Both exchanges share one deadline and permit.
+        // peer's capability. Only explicit unsupported permits the old read;
+        // all probes and the selected query share one deadline and permit.
         let deadline = Instant::now() + READ_DEADLINE;
+        let python = match self.probe_traffic_diagnostics(
+            diagnostics::OPERATION_PYTHON_CAPABILITIES,
+            diagnostics::PYTHON_CAPABILITY,
+            deadline,
+        ) {
+            Ok(()) => true,
+            Err(error) if error.code == ErrorCode::Unsupported => {
+                self.probe_traffic_diagnostics(
+                    diagnostics::OPERATION_CAPABILITIES,
+                    diagnostics::CAPABILITY,
+                    deadline,
+                )?;
+                false
+            }
+            Err(error) => return Err(error),
+        };
         let value = self.session_exchange(
-            diagnostics::OPERATION_CAPABILITIES,
-            Value::Null,
+            if python {
+                diagnostics::OPERATION_PYTHON_JOB
+            } else {
+                diagnostics::OPERATION_JOB
+            },
+            json!({ "job_id": id }),
             deadline,
             false,
         )?;
+        let result = diagnostics::decode_result(&value, &id)
+            .map_err(|_| DesktopError::new(ErrorCode::InvalidReply))?;
+        if !python && result.classification.is_some_and(|c| c.is_python_test()) {
+            return Err(DesktopError::new(ErrorCode::InvalidReply));
+        }
+        self.received(result)
+    }
+
+    fn probe_traffic_diagnostics(
+        &self,
+        operation: &'static str,
+        expected: &str,
+        deadline: Instant,
+    ) -> Result<(), DesktopError> {
+        let value = self.session_exchange(operation, Value::Null, deadline, false)?;
         if !value.is_object()
             || serde_json::to_vec(&value)
                 .map_or(true, |bytes| bytes.len() > diagnostics::MAX_QUERY_BYTES)
@@ -50,17 +86,9 @@ impl DesktopBridge {
         }
         let capability: Capabilities = serde_json::from_value(value)
             .map_err(|_| DesktopError::new(ErrorCode::InvalidReply))?;
-        if capability.capability != diagnostics::CAPABILITY {
+        if capability.capability != expected {
             return Err(DesktopError::new(ErrorCode::InvalidReply));
         }
-        let value = self.session_exchange(
-            diagnostics::OPERATION_JOB,
-            json!({ "job_id": id }),
-            deadline,
-            false,
-        )?;
-        let result = diagnostics::decode_result(&value, &id)
-            .map_err(|_| DesktopError::new(ErrorCode::InvalidReply))?;
-        self.received(result)
+        Ok(())
     }
 }

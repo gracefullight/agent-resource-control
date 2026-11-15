@@ -4,6 +4,7 @@ pub use argv::{analyze_argv, classify_argv};
 mod budget;
 mod lexer;
 mod parser;
+mod python;
 mod rules;
 pub mod scripts;
 pub use scripts::resolver::analyze_script_argv;

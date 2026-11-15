@@ -15,7 +15,10 @@ pub(super) async fn dispatch(
     if request.protocol_version != PROTOCOL_VERSION
         || !matches!(
             request.operation.as_str(),
-            wire::OPERATION_CAPABILITIES | wire::OPERATION_JOB
+            wire::OPERATION_CAPABILITIES
+                | wire::OPERATION_JOB
+                | wire::OPERATION_PYTHON_CAPABILITIES
+                | wire::OPERATION_PYTHON_JOB
         )
     {
         return false;
@@ -32,12 +35,15 @@ pub(super) async fn dispatch(
         .await;
         return true;
     };
-    if request.operation == wire::OPERATION_CAPABILITIES {
+    if matches!(
+        request.operation.as_str(),
+        wire::OPERATION_CAPABILITIES | wire::OPERATION_PYTHON_CAPABILITIES
+    ) {
         send(
             if arc_ipc::traffic::decode_probe(&request.payload).is_ok() {
                 Response::ok(
                     &request.request_id,
-                    serde_json::json!({"capability": wire::CAPABILITY}),
+                    serde_json::json!({"capability": if request.operation == wire::OPERATION_PYTHON_CAPABILITIES { wire::PYTHON_CAPABILITY } else { wire::CAPABILITY }}),
                 )
             } else {
                 Response::error(&request.request_id, arc_ipc::ERROR_INVALID_REQUEST)
@@ -63,9 +69,21 @@ pub(super) async fn dispatch(
     };
     let response = match result {
         Ok(Value::Diagnostics(value)) => {
-            let payload = serde_json::json!(value);
-            if wire::decode_result(&payload, &query.expect("validated query").job_id).is_ok() {
-                Response::ok(&request.request_id, payload)
+            // Validate stored facts before a compatibility projection could
+            // conceal an inconsistent classification or malformed admission.
+            let expected = query.expect("validated query").job_id;
+            if value.is_valid() && value.job_id == expected {
+                let value = if request.operation == wire::OPERATION_JOB {
+                    value.legacy()
+                } else {
+                    *value
+                };
+                let payload = serde_json::json!(value);
+                if wire::decode_result(&payload, &expected).is_ok() {
+                    Response::ok(&request.request_id, payload)
+                } else {
+                    Response::error(&request.request_id, arc_ipc::ERROR_DB_BUSY)
+                }
             } else {
                 Response::error(&request.request_id, arc_ipc::ERROR_DB_BUSY)
             }

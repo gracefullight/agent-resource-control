@@ -75,14 +75,9 @@ pub(super) fn prepare(
     mode: &mut Mode,
     signals: &Signals,
 ) -> Result<Coordination, Failure> {
-    if matches!(
-        mode,
-        Mode::Unreserved { .. }
-            | Mode::Scheduled {
-                route: super::traffic::Route::Governor | super::traffic::Route::BunScripts,
-                ..
-            }
-    ) {
+    if matches!(mode, Mode::Unreserved { .. })
+        || matches!(mode, Mode::Scheduled { route, .. } if route.governed())
+    {
         return governor::prepare(socket, id, observer, mode, signals);
     }
     let Mode::Scheduled {

@@ -119,19 +119,49 @@ pub fn log(path: &Path) -> String {
 pub fn write(path: &Path, data: impl AsRef<[u8]>) {
     fs::write(path, data).unwrap();
 }
-pub struct Case {
+/// Native scenario suites share lifecycle/reconciliation without requiring
+/// unrelated compilers or package installations in their fixture setup.
+pub trait RunnerTools {
+    fn shims(&self) -> &Path;
+}
+impl RunnerTools for projects::Tools {
+    fn shims(&self) -> &Path {
+        &self.shims
+    }
+}
+pub struct Case<T = projects::Tools> {
     // Processes are dropped before the fixture removes its own temporary directory.
     pub daemon: native::OwnedChild,
     pub fixture: native::Fixture,
     pub artifacts: PathBuf,
     pub read: Read,
-    pub tools: projects::Tools,
+    pub tools: T,
     pub injected: bool,
 }
 impl Case {
     pub fn new(name: &str, read: Read, injected: bool) -> Self {
-        assert_eq!(std::env::consts::OS, "macos");
         let tools = projects::Tools::installed();
+        let receipt = tools.receipt();
+        let shims: Vec<_> = ["bun", "cargo", "vite", "tsc", "biome"]
+            .into_iter()
+            .map(|name| {
+                let path = tools.shims.join(name);
+                json!({"name":name,"sha256":sha(&path)})
+            })
+            .collect();
+        Self::with_tools(name, read, injected, tools, receipt, json!(shims))
+    }
+}
+impl<T> Case<T> {
+    pub fn with_tools(
+        name: &str,
+        read: Read,
+        injected: bool,
+        tools: T,
+        tool_receipt: Value,
+        shims: Value,
+    ) -> Self {
+        assert_eq!(std::env::consts::OS, "macos");
         let fixture = native::Fixture::with_binary(binary(if injected {
             "arc-pressure-daemon-fixture"
         } else {
@@ -174,14 +204,7 @@ impl Case {
             .canonicalize()
             .unwrap()
         );
-        let shims: Vec<_> = ["bun", "cargo", "vite", "tsc", "biome"]
-            .into_iter()
-            .map(|name| {
-                let path = case.tools.shims.join(name);
-                json!({"name":name,"sha256":sha(&path)})
-            })
-            .collect();
-        case.save("startup", json!({"daemon":ProcessIdentity::capture(case.daemon.child.id()).unwrap(),"binary":daemon_executable,"sha256":sha(&daemon_executable),"pressureInjected":injected,"tools":case.tools.receipt(),"execObservers":shims}));
+        case.save("startup", json!({"daemon":ProcessIdentity::capture(case.daemon.child.id()).unwrap(),"binary":daemon_executable,"sha256":sha(&daemon_executable),"pressureInjected":injected,"tools":tool_receipt,"execObservers":shims}));
         case
     }
     pub fn save(&self, name: &str, value: Value) {
@@ -255,7 +278,12 @@ impl Case {
         if !row["state"].is_null() && row["state"] != "RESERVED" {
             assert_eq!(admission["state"], row["state"]);
         }
-        assert_eq!(admission["permit_active"], row["permit_state"] == "ACTIVE");
+        if admission.is_null() {
+            assert!(row["state"].is_null());
+            assert!(row["permit_state"].is_null());
+        } else {
+            assert_eq!(admission["permit_active"], row["permit_state"] == "ACTIVE");
+        }
         if !row["permit_generation"].is_null() {
             assert_eq!(admission["permit_generation"], row["permit_generation"]);
             assert_eq!(admission["root_job_id"], row["permit_job"]);
@@ -268,13 +296,13 @@ impl Case {
                 row["memory_bytes_est"]
             );
         }
-        if row["outcome_kind"] == "EXITED" {
+        if row["outcome_kind"] == "EXITED" && !admission.is_null() {
             assert_eq!(
                 admission["outcome"],
                 json!({"kind":"EXITED","code":row["exit_code"]})
             );
         }
-        if row["outcome_kind"] == "SIGNALED" {
+        if row["outcome_kind"] == "SIGNALED" && !admission.is_null() {
             assert_eq!(admission["outcome"]["signal"], row["signal"]);
         }
         let status = self.cli(&["job", "status", id]);
@@ -321,11 +349,11 @@ pub struct Run {
     pub fifo: Option<File>,
 }
 impl Run {
-    pub fn start(case: &Case, project: &Path, argv: &[&str]) -> Self {
+    pub fn start<T: RunnerTools>(case: &Case<T>, project: &Path, argv: &[&str]) -> Self {
         Self::start_with(case, project, argv, |_| {})
     }
-    pub fn start_with(
-        case: &Case,
+    pub fn start_with<T: RunnerTools>(
+        case: &Case<T>,
         project: &Path,
         argv: &[&str],
         configure: impl FnOnce(&mut Command),
@@ -340,7 +368,7 @@ impl Run {
                 "PATH",
                 format!(
                     "{}:{}",
-                    case.tools.shims.display(),
+                    case.tools.shims().display(),
                     std::env::var("PATH").unwrap()
                 ),
             )
@@ -371,7 +399,7 @@ impl Run {
             .filter(|l| l.split_whitespace().next() == Some(tool))
             .count()
     }
-    pub fn entered(&mut self, case: &Case, fifo: bool) -> Value {
+    pub fn entered<T>(&mut self, case: &Case<T>, fifo: bool) -> Value {
         if fifo {
             eventually(|| {
                 assert!(

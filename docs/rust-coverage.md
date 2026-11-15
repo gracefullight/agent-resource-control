@@ -8,7 +8,7 @@ bun run test:coverage
 
 For retained historical receipts and amendment verification, use the [evidence index](../.arc-verify/evidence-hygiene/index.md). Current run reports are local and ignored by Git; a historical pass does not verify this checkout.
 
-The gate runs unit, integration and instrumented CLI/daemon tests across all six Rust crates. Each crate must reach **80% production-source line coverage**. This is a new engineering target, not an observed baseline or SRS threshold. A passing coverage run does not complete the separate Cargo, harness or independent QA requirements.
+The gate runs unit, integration and instrumented CLI/daemon tests across all **11 registered Rust crates** in [the maintained configuration](../scripts/coverage/config.ts). Each crate must independently reach **80% production-source line coverage**. This is an engineering gate, not an observed baseline or SRS threshold. A passing coverage run does not complete the separate Cargo, Bun, harness, affected desktop or independent QA requirements. The historical six-crate inventory is retained only for its original baseline checks.
 
 ## Set up once
 
@@ -42,10 +42,10 @@ Run from an environment without Rust/LLVM flags, compiler wrappers or target ove
 
 ## Repeat use
 
-1. Run `bun run test:coverage` from the root.
-2. Read the six labeled results, in order: arc-core, arc-detector, arc-storage, arc-ipc, arc-daemon and arc-cli.
+1. Finish the intended source, test, configuration and documentation changes, then run `bun run test:coverage` from the root.
+2. Read the 11 labeled results, in order: arc-core, arc-detector, arc-storage, arc-ipc, arc-daemon, arc-cli, arc-traffic, arc-desktop, arc-platform, arc-meter and arc-policy. The arc-desktop Rust source root is `apps/desktop/src-tauri/src`; the other ten are under `crates/<crate>/src`.
 3. Open the directory printed after `Coverage reports:`. Read its `uncovered.md` for each production file's covered/total count and uncovered line numbers.
-4. Repair the relevant source or tests, then rerun the same command.
+4. If collection fails or a crate misses its floor, repair the relevant source or tests, finish edits, then rerun the same command. Once the final-input collection passes, reuse its receipt in the harness as described below; do not duplicate a successful collection for unchanged inputs.
 
 Output announces three stages: checking pinned tools; running workspace unit, integration and child-binary tests; merging fresh execution profiles and validating reports. Valid measurements show `PASS` or `FAIL`, the crate name, covered/total production lines, a percentage and the required 80%. Labels convey the result without relying on color or a prompt.
 
@@ -80,21 +80,36 @@ Each attempt has a unique directory under `.arc-verify/rust-coverage/baseline/ru
 | Artifact inside a run directory | Contents |
 | --- | --- |
 | `uncovered.md` | Per-file covered/total counts and uncovered line numbers. |
-| `summary.json` | Six crate verdicts; per-file mapped, omitted and uncovered lines; source and raw-report hashes; host and versions. |
+| `summary.json` | Eleven independent crate verdicts; per-file mapped, omitted and uncovered lines; source and raw-report hashes; host and versions. |
 | `raw.lcov`, `raw.json` | Unmodified native exports from the same profile set. |
 | `inputs.json`, `source-inventory.json` | Exact input hashes, production/test classification and omitted test-only spans. |
 | `versions.json`, `metadata.json`, `non-workspace-roots.json` | Tool/host versions, locked Cargo metadata and recorded dependency/compiler filter roots. |
 | `profiles.json` | Raw-profile paths, sizes and hashes, explicit child PIDs and the exact merge list. |
 | Numbered `*-command.json` files | Actual commands, working directories, times, PIDs, exits and captured output. |
 | `receipt.json` | Attempt verdict and command receipts, including failed attempts. |
+| `reuse.json` | Same-input coverage bundle consumed by the unchanged harness; binds the successful collection, native reports/profiles, pins and frozen inputs. |
 
 Run directories, profile directories, `.profraw`, `.profdata`, `.lcov` and native raw JSON exports are local evidence, not distributed tracked proof. Future CLI/harness acceptance receipts are also local under `.arc-verify/rust-coverage/tooling/acceptance/runs/`. Selected historical summaries, uncovered-line reports, compact receipts and verdicts remain available through the [evidence index](../.arc-verify/evidence-hygiene/index.md).
 
 Raw `.profraw` files and the merged profile stay under `target/arc-coverage/` in that run's unique target directory. The profile manifest records their exact location. A failed prerequisite may leave only inputs and a failed receipt; absent summaries mean measurement is unavailable.
 
-The original accounting/preservation baseline remains `fbe76a5f15101ad415f355ef06f1deeb1f97d568`; existing report fields named `acceptedBaseline` retain that meaning. The evidence-hygiene amendment starts from accepted committed source `aacb3b4359f13c31c0705c0cffc5bf1ac00f387e`. Neither label binds a measurement to later edits. The gate hashes crate sources, tests, manifests and migrations; Cargo.lock; root tool/package configuration; the machine-readable accounting contract; coverage scripts; and any root Cargo configuration/build script. It checks equal before/after input hashes and fresh report timestamps. Documentation files are outside that implementation-input fingerprint. Consult each run's input manifest for the actual measured bytes.
+The original accounting/preservation baseline remains `fbe76a5f15101ad415f355ef06f1deeb1f97d568`; existing report fields named `acceptedBaseline` retain that meaning. The evidence-hygiene amendment starts from accepted committed source `aacb3b4359f13c31c0705c0cffc5bf1ac00f387e`. Neither label binds a measurement to later edits. The gate hashes the registered crate sources, tests, manifests and migrations; Cargo.lock; root tool/package configuration; desktop source/tests/configuration; maintained scripts; the machine-readable accounting contract; and any root Cargo configuration/build script. It checks equal before/after input hashes and fresh report timestamps. Ordinary documentation is outside that implementation-input fingerprint, but explicitly registered immutable documents are inputs: [FROZEN_INPUTS](../scripts/coverage/config.ts) includes the SRS and mission contracts, including [`.arc-verify/python-tests/contract.md`](../.arc-verify/python-tests/contract.md). Generated Python `gates.json` and `qa.json` are excluded from identity. Consult each run's input manifest for the actual measured bytes.
 
-Native exports retain the collecting checkout's absolute source paths. Matching input hashes alone do not make copied reports replayable in another worktree. Run evidence checks in the collecting checkout, or collect a fresh run in the checkout being verified. Keep raw exports unchanged.
+Native exports retain the collecting checkout's absolute source paths. Matching input hashes alone do not make copied reports replayable in another worktree. Run evidence checks and harness reuse in the collecting checkout. Keep raw exports unchanged; a different checkout needs its own valid collection rather than copied proof.
+
+## Single final-input collection and harness reuse
+
+For the [Python TEST contract](../.arc-verify/python-tests/contract.md#gates), amendment 15 requires final implementation, tests and documentation before the exclusive backend gate task, followed by independent `oma-qa`. Consume applicable successful AV integrationCheck receipts with matching argv, cwd, pins and inputs without duplicate successful Actor runs. Historical passes do not certify changed inputs. Failed checks still require repair; retain their actual outcomes.
+
+Collect successful final-input coverage once. Read the resulting `reuse.json` in the printed run directory (or the configured coverage output directory), and pass its actual path to the unchanged harness:
+
+```sh
+ARC_COVERAGE_RECEIPT='<successful-run-directory>/reuse.json' ./scripts/harness/validate.sh
+```
+
+Replace the placeholder with the actual collection path and leave `SKIP_COVERAGE` unset. The harness validates that bundle's current input digest, frozen contracts, versions, native artifacts/profile inventory and all eleven individual 80% floors without collecting again. An explicitly empty, stale, missing or invalid receipt fails closed; it does not trigger fallback collection. Invoking the harness without `ARC_COVERAGE_RECEIPT` collects coverage, so use the receipt for this final-input workflow. Changed measured inputs invalidate reuse: finish the repair, collect for the new final inputs and reuse that successful run. No passing pointer or receipt may be rebound to different bytes.
+
+The Python evidence directory retains only `contract.md`, `gates.json` and `qa.json`; local raw coverage stays in its collecting checkout. The future [gates](../.arc-verify/python-tests/gates.json) and [independent QA](../.arc-verify/python-tests/qa.json) paths are destinations, not produced verdicts at documentation-task delivery. They must bind final inputs and the single collection/reuse outcome. This documentation introduces no validator or additional report task.
 
 ## Verify current local evidence
 
@@ -107,33 +122,27 @@ bun test scripts/coverage/evidence.test.ts
 
 Run them in order after finishing implementation edits. The second command requires a successful latest run, matching current input hashes, unchanged native LCOV/LLVM JSON exports and actual profile bytes. It recomputes accounting, checks profile hashes and merge-list equality, and verifies CLI/daemon child PIDs. A retained summary or compact receipt cannot replace those inputs.
 
-If the pointer or reports are missing, collect coverage here. If the latest attempt failed, follow its diagnostic and rerun collection successfully. If inputs changed or reports are stale, finish edits and recollect; do not restore a passing pointer or copy historical exports. Native reports contain checkout-specific paths. Serialize coverage and harness collection in one checkout, then run the live evidence check after the last collection.
+If the pointer or reports are missing, collect coverage here. If the latest attempt failed, follow its diagnostic and rerun collection successfully. If inputs changed or reports are stale, finish edits and recollect; do not restore a passing pointer or copy historical exports. Native reports contain checkout-specific paths. Serialize coverage and the subsequent harness receipt validation in one checkout, retaining the same successful final-input collection for the live evidence check and harness.
 
-The [clean-checkout check](../scripts/coverage/clean-checkout.test.ts), invoked with `bun test scripts/coverage/clean-checkout.test.ts`, separately creates an isolated checkout from the current Git index, verifies no prior run artifacts exist, collects coverage and checks native evidence there. Stage the intended implementation and retention changes first. Its local checkout and receipts stay available for inspection; a previous isolated pass does not verify later source changes. Hygiene checks separately enforce the retained set. Historical preservation checks use isolated fixtures at their original revisions; current-checkout preservation uses the feature contract below.
+Historical clean-checkout acceptance created an isolated checkout from the Git index, verified no prior artifacts existed, collected coverage and checked native evidence there. Its [retained receipt](../.arc-verify/evidence-hygiene/task-2-clean-checkout.json) applies to that collecting checkout and original inputs. The old `scripts/coverage/clean-checkout.test.ts` path is absent from the current checkout; it is not an extra collection step in the Python contract's retained active-22 final gate. Current hygiene/equivalence checks remain in that exact gate; no historical isolated pass certifies later source changes.
 
 ## Preservation during managed exec implementation
 
 Historical whole-Rust checks retain their original baselines: `fbe76a5f15101ad415f355ef06f1deeb1f97d568` for production tokens and `aacb3b4359f13c31c0705c0cffc5bf1ac00f387e` for exact files/bytes/modes. Their positive and rejection cases execute against isolated Git-object fixtures. Historical receipt meanings and accounting baselines stay unchanged.
 
-The live [preservation guard](../scripts/coverage/current-preservation.ts) compares existing regression items and helpers with accepted feature HEAD `19d7a507044cbf83918f58cd41056905c275c8d4`. Production edits and new modules are allowed. Existing test/helper items, attributes, module reachability and assertion macros remain protected; add new standalone test items/modules rather than rewriting old cases. The guard checks unchanged `0001_phase0.sql` bytes in the working tree and index, its mode/type, the harness path/mode/type and executable lines, and coverage accounting/collection/evidence protections. Fixed adaptation recipes permit only this task's historical-fixture routing and longer verification timeouts. They do not select a later baseline.
+The historical `scripts/coverage/current-preservation.ts` guard compared regression items and helpers with accepted feature HEAD `19d7a507044cbf83918f58cd41056905c275c8d4`. It protected existing test/helper items, attributes, module reachability, assertion macros, original migration bytes/modes, the harness and coverage accounting/collection/evidence behavior while allowing production edits and new modules. Its baseline and fixed historical-fixture adaptations retain their original scope; the old guard path is absent from the current checkout.
 
-Run the focused protections with:
+For the Python slice, the maintained [equivalence test](../scripts/harness/equivalence.test.ts) runs within the exact active-22 command. Older managed-exec and coverage-verification command paths are not additional current gate recipes. The frozen Python contract preserves the harness and tests without adding an evidence validator or another native collection.
 
-```sh
-bun test scripts/harness/managed-exec.test.ts
-bun test scripts/harness/coverage-verification.test.ts
-bun test scripts/harness/equivalence.test.ts
-```
+Historical coverage-tooling acceptance retains its nine-file inventory and separate collecting/live checks. That historical clean-checkout check used an index snapshot and rejected missing/stale inputs. The Python slice uses the exact retained active-22 Bun command in its frozen contract; do not expand it into redundant successful native collections. Python verification wrappers must allow at least the framework's 7,200,000 ms per-check timeout; individual contract `timeoutMs` estimates do not terminate checks.
 
-The nine existing coverage test files remain required. The inventory command runs the same five non-collecting files and identifies the same four separately required collecting/live checks. The clean-checkout check still snapshots the final index and rejects missing/stale inputs; it now applies live regression/migration protections instead of requiring historical production bytes. Coverage/harness command wrappers allow at least the framework's 3,600,000 ms per-check timeout; the clean-checkout test allows both of its sequential commands to finish.
-
-The managed-exec [evidence validator](../scripts/harness/managed-exec-evidence.ts) reads real sources, index entries, compact command receipts, independent review, final reports and current native LCOV/LLVM/profile files. Its [test](../scripts/harness/managed-exec-evidence.test.ts) runs without substitute Cargo commands. Run the full file after implementation, native macOS gates and independent QA exist. Validator unit fixtures are labeled and cannot establish lifecycle acceptance. See [preservation.md](../.arc-verify/managed-exec/preservation.md) for the receipt interface and focused results. Lifecycle acceptance does not certify desktop, native Windows or Phase 1 scheduling.
+The historical managed-exec evidence validator read sources, index entries, compact command receipts, independent review and native LCOV/LLVM/profile files. Its old `scripts/harness/managed-exec-evidence.ts` and test paths are absent from the current checkout. See [preservation.md](../.arc-verify/managed-exec/preservation.md) for that receipt interface and focused results. Those historical fixtures do not establish current Python acceptance; current final evidence uses only the frozen contract's gates and subsequent independent QA.
 
 ## Production accounting
 
 The [accounting contract](../.arc-verify/rust-coverage/contract/accounting.md) and [implementation](../scripts/coverage/accounting.ts) define the denominator:
 
-- Inventory every Rust file under all six production `src` roots. Classify modules by reachability, including production modules compiled again by integration tests through path attributes.
+- Inventory every Rust file under all 11 registered production `src` roots. Classify modules by reachability, including production modules compiled again by integration tests through path attributes.
 - Count unique canonical production file/LLVM `DA` line pairs. Merge repeated compilation instances by line union; a line is covered if any instance has a positive hit. Retain mapped zero-hit lines.
 - Omit integration-test sources, files reached only through test modules, and spans whose cfg is provably false with `test` disabled. Record the omitted spans. Unknown platform predicates remain in production scope. Unsupported or ambiguous layouts fail validation.
 - Disable broad filename filters. Filter only recorded non-workspace dependency/compiler roots. Do not remove difficult production functions, error paths or platform code to meet the target.
@@ -155,7 +164,7 @@ Inactive cfg branches are inventoried production source, but the host compiler d
 
 On Linux, macOS-specific runtime, peer-identity and process-start paths are inactive instead. Host coverage does not certify the other platform. Stable Rust doctest coverage is outside this unit/integration/executable collection. No HTML explorer, interactive setup wizard or retention prompt is required.
 
-Required final checks remain separate: `bun run test:coverage`, `cargo fmt --all -- --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`, and `./scripts/harness/validate.sh` with zero violations and no skip flags, followed by independent QA. Read their current receipts before claiming completion.
+The Python contract retains six distinct final gates: `cargo fmt --all -- --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace`, the exact active-22 Bun test command, `bun run test:coverage`, and `./scripts/harness/validate.sh` with zero violations, same-input receipt reuse and no skip flags. Its affected desktop checks are `bun run desktop:typecheck`, `bun run desktop:check`, `bun run desktop:build` and `bun run desktop:smoke:tauri`. The exclusive backend gate task completes before independent QA. Read actual final receipts before claiming any gate or this Python slice complete; fixture correctness does not establish whole-product, responsiveness or commercial acceptance.
 
 - desktop: incomplete
 - native Windows: incomplete

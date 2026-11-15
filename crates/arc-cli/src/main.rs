@@ -63,6 +63,9 @@ Fallback applies to tracking outages. Invalid protocol replies and local prepara
     #[command(after_help = "Examples:
   arcctl exec -- cargo test
   arcctl exec -- bun test
+  arcctl exec -- pytest tests/test_native.py::test_one -q
+  arcctl exec -- .venv/bin/python -m pytest -k 'fast or smoke'
+  arcctl exec -- python -m unittest discover -s tests
   arcctl exec -- printf '%s\\n' 'two words'
   arcctl exec -- '/path/with spaces/tool' '' '--help' '|'
 
@@ -70,7 +73,7 @@ Your shell handles quoting before ARC receives arguments.
 ARC does not interpret pipes, redirections, substitutions or shell operators.
 If the daemon is unavailable or tracking is unconfirmed due to an outage or exhausted DB_BUSY retries, ARC still attempts the command once.
 Each admission exchange has a bounded outage budget; a healthy queued job waits for a permit.
-Direct local cargo build, cargo test, cargo clippy, cargo fmt and one-shot bun test jobs use the default Traffic windows and resource reservations when the daemon supports them. Bun watch, hot and unresolved forms bypass scheduling.
+Direct local cargo build, cargo test, cargo clippy, cargo fmt and one-shot bun test jobs use the default Traffic windows and resource reservations when the daemon supports them. Supported pytest, python -m pytest and python -m unittest forms share the TEST window through a negotiated capability. Virtual-environment executable paths are recognized lexically; ARC preserves the chosen executable and arguments. See docs/managed-exec.md for the finite selector/option grammar. Bun watch, hot and unresolved forms bypass scheduling.
 Cancellation, invalid arguments, invalid protocol replies, local preparation failures and explicit authenticated rejection do not start a child.
 Tracking diagnostics go to stderr; the child keeps its native streams, exit status and terminal behavior.
 Stopping the daemon does not stop the running child.

@@ -40,6 +40,10 @@ pub enum Reason {
     CargoTest,
     #[serde(rename = "BUN_TEST")]
     BunTest,
+    #[serde(rename = "PYTHON_PYTEST")]
+    PythonPytest,
+    #[serde(rename = "PYTHON_UNITTEST")]
+    PythonUnittest,
     #[serde(rename = "BUN_SCRIPT_BUILD")]
     BunScriptBuild,
     #[serde(rename = "BUN_SCRIPT_TEST")]
@@ -151,7 +155,9 @@ impl Classification {
         use {JobClass as C, Reason as R};
         let reason_valid = match self.reason {
             R::CargoBuild | R::BunScriptBuild => self.classification == C::Build,
-            R::CargoTest | R::BunTest | R::BunScriptTest => self.classification == C::Test,
+            R::CargoTest | R::BunTest | R::BunScriptTest | R::PythonPytest | R::PythonUnittest => {
+                self.classification == C::Test
+            }
             R::CargoClippy | R::CargoFmt | R::BunScriptLint => self.classification == C::Lint,
             R::BunScriptTypecheck => self.classification == C::Typecheck,
             R::GhWorkflowRun | R::GhRunWatch | R::GhRunView => self.classification == C::RemoteCi,
@@ -178,10 +184,16 @@ impl Classification {
         )
     }
 
-    /// Exact protocol-1 vocabulary predating Bun admission. Never project storage.
+    /// Vocabulary carried only by negotiated Python TEST operations.
+    pub fn is_python_test(&self) -> bool {
+        matches!(self.reason, Reason::PythonPytest | Reason::PythonUnittest)
+    }
+
+    /// Exact protocol-1 vocabulary predating negotiated additions. Never project storage.
     pub fn legacy(self) -> Self {
         if self.reason == Reason::BunTest
             || self.is_bun_script()
+            || self.is_python_test()
             || self.classification == JobClass::Typecheck
         {
             Self::unknown(Reason::UnresolvedCommand)

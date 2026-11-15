@@ -32,14 +32,17 @@ pub(super) fn prepare(
     use arc_detector::{Locality, Reason};
     let route = if classification.is_bun_script() {
         Route::BunScripts
+    } else if classification.is_python_test() {
+        Route::PythonTests
     } else {
         Route::Governor
     };
-    let fallback_classification = if classification.is_bun_script() {
-        classification.legacy()
-    } else {
-        classification
-    };
+    let fallback_classification =
+        if classification.is_bun_script() || classification.is_python_test() {
+            classification.legacy()
+        } else {
+            classification
+        };
     if classification.locality != Locality::HostLocal
         || !matches!(
             classification.reason,
@@ -52,17 +55,25 @@ pub(super) fn prepare(
                 | Reason::BunScriptTest
                 | Reason::BunScriptLint
                 | Reason::BunScriptTypecheck
+                | Reason::PythonPytest
+                | Reason::PythonUnittest
         )
     {
         return traffic::prepare(socket, id, observer, classification, deadline, signals);
     }
     let cancelled = || signals.interrupted();
-    let probe_operation = if route == Route::BunScripts {
-        arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
-    } else {
-        OPERATION_CAPABILITIES
+    let negotiated = match route {
+        Route::BunScripts => Some((
+            arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES,
+            arc_ipc::traffic::BUN_SCRIPTS_CAPABILITY,
+        )),
+        Route::PythonTests => Some((
+            arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES,
+            arc_ipc::traffic::PYTHON_TESTS_CAPABILITY,
+        )),
+        _ => None,
     };
-    let probe = if route == Route::BunScripts {
+    let probe = if let Some((probe_operation, _)) = negotiated {
         super::transport::call_until_with_continuity(
             socket,
             probe_operation,
@@ -75,7 +86,7 @@ pub(super) fn prepare(
     } else {
         Session::connect_until(socket, deadline, &cancelled, None).and_then(|mut session| {
             session.exchange(
-                &Request::new(crate::request_id(), probe_operation),
+                &Request::new(crate::request_id(), OPERATION_CAPABILITIES),
                 &cancelled,
             )
         })
@@ -103,10 +114,13 @@ pub(super) fn prepare(
         }
         Err(error) => return Err(error),
         Ok(value) => {
-            if route == Route::BunScripts {
+            if let Some((_, capability)) = negotiated {
+                if !value.is_object() {
+                    return Err(Failure::InvalidReply);
+                }
                 let caps: arc_ipc::traffic::Capabilities =
                     serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
-                if caps.capability != arc_ipc::traffic::BUN_SCRIPTS_CAPABILITY {
+                if caps.capability != capability {
                     return Err(Failure::InvalidReply);
                 }
             } else {
@@ -178,7 +192,7 @@ pub(super) fn prepare(
                 continuity,
             })
         }
-        Err(Failure::Unsupported) if route == Route::BunScripts => {
+        Err(Failure::Unsupported) if matches!(route, Route::BunScripts | Route::PythonTests) => {
             // await_admission only returns Unsupported when no prior attempt
             // could have committed, even if the peer changed after the probe.
             witness.discard();
@@ -319,7 +333,7 @@ fn await_admission(
                 _ => return Err(Failure::InvalidReply),
             },
             Err(Failure::Busy) => {
-                if route == Route::BunScripts {
+                if matches!(route, Route::BunScripts | Route::PythonTests) {
                     std::thread::sleep(Duration::from_millis(20));
                 }
             }
@@ -440,24 +454,11 @@ pub(super) fn call_routed(
     route: Route,
     possibly_committed: &mut bool,
 ) -> Result<GovernorJobResult, Failure> {
-    if route == Route::BunScripts {
-        // Session authenticates the endpoint and validates request ID/protocol.
-        // Unlike release requests, an admission may be reconciled using the
-        // same job/witness after a lost reply; an old peer cannot erase it.
-        let value = super::transport::call_until_with_continuity(
-            socket,
-            arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
-            json!(request),
-            deadline,
-            cancelled,
-            possibly_committed,
-            Some(continuity),
-        )?;
-        return decode_job_result(&value).map_err(|_| Failure::InvalidReply);
-    }
+    // Session authenticates the endpoint and validates request ID/protocol.
+    // Reconcile admissions through the same job/witness after a lost reply.
     let value = super::transport::call_until_with_continuity(
         socket,
-        OPERATION_JOB,
+        route.operation(),
         json!(request),
         deadline,
         cancelled,

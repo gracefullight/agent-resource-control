@@ -17,35 +17,81 @@ The CLI owns one child and inherits the caller's working directory, environment 
 
 ## Scheduling
 
-The daemon records lifecycle metadata and opaque scheduling capabilities; it does not record command text or other environment values. With a healthy daemon that supports the relevant Traffic capability, directly executed local `cargo build`, `cargo test`, `cargo clippy`, `cargo fmt` and one-shot `bun test` commands normally enter a durable FIFO queue. A verified nested job can reuse its ancestor's permit. The detector checks for the program token `cargo` or `bun` followed by a supported subcommand; it does not resolve the executable. An explicit path such as `/path/to/bun`, a wrapper invoked under an unrecognized name such as `bun-wrapper`, or a package script invoked through `bun run` is unresolved and bypasses Traffic admission. A PATH shim invoked as `bun` or `cargo` can still be eligible.
+The daemon records lifecycle metadata and opaque scheduling capabilities; it does not record command text or other environment values. With a healthy daemon that supports the relevant Traffic capability, directly executed local `cargo build`, `cargo test`, `cargo clippy`, `cargo fmt`, one-shot `bun test` and the Python forms below normally enter a durable FIFO queue. A verified nested job can reuse its ancestor's permit. For direct Cargo/Bun commands, the detector checks for the program token `cargo` or `bun` followed by a supported subcommand; it does not resolve the executable. An explicit Cargo/Bun path such as `/path/to/bun`, a wrapper invoked under an unrecognized name such as `bun-wrapper`, or a package script invoked through `bun run` is unresolved and bypasses Traffic admission. A PATH shim invoked as `bun` or `cargo` can still be eligible.
 
 For Bun, test paths and recognized one-shot options can be scheduled. Watch or hot mode, such as `bun test --watch` or `bun test --hot`, and unresolved forms such as unknown or ambiguous options bypass the Traffic queue and reservations. Remote, UNKNOWN and other unsupported classifications also bypass them; they do not wait for a Traffic permit. When started, Bun receives the original arguments, including for bypassed forms.
 
-`arcctl classify` analyzes literal command text rather than the native argument vector used by `arcctl exec`. Its conservative Bun result can be unresolved even when a direct invocation is eligible. A classification alone does not show whether a particular execution was admitted.
+`arcctl classify` analyzes literal command text rather than the native argument vector used by `arcctl exec`. Its conservative Bun result can be unresolved even when a direct invocation is eligible. Python recognition applies only to native argv: literal Python text, including `arcctl classify 'python -m pytest'` and shell compounds, retains UNKNOWN/OBSERVE. A classification alone does not show whether a particular execution was admitted.
+
+### Python TEST commands
+
+This macOS Python slice recognizes `pytest`, `python -m pytest` and `python -m unittest`. Interpreter basenames are exactly `python`, `python3`, and `python3.8` through `python3.15`; the separate arguments `-m pytest` or `-m unittest` must immediately follow the executable, with no interpreter flags before them.
+
+The executable can be a bare name or a relative or absolute path with basename `pytest` or a listed interpreter basename and no trailing slash. Virtual-environment examples include `.venv/bin/pytest`, `.venv/bin/python`, `../env/bin/python3` and `/work tree/.venv/bin/python3.13`. Quote paths containing spaces as one shell argument:
+
+```sh
+arcctl exec -- pytest tests/test_native.py::test_one -q
+arcctl exec -- python -m pytest tests -k 'fast or smoke'
+arcctl exec -- python -m unittest discover -s tests -p 'test_*.py' -t .
+arcctl exec -- python -m unittest tests.test_native.TestNative.test_one -v
+arcctl exec -- .venv/bin/python -m pytest
+arcctl exec -- .venv/bin/pytest tests
+arcctl exec -- '/work tree/.venv/bin/python3.13' -m unittest discover --start-directory=tests
+```
+
+Recognition is lexical and bounded: classification does not look up or execute an interpreter, read project configuration, or import project code. It does not activate a virtual environment or verify that a named runner is installed. ARC preserves the original native executable and arguments; it does not substitute console-script `pytest` for `python -m pytest`, or vice versa. Their native interpreter selection and module-import behavior remain intact, together with the working directory, environment, streams and signals described above.
+
+The finite selector and discovery grammar is:
+
+| Runner | Selectors and discovery |
+| --- | --- |
+| `pytest` or `python -m pytest` | No selectors retains native discovery. Accepts non-option file/directory paths, optionally followed by `::`-separated node names, such as `tests/test_native.py::TestNative::test_one`. Path and node components must be nonempty. Node parameter text in `[parameters]` is opaque, including embedded `::`; an opened parameter must close. Brackets in the path are literal. |
+| `python -m unittest` | No selectors retains native discovery. Accepts dotted module/class/method names whose components match `[A-Za-z_][A-Za-z0-9_]*`, or non-option relative/absolute file paths ending in `.py`. |
+| `python -m unittest discover` | `discover` must be the first argument after `unittest`. Only the options below may follow it; positional discovery shorthand is unresolved. Omitted discovery options retain native defaults. |
+
+Only these options are recognized:
+
+| Runner | Options |
+| --- | --- |
+| Pytest flags | `-q`, `--quiet`, `-qq`, `-v`, `--verbose`, `-vv`, `-x`, `--exitfirst`, `-s`, `--disable-warnings`, `--collect-only`, `--co` |
+| Pytest expressions | `-k EXPR`, `-m EXPR`; each expression is one separate argument, preserved without interpretation by ARC |
+| Pytest failure limit | `--maxfail N`, where `N` contains decimal digits only, with a value from 1 through 4294967295 |
+| Pytest traceback | `--tb STYLE`, where `STYLE` is `auto`, `long`, `short`, `line`, `native` or `no` |
+| Pytest capture | `--capture MODE`, where `MODE` is `fd`, `sys`, `no` or `tee-sys` |
+| Pytest color | `--color WHEN`, where `WHEN` is `yes`, `no` or `auto` |
+| Unittest, with or without `discover` | `-v`, `--verbose`, `-q`, `--quiet`, `-f`, `--failfast`, `-b`, `--buffer`, `-c`, `--catch`, and the separate pair `-k PATTERN` |
+| Unittest discovery only | `-s DIR` / `--start-directory DIR`, `-p GLOB` / `--pattern GLOB`, `-t DIR` / `--top-level-directory DIR` |
+
+Long options taking values also accept `--name=value`. Short options taking values require separate arguments. Every value must be nonempty and must not begin with `-`; quote spaces and glob patterns so the shell passes each as one argument. Options may repeat and may interleave with selectors, except that explicit unittest discovery accepts only options after its leading `discover`.
+
+Other forms make the whole classification UNKNOWN/OBSERVE and bypass the Traffic queue and TEST reservation. Examples include interpreter flags (`python -I -m pytest`), other modules, `--help`, `--version`, a runner's `--` separator, unlisted flags/clusters such as `-qv`, attached short values such as `-kfast`, malformed selectors and missing option values. Empty or non-UTF-8 tokens and inputs exceeding the detector's byte, token or work budget are also unresolved. Bypassed commands retain their original executable and arguments and follow the same native execution and preparation-error behavior as other commands.
+
+### Shared admission
 
 The current daemon uses these fixed class windows and reservation estimates:
 
 | Class | Commands | Window | CPU reservation | Memory reservation |
 | --- | --- | --- | --- | --- |
 | Build | `cargo build` | 1 | 2 cores | 2 GiB |
-| Test | `cargo test`, one-shot `bun test` | 1 | 1 core | 1 GiB |
+| Test | `cargo test`, one-shot `bun test`, supported `pytest`, `python -m pytest` and `python -m unittest` forms | 1 | 1 core | 1 GiB |
 | Lint | `cargo clippy`, `cargo fmt` | 1 | 1 core | 1 GiB |
 
-Cargo and Bun tests share the Test window and the global budget of 2 CPU cores and 4 GiB. Admission requires both a class window and enough shared budget. These are estimates for admission, not operating-system resource limits. There is no user-facing setting for changing these windows or budgets in this slice.
+Cargo, Bun and supported Python tests share the same one-slot Test window and the global budget of 2 CPU cores and 4 GiB. Admission requires both a class window and enough shared budget. These are estimates for admission, not operating-system resource limits. There is no user-facing setting for changing these windows or budgets in this slice.
 
-When the daemon confirms a wait, ARC attempts this notice once on stderr before starting the child:
+Python jobs use the existing Governor controls. `arcctl daemon pause` lets supported waiting jobs proceed without resubmitting; running children and usage measurement continue. `arcctl daemon resume` restores admission rules, so waiting work starts when those rules permit.
+
+When the daemon confirms a wait on the Python admission route, ARC attempts this notice once on stderr before starting the child:
 
 ```text
 QUEUED
 Waiting to start.
-Reference: <JOB_ID>
 ```
 
-While the daemon is healthy, the command waits until admission without a promised start time. If it was queued and then starts under a confirmed grant, ARC prints `STARTED` and `Command started.` after the native spawn succeeds. An immediately admitted command normally has no queue or start notice. ARC diagnostics are best effort when stderr is blocked or broken and can interleave with the child's output.
+While the daemon is healthy, the command waits until admission without a promised start time or test-percentage estimate. A shared Test-window wait means waiting for another test, whether that job uses Python, Cargo or Bun. If it was queued and then starts under a confirmed grant, ARC prints `STARTED` and `Command started.` after the native spawn succeeds. An immediately admitted command normally has no queue or start notice. ARC diagnostics are best effort when stderr is blocked or broken and can interleave with the child's output.
 
 ## Status and cancellation
 
-Use `arcctl job status` to list up to 50 recent last-known records. Copy an ID from that list or a queue notice into `arcctl job status <JOB_ID>` for details; an immediately admitted command normally prints no reference. When recorded exit evidence is available, both views show `succeeded` for exit 0 and `failed` for a nonzero exit. Historical `COMPLETED` records use the same mapping when an exit code is recorded. Signal termination, spawn failure, cancellation and unknown outcomes remain distinct. The by-ID view also shows queued, starting or running state, queue wait and exit or signal details when recorded. An unconfirmed grant reports `outcome unknown` with its reservation retained.
+Result inspection is optional after the single `arcctl exec -- ...` invocation. Queued Python jobs normally require ID lookup through `arcctl job status`, which lists up to 50 recent last-known records. Copy an ID from that list into `arcctl job status <JOB_ID>` for details. Use a queue notice's `Reference` directly only when one is actually supplied; Python queue notices and immediately admitted commands normally print no reference. When recorded exit evidence is available, both views show `succeeded` for exit 0 and `failed` for a nonzero exit. Historical `COMPLETED` records use the same mapping when an exit code is recorded. Signal termination, spawn failure, cancellation and unknown outcomes remain distinct. The by-ID view also shows queued, starting or running state, queue wait and exit or signal details when recorded. An unconfirmed grant reports `outcome unknown` with its reservation retained.
 
 If the Traffic status query is unavailable or expires, lifecycle evidence can still supply a recorded exit, signal or spawn failure. Without a known outcome, status reports `unknown` or `outcome unknown`. The recent list shares a bounded lookup budget across its records, so an unresolved exit can remain `outcome unknown`; inspect its ID for a separate lookup. If no usable status reply can be obtained, ARC reports `STATUS_UNAVAILABLE`. Status does not print command text, and timestamps are Unix milliseconds.
 
@@ -54,6 +100,8 @@ A successful status query means ARC retrieved the status record or list. Its exi
 To cancel while waiting, interrupt the invocation as usual. If cancellation is confirmed before the spawn attempt, ARC reports `NOT_STARTED` and that no child was started. If queue cleanup cannot be confirmed, it also reports `QUEUE_CLEANUP_UNCONFIRMED` when diagnostics can be delivered; this does not confirm that the queue entry or permit was removed. After the child starts, signals follow the native process behavior described above.
 
 The new status query opts into the unconfirmed-grant state; the original Traffic status reply keeps its existing shape. When an older daemon does not support the new query, the CLI falls back to the protocol-1 lifecycle status. If a protocol-1 daemon does not support Bun Traffic admission, the new CLI uses the legacy unresolved classification and lifecycle tracking for `bun test`, without a Traffic reservation. Older protocol-1 daemons without Traffic use lifecycle tracking only. If an earlier enqueue may have committed before a daemon change or lost reply, ARC retains the recovery witness and treats tracking as uncertain rather than assuming there was no reservation.
+
+Python admission is negotiated separately through `traffic.python-tests.v1` within protocol 1. An explicitly unsupported Python capability falls back to the legacy unresolved classification and lifecycle tracking without a TEST reservation, provided no earlier enqueue could have committed. Python-aware diagnostics negotiate `traffic.python-tests.diagnostics.v1`. Legacy lifecycle/classification readers receive `UNKNOWN` class and locality, `UNRESOLVED_COMMAND` reason and `OBSERVE` uncertainty for Python; legacy diagnostics also omit Python admission details. These reply projections do not change stored Python facts or release an existing permit. A missing admission detail is not proof that no reservation exists.
 
 Normal-exit protocol-1 replies still use `COMPLETED` with the recorded outcome. Database compatibility is separate: older daemons whose decoder lacks `SUCCEEDED` and `FAILED` cannot read those newly stored terminal states.
 
@@ -77,15 +125,18 @@ Transport and SQLite admission remain bounded. Desktop integration, native Windo
 
 ## Job CPU accounting
 
-Find a durable job ID in the existing list, inspect its outcome, then read its accounting:
+For optional result inspection, use the queue reference when available, or find a durable job ID in the recent list. Read that job's recorded outcome, scheduling facts and accounting:
 
 ```sh
 arcctl job status
 arcctl job status <JOB_ID>
+arcctl job diagnostics <JOB_ID> --json
 arcctl meter summary --job <JOB_ID> --json
 ```
 
 An immediately admitted command normally prints no ID. The recent list contains at most 50 records and identifies truncation; an earlier known ID can still be queried directly. The summary is a point lookup through the authenticated daemon, with a two-second read budget. It never launches work or retries execution. `meter snapshot --json` retains the separate host snapshot contract.
+
+`job diagnostics` reads last-recorded classification, admission and permit facts without refreshing process liveness. Its last recorded queue cause can describe an earlier wait rather than a current condition. An unsupported or unavailable diagnostics read leaves those facts unconfirmed. Optional desktop job detail presents the supported scheduling and Meter reads; refreshing it does not launch or replay a command.
 
 `cpu_core_seconds` records cumulative user CPU plus system CPU, in CPU core-seconds. Parallel workers can consume more core-seconds than the wall duration. This is CPU used, independent of the host CPU utilization percentage. `run_elapsed.seconds` is the CLI's monotonic interval immediately around its sole native spawn attempt through terminal observation. It includes stopped time and excludes queue wait and post-terminal completion/report traffic. It is never derived by subtracting wall timestamps. Native terminal observation can lag actual exit while the supervisor is handling metadata or scheduling.
 
@@ -103,6 +154,6 @@ Vendor/project aggregation, live process-tree metering, Windows, vendor hooks an
 
 ## Timing and protocol errors
 
-Initial preparation begins with a 1,800 ms absolute metadata deadline. Capability probes, initial admission, legacy REGISTER, CLAIM and retries share that deadline, including fallback after an explicitly unsupported Bun enqueue or a confirmed Traffic bypass. Those fallback paths do not renew the outage budget. The engineering target allows up to 200 ms more for native handoff. Traffic queue polls receive a fresh bounded deadline after each healthy response; time spent waiting in a healthy queue is not an outage. Each transport attempt uses at most 600 ms and checks cancellation at intervals of at most 25 ms. Native tests measure the larger parent-spawn-to-child-handshake interval; host suspension is not a hard real-time guarantee.
+Initial preparation begins with a 1,800 ms absolute metadata deadline. Capability probes, initial admission, legacy REGISTER, CLAIM and retries share that deadline, including fallback after an explicitly unsupported Bun or Python admission request or a confirmed Traffic bypass. Those fallback paths do not renew the outage budget. The engineering target allows up to 200 ms more for native handoff. Traffic queue polls receive a fresh bounded deadline after each healthy response; time spent waiting in a healthy queue is not an outage. Each transport attempt uses at most 600 ms and checks cancellation at intervals of at most 25 ms. Native tests measure the larger parent-spawn-to-child-handshake interval; host suspension is not a hard real-time guarantee.
 
 DB_BUSY is retryable metadata uncertainty: the response can follow a commit. Exhaustion permits fallback. Other matching protocol-1 error responses reject preparation. Complete malformed, empty, oversized or mismatched replies stop with IPC_ERROR (or PROTOCOL_INCOMPATIBLE for a version mismatch), rather than becoming outage fallback. A disconnected or truncated stream is an outage and may leave tracking uncertain. Invalid local socket configuration stops preparation. Managed ATTACH, COMPLETE and Traffic fallback updates remain bounded best effort.

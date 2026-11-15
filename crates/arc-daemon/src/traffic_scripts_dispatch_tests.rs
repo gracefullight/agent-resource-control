@@ -28,6 +28,10 @@ async fn unavailable_operations_reject_before_decoding_any_new_payload_vocabular
         traffic::OPERATION_BUN_SCRIPTS_JOB,
         diagnostics::OPERATION_CAPABILITIES,
         diagnostics::OPERATION_JOB,
+        traffic::OPERATION_PYTHON_TESTS_CAPABILITIES,
+        traffic::OPERATION_PYTHON_TESTS_JOB,
+        diagnostics::OPERATION_PYTHON_CAPABILITIES,
+        diagnostics::OPERATION_PYTHON_JOB,
     ] {
         for payload in [
             serde_json::Value::Null,
@@ -53,6 +57,22 @@ async fn malformed_or_oversized_diagnostic_and_script_requests_never_admit_write
         Box::pin(async { Err(arc_ipc::ERROR_DB_BUSY) })
     });
     for (op, payload) in [
+        (
+            traffic::OPERATION_PYTHON_TESTS_CAPABILITIES,
+            serde_json::json!({}),
+        ),
+        (
+            traffic::OPERATION_PYTHON_TESTS_JOB,
+            serde_json::json!({"action":"TRAFFIC", "request":{"action":"ENQUEUE", "classification":"PYTHON_PYTEST"}}),
+        ),
+        (
+            diagnostics::OPERATION_PYTHON_CAPABILITIES,
+            serde_json::json!({}),
+        ),
+        (
+            diagnostics::OPERATION_PYTHON_JOB,
+            serde_json::json!({"job_id":"a".repeat(32), "extra":1}),
+        ),
         (
             traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES,
             serde_json::json!({}),

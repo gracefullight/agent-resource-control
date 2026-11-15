@@ -2,8 +2,12 @@ import type { DecisionReason } from "@/bridge/policy.types";
 import type {
   AdmissionState,
   DiagnosticResult,
+  TrafficClassification,
 } from "@/bridge/traffic-scripts.generated";
-import { isTrafficDiagnosticResult } from "@/bridge/traffic-scripts-contract";
+import {
+  isTrafficClassification,
+  isTrafficDiagnosticResult,
+} from "@/bridge/traffic-scripts-contract";
 import { memoryPolicy } from "./memory-policy-fixture";
 import wire from "./traffic-scripts-wire.json";
 
@@ -47,3 +51,23 @@ export const trafficReply = (data: DiagnosticResult, received_at_ms = 30) => ({
   data,
   received_at_ms,
 });
+
+export type PythonReason = Extract<
+  TrafficClassification["reason"],
+  "PYTHON_PYTEST" | "PYTHON_UNITTEST"
+>;
+
+// Select the maintained Rust-generated classification; do not regenerate DTOs
+// or infer a Python class from a legacy lifecycle projection.
+export function pythonTraffic(
+  data: DiagnosticResult,
+  reason: PythonReason = "PYTHON_PYTEST",
+): DiagnosticResult {
+  const classification = wire.classifications.find((c) => c.reason === reason);
+  if (!isTrafficClassification(classification))
+    throw new Error("Missing Rust Python classification");
+  const result = { ...structuredClone(data), classification };
+  if (!isTrafficDiagnosticResult(result))
+    throw new Error("Invalid synthetic Python traffic fixture");
+  return result;
+}

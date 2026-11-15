@@ -1,0 +1,11 @@
+fn main() {
+    use std::{fs::OpenOptions, io::Write, path::Path, time::{Instant, Duration}};
+    let root = std::env::var("TBS_PROJECT").unwrap();
+    writeln!(OpenOptions::new().append(true).create(true).open(Path::new(&root).join("bodies")).unwrap(), "body").unwrap();
+    let deadline = Instant::now() + Duration::from_secs(120);
+    while !Path::new(&std::env::var("TBS_RELEASE").unwrap()).exists() {
+        assert!(Instant::now() < deadline, "explicit build release not received");
+        std::thread::sleep(Duration::from_millis(10));
+    }
+    println!("cargo:rerun-if-changed=build.rs");
+}

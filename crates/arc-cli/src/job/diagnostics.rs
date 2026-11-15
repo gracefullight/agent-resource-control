@@ -41,17 +41,23 @@ pub(crate) fn run(id: String, json_output: bool) -> ExitCode {
 }
 fn read(socket: &Path, job: &JobId) -> Result<DiagnosticResult, Failure> {
     let deadline = Instant::now() + Duration::from_secs(2);
-    let mut probe = Session::connect_until(socket, deadline, &|| false, None)?;
-    let value = probe.exchange(
-        &Request::new(crate::request_id(), OPERATION_CAPABILITIES),
-        &|| false,
-    )?;
-    let caps: Capabilities = serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
-    if caps.capability != CAPABILITY {
+    let probe = |operation| {
+        Session::connect_until(socket, deadline, &|| false, None)?
+            .exchange(&Request::new(crate::request_id(), operation), &|| false)
+    };
+    let (value, operation, capability) = match probe(OPERATION_PYTHON_CAPABILITIES) {
+        Ok(value) => (value, OPERATION_PYTHON_JOB, PYTHON_CAPABILITY),
+        Err(Failure::Unsupported) => (probe(OPERATION_CAPABILITIES)?, OPERATION_JOB, CAPABILITY),
+        Err(error) => return Err(error),
+    };
+    if !value.is_object() {
         return Err(Failure::InvalidReply);
     }
-    drop(probe);
-    let mut query = Request::new(crate::request_id(), OPERATION_JOB);
+    let caps: Capabilities = serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
+    if caps.capability != capability {
+        return Err(Failure::InvalidReply);
+    }
+    let mut query = Request::new(crate::request_id(), operation);
     query.payload = json!(DiagnosticRequest {
         job_id: job.clone()
     });
@@ -59,6 +65,9 @@ fn read(socket: &Path, job: &JobId) -> Result<DiagnosticResult, Failure> {
     let value = session.exchange(&query, &|| false)?;
     decode_result(&value, job).map_err(|_| Failure::InvalidReply)
 }
+
+#[cfg(test)]
+mod tests;
 fn render(result: &DiagnosticResult) -> String {
     let mut output = format!(
         "Job: {}\nLast known: true\nRecorded (Unix ms): {}\nLiveness refreshed: false\n",

@@ -12,6 +12,8 @@ fn classifications() -> Vec<Classification> {
         CargoBuild,
         CargoTest,
         BunTest,
+        PythonPytest,
+        PythonUnittest,
         BunScriptBuild,
         BunScriptTest,
         BunScriptLint,
@@ -165,6 +167,12 @@ fn fixture_values() -> Value {
     results.push(json!({"schema_version":1,"job_id":id,"recorded_at_ms":20,
         "liveness_fresh":false,"classification":null,"admission":null,
         "limits":ScriptPolicyLimits::default()}));
+    for reason in ["PYTHON_PYTEST", "PYTHON_UNITTEST"] {
+        let mut result = results[3].clone(); // completed, permit released
+        result["classification"] = json!({"classification":"TEST", "locality":"HOST_LOCAL",
+            "reason":reason,"uncertainty":"NONE"});
+        results.push(result);
+    }
     for value in &results {
         assert!(serde_json::from_value::<DiagnosticResult>(value.clone())
             .unwrap()

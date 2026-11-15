@@ -10,6 +10,7 @@ import {
   isTrafficDiagnosticResult,
 } from "@/bridge/traffic-scripts-contract";
 import {
+  pythonTraffic,
   trafficFixture,
   trafficReply,
   trafficWait,
@@ -29,6 +30,67 @@ const OTHER = "a".repeat(32);
 const clone = <T>(value: T): T => structuredClone(value);
 
 describe("Rust-derived negotiated Traffic contract", () => {
+  test("Python reasons accept only local certain TEST facts and retain strict admission validation", async () => {
+    for (const reason of ["PYTHON_PYTEST", "PYTHON_UNITTEST"] as const) {
+      for (const state of [
+        "QUEUED",
+        "RESERVED",
+        "RUNNING",
+        "COMPLETED",
+        "CANCELLED",
+        "ABANDONED",
+        "UNCONFIRMED",
+        "UNRESERVED",
+      ] as const) {
+        const result = pythonTraffic(trafficFixture(JOB, state), reason);
+        expect(isTrafficDiagnosticResult(result, JOB)).toBe(true);
+        const calls: unknown[] = [];
+        const client = createDesktopClient(async (command, args) => {
+          calls.push([command, args]);
+          return trafficReply(result);
+        });
+        expect((await client.trafficJobDiagnostics(JOB)).data).toEqual(result);
+        expect(calls).toEqual([["traffic_job_diagnostics", { job_id: JOB }]]);
+        for (const patch of [
+          { classification: "BUILD" },
+          { classification: "UNKNOWN" },
+          { locality: "REMOTE" },
+          { uncertainty: "OBSERVE" },
+          { reason: "PYTHON_TEST" },
+          { executable: ".venv/bin/python" },
+        ]) {
+          const malformed = {
+            ...result,
+            classification: { ...result.classification, ...patch },
+          };
+          expect(isTrafficDiagnosticResult(malformed, JOB)).toBe(false);
+          await expect(
+            createDesktopClient(async () => ({
+              data: malformed,
+              received_at_ms: 30,
+            })).trafficJobDiagnostics(JOB),
+          ).rejects.toEqual({ code: "invalid_reply", retryable: false });
+        }
+      }
+      const queued = pythonTraffic(trafficWait(JOB), reason);
+      expect(
+        isTrafficDiagnosticResult({
+          ...queued,
+          admission: { ...queued.admission, permit_active: true },
+        }),
+      ).toBe(false);
+      expect(
+        isTrafficDiagnosticResult({
+          ...queued,
+          admission: {
+            ...queued.admission,
+            outcome: { kind: "EXITED", code: 0 },
+          },
+        }),
+      ).toBe(false);
+    }
+  });
+
   test("all serialized Rust variants compile against generated declarations and existing outcome types without writes", () => {
     const before = [
       readFileSync(generatedPath),

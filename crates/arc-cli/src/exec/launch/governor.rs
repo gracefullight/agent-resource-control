@@ -1,11 +1,7 @@
 //! Both Governor release modes use the same sole-spawn gate as legacy Traffic.
 use super::{checkpoint, Coordination, Gate, GateRequest};
 use crate::exec::{
-    governor,
-    preparation::write_notice,
-    signals::Signals,
-    traffic::{Mode, Route},
-    transport::Failure,
+    governor, preparation::write_notice, signals::Signals, traffic::Mode, transport::Failure,
 };
 use arc_ipc::{
     client::Session,
@@ -174,7 +170,7 @@ pub(super) fn prepare(
     }
 }
 fn mark_unreserved(mode: &mut Mode, release: String, held: bool) -> Result<(), Failure> {
-    if !matches!(mode, Mode::Unreserved { .. }) {
+    if matches!(mode, Mode::Scheduled { route, .. } if route.governed()) {
         let old = std::mem::replace(
             mode,
             Mode::Legacy(crate::exec::preparation::Tracking::Uncertain),
@@ -183,7 +179,6 @@ fn mark_unreserved(mode: &mut Mode, release: String, held: bool) -> Result<(), F
             witness,
             continuity,
             waited,
-            route: Route::Governor | Route::BunScripts,
             ..
         } = old
         else {

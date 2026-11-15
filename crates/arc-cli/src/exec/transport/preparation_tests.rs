@@ -1,4 +1,5 @@
 //! CLI-only preparation decisions following shared-client failures.
+mod python_tests;
 use super::{call_until, Failure};
 use crate::exec::preparation::{prepare_with, Tracking};
 use arc_ipc::jobs::{
@@ -78,9 +79,10 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
     let socket = root.join("missing-ipc");
     let signals = Signals::install(true).unwrap();
     for expired in [false, true] {
-        for kind in 0..3 {
+        for kind in 0..4 {
             let bun = kind == 1;
             let script = kind == 2;
+            let python = kind == 3;
             let injected_now = if expired {
                 Instant::now() - Duration::from_secs(2)
             } else {
@@ -91,7 +93,14 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
                 original.duration_since(injected_now),
                 Duration::from_millis(1800)
             );
-            let (probe, operation, capability, argv) = if script {
+            let (probe, operation, capability, argv) = if python {
+                (
+                    arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES,
+                    arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB,
+                    arc_ipc::traffic::PYTHON_TESTS_CAPABILITY,
+                    ["pytest".into(), "-q".into()],
+                )
+            } else if script {
                 (
                     arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES,
                     arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB,
@@ -131,7 +140,7 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
                         if actual == probe {
                             Ok(serde_json::json!({"capability":capability}))
                         } else if actual == operation {
-                            if bun || script {
+                            if bun || script || python {
                                 Err(Failure::Unsupported)
                             } else {
                                 Ok(serde_json::json!(arc_ipc::traffic::JobResult::Bypassed {
@@ -140,6 +149,13 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
                             }
                         } else {
                             assert_eq!(payload["action"], "REGISTER");
+                            if python {
+                                assert_eq!(
+                                    payload["classification"]["reason"],
+                                    "UNRESOLVED_COMMAND"
+                                );
+                                assert_eq!(payload["classification"]["uncertainty"], "OBSERVE");
+                            }
                             Err(Failure::Uncertain)
                         }
                     }))

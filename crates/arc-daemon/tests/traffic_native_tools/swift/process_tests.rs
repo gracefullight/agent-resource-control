@@ -3,11 +3,18 @@ use super::*;
 use std::{
     ffi::{CStr, CString},
     fs::{self, File, OpenOptions},
-    os::unix::fs::OpenOptionsExt,
+    io::{Read, Write},
+    os::{
+        fd::{AsRawFd, FromRawFd},
+        unix::{fs::OpenOptionsExt, net::UnixStream, process::CommandExt},
+    },
     path::PathBuf,
     process::Stdio,
     sync::atomic::{AtomicU64, Ordering},
 };
+
+#[path = "process_release_tests.rs"]
+mod release_tests;
 
 struct HeldTree {
     runner: TreeChild,
@@ -86,6 +93,7 @@ impl HeldTree {
 /bin/sh -c '/bin/cat "$ARC_SWIFT_TREE_DIR/gate" & child=$!; printf "%s %s\n" "$$" "$child" > "$ARC_SWIFT_TREE_DIR/branch.pending"; /bin/mv "$ARC_SWIFT_TREE_DIR/branch.pending" "$ARC_SWIFT_TREE_DIR/branch"; wait "$child"' &
 wait
 "#])
+            .env_clear()
             .env("ARC_SWIFT_TREE_DIR", &directory)
             .stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::piped());
         let runner = TreeChild::spawn(command).unwrap();
@@ -161,7 +169,11 @@ fn assert_gone(identities: &[ProcessIdentity]) {
 fn swift_direct_timeout_terminates_and_reaps_the_owned_tree() {
     let mut tree = HeldTree::start();
     let error = tree.runner.wait_with_output(Duration::ZERO).unwrap_err();
-    assert_eq!(error.kind(), io::ErrorKind::TimedOut);
+    assert_eq!(
+        error.kind(),
+        io::ErrorKind::TimedOut,
+        "timeout path failed before returning the watchdog error: {error:?}"
+    );
     assert!(tree.runner.cleaned);
     for identity in &tree.identities {
         assert!(tree.runner.owned.contains(identity));
@@ -186,15 +198,166 @@ fn swift_direct_unwind_cleans_descendants_before_losing_the_parent() {
 }
 
 #[test]
+fn swift_direct_cleanup_reaps_descendants_after_an_earlier_error() {
+    let mut tree = HeldTree::start();
+    let error = tree
+        .runner
+        .cleanup_with(|_| Err(io::Error::other("injected group stop failure")))
+        .unwrap_err();
+    assert!(error.to_string().contains("injected group stop failure"));
+    assert!(tree.runner.cleaned);
+    for identity in &tree.identities {
+        assert!(tree.runner.owned.contains(identity));
+    }
+    assert_gone(&tree.identities);
+    drop(tree.runner);
+    fs::remove_dir_all(tree.directory).unwrap();
+}
+
+#[test]
+fn swift_separate_group_siblings_helper() {
+    if !std::env::args()
+        .any(|arg| arg == "suite::swift::process::tests::swift_separate_group_siblings_helper")
+    {
+        return;
+    }
+    let Some(fd) = std::env::var_os("ARC_SWIFT_SIBLINGS_FD") else {
+        return;
+    };
+    let fd = fd.to_string_lossy().parse().unwrap();
+    let mut channel = unsafe { UnixStream::from_raw_fd(fd) };
+    channel
+        .set_read_timeout(Some(Duration::from_secs(60)))
+        .unwrap();
+    let mut children = Vec::new();
+    for _ in 0..2 {
+        let mut command = Command::new("/bin/cat");
+        command
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null());
+        // Reuse the same owned-tree guard as the parent test. Its cleanup has a
+        // diagnostic watchdog, including when this helper loses its channel.
+        children.push(TreeChild::spawn(command).unwrap());
+    }
+    for child in &children {
+        channel.write_all(&child.child.id().to_ne_bytes()).unwrap();
+    }
+    let release = receive_sibling_release(&mut channel);
+    drop(children);
+    release.expect("sibling helper release failed");
+}
+
+fn receive_sibling_release(channel: &mut impl Read) -> io::Result<()> {
+    let mut release = [0];
+    channel.read_exact(&mut release).map_err(|error| {
+        io::Error::new(
+            error.kind(),
+            format!("failed to read sibling release byte: {error}"),
+        )
+    })?;
+    if release != *b"x" {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            format!("unexpected sibling release byte: {}", release[0]),
+        ));
+    }
+    Ok(())
+}
+
+fn separate_group_siblings() -> (TreeChild, UnixStream, Vec<ProcessIdentity>) {
+    let (mut channel, peer) = UnixStream::pair().unwrap();
+    channel
+        .set_read_timeout(Some(Duration::from_secs(60)))
+        .unwrap();
+    let peer_fd = peer.as_raw_fd();
+    let mut command = Command::new(std::env::current_exe().unwrap());
+    command
+        .env_clear()
+        .env("ARC_SWIFT_SIBLINGS_FD", "9")
+        .args([
+            "--exact",
+            "suite::swift::process::tests::swift_separate_group_siblings_helper",
+            "--nocapture",
+        ])
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped());
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
+    unsafe {
+        command.pre_exec(move || {
+            if libc::dup2(peer_fd, 9) < 0 || libc::fcntl(9, libc::F_SETFD, 0) < 0 {
+                return Err(io::Error::last_os_error());
+            }
+            Ok(())
+        });
+    }
+    let runner = TreeChild::spawn(command).unwrap();
+    drop(peer);
+    let mut ids = [0_u8; 8];
+    channel
+        .read_exact(&mut ids)
+        .expect("siblings did not report readiness");
+    let pids = [
+        u32::from_ne_bytes(ids[..4].try_into().unwrap()),
+        u32::from_ne_bytes(ids[4..].try_into().unwrap()),
+    ];
+    let identities: Vec<_> = pids
+        .iter()
+        .map(|pid| {
+            assert_eq!(unsafe { libc::getpgid(*pid as i32) }, *pid as i32);
+            crate::cleanup::child_identity(runner.root.pid, *pid)
+                .unwrap()
+                .unwrap()
+        })
+        .collect();
+    (runner, channel, identities)
+}
+
+#[test]
+fn swift_helper_reaps_separate_group_siblings_after_release() {
+    let (mut runner, mut channel, identities) = separate_group_siblings();
+    channel.write_all(b"x").unwrap();
+    let output = runner.wait_with_output_until_exit().unwrap();
+    assert!(output.status.success(), "sibling helper failed: {output:?}");
+    assert_gone(&identities);
+}
+
+#[test]
+fn swift_cleanup_visits_separate_group_sibling_after_subtree_failure() {
+    let (mut runner, _channel, identities) = separate_group_siblings();
+    let root_pid = runner.root.pid;
+    let mut failed = false;
+    let error = runner
+        .cleanup_with_observer(|child| child.signal_group(libc::SIGSTOP), &mut |identity| {
+            if identity.pid != root_pid && !failed {
+                failed = true;
+                return Err(io::Error::other("injected subtree failure"));
+            }
+            Ok(())
+        })
+        .unwrap_err();
+    assert!(failed);
+    assert!(error.to_string().contains("injected subtree failure"));
+    for identity in &identities {
+        assert!(
+            runner.owned.contains(identity),
+            "sibling not discovered: {identity:?}"
+        );
+    }
+    assert_gone(&identities);
+    assert!(runner.cleaned);
+}
+
+#[test]
 fn swift_direct_retains_exited_parent_until_descendants_are_cleaned() {
     use std::os::unix::process::ExitStatusExt;
     let mut tree = HeldTree::start();
     // The native parent can exit while its descendants still hold both output pipes.
     signal(&tree.runner.root, libc::SIGTERM).unwrap();
-    let output = tree
-        .runner
-        .wait_with_output(Duration::from_secs(60))
-        .unwrap();
+    let output = tree.runner.wait_with_output_until_exit().unwrap();
     assert_eq!(output.status.signal(), Some(libc::SIGTERM));
     for identity in &tree.identities {
         assert!(tree.runner.owned.contains(identity));
@@ -215,9 +378,85 @@ fn swift_direct_drains_complete_bytes_and_preserves_the_native_exit() {
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
     let mut child = TreeChild::spawn(command).unwrap();
-    let output = child.wait_with_output(Duration::from_secs(60)).unwrap();
+    let output = child.wait_with_output_until_exit().unwrap();
     assert_eq!(output.stdout, b"stdout bytes");
     assert_eq!(output.stderr, b"stderr bytes");
     assert_eq!(output.status.code(), Some(7));
     assert_gone(&child.owned);
+}
+
+#[test]
+fn swift_direct_cleanup_reports_failed_observation_and_live_descendant() {
+    let identity = ProcessIdentity::capture(std::process::id()).unwrap();
+    let error = wait_for_owned_exit(
+        std::slice::from_ref(&identity),
+        Duration::from_secs(60),
+        |_| Err(io::Error::other("injected identity lookup failure")),
+    )
+    .unwrap_err();
+    assert!(error
+        .to_string()
+        .contains("injected identity lookup failure"));
+    let mut sibling = identity.clone();
+    sibling.pid += 1;
+    let mut sibling_observations = 0;
+    let error = wait_for_owned_exit(
+        &[identity.clone(), sibling.clone()],
+        Duration::from_secs(60),
+        |pid| {
+            if pid == identity.pid {
+                return Err(io::Error::other("first descendant observation failed"));
+            }
+            sibling_observations += 1;
+            Ok((sibling_observations == 1).then_some(sibling.clone()))
+        },
+    )
+    .unwrap_err();
+    assert_eq!(sibling_observations, 2);
+    assert!(error
+        .to_string()
+        .contains("first descendant observation failed"));
+    let error = wait_for_owned_exit(std::slice::from_ref(&identity), Duration::ZERO, |_| {
+        Ok(Some(identity.clone()))
+    })
+    .unwrap_err();
+    assert_eq!(error.kind(), io::ErrorKind::TimedOut);
+    assert!(error.to_string().contains(&identity.pid.to_string()));
+}
+
+#[test]
+fn swift_direct_missing_exit_event_waits_for_the_owned_child_state() {
+    let calls = std::cell::Cell::new(0);
+    recover_process_registration(
+        io::Error::from_raw_os_error(libc::ESRCH),
+        Duration::from_secs(60),
+        || {
+            calls.set(calls.get() + 1);
+            Ok(calls.get() == 2)
+        },
+    )
+    .unwrap();
+    assert_eq!(calls.get(), 2);
+    let error = recover_process_registration(
+        io::Error::from_raw_os_error(libc::ESRCH),
+        Duration::ZERO,
+        || Ok(false),
+    )
+    .unwrap_err();
+    assert_eq!(error.kind(), io::ErrorKind::TimedOut);
+    assert!(error.to_string().contains("never exposed exit"));
+    let error = recover_process_registration(
+        io::Error::from_raw_os_error(libc::ESRCH),
+        Duration::from_secs(60),
+        || Err(io::Error::other("owned peer failed")),
+    )
+    .unwrap_err();
+    assert!(error.to_string().contains("owned peer failed"));
+    let error = recover_process_registration(
+        io::Error::from_raw_os_error(libc::EACCES),
+        Duration::from_secs(60),
+        || panic!("registration failure must not be hidden"),
+    )
+    .unwrap_err();
+    assert_eq!(error.raw_os_error(), Some(libc::EACCES));
 }

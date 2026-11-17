@@ -17,6 +17,7 @@ tauri = { version = "=2.12.5", features = ["tray-icon"] }
 tauri-plugin-opener = "=2.7.3"
 
 [dev-dependencies]
+clap.workspace = true
 libc.workspace = true
 tauri = { version = "=2.12.5", features = ["test"] }
 

@@ -2,6 +2,36 @@
 use super::*;
 use std::os::unix::process::ExitStatusExt;
 
+fn wait_for_python_interruptible_wait(
+    child: &mut native::OwnedChild,
+    python: &ProcessIdentity,
+    project: &Path,
+) {
+    let end = Instant::now() + Duration::from_secs(60);
+    loop {
+        assert!(
+            child.child.try_wait().unwrap().is_none(),
+            "Python wrapper exited before SIGINT wait: {}",
+            log(&project.join("stderr"))
+        );
+        assert_eq!(
+            probe_live(python),
+            IdentityStatus::VerifiedMatch,
+            "Python exited before SIGINT wait"
+        );
+        if fs::read_to_string(project.join("sigint-ready"))
+            .is_ok_and(|pid| pid == python.pid.to_string())
+        {
+            return;
+        }
+        assert!(
+            Instant::now() < end,
+            "Python never published its blocked-SIGINT readiness"
+        );
+        thread::yield_now();
+    }
+}
+
 pub fn signals(read: Read) {
     let case = case("signals", read, false);
     let p = projects::project(&case, "forwarded-sigterm", Kind::Pytest, true);
@@ -65,8 +95,10 @@ fn interrupt(case: &Case) -> Value {
         .stdout(File::create(p.join("direct.stdout")).unwrap())
         .stderr(File::create(p.join("direct.stderr")).unwrap());
     projects::configure(case, &p, &mut command);
+    command.env("TBS_SIGINT", "1");
     let mut direct = native::OwnedChild::new(command.spawn().unwrap());
-    eventually(|| log(&p.join("direct.stderr")).contains("PYTHON_STDERR"));
+    let direct_identity = ProcessIdentity::capture(direct.child.id()).unwrap();
+    wait_for_python_interruptible_wait(&mut direct, &direct_identity, &p);
     assert_eq!(
         unsafe { libc::kill(direct.child.id() as i32, libc::SIGINT) },
         0
@@ -74,11 +106,15 @@ fn interrupt(case: &Case) -> Value {
     let expected = direct.wait_with_output().unwrap();
     assert_eq!(expected.status.code(), Some(2));
     assert_eq!(log(&p.join("bodies")).lines().count(), 1);
+    fs::remove_file(p.join("sigint-ready")).unwrap();
     write(&p.join("bodies"), "");
     write(&p.join("launches"), "");
-    let mut run = start(case, &p, &Kind::Pytest.argv());
+    let mut run = start_with(case, &p, &Kind::Pytest.argv(), |command| {
+        command.env("TBS_SIGINT", "1");
+    });
     let entry = entered(case, &mut run, Kind::Pytest);
-    eventually(|| log(&p.join("stderr")).contains("PYTHON_STDERR"));
+    let identity: ProcessIdentity = serde_json::from_value(entry["child"].clone()).unwrap();
+    wait_for_python_interruptible_wait(&mut run.wrapper, &identity, &p);
     assert_eq!(
         unsafe { libc::kill(run.wrapper.child.id() as i32, libc::SIGINT) },
         0

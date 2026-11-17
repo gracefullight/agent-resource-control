@@ -100,7 +100,7 @@ pub(super) fn prepare(
         continuity,
         &|| signals.interrupted(),
         || {
-            write_notice("QUEUED\nWaiting for memory.\nStarts automatically when memory permits; other queue rules still apply.\n")
+            write_notice("QUEUED\nWaiting for memory.\nStarts automatically when memory permits; other queue rules still apply.\n");
         },
     )
 }

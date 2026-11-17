@@ -64,7 +64,6 @@ pub fn facts(path: &Path) -> serde_json::Value {
 
 #[test]
 fn go_offline_success_failure_and_source_barriers() {
-    let _serial = crate::serialization::serial();
     let before = super::owned::counts();
     let tools = Tools::installed();
     let base = root().join(format!(
@@ -209,4 +208,5 @@ fn go_offline_success_failure_and_source_barriers() {
         "bypassModes":["compile-only","execution-wrapper","dry-run"],"ownedChildrenReaped":cleaned,
         "verifiedDirectTrees":after.1-before.1})
     );
+    fs::remove_dir_all(base).unwrap();
 }

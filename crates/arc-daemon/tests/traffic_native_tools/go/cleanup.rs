@@ -9,7 +9,6 @@ use std::{
 
 #[test]
 fn interrupted_go_fixture_reaps_native_descendants() {
-    let _serial = crate::serialization::serial();
     let tools = Tools::installed();
     let base = root().join(format!(
         "target/traffic-native-tools/go/interrupted-{}",
@@ -74,4 +73,5 @@ fn interrupted_go_fixture_reaps_native_descendants() {
             );
         }
     }
+    fs::remove_dir_all(base).unwrap();
 }

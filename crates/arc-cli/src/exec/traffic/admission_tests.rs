@@ -1,5 +1,68 @@
 use super::*;
+use crate::exec::preparation::NoticeWrite;
 use std::cell::Cell;
+
+#[test]
+fn queued_notice_retries_only_after_confirmed_non_emission_or_pressure_change() {
+    let calls = Cell::new(0);
+    let mut state = NoticeState::default();
+    let emit = |_: bool| {
+        calls.set(calls.get() + 1);
+        if calls.get() == 1 {
+            NoticeWrite::NotWritten
+        } else {
+            NoticeWrite::Complete
+        }
+    };
+    announce_if_needed(&mut state, false, emit);
+    assert_eq!(state.last, None);
+    announce_if_needed(&mut state, false, emit);
+    assert_eq!(state.last, Some(false));
+    announce_if_needed(&mut state, false, emit);
+    assert_eq!(calls.get(), 2);
+    announce_if_needed(&mut state, true, emit);
+    assert_eq!(state.last, Some(true));
+    assert_eq!(calls.get(), 3);
+}
+
+#[test]
+fn uncertain_or_partial_notice_never_retries_even_if_pressure_changes() {
+    let mut state = NoticeState::default();
+    let calls = Cell::new(0);
+    announce_if_needed(&mut state, false, |_| {
+        calls.set(calls.get() + 1);
+        NoticeWrite::Uncertain
+    });
+    for pressure in [false, true, false] {
+        announce_if_needed(&mut state, pressure, |_| {
+            calls.set(calls.get() + 1);
+            NoticeWrite::Complete
+        });
+    }
+    assert_eq!(calls.get(), 1);
+    assert!(state.uncertain);
+}
+
+#[test]
+fn confirmed_failures_are_bounded_per_pressure_and_retry_after_a_change() {
+    let mut state = NoticeState::default();
+    let calls = Cell::new(0);
+    for pressure in [false, false, false] {
+        announce_if_needed(&mut state, pressure, |_| {
+            calls.set(calls.get() + 1);
+            NoticeWrite::NotWritten
+        });
+    }
+    assert_eq!(calls.get(), 2);
+    assert_eq!(state.last, None);
+    announce_if_needed(&mut state, true, |pressure| {
+        assert!(pressure);
+        calls.set(calls.get() + 1);
+        NoticeWrite::Complete
+    });
+    assert_eq!(calls.get(), 3);
+    assert_eq!(state.last, Some(true));
+}
 
 #[test]
 fn responsive_busy_admission_retries_without_becoming_outage_or_spawning() {

@@ -14,6 +14,7 @@ use std::{
     thread,
     time::{Duration, Instant},
 };
+pub mod agent_hooks;
 pub mod compatibility;
 pub mod contention;
 pub mod outputs;
@@ -50,7 +51,7 @@ pub fn eventually(mut f: impl FnMut() -> bool) {
             Instant::now() < end,
             "native Bun-script synchronization timed out"
         );
-        thread::sleep(Duration::from_millis(10));
+        thread::yield_now();
     }
 }
 pub fn exchange(socket: &Path, operation: &str, payload: Value) -> Value {
@@ -77,12 +78,12 @@ pub fn direct_read(socket: &Path, command: &str, args: Value) -> Value {
     exchange(socket, operation, args)
 }
 pub fn rows(database: &Path, sql: &str) -> Vec<Value> {
-    let output = Command::new("/usr/bin/sqlite3")
+    let mut command = Command::new("/usr/bin/sqlite3");
+    command
         .args(["-readonly", "-json", "-cmd", ".timeout 2000"])
         .arg(database)
-        .arg(sql)
-        .output()
-        .unwrap();
+        .arg(sql);
+    let output = projects::fixture_output(&mut command).unwrap();
     assert!(output.status.success(), "{output:?}");
     assert!(output.stderr.is_empty());
     if output.stdout.is_empty() {
@@ -92,11 +93,9 @@ pub fn rows(database: &Path, sql: &str) -> Vec<Value> {
     }
 }
 pub fn sha(path: &Path) -> String {
-    let out = Command::new("/usr/bin/shasum")
-        .args(["-a", "256"])
-        .arg(path)
-        .output()
-        .unwrap();
+    let mut command = Command::new("/usr/bin/shasum");
+    command.args(["-a", "256"]).arg(path);
+    let out = projects::fixture_output(&mut command).unwrap();
     assert!(out.status.success());
     String::from_utf8(out.stdout)
         .unwrap()
@@ -234,12 +233,12 @@ impl<T> Case<T> {
         exchange(&self.fixture.socket, operation, input)
     }
     pub fn cli(&self, args: &[&str]) -> std::process::Output {
-        Command::new(binary("arcctl"))
+        let mut command = Command::new(binary("arcctl"));
+        command
             .args(args)
             .env(arc_core::ARC_SOCKET_PATH, &self.fixture.socket)
-            .env(arc_core::ARC_DB_PATH, &self.fixture.database)
-            .output()
-            .unwrap()
+            .env(arc_core::ARC_DB_PATH, &self.fixture.database);
+        projects::fixture_output(&mut command).unwrap()
     }
     pub fn job(&self, pid: u32) -> String {
         let mut id = None;
@@ -350,6 +349,10 @@ impl<T> Case<T> {
                 .unwrap();
         native::assert_report(&report);
         self.save("shutdown", report);
+        // Every case has its own source, outputs and observations. The test
+        // log already carries the observations; retain the directory only if
+        // an assertion unwinds before this point.
+        fs::remove_dir_all(&self.artifacts).unwrap();
     }
 }
 pub struct Run {

@@ -20,11 +20,36 @@ pub use shared::{
 use std::{
     path::{Path, PathBuf},
     process::Command,
+    time::{Duration, Instant},
 };
 pub use witnesses::{
     entered, marker_ready, permit_history, queued, terminal, QueueWitness, ReadyWitness,
     ReleaseWitness,
 };
+
+fn finish_swift(run: &mut Run, code: i32) {
+    run.release();
+    let end = Instant::now() + Duration::from_secs(300);
+    let status = loop {
+        if let Some(status) = run.wrapper.child.try_wait().unwrap() {
+            break status;
+        }
+        assert!(
+            Instant::now() < end,
+            "released Swift tool never exited: {}\n{}",
+            log(&run.project.join("stdout")),
+            log(&run.project.join("stderr"))
+        );
+        std::thread::yield_now();
+    };
+    assert_eq!(
+        status.code(),
+        Some(code),
+        "{}\n{}",
+        log(&run.project.join("stdout")),
+        log(&run.project.join("stderr"))
+    );
+}
 
 /// A prepared real tool invocation, not a shell string or command language.
 /// ready must witness an explicit native barrier; it cannot rely on elapsed time.

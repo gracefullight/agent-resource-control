@@ -233,8 +233,31 @@ export function inventoryForCrates(root: string, crates: readonly CrateName[], m
 // Immutable pre-Traffic baselines retain their original six-crate inventory.
 export const sourceInventory = (root: string, metadata?:CargoMetadata) => inventoryForCrates(root, CRATES, metadata);
 export const historicalSourceInventory = (root: string) => inventoryForCrates(root, HISTORICAL_CRATES);
+
+// LLVM uses default_*.profraw when an instrumented child loses its configured
+// destination. Such a profile is absent from the merge even if Git ignores it
+// or the ordinary input walk does not include its directory.
+function assertNoStrayDefaultProfiles(root:string) {
+  // Agent Valley stores separate Actor workspaces inside the mission root;
+  // their files and targets are not inputs to this workspace's measurement.
+  const excluded=new Set([resolve(root,"target"),resolve(root,".agent-valley/parallel/workspaces")]);
+  const pending=[root];
+  while(pending.length) {
+    const dir=pending.pop()!;
+    for(const entry of readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name))) {
+      const path=join(dir,entry.name);
+      if(excluded.has(path)) continue;
+      if(!entry.isDirectory() && /^default_.*\.profraw$/.test(entry.name))
+        throw Error(`STRAY_PROFILE: ${relative(root,path)}`);
+      // Do not follow links out of the workspace or revisit an aliased tree.
+      if(entry.isDirectory()) pending.push(path);
+    }
+  }
+}
+
 export function inputIdentity(root:string) {
   root=realpathSync(root);
+  assertNoStrayDefaultProfiles(root);
   const paths=["Cargo.toml","Cargo.lock","rust-toolchain.toml","mise.toml","package.json","bun.lock","bunfig.toml","biome.json",
     ".arc-verify/rust-coverage/contract/accounting.json",
     ".arc-verify/desktop-foundation/contract.md",

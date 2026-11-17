@@ -33,11 +33,17 @@ fn quote(path: &Path) -> String {
 impl Tools {
     pub fn installed() -> Self {
         static NEXT: AtomicU64 = AtomicU64::new(0);
+        static TOOLS: std::sync::OnceLock<(PathBuf, PathBuf)> = std::sync::OnceLock::new();
         let python = python::PytestRuntime::installed();
-        let bun = PathBuf::from(output(Path::new("bun"), &["-p", "process.execPath"]));
-        let cargo = PathBuf::from(env!("CARGO"));
-        assert_eq!(output(&bun, &["--version"]), "1.4.4");
-        assert!(output(&cargo, &["--version"]).contains("1.95.0"));
+        let (bun, cargo) = TOOLS
+            .get_or_init(|| {
+                let bun = PathBuf::from(output(Path::new("bun"), &["-p", "process.execPath"]));
+                let cargo = PathBuf::from(env!("CARGO"));
+                assert_eq!(output(&bun, &["--version"]), "1.4.4");
+                assert!(output(&cargo, &["--version"]).contains("1.95.0"));
+                (bun, cargo)
+            })
+            .clone();
         let shims = shared::root().join(format!(
             "target/traffic-python-tests/observers/{}-{}",
             std::process::id(),
@@ -85,12 +91,29 @@ exec {} "$@"
         ]
     }
     pub fn receipt(&self) -> Value {
-        json!({"python":self.python.distribution,"console":self.python.console,"programs":self.programs().map(|(name,p)|json!({"name":name,"path":p,"sha256":sha(p)})),"offline":true,"venv":"--without-pip --system-site-packages"})
+        static RECEIPT: std::sync::OnceLock<Value> = std::sync::OnceLock::new();
+        RECEIPT.get_or_init(|| {
+            json!({"python":self.python.distribution,"console":self.python.console,"programs":self.programs().map(|(name,p)|json!({"name":name,"path":p,"sha256":sha(p)})),"offline":true,"venv":"--without-pip --system-site-packages"})
+        }).clone()
     }
     pub fn observers(&self) -> Value {
         json!(self
             .programs()
             .map(|(name, _)| json!({"name":name,"sha256":sha(&self.shims.join(name))})))
+    }
+}
+impl Drop for Tools {
+    fn drop(&mut self) {
+        if !std::thread::panicking() {
+            if let Err(error) = fs::remove_dir_all(&self.shims) {
+                if error.kind() != std::io::ErrorKind::NotFound {
+                    panic!(
+                        "cannot remove owned shims {}: {error}",
+                        self.shims.display()
+                    );
+                }
+            }
+        }
     }
 }
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -141,6 +164,12 @@ pub fn configure(case: &Case, path: &Path, command: &mut Command) {
         .env_remove("ARC_TRAFFIC_LINEAGE")
         .env_remove("ARC_PRESSURE_ACCEPTANCE_STAGE")
         .env_remove("ARC_PRESSURE_ACCEPTANCE_BARRIER")
+        .env_remove("TBS_SIGINT")
+        .env_remove("TBS_SIGNAL")
+        .env_remove("TBS_INNER")
+        .env_remove("TBS_EXIT")
+        .env_remove("TBS_FAIL")
+        .env_remove("TBS_STDIN")
         .env("TBS_PROJECT", path)
         .env("TBS_BODY", path.join("bodies"))
         .env("TBS_RELEASE", path.join("release"))

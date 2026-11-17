@@ -1,6 +1,7 @@
 //! CLI-only preparation decisions following shared-client failures.
 mod native_tools;
 mod python_tests;
+mod stalled_registration;
 use super::{call_until, Failure};
 use crate::exec::preparation::{prepare_with, Tracking};
 use arc_ipc::jobs::{
@@ -189,6 +190,7 @@ fn fallback_routes_keep_the_exact_original_deadline_even_when_already_expired() 
     fs::remove_dir_all(root).unwrap();
     println!("{EXECUTED}");
 }
+
 fn deadline() -> Instant {
     Instant::now() + Duration::from_secs(2)
 }

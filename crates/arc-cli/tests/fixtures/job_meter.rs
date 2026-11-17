@@ -7,6 +7,21 @@ use std::{
 };
 
 pub fn run(mode: &str) {
+    let mode = if let Some(actual_mode) = mode.strip_prefix("capture-") {
+        let path = std::env::var_os("ARC_FIXTURE_CAPTURE_ENV")
+            .expect("capture mode needs an explicit fixture-owned destination");
+        let snapshot = serde_json::json!({
+            "lineage": std::env::var("ARC_TRAFFIC_LINEAGE").ok(),
+            "underscore": std::env::var("_").ok()
+        });
+        std::fs::write(path, serde_json::to_vec(&snapshot).unwrap()).unwrap();
+        actual_mode
+    } else {
+        mode
+    };
+    let (controlled, mode) = mode
+        .strip_prefix("controlled-")
+        .map_or((false, mode), |mode| (true, mode));
     if mode == "pipe-parent" {
         pipe_parent();
         return;
@@ -71,6 +86,18 @@ pub fn run(mode: &str) {
     if let Some(ready) = std::env::var_os("ARC_METER_TEST_READY") {
         std::fs::write(ready, std::process::id().to_string()).unwrap();
     }
+    if controlled || mode == "channel-hold" {
+        use std::{io::Read, os::unix::net::UnixStream};
+        let path = std::env::var_os("ARC_METER_TEST_CONTROL")
+            .expect("controlled mode needs a fixture-owned control socket");
+        let mut control = UnixStream::connect(path).unwrap();
+        control.write_all(b"ready").unwrap();
+        let mut release = [0u8; 1];
+        if control.read_exact(&mut release).is_err() {
+            std::process::exit(125);
+        }
+        assert_eq!(release, *b"r");
+    }
     match mode {
         "hold" => {
             let release = std::env::var_os("ARC_METER_TEST_RELEASE").unwrap();
@@ -101,32 +128,43 @@ pub fn run(mode: &str) {
             // The fixture owner records this identity before releasing it.
             // An explicit release keeps liveness independent of host speed.
             let _ = child.try_wait().unwrap();
+            write_cpu_reference("ARC_METER_TEST_ESCAPE_PARENT_CPU");
             return;
         }
         "orphan-work" => {
             let release = std::env::var_os("ARC_METER_TEST_ESCAPE_RELEASE").unwrap();
-            let start = Instant::now();
-            let end = start + Duration::from_secs(60);
-            // Keep the original CPU workload (at least 400ms), and hold the
-            // descendant's lifetime until the observer explicitly releases it.
-            while !std::path::Path::new(&release).exists()
-                || start.elapsed() < Duration::from_millis(400)
-            {
-                assert!(Instant::now() < end, "escaped fixture watchdog");
-                std::hint::black_box(start.elapsed());
+            let mut value = 0u64;
+            for _ in 0..50_000_000 {
+                value = std::hint::black_box(value.wrapping_mul(17).wrapping_add(1));
+            }
+            std::hint::black_box(value);
+            write_cpu_reference("ARC_METER_TEST_ESCAPE_DESCENDANT_CPU");
+            while !std::path::Path::new(&release).exists() {
+                std::thread::yield_now();
             }
             return;
         }
         "nested" | "nested-scheduled" => {
             let mut child = Command::new(std::env::var_os("ARC_METER_TEST_CLI").unwrap());
-            child.args(["exec", "--"]);
+            if controlled && std::env::var_os("ARC_METER_TEST_CLOCKED").is_some() {
+                child.arg("--clocked-fixture-exec");
+            } else {
+                child.args(["exec", "--"]);
+            }
             if mode == "nested-scheduled" {
                 child.args(["cargo", "build"]);
             } else {
                 child.arg(std::env::current_exe().unwrap());
             }
             let status = child
-                .env("ARC_FIXTURE_ACCOUNTING", "work")
+                .env(
+                    "ARC_FIXTURE_ACCOUNTING",
+                    if controlled {
+                        "controlled-work"
+                    } else {
+                        "work"
+                    },
+                )
                 .status()
                 .unwrap();
             std::process::exit(status.code().unwrap_or(1));
@@ -141,15 +179,27 @@ pub fn run(mode: &str) {
         "quick" => std::process::exit(17),
         _ => (),
     }
-    let start = Instant::now();
     let mut work = 0u64;
-    while start.elapsed() < Duration::from_millis(120) {
-        for _ in 0..1000 {
-            work = std::hint::black_box(work.wrapping_mul(17).wrapping_add(1));
-        }
+    // A fixed workload remains CPU-bound even when the process is descheduled.
+    for _ in 0..4_000_000 {
+        work = std::hint::black_box(work.wrapping_mul(17).wrapping_add(1));
     }
     std::hint::black_box(work);
     std::process::exit(if mode == "success" { 0 } else { 17 });
+}
+
+fn write_cpu_reference(variable: &str) {
+    let Some(path) = std::env::var_os(variable) else {
+        return;
+    };
+    let path = std::path::PathBuf::from(path);
+    let mut usage: libc::rusage = unsafe { std::mem::zeroed() };
+    assert_eq!(unsafe { libc::getrusage(libc::RUSAGE_SELF, &mut usage) }, 0);
+    let seconds = |v: libc::timeval| v.tv_sec as f64 + v.tv_usec as f64 / 1e6;
+    let value = seconds(usage.ru_utime) + seconds(usage.ru_stime);
+    let pending = path.with_extension("pending");
+    std::fs::write(&pending, value.to_string()).unwrap();
+    std::fs::rename(pending, path).unwrap();
 }
 
 /// The parent owns its Child before exposing the pre-adoption checkpoint. On

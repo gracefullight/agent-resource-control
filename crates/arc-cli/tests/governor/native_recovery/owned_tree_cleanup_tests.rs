@@ -205,3 +205,20 @@ fn owned_tree_kernel_rejects_stale_generation_and_terminates_exact_child() {
     let output = child.wait_with_output().unwrap();
     assert_eq!(output.status.signal(), Some(libc::SIGKILL));
 }
+
+#[test]
+fn uncaptured_owned_root_waits_for_the_kernel_stop_event() {
+    let mut command = Command::new("/bin/cat");
+    command.stdin(std::process::Stdio::piped());
+    let mut child = crate::native::OwnedChild::new(command.spawn().unwrap());
+    let pid = child.child.id();
+    let mut owned = Vec::new();
+    freeze_uncaptured_root(&child.child, &mut owned).unwrap();
+    assert_eq!(info(pid).unwrap().pbi_status, libc::SSTOP);
+    assert!(owned.is_empty());
+    child.child.kill().unwrap();
+    assert_eq!(
+        child.wait_with_output().unwrap().status.signal(),
+        Some(libc::SIGKILL)
+    );
+}

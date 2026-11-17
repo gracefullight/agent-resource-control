@@ -2,10 +2,9 @@
 //! No watchdog or output reader can reap the parent before its descendants are owned.
 use arc_core::process_identity::ProcessIdentity;
 use std::{
-    io::{self, Read},
-    os::{fd::AsRawFd, unix::process::CommandExt},
+    io,
+    os::unix::process::CommandExt,
     process::{Child, Command, ExitStatus, Output},
-    thread,
     time::{Duration, Instant},
 };
 
@@ -27,7 +26,7 @@ impl TreeChild {
             Err(error) => {
                 // Child is still ours and unreaped, so this group cannot be reused.
                 unsafe { libc::kill(-(child.id() as i32), libc::SIGKILL) };
-                let _ = child.wait();
+                let _ = crate::native::native_readiness::kill_and_reap(&mut child, false);
                 return Err(error);
             }
         };
@@ -41,12 +40,20 @@ impl TreeChild {
     }
 
     pub fn wait_with_output(&mut self, timeout: Duration) -> io::Result<Output> {
+        self.wait_for_output(Some(Instant::now() + timeout))
+    }
+
+    pub fn wait_with_output_until_exit(&mut self) -> io::Result<Output> {
+        self.wait_for_output(Some(Instant::now() + Duration::from_secs(180)))
+    }
+
+    fn wait_for_output(&mut self, end: Option<Instant>) -> io::Result<Output> {
         drop(self.child.stdin.take());
         let (mut out, mut err) = (self.child.stdout.take(), self.child.stderr.take());
         nonblocking(out.as_ref())?;
         nonblocking(err.as_ref())?;
+        let events = OutputEvents::new(self.root.pid, out.as_ref(), err.as_ref(), self)?;
         let (mut stdout, mut stderr) = (Vec::new(), Vec::new());
-        let end = Instant::now() + timeout;
         loop {
             drain(&mut out, &mut stdout)?;
             drain(&mut err, &mut stderr)?;
@@ -60,7 +67,7 @@ impl TreeChild {
                     stderr,
                 });
             }
-            if Instant::now() >= end {
+            if end.is_some_and(|deadline| Instant::now() >= deadline) {
                 // Cleanup runs while waitid(WNOWAIT) still retains the root identity.
                 self.cleanup()?;
                 return Err(io::Error::new(
@@ -68,7 +75,7 @@ impl TreeChild {
                     "Swift native tree watchdog",
                 ));
             }
-            thread::sleep(Duration::from_millis(1));
+            events.wait(end)?;
         }
     }
 
@@ -84,7 +91,9 @@ impl TreeChild {
             )
         };
         if result == 0 {
-            Ok(info.si_pid != 0)
+            // Darwin can return a pending stop event even for WEXITED. The
+            // PID alone therefore does not prove that the leader has exited.
+            Ok(events::is_terminal_event(&info))
         } else {
             Err(io::Error::last_os_error())
         }
@@ -94,7 +103,12 @@ impl TreeChild {
         self.exited_without_reaping()
     }
 
-    fn capture_tree(&mut self, identity: &ProcessIdentity, depth: usize) -> io::Result<()> {
+    fn capture_tree_with(
+        &mut self,
+        identity: &ProcessIdentity,
+        depth: usize,
+        visit: &mut impl FnMut(&ProcessIdentity) -> io::Result<()>,
+    ) -> io::Result<()> {
         if depth >= 128 {
             return Err(io::Error::other("Swift fixture descendant depth limit"));
         }
@@ -105,35 +119,47 @@ impl TreeChild {
             self.owned.push(identity.clone());
         }
         signal(identity, libc::SIGSTOP)?;
+        visit(identity)?;
+        let mut errors = Vec::new();
         for pid in crate::cleanup::children(identity.pid)? {
-            let Some(child) = crate::cleanup::capture(pid)? else {
-                continue;
-            };
-            // Verify ancestry after capture so a recycled enumeration cannot be owned.
-            let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
-            let size = std::mem::size_of_val(&info) as i32;
-            let n = unsafe {
-                libc::proc_pidinfo(
-                    pid as i32,
-                    libc::PROC_PIDTBSDINFO,
-                    0,
-                    (&mut info as *mut libc::proc_bsdinfo).cast(),
-                    size,
-                )
-            };
-            if n != size {
-                if crate::cleanup::capture(pid)?.is_none() {
-                    continue;
+            let result = (|| {
+                let Some(child) = crate::cleanup::capture(pid)? else {
+                    return Ok(());
+                };
+                // Verify ancestry after capture so a recycled enumeration cannot be owned.
+                let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
+                let size = std::mem::size_of_val(&info) as i32;
+                let n = unsafe {
+                    libc::proc_pidinfo(
+                        pid as i32,
+                        libc::PROC_PIDTBSDINFO,
+                        0,
+                        (&mut info as *mut libc::proc_bsdinfo).cast(),
+                        size,
+                    )
+                };
+                if n != size {
+                    if crate::cleanup::capture(pid)?.is_none() {
+                        return Ok(());
+                    }
+                    return Err(io::Error::last_os_error());
                 }
-                return Err(io::Error::last_os_error());
-            }
-            if info.pbi_ppid == identity.pid
-                && crate::cleanup::capture(pid)?.as_ref() == Some(&child)
-            {
-                self.capture_tree(&child, depth + 1)?;
+                if info.pbi_ppid == identity.pid
+                    && crate::cleanup::capture(pid)?.as_ref() == Some(&child)
+                {
+                    self.capture_tree_with(&child, depth + 1, visit)?;
+                }
+                Ok(())
+            })();
+            if let Err(error) = result {
+                errors.push(format!("descendant {pid}: {error}"));
             }
         }
-        Ok(())
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(io::Error::other(errors.join("; ")))
+        }
     }
 
     fn group_members(&self) -> io::Result<Vec<u32>> {
@@ -169,13 +195,22 @@ impl TreeChild {
         }
     }
 
-    fn capture_group(&mut self) -> io::Result<()> {
+    fn capture_group_with(
+        &mut self,
+        capture: &mut impl FnMut(u32) -> io::Result<Option<ProcessIdentity>>,
+    ) -> io::Result<()> {
+        let mut errors = Vec::new();
         for pid in self.group_members()? {
             if pid == self.root.pid {
                 continue;
             }
-            let Some(identity) = crate::cleanup::capture(pid)? else {
-                continue;
+            let identity = match capture(pid) {
+                Ok(Some(identity)) => identity,
+                Ok(None) => continue,
+                Err(error) => {
+                    errors.push(format!("group member {pid}: {error}"));
+                    continue;
+                }
             };
             if unsafe { libc::getpgid(pid as i32) } == self.root.pid as i32
                 && !self.owned.contains(&identity)
@@ -183,89 +218,216 @@ impl TreeChild {
                 self.owned.push(identity);
             }
         }
-        Ok(())
+        if errors.is_empty() {
+            Ok(())
+        } else {
+            Err(io::Error::other(errors.join("; ")))
+        }
     }
 
     fn signal_group(&self, value: i32) -> io::Result<()> {
         // Darwin rejects group signals to a zombie leader. Keep it unreaped,
         // enumerate its retained group, and stop/terminate each verified member
         // through capture_tree/signal instead. No denied signal is suppressed.
-        if self.exited_without_reaping()? {
-            return Ok(());
-        }
-        if unsafe { libc::getpgid(self.root.pid as i32) } != self.root.pid as i32 {
-            return Err(io::Error::other("Swift child lost its owned process group"));
-        }
-        if unsafe { libc::kill(-(self.root.pid as i32), value) } != 0 {
-            let error = io::Error::last_os_error();
-            if error.raw_os_error() != Some(libc::ESRCH) {
-                return Err(error);
-            }
-        }
-        Ok(())
+        events::signal_owned_group(
+            self.root.pid,
+            || self.exited_without_reaping(),
+            || {
+                let group = unsafe { libc::getpgid(self.root.pid as i32) };
+                if group == -1 {
+                    Err(io::Error::last_os_error())
+                } else {
+                    Ok(group)
+                }
+            },
+            || {
+                if unsafe { libc::kill(-(self.root.pid as i32), value) } != 0 {
+                    Err(io::Error::last_os_error())
+                } else {
+                    Ok(())
+                }
+            },
+        )
     }
 
     fn cleanup(&mut self) -> io::Result<()> {
+        self.cleanup_with(|child| child.signal_group(libc::SIGSTOP))
+    }
+
+    fn cleanup_with(&mut self, stop_group: impl FnOnce(&Self) -> io::Result<()>) -> io::Result<()> {
+        self.cleanup_with_observer(stop_group, &mut |_| Ok(()))
+    }
+
+    fn cleanup_with_observer(
+        &mut self,
+        stop_group: impl FnOnce(&Self) -> io::Result<()>,
+        visit: &mut impl FnMut(&ProcessIdentity) -> io::Result<()>,
+    ) -> io::Result<()> {
+        self.cleanup_with_observers(stop_group, visit, &mut crate::cleanup::capture)
+    }
+
+    fn cleanup_with_observers(
+        &mut self,
+        stop_group: impl FnOnce(&Self) -> io::Result<()>,
+        visit: &mut impl FnMut(&ProcessIdentity) -> io::Result<()>,
+        capture_group: &mut impl FnMut(u32) -> io::Result<Option<ProcessIdentity>>,
+    ) -> io::Result<()> {
+        self.cleanup_with_termination(stop_group, visit, capture_group, |child| {
+            child.signal_group(libc::SIGKILL)
+        })
+    }
+
+    fn cleanup_with_termination(
+        &mut self,
+        stop_group: impl FnOnce(&Self) -> io::Result<()>,
+        visit: &mut impl FnMut(&ProcessIdentity) -> io::Result<()>,
+        capture_group: &mut impl FnMut(u32) -> io::Result<Option<ProcessIdentity>>,
+        kill_group: impl FnOnce(&Self) -> io::Result<()>,
+    ) -> io::Result<()> {
         if self.cleaned {
             return Ok(());
         }
         let mut errors = Vec::new();
         // Freeze the owned group before enumeration. Also follow separately grouped
         // descendants by verified ancestry; never scan or signal unrelated processes.
-        if crate::cleanup::capture(self.root.pid)?.as_ref() == Some(&self.root) {
-            if let Err(error) = self.signal_group(libc::SIGSTOP) {
-                errors.push(format!("stop group: {error}"));
+        let root_current = match crate::cleanup::capture(self.root.pid) {
+            Ok(identity) => identity.as_ref() == Some(&self.root),
+            Err(error) => {
+                errors.push(format!("capture root: {error}"));
+                false
             }
-            if let Err(error) = self.capture_group() {
+        };
+        if root_current {
+            match stop_group(self) {
+                Ok(()) => {
+                    if let Err(error) = events::wait_for_group_leader_stop(self.root.pid) {
+                        errors.push(format!("observe group stop: {error}"));
+                    }
+                }
+                Err(error) => errors.push(format!("stop group: {error}")),
+            }
+            if let Err(error) = self.capture_group_with(capture_group) {
                 errors.push(format!("capture group: {error}"));
             }
-            // Group members can outlive and be reparented away from an exited root.
-            // Capture their trees too, before reaping the group leader.
-            for identity in self.owned.clone() {
-                if let Err(error) = self.capture_tree(&identity, 0) {
-                    errors.push(format!("capture tree {}: {error}", identity.pid));
-                }
+        }
+        // Known identities remain ours even when the root observation failed.
+        // Do not abandon a sibling subtree after another subtree reports an error.
+        for identity in self.owned.clone() {
+            if let Err(error) = self.capture_tree_with(&identity, 0, visit) {
+                errors.push(format!("capture tree {}: {error}", identity.pid));
             }
-            for identity in self.owned.iter().rev() {
-                if let Err(error) = signal(identity, libc::SIGKILL) {
-                    errors.push(format!("kill {}: {error}", identity.pid));
-                }
+        }
+        // Preserve the direct child as the group anchor until the group signal.
+        // Killing it first races Darwin's transition to a zombie leader, where
+        // an otherwise valid group signal can fail with EPERM.
+        for identity in self.owned.iter().rev().filter(|id| id.pid != self.root.pid) {
+            if let Err(error) = signal(identity, libc::SIGKILL) {
+                errors.push(format!("kill {}: {error}", identity.pid));
             }
-            // The unreaped Child still owns this group even if it has just exited.
-            if let Err(error) = self.signal_group(libc::SIGKILL) {
+        }
+        if root_current {
+            // If the root has exited, signal_owned_group observes that state;
+            // enumerated members above still receive individual termination.
+            if let Err(error) = kill_group(self) {
                 errors.push(format!("kill group: {error}"));
             }
         }
-        self.status = Some(self.child.wait()?);
+        if !errors.is_empty() && self.status.is_none() {
+            // Even if a verified group/descendant signal failed, still attempt
+            // to reap the direct child before reporting the original failure.
+            match self.child.try_wait() {
+                Ok(Some(status)) => self.status = Some(status),
+                Ok(None) => {
+                    if let Err(error) = self.child.kill() {
+                        errors.push(format!("kill direct child: {error}"));
+                    }
+                }
+                Err(error) => errors.push(format!("observe direct child: {error}")),
+            }
+        }
         let end = Instant::now() + Duration::from_secs(60);
         loop {
-            let mut remaining = false;
-            for identity in &self.owned {
-                match crate::cleanup::capture(identity.pid) {
-                    Ok(Some(current)) if current == *identity => remaining = true,
-                    Ok(_) => (),
-                    // Native process records can be transiently unavailable during
-                    // exit. Retain ownership and retry; never call that disappearance.
-                    Err(_) => remaining = true,
-                }
-            }
-            if !remaining {
+            if self.status.is_some() {
                 break;
             }
-            if Instant::now() >= end {
-                return Err(io::Error::new(
-                    io::ErrorKind::TimedOut,
-                    "Swift descendants did not disappear",
-                ));
+            match self.child.try_wait() {
+                Ok(Some(status)) => {
+                    self.status = Some(status);
+                    break;
+                }
+                Ok(None) => (),
+                Err(error) => {
+                    errors.push(format!("reap direct child: {error}"));
+                    break;
+                }
             }
-            thread::sleep(Duration::from_millis(1));
+            if Instant::now() >= end {
+                errors.push(format!(
+                    "Swift direct child {} never exited during cleanup",
+                    self.root.pid
+                ));
+                break;
+            }
+            std::thread::yield_now();
         }
-        self.cleaned = true;
+        match wait_for_owned_exit(
+            &self.owned,
+            Duration::from_secs(60),
+            crate::cleanup::capture,
+        ) {
+            Ok(()) if self.status.is_some() => self.cleaned = true,
+            Ok(()) => (),
+            Err(error) => errors.push(error.to_string()),
+        }
         if errors.is_empty() {
             Ok(())
         } else {
             Err(io::Error::other(errors.join("; ")))
         }
+    }
+}
+
+fn wait_for_owned_exit(
+    owned: &[ProcessIdentity],
+    timeout: Duration,
+    mut capture: impl FnMut(u32) -> io::Result<Option<ProcessIdentity>>,
+) -> io::Result<()> {
+    let end = Instant::now() + timeout;
+    let mut errors = Vec::new();
+    loop {
+        let mut remaining = Vec::new();
+        for identity in owned {
+            match capture(identity.pid) {
+                Ok(Some(current)) if current == *identity => remaining.push(identity.pid),
+                Ok(_) => (),
+                Err(error) => {
+                    let message = format!(
+                        "cannot verify cleanup of Swift descendant {}: {error}",
+                        identity.pid
+                    );
+                    if !errors.contains(&message) {
+                        errors.push(message);
+                    }
+                }
+            }
+        }
+        if remaining.is_empty() {
+            return if errors.is_empty() {
+                Ok(())
+            } else {
+                Err(io::Error::other(errors.join("; ")))
+            };
+        }
+        if Instant::now() >= end {
+            return Err(io::Error::new(
+                io::ErrorKind::TimedOut,
+                format!(
+                    "Swift descendants never exited during cleanup: {remaining:?}; {}",
+                    errors.join("; ")
+                ),
+            ));
+        }
+        std::thread::yield_now();
     }
 }
 
@@ -288,34 +450,16 @@ fn signal(identity: &ProcessIdentity, value: i32) -> io::Result<()> {
     }
     Ok(())
 }
-fn nonblocking(pipe: Option<&impl AsRawFd>) -> io::Result<()> {
-    if let Some(pipe) = pipe {
-        let fd = pipe.as_raw_fd();
-        let flags = unsafe { libc::fcntl(fd, libc::F_GETFL) };
-        if flags < 0 || unsafe { libc::fcntl(fd, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
-            return Err(io::Error::last_os_error());
-        }
-    }
-    Ok(())
-}
-fn drain(pipe: &mut Option<impl Read>, bytes: &mut Vec<u8>) -> io::Result<()> {
-    let mut buffer = [0; 16384];
-    for _ in 0..16 {
-        let Some(reader) = pipe.as_mut() else { break };
-        match reader.read(&mut buffer) {
-            Ok(0) => {
-                *pipe = None;
-                break;
-            }
-            Ok(n) => bytes.extend_from_slice(&buffer[..n]),
-            Err(e) if e.kind() == io::ErrorKind::WouldBlock => break,
-            Err(e) if e.kind() == io::ErrorKind::Interrupted => continue,
-            Err(e) => return Err(e),
-        }
-    }
-    Ok(())
-}
+#[path = "process_events.rs"]
+mod events;
+#[cfg(test)]
+use events::recover_process_registration;
+use events::{drain, nonblocking, OutputEvents};
 
 #[cfg(test)]
 #[path = "process_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "process_group_tests.rs"]
+mod group_tests;

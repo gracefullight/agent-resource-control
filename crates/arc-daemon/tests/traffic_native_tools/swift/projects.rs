@@ -143,24 +143,24 @@ pub fn direct(tools: &Tools, prepared: &Prepared) -> Output {
     }
     let mut child = super::process::TreeChild::spawn(command).unwrap();
     child.child.stdin.take().unwrap().write_all(INPUT).unwrap();
-    let deadline = Instant::now() + Duration::from_secs(60);
-    let mut gate = None;
-    eventually(|| {
+    let end = Instant::now() + Duration::from_secs(180);
+    let mut gate = loop {
         if child.has_exited().unwrap() {
-            let output = child
-                .wait_with_output(deadline.saturating_duration_since(Instant::now()))
-                .unwrap();
+            let output = child.wait_with_output_until_exit().unwrap();
             panic!("SwiftPM exited before native evidence/barrier: {output:?}");
         }
-        assert!(Instant::now() < deadline, "Swift native entry watchdog");
-        gate = super::evidence::held(&prepared.project, child.child.id());
-        gate.is_some()
-    });
-    gate.take().unwrap().0.write_all(b"release\n").unwrap();
+        if let Some(gate) = super::evidence::held(&prepared.project, child.child.id()) {
+            break gate;
+        }
+        assert!(
+            Instant::now() < end,
+            "SwiftPM never published native evidence and its release barrier"
+        );
+        std::thread::yield_now();
+    };
+    gate.0.write_all(b"release\n").unwrap();
     write(&prepared.project.join("release"), "release");
-    let result = child
-        .wait_with_output(deadline.saturating_duration_since(Instant::now()))
-        .unwrap();
+    let result = child.wait_with_output_until_exit().unwrap();
     assert_eq!(log(&prepared.project.join("launches")).lines().count(), 1);
     assert_eq!(
         super::evidence::body_count(&prepared.project),

@@ -3,6 +3,7 @@ use std::{path::PathBuf, process::Command};
 
 /// Test-only readiness, never used by production classification. The console
 /// script and module must select the same installed distribution/interpreter.
+#[derive(Clone)]
 pub struct PytestRuntime {
     pub python: PathBuf,
     pub image: PathBuf,
@@ -11,6 +12,11 @@ pub struct PytestRuntime {
 }
 impl PytestRuntime {
     pub fn installed() -> Self {
+        static INSTALLED: std::sync::OnceLock<PytestRuntime> = std::sync::OnceLock::new();
+        INSTALLED.get_or_init(Self::probe_installed).clone()
+    }
+
+    fn probe_installed() -> Self {
         let console = std::env::var_os("ARC_TEST_PYTEST")
             .map(PathBuf::from)
             .or_else(|| {

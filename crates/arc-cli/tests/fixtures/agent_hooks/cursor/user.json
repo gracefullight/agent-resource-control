@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "unrelated": {"theme": "kept", "nested": [1, true, null]},
+  "hooks": {
+    "preToolUse": [
+      {"command": "first-user-hook", "matcher": "Shell", "timeout": 12},
+      {"command": "second-user-hook", "matcher": "Read"}
+    ],
+    "postToolUse": [{"command": "after-user-hook"}]
+  }
+}

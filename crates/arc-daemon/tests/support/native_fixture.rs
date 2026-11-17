@@ -15,6 +15,9 @@ use std::{
     time::{Duration, Instant},
 };
 
+#[path = "native_readiness.rs"]
+pub mod native_readiness;
+
 pub struct Fixture {
     pub root: PathBuf,
     pub socket: PathBuf,
@@ -57,20 +60,7 @@ impl Fixture {
     }
 
     pub fn wait_for(&self, child: &mut OwnedChild, marker: &str) {
-        let end = Instant::now() + Duration::from_secs(60);
-        loop {
-            let stdout = fs::read_to_string(self.root.join("stdout")).unwrap();
-            if stdout.contains(marker) {
-                return;
-            }
-            assert!(
-                child.child.try_wait().unwrap().is_none(),
-                "child exited: {stdout} {}",
-                fs::read_to_string(self.root.join("stderr")).unwrap()
-            );
-            assert!(Instant::now() < end, "missing {marker}: {stdout}");
-            thread::sleep(Duration::from_millis(1));
-        }
+        native_readiness::wait_for(self, child, marker);
     }
 
     pub fn connect(&self) -> UnixStream {
@@ -92,8 +82,15 @@ impl Drop for Fixture {
                 }
             }
         }
-        if !self.root.join("owned-cleanup-incomplete").exists() {
-            let _ = fs::remove_dir_all(&self.root);
+        if !thread::panicking() && !self.root.join("owned-cleanup-incomplete").exists() {
+            if let Err(error) = fs::remove_dir_all(&self.root) {
+                if error.kind() != io::ErrorKind::NotFound {
+                    panic!(
+                        "cannot remove owned fixture {}: {error}",
+                        self.root.display()
+                    );
+                }
+            }
         }
     }
 }
@@ -235,9 +232,15 @@ impl OwnedChild {
         }
         gone
     }
-    /// Nonblocking drains share the child's single watchdog. There are no
-    /// blocking reader threads for an escaped pipe holder to strand on unwind.
+    /// Drain both pipes under one watchdog without blocking reader threads.
     pub fn wait_with_output(&mut self) -> io::Result<Output> {
+        self.wait_with_output_for(Duration::from_secs(60), false)
+    }
+    pub fn wait_with_output_for(
+        &mut self,
+        timeout: Duration,
+        owned_group: bool,
+    ) -> io::Result<Output> {
         fn nonblocking(pipe: Option<&impl AsRawFd>) -> io::Result<()> {
             if let Some(pipe) = pipe {
                 let fd = pipe.as_raw_fd();
@@ -277,7 +280,7 @@ impl OwnedChild {
         nonblocking(out.as_ref())?;
         nonblocking(err.as_ref())?;
         let (mut stdout, mut stderr) = (Vec::new(), Vec::new());
-        let end = Instant::now() + Duration::from_secs(60);
+        let end = Instant::now() + timeout;
         let mut status = None;
         loop {
             drain(&mut out, &mut stdout)?;
@@ -298,7 +301,7 @@ impl OwnedChild {
                             "owned descendants did not exit/reap",
                         ));
                     }
-                    thread::sleep(Duration::from_millis(1));
+                    thread::yield_now();
                     continue;
                 }
                 return Ok(Output {
@@ -310,8 +313,7 @@ impl OwnedChild {
             if Instant::now() >= end {
                 self.stop_descendants();
                 if !self.reaped {
-                    let _ = self.child.kill();
-                    let _ = self.child.wait();
+                    native_readiness::kill_and_reap(&mut self.child, owned_group)?;
                     self.reaped = true;
                 }
                 return Err(io::Error::new(
@@ -319,7 +321,7 @@ impl OwnedChild {
                     "owned child exit/pipe drain watchdog",
                 ));
             }
-            thread::sleep(Duration::from_millis(1));
+            thread::yield_now();
         }
     }
     pub fn stop(&mut self, signal: i32) -> (u128, u64) {
@@ -421,8 +423,9 @@ impl Drop for OwnedChild {
             }
             if Instant::now() >= end {
                 if !self.reaped {
-                    let _ = self.child.kill();
-                    let _ = self.child.wait();
+                    if let Err(error) = native_readiness::kill_and_reap(&mut self.child, false) {
+                        eprintln!("owned child cleanup failed: {error}");
+                    }
                 }
                 if let Some(root) = self
                     .identity_directory

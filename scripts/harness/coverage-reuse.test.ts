@@ -3,8 +3,8 @@ import { chmodSync, mkdirSync, readFileSync, rmSync, unlinkSync, writeFileSync }
 import { delimiter, resolve } from "node:path";
 import { reuseFixture } from "./coverage-reuse-fixture";
 import { coverageEvidence, reuseCoverage } from "../coverage/coverage-receipts";
-import { coverageLayout } from "../coverage/output-layout";
-import { CRATES, METER_INPUTS, MEMORY_PRESSURE_INPUTS, GOVERNOR_INPUTS, FROZEN_INPUTS, BASELINE } from "../coverage/config";
+import { coverageLayout, removeInstrumentedBuild } from "../coverage/output-layout";
+import { CRATES, METER_INPUTS, MEMORY_PRESSURE_INPUTS, GOVERNOR_INPUTS, AGENT_HOOK_INPUTS, FROZEN_INPUTS, BASELINE } from "../coverage/config";
 import { hash, inputIdentity } from "../coverage/source";
 import { account } from "../coverage/accounting";
 import { enforce } from "../coverage/gate";
@@ -24,6 +24,29 @@ test("synthetic same-input receipt recomputes all eleven integer floors without 
   expect(result.result.crates.map(c=>c.crate)).toEqual([...CRATES]);
   for(const crate of result.result.crates) expect(crate).toMatchObject({covered:4,total:5,pass:true});
   expect(f.bundle.acceptedBaseline).toBe(BASELINE);
+}));
+
+test("validated receipt remains reusable after removing only the instrumented build",()=>withFixture(f=>{
+  const debug=resolve(f.proof.target,"debug");
+  mkdirSync(debug,{recursive:true});
+  writeFileSync(resolve(debug,"instrumented-binary"),"build");
+  const sibling=resolve(f.proof.target,"keep.txt");
+  writeFileSync(sibling,"keep");
+  expect(reuse(f).recollected).toBe(false);
+  removeInstrumentedBuild(f.proof.target);
+  expect(()=>readFileSync(resolve(debug,"instrumented-binary"))).toThrow();
+  expect(readFileSync(sibling,"utf8")).toBe("keep");
+  expect(reuse(f).recollected).toBe(false);
+  const result=harness(f,f.path);
+  expect(result.exit).toBe(0);
+  expect(result.collected).toBe("");
+}));
+
+test("agent hook contract is a required frozen input",()=>withFixture(f=>{
+  const path=AGENT_HOOK_INPUTS[0];
+  expect(FROZEN_INPUTS).toContain(path);
+  delete f.bundle.frozenInputs[path]; f.writeBundle();
+  expect(()=>reuse(f)).toThrow(`frozen input mismatch ${path}`);
 }));
 
 test("reuse rejects consistent source hashes unrelated to the validated input digest",()=>withFixture(f=>{

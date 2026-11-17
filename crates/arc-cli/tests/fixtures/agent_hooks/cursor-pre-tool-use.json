@@ -1,0 +1,18 @@
+{
+  "conversation_id": "fixture-conversation",
+  "generation_id": "fixture-generation",
+  "hook_event_name": "preToolUse",
+  "cursor_version": "fixture",
+  "model": "fixture-model",
+  "user_email": "fixture@example.invalid",
+  "transcript_path": "/fixture/transcript.jsonl",
+  "workspace_roots": ["/fixture/workspace"],
+  "tool_name": "Shell",
+  "tool_use_id": "fixture-tool",
+  "cwd": "/fixture/workspace",
+  "tool_input": {
+    "command": "bun run build",
+    "working_directory": "/fixture/workspace",
+    "future_field": {"keep": [1, true, null]}
+  }
+}

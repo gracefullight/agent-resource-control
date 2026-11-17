@@ -40,9 +40,6 @@ impl Drop for Socket {
     }
 }
 fn read(stream: &mut UnixStream) -> Request {
-    stream
-        .set_read_timeout(Some(Duration::from_secs(60)))
-        .unwrap();
     Request::decode(&read_frame(stream).unwrap()).unwrap()
 }
 fn reply(stream: &mut UnixStream, request: &Request, value: serde_json::Value) {
@@ -269,11 +266,15 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
                 }),
             );
             if lost {
+                // A concurrent fork can temporarily inherit this descriptor
+                // despite CLOEXEC. Shutdown makes the peer loss visible even
+                // while an unrelated short-lived child holds a duplicate.
+                stream.shutdown(std::net::Shutdown::Both).unwrap();
                 drop(stream);
                 closed_tx.send(()).unwrap();
             } else {
                 closed_tx.send(()).unwrap();
-                done_rx.recv_timeout(Duration::from_secs(60)).unwrap();
+                done_rx.recv().unwrap();
             }
         });
         let Coordination::Fenced(mut gate) =
@@ -281,8 +282,38 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
         else {
             panic!("expected gate");
         };
-        closed_rx.recv_timeout(Duration::from_secs(60)).unwrap();
-        if !lost {
+        closed_rx.recv().unwrap();
+        if lost {
+            let fd = gate.session.raw_fd();
+            let mut observed = libc::pollfd {
+                fd,
+                events: libc::POLLIN | libc::POLLHUP,
+                revents: 0,
+            };
+            loop {
+                let ready = unsafe { libc::poll(&mut observed, 1, -1) };
+                if ready < 0 && io::Error::last_os_error().kind() == io::ErrorKind::Interrupted {
+                    continue;
+                }
+                assert_eq!(ready, 1, "release socket readiness");
+                let mut byte = 0u8;
+                let count = unsafe {
+                    libc::recv(
+                        fd,
+                        (&mut byte as *mut u8).cast(),
+                        1,
+                        libc::MSG_PEEK | libc::MSG_DONTWAIT,
+                    )
+                };
+                if count == 0 {
+                    break;
+                }
+                if count < 0 && io::Error::last_os_error().kind() == io::ErrorKind::WouldBlock {
+                    continue;
+                }
+                panic!("unexpected release socket state: {count}");
+            }
+        } else {
             gate.deadline = Instant::now();
         }
         let mut command = Command::new("/bin/sh");
@@ -290,7 +321,20 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
             .args(["-c", "printf x >> \"$ARC_TEST_MARKER\""])
             .env("ARC_TEST_MARKER", &marker);
         gate.install(&mut command);
-        assert!(command.spawn().is_err());
+        match command.spawn() {
+            Err(error) => assert_eq!(
+                error.raw_os_error(),
+                Some(if lost {
+                    libc::ECONNABORTED
+                } else {
+                    libc::ETIMEDOUT
+                })
+            ),
+            Ok(mut child) => {
+                let status = child.wait().unwrap();
+                panic!("pre-exec gate admitted a child after release loss: {status:?}");
+            }
+        }
         assert!(
             !marker.exists(),
             "pre-exec helper is not a target execution"

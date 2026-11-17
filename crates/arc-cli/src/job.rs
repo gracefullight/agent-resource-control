@@ -1,5 +1,7 @@
 //! Read-only lifecycle discovery; timestamps are Unix milliseconds.
+#[path = "job/diagnostics.rs"]
 pub(crate) mod diagnostics;
+#[path = "job/policy.rs"]
 mod policy;
 use arc_ipc::jobs::{
     JobId, JobSummary, ObservationStatus, ObservationTarget, Outcome, Phase, StatusRequest,
@@ -15,6 +17,12 @@ pub(crate) fn invalid() -> ExitCode {
     ExitCode::from(2)
 }
 pub(crate) fn run(id: Option<String>) -> ExitCode {
+    run_with_clock(id, &Instant::now)
+}
+
+// The fixture includes this same status implementation and supplies a clock;
+// the installed CLI always uses the monotonic system clock above.
+pub(crate) fn run_with_clock(id: Option<String>, now: &dyn Fn() -> Instant) -> ExitCode {
     let query = match id {
         Some(id) => match JobId::try_from(id) {
             Ok(job_id) => StatusRequest::ById { job_id },
@@ -40,7 +48,12 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
     let result = arc_core::socket_path()
         .map_err(|_| ())
         .and_then(|socket| {
-            super::exec::transport::call(&socket, OPERATION_JOB_STATUS, json!(query))
+            super::exec::transport::call_with_clock(
+                &socket,
+                OPERATION_JOB_STATUS,
+                json!(query),
+                now,
+            )
         })
         .and_then(|value| serde_json::from_value::<StatusResult>(value).map_err(|_| ()));
     match result {
@@ -68,9 +81,9 @@ pub(crate) fn run(id: Option<String>) -> ExitCode {
                     }
                     visit_recent(
                         &jobs,
-                        Instant::now,
-                        lookup_lifecycle_until,
-                        |id, end| traffic_status_until(id, end, false),
+                        now,
+                        |id, end| lookup_lifecycle_until(id, end, now),
+                        |id, end| traffic_status_until(id, end, false, now),
                         |job, state| {
                             println!(
                             "Job: {}\nState: {}\nRegistered (Unix ms): {}\nUpdated (Unix ms): {}\nReason: {}\nLast known: true",
@@ -171,17 +184,22 @@ fn visit_recent(
         emit(job, state);
     }
 }
-fn lookup_lifecycle_until(id: &JobId, deadline: Instant) -> &'static str {
+fn lookup_lifecycle_until(
+    id: &JobId,
+    deadline: Instant,
+    now: &dyn Fn() -> Instant,
+) -> &'static str {
     let Ok(socket) = arc_core::socket_path() else {
         return "outcome unknown";
     };
     let request = StatusRequest::ById { job_id: id.clone() };
-    let Ok(value) = super::exec::transport::call_until_no_busy_retry(
+    let Ok(value) = super::exec::transport::call_until_no_busy_retry_with_clock(
         &socket,
         OPERATION_JOB_STATUS,
         json!(request),
         deadline,
         &|| false,
+        now,
     ) else {
         return "outcome unknown";
     };
@@ -201,26 +219,43 @@ enum TrafficQuery {
 }
 
 fn traffic_status(id: &JobId) -> TrafficQuery {
-    traffic_status_until(id, Instant::now() + Duration::from_secs(2), true)
+    traffic_status_until(
+        id,
+        Instant::now() + Duration::from_secs(2),
+        true,
+        &Instant::now,
+    )
 }
 
-fn traffic_status_until(id: &JobId, deadline: Instant, retry_busy: bool) -> TrafficQuery {
+fn traffic_status_until(
+    id: &JobId,
+    deadline: Instant,
+    retry_busy: bool,
+    now: &dyn Fn() -> Instant,
+) -> TrafficQuery {
     let Ok(socket) = arc_core::socket_path() else {
         return TrafficQuery::Unavailable;
     };
     let request = arc_ipc::traffic::JobRequest::StatusV2 { job_id: id.clone() };
-    let call = if retry_busy {
-        super::exec::transport::call_until
+    let value = if retry_busy {
+        super::exec::transport::call_until(
+            &socket,
+            arc_ipc::traffic::OPERATION_TRAFFIC_JOB,
+            json!(request),
+            deadline,
+            &|| false,
+        )
     } else {
-        super::exec::transport::call_until_no_busy_retry
+        super::exec::transport::call_until_no_busy_retry_with_clock(
+            &socket,
+            arc_ipc::traffic::OPERATION_TRAFFIC_JOB,
+            json!(request),
+            deadline,
+            &|| false,
+            now,
+        )
     };
-    let value = match call(
-        &socket,
-        arc_ipc::traffic::OPERATION_TRAFFIC_JOB,
-        json!(request),
-        deadline,
-        &|| false,
-    ) {
+    let value = match value {
         Ok(value) => value,
         Err(super::exec::transport::Failure::Unsupported) => return TrafficQuery::Unsupported,
         Err(_) => return TrafficQuery::Unavailable,

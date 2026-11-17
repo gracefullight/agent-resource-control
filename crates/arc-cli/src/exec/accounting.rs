@@ -12,6 +12,15 @@ use std::{
 
 pub(super) const REPORT_WINDOW: Duration = Duration::from_millis(500);
 
+/// Start the run interval at the actual spawn boundary, after admission.
+pub(super) fn timed_spawn<T>(
+    now: impl FnOnce() -> Instant,
+    spawn: impl FnOnce() -> T,
+) -> (Instant, T) {
+    let started = now();
+    (started, spawn())
+}
+
 pub(super) fn lineage(
     socket: &Path,
     observer: &ProcessIdentity,
@@ -123,24 +132,38 @@ pub(super) fn report(
 
 /// Reserve time for read-after-uncertain-ACK reconciliation. Every write uses
 /// the same request/report ID, exact payload and terminal-derived deadline.
-pub(super) fn deliver(socket: &Path, report: &JobMeterReport, deadline: Instant) -> bool {
+pub(super) fn deliver(
+    socket: &Path,
+    report: &JobMeterReport,
+    deadline: Instant,
+    now: &dyn Fn() -> Instant,
+) -> bool {
     deliver_with(
         report,
         deadline,
         |request_id, report, end, committed| {
-            arc_ipc::meter::report_until(socket, request_id, report, end, &|| false, committed)
-                .map(|_| ())
+            arc_ipc::meter::report_until_with_clock(
+                socket,
+                request_id,
+                report,
+                end,
+                &|| false,
+                committed,
+                now,
+            )
+            .map(|_| ())
         },
         |job, end| {
-            arc_ipc::meter::summary_until(
+            arc_ipc::meter::summary_until_with_clock(
                 socket,
                 format!("job-meter-read-{}", report.report_id),
                 job,
                 end,
                 &|| false,
+                now,
             )
         },
-        Instant::now,
+        now,
     )
 }
 
@@ -193,5 +216,7 @@ fn deliver_with(
     write(&request_id, report, deadline, &mut committed).is_ok()
 }
 
+#[cfg(test)]
+mod queue_tests;
 #[cfg(test)]
 mod tests;

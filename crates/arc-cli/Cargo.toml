@@ -14,6 +14,7 @@ arc-core.workspace = true
 arc-platform.workspace = true
 arc-ipc.workspace = true
 clap.workspace = true
+serde.workspace = true
 serde_json.workspace = true
 sha2.workspace = true
 

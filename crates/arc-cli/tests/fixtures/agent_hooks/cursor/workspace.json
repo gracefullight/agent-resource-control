@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "project_setting": {"keep": "unchanged"},
+  "hooks": {
+    "preToolUse": [
+      {"command": "first-project-hook", "matcher": "Shell"},
+      {"command": "second-project-hook", "matcher": "Shell|Read", "failClosed": true}
+    ],
+    "sessionStart": [{"command": "start-project-hook"}]
+  }
+}

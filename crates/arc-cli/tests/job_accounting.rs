@@ -17,177 +17,49 @@ use std::{
     time::{Duration, Instant},
 };
 
-#[test]
-fn lifecycle_and_scheduled_commands_report_exactly_one_native_exit() {
-    for (scheduled, mode, code) in [
-        (false, "work", 17),
-        (true, "work", 17),
-        (false, "success", 0),
-        (true, "success", 0),
-    ] {
-        let f = Fixture::new(PeerMode::Normal);
-        let output = f.command(scheduled, mode).output().unwrap();
-        assert_eq!(output.status.code(), Some(code), "{output:?}");
-        assert!(output.stdout.is_empty());
-        assert!(output.stderr.is_empty(), "{output:?}");
-        let state = f.state.lock().unwrap();
-        assert_eq!(state.reports.len(), 1);
-        let report = state.reports.values().next().unwrap();
-        assert_eq!(report.outcome, TerminalOutcome::Exited { code: code as u8 });
-        assert!(report.cpu_core_seconds.user.unwrap() > 0.01);
-        assert!(report.cpu_core_seconds.system.unwrap() >= 0.0);
-        assert!(
-            (report.cpu_core_seconds.total.unwrap()
-                - (report.cpu_core_seconds.user.unwrap()
-                    + report.cpu_core_seconds.system.unwrap()))
-            .abs()
-                <= 1e-9
-        );
-        assert!(report.run_elapsed.seconds.unwrap() >= 0.12);
-        // This is a fixture escape limit, not the product's report budget.
-        // Independent queue exclusion and native CPU/outcome checks stay below.
-        let elapsed = report.run_elapsed.seconds.unwrap();
-        println!(
-            "accounting fixture scheduled={scheduled} mode={mode} elapsed={elapsed:.6}s bound=60s"
-        );
-        assert!(elapsed < 60.0);
-        if let Some(root) = std::env::var_os("ARC_TEST_EVIDENCE_DIR") {
-            let root = std::path::Path::new(&root);
-            fs::create_dir_all(root).unwrap();
-            fs::write(root.join(format!("accounting-{}-{scheduled}-{mode}.json", std::process::id())),
-                serde_json::to_vec(&serde_json::json!({"test":"lifecycle_and_scheduled_commands_report_exactly_one_native_exit", "scheduled":scheduled, "mode":mode, "elapsedSeconds":elapsed, "boundSeconds":60, "exitCode":code})).unwrap()).unwrap();
-        }
-        assert_eq!(report.completeness, Completeness::Partial);
-        assert!(report
-            .missing_coverage
-            .contains(&MissingCoverageReason::UnobservedDescendants));
-        assert!(
-            matches!(&report.accounting_relation, AccountingRelation::CanonicalRoot {root_job_id} if root_job_id == &report.job_id)
-        );
-        assert_eq!(
-            fs::read_to_string(f.root.join("marker"))
-                .unwrap()
-                .lines()
-                .count(),
-            1
-        );
-    }
-}
-#[test]
-fn nested_wrappers_resolve_one_canonical_root_across_scheduled_and_lifecycle_modes() {
-    for (outer_scheduled, nested_mode) in [
-        (false, "nested"),
-        (true, "nested"),
-        (false, "nested-scheduled"),
-        (true, "nested-scheduled"),
-    ] {
-        let f = Fixture::new(PeerMode::Normal);
-        let output = f.command(outer_scheduled, nested_mode).output().unwrap();
-        assert_eq!(output.status.code(), Some(17), "{output:?}");
-        let state = f.state.lock().unwrap();
-        assert_eq!(state.reports.len(), 2, "{state:?}");
-        let root = state
-            .reports
-            .values()
-            .find(|r| r.accounting_relation.is_additive())
-            .unwrap();
-        let nested = state
-            .reports
-            .values()
-            .find(|r| !r.accounting_relation.is_additive())
-            .unwrap();
-        assert_eq!(
-            nested.accounting_relation,
-            AccountingRelation::IncludedInRoot {
-                root_job_id: root.job_id.clone()
-            }
-        );
-        assert!(
-            root.cpu_core_seconds.total.unwrap() + 0.001 >= nested.cpu_core_seconds.total.unwrap()
-        );
-        assert!(
-            root.cpu_core_seconds.total.unwrap()
-                < nested.cpu_core_seconds.total.unwrap() * 1.5 + 0.02
-        );
-        assert_eq!(
-            fs::read_to_string(f.root.join("marker"))
-                .unwrap()
-                .lines()
-                .count(),
-            2
-        );
-    }
-}
-#[test]
-fn unverified_lineage_is_non_additive_and_caller_environment_does_not_create_ownership() {
-    let f = Fixture::new(PeerMode::Normal);
-    let output = f
-        .command(false, "quick")
-        .env("ARC_TRAFFIC_LINEAGE", "f".repeat(64))
-        .output()
-        .unwrap();
-    assert_eq!(output.status.code(), Some(17));
-    let state = f.state.lock().unwrap();
-    let report = state.reports.values().next().unwrap();
-    assert!(matches!(
-        report.accounting_relation,
-        AccountingRelation::CanonicalRoot { .. }
-    ));
-    drop(state);
-    let observer =
-        arc_core::process_identity::ProcessIdentity::capture(std::process::id()).unwrap();
-    let _unknown = arc_platform::job_lineage::Record::create(
-        &f.socket,
-        &observer,
-        &"e".repeat(32),
-        &AccountingRelation::Unverified {},
-    )
-    .unwrap();
-    let output = f.command(false, "work").output().unwrap();
-    assert_eq!(output.status.code(), Some(17));
-    let state = f.state.lock().unwrap();
-    let uncertain = state
-        .reports
-        .values()
-        .find(|r| matches!(r.accounting_relation, AccountingRelation::Unverified {}))
-        .unwrap();
-    assert!(!uncertain.accounting_relation.is_additive());
-    assert!(uncertain
-        .missing_coverage
-        .contains(&MissingCoverageReason::LineageUnverified));
-}
+#[path = "job_accounting/lineage.rs"]
+mod lineage;
+
 #[test]
 fn stop_continue_time_is_included_and_native_signal_is_reraised_after_reporting() {
+    use std::{io::Write, os::unix::net::UnixListener};
     let f = Fixture::new(PeerMode::Normal);
-    let mut command = f.command(false, "stop");
+    let control_path = f.root.join("stop-control");
+    let listener = UnixListener::bind(&control_path).unwrap();
+    let mut command = f.clocked_command(false, "controlled-stop");
     let owners = f.root.join("owners");
     command.env("ARC_FIXTURE_OWNERS", &owners);
     command
-        .env("ARC_METER_TEST_READY", f.root.join("ready"))
+        .env("ARC_METER_TEST_CONTROL", &control_path)
         .stdout(Stdio::null())
         .stderr(Stdio::null());
     let mut child = native::OwnedChild::spawn_with_descendants(command, owners).unwrap();
-    let end = Instant::now() + Duration::from_secs(60);
+    let mut control = lineage::attached_control(&f, &listener);
+    control.write_all(b"r").unwrap();
     loop {
         let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
-        assert_eq!(
-            unsafe {
-                libc::waitid(
-                    libc::P_PID,
-                    child.child.id(),
-                    &mut info,
-                    libc::WSTOPPED | libc::WNOHANG | libc::WNOWAIT,
-                )
-            },
-            0
-        );
-        if info.si_code == libc::CLD_STOPPED {
-            break;
+        let result = unsafe {
+            libc::waitid(
+                libc::P_PID,
+                child.child.id(),
+                &mut info,
+                libc::WSTOPPED | libc::WEXITED | libc::WNOWAIT,
+            )
+        };
+        if result < 0 && std::io::Error::last_os_error().kind() == std::io::ErrorKind::Interrupted {
+            continue;
         }
-        assert!(Instant::now() < end, "wrapper did not suspend");
-        thread::sleep(Duration::from_millis(1));
+        assert_eq!(result, 0);
+        assert_eq!(
+            info.si_code,
+            libc::CLD_STOPPED,
+            "wrapper exited without suspending"
+        );
+        break;
     }
-    thread::sleep(Duration::from_millis(180));
+    let pending_clock = f.root.join("clock.pending");
+    fs::write(&pending_clock, b"7").unwrap();
+    fs::rename(pending_clock, f.clock_path()).unwrap();
     assert_eq!(
         unsafe { libc::kill(child.child.id() as i32, libc::SIGCONT) },
         0
@@ -196,12 +68,17 @@ fn stop_continue_time_is_included_and_native_signal_is_reraised_after_reporting(
     let state = f.state.lock().unwrap();
     let report = state.reports.values().next().unwrap();
     assert!(report.run_elapsed.includes_stopped);
-    assert!(report.run_elapsed.seconds.unwrap() >= 0.3);
+    assert_eq!(report.run_elapsed.seconds, Some(7.0));
     assert!(report.cpu_core_seconds.total.unwrap() < report.run_elapsed.seconds.unwrap());
     drop(state);
-    let output = f.command(false, "signal").output().unwrap();
+    let signal_fixture = Fixture::new(PeerMode::Normal);
+    let output = lineage::synchronized_output(
+        &signal_fixture,
+        signal_fixture.clocked_command(false, "controlled-signal"),
+        1,
+    );
     assert_eq!(output.status.signal(), Some(libc::SIGTERM));
-    assert!(f.state.lock().unwrap().reports.values().any(|r| matches!(r.outcome, TerminalOutcome::Signaled {signal, ..} if signal == libc::SIGTERM as u8)));
+    assert!(signal_fixture.state.lock().unwrap().reports.values().any(|r| matches!(r.outcome, TerminalOutcome::Signaled {signal, ..} if signal == libc::SIGTERM as u8)));
 }
 #[test]
 fn reporting_outages_unsupported_peers_and_lost_acks_preserve_single_execution() {
@@ -258,30 +135,18 @@ fn reporting_outages_unsupported_peers_and_lost_acks_preserve_single_execution()
     }
 }
 #[test]
-fn fallback_after_slow_bypass_uses_the_original_pre_spawn_deadline() {
+fn fallback_after_bypass_preserves_single_execution_when_registration_is_unavailable() {
     for (mode, argv) in [
-        (PeerMode::SlowBypassThenStalledRegister, ["cargo", "build"]),
-        (
-            PeerMode::SlowUnsupportedBunThenStalledRegister,
-            ["bun", "test"],
-        ),
+        (PeerMode::BypassThenUnavailable, ["cargo", "build"]),
+        (PeerMode::UnsupportedBunThenUnavailable, ["bun", "test"]),
     ] {
         let f = Fixture::new(mode);
-        let start = Instant::now();
         let mut command = f.command_argv(&argv, "quick");
         command.stdout(Stdio::null()).stderr(Stdio::null());
         let mut child =
             native::OwnedChild::spawn_with_descendants(command, f.root.join("owners")).unwrap();
-        while !f.root.join("marker").exists() {
-            assert!(
-                // Exact deadline identity across both fallback routes is
-                // asserted without elapsed time in transport::preparation_tests.
-                // This guard includes process startup and native filesystem I/O.
-                start.elapsed() < Duration::from_secs(60),
-                "native fail-open child did not start within the completion guard"
-            );
-            thread::sleep(Duration::from_millis(1));
-        }
+        // The exact pre-spawn deadline, including a delayed bypass, is driven
+        // by a controlled clock in transport::preparation_tests.
         assert_eq!(child.child.wait().unwrap().code(), Some(17));
         assert!(
             f.state.lock().unwrap().report_requests.is_empty(),
@@ -299,23 +164,130 @@ fn fallback_after_slow_bypass_uses_the_original_pre_spawn_deadline() {
 
 #[test]
 fn queued_wait_does_not_inflate_the_native_run_interval() {
+    use std::{
+        io::{BufRead, Read, Write},
+        os::unix::net::UnixListener,
+        sync::mpsc,
+    };
     let f = Fixture::new(PeerMode::Queued);
-    let start = Instant::now();
-    let output = f.command(true, "work").output().unwrap();
-    assert_eq!(output.status.code(), Some(17), "{output:?}");
-    let elapsed = start.elapsed().as_secs_f64();
+    let control_path = f.root.join("c");
+    let listener = UnixListener::bind(&control_path).unwrap();
+    let mut command = f.clocked_command(true, "channel-hold");
+    command
+        .env("ARC_FIXTURE_CONTROLLED_NOTICE", "1")
+        .env("ARC_METER_TEST_CONTROL", &control_path)
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped());
+    let mut child =
+        native::OwnedChild::spawn_with_descendants(command, f.root.join("owners")).unwrap();
+    let stderr = child.child.stderr.take().unwrap();
+    let (seen, observed) = mpsc::channel();
+    let reader = thread::spawn(move || {
+        let mut lines = std::io::BufReader::new(stderr);
+        let mut diagnostics = String::new();
+        let (mut queued_seen, mut started_seen) = (false, false);
+        loop {
+            let mut line = String::new();
+            if lines.read_line(&mut line).unwrap() == 0 {
+                break;
+            }
+            diagnostics.push_str(&line);
+            if !queued_seen && diagnostics.contains("QUEUED\nWaiting to start.") {
+                seen.send("queued").unwrap();
+                queued_seen = true;
+            }
+            if !started_seen && diagnostics.contains("STARTED\nCommand started.") {
+                seen.send("started").unwrap();
+                started_seen = true;
+            }
+        }
+        diagnostics
+    });
+    f.wait_for_queued_poll();
+    assert!(
+        !f.root.join("marker").exists(),
+        "queued work must not start before release"
+    );
+    assert!(child.child.try_wait().unwrap().is_none());
+    assert_eq!(
+        observed
+            .recv_timeout(Duration::from_secs(60))
+            .expect("queued notice was not observed"),
+        "queued"
+    );
+    assert!(!f.root.join("marker").exists());
+    let pending = f.root.join("clock.pending");
+    fs::write(&pending, b"3600").unwrap();
+    fs::rename(&pending, f.clock_path()).unwrap();
+    f.release_queued();
+    assert_eq!(
+        observed
+            .recv_timeout(Duration::from_secs(60))
+            .expect("started notice was not observed"),
+        "started"
+    );
+    listener.set_nonblocking(true).unwrap();
+    let end = Instant::now() + Duration::from_secs(60);
+    let mut control = loop {
+        match listener.accept() {
+            Ok((stream, _)) => {
+                stream.set_nonblocking(false).unwrap();
+                break stream;
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                assert!(
+                    child.child.try_wait().unwrap().is_none(),
+                    "child exited before control connection"
+                );
+                assert!(
+                    Instant::now() < end,
+                    "child never connected its accounting control socket"
+                );
+                thread::yield_now();
+            }
+            Err(error) => panic!("child control accept: {error}"),
+        }
+    };
+    control
+        .set_read_timeout(Some(Duration::from_secs(60)))
+        .unwrap();
+    let mut ready = [0u8; 5];
+    control
+        .read_exact(&mut ready)
+        .expect("child never sent accounting control readiness");
+    assert_eq!(&ready, b"ready");
+    f.wait_for_attachment();
+    assert!(child.child.try_wait().unwrap().is_none());
+    fs::write(&pending, b"3607").unwrap();
+    fs::rename(&pending, f.clock_path()).unwrap();
+    control.write_all(b"r").unwrap();
+    assert_eq!(child.wait_with_output().unwrap().status.code(), Some(17));
+    let diagnostics = reader.join().unwrap();
     let state = f.state.lock().unwrap();
     let report = state.reports.values().next().unwrap();
-    assert!(report.run_elapsed.seconds.unwrap() >= 0.12);
-    assert!(report.run_elapsed.seconds.unwrap() < elapsed - 0.2);
-    let diagnostics = String::from_utf8(output.stderr).unwrap();
-    assert!(diagnostics.contains("QUEUED\nWaiting to start."));
-    assert!(diagnostics.contains("STARTED\nCommand started."));
+    assert_eq!(report.run_elapsed.seconds, Some(7.0));
+    assert_eq!(report.outcome, TerminalOutcome::Exited { code: 17 });
+    assert_eq!(
+        fs::read_to_string(f.root.join("marker"))
+            .unwrap()
+            .lines()
+            .count(),
+        1
+    );
+    assert!(
+        diagnostics.contains("QUEUED\nWaiting to start."),
+        "queued notice missing: {diagnostics:?}"
+    );
+    assert!(
+        diagnostics.contains("STARTED\nCommand started."),
+        "started notice missing: {diagnostics:?}"
+    );
 }
 
 #[test]
 fn a_nested_job_after_parent_registration_outage_stays_unverified() {
     let f = Fixture::new(PeerMode::UntrackedRoot);
+    let reference = lineage::direct_work_reference(&f, "work", 17);
     let output = f.command(false, "nested").output().unwrap();
     assert_eq!(output.status.code(), Some(17), "{output:?}");
     assert!(String::from_utf8_lossy(&output.stderr).contains("TRACKING_UNCERTAIN"));
@@ -331,7 +303,11 @@ fn a_nested_job_after_parent_registration_outage_stays_unverified() {
         AccountingRelation::Unverified {}
     );
     assert!(!nested.accounting_relation.is_additive());
-    assert!(nested.cpu_core_seconds.total.unwrap() > 0.01);
+    let nested_cpu = nested.cpu_core_seconds.total.unwrap();
+    assert!(
+        reference > 0.0 && nested_cpu >= reference / 4.0 && nested_cpu <= reference * 4.0,
+        "nested CPU {nested_cpu}, same-run work reference {reference}"
+    );
     assert!(nested
         .missing_coverage
         .contains(&MissingCoverageReason::LineageUnverified));

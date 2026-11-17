@@ -6,6 +6,7 @@ mod classify;
 mod doctor;
 mod exec;
 mod governor;
+mod hooks;
 mod job;
 mod meter;
 
@@ -92,6 +93,17 @@ A reference does not confirm a saved record. A missing record does not show whet
 Daemon recovery never replays the command. Do not launch another copy to recover tracking.
 Desktop integration, native Windows acceptance, vendor hooks and other scheduling policies remain outstanding.")]
     Exec {
+        #[arg(required = true, num_args = 1.., last = true, value_name = "PROGRAM")]
+        argv: Vec<std::ffi::OsString>,
+    },
+    /// Manage the bounded agent hook integrations
+    Hooks {
+        #[command(subcommand)]
+        command: hooks::HooksCommand,
+    },
+    /// Internal execution route used by the agent hook adapters
+    #[command(hide = true)]
+    HookExec {
         #[arg(required = true, num_args = 1.., last = true, value_name = "PROGRAM")]
         argv: Vec<std::ffi::OsString>,
     },
@@ -185,6 +197,8 @@ fn main() -> ExitCode {
     };
     let command = match cli.command {
         Command::Exec { argv } => return exec::run(argv),
+        Command::HookExec { argv } => return exec::run_hook(argv),
+        Command::Hooks { command } => return hooks::run(command),
         Command::Job {
             command: JobCommand::Status { job_id },
         } => return job::run(job_id),
@@ -209,7 +223,10 @@ fn main() -> ExitCode {
 fn run(command: Command) -> Result<(), String> {
     let socket = arc_core::socket_path().map_err(|_| DAEMON_UNAVAILABLE)?;
     match command {
-        Command::Exec { .. } | Command::Job { .. } => unreachable!("handled before diagnostics"),
+        Command::Exec { .. }
+        | Command::HookExec { .. }
+        | Command::Hooks { .. }
+        | Command::Job { .. } => unreachable!("handled before diagnostics"),
         Command::Daemon { command } => governor::run(&socket, command),
         Command::Status => status(&socket).map_err(str::to_owned),
         Command::Meter {

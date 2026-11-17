@@ -1,0 +1,26 @@
+{
+  "source": "https://cursor.com/docs/hooks",
+  "source_notes": {
+    "response": "The frozen contract uses a permission-free updated_input for fixture transformation; the documented schema projection requires permission. Production remains fail-open until locality and approval behavior are established.",
+    "ownership": "The installer records the complete managed entry in its locked sidecar. An unproven, modified or duplicated exact-marker entry requires manual resolution."
+  },
+  "supported_literals": [
+    "cargo build",
+    "bun run build"
+  ],
+  "unsupported_literals": [
+    "cargo  build",
+    " cargo build",
+    "cargo build ",
+    "cargo build --release",
+    "cargo build; true",
+    "cargo build > output",
+    "'cargo' build",
+    "$(echo cargo) build",
+    "PATH=/tmp cargo build",
+    "bun run build\n",
+    "bun run build | cat",
+    "/usr/bin/cargo build",
+    "arcctl hook-exec -- cargo build"
+  ]
+}

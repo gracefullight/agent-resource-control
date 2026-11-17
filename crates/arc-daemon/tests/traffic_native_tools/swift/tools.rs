@@ -5,7 +5,10 @@ use std::{
     fs,
     path::{Path, PathBuf},
     process::Command,
-    sync::atomic::{AtomicU64, Ordering},
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        OnceLock,
+    },
 };
 
 pub struct Tools {
@@ -18,6 +21,17 @@ pub struct Tools {
     pub observers: Value,
     version: String,
     cargo_version: String,
+    image_sha256: String,
+}
+
+struct Installed {
+    swift: PathBuf,
+    image: PathBuf,
+    cargo: PathBuf,
+    sdk: PathBuf,
+    version: String,
+    cargo_version: String,
+    image_sha256: String,
 }
 
 fn output(program: &Path, args: &[&str]) -> String {
@@ -32,6 +46,34 @@ fn output(program: &Path, args: &[&str]) -> String {
 impl Tools {
     pub fn installed() -> Self {
         static NEXT: AtomicU64 = AtomicU64::new(0);
+        static INSTALLED: OnceLock<Installed> = OnceLock::new();
+        let installed = INSTALLED.get_or_init(Self::probe);
+        let directory = root().join(format!(
+            "target/traffic-native-tools/swift/{}-{}",
+            std::process::id(),
+            NEXT.fetch_add(1, Ordering::Relaxed)
+        ));
+        writable_cache(&directory);
+        let shims = directory.join("observers");
+        let observers = json!([
+            observer(&shims, "swift", &installed.swift),
+            observer(&shims, "cargo", &installed.cargo)
+        ]);
+        Self {
+            swift: installed.swift.clone(),
+            image: installed.image.clone(),
+            cargo: installed.cargo.clone(),
+            sdk: installed.sdk.clone(),
+            shims,
+            directory,
+            observers,
+            version: installed.version.clone(),
+            cargo_version: installed.cargo_version.clone(),
+            image_sha256: installed.image_sha256.clone(),
+        }
+    }
+
+    fn probe() -> Installed {
         let xcrun = Path::new("/usr/bin/xcrun");
         // Keep the invocation's swift symlink. SwiftPM execs swift-package;
         // identity witnesses compare that running image, not swift-frontend.
@@ -52,33 +94,21 @@ impl Tools {
         let cargo = PathBuf::from(env!("CARGO"));
         let cargo_version = output(&cargo, &["--version"]);
         assert!(cargo_version.contains("1.95.0"));
-        let directory = root().join(format!(
-            "target/traffic-native-tools/swift/{}-{}",
-            std::process::id(),
-            NEXT.fetch_add(1, Ordering::Relaxed)
-        ));
-        writable_cache(&directory);
-        let shims = directory.join("observers");
-        let observers = json!([
-            observer(&shims, "swift", &swift),
-            observer(&shims, "cargo", &cargo)
-        ]);
-        Self {
+        let image_sha256 = sha(&image);
+        Installed {
             swift,
             image,
             cargo,
             sdk,
-            shims,
-            directory,
-            observers,
             version,
             cargo_version,
+            image_sha256,
         }
     }
 
     pub fn receipt(&self) -> Value {
         json!({"family":"swift","swift":self.swift,"swiftImage":self.image,
-            "swiftSha256":sha(&self.image),"version":self.version,"sdk":self.sdk,
+            "swiftSha256":self.image_sha256,"version":self.version,"sdk":self.sdk,
             "cargo":self.cargo,"cargoVersion":self.cargo_version,"offline":true,
             "remoteDependencies":0,"privateCaches":true,"argvRewritten":false})
     }
@@ -94,6 +124,15 @@ impl RunnerTools for Tools {
 impl Drop for Tools {
     fn drop(&mut self) {
         // Only this instance's observers/readiness projects; Case retains runtime evidence.
-        let _ = fs::remove_dir_all(&self.directory);
+        if !std::thread::panicking() {
+            if let Err(error) = fs::remove_dir_all(&self.directory) {
+                if error.kind() != std::io::ErrorKind::NotFound {
+                    panic!(
+                        "cannot remove owned Swift fixture {}: {error}",
+                        self.directory.display()
+                    );
+                }
+            }
+        }
     }
 }

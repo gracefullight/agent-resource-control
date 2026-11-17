@@ -14,12 +14,6 @@ use std::{
 };
 
 pub fn receipt(name: &str, value: serde_json::Value) {
-    let root = std::path::PathBuf::from(concat!(
-        env!("CARGO_MANIFEST_DIR"),
-        "/../../target/exec-fail-open/native"
-    ));
-    let root = root.join(std::process::id().to_string());
-    fs::create_dir_all(&root).unwrap();
     let mut value = value;
     let digest = std::process::Command::new("/usr/bin/shasum")
         .args(["-a", "256"])
@@ -42,11 +36,18 @@ pub fn receipt(name: &str, value: serde_json::Value) {
         .unwrap()
         .as_millis() as u64)
         .into();
-    fs::write(
-        root.join(format!("{name}.json")),
-        serde_json::to_vec_pretty(&value).unwrap(),
-    )
-    .unwrap();
+    eprintln!("exec-fail-open-{name}: {value}");
+    if let Some(root) = std::env::var_os("ARC_TEST_EVIDENCE_DIR") {
+        let root = std::path::PathBuf::from(root)
+            .join("exec-fail-open")
+            .join(std::process::id().to_string());
+        fs::create_dir_all(&root).unwrap();
+        fs::write(
+            root.join(format!("{name}.json")),
+            serde_json::to_vec_pretty(&value).unwrap(),
+        )
+        .unwrap();
+    }
 }
 pub fn arc_stderr(bytes: &[u8]) -> Vec<u8> {
     let text = std::str::from_utf8(bytes).unwrap();

@@ -21,8 +21,7 @@ use std::{
     },
     path::{Path, PathBuf},
     process::{Command, ExitStatus, Stdio},
-    thread,
-    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
+    time::{SystemTime, UNIX_EPOCH},
 };
 mod client_process;
 mod fault_server;
@@ -74,6 +73,8 @@ pub struct RealDaemon {
     pub evidence: PathBuf,
     daemon: Option<native::OwnedChild>,
     test_profile: bool,
+    daemon_clock: Option<PathBuf>,
+    isolated_environment: bool,
 }
 
 impl RealDaemon {
@@ -83,6 +84,32 @@ impl RealDaemon {
             "target/desktop-foundation/task8",
             binary("arc-daemon"),
             true,
+            false,
+            false,
+        )
+    }
+
+    #[allow(dead_code)] // Only the production queue acceptance needs this isolation.
+    pub fn isolated(name: &str) -> Self {
+        Self::configured(
+            name,
+            "target/desktop-foundation/task8",
+            binary("arc-daemon"),
+            true,
+            false,
+            true,
+        )
+    }
+
+    #[allow(dead_code)] // Only the job-meter acceptance target uses this fixture.
+    pub fn clocked(name: &str) -> Self {
+        Self::configured(
+            name,
+            "target/desktop-foundation/task8",
+            binary("arc-pressure-daemon-fixture"),
+            true,
+            true,
+            false,
         )
     }
 
@@ -91,27 +118,48 @@ impl RealDaemon {
     }
 
     pub fn meter_process(name: &str, binary: PathBuf) -> Self {
-        Self::configured(name, "target/host-meter/integration", binary, false)
+        Self::configured(
+            name,
+            "target/host-meter/integration",
+            binary,
+            false,
+            false,
+            false,
+        )
     }
 
-    fn configured(name: &str, output: &str, daemon_binary: PathBuf, test_profile: bool) -> Self {
-        let evidence = workspace()
-            .join(output)
-            .join(std::process::id().to_string())
-            .join(name);
-        fs::create_dir_all(&evidence).unwrap();
+    fn configured(
+        name: &str,
+        output: &str,
+        daemon_binary: PathBuf,
+        test_profile: bool,
+        clocked: bool,
+        isolated_environment: bool,
+    ) -> Self {
         let fixture = native::Fixture::with_binary(daemon_binary);
+        // Evidence belongs to this case's runtime, so successful cleanup
+        // removes it and an unwind retains only this case's own files.
+        let evidence = fixture.root.join(output).join(name);
+        fs::create_dir_all(&evidence).unwrap();
         assert_eq!(
             fs::metadata(&fixture.root).unwrap().permissions().mode() & 0o777,
             0o700
         );
         let bridge = DesktopBridge::from_socket_path(fixture.socket.clone());
+        let daemon_clock = clocked.then(|| {
+            let path = fixture.root.join("daemon-clock");
+            fs::write(&path, now_ms().to_string()).unwrap();
+            fs::write(fixture.root.join("pressure-source"), b"Normal").unwrap();
+            path
+        });
         let mut this = Self {
             fixture,
             bridge,
             evidence,
             daemon: None,
             test_profile,
+            daemon_clock,
+            isolated_environment,
         };
         this.start();
         this
@@ -120,8 +168,26 @@ impl RealDaemon {
     pub fn start(&mut self) {
         assert!(self.daemon.is_none());
         let mut command = self.fixture.command();
+        if self.isolated_environment {
+            // Reapply the fixture's explicit paths after clearing ambient ARC
+            // configuration. Coverage is restored by profile_command below.
+            command
+                .env_clear()
+                .env(arc_core::ARC_DB_PATH, &self.fixture.database)
+                .env(arc_core::ARC_SOCKET_PATH, &self.fixture.socket)
+                .env("ARC_RUNTIME_REPORT", self.fixture.root.join("runtime.json"))
+                .env("HOME", &self.fixture.root)
+                .env("TMPDIR", &self.fixture.root)
+                .env("PATH", "/usr/bin:/bin");
+        }
         if self.test_profile {
             command.env("ARC_IPC_PROFILE", "test");
+        }
+        if let Some(path) = &self.daemon_clock {
+            command.arg("--fixture-daemon-clock").arg(path).env(
+                "ARC_PRESSURE_CONTROL",
+                self.fixture.root.join("pressure-source"),
+            );
         }
         self.profile_command(&mut command);
         self.daemon = Some(native::OwnedChild::new(command.spawn().unwrap()));
@@ -164,7 +230,9 @@ impl RealDaemon {
     pub fn profile_command(&self, command: &mut Command) {
         // Preserve inherited coverage collection; its merger owns those files.
         // Uninstrumented runs truthfully report an empty profile inventory.
-        if std::env::var_os("LLVM_PROFILE_FILE").is_none() {
+        if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+            command.env("LLVM_PROFILE_FILE", profile);
+        } else {
             let profiles = self.evidence.join("profiles");
             fs::create_dir_all(&profiles).unwrap();
             command.env("LLVM_PROFILE_FILE", profiles.join("arc-%p-%m.profraw"));
@@ -179,14 +247,24 @@ impl RealDaemon {
         let inventory: Vec<_> = pids
             .iter()
             .map(|pid| {
-                let files: Vec<_> = fs::read_dir(root).unwrap().filter_map(Result::ok)
-                .filter(|entry| entry.file_name().to_string_lossy().contains(&format!("-{pid}-")))
-                .filter(|entry| entry.path().extension().is_some_and(|ext| ext == "profraw"))
-                .map(|entry| {
-                    let bytes = entry.metadata().unwrap().len();
-                    assert!(bytes > 0);
-                    json!({"path": entry.path().strip_prefix(workspace()).unwrap(), "bytes": bytes})
-                }).collect();
+                let files: Vec<_> = fs::read_dir(root)
+                    .unwrap()
+                    .filter_map(Result::ok)
+                    .filter(|entry| {
+                        entry
+                            .file_name()
+                            .to_string_lossy()
+                            .contains(&format!("-{pid}-"))
+                    })
+                    .filter(|entry| entry.path().extension().is_some_and(|ext| ext == "profraw"))
+                    .map(|entry| {
+                        let bytes = entry.metadata().unwrap().len();
+                        assert!(bytes > 0);
+                        let path = entry.path();
+                        let reported = path.strip_prefix(workspace()).unwrap_or(&path);
+                        json!({"path": reported, "bytes": bytes})
+                    })
+                    .collect();
                 if std::env::var_os("ARC_DESKTOP_REQUIRE_PROFILES").is_some() {
                     assert!(
                         !files.is_empty(),
@@ -254,7 +332,6 @@ impl RealDaemon {
     }
 
     pub fn wait_running(&self, identity: &ProcessIdentity) -> Received<JobLookup> {
-        let deadline = Instant::now() + Duration::from_secs(60);
         loop {
             let recent = self.bridge.recent_jobs().unwrap();
             assert!(recent.data.jobs.len() <= 50);
@@ -268,11 +345,13 @@ impl RealDaemon {
                     return reply;
                 }
             }
-            assert!(
-                Instant::now() < deadline,
-                "native child never observed running"
-            );
-            thread::sleep(Duration::from_millis(5));
+            match probe_live(identity) {
+                IdentityStatus::Missing | IdentityStatus::Mismatch => {
+                    panic!("native child exited before the running observation")
+                }
+                IdentityStatus::VerifiedMatch | IdentityStatus::Indeterminate => (),
+            }
+            std::thread::yield_now();
         }
     }
 
@@ -358,16 +437,18 @@ impl Drop for HeldJob {
         if let Some(mut barrier) = self.barrier.take() {
             let _ = barrier.write_all(b"x");
             drop(barrier);
-            let deadline = Instant::now() + Duration::from_secs(60);
-            while self.wrapper.child.try_wait().ok().flatten().is_none()
-                && Instant::now() < deadline
-            {
-                thread::sleep(Duration::from_millis(5));
-            }
-            // A known fixture child must not be orphaned if an assertion fails.
-            if probe_live(&self.identity) == IdentityStatus::VerifiedMatch {
-                unsafe {
-                    libc::kill(self.identity.pid as i32, libc::SIGTERM);
+            // On unwind, terminate only the verified fixture generation, then
+            // let its wrapper reap it before the wrapper itself is dropped.
+            match probe_live(&self.identity) {
+                IdentityStatus::VerifiedMatch => {
+                    unsafe { libc::kill(self.identity.pid as i32, libc::SIGKILL) };
+                    let _ = self.wrapper.child.wait();
+                }
+                IdentityStatus::Missing | IdentityStatus::Mismatch => {
+                    let _ = self.wrapper.child.wait();
+                }
+                IdentityStatus::Indeterminate => {
+                    eprintln!("fixture descendant identity is indeterminate during cleanup");
                 }
             }
         }

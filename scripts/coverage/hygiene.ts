@@ -1,9 +1,50 @@
-import { readFileSync, lstatSync, readdirSync } from "node:fs";
+import { readFileSync, lstatSync, readdirSync, statSync, rmSync } from "node:fs";
+import type { Stats } from "node:fs";
 import { join, resolve } from "node:path";
 import { HARNESS } from "./config";
 
 export const ACCEPTED_HEAD = "aacb3b4359f13c31c0705c0cffc5bf1ac00f387e";
 export const HYGIENE = ".arc-verify/evidence-hygiene";
+export const TARGET_LIMIT_BYTES = 500_000_000;
+
+// Count allocated 512-byte blocks, including a symlinked target root.
+// Descendant links are counted as links. The runner owns target/av-runner.
+export function targetBytesOutsideDebug(root:string):number {
+  const target=resolve(root,"target"), excluded=new Set([join(target,"debug"),join(target,"av-runner")]);
+  const pending=[target]; let bytes=0;
+  while(pending.length) {
+    const path=pending.pop()!;
+    if(excluded.has(path)) continue;
+    let stat:Stats;
+    try { stat=lstatSync(path); } catch(error:unknown) {
+      if(path===target && (error as NodeJS.ErrnoException).code==="ENOENT") return 0;
+      throw error;
+    }
+    bytes+=stat.blocks*512;
+    // A symlink used as the target root still represents the build tree.
+    // Descendant symlinks remain links, so they cannot escape or form cycles.
+    const directory=stat.isDirectory() || (path===target && stat.isSymbolicLink() && statSync(path).isDirectory());
+    if(path===target && !directory) throw Error("HYGIENE: target is not a directory");
+    if(directory) for(const name of readdirSync(path)) pending.push(join(path,name));
+  }
+  return bytes;
+}
+
+// Retain the validated compatibility executables at their original paths while
+// removing only the Cargo intermediates owned by that preparation.
+export function compactFixtureBuild(target:string, executables:string[]) {
+  if (!executables.length || new Set(executables).size !== executables.length ||
+      executables.some(name => !/^[a-zA-Z0-9_-]+$/.test(name))) throw Error("HYGIENE: invalid fixture executables");
+  const debug=join(target,"debug");
+  if (!lstatSync(target).isDirectory() || !lstatSync(debug).isDirectory()) throw Error("HYGIENE: invalid fixture build root");
+  for (const name of executables) if (!lstatSync(join(debug,name)).isFile()) throw Error(`HYGIENE: missing fixture executable ${name}`);
+  for (const name of readdirSync(target)) if (name !== "debug") rmSync(join(target,name),{recursive:true,force:true});
+  for (const name of readdirSync(debug)) if (!executables.includes(name)) rmSync(join(debug,name),{recursive:true,force:true});
+}
+export function assertTargetLimit(bytes:number) {
+  if(!Number.isSafeInteger(bytes) || bytes<0 || bytes>TARGET_LIMIT_BYTES)
+    throw Error(`HYGIENE: target outside debug is ${bytes} bytes; maximum is ${TARGET_LIMIT_BYTES}`);
+}
 
 export function gitBytes(root: string, args: string[], stdin?: string): Buffer {
   const result = Bun.spawnSync(["git", ...args], { cwd: root, stdin: stdin === undefined ? undefined : Buffer.from(stdin), stdout: "pipe", stderr: "pipe" });

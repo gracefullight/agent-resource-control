@@ -2,6 +2,9 @@ use super::*;
 use arc_ipc::jobs::{JobId, StatusRequest, StatusResult, OPERATION_JOB_STATUS};
 use arc_ipc::traffic::JobRequest;
 
+#[path = "status_clock.rs"]
+mod status_clock;
+
 pub(super) fn stored_record(f: &Fixture, id: &str) -> Vec<rusqlite::types::Value> {
     let db = database(f);
     let mut statement = db
@@ -28,6 +31,32 @@ pub(super) fn status(f: &Fixture, id: Option<&str>) -> String {
     assert!(output.status.success(), "{output:?}");
     assert!(output.stderr.is_empty(), "{output:?}");
     String::from_utf8(output.stdout).unwrap()
+}
+
+fn forward_profile(command: &mut Command) {
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
+}
+
+fn start_clock_fixture_daemon(f: &Fixture) -> OwnedChild {
+    let mut command = Command::new(binary("arc-daemon"));
+    command.env_clear();
+    f.configure(&mut command);
+    command.env("ARC_IPC_PROFILE", "test");
+    forward_profile(&mut command);
+    let mut daemon = OwnedChild::new(command.spawn().unwrap());
+    f.wait_for(&mut daemon, "arc-daemon ready.");
+    daemon
+}
+
+fn stop_clock_fixture_daemon(daemon: &mut OwnedChild) {
+    assert_eq!(
+        unsafe { libc::kill(daemon.child.id() as i32, libc::SIGTERM) },
+        0
+    );
+    let output = daemon.wait_with_output().expect("daemon exit watchdog");
+    assert!(output.status.success(), "{output:?}");
 }
 
 pub(super) fn assert_state(text: &str, id: &str, state: &str) {
@@ -180,8 +209,20 @@ fn recent_fifty_lifecycle_exits_are_resolved_with_the_shared_deadline() {
         .unwrap();
     }
     drop(db);
-    let mut daemon = f.spawn("test");
-    let text = status(&f, None);
+    let mut daemon = start_clock_fixture_daemon(&f);
+    let clock = f.root.join("status-clock");
+    fs::write(&clock, "0").unwrap();
+    let mut status = status_clock::spawn(&f, &f.socket, &clock);
+    let output = status
+        .wait_with_output()
+        .expect("recent-fifty status watchdog");
+    assert!(output.status.success(), "{output:?}");
+    assert!(output.stderr.is_empty(), "{output:?}");
+    assert!(
+        f.root.join("clock-initial").exists(),
+        "clock was not interposed"
+    );
+    let text = String::from_utf8(output.stdout).unwrap();
     assert_eq!(text.matches("Job: ").count(), 50, "{text}");
     assert!(
         text.contains("Truncated: showing the 50 most recent records."),
@@ -194,24 +235,32 @@ fn recent_fifty_lifecycle_exits_are_resolved_with_the_shared_deadline() {
             if n % 2 == 0 { "succeeded" } else { "failed" },
         );
     }
-    daemon.stop(libc::SIGTERM);
+    stop_clock_fixture_daemon(&mut daemon);
     f.report();
 }
 
 #[test]
 fn slow_completed_lookup_shares_one_deadline_across_recent_rows() {
     use std::{
+        io::Read,
+        os::fd::AsRawFd,
         os::unix::net::{UnixListener, UnixStream},
-        sync::{
-            atomic::{AtomicBool, AtomicUsize, Ordering},
-            Arc,
-        },
     };
+    #[derive(Debug)]
+    struct RecordedJob {
+        id: String,
+        state: String,
+        exit_code: Option<i64>,
+        outcome: Option<String>,
+        finished_at: Option<i64>,
+    }
     let _serial = support::serial();
     let f = Fixture::new();
-    let mut daemon = f.spawn("test");
+    let mut daemon = start_clock_fixture_daemon(&f);
     for n in 0..2 {
-        let output = Command::new(binary("arcctl"))
+        let mut command = Command::new(binary("arcctl"));
+        command
+            .env_clear()
             .args(["exec", "--"])
             .arg(binary("arc-exec-fixture"))
             .env(arc_core::ARC_SOCKET_PATH, &f.socket)
@@ -222,87 +271,153 @@ fn slow_completed_lookup_shares_one_deadline_across_recent_rows() {
             )
             .env_remove("ARC_TRAFFIC_LINEAGE")
             .stdin(Stdio::null())
-            .output()
-            .unwrap();
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped());
+        forward_profile(&mut command);
+        let mut child = OwnedChild::new(command.spawn().unwrap());
+        let output = child
+            .wait_with_output()
+            .expect("fixture execution watchdog");
         assert_eq!(output.status.code(), Some(17));
     }
-    let ids: Vec<String> = database(&f)
-        .prepare("SELECT id FROM jobs ORDER BY id")
+    let db = database(&f);
+    let count: i64 = db
+        .query_row("SELECT count(*) FROM jobs", [], |row| row.get(0))
+        .unwrap();
+    assert_eq!(count, 2, "both executions must have recorded jobs");
+    let records: Vec<RecordedJob> = db
+        .prepare("SELECT j.id,j.state,j.exit_code,l.outcome_kind,j.finished_at FROM jobs j JOIN job_lifecycle l ON l.job_id=j.id ORDER BY l.registered_at_ms DESC,l.job_id DESC")
         .unwrap()
-        .query_map([], |row| row.get(0))
+        .query_map([], |row| Ok(RecordedJob {
+            id: row.get(0)?,
+            state: row.get(1)?,
+            exit_code: row.get(2)?,
+            outcome: row.get(3)?,
+            finished_at: row.get(4)?,
+        }))
         .unwrap()
         .collect::<Result<_, _>>()
         .unwrap();
+    assert_eq!(records.len(), 2, "both jobs must have lifecycle records");
+    assert_ne!(records[0].id, records[1].id, "jobs must be distinct");
+    for record in &records {
+        assert_eq!(record.state, "FAILED");
+        assert_eq!(record.exit_code, Some(17));
+        assert_eq!(record.outcome.as_deref(), Some("EXITED"));
+        assert!(record.finished_at.is_some(), "job must be completed");
+    }
+    let ids: Vec<String> = records.into_iter().map(|record| record.id).collect();
+    drop(db);
     let proxy_path = f.root.join("slow-lifecycle.sock");
     let listener = UnixListener::bind(&proxy_path).unwrap();
-    listener.set_nonblocking(true).unwrap();
-    let stop = Arc::new(AtomicBool::new(false));
-    let lookups = Arc::new(AtomicUsize::new(0));
-    let server_stop = stop.clone();
-    let server_lookups = lookups.clone();
     let backend = f.socket.clone();
+    let clock = f.root.join("slow-status-clock");
+    fs::write(&clock, "0").unwrap();
+    let server_clock = clock.clone();
+    let first_id = ids[0].clone();
+    let (finished, status_finished) = std::sync::mpsc::channel();
     let server = thread::spawn(move || {
-        let mut held = Vec::new();
-        loop {
-            let (mut stream, _) = match listener.accept() {
-                Ok(pair) => pair,
-                Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
-                    // Drain all queued connections after the CLI exits. Keeping
-                    // the first reply held must not hide renewed row requests.
-                    if server_stop.load(Ordering::SeqCst) {
-                        break;
-                    }
-                    thread::sleep(Duration::from_millis(1));
+        let accept = || {
+            let mut poll = libc::pollfd {
+                fd: listener.as_raw_fd(),
+                events: libc::POLLIN,
+                revents: 0,
+            };
+            loop {
+                let result = unsafe { libc::poll(&mut poll, 1, 60_000) };
+                if result < 0
+                    && std::io::Error::last_os_error().kind() == std::io::ErrorKind::Interrupted
+                {
                     continue;
                 }
-                Err(e) => panic!("proxy accept: {e}"),
-            };
-            stream.set_nonblocking(false).unwrap();
+                assert!(result > 0, "status proxy never received the next request");
+                break;
+            }
+            let (stream, _) = listener.accept().unwrap();
             stream
                 .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
-            let request: arc_ipc::Request = arc_ipc::read_message(&mut stream).unwrap();
-            assert_eq!(request.operation, OPERATION_JOB_STATUS);
-            if request.payload["query"] == "BY_ID" {
-                server_lookups.fetch_add(1, Ordering::SeqCst);
-                held.push(stream);
-                continue;
+            stream
+        };
+        let mut recent = accept();
+        let request: arc_ipc::Request = arc_ipc::read_message(&mut recent).unwrap();
+        assert_eq!(request.operation, OPERATION_JOB_STATUS);
+        assert_eq!(request.payload["query"], "RECENT");
+        let mut daemon = UnixStream::connect(&backend).unwrap();
+        daemon
+            .set_read_timeout(Some(Duration::from_secs(60)))
+            .unwrap();
+        daemon
+            .set_write_timeout(Some(Duration::from_secs(60)))
+            .unwrap();
+        recent
+            .set_write_timeout(Some(Duration::from_secs(60)))
+            .unwrap();
+        let response = arc_ipc::exchange(&mut daemon, &request).unwrap();
+        arc_ipc::write_response(&mut recent, &response).unwrap();
+        drop(recent);
+
+        let mut lookup = accept();
+        let request: arc_ipc::Request = arc_ipc::read_message(&mut lookup).unwrap();
+        assert_eq!(request.operation, OPERATION_JOB_STATUS);
+        assert_eq!(request.payload["query"], "BY_ID");
+        assert_eq!(request.payload["job_id"], first_id);
+        // Advance only after the first lookup is observed. A partial frame
+        // wakes the poll so the client rechecks the controlled deadline.
+        let pending = server_clock.with_extension("pending");
+        fs::write(&pending, "250").unwrap();
+        fs::rename(pending, server_clock).unwrap();
+        use std::io::Write;
+        match lookup.write_all(&[0]) {
+            Ok(()) => (),
+            Err(error)
+                if matches!(
+                    error.kind(),
+                    std::io::ErrorKind::BrokenPipe | std::io::ErrorKind::ConnectionReset
+                ) =>
+            {
+                // The client observed the advanced clock before the wakeup.
             }
-            let response =
-                arc_ipc::exchange(&mut UnixStream::connect(&backend).unwrap(), &request).unwrap();
-            let _ = arc_ipc::write_response(&mut stream, &response);
+            Err(error) => panic!("cannot wake status lookup: {error}"),
+        }
+        match lookup.read(&mut [0u8]) {
+            Ok(0) => (),
+            Err(error) if error.kind() == std::io::ErrorKind::ConnectionReset => (),
+            result => panic!("client did not close expired lookup: {result:?}"),
+        }
+        status_finished
+            .recv_timeout(Duration::from_secs(60))
+            .expect("status client never exited after expiry");
+        listener.set_nonblocking(true).unwrap();
+        match listener.accept() {
+            Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => (),
+            result => panic!("unexpected additional status connection: {result:?}"),
         }
     });
-    let output = Command::new(binary("arcctl"))
-        .args(["job", "status"])
-        .env(arc_core::ARC_SOCKET_PATH, &proxy_path)
-        .output()
-        .unwrap();
-
-    stop.store(true, Ordering::SeqCst);
+    let mut child = status_clock::spawn(&f, &proxy_path, &clock);
+    let output = child.wait_with_output().expect("expired status watchdog");
+    finished.send(()).unwrap();
     server.join().unwrap();
     assert!(output.status.success(), "{output:?}");
-    // Native admission may already have exhausted the budget. The production
-    // visit_recent is the production traversal. Its controlled-clock unit
-    // requires exactly one admitted lookup and zero renewed-budget lookups.
-    assert!(lookups.load(Ordering::SeqCst) <= 1);
+    assert!(output.stderr.is_empty(), "{output:?}");
+    assert!(
+        f.root.join("clock-initial").exists(),
+        "initial clock was not observed"
+    );
+    assert!(
+        f.root.join("clock-advanced").exists(),
+        "advanced clock was not observed"
+    );
     let text = String::from_utf8(output.stdout).unwrap();
-    let expected: Vec<String> = database(&f)
-        .prepare("SELECT job_id FROM job_lifecycle ORDER BY registered_at_ms DESC,job_id DESC")
-        .unwrap()
-        .query_map([], |r| r.get(0))
-        .unwrap()
-        .collect::<Result<_, _>>()
-        .unwrap();
     let actual: Vec<_> = text
         .lines()
         .filter_map(|line| line.strip_prefix("Job: ").map(str::to_owned))
         .collect();
-    assert_eq!(actual, expected);
+    assert_eq!(actual, ids);
     for id in ids {
         assert_state(&text, &id, "outcome unknown");
     }
-    daemon.stop(libc::SIGTERM);
+    stop_clock_fixture_daemon(&mut daemon);
     f.report();
 }
 

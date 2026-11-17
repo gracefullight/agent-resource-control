@@ -41,7 +41,15 @@ use arc_core::{
     process_identity::ProcessIdentity,
 };
 use arc_meter::{MeterWorker, NativeSource, SamplingPolicy, SystemSource};
-use std::{io::Read, path::PathBuf, time::Instant};
+use std::{io::Read, path::PathBuf, sync::OnceLock, time::Instant};
+
+static CLOCK_PATH: OnceLock<PathBuf> = OnceLock::new();
+fn fixture_now() -> u64 {
+    std::fs::read_to_string(CLOCK_PATH.get().expect("fixture clock initialized"))
+        .expect("fixture clock readable")
+        .parse()
+        .expect("fixture clock is milliseconds")
+}
 
 struct Controlled {
     system: SystemSource,
@@ -77,6 +85,15 @@ impl NativeSource for Controlled {
 }
 #[tokio::main(worker_threads = 2)]
 async fn main() -> std::process::ExitCode {
+    let mut args = std::env::args_os().skip(1);
+    if args.next().as_deref() == Some(std::ffi::OsStr::new("--fixture-daemon-clock")) {
+        let path = args.next().expect("explicit fixture clock path");
+        assert!(args.next().is_none());
+        CLOCK_PATH
+            .set(PathBuf::from(path))
+            .expect("one fixture clock");
+        db_worker::jobs::install_fixture_time_source(fixture_now);
+    }
     let control =
         PathBuf::from(std::env::var_os("ARC_PRESSURE_CONTROL").expect("explicit control file"));
     let epoch = Instant::now();

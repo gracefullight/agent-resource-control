@@ -189,7 +189,77 @@ pub(super) fn admit<T>(
         Ok(spawn())
     }
 }
-pub(super) fn write_notice(message: &str) {
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub(crate) enum NoticeWrite {
+    NotWritten,
+    Complete,
+    Uncertain,
+}
+
+fn notice_writer_exit(status: libc::c_int) -> NoticeWrite {
+    if libc::WIFEXITED(status) {
+        match libc::WEXITSTATUS(status) {
+            0 => NoticeWrite::Complete,
+            1 => NoticeWrite::NotWritten,
+            _ => NoticeWrite::Uncertain,
+        }
+    } else {
+        NoticeWrite::Uncertain
+    }
+}
+
+type NoticeWriter = fn(&str) -> NoticeWrite;
+thread_local! {
+    static NOTICE_WRITER: std::cell::Cell<Option<NoticeWriter>> = const { std::cell::Cell::new(None) };
+}
+
+pub(super) fn with_notice_writer<T>(writer: NoticeWriter, run: impl FnOnce() -> T) -> T {
+    struct Reset(Option<NoticeWriter>);
+    impl Drop for Reset {
+        fn drop(&mut self) {
+            NOTICE_WRITER.with(|slot| slot.set(self.0));
+        }
+    }
+    let previous = NOTICE_WRITER.with(|slot| slot.replace(Some(writer)));
+    let _reset = Reset(previous);
+    run()
+}
+
+pub(super) fn write_notice(message: &str) -> NoticeWrite {
+    let override_writer = NOTICE_WRITER.with(|slot| slot.get());
+    override_writer.unwrap_or(write_notice_bounded)(message)
+}
+
+pub(crate) fn write_notice_bounded(message: &str) -> NoticeWrite {
+    write_notice_controlled(message, 1, &Instant::now, || {
+        std::thread::sleep(Duration::from_millis(1));
+    })
+}
+
+// The isolated native fixture drives the same writer and waiter with a frozen
+// clock. Its helper alarm is disabled; production input cannot select this.
+#[allow(dead_code)]
+pub(crate) fn write_notice_for_fixture(message: &str) -> NoticeWrite {
+    let frozen = Instant::now();
+    write_notice_controlled(message, 0, &|| frozen, std::thread::yield_now)
+}
+
+fn write_notice_controlled(
+    message: &str,
+    helper_alarm: libc::c_uint,
+    now: &dyn Fn() -> Instant,
+    pause: impl FnMut(),
+) -> NoticeWrite {
+    write_notice_with_wait(message, helper_alarm, |pid| {
+        wait_notice_with(pid, now, native_wait, native_kill, pause)
+    })
+}
+
+fn write_notice_with_wait(
+    message: &str,
+    timeout_seconds: libc::c_uint,
+    wait: impl FnOnce(libc::pid_t) -> NoticeWrite,
+) -> NoticeWrite {
     // A duplicate descriptor shares O_NONBLOCK with the caller and siblings.
     // A short-lived writer instead performs one blocking write; it is reaped
     // before returning, so a delayed notice cannot follow the target spawn.
@@ -199,7 +269,7 @@ pub(super) fn write_notice(message: &str) {
         let mut original = std::mem::zeroed();
         libc::sigfillset(&mut all);
         if libc::pthread_sigmask(libc::SIG_BLOCK, &all, &mut original) != 0 {
-            return;
+            return NoticeWrite::NotWritten;
         }
         let pid = libc::fork();
         if pid == 0 {
@@ -217,34 +287,71 @@ pub(super) fn write_notice(message: &str) {
             {
                 libc::_exit(1);
             }
-            libc::alarm(1);
-            libc::write(libc::STDERR_FILENO, message.as_ptr().cast(), message.len());
-            libc::_exit(0);
+            libc::alarm(timeout_seconds);
+            let written = libc::write(libc::STDERR_FILENO, message.as_ptr().cast(), message.len());
+            libc::_exit(if written == message.len() as isize {
+                0
+            } else if written <= 0 {
+                1
+            } else {
+                2
+            });
         }
         libc::pthread_sigmask(libc::SIG_SETMASK, &original, std::ptr::null_mut());
         if pid < 0 {
-            return;
+            return NoticeWrite::NotWritten;
         }
-        let deadline = Instant::now() + Duration::from_millis(50);
-        let mut status = 0;
-        loop {
-            let result = libc::waitpid(pid, &mut status, libc::WNOHANG);
-            if result == pid
-                || (result < 0
-                    && std::io::Error::last_os_error().raw_os_error() != Some(libc::EINTR))
-            {
-                return;
+        wait(pid)
+    }
+}
+
+fn native_wait(pid: libc::pid_t, status: &mut i32, flags: i32) -> io::Result<i32> {
+    let result = unsafe { libc::waitpid(pid, status, flags) };
+    if result < 0 {
+        Err(io::Error::last_os_error())
+    } else {
+        Ok(result)
+    }
+}
+
+fn native_kill(pid: libc::pid_t) {
+    unsafe {
+        libc::kill(pid, libc::SIGKILL);
+    }
+}
+
+// The production waiter and the fixture use the same state machine. Tests
+// drive its clock and wait results without relying on process scheduling.
+fn wait_notice_with(
+    pid: libc::pid_t,
+    now: &dyn Fn() -> Instant,
+    mut wait: impl FnMut(libc::pid_t, &mut i32, i32) -> io::Result<i32>,
+    mut kill: impl FnMut(libc::pid_t),
+    mut pause: impl FnMut(),
+) -> NoticeWrite {
+    let deadline = now() + Duration::from_millis(50);
+    let mut status = 0;
+    loop {
+        match wait(pid, &mut status, libc::WNOHANG) {
+            Ok(result) if result == pid => return notice_writer_exit(status),
+            Err(error) if error.raw_os_error() != Some(libc::EINTR) => {
+                return NoticeWrite::Uncertain
             }
-            if Instant::now() >= deadline {
-                libc::kill(pid, libc::SIGKILL);
-                while libc::waitpid(pid, &mut status, 0) < 0
-                    && std::io::Error::last_os_error().raw_os_error() == Some(libc::EINTR)
-                {
+            _ => (),
+        }
+        if now() >= deadline {
+            kill(pid);
+            loop {
+                match wait(pid, &mut status, 0) {
+                    Ok(result) if result == pid => return notice_writer_exit(status),
+                    Err(error) if error.raw_os_error() != Some(libc::EINTR) => {
+                        return NoticeWrite::Uncertain
+                    }
+                    _ => (),
                 }
-                return;
             }
-            std::thread::sleep(Duration::from_millis(1));
         }
+        pause();
     }
 }
 
@@ -274,60 +381,4 @@ pub(super) fn valid_argv(argv: &[std::ffi::OsString]) -> bool {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::super::transport::Failure;
-    use super::admit;
-    #[test]
-    fn preparation_budget_is_exactly_1800_ms_from_injected_now() {
-        let now = std::time::Instant::now();
-        assert_eq!(
-            super::deadline(now).duration_since(now),
-            std::time::Duration::from_millis(1800)
-        );
-    }
-    #[test]
-    fn cancellation_at_spawn_admission_cannot_invoke_spawn() {
-        let mut invoked = false;
-        let result = admit(
-            || true,
-            || {
-                invoked = true;
-            },
-        );
-        assert_eq!(result, Err(Failure::Cancelled));
-        assert!(!invoked);
-        assert_eq!(admit(|| false, || 17), Ok(17));
-    }
-    #[test]
-    fn nul_and_empty_native_arguments_are_invalid_before_metadata() {
-        use std::os::unix::ffi::OsStringExt;
-        assert_eq!(
-            super::super::run(vec![std::ffi::OsString::from_vec(vec![b'x', 0])]),
-            std::process::ExitCode::from(2)
-        );
-        assert_eq!(
-            super::super::run(vec!["".into()]),
-            std::process::ExitCode::from(2)
-        );
-    }
-
-    #[test]
-    fn diagnostic_writes_are_best_effort_and_preserve_writable_output() {
-        struct Broken;
-        impl std::io::Write for Broken {
-            fn write(&mut self, _: &[u8]) -> std::io::Result<usize> {
-                Err(std::io::ErrorKind::BrokenPipe.into())
-            }
-            fn flush(&mut self) -> std::io::Result<()> {
-                Ok(())
-            }
-        }
-        super::write_diagnostic(
-            &mut Broken,
-            format_args!("TRACKING_UNAVAILABLE\nCommand started."),
-        );
-        let mut output = Vec::new();
-        super::write_diagnostic(&mut output, format_args!("message {}", 17));
-        assert_eq!(output, b"message 17\n");
-    }
-}
+mod tests;

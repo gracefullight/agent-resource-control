@@ -4,10 +4,99 @@ import { analyzeSource, tokens, sourceInventory, historicalSourceInventory, inpu
 import { fixture } from "./fixtures";
 import { CRATES, CRATE_ROOTS, HISTORICAL_CRATES } from "./config";
 import { requireWorkspace, validateReport } from "./gate";
-import { cpSync, mkdirSync, readFileSync, writeFileSync, unlinkSync, rmSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync, unlinkSync, rmSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { tmpdir } from "node:os";
+import { legacyCoordinationPath, lockLegacyPreparation } from "../host-meter/legacy-lock";
 import { reuseFixture } from "../harness/coverage-reuse-fixture";
 import { reuseCoverage } from "./coverage-receipts";
+
+function withRetainedFixture(root: string, run: () => void, report: (message: string) => void = console.error) {
+  try {
+    run();
+  } catch (error) {
+    report(`Coverage identity fixture retained after failure: ${root}`);
+    throw error;
+  }
+  rmSync(root, { recursive: true, force: true });
+}
+
+test("coverage identity fixture retains only its own failed case", () => {
+  const failed = mkdtempSync(join(tmpdir(), "arc-coverage-failed-"));
+  const passed = mkdtempSync(join(tmpdir(), "arc-coverage-passed-"));
+  const reports: string[] = [];
+  try {
+    writeFileSync(join(failed, "evidence"), "failure evidence");
+    expect(() => withRetainedFixture(failed, () => { throw Error("fixture assertion"); }, message => reports.push(message))).toThrow("fixture assertion");
+    expect(readFileSync(join(failed, "evidence"), "utf8")).toBe("failure evidence");
+    expect(reports).toEqual([`Coverage identity fixture retained after failure: ${failed}`]);
+    withRetainedFixture(passed, () => {});
+    expect(existsSync(passed)).toBe(false);
+    expect(existsSync(failed)).toBe(true);
+  } finally {
+    rmSync(failed, { recursive: true, force: true });
+    rmSync(passed, { recursive: true, force: true });
+  }
+});
+
+test("coverage identity and reuse reject ignored default profiles outside target", () => {
+  const f = reuseFixture();
+  withRetainedFixture(f.root, () => {
+    // These files are deliberately outside the coverage input walk. Git ignore
+    // must not allow a pre-existing or newly leaked profile to evade the gate.
+    f.save(".gitignore", "*.profraw\n");
+    f.save("target/default_allowed.profraw", "owned coverage output");
+    f.save(".agent-valley/parallel/workspaces/other/crates/default_other.profraw", "separate workspace");
+    const ignored = "scratch/default_before.profraw";
+    f.save(ignored, "unmerged profile");
+    const check = Bun.spawnSync(["git", "check-ignore", "--quiet", ignored], { cwd: f.root, timeout: 120_000 });
+    expect(check.exitCode).toBe(0);
+    expect(() => inputIdentity(f.root)).toThrow(`STRAY_PROFILE: ${ignored}`);
+    expect(() => requireInputIdentity(f.root, f.inputs)).toThrow(`STRAY_PROFILE: ${ignored}`);
+    expect(() => reuseCoverage(f.root, f.path)).toThrow(`STRAY_PROFILE: ${ignored}`);
+    unlinkSync(resolve(f.root, ignored));
+
+    // Simulate a child writing a default profile during collection.
+    const generated = "crates/arc-cli/default_during.profraw";
+    f.save(generated, "unmerged profile");
+    expect(() => inputIdentity(f.root)).toThrow(`STRAY_PROFILE: ${generated}`);
+    expect(() => requireInputIdentity(f.root, f.inputs)).toThrow(`STRAY_PROFILE: ${generated}`);
+    unlinkSync(resolve(f.root, generated));
+
+    // A nested target is not the root target owned by the coverage runner.
+    const nested = "apps/desktop/src-tauri/target/default_nested.profraw";
+    f.save(nested, "unmerged profile");
+    expect(() => inputIdentity(f.root)).toThrow(`STRAY_PROFILE: ${nested}`);
+    unlinkSync(resolve(f.root, nested));
+    expect(() => requireInputIdentity(f.root, f.inputs)).not.toThrow();
+    expect(() => reuseCoverage(f.root, f.path)).not.toThrow();
+  });
+});
+
+test("legacy preparation lock excludes another process until release", () => {
+  const root = mkdtempSync(join(tmpdir(), "arc-legacy-bun-lock-"));
+  const lockPath = legacyCoordinationPath(root);
+  const module = resolve(import.meta.dir, "../host-meter/legacy-lock.ts");
+  const script = `import {lockLegacyPreparation} from ${JSON.stringify(module)}; const release=lockLegacyPreparation(${JSON.stringify(root)},true); release();`;
+  const probe = () => Bun.spawnSync([process.execPath, "-e", script], { env: {}, stdout: "pipe", stderr: "pipe", timeout: 65000 });
+  const inherited = process.env.ARC_LEGACY_COORDINATION_FD;
+  delete process.env.ARC_LEGACY_COORDINATION_FD;
+  try {
+    const release = lockLegacyPreparation(root);
+    try {
+      const held = probe();
+      expect(held.exitCode).not.toBe(0);
+      expect(held.stderr.toString()).toContain("LEGACY: cannot acquire coordination lock");
+    } finally { release(); }
+    const available = probe();
+    expect(available.exitCode).toBe(0);
+    expect(available.stderr.toString()).toBe("");
+  } finally {
+    if (inherited === undefined) delete process.env.ARC_LEGACY_COORDINATION_FD;
+    else process.env.ARC_LEGACY_COORDINATION_FD = inherited;
+    rmSync(root, { recursive: true, force: true }); rmSync(lockPath, { force: true });
+  }
+});
 
 test("repeated compilation unions source lines instead of averaging binaries",()=>{
   const f=fixture();
@@ -238,7 +327,7 @@ test("freshness binds desktop configuration, test helpers, new source and verifi
     expect(()=>inputIdentity(f.root)).toThrow();
     expect(()=>requireInputIdentity(root,{...original,sha256:"0".repeat(64)})).toThrow("corrupt aggregate");
   } finally {rmSync(f.root,{recursive:true,force:true});}
-});
+},120000);
 
 function declarationFixture(source:string) {
   const f=fixture(), path="crates/arc-platform/src/boundary.rs";

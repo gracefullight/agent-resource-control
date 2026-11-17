@@ -1,15 +1,74 @@
 import { expect, test } from "bun:test";
-import { lstatSync, readFileSync, readdirSync } from "node:fs";
-import { resolve } from "node:path";
+import { lstatSync, readFileSync, readdirSync, mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { tmpdir } from "node:os";
 import { TERMINAL_CRATES } from "./config";
 import { assertHygiene, auditTrackedEvidence, gitBytes, prohibitedReasons } from "./hygiene";
 import { hash } from "./source";
 import { readEvidence, type EvidenceRef } from "./evidence";
 import { terminalHistory, TERMINAL_DIRECTORY, TERMINAL_BASE, TERMINAL_DELIVERY } from "./historical";
 import { parseCargoExecution } from "../archive/harness/managed-exec-test-output";
+import { compactHistoricalPreparation } from "../harness/exec-fail-open-history";
+import { LEGACY_HEAD, legacyBuildEnvironment, reusableLegacyReceipt } from "../host-meter/legacy-reuse";
 
 const root = resolve(import.meta.dir, "../..");
 const history = terminalHistory(root), report = history.report;
+
+test("historical preparation compaction preserves the validated binary and reusable receipt", () => {
+  const directory = mkdtempSync(join(tmpdir(), "arc-history-compact-"));
+  try {
+    const target = join(directory, "target"), debug = join(target, "debug");
+    mkdirSync(join(debug, "deps"), { recursive: true });
+    const binary = join(debug, "arcctl"), receiptPath = join(directory, "preparation.json");
+    writeFileSync(binary, "validated executable");
+    writeFileSync(join(debug, "deps/object"), "intermediate");
+    writeFileSync(receiptPath, "validated receipt");
+    const receipt = { identity: "validated" };
+    const prepared = { binary, receipt };
+    expect(compactHistoricalPreparation(prepared)).toBe(prepared);
+    expect(compactHistoricalPreparation(prepared)).toBe(prepared);
+    expect(readFileSync(binary, "utf8")).toBe("validated executable");
+    expect(readFileSync(receiptPath, "utf8")).toBe("validated receipt");
+    expect(() => readFileSync(join(debug, "deps/object"))).toThrow();
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+});
+
+test("legacy preparations can be reused until consumed and reject altered evidence", () => {
+  const root = mkdtempSync(join(tmpdir(), "arc-legacy-reuse-"));
+  try {
+    const relative = "target/host-meter/legacy/00000000-0000-4000-8000-000000000001";
+    const directory = join(root, relative), debug = join(directory, "target/debug");
+    mkdirSync(debug, { recursive: true });
+    const artifact = (path: string, value: string) => {
+      writeFileSync(join(directory, path), value);
+      return { path: `${relative}/${path}`, bytes: Buffer.byteLength(value), sha256: hash(Buffer.from(value)) };
+    };
+    const receipt = { acceptedHead: LEGACY_HEAD, exitCode: 0,
+      archive: artifact("accepted.tar", "archive"), stdout: artifact("stdout.log", "stdout"),
+      stderr: artifact("stderr.log", "stderr"), binary: artifact("target/debug/arc-daemon", "daemon"),
+      binaries: { arcctl: artifact("target/debug/arcctl", "cli"), fixture: artifact("target/debug/arc-exec-fixture", "fixture") } };
+    const bytes = JSON.stringify(receipt, null, 2) + "\n";
+    writeFileSync(join(directory, "receipt.json"), bytes);
+    writeFileSync(join(root, "target/host-meter/legacy/latest.json"), bytes);
+    expect(reusableLegacyReceipt(root)).toEqual(receipt);
+    expect(reusableLegacyReceipt(root)).toEqual(receipt);
+    writeFileSync(join(debug, "arcctl"), "modified");
+    expect(() => reusableLegacyReceipt(root)).toThrow("preparation artifact changed");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("legacy compilation stays separate from instrumented collection", () => {
+  const env = legacyBuildEnvironment({ RUSTFLAGS: "coverage", CARGO_ENCODED_RUSTFLAGS: "coverage",
+    CARGO_LLVM_COV: "1", CARGO_LLVM_COV_TARGET_DIR: "/coverage", LLVM_PROFILE_FILE: "/coverage/raw",
+    RUSTC_WRAPPER: "wrapper", RUSTC_WORKSPACE_WRAPPER: "wrapper", CARGO_BUILD_TARGET: "foreign",
+    CARGO_PROFILE_DEV_DEBUG: "0", CARGO_TARGET_AARCH64_APPLE_DARWIN_RUSTFLAGS: "coverage",
+    CARGO_TARGET_DIR: "/wrong", CARGO_NET_OFFLINE: "true", RUSTUP_TOOLCHAIN: "1.95.0" }, "/fixture");
+  expect(env).toEqual({ CARGO_TARGET_DIR: "/fixture", CARGO_NET_OFFLINE: "true", RUSTUP_TOOLCHAIN: "1.95.0" });
+});
 function output(ref: EvidenceRef) {
   const bytes = readEvidence(root, ref, { optional: true, sizeRequired: false });
   if (bytes === undefined) {

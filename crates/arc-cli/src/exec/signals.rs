@@ -11,6 +11,7 @@ pub(super) struct Termination {
     pub status: std::process::ExitStatus,
     pub usage: Option<TerminalUsage>,
     pub observed_at: Instant,
+    pub delivery_observed_at: Instant,
 }
 // SPAWNING retains cancellation until fork; the child checks its inherited copy.
 const PREPARING: i32 = 0;
@@ -188,9 +189,11 @@ impl Signals {
             }
         }
     }
+    #[cfg(test)]
     pub(crate) fn wait(&self, child: &mut std::process::Child) -> io::Result<Termination> {
         self.wait_with(child, || {})
     }
+    #[cfg(test)]
     fn wait_with(
         &self,
         child: &mut std::process::Child,
@@ -198,11 +201,21 @@ impl Signals {
     ) -> io::Result<Termination> {
         self.wait_with_clock(child, before_suspend, Instant::now)
     }
-    fn wait_with_clock(
+    #[cfg(test)]
+    pub(super) fn wait_with_clock(
+        &self,
+        child: &mut std::process::Child,
+        before_suspend: impl FnMut(),
+        now: impl FnMut() -> Instant,
+    ) -> io::Result<Termination> {
+        self.wait_with_clocks(child, before_suspend, now, Instant::now)
+    }
+    pub(super) fn wait_with_clocks(
         &self,
         child: &mut std::process::Child,
         mut before_suspend: impl FnMut(),
         mut now: impl FnMut() -> Instant,
+        mut delivery_now: impl FnMut() -> Instant,
     ) -> io::Result<Termination> {
         let mask = Mask::block();
         let mut wake_mask = mask.0;
@@ -229,12 +242,16 @@ impl Signals {
                 };
                 let status = event.status.into_raw();
                 if libc::WIFEXITED(status) || libc::WIFSIGNALED(status) {
+                    // Anchor the IPC budget at the consuming terminal wait,
+                    // before any other observation work can delay delivery.
+                    let delivery_observed_at = delivery_now();
                     let observed_at = now();
                     self.reaped();
                     return Ok(Termination {
                         status: event.status,
                         usage: event.terminal_usage.and_then(Result::ok),
                         observed_at,
+                        delivery_observed_at,
                     });
                 }
                 if libc::WIFSTOPPED(status) {

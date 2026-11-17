@@ -5,7 +5,10 @@ use arc_ipc::jobs::{
     StartResult, StatusRequest, StatusResult,
 };
 use arc_storage::jobs::{self, JobError, ReconcileEvidence, ReconcileResult, StartEvidence};
-use std::time::{Instant, SystemTime, UNIX_EPOCH};
+use std::{
+    sync::OnceLock,
+    time::{Instant, SystemTime, UNIX_EPOCH},
+};
 
 pub(crate) enum Operation {
     Start(StartRequest, StartEvidence, u64),
@@ -29,7 +32,19 @@ pub(crate) enum Value {
     Policy(Result<super::policy::Value, JobError>),
     Governor(Result<super::governor::Value, JobError>),
 }
+static TIME_SOURCE: OnceLock<fn() -> u64> = OnceLock::new();
+
+// Only the native fixture installs a source. The resident daemon always uses
+// the system clock; this seam does not read caller input or environment.
+#[allow(dead_code)]
+pub(crate) fn install_fixture_time_source(source: fn() -> u64) {
+    assert!(TIME_SOURCE.set(source).is_ok());
+}
+
 pub(crate) fn now() -> u64 {
+    if let Some(source) = TIME_SOURCE.get() {
+        return source();
+    }
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap_or_default()

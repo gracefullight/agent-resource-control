@@ -4,6 +4,44 @@ mod frozen_traffic_v1;
 mod hold_unattached;
 mod job_meter;
 mod pipeline;
+// Compile the same execution implementation into this test fixture so the
+// accounting tests can supply a clock without adding a production CLI switch.
+#[cfg(not(test))]
+#[allow(dead_code, unused_imports)]
+#[path = "../../src/exec"]
+mod exec {
+    mod accounting;
+    mod descriptors;
+    mod entry;
+    mod governor;
+    mod launch;
+    mod lifecycle;
+    mod lineage;
+    mod metadata;
+    mod native_environment;
+    pub(crate) mod policy;
+    mod preparation;
+    mod run;
+    mod signals;
+    mod terminal;
+    mod traffic;
+    pub(crate) mod transport;
+    mod witness;
+    pub(crate) use entry::{run, run_hook, run_with_environment, run_with_environment_and_notice};
+    use lifecycle::start_until;
+    pub(crate) use preparation::invalid;
+    pub(crate) use preparation::{write_notice_bounded, write_notice_for_fixture};
+}
+#[cfg(not(test))]
+#[allow(dead_code)]
+#[path = "../../src/hooks.rs"]
+mod hooks;
+// Exercise the actual CLI status implementation with a controlled clock. The
+// production arcctl entrypoint has no fixture switch or clock-file input.
+#[cfg(not(test))]
+#[allow(dead_code)]
+#[path = "../../src/job.rs"]
+mod job;
 use std::{
     io::{Read, Write},
     os::unix::{ffi::OsStrExt, net::UnixStream},
@@ -17,10 +55,97 @@ extern "C" fn observed(_: i32) {
         libc::write(ACK.load(Ordering::SeqCst), b"s".as_ptr().cast(), 1);
     }
 }
+fn hook_capture_handshake() -> bool {
+    const HELLO: &[u8] = b"arc-hook-fixture-capture-v1";
+    std::env::var_os("ARC_HOOK_CAPTURE_KEY")
+        .and_then(|path| std::fs::read(path).ok())
+        .is_some_and(|bytes| bytes == HELLO)
+}
 fn main() {
+    #[cfg(not(test))]
+    if std::env::args_os().nth(1).as_deref()
+        == Some(std::ffi::OsStr::new("--clocked-fixture-job-status"))
+    {
+        let key =
+            std::env::var_os("ARC_FIXTURE_CLOCK_KEY").and_then(|path| std::fs::read(path).ok());
+        if key.as_deref() != Some(b"arc-fixture-clock-v1") {
+            std::process::exit(2);
+        }
+        let clock = std::env::var_os("ARC_FIXTURE_CLOCK").expect("fixture clock path");
+        let origin = std::time::Instant::now();
+        let now = || {
+            let millis: u64 = std::fs::read_to_string(&clock).unwrap().parse().unwrap();
+            origin + std::time::Duration::from_millis(millis)
+        };
+        let status = job::run_with_clock(None, &now);
+        std::process::exit(i32::from(status != std::process::ExitCode::SUCCESS));
+    }
+    #[cfg(not(test))]
+    if std::env::args_os().nth(1).as_deref() == Some(std::ffi::OsStr::new("--clocked-fixture-exec"))
+    {
+        let key =
+            std::env::var_os("ARC_FIXTURE_CLOCK_KEY").and_then(|path| std::fs::read(path).ok());
+        if key.as_deref() != Some(b"arc-fixture-clock-v1") {
+            std::process::exit(2);
+        }
+        let clock = std::env::var_os("ARC_FIXTURE_CLOCK").expect("fixture clock path");
+        let args = std::env::args_os().skip(2).collect();
+        let origin = std::time::Instant::now();
+        let now = || {
+            let seconds: u64 = std::fs::read_to_string(&clock).unwrap().parse().unwrap();
+            origin + std::time::Duration::from_secs(seconds)
+        };
+        let writer = if std::env::var_os("ARC_FIXTURE_CONTROLLED_NOTICE").is_some() {
+            exec::write_notice_for_fixture
+        } else {
+            // The normal fixture path retains the production bounded writer.
+            exec::write_notice_bounded
+        };
+        let result = exec::run_with_environment_and_notice(args, false, &now, writer);
+        let status = if result == std::process::ExitCode::SUCCESS {
+            0
+        } else if result == std::process::ExitCode::from(17) {
+            17
+        } else {
+            1
+        };
+        std::process::exit(status);
+    }
     if let Ok(mode) = std::env::var("ARC_FIXTURE_ACCOUNTING") {
         job_meter::run(&mode);
         return;
+    }
+    if std::env::var("ARC_FIXTURE_MODE").as_deref() == Ok("hook-capture")
+        && hook_capture_handshake()
+    {
+        if let Some(marker) = std::env::var_os("ARC_HOOK_CAPTURE_MARKER") {
+            use std::fs::OpenOptions;
+            writeln!(
+                OpenOptions::new()
+                    .create(true)
+                    .append(true)
+                    .open(marker)
+                    .unwrap(),
+                "start"
+            )
+            .unwrap();
+        }
+        let mut environment: Vec<_> = std::env::vars_os()
+            .map(|(key, value)| (key.as_bytes().to_vec(), value.as_bytes().to_vec()))
+            .collect();
+        environment.sort();
+        let mut input = Vec::new();
+        std::io::stdin().read_to_end(&mut input).unwrap();
+        let args: Vec<_> = std::env::args_os()
+            .skip(1)
+            .map(|arg| arg.as_bytes().to_vec())
+            .collect();
+        println!(
+            "{}",
+            serde_json::json!({"environment":environment,"cwd":std::env::current_dir().unwrap().as_os_str().as_bytes(),"args":args,"stdin":input})
+        );
+        eprintln!("child-stderr");
+        std::process::exit(17);
     }
     if std::env::var_os("ARC_FIXTURE_HOLD_UNATTACHED").is_some() {
         hold_unattached::run();
@@ -253,4 +378,12 @@ fn main() {
         return;
     }
     std::process::exit(17);
+}
+
+#[cfg(not(test))]
+fn request_id() -> String {
+    format!(
+        "fixture-{}",
+        arc_core::process_identity::random_job_id().unwrap()
+    )
 }

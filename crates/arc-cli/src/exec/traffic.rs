@@ -1,6 +1,6 @@
 //! The CLI owns one spawn; Traffic only coordinates its admission and metadata.
 use super::{
-    preparation::{self, write_notice, Tracking},
+    preparation::{self, Tracking},
     signals::Signals,
     transport::{self, Continuity, Failure},
     witness::Witness,
@@ -21,6 +21,8 @@ use std::{
 
 mod lifecycle;
 pub(super) use lifecycle::{attach, cancel, complete, complete_or_warn, fallback};
+mod notice;
+use notice::{announce_if_needed, queued_notice, NoticeState};
 
 pub(super) const CONTEXT_ENV: &str = "ARC_TRAFFIC_LINEAGE";
 
@@ -342,7 +344,7 @@ pub(super) fn prepare(
         }
     };
     let mut waited = false;
-    let mut pressure_notice = None;
+    let mut pressure_notice = NoticeState::default();
     loop {
         match result {
             JobResult::Granted {
@@ -399,11 +401,10 @@ pub(super) fn prepare(
                     &cancelled,
                 )
                 .is_ok_and(|result| super::policy::confirmed_hold(&result));
-                if pressure_notice != Some(pressure) {
-                    queued_notice(id, pressure);
-                    pressure_notice = Some(pressure);
-                    waited = true;
-                }
+                announce_if_needed(&mut pressure_notice, pressure, |pressure| {
+                    queued_notice(id, pressure)
+                });
+                waited = true;
                 // The request and SQLite ticket have both been released here.
                 std::thread::sleep(Duration::from_millis(40));
                 if cancelled() {
@@ -466,15 +467,4 @@ pub(super) fn prepare(
             }
         }
     }
-}
-
-/// Write once without changing the inherited descriptor's shared status flags.
-fn queued_notice(id: &JobId, pressure: bool) {
-    let explanation = if pressure {
-        "Waiting for memory.\nStarts automatically when memory permits; other queue rules still apply."
-    } else {
-        "Waiting to start."
-    };
-    let message = format!("QUEUED\n{explanation}\nReference: {}\n", id.as_str());
-    write_notice(&message);
 }

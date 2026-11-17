@@ -94,6 +94,7 @@ fn read(socket: &Path, job: &JobId) -> Result<DiagnosticResult, Failure> {
 }
 
 #[cfg(test)]
+#[path = "diagnostics/tests.rs"]
 mod tests;
 fn render(result: &DiagnosticResult) -> String {
     let mut output = format!(

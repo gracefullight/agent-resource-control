@@ -9,7 +9,7 @@ use arc_ipc::{
 use serde_json::{json, Value};
 use std::{
     collections::HashMap,
-    fs, io,
+    fs,
     os::unix::{
         fs::{symlink, DirBuilderExt, PermissionsExt},
         net::UnixListener,
@@ -17,7 +17,8 @@ use std::{
     path::PathBuf,
     process::Command,
     sync::{
-        atomic::{AtomicBool, AtomicU64, Ordering},
+        atomic::{AtomicBool, Ordering},
+        mpsc::{self, Receiver, Sender},
         Arc, Mutex,
     },
     thread::{self, JoinHandle},
@@ -32,9 +33,13 @@ pub enum PeerMode {
     UnsupportedReport,
     StalledReport,
     SlowCompletion,
-    SlowBypassThenStalledRegister,
-    SlowUnsupportedBunThenStalledRegister,
+    BypassThenUnavailable,
+    UnsupportedBunThenUnavailable,
     Queued,
+    // Used by the source-included accounting unit tests; this support module
+    // is also compiled separately for the integration target.
+    #[allow(dead_code)]
+    QueuedExpireReport,
     UntrackedRoot,
 }
 #[derive(Debug, Default)]
@@ -43,6 +48,8 @@ pub struct State {
     pub report_requests: Vec<(String, Value)>,
     pub summary_reads: usize,
     pub attached: bool,
+    pub ancestry_diagnostics: HashMap<String, String>,
+    queued_poll_seen: bool,
     jobs: HashMap<String, JobSnapshot>,
     relations: HashMap<String, AccountingRelation>,
     contexts: HashMap<String, LineageContext>,
@@ -54,41 +61,68 @@ pub struct Fixture {
     pub state: Arc<Mutex<State>>,
     stop: Arc<AtomicBool>,
     worker: Option<JoinHandle<()>>,
+    queued: Option<QueuedControl>,
+    attachments: Receiver<()>,
+}
+
+struct QueuedControl {
+    reached: Receiver<()>,
+    release: Sender<()>,
+}
+
+struct QueuedPeer {
+    reached: Sender<()>,
+    release: Receiver<()>,
 }
 impl Fixture {
     pub fn new(mode: PeerMode) -> Self {
-        static NEXT: AtomicU64 = AtomicU64::new(0);
+        Self::new_with_tool(mode, fixture_executable())
+    }
+    pub fn new_with_tool(mode: PeerMode, tool: &str) -> Self {
         let root = arc_core::runtime_root().unwrap().join(format!(
-            "ja-{:x}-{:x}",
-            std::process::id(),
-            NEXT.fetch_add(1, Ordering::Relaxed)
+            "ja-{}",
+            arc_core::process_identity::random_job_id().unwrap()
         ));
         fs::DirBuilder::new().mode(0o700).create(&root).unwrap();
-        symlink(env!("CARGO_BIN_EXE_arc-exec-fixture"), root.join("cargo")).unwrap();
-        symlink(env!("CARGO_BIN_EXE_arc-exec-fixture"), root.join("bun")).unwrap();
+        symlink(tool, root.join("cargo")).unwrap();
+        symlink(tool, root.join("bun")).unwrap();
         let socket = root.join("ipc");
         let listener = UnixListener::bind(&socket).unwrap();
         fs::set_permissions(&socket, fs::Permissions::from_mode(0o600)).unwrap();
-        listener.set_nonblocking(true).unwrap();
         let state = Arc::new(Mutex::new(State::default()));
         let stop = Arc::new(AtomicBool::new(false));
         let (shared, stopping, endpoint) = (state.clone(), stop.clone(), socket.clone());
+        let (attachment_tx, attachments) = mpsc::channel();
+        let (queued, peer) = if matches!(mode, PeerMode::Queued | PeerMode::QueuedExpireReport) {
+            let (reached_tx, reached_rx) = mpsc::channel();
+            let (release_tx, release_rx) = mpsc::channel();
+            (
+                Some(QueuedControl {
+                    reached: reached_rx,
+                    release: release_tx,
+                }),
+                Some(QueuedPeer {
+                    reached: reached_tx,
+                    release: release_rx,
+                }),
+            )
+        } else {
+            (None, None)
+        };
         let worker = thread::spawn(move || {
             while !stopping.load(Ordering::SeqCst) {
                 let (mut stream, _) = match listener.accept() {
                     Ok(stream) => stream,
-                    Err(e) if e.kind() == io::ErrorKind::WouldBlock => {
-                        thread::sleep(Duration::from_millis(1));
-                        continue;
-                    }
                     Err(e) => panic!("{e}"),
                 };
+                if stopping.load(Ordering::SeqCst) {
+                    break;
+                }
                 // A timed-out client may already have closed this queued
                 // connection; Darwin can then reject socket option changes.
-                if stream.set_nonblocking(false).is_err()
-                    || stream
-                        .set_read_timeout(Some(Duration::from_secs(60)))
-                        .is_err()
+                if stream
+                    .set_read_timeout(Some(Duration::from_secs(60)))
+                    .is_err()
                     || stream
                         .set_write_timeout(Some(Duration::from_secs(60)))
                         .is_err()
@@ -98,9 +132,27 @@ impl Fixture {
                 let Ok(request) = arc_ipc::read_message::<_, Request>(&mut stream) else {
                     continue;
                 };
-                let response = handle(&request, mode, &endpoint, &mut shared.lock().unwrap());
+                let response = handle(
+                    &request,
+                    mode,
+                    &endpoint,
+                    &mut shared.lock().unwrap(),
+                    peer.as_ref(),
+                    &attachment_tx,
+                );
                 if let Some(response) = response {
                     let _ = arc_ipc::write_response(&mut stream, &response);
+                }
+                if matches!(
+                    mode,
+                    PeerMode::BypassThenUnavailable | PeerMode::UnsupportedBunThenUnavailable
+                ) && matches!(
+                    request.operation.as_str(),
+                    "traffic.job" | "traffic.bun.job"
+                ) {
+                    // Model a confirmed bypass/unsupported reply followed by a
+                    // disconnected registration endpoint, without a timed stall.
+                    break;
                 }
             }
         });
@@ -110,37 +162,152 @@ impl Fixture {
             state,
             stop,
             worker: Some(worker),
+            queued,
+            attachments,
         }
     }
     pub fn command(&self, scheduled: bool, mode: &str) -> Command {
+        let fixture = [fixture_executable()];
         self.command_argv(
             if scheduled {
                 &["cargo", "build"]
             } else {
-                &[env!("CARGO_BIN_EXE_arc-exec-fixture")]
+                &fixture
             },
             mode,
         )
     }
     pub fn command_argv(&self, argv: &[&str], mode: &str) -> Command {
-        let mut command = Command::new(env!("CARGO_BIN_EXE_arcctl"));
-        command.args(["exec", "--"]);
+        let cli = match option_env!("CARGO_BIN_EXE_arcctl") {
+            Some(path) => path,
+            None => panic!("integration fixture requires arcctl"),
+        };
+        let mut command = Command::new(cli);
+        command.env_clear().args(["exec", "--"]);
         command.args(argv);
         command
             .env(arc_core::ARC_SOCKET_PATH, &self.socket)
             .env("PATH", &self.root)
+            .env("HOME", &self.root)
+            .env("TMPDIR", &self.root)
             .env("ARC_FIXTURE_ACCOUNTING", mode)
             .env("ARC_FIXTURE_OWNERS", self.root.join("owners"))
             .env("ARC_METER_TEST_MARKER", self.root.join("marker"))
-            .env("ARC_METER_TEST_CLI", env!("CARGO_BIN_EXE_arcctl"));
+            .env("ARC_METER_TEST_CLI", cli);
+        // Coverage-instrumented child binaries must write into the runner's
+        // profile tree, independent of the other inherited fixture settings.
+        if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+            command.env("LLVM_PROFILE_FILE", profile);
+        }
         command
+    }
+
+    /// Exercise the installed CLI either directly or under a live shell parent.
+    pub fn production_command(&self, scheduled: bool, mode: &str, wrapped: bool) -> Command {
+        let base = self.command(scheduled, mode);
+        if !wrapped {
+            return base;
+        }
+        let mut shell = Command::new("/bin/sh");
+        shell.env_clear().args([
+            "-c",
+            "/usr/bin/env _=/unrelated/caller \"$@\"; result=$?; exit \"$result\"",
+            "arc-fixture",
+        ]);
+        shell.arg(base.get_program()).args(base.get_args());
+        for (key, value) in base.get_envs() {
+            if let Some(value) = value {
+                shell.env(key, value);
+            }
+        }
+        shell
+    }
+
+    /// Reuse the production execution source with a test-owned clock. The
+    /// fixture handshake is unavailable to the production arcctl binary.
+    pub fn clocked_command(&self, scheduled: bool, mode: &str) -> Command {
+        let base = self.command(scheduled, mode);
+        let key = self.root.join("clock-key");
+        fs::write(&key, b"arc-fixture-clock-v1").unwrap();
+        fs::write(self.clock_path(), b"0").unwrap();
+        let mut clocked = Command::new(fixture_executable());
+        clocked.env_clear().arg("--clocked-fixture-exec");
+        clocked.args(base.get_args().skip(2));
+        for (key, value) in base.get_envs() {
+            if let Some(value) = value {
+                clocked.env(key, value);
+            } else {
+                clocked.env_remove(key);
+            }
+        }
+        clocked
+            .env("ARC_FIXTURE_CLOCK_KEY", key)
+            .env("ARC_FIXTURE_CLOCK", self.clock_path())
+            .env("ARC_METER_TEST_CLI", fixture_executable())
+            .env("ARC_METER_TEST_CLOCKED", "1");
+        clocked
+    }
+
+    pub fn clock_path(&self) -> PathBuf {
+        self.root.join("clock")
+    }
+
+    pub fn wait_for_queued_poll(&self) {
+        self.queued
+            .as_ref()
+            .unwrap()
+            .reached
+            .recv_timeout(Duration::from_secs(60))
+            .expect("queued poll was not observed");
+    }
+
+    pub fn release_queued(&self) {
+        self.queued.as_ref().unwrap().release.send(()).unwrap();
+    }
+
+    pub fn wait_for_attachment(&self) {
+        self.attachments
+            .recv_timeout(Duration::from_secs(60))
+            .expect("fixture attachment watchdog");
+    }
+
+    pub fn assert_live_parent(&self, spawned_pid: u32, wrapped: bool) {
+        let state = self.state.lock().unwrap();
+        let observer = &state
+            .jobs
+            .values()
+            .find(|job| job.phase == Phase::Running)
+            .expect("attached job")
+            .observer;
+        if wrapped {
+            let ancestors = arc_platform::job_lineage::ancestors(observer).unwrap();
+            assert_eq!(
+                ancestors.first().map(|parent| parent.pid),
+                Some(spawned_pid)
+            );
+            assert_ne!(observer.pid, spawned_pid);
+        } else {
+            assert_eq!(observer.pid, spawned_pid);
+        }
+    }
+}
+fn fixture_executable() -> &'static str {
+    match option_env!("CARGO_BIN_EXE_arc-exec-fixture") {
+        Some(path) => path,
+        None => panic!("integration fixture requires child"),
     }
 }
 impl Drop for Fixture {
     fn drop(&mut self) {
         self.stop.store(true, Ordering::SeqCst);
+        self.queued.take();
+        // Wake a blocking accept without polling or touching another fixture.
+        let _ = std::os::unix::net::UnixStream::connect(&self.socket);
         let result = self.worker.take().unwrap().join();
-        if !self.root.join("owned-cleanup-incomplete").exists() {
+        if result.is_ok()
+            && !std::thread::panicking()
+            && !self.root.join("owned-cleanup-incomplete").exists()
+        {
             let _ = fs::remove_dir_all(&self.root);
         }
         if !std::thread::panicking() {
@@ -148,310 +315,10 @@ impl Drop for Fixture {
         }
     }
 }
-fn registered(
-    job_id: JobId,
-    observer: ProcessIdentity,
-    classification: arc_ipc::Classification,
-) -> JobSnapshot {
-    JobSnapshot {
-        job_id,
-        observer,
-        classification,
-        phase: Phase::Registered,
-        observer_verified_at_ms: 1,
-        child: None,
-        child_verified_at_ms: None,
-        observation: IdentityObservation {
-            target: ObservationTarget::Observer,
-            status: ObservationStatus::VerifiedMatch,
-            observed_at_ms: 1,
-            reason: LifecycleReason::RegisteredNotClaimed,
-        },
-        reason: LifecycleReason::RegisteredNotClaimed,
-        outcome: None,
-        registered_at_ms: 1,
-        launch_claimed_at_ms: None,
-        completed_at_ms: None,
-        updated_at_ms: 1,
-        revision: 1,
-    }
-}
-fn claimed(job: &mut JobSnapshot) {
-    job.phase = Phase::Launching;
-    job.launch_claimed_at_ms = Some(1);
-}
-fn attached(job: &mut JobSnapshot, child: ProcessIdentity) {
-    job.child = Some(child);
-    job.child_verified_at_ms = Some(1);
-    job.phase = Phase::Running;
-    job.reason = LifecycleReason::ChildVerified;
-    job.observation = IdentityObservation {
-        target: ObservationTarget::Child,
-        status: ObservationStatus::VerifiedMatch,
-        observed_at_ms: 1,
-        reason: job.reason,
-    };
-}
-fn completed(job: &mut JobSnapshot, outcome: Outcome) {
-    (job.phase, job.reason) = match &outcome {
-        Outcome::Exited { .. } => (Phase::Completed, LifecycleReason::ObservedExit),
-        Outcome::Signaled { .. } => (Phase::Signaled, LifecycleReason::ObservedSignal),
-        Outcome::SpawnFailed { .. } => (Phase::SpawnFailed, LifecycleReason::ObservedSpawnFailure),
-    };
-    job.observation.reason = job.reason;
-    job.completed_at_ms = Some(1);
-    job.outcome = Some(outcome);
-}
-fn handle(
-    request: &Request,
-    mode: PeerMode,
-    socket: &std::path::Path,
-    state: &mut State,
-) -> Option<Response> {
-    let value = match request.operation.as_str() {
-        "traffic.capabilities" => json!({"capability":"traffic.v1"}),
-        "traffic.bun.capabilities" => json!({"capability":"traffic.bun.v1"}),
-        "job.start" => {
-            if matches!(
-                mode,
-                PeerMode::SlowBypassThenStalledRegister
-                    | PeerMode::SlowUnsupportedBunThenStalledRegister
-            ) {
-                thread::sleep(Duration::from_millis(550));
-                return None;
-            }
-            let input = arc_ipc::jobs::decode_start(&request.payload).unwrap();
-            let id = input.job_id().as_str().to_owned();
-            if matches!(mode, PeerMode::UntrackedRoot) {
-                let root = state.untracked_root.get_or_insert_with(|| id.clone());
-                if root == &id {
-                    return None;
-                }
-            }
-            match input {
-                StartRequest::Register {
-                    job_id,
-                    observer,
-                    classification,
-                } => {
-                    state
-                        .jobs
-                        .insert(id.clone(), registered(job_id, observer, classification));
-                }
-                StartRequest::Claim { .. } => claimed(state.jobs.get_mut(&id).unwrap()),
-                StartRequest::Attach {
-                    observer, child, ..
-                } => {
-                    state.relations.insert(
-                        id.clone(),
-                        arc_platform::job_lineage::relation(socket, &observer, &id),
-                    );
-                    attached(state.jobs.get_mut(&id).unwrap(), child);
-                    state.attached = true;
-                }
-            }
-            assert!(state.jobs[&id].is_valid());
-            json!(StartResult {
-                disposition: StartDisposition::Applied,
-                job: state.jobs[&id].clone()
-            })
-        }
-        "job.complete" => {
-            // Decode the original frozen schema: CPU fields must never leak in.
-            let input = arc_ipc::jobs::decode_complete(&request.payload).unwrap();
-            let job = state.jobs.get_mut(input.job_id.as_str()).unwrap();
-            assert_eq!(input.observer, job.observer);
-            completed(job, input.outcome);
-            assert!(job.is_valid());
-            if matches!(mode, PeerMode::SlowCompletion) {
-                thread::sleep(Duration::from_millis(550));
-            }
-            json!(CompleteResult {
-                disposition: CompleteDisposition::Applied,
-                job: job.clone()
-            })
-        }
-        "traffic.job" | "traffic.bun.job" => {
-            let input =
-                arc_ipc::traffic::decode_job_for(&request.operation, &request.payload).unwrap();
-            let result = match input {
-                JobRequest::Enqueue {
-                    job_id,
-                    observer,
-                    classification,
-                    lineage_context,
-                } => {
-                    if matches!(mode, PeerMode::SlowUnsupportedBunThenStalledRegister) {
-                        thread::sleep(Duration::from_millis(500));
-                        return Some(Response::error(
-                            &request.request_id,
-                            arc_ipc::ERROR_UNSUPPORTED_CAPABILITY,
-                        ));
-                    }
-                    if matches!(mode, PeerMode::SlowBypassThenStalledRegister) {
-                        thread::sleep(Duration::from_millis(500));
-                        JobResult::Bypassed {
-                            reason: arc_ipc::traffic::BypassReason::Unsupported,
-                        }
-                    } else {
-                        let id = job_id.as_str().to_owned();
-                        let context = lineage_context.unwrap();
-                        let mut job = registered(job_id, observer, classification);
-                        claimed(&mut job);
-                        state.jobs.insert(id.clone(), job);
-                        state.contexts.insert(id, context.clone());
-                        if matches!(mode, PeerMode::Queued) {
-                            return Some(Response::ok(
-                                &request.request_id,
-                                json!(JobResult::Queued {
-                                    sequence: 1,
-                                    queued_at_ms: 1,
-                                    reason: arc_ipc::traffic::WaitReason::ClassWindow
-                                }),
-                            ));
-                        }
-                        JobResult::Granted {
-                            sequence: 1,
-                            queued_at_ms: 1,
-                            granted_at_ms: 1,
-                            permit_generation: 1,
-                            reservation: Resources {
-                                cpu_millis: 1000,
-                                memory_bytes: 1024,
-                            },
-                            lineage_context: context,
-                        }
-                    }
-                }
-                JobRequest::Poll { job_id, .. } => {
-                    assert!(matches!(mode, PeerMode::Queued));
-                    thread::sleep(Duration::from_millis(250));
-                    JobResult::Granted {
-                        sequence: 1,
-                        queued_at_ms: 1,
-                        granted_at_ms: 291,
-                        permit_generation: 1,
-                        reservation: Resources {
-                            cpu_millis: 1000,
-                            memory_bytes: 1024,
-                        },
-                        lineage_context: state.contexts[job_id.as_str()].clone(),
-                    }
-                }
-                JobRequest::Attach {
-                    job_id,
-                    observer,
-                    child,
-                    ..
-                } => {
-                    let id = job_id.as_str();
-                    state.relations.insert(
-                        id.to_owned(),
-                        arc_platform::job_lineage::relation(socket, &observer, id),
-                    );
-                    attached(state.jobs.get_mut(id).unwrap(), child);
-                    state.attached = true;
-                    JobResult::Running {}
-                }
-                JobRequest::Complete {
-                    job_id, outcome, ..
-                } => {
-                    completed(
-                        state.jobs.get_mut(job_id.as_str()).unwrap(),
-                        outcome.clone(),
-                    );
-                    JobResult::Completed {
-                        queue_wait_ms: 0,
-                        outcome,
-                    }
-                }
-                _ => panic!("unexpected Traffic request"),
-            };
-            assert!(result.is_valid());
-            json!(result)
-        }
-        "meter.report" => {
-            state
-                .report_requests
-                .push((request.request_id.clone(), request.payload.clone()));
-            if matches!(mode, PeerMode::UnsupportedReport) {
-                return Some(Response::error(
-                    &request.request_id,
-                    arc_ipc::ERROR_UNSUPPORTED_CAPABILITY,
-                ));
-            }
-            if matches!(mode, PeerMode::StalledReport) {
-                thread::sleep(Duration::from_millis(550));
-                return None;
-            }
-            let report = arc_ipc::meter::decode_report(&request.payload).unwrap();
-            let Some(job) = state.jobs.get(&report.job_id) else {
-                return Some(Response::error(
-                    &request.request_id,
-                    arc_ipc::meter::ERROR_METER_IDENTITY_MISMATCH,
-                ));
-            };
-            assert_eq!(job.observer, report.observer);
-            assert_eq!(job.child.as_ref(), Some(&report.child));
-            assert!(arc_ipc::meter::matches_terminal_outcome(
-                &report,
-                job.outcome.as_ref().unwrap()
-            ));
-            assert_eq!(
-                state.relations.get(&report.job_id),
-                Some(&report.accounting_relation)
-            );
-            let duplicate = state.reports.get(&report.job_id);
-            if let Some(first) = duplicate {
-                assert_eq!(first, &report);
-            }
-            let disposition = if duplicate.is_some() {
-                "unchanged"
-            } else {
-                "accepted"
-            };
-            let mut receipt = json!({"schema_version":1, "job_id":report.job_id, "report_id":report.report_id, "disposition":disposition});
-            let first = duplicate.is_none();
-            state.reports.insert(report.job_id.clone(), report);
-            if first && matches!(mode, PeerMode::LostReportAck) {
-                return None;
-            }
-            if first && matches!(mode, PeerMode::MalformedReportAck) {
-                receipt["report_id"] = "peer-secret-canary".into();
-            }
-            receipt
-        }
-        "meter.summary" => {
-            state.summary_reads += 1;
-            let input = arc_ipc::meter::decode_summary_request(&request.payload).unwrap();
-            let accounting =
-                state
-                    .reports
-                    .get(&input.job_id)
-                    .map_or(SummaryAccounting::Missing {}, |r| {
-                        SummaryAccounting::Recorded {
-                            report: Box::new(r.clone()),
-                        }
-                    });
-            let summary = JobMeterSummary {
-                schema_version: 1,
-                job_id: input.job_id,
-                queue_wait: if matches!(accounting, SummaryAccounting::Missing {}) {
-                    QueueWait::unknown()
-                } else {
-                    QueueWait::lifecycle_only()
-                },
-                accounting,
-            };
-            assert!(summary.is_valid());
-            json!(summary)
-        }
-        _ => {
-            return Some(Response::error(
-                &request.request_id,
-                arc_ipc::ERROR_UNSUPPORTED_CAPABILITY,
-            ))
-        }
-    };
-    Some(Response::ok(&request.request_id, value))
-}
+#[path = "support/state.rs"]
+mod state;
+use state::{attached, capture_relation, claimed, completed, queued_result, registered};
+
+#[path = "support/handle.rs"]
+mod handle;
+use handle::handle;

@@ -21,6 +21,31 @@ pub(crate) fn call(socket: &Path, operation: &str, payload: Value) -> Result<Val
     )
     .map_err(|_| ())
 }
+
+// The recent-status fixture supplies its own clock, including to the initial
+// request. Production passes Instant::now and retains the same two-second cap.
+pub(crate) fn call_with_clock(
+    socket: &Path,
+    operation: &str,
+    payload: Value,
+    now: &dyn Fn() -> Instant,
+) -> Result<Value, ()> {
+    let mut request = Request::new(crate::request_id(), operation);
+    request.payload = payload;
+    arc_ipc::client::exchange_until_with_clock(
+        socket,
+        &request,
+        now() + Duration::from_secs(2),
+        &|| false,
+        &mut false,
+        ExchangeOptions {
+            continuity: None,
+            retry_busy: true,
+        },
+        now,
+    )
+    .map_err(|_| ())
+}
 pub(crate) fn call_until(
     socket: &Path,
     operation: &str,
@@ -40,9 +65,27 @@ pub(crate) fn call_until_no_busy_retry(
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
 ) -> Result<Value, Failure> {
+    call_until_no_busy_retry_with_clock(
+        socket,
+        operation,
+        payload,
+        deadline,
+        cancelled,
+        &Instant::now,
+    )
+}
+
+pub(crate) fn call_until_no_busy_retry_with_clock(
+    socket: &Path,
+    operation: &str,
+    payload: Value,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    now: &dyn Fn() -> Instant,
+) -> Result<Value, Failure> {
     let mut request = Request::new(crate::request_id(), operation);
     request.payload = payload;
-    arc_ipc::client::exchange_until(
+    arc_ipc::client::exchange_until_with_clock(
         socket,
         &request,
         deadline,
@@ -52,6 +95,7 @@ pub(crate) fn call_until_no_busy_retry(
             continuity: None,
             retry_busy: false,
         },
+        now,
     )
 }
 

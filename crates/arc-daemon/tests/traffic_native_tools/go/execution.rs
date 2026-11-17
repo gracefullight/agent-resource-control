@@ -1,7 +1,7 @@
 //! Delivered for the integration owner to run after shared product negotiation.
 use super::{super::*, direct as compare, projects::*};
 use serde_json::{json, Value};
-use std::{fs, io::Write, path::Path, process::Stdio};
+use std::{fs, io::Write, path::Path, process::Stdio, sync::Mutex};
 
 fn case(name: &str, read: Read) -> Case<Tools> {
     let tools = Tools::installed();
@@ -12,20 +12,35 @@ fn case(name: &str, read: Read) -> Case<Tools> {
 
 pub fn semantics(read: Read) {
     let case = case("go-semantics", read);
-    let mut observations = Vec::new();
-    for form in FORMS {
-        for fail in [false, true] {
-            let path = project(
-                &case.artifacts,
-                &case.tools,
-                &format!("{}-{fail}", form.id()),
-                form,
-                false,
-                fail,
-            );
-            observations.push(parity(&case, &path, form, fail));
+    let class_slots = [Mutex::new(()), Mutex::new(()), Mutex::new(())];
+    let observations = std::thread::scope(|scope| {
+        let mut workers = Vec::new();
+        for (index, form) in FORMS.into_iter().enumerate() {
+            for fail in [false, true] {
+                let case = &case;
+                let class_slot = &class_slots[index];
+                workers.push(scope.spawn(move || {
+                    // Each independent parity case receives its own writable
+                    // clone of the once-per-binary Go seed.
+                    let tools = Tools::installed();
+                    let path = project(
+                        &case.artifacts,
+                        &tools,
+                        &format!("{}-{fail}", form.id()),
+                        form,
+                        false,
+                        fail,
+                    );
+                    parity(case, &path, form, fail, class_slot)
+                }));
+            }
         }
-    }
+        workers
+            .into_iter()
+            .map(|worker| worker.join().unwrap())
+            .collect::<Vec<_>>()
+    });
+    assert_eq!(case.active()["permits"], 0);
     let mut bypasses = Vec::new();
     for (name, args) in [
         (
@@ -89,7 +104,13 @@ pub fn semantics(read: Read) {
     case.done();
 }
 
-fn parity(case: &Case<Tools>, path: &Path, form: Form, fail: bool) -> Value {
+fn parity(
+    case: &Case<Tools>,
+    path: &Path,
+    form: Form,
+    fail: bool,
+    class_slot: &Mutex<()>,
+) -> Value {
     let arguments = argv(form);
     let input = "stdin\0bytes 日本語\n".as_bytes();
     let expected = direct(path, &case.tools.go, &arguments, input);
@@ -98,6 +119,9 @@ fn parity(case: &Case<Tools>, path: &Path, form: Form, fail: bool) -> Value {
     let archive = (form == Form::GoBuild && !fail).then(|| sha(&path.join("native output.a")));
     write(&path.join("test-bodies"), "");
     let args: Vec<_> = arguments.iter().map(String::as_str).collect();
+    // Contention and queue notices are verified by the ordered-pair tests.
+    // Parity compares native streams, so admit at most one job per class here.
+    let _class_slot = class_slot.lock().unwrap();
     let mut run = Run::start_with(case, path, &args, |cmd| {
         configure(path, cmd);
         cmd.stdin(Stdio::piped());
@@ -140,7 +164,7 @@ fn parity(case: &Case<Tools>, path: &Path, form: Form, fail: bool) -> Value {
         );
     }
     let result = terminal(case, &run, form, i32::from(fail));
-    assert_eq!(case.active()["permits"], 0);
+    assert_eq!(result.facts["job"]["sqlite"]["permit_state"], "RELEASED");
     json!({"form":form.id(),"originalArgv":arguments,"failure":fail,"exit":expected.status.code(),
         "nativeFacts":expected_facts,"sameStreamsExceptNativeElapsedSeconds":true,
         "exactlyOneNativeExecution":true,"result":result})

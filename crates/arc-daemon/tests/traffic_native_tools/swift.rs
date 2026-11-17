@@ -29,16 +29,14 @@ pub fn pairs(read: Read) {
         };
         let first = prepare("first", descriptor.first);
         let second = prepare("second", descriptor.second);
-        let swift_project = if first.form.is_native() {
-            first.project.clone()
-        } else {
-            second.project.clone()
-        };
         pair(case, descriptor, first, second);
-        // Check the complete native body after release too, not only its entry.
-        assert_eq!(evidence::body_count(&swift_project), 1);
-        projects::record(&swift_project);
     }
+}
+
+pub(super) fn assert_completed(project: &std::path::Path) {
+    // Check the complete native body before the case removes its own tree.
+    assert_eq!(evidence::body_count(project), 1);
+    projects::record(project);
 }
 
 /// Separate synthetic byte-forwarding proof; real SwiftPM scenarios remain above.

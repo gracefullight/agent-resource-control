@@ -195,11 +195,8 @@ fn real_daemon_restart_during_execution_and_interrupted_observer_remain_truthful
 #[test]
 fn real_protocol_one_old_daemon_keeps_summary_unsupported_and_execution_once() {
     let _serial = serialization::serial();
-    let legacy: serde_json::Value = serde_json::from_slice(
-        &fs::read(workspace().join("target/host-meter/legacy/latest.json"))
-            .expect("prepare accepted legacy peer with bun scripts/host-meter/prepare-legacy.ts"),
-    )
-    .unwrap();
+    let preparation = super::legacy_preparation::LegacyPreparation::acquire_prepared(workspace());
+    let legacy = &preparation.receipt;
     assert_eq!(
         legacy["acceptedHead"],
         "efedf0f4eb9b97eed641c82f3c4766bb16f2e3de"
@@ -254,5 +251,10 @@ fn real_protocol_one_old_daemon_keeps_summary_unsupported_and_execution_once() {
         "desktopError":error,"health":health,"executionExit":0,"singleExecutionCount":1,
         "frozenLifecycleSnapshot":case.snapshot(&id)}),
     );
+    // Reap the run while its ownership directory and daemon still exist.
+    drop(run);
     case.stop("old-peer-done");
+    // Drop all remaining fixture handles before retiring the peer.
+    drop(case);
+    drop(preparation);
 }

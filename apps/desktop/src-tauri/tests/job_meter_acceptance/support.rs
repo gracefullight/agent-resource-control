@@ -6,9 +6,8 @@ use std::{
     fs,
     os::unix::fs::symlink,
     path::{Path, PathBuf},
-    process::{Command, ExitStatus, Stdio},
+    process::{Command, ExitStatus, Output, Stdio},
     sync::atomic::{AtomicU64, Ordering},
-    thread,
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
@@ -24,33 +23,38 @@ pub fn now() -> u64 {
         .unwrap()
         .as_millis() as u64
 }
+#[track_caller]
 pub fn eventually(mut condition: impl FnMut() -> bool) {
     let end = Instant::now() + Duration::from_secs(60);
     while !condition() {
         assert!(
             Instant::now() < end,
-            "native acceptance observation timed out"
+            "meter fixture observation never became ready"
         );
-        thread::sleep(Duration::from_millis(5));
+        std::thread::yield_now();
     }
 }
 pub fn save(name: &str, value: Value) {
-    let dir = std::env::var_os("ARC_JOB_METER_EVIDENCE_DIR")
-        .map(PathBuf::from)
-        .unwrap_or_else(|| {
-            workspace()
-                .join("target/job-meter/task8")
-                .join(std::process::id().to_string())
-        });
-    fs::create_dir_all(&dir).unwrap();
     let value = json!({"test":name,"observedAtMs":now(),"testProcess":ProcessIdentity::capture(std::process::id()).unwrap(),"observed":value});
-    fs::write(
-        dir.join(format!("{name}.json")),
-        serde_json::to_vec_pretty(&value).unwrap(),
-    )
-    .unwrap();
-    eprintln!("job-meter-case {name}: measured receipt saved");
+    let destination = std::env::var_os("ARC_JOB_METER_EVIDENCE_DIR").map(PathBuf::from);
+    if let Some(path) = save_observation(name, &value, destination.as_deref()) {
+        eprintln!(
+            "job-meter-case {name}: measured receipt saved at {}",
+            path.display()
+        );
+    } else {
+        eprintln!("job-meter-case {name}: {value}");
+    }
 }
+
+fn save_observation(name: &str, value: &Value, destination: Option<&Path>) -> Option<PathBuf> {
+    let dir = destination?;
+    fs::create_dir_all(dir).unwrap();
+    let path = dir.join(format!("{name}.json"));
+    fs::write(&path, serde_json::to_vec_pretty(value).unwrap()).unwrap();
+    Some(path)
+}
+
 pub fn rpc(case: &RealDaemon, operation: &str, payload: Value) -> Response {
     static NEXT: AtomicU64 = AtomicU64::new(0);
     let mut request = Request::new(
@@ -68,13 +72,31 @@ pub fn ok(case: &RealDaemon, operation: &str, payload: Value) -> Value {
     assert_eq!(r.status, "ok", "{} {r:?} error={:?}", operation, r.error);
     r.result.unwrap()
 }
+pub fn output(mut command: Command, observation: &str) -> Output {
+    command
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let mut child = native::OwnedChild::new(
+        command
+            .spawn()
+            .unwrap_or_else(|error| panic!("cannot start {observation}: {error}")),
+    );
+    child
+        .wait_with_output()
+        .unwrap_or_else(|error| panic!("{observation} did not complete: {error}"))
+}
+
 pub fn rows(case: &RealDaemon, sql: &str) -> Vec<Value> {
-    let result = Command::new("/usr/bin/sqlite3")
-        .args(["-readonly", "-json"])
+    let mut command = Command::new("/usr/bin/sqlite3");
+    command
+        .env_clear()
+        .env("HOME", &case.fixture.root)
+        .env("TMPDIR", &case.fixture.root)
+        .args(["-init", "/dev/null", "-readonly", "-json"])
         .arg(&case.fixture.database)
-        .arg(sql)
-        .output()
-        .unwrap();
+        .arg(sql);
+    let result = output(command, "SQLite reconciliation query");
     assert!(result.status.success(), "{result:?}");
     assert!(result.stderr.is_empty());
     if result.stdout.is_empty() {
@@ -114,11 +136,18 @@ pub fn reconcile(case: &RealDaemon, id: &str) -> Value {
         rows(case, "SELECT * FROM job_lifecycle")
     );
     let persisted: Value = serde_json::from_str(sqlite["report_json"].as_str().unwrap()).unwrap();
-    let cli = Command::new(case.fixture.binary("arcctl"))
+    let mut command = Command::new(case.fixture.binary("arcctl"));
+    command
+        .env_clear()
+        .env("HOME", &case.fixture.root)
+        .env("TMPDIR", &case.fixture.root)
         .args(["meter", "summary", "--job", id, "--json"])
         .env(arc_core::ARC_SOCKET_PATH, &case.fixture.socket)
-        .output()
-        .unwrap();
+        .env(arc_core::ARC_DB_PATH, &case.fixture.database);
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
+    let cli = output(command, "arcctl meter summary");
     assert!(cli.status.success(), "{cli:?}");
     assert!(cli.stderr.is_empty());
     let cli: Value = serde_json::from_slice(&cli.stdout).unwrap();
@@ -138,7 +167,15 @@ pub fn reconcile(case: &RealDaemon, id: &str) -> Value {
         "sqliteCliDesktopAgree":true})
 }
 pub fn setup(name: &str) -> RealDaemon {
-    let case = RealDaemon::new(name);
+    setup_case(RealDaemon::new(name))
+}
+pub fn setup_isolated(name: &str) -> RealDaemon {
+    setup_case(RealDaemon::isolated(name))
+}
+pub fn setup_clocked(name: &str) -> RealDaemon {
+    setup_case(RealDaemon::clocked(name))
+}
+fn setup_case(case: RealDaemon) -> RealDaemon {
     symlink(
         case.fixture.binary("arc-exec-fixture"),
         case.fixture.root.join("cargo"),
@@ -148,6 +185,7 @@ pub fn setup(name: &str) -> RealDaemon {
 }
 pub fn command(case: &RealDaemon, scheduled: bool, mode: &str) -> Command {
     let mut c = Command::new(case.fixture.binary("arcctl"));
+    c.env_clear();
     c.args(["exec", "--"]);
     if scheduled {
         c.args(["cargo", "build"]);
@@ -156,17 +194,58 @@ pub fn command(case: &RealDaemon, scheduled: bool, mode: &str) -> Command {
     }
     c.env(arc_core::ARC_SOCKET_PATH, &case.fixture.socket)
         .env(arc_core::ARC_DB_PATH, &case.fixture.database)
+        .env("HOME", &case.fixture.root)
+        .env("TMPDIR", &case.fixture.root)
         .env(
             "PATH",
             format!("{}:/usr/bin:/bin", case.fixture.root.display()),
         )
         .env("ARC_FIXTURE_ACCOUNTING", mode)
         .env("ARC_METER_TEST_CLI", case.fixture.binary("arcctl"))
-        .env_remove("ARC_TRAFFIC_LINEAGE")
         .current_dir(&case.fixture.root)
         .stdin(Stdio::null());
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        c.env("LLVM_PROFILE_FILE", profile);
+    }
     c
 }
+
+/// Use the production execution source with a test-owned clock. The caller
+/// selects the daemon; reporting still uses SQLite and the desktop bridge.
+pub fn clocked_command(case: &RealDaemon, scheduled: bool, mode: &str) -> (Command, PathBuf) {
+    let base = command(case, scheduled, mode);
+    let key = case.fixture.root.join("clock-key");
+    let clock = case.fixture.root.join("clock");
+    fs::write(&key, b"arc-fixture-clock-v1").unwrap();
+    fs::write(&clock, b"0").unwrap();
+    let mut c = Command::new(case.fixture.binary("arc-exec-fixture"));
+    c.env_clear().arg("--clocked-fixture-exec");
+    c.args(base.get_args().skip(2));
+    for (name, value) in base.get_envs() {
+        if let Some(value) = value {
+            c.env(name, value);
+        } else {
+            c.env_remove(name);
+        }
+    }
+    c.env("HOME", &case.fixture.root)
+        .env("TMPDIR", &case.fixture.root)
+        .env("ARC_FIXTURE_CLOCK_KEY", key)
+        .env("ARC_FIXTURE_CLOCK", &clock)
+        .current_dir(&case.fixture.root)
+        .stdin(Stdio::null());
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        c.env("LLVM_PROFILE_FILE", profile);
+    }
+    (c, clock)
+}
+
+pub fn set_clock(path: &Path, seconds: u64) {
+    let pending = path.with_extension("pending");
+    fs::write(&pending, seconds.to_string()).unwrap();
+    fs::rename(pending, path).unwrap();
+}
+
 pub struct Run {
     pub wrapper: native::OwnedChild,
     pub identity: ProcessIdentity,
@@ -216,4 +295,28 @@ impl Run {
 pub fn signal_owned(identity: &ProcessIdentity, signal: i32) {
     assert_eq!(probe_live(identity), IdentityStatus::VerifiedMatch);
     assert_eq!(unsafe { libc::kill(identity.pid as i32, signal) }, 0);
+}
+
+#[cfg(test)]
+mod observation_tests {
+    use super::*;
+
+    #[test]
+    fn observations_are_saved_only_when_a_destination_is_supplied() {
+        let root = std::env::temp_dir().join(format!(
+            "arc-job-meter-observation-{}",
+            arc_core::process_identity::random_job_id().unwrap()
+        ));
+        fs::create_dir(&root).unwrap();
+        let value = json!({"outcome":"recorded","count":1});
+        assert!(save_observation("example", &value, None).is_none());
+        assert!(fs::read_dir(&root).unwrap().next().is_none());
+        let path = save_observation("example", &value, Some(&root)).unwrap();
+        assert_eq!(path, root.join("example.json"));
+        assert_eq!(
+            serde_json::from_slice::<Value>(&fs::read(path).unwrap()).unwrap(),
+            value
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
 }

@@ -36,6 +36,32 @@ fn registered(
     .unwrap()["data"]
         .clone()
 }
+
+#[cfg(target_os = "macos")]
+#[test]
+fn registered_agent_hooks_claude_first_one_build_slot() {
+    let _s = serialization::serial();
+    suite::agent_hooks::run_isolated("registered_agent_hooks_claude_first_worker");
+}
+
+#[cfg(target_os = "macos")]
+#[test]
+fn registered_agent_hooks_cursor_first_one_build_slot() {
+    let _s = serialization::serial();
+    suite::agent_hooks::run_isolated("registered_agent_hooks_cursor_first_worker");
+}
+
+#[cfg(target_os = "macos")]
+#[test]
+fn registered_agent_hooks_claude_first_worker() {
+    suite::agent_hooks::run_worker(registered, true);
+}
+
+#[cfg(target_os = "macos")]
+#[test]
+fn registered_agent_hooks_cursor_first_worker() {
+    suite::agent_hooks::run_worker(registered, false);
+}
 #[cfg(target_os = "macos")]
 #[test]
 fn registered_bridge_real_tools_outputs() {

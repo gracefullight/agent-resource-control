@@ -1,10 +1,93 @@
 import { test, expect } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { lstatSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync, rmSync, truncateSync, symlinkSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve, dirname, join } from "node:path";
-import { gitBytes, auditTrackedEvidence, assertHygiene, isNativeExport } from "./hygiene";
+import { gitBytes, auditTrackedEvidence, assertHygiene, isNativeExport, targetBytesOutsideDebug, assertTargetLimit, compactFixtureBuild, TARGET_LIMIT_BYTES } from "./hygiene";
 
 const root = resolve(import.meta.dir, "../..");
+
+test("post-workspace target outside debug stays within 500 MB", () => {
+  assertTargetLimit(targetBytesOutsideDebug(root));
+}, 120000);
+
+test("target size excludes the exact debug and runner directories only", () => {
+  const dir = mkdtempSync(join(tmpdir(), "arc-target-size-"));
+  try {
+    mkdirSync(join(dir, "target/debug"), { recursive: true });
+    writeFileSync(join(dir, "target/debug/large"), "");
+    truncateSync(join(dir, "target/debug/large"), TARGET_LIMIT_BYTES + 1);
+    mkdirSync(join(dir, "target/av-runner"));
+    writeFileSync(join(dir, "target/av-runner/receipt"), "");
+    truncateSync(join(dir, "target/av-runner/receipt"), TARGET_LIMIT_BYTES + 1);
+    mkdirSync(join(dir, "target/debug-other"));
+    writeFileSync(join(dir, "target/debug-other/file"), "1234");
+    mkdirSync(join(dir, "target/av-runner-other"));
+    writeFileSync(join(dir, "target/av-runner-other/file"), "5678");
+    symlinkSync("debug", join(dir, "target/link"));
+    const counted = ["target", "target/debug-other", "target/debug-other/file", "target/av-runner-other", "target/av-runner-other/file", "target/link"];
+    const allocated = () => counted.reduce((sum, path) => sum + lstatSync(join(dir, path)).blocks * 512, 0);
+    expect(targetBytesOutsideDebug(dir)).toBe(allocated());
+    expect(() => assertTargetLimit(TARGET_LIMIT_BYTES)).not.toThrow();
+    expect(() => assertTargetLimit(TARGET_LIMIT_BYTES + 1)).toThrow("maximum");
+    expect(() => assertTargetLimit(-1)).toThrow("maximum");
+    expect(() => assertTargetLimit(Number.NaN)).toThrow("maximum");
+    // Truncation creates a sparse file: its apparent size must not be charged
+    // as allocated disk usage, even in a non-excluded directory.
+    truncateSync(join(dir, "target/debug-other/file"), TARGET_LIMIT_BYTES + 1);
+    expect(lstatSync(join(dir, "target/debug-other/file")).size).toBe(TARGET_LIMIT_BYTES + 1);
+    expect(lstatSync(join(dir, "target/debug-other/file")).blocks * 512).toBeLessThan(TARGET_LIMIT_BYTES);
+    expect(targetBytesOutsideDebug(dir)).toBe(allocated());
+    expect(() => assertTargetLimit(targetBytesOutsideDebug(dir))).not.toThrow();
+    truncateSync(join(dir, "target/debug-other/file"), 4);
+    truncateSync(join(dir, "target/av-runner-other/file"), TARGET_LIMIT_BYTES + 1);
+    expect(targetBytesOutsideDebug(dir)).toBe(allocated());
+    expect(() => assertTargetLimit(targetBytesOutsideDebug(dir))).not.toThrow();
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("fixture build compaction preserves validated binaries and adjacent receipts", () => {
+  const dir = mkdtempSync(join(tmpdir(), "arc-compact-fixture-"));
+  try {
+    const target = join(dir, "owned/target"), debug = join(target, "debug");
+    mkdirSync(join(debug, "deps"), { recursive: true });
+    writeFileSync(join(debug, "arcctl"), "binary");
+    writeFileSync(join(debug, "deps/object"), "intermediate");
+    writeFileSync(join(target, ".rustc_info.json"), "intermediate");
+    writeFileSync(join(dir, "owned/receipt.json"), "receipt");
+    expect(() => compactFixtureBuild(target, ["missing"])).toThrow();
+    expect(readFileSync(join(debug, "deps/object"), "utf8")).toBe("intermediate");
+    compactFixtureBuild(target, ["arcctl"]);
+    expect(readFileSync(join(debug, "arcctl"), "utf8")).toBe("binary");
+    expect(readFileSync(join(dir, "owned/receipt.json"), "utf8")).toBe("receipt");
+    expect(() => readFileSync(join(debug, "deps/object"))).toThrow();
+    expect(() => readFileSync(join(target, ".rustc_info.json"))).toThrow();
+    const other = join(dir, "other"), second = join(dir, "second/target");
+    writeFileSync(other, "untouched");
+    mkdirSync(join(second, "debug"), { recursive: true });
+    symlinkSync(other, join(second, "debug/arcctl"));
+    writeFileSync(join(second, "debug/intermediate"), "still present");
+    expect(() => compactFixtureBuild(second, ["arcctl"])).toThrow();
+    expect(readFileSync(other, "utf8")).toBe("untouched");
+    expect(readFileSync(join(second, "debug/intermediate"), "utf8")).toBe("still present");
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("a symlinked target root still counts its non-debug build tree", () => {
+  const dir=mkdtempSync(join(tmpdir(),"arc-target-link-"));
+  try {
+    const build=join(dir,"build");
+    mkdirSync(join(build,"debug"),{recursive:true});
+    writeFileSync(join(build,"debug/ignored"),"");
+    truncateSync(join(build,"debug/ignored"),TARGET_LIMIT_BYTES+1);
+    writeFileSync(join(build,"retained"),"");
+    symlinkSync(build,join(dir,"target"));
+    const allocated = () => ["target", "target/retained"].reduce((sum, path) => sum + lstatSync(join(dir, path)).blocks * 512, 0);
+    expect(targetBytesOutsideDebug(dir)).toBe(allocated());
+    truncateSync(join(build,"retained"),TARGET_LIMIT_BYTES+1);
+    expect(targetBytesOutsideDebug(dir)).toBe(allocated());
+    expect(()=>assertTargetLimit(targetBytesOutsideDebug(dir))).not.toThrow();
+  } finally { rmSync(dir,{recursive:true,force:true}); }
+});
 
 const trackedCoverageFiles = (dir: string) => gitBytes(dir, ["ls-files", "-z"]).toString().split("\0")
   .filter(path => /\.(profraw|profdata|lcov)$/i.test(path)).sort();

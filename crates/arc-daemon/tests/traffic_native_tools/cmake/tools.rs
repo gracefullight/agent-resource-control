@@ -3,8 +3,10 @@ use super::*;
 use serde_json::json;
 use std::{
     fs,
-    sync::atomic::{AtomicU64, Ordering},
-    time::{SystemTime, UNIX_EPOCH},
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        OnceLock,
+    },
 };
 
 pub struct Tools {
@@ -17,6 +19,17 @@ pub struct Tools {
     pub shims: PathBuf,
     pub observers: Value,
     versions: Value,
+    fixture_sources: [String; 2],
+}
+
+struct Installed {
+    cmake: PathBuf,
+    ctest: PathBuf,
+    compiler: PathBuf,
+    make: PathBuf,
+    cargo: PathBuf,
+    versions: Value,
+    fixture_sources: [String; 2],
 }
 
 fn resolve(name: &str) -> PathBuf {
@@ -29,9 +42,9 @@ fn resolve(name: &str) -> PathBuf {
 }
 
 fn version(path: &Path) -> Value {
-    let out = Command::new(path)
-        .arg("--version")
-        .output()
+    let mut command = Command::new(path);
+    command.arg("--version");
+    let out = super::super::go::owned::fixture_output(&mut command)
         .unwrap_or_else(|e| panic!("native prerequisite {}: {e}", path.display()));
     assert!(out.status.success(), "{}: {out:?}", path.display());
     json!({"path":path,"sha256":sha(path),"version":String::from_utf8(out.stdout).unwrap().trim()})
@@ -40,6 +53,36 @@ fn version(path: &Path) -> Value {
 impl Tools {
     pub fn installed() -> Self {
         static NEXT: AtomicU64 = AtomicU64::new(0);
+        static INSTALLED: OnceLock<Installed> = OnceLock::new();
+        let installed = INSTALLED.get_or_init(Self::probe);
+        let scratch = std::env::temp_dir().join(format!(
+            "arc-cmake-{}-{}-{}",
+            std::process::id(),
+            arc_core::process_identity::random_job_id().unwrap(),
+            NEXT.fetch_add(1, Ordering::Relaxed)
+        ));
+        fs::create_dir(&scratch).unwrap();
+        let shims = scratch.join("tool observers");
+        let observers = json!([
+            observer(&shims, "cmake", &installed.cmake),
+            observer(&shims, "ctest", &installed.ctest),
+            observer(&shims, "cargo", &installed.cargo)
+        ]);
+        Self {
+            cmake: installed.cmake.clone(),
+            ctest: installed.ctest.clone(),
+            compiler: installed.compiler.clone(),
+            make: installed.make.clone(),
+            cargo: installed.cargo.clone(),
+            scratch,
+            shims,
+            observers,
+            versions: installed.versions.clone(),
+            fixture_sources: installed.fixture_sources.clone(),
+        }
+    }
+
+    fn probe() -> Installed {
         let cmake = resolve("cmake");
         let ctest = resolve("ctest");
         let compiler = resolve("cc");
@@ -49,41 +92,27 @@ impl Tools {
             "cmake":version(&cmake),"ctest":version(&ctest),
             "compiler":version(&compiler),"make":version(&make),"cargo":version(&cargo)
         });
-        let scratch = std::env::temp_dir().join(format!(
-            "arc-cmake-{}-{}-{}",
-            std::process::id(),
-            SystemTime::now()
-                .duration_since(UNIX_EPOCH)
-                .unwrap()
-                .as_nanos(),
-            NEXT.fetch_add(1, Ordering::Relaxed)
-        ));
-        fs::create_dir(&scratch).unwrap();
-        let shims = scratch.join("tool observers");
-        let observers = json!([
-            observer(&shims, "cmake", &cmake),
-            observer(&shims, "ctest", &ctest),
-            observer(&shims, "cargo", &cargo)
-        ]);
-        Self {
+        let fixture_sources = [
+            sha(&root()
+                .join("crates/arc-daemon/tests/traffic_native_tools/cmake/sources/CMakeLists.txt")),
+            sha(&root()
+                .join("crates/arc-daemon/tests/traffic_native_tools/cmake/sources/fixture.c")),
+        ];
+        Installed {
             cmake,
             ctest,
             compiler,
             make,
             cargo,
-            scratch,
-            shims,
-            observers,
             versions,
+            fixture_sources,
         }
     }
 
     pub fn receipt(&self) -> Value {
         json!({"programs":self.versions,"offline":true,"generator":"Unix Makefiles",
             "dependencies":"C standard library only; configured and compiled by fixture",
-            "privateWritableCache":true,"fixtureSources":[
-                sha(&root().join("crates/arc-daemon/tests/traffic_native_tools/cmake/sources/CMakeLists.txt")),
-                sha(&root().join("crates/arc-daemon/tests/traffic_native_tools/cmake/sources/fixture.c"))]})
+            "privateWritableCache":true,"fixtureSources":self.fixture_sources})
     }
 }
 
@@ -98,6 +127,36 @@ impl RunnerTools for Tools {
 impl Drop for Tools {
     fn drop(&mut self) {
         // Only this invocation's private observer/cache tree, after owned children.
-        let _ = fs::remove_dir_all(&self.scratch);
+        if !std::thread::panicking() {
+            if let Err(error) = fs::remove_dir_all(&self.scratch) {
+                if error.kind() != std::io::ErrorKind::NotFound {
+                    panic!(
+                        "cannot remove owned scratch {}: {error}",
+                        self.scratch.display()
+                    );
+                }
+            }
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn installed_cmake_probe_is_shared_but_scratch_is_private() {
+        let first = Tools::installed();
+        let second = Tools::installed();
+        assert_eq!(first.receipt(), second.receipt());
+        assert_ne!(first.scratch, second.scratch);
+        fs::write(first.scratch.join("private"), b"first").unwrap();
+        assert!(!second.scratch.join("private").exists());
+        let first_path = first.scratch.clone();
+        let second_path = second.scratch.clone();
+        drop(first);
+        drop(second);
+        assert!(!first_path.exists());
+        assert!(!second_path.exists());
     }
 }

@@ -14,6 +14,7 @@ fn terminal(usage: bool) -> Termination {
     Termination {
         status: ExitStatus::from_raw(17 << 8),
         observed_at: Instant::now(),
+        delivery_observed_at: Instant::now(),
         usage: usage.then(|| TerminalUsage::from_timevals(zero, zero).unwrap()),
     }
 }

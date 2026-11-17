@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { rmSync } from "node:fs";
 import { EVIDENCE } from "./config";
 
 // Only scratch output moves. Historical baseline identities and standalone
@@ -14,4 +15,10 @@ export function coverageLayout(root:string, id:string, scratchRoot?:string) {
     latest:resolve(root,base,"latest.json"),
     nativeDirectory:scratchRoot===undefined?undefined:resolve(root,base,"runs",id,"native"),
   };
+}
+
+// Profiles and the profraw merge list live at the target root. Only the
+// instrumented Cargo build subtree is disposable after reports are validated.
+export function removeInstrumentedBuild(target:string) {
+  rmSync(resolve(target,"debug"),{recursive:true,force:true});
 }

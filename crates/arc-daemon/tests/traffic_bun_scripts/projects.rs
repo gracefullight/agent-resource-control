@@ -1,6 +1,10 @@
 //! Real installed tools and independent fixture sources. Shims observe then exec.
 use super::*;
-use std::sync::atomic::{AtomicU64, Ordering};
+use std::sync::{
+    atomic::{AtomicU64, Ordering},
+    OnceLock,
+};
+use std::{io, os::unix::process::CommandExt, process::Output};
 pub struct Tools {
     pub bun: PathBuf,
     pub cargo: PathBuf,
@@ -8,11 +12,20 @@ pub struct Tools {
     pub tsc: PathBuf,
     pub biome: PathBuf,
     pub shims: PathBuf,
+    receipt: Value,
+}
+struct Installed {
+    bun: PathBuf,
+    cargo: PathBuf,
+    vite: PathBuf,
+    tsc: PathBuf,
+    biome: PathBuf,
+    receipt: Value,
 }
 fn output(program: &Path, args: &[&str]) -> String {
-    let o = Command::new(program)
-        .args(args)
-        .output()
+    let mut command = Command::new(program);
+    command.args(args);
+    let o = fixture_output(&mut command)
         .unwrap_or_else(|e| panic!("required real tool {}: {e}", program.display()));
     assert!(
         o.status.success(),
@@ -21,30 +34,48 @@ fn output(program: &Path, args: &[&str]) -> String {
     );
     String::from_utf8(o.stdout).unwrap().trim().to_owned()
 }
+
+/// Run a fixture prerequisite with both output pipes drained and its own
+/// process group. The deadline only diagnoses an unresponsive owned child.
+pub(super) fn fixture_output(command: &mut Command) -> io::Result<Output> {
+    let description = format!("{command:?}");
+    command.stdin(Stdio::null());
+    let mut child = spawn_probe(command)?;
+    collect_probe(&mut child, Duration::from_secs(60), &description)
+}
+
+fn spawn_probe(command: &mut Command) -> io::Result<native::OwnedChild> {
+    command
+        .process_group(0)
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    command.spawn().map(native::OwnedChild::new)
+}
+
+fn collect_probe(
+    child: &mut native::OwnedChild,
+    timeout: Duration,
+    description: &str,
+) -> io::Result<Output> {
+    let pid = child.child.id();
+    child.wait_with_output_for(timeout, true).map_err(|error| {
+        io::Error::new(
+            error.kind(),
+            format!("fixture command {description}, child {pid}: {error}"),
+        )
+    })
+}
+
+#[cfg(test)]
+#[path = "probe_tests.rs"]
+mod probe_tests;
 fn quote(s: &str) -> String {
     format!("'{}'", s.replace('\'', "'\\''"))
 }
 impl Tools {
     pub fn installed() -> Self {
-        assert_eq!(output(Path::new("bun"), &["--version"]), "1.4.4");
-        let bun = PathBuf::from(output(Path::new("bun"), &["-p", "process.execPath"]));
-        let cargo = PathBuf::from(env!("CARGO"));
-        assert!(output(&cargo, &["--version"]).contains("1.95.0"));
-        let vite = root()
-            .join("apps/desktop/node_modules/.bin/vite")
-            .canonicalize()
-            .expect("installed pinned Vite");
-        let tsc = root()
-            .join("apps/desktop/node_modules/.bin/tsc")
-            .canonicalize()
-            .expect("installed pinned TypeScript");
-        let biome = root()
-            .join("node_modules/.bin/biome")
-            .canonicalize()
-            .expect("installed pinned Biome");
-        assert!(output(&vite, &["--version"]).contains("8.3.8"));
-        assert!(output(&tsc, &["--version"]).contains("7.0.2"));
-        assert!(output(&biome, &["--version"]).contains("2.6.6"));
+        static INSTALLED: OnceLock<Installed> = OnceLock::new();
+        let installed = INSTALLED.get_or_init(Self::probe);
         static NEXT: AtomicU64 = AtomicU64::new(0);
         let shims = root().join(format!(
             "target/traffic-bun-scripts/shims/{}-{}",
@@ -53,12 +84,13 @@ impl Tools {
         ));
         fs::create_dir_all(&shims).unwrap();
         let tools = Self {
-            bun: bun.canonicalize().unwrap(),
-            cargo: cargo.canonicalize().unwrap(),
-            vite,
-            tsc,
-            biome,
+            bun: installed.bun.clone(),
+            cargo: installed.cargo.clone(),
+            vite: installed.vite.clone(),
+            tsc: installed.tsc.clone(),
+            biome: installed.biome.clone(),
             shims,
+            receipt: installed.receipt.clone(),
         };
         for (name, real) in [
             ("bun", &tools.bun),
@@ -90,15 +122,63 @@ exec {real} "$@"
         }
         tools
     }
-    pub fn receipt(&self) -> Value {
-        json!([
-            (&self.bun, "1.4.4"),
-            (&self.cargo, "1.95.0"),
-            (&self.vite, "8.3.8"),
-            (&self.tsc, "7.0.2"),
-            (&self.biome, "2.6.6")
+
+    fn probe() -> Installed {
+        assert_eq!(output(Path::new("bun"), &["--version"]), "1.4.4");
+        let bun = PathBuf::from(output(Path::new("bun"), &["-p", "process.execPath"]));
+        let cargo = PathBuf::from(env!("CARGO"));
+        assert!(output(&cargo, &["--version"]).contains("1.95.0"));
+        let vite = root()
+            .join("apps/desktop/node_modules/.bin/vite")
+            .canonicalize()
+            .expect("installed pinned Vite");
+        let tsc = root()
+            .join("apps/desktop/node_modules/.bin/tsc")
+            .canonicalize()
+            .expect("installed pinned TypeScript");
+        let biome = root()
+            .join("node_modules/.bin/biome")
+            .canonicalize()
+            .expect("installed pinned Biome");
+        assert!(output(&vite, &["--version"]).contains("8.3.8"));
+        assert!(output(&tsc, &["--version"]).contains("7.0.2"));
+        assert!(output(&biome, &["--version"]).contains("2.6.6"));
+        let bun = bun.canonicalize().unwrap();
+        let cargo = cargo.canonicalize().unwrap();
+        let receipt = json!([
+            (&bun, "1.4.4"),
+            (&cargo, "1.95.0"),
+            (&vite, "8.3.8"),
+            (&tsc, "7.0.2"),
+            (&biome, "2.6.6")
         ]
-        .map(|(p, v)| json!({"path":p,"version":v,"sha256":sha(p)})))
+        .map(|(p, v)| json!({"path":p,"version":v,"sha256":sha(p)})));
+        Installed {
+            bun,
+            cargo,
+            vite,
+            tsc,
+            biome,
+            receipt,
+        }
+    }
+    pub fn receipt(&self) -> Value {
+        self.receipt.clone()
+    }
+}
+
+impl Drop for Tools {
+    fn drop(&mut self) {
+        if !std::thread::panicking() {
+            if let Err(error) = fs::remove_dir_all(&self.shims) {
+                if error.kind() != std::io::ErrorKind::NotFound {
+                    panic!(
+                        "cannot remove owned shims {}: {error}",
+                        self.shims.display()
+                    );
+                }
+            }
+        }
     }
 }
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

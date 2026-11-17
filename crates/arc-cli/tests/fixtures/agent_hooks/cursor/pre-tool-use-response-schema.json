@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Projection of the published preToolUse output table, not Cursor's internal schema or an approval-flow proof: https://cursor.com/docs/hooks#pretooluse",
+  "type": "object",
+  "required": ["permission"],
+  "properties": {
+    "permission": {"type": "string", "enum": ["allow", "deny", "ask"]},
+    "updated_input": {"type": "object"},
+    "user_message": {"type": "string"},
+    "agent_message": {"type": "string"}
+  }
+}

@@ -256,16 +256,38 @@ pub fn report_until(
     cancelled: &dyn Fn() -> bool,
     possibly_committed: &mut bool,
 ) -> Result<ReportReceipt, crate::client::Failure> {
-    use crate::client::{exchange_until, ExchangeOptions, Failure};
+    report_until_with_clock(
+        socket,
+        request_id,
+        report,
+        deadline,
+        cancelled,
+        possibly_committed,
+        &std::time::Instant::now,
+    )
+}
+
+/// The caller's monotonic clock governs both the budget clamp and transport.
+#[cfg(unix)]
+pub fn report_until_with_clock(
+    socket: &std::path::Path,
+    request_id: impl Into<String>,
+    report: &JobMeterReport,
+    deadline: std::time::Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    now: &dyn Fn() -> std::time::Instant,
+) -> Result<ReportReceipt, crate::client::Failure> {
+    use crate::client::{exchange_until_with_clock, ExchangeOptions, Failure};
     let request = report_request(request_id, report).map_err(|_| Failure::Local)?;
     report_exchange(
         &request,
         report,
         deadline,
-        std::time::Instant::now(),
+        now(),
         possibly_committed,
         |request, deadline, committed| {
-            exchange_until(
+            exchange_until_with_clock(
                 socket,
                 request,
                 deadline,
@@ -275,6 +297,7 @@ pub fn report_until(
                     continuity: None,
                     retry_busy: true,
                 },
+                now,
             )
         },
     )
@@ -307,14 +330,29 @@ pub fn summary_until(
     deadline: std::time::Instant,
     cancelled: &dyn Fn() -> bool,
 ) -> Result<JobMeterSummary, crate::client::Failure> {
-    use crate::client::{exchange_until, ExchangeOptions, Failure};
-    let request = summary_request(request_id, job_id).map_err(|_| Failure::Local)?;
-    let deadline = clamp_deadline(
-        std::time::Instant::now(),
+    summary_until_with_clock(
+        socket,
+        request_id,
+        job_id,
         deadline,
-        METER_SUMMARY_MAX_BUDGET_MS,
-    );
-    let value = exchange_until(
+        cancelled,
+        &std::time::Instant::now,
+    )
+}
+
+#[cfg(unix)]
+pub fn summary_until_with_clock(
+    socket: &std::path::Path,
+    request_id: impl Into<String>,
+    job_id: &str,
+    deadline: std::time::Instant,
+    cancelled: &dyn Fn() -> bool,
+    now: &dyn Fn() -> std::time::Instant,
+) -> Result<JobMeterSummary, crate::client::Failure> {
+    use crate::client::{exchange_until_with_clock, ExchangeOptions, Failure};
+    let request = summary_request(request_id, job_id).map_err(|_| Failure::Local)?;
+    let deadline = clamp_deadline(now(), deadline, METER_SUMMARY_MAX_BUDGET_MS);
+    let value = exchange_until_with_clock(
         socket,
         &request,
         deadline,
@@ -324,6 +362,7 @@ pub fn summary_until(
             continuity: None,
             retry_busy: false,
         },
+        now,
     )?;
     decode_summary(&value, job_id).map_err(|_| Failure::InvalidReply)
 }

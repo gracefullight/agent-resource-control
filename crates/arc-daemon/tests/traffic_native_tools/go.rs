@@ -3,7 +3,7 @@ use super::Read;
 mod cleanup;
 mod direct;
 mod execution;
-mod owned;
+pub(super) mod owned;
 mod projects;
 
 pub fn semantics(read: Read) {

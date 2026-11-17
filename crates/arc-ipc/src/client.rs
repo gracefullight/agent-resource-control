@@ -46,8 +46,36 @@ pub fn exchange_until(
     )
 }
 
-// Native regression seam: the same clock owns admission, retry and poll expiry.
-// No test clock or alternate timeout is selectable in a production build.
+/// Exchange with a caller-supplied monotonic clock. Admission, retries and
+/// socket readiness all use that clock and the same absolute deadline.
+pub fn exchange_until_with_clock(
+    socket: &Path,
+    request: &Request,
+    deadline: Instant,
+    cancelled: &dyn Fn() -> bool,
+    possibly_committed: &mut bool,
+    options: ExchangeOptions<'_>,
+    now: &dyn Fn() -> Instant,
+) -> Result<Value, Failure> {
+    exchange_with_clock(
+        request,
+        deadline,
+        cancelled,
+        possibly_committed,
+        options,
+        |end| {
+            DeadlineStream::connect_with_auth_clock(
+                socket,
+                end,
+                cancelled,
+                peer::ensure_same_user,
+                now,
+            )
+        },
+        now,
+    )
+}
+
 #[cfg(test)]
 pub(crate) fn exchange_until_clock(
     socket: &Path,
@@ -56,7 +84,8 @@ pub(crate) fn exchange_until_clock(
     possibly_committed: &mut bool,
     now: &dyn Fn() -> Instant,
 ) -> Result<Value, Failure> {
-    exchange_with_clock(
+    exchange_until_with_clock(
+        socket,
         request,
         deadline,
         &|| false,
@@ -64,15 +93,6 @@ pub(crate) fn exchange_until_clock(
         ExchangeOptions {
             continuity: None,
             retry_busy: true,
-        },
-        |end| {
-            DeadlineStream::connect_with_auth_clock(
-                socket,
-                end,
-                &|| false,
-                peer::ensure_same_user,
-                now,
-            )
         },
         now,
     )

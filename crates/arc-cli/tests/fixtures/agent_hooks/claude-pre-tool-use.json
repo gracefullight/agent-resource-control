@@ -1,0 +1,16 @@
+{
+  "session_id": "fixture-session",
+  "transcript_path": "/fixture/transcript.jsonl",
+  "cwd": "/fixture/workspace",
+  "permission_mode": "default",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_use_id": "fixture-tool",
+  "tool_input": {
+    "command": "cargo build",
+    "description": "fixture build",
+    "timeout": 120000,
+    "run_in_background": false,
+    "future_field": {"keep": [1, true, null]}
+  }
+}

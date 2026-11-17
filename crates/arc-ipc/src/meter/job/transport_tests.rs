@@ -39,7 +39,7 @@ impl Endpoint {
         }
     }
     fn accept(&self) -> UnixStream {
-        let deadline = Instant::now() + Duration::from_secs(60);
+        let end = Instant::now() + Duration::from_secs(60);
         loop {
             match self.listener.accept() {
                 Ok((stream, _)) => {
@@ -52,27 +52,30 @@ impl Endpoint {
                         .unwrap();
                     return stream;
                 }
-                Err(e)
-                    if e.kind() == std::io::ErrorKind::WouldBlock && Instant::now() < deadline =>
-                {
-                    let mut ready = libc::pollfd {
-                        fd: self.listener.as_raw_fd(),
-                        events: libc::POLLIN,
-                        revents: 0,
-                    };
-                    let remaining = deadline.saturating_duration_since(Instant::now());
-                    let result = unsafe {
-                        libc::poll(&mut ready, 1, remaining.as_millis().try_into().unwrap())
-                    };
-                    assert_ne!(result, 0, "accept timed out");
-                    if result < 0 {
-                        assert_eq!(
-                            std::io::Error::last_os_error().kind(),
-                            std::io::ErrorKind::Interrupted
-                        );
-                    }
+                Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => (),
+                Err(error) => panic!("Meter peer accept failed: {error}"),
+            }
+            let remaining = end.saturating_duration_since(Instant::now());
+            assert!(
+                !remaining.is_zero(),
+                "Meter peer never received a connection"
+            );
+            let mut fd = libc::pollfd {
+                fd: self.listener.as_raw_fd(),
+                events: libc::POLLIN,
+                revents: 0,
+            };
+            let timeout = remaining.as_millis().max(1).min(i32::MAX as u128) as i32;
+            let ready = unsafe { libc::poll(&mut fd, 1, timeout) };
+            if ready < 0 {
+                let error = std::io::Error::last_os_error();
+                if error.kind() != std::io::ErrorKind::Interrupted {
+                    panic!("Meter peer poll failed: {error}");
                 }
-                Err(e) => panic!("accept failed or timed out: {e}"),
+            } else if ready == 0 {
+                panic!("Meter peer never received a connection");
+            } else if fd.revents & (libc::POLLERR | libc::POLLNVAL) != 0 {
+                panic!("Meter peer listener failed: {}", fd.revents);
             }
         }
     }
@@ -116,13 +119,15 @@ fn lost_ack_retries_the_exact_report_without_any_execution_path() {
         crate::write_response(&mut second, &report_response(&retried, &unchanged)).unwrap();
     });
     let mut possibly_committed = false;
-    let result = report_until(
+    let now = Instant::now();
+    let result = report_until_with_clock(
         &socket,
         "stable-report",
         &fixture(),
-        Instant::now() + Duration::from_secs(1),
+        now + Duration::from_secs(1),
         &|| false,
         &mut possibly_committed,
+        &|| now,
     )
     .unwrap();
     assert_eq!(result.disposition, ReportDisposition::Unchanged);
@@ -134,15 +139,19 @@ fn lost_ack_retries_the_exact_report_without_any_execution_path() {
 fn stalled_reporting_obeys_its_clamped_post_termination_budget() {
     let endpoint = Endpoint::new();
     let socket = endpoint.socket.clone();
-    let (done, release) = std::sync::mpsc::channel();
     let expired = std::sync::Arc::new(std::sync::atomic::AtomicBool::new(false));
     let reached = expired.clone();
+    let (release, hold) = std::sync::mpsc::channel();
     let server = thread::spawn(move || {
         let mut peer = endpoint.accept();
         let request: Request = crate::read_message(&mut peer).unwrap();
         assert_eq!(request.operation, OPERATION_METER_REPORT);
         reached.store(true, std::sync::atomic::Ordering::SeqCst);
-        release.recv_timeout(Duration::from_secs(60)).unwrap();
+        // Keep the socket open and send no acknowledgement. A disconnect cannot
+        // explain the client's outcome. The watchdog only diagnoses a hang.
+        hold.recv_timeout(Duration::from_secs(60))
+            .expect("clamped report did not finish while peer stalled");
+        drop(peer);
     });
     let start = Instant::now();
     let deadline = start + Duration::from_millis(METER_REPORT_MAX_BUDGET_MS);
@@ -155,25 +164,47 @@ fn stalled_reporting_obeys_its_clamped_post_termination_budget() {
     };
     let mut uncertain = false;
     let report = fixture();
-    let request = report_request("stalled", &report).unwrap();
     assert_eq!(
-        report_exchange(
-            &request,
+        report_until_with_clock(
+            &socket,
+            "stalled",
             &report,
             start + Duration::from_secs(10),
-            start,
+            &|| false,
             &mut uncertain,
-            |request, end, committed| {
-                assert_eq!(end, deadline);
-                crate::client::exchange_until_clock(&socket, request, end, committed, &now)
-            }
+            &now,
         ),
         Err(Failure::Uncertain)
     );
     assert!(uncertain);
     assert!(expired.load(std::sync::atomic::Ordering::SeqCst));
-    done.send(()).unwrap();
+    release.send(()).unwrap();
     server.join().unwrap();
+}
+
+#[test]
+fn report_passes_the_clamped_absolute_deadline_to_transport() {
+    let report = fixture();
+    let request = report_request("deadline", &report).unwrap();
+    let now = Instant::now();
+    let max = Duration::from_millis(METER_REPORT_MAX_BUDGET_MS);
+    for original in [now + max / 2, now + max * 4] {
+        let mut committed = false;
+        let result = report_exchange(
+            &request,
+            &report,
+            original,
+            now,
+            &mut committed,
+            |actual_request, deadline, _| {
+                assert_eq!(actual_request, &request);
+                assert_eq!(deadline, original.min(now + max));
+                Err(Failure::Unavailable)
+            },
+        );
+        assert_eq!(result, Err(Failure::Unavailable));
+        assert!(!committed);
+    }
 }
 
 #[test]
@@ -207,28 +238,35 @@ fn unsupported_and_unavailable_stay_distinct_on_authenticated_transport() {
     ] {
         let endpoint = Endpoint::new();
         let socket = endpoint.socket.clone();
-        let (ready, started) = std::sync::mpsc::sync_channel(0);
         let server = thread::spawn(move || {
-            ready.send(()).unwrap();
             let mut peer = endpoint.accept();
             let request: Request = crate::read_message(&mut peer).unwrap();
             assert_eq!(request.operation, operation);
             crate::write_response(&mut peer, &Response::error(request.request_id, code)).unwrap();
         });
-        started.recv_timeout(Duration::from_secs(60)).unwrap();
-        let end = Instant::now() + Duration::from_secs(1);
+        let now = Instant::now();
+        let end = now + Duration::from_secs(1);
         let failure = if operation == OPERATION_METER_REPORT {
-            report_until(
+            report_until_with_clock(
                 &socket,
                 "unsupported",
                 &fixture(),
                 end,
                 &|| false,
                 &mut false,
+                &|| now,
             )
             .unwrap_err()
         } else {
-            summary_until(&socket, "unsupported", &fixture().job_id, end, &|| false).unwrap_err()
+            summary_until_with_clock(
+                &socket,
+                "unsupported",
+                &fixture().job_id,
+                end,
+                &|| false,
+                &|| now,
+            )
+            .unwrap_err()
         };
         assert_eq!(failure, expected);
         server.join().unwrap();
@@ -294,27 +332,30 @@ fn valid_summary_and_malformed_report_ack_are_correlated() {
             crate::write_response(&mut peer, &response).unwrap();
         });
         let mut uncertain = false;
+        let logical_now = Instant::now() + Duration::from_secs(3600);
         if report_case {
             assert_eq!(
-                report_until(
+                report_until_with_clock(
                     &socket,
                     "r",
                     &fixture(),
-                    Instant::now() + Duration::from_secs(1),
+                    logical_now + Duration::from_secs(1),
                     &|| false,
-                    &mut uncertain
+                    &mut uncertain,
+                    &|| logical_now,
                 ),
                 Err(Failure::InvalidReply)
             );
             assert!(uncertain);
         } else {
             assert_eq!(
-                summary_until(
+                summary_until_with_clock(
                     &socket,
                     "s",
                     &fixture().job_id,
-                    Instant::now() + Duration::from_secs(1),
-                    &|| false
+                    logical_now + Duration::from_secs(1),
+                    &|| false,
+                    &|| logical_now,
                 ),
                 Ok(summary())
             );
@@ -337,4 +378,29 @@ fn injected_now_clamps_report_and_summary_without_renewing_expired_budgets() {
         let expired = now - Duration::from_millis(1);
         assert_eq!(clamp_deadline(now, expired, max_ms), expired);
     }
+    let socket = std::path::Path::new("/unused-job-meter-clock.sock");
+    let expired_now = || now + Duration::from_secs(10);
+    assert_eq!(
+        report_until_with_clock(
+            socket,
+            "expired",
+            &fixture(),
+            now + Duration::from_secs(1),
+            &|| false,
+            &mut false,
+            &expired_now
+        ),
+        Err(Failure::Unavailable)
+    );
+    assert_eq!(
+        summary_until_with_clock(
+            socket,
+            "expired",
+            &fixture().job_id,
+            now + Duration::from_secs(1),
+            &|| false,
+            &expired_now
+        ),
+        Err(Failure::Unavailable)
+    );
 }

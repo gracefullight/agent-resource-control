@@ -31,7 +31,7 @@ pub fn pair<T: RunnerTools>(case: Case<T>, descriptor: Pair, first: Prepared, se
     assert!(a.wrapper.child.try_wait().unwrap().is_none());
     assert_eq!(case.active()["permits"], 1);
     assert_eq!(log(&second.project.join("launches")).lines().count(), 0);
-    a.finish(0);
+    finish(&mut a, first.form);
     let released_a = terminal(&case, &a, first.form, 0);
     let entered_b = entered(&case, &mut b, &second);
     assert_eq!(queued_b.job_id, entered_b.job_id);
@@ -45,11 +45,16 @@ pub fn pair<T: RunnerTools>(case: Case<T>, descriptor: Pair, first: Prepared, se
         "RELEASED"
     );
     assert_eq!(probe_live(&entered_a.child), IdentityStatus::Missing);
-    b.finish(0);
+    finish(&mut b, second.form);
     let released_b = terminal(&case, &b, second.form, 0);
     assert_eq!(probe_live(&entered_b.child), IdentityStatus::Missing);
     let permits = permit_history(&case, first.form.class(), 2, 1);
     assert_eq!(permits["matchingClassPermitHighWater"], 1);
+    for prepared in [&first, &second] {
+        if matches!(prepared.form, Form::SwiftBuild | Form::SwiftTest) {
+            super::swift::assert_completed(&prepared.project);
+        }
+    }
     case.save(
         descriptor.id,
         json!({"pairId":descriptor.id,"productionDaemon":true,
@@ -59,6 +64,14 @@ pub fn pair<T: RunnerTools>(case: Case<T>, descriptor: Pair, first: Prepared, se
     );
     // Run/OwnedChild retain the established process-tree cleanup through unwinding too.
     case.done();
+}
+
+fn finish(run: &mut Run, form: Form) {
+    if matches!(form, Form::SwiftBuild | Form::SwiftTest) {
+        super::finish_swift(run, 0);
+    } else {
+        run.finish(0);
+    }
 }
 
 /// An existing-class native Cargo peer: standard library only, no registry access.

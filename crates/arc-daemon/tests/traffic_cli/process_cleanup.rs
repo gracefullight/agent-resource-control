@@ -45,14 +45,16 @@ fn disappeared(pid: u32) -> io::Result<bool> {
 }
 
 pub(super) fn capture(pid: u32) -> io::Result<Option<ProcessIdentity>> {
-    let end = std::time::Instant::now() + std::time::Duration::from_millis(100);
+    // Identity may disappear temporarily at the live-to-zombie transition.
+    // Retry observable identity/disappearance, with a diagnostic hang guard.
+    let end = std::time::Instant::now() + std::time::Duration::from_secs(60);
     retry_capture_with(
         || capture_with(pid, ProcessIdentity::capture, disappeared),
         || {
             if std::time::Instant::now() >= end {
                 return false;
             }
-            std::thread::sleep(std::time::Duration::from_millis(1));
+            std::thread::yield_now();
             true
         },
     )
@@ -125,32 +127,40 @@ pub(super) fn child_identity(parent: u32, pid: u32) -> io::Result<Option<Process
     let Some(identity) = capture(pid)? else {
         return Ok(None);
     };
-    // SAFETY: proc_bsdinfo is an initialized output buffer of the required size.
-    let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
-    let size = std::mem::size_of::<libc::proc_bsdinfo>() as libc::c_int;
-    let written = unsafe {
-        libc::proc_pidinfo(
-            pid as libc::c_int,
-            libc::PROC_PIDTBSDINFO,
-            0,
-            (&mut info as *mut libc::proc_bsdinfo).cast(),
-            size,
-        )
-    };
-    if written != size {
+    // A live child may become a zombie between identity and parent reads.
+    // Observe either its parent or disappearance, rather than deciding from
+    // a short retry interval under load. The deadline only diagnoses a hang.
+    let end = std::time::Instant::now() + std::time::Duration::from_secs(60);
+    let info = loop {
+        let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
+        let size = std::mem::size_of::<libc::proc_bsdinfo>() as libc::c_int;
+        let written = unsafe {
+            libc::proc_pidinfo(
+                pid as libc::c_int,
+                libc::PROC_PIDTBSDINFO,
+                0,
+                (&mut info as *mut libc::proc_bsdinfo).cast(),
+                size,
+            )
+        };
+        if written == size {
+            break info;
+        }
         let error = io::Error::last_os_error();
-        return match disappeared(pid) {
-            Ok(true) => Ok(None),
-            Ok(false) => Err(io::Error::new(
+        match disappeared(pid) {
+            Ok(true) => return Ok(None),
+            Err(probe_error) => return Err(io::Error::new(error.kind(),
+                format!("cannot verify parent of pid {pid}: {error}; disappearance probe: {probe_error}"))),
+            Ok(false) => (),
+        }
+        if std::time::Instant::now() >= end {
+            return Err(io::Error::new(
                 error.kind(),
                 format!("cannot verify parent of pid {pid}: {error}"),
-            )),
-            Err(probe_error) => Err(io::Error::new(
-                error.kind(),
-                format!("cannot verify parent of pid {pid}: {error}; disappearance probe: {probe_error}"),
-            )),
-        };
-    }
+            ));
+        }
+        std::thread::yield_now();
+    };
     if info.pbi_ppid != parent {
         return Err(io::Error::other(format!(
             "pid {pid} is no longer a child of pid {parent}"

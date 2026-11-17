@@ -5,7 +5,7 @@ import { hash, sourceInventory, inputIdentity, walk } from "./source";
 import { requireExit, requireVersion, validateReport, enforce, requireWorkspace } from "./gate";
 import { command, type Receipt } from "./commands";
 import { referenceFile } from "./evidence";
-import { coverageLayout } from "./output-layout";
+import { coverageLayout, removeInstrumentedBuild } from "./output-layout";
 import type { CoverageReuse } from "./coverage-receipts";
 
 const root=resolve(import.meta.dir,"../..");
@@ -116,6 +116,7 @@ try {
   for(const crate of result.crates) console.log(`${crate.pass?"PASS":"FAIL"} ${crate.crate}: ${crate.covered}/${crate.total} production lines (${crate.percent.toFixed(2)}%; requires 80%)`);
   console.log(`Coverage reports: ${relative(root,dir)}`);
   enforce(result);
+  removeInstrumentedBuild(target);
   save("receipt.json",{schemaVersion:1,runId:id,pass:true,exit:0,acceptedBaseline:BASELINE,sourceHash:input.sha256,receipts});
   const ref=(name:string)=>referenceFile(root,relative(root,join(dir,name)));
   const reuse:CoverageReuse={schemaVersion:1,runId:id,sourceHash:input.sha256,acceptedBaseline:BASELINE,

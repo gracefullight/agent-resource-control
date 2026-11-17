@@ -2,8 +2,6 @@ use std::{
     fs::{File, OpenOptions},
     os::unix::fs::{MetadataExt, OpenOptionsExt},
     sync::{Mutex, MutexGuard},
-    thread,
-    time::{Duration, Instant},
 };
 
 /// Separate from production admission; shared by threads and integration binaries.
@@ -43,26 +41,13 @@ pub fn serial() -> Serial {
     assert!(metadata.is_file());
     assert_eq!(metadata.uid(), uid);
     assert_eq!(metadata.mode() & 0o7777, 0o600);
-    // Cold native suites in another managed checkout can retain this shared
-    // lock for several minutes. This is coordination, not a job-start barrier.
-    let deadline = Instant::now() + Duration::from_secs(600);
-    loop {
-        match file.try_lock() {
-            Ok(()) => {
-                return Serial {
-                    _file: Some(file),
-                    _thread: thread,
-                }
-            }
-            Err(std::fs::TryLockError::WouldBlock) => {
-                assert!(
-                    Instant::now() < deadline,
-                    "daemon fixture coordination timed out: {}",
-                    path.display()
-                );
-                thread::sleep(Duration::from_millis(20));
-            }
-            Err(error) => panic!("daemon fixture coordination failed: {error}"),
-        }
+    // The production daemon owns one per-user instance anchor. Wait directly
+    // on that shared fixture lock rather than polling or imposing a deadline.
+    if let Err(error) = file.lock() {
+        panic!("daemon fixture coordination failed: {error}");
+    }
+    Serial {
+        _file: Some(file),
+        _thread: thread,
     }
 }

@@ -3,6 +3,7 @@ use super::*;
 use arc_core::process_identity::{probe_live, IdentityStatus, ProcessIdentity};
 use serde::Serialize;
 use serde_json::{json, Value};
+use std::time::{Duration, Instant};
 
 #[derive(Debug, Serialize)]
 pub struct ReadyWitness {
@@ -27,8 +28,40 @@ pub struct ReleaseWitness {
 pub fn marker_ready(run: &mut Run) -> bool {
     log(&run.project.join("bodies")).lines().count() == 1
 }
+
+#[track_caller]
+fn await_witness(description: &str, watchdog: Duration, mut observe: impl FnMut() -> bool) {
+    let end = Instant::now() + watchdog;
+    while !observe() {
+        assert!(
+            Instant::now() < end,
+            "native tool never reached {description}"
+        );
+        std::thread::yield_now();
+    }
+}
+
 pub fn entered<T>(case: &Case<T>, run: &mut Run, prepared: &Prepared) -> ReadyWitness {
-    eventually(|| {
+    // An admitted SwiftPM process may spend substantial time compiling before
+    // reaching its native FIFO. A queued process has not started that work at
+    // all. The native observer publishes its launch only after admission, so
+    // observe that file separately from the native-body barrier without spawning
+    // repeated SQLite readers while another case owns the class slot.
+    let swift = matches!(prepared.form, Form::SwiftBuild | Form::SwiftTest);
+    let admission_watchdog = Duration::from_secs(if swift { 600 } else { 60 });
+    let readiness_watchdog = Duration::from_secs(if swift { 300 } else { 60 });
+    await_witness("admission", admission_watchdog, || {
+        assert!(
+            run.wrapper.child.try_wait().unwrap().is_none(),
+            "native tool exited before admission: {} {}",
+            log(&run.project.join("stdout")),
+            log(&run.project.join("stderr"))
+        );
+        let launches = log(&run.project.join("launches")).lines().count();
+        assert!(launches <= 1, "native tool launched more than once");
+        launches == 1
+    });
+    await_witness("native-body readiness", readiness_watchdog, || {
         assert!(
             run.wrapper.child.try_wait().unwrap().is_none(),
             "native tool exited before explicit readiness: {} {}",
@@ -54,6 +87,51 @@ pub fn entered<T>(case: &Case<T>, run: &mut Run, prepared: &Prepared) -> ReadyWi
         facts: case.reconcile(&id, prepared.form.class(), prepared.form.reason()),
         starts: 1,
     }
+}
+
+#[test]
+fn admission_and_native_readiness_are_observed_as_separate_states() {
+    use std::{fs, sync::mpsc};
+
+    let directory = std::env::temp_dir().join(format!(
+        "arc-native-witness-{}",
+        arc_core::process_identity::random_job_id().unwrap()
+    ));
+    fs::create_dir(&directory).unwrap();
+    let (release, receive_release) = mpsc::channel();
+    let (finished, receive_finished) = mpsc::channel();
+    let peer_directory = directory.clone();
+    let peer = std::thread::spawn(move || {
+        fs::write(peer_directory.join("admitted.pending"), b"admitted").unwrap();
+        fs::rename(
+            peer_directory.join("admitted.pending"),
+            peer_directory.join("admitted"),
+        )
+        .unwrap();
+        receive_release
+            .recv_timeout(Duration::from_secs(60))
+            .expect("native readiness peer was never released");
+        fs::write(peer_directory.join("native-ready.pending"), b"ready").unwrap();
+        fs::rename(
+            peer_directory.join("native-ready.pending"),
+            peer_directory.join("native-ready"),
+        )
+        .unwrap();
+        finished.send(()).unwrap();
+    });
+    await_witness("admission", Duration::from_secs(60), || {
+        directory.join("admitted").is_file()
+    });
+    assert!(!directory.join("native-ready").exists());
+    release.send(()).unwrap();
+    await_witness("native-body readiness", Duration::from_secs(60), || {
+        directory.join("native-ready").is_file()
+    });
+    receive_finished
+        .recv_timeout(Duration::from_secs(60))
+        .expect("native readiness peer never exited");
+    peer.join().unwrap();
+    fs::remove_dir_all(directory).unwrap();
 }
 pub fn queued<T>(case: &Case<T>, run: &mut Run, form: Form) -> QueueWitness {
     let id = case.job(run.wrapper.child.id());

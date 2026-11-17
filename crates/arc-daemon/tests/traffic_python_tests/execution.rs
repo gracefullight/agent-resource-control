@@ -1,6 +1,8 @@
 //! Direct/native parity and production-daemon Meter/lineage checks.
 use super::*;
 
+static MANAGED_PARITY: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
 pub fn semantics(read: Read) {
     let case = case("semantics", read, false);
     let mut observations = Vec::new();
@@ -81,39 +83,33 @@ pub fn semantics(read: Read) {
             vec!["python", "-m", "unittest", "test_fixture.py"],
         ),
     ];
-    for (name, kind, argv) in scenarios {
-        observations.push(parity(&case, name, kind, &argv, 0, false, None));
+    let mut independent: Vec<(String, Kind, Vec<&str>, i32, bool)> = scenarios
+        .into_iter()
+        .map(|(name, kind, argv)| (name.to_owned(), kind, argv, 0, false))
+        .collect();
+    for kind in [Kind::Pytest, Kind::Unittest] {
+        independent.push((format!("{kind:?}-failure"), kind, kind.argv(), 1, false));
+        independent.push((format!("{kind:?}-stdin"), kind, kind.argv(), 0, true));
     }
     for kind in [Kind::Pytest, Kind::Unittest] {
-        observations.push(parity(
-            &case,
-            &format!("{kind:?}-failure"),
-            kind,
-            &kind.argv(),
-            1,
-            false,
-            None,
-        ));
-        observations.push(parity(
-            &case,
-            &format!("{kind:?}-stdin"),
-            kind,
-            &kind.argv(),
-            0,
-            true,
-            None,
-        ));
+        independent.push((format!("{kind:?}-exit17"), kind, kind.argv(), 17, false));
     }
-    for kind in [Kind::Pytest, Kind::Unittest] {
-        observations.push(parity(
-            &case,
-            &format!("{kind:?}-exit17"),
-            kind,
-            &kind.argv(),
-            17,
-            false,
-            None,
-        ));
+    // Projects and native children are private to each case. Keep bounded
+    // batches so the direct baselines can overlap while the production daemon
+    // still enforces the single TEST permit for managed executions.
+    for batch in independent.chunks(4) {
+        observations.extend(thread::scope(|scope| {
+            let jobs: Vec<_> = batch
+                .iter()
+                .map(|(name, kind, argv, code, stdin)| {
+                    let case = &case;
+                    scope.spawn(move || parity(case, name, *kind, argv, *code, *stdin, None))
+                })
+                .collect();
+            jobs.into_iter()
+                .map(|job| job.join().unwrap())
+                .collect::<Vec<_>>()
+        }));
     }
     // An actual venv interpreter (no fake pytest script, pip or installation).
     // Both lexical relative and absolute venv executable paths are exercised.
@@ -188,6 +184,10 @@ fn parity(
     assert_eq!(log(&p.join("bodies")).lines().count(), 1);
     let expected_native: Value =
         serde_json::from_slice(&fs::read(p.join("native.json")).unwrap()).unwrap();
+    // A queued managed run has legitimate ARC notices on stderr. Keep managed
+    // parity invocations mutually exclusive so the exact native-stream
+    // assertion remains meaningful while independent native baselines overlap.
+    let _managed = MANAGED_PARITY.lock().unwrap();
     write(&p.join("bodies"), "");
     write(&p.join("launches"), "");
     let mut managed = start_with(case, &p, argv, configure);

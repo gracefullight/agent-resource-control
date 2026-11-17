@@ -183,7 +183,7 @@ fn freeze_tree_with_ops(
     }
     let process =
         frozen.ok_or_else(|| io::Error::other("fixture process generation kept changing"))?;
-    let deadline = Instant::now() + Duration::from_secs(5);
+    let watchdog = Instant::now() + Duration::from_secs(60);
     loop {
         match read_info(identity.pid) {
             Some(state) if !owned_tree_process::matches_identity(&state, &identity) => {
@@ -208,13 +208,16 @@ fn freeze_tree_with_ops(
             }
             _ => (),
         }
-        if Instant::now() >= deadline {
+        // The signal was sent to the verified generation. Wait for the
+        // kernel's stopped state, rather than treating scheduler delay as a
+        // failure or enumerating an unfrozen process tree.
+        if Instant::now() >= watchdog {
             return Err(io::Error::new(
                 io::ErrorKind::TimedOut,
-                "cannot freeze fixture process",
+                format!("fixture process {} never stopped", identity.pid),
             ));
         }
-        thread::sleep(Duration::from_millis(1));
+        thread::yield_now();
     }
     let pids = ops.children(identity.pid)?;
     // Discard a PID-only child listing if its parent exited or was replaced
@@ -374,23 +377,44 @@ fn freeze_uncaptured_root(anchor: &Child, owned: &mut Vec<OwnedProcess>) -> io::
     if unsafe { libc::kill(root as i32, libc::SIGSTOP) } != 0 {
         return Err(io::Error::last_os_error());
     }
-    let deadline = Instant::now() + Duration::from_secs(5);
+    let watchdog = Instant::now() + Duration::from_secs(60);
     loop {
+        if Instant::now() >= watchdog {
+            return Err(io::Error::new(
+                io::ErrorKind::TimedOut,
+                format!("unidentified fixture root {root} never reported stop or exit"),
+            ));
+        }
+        let mut event: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        // The unreaped Child is ours; only its observed stop or exit can
+        // complete this wait. The deadline diagnoses a hung fixture.
+        let result = unsafe {
+            libc::waitid(
+                libc::P_PID,
+                root,
+                &mut event,
+                libc::WSTOPPED | libc::WEXITED | libc::WNOWAIT | libc::WNOHANG,
+            )
+        };
+        if result != 0 {
+            let error = io::Error::last_os_error();
+            if error.kind() == io::ErrorKind::Interrupted {
+                continue;
+            }
+            return Err(error);
+        }
+        if event.si_pid == 0 {
+            thread::yield_now();
+            continue;
+        }
+        if event.si_pid != root as libc::pid_t || event.si_code != libc::CLD_STOPPED {
+            return Err(io::Error::other(
+                "unidentified root exited before discovery",
+            ));
+        }
         match info(root) {
             Some(state) if state.pbi_status == libc::SSTOP => break,
-            Some(state) if state.pbi_status == libc::SZOMB => {
-                return Err(io::Error::other(
-                    "unidentified root exited before discovery",
-                ));
-            }
-            None => return Err(io::Error::other("unidentified root state unavailable")),
-            _ if Instant::now() >= deadline => {
-                return Err(io::Error::new(
-                    io::ErrorKind::TimedOut,
-                    "cannot freeze root",
-                ));
-            }
-            _ => thread::sleep(Duration::from_millis(1)),
+            _ => return Err(io::Error::other("unidentified root is no longer stopped")),
         }
     }
     for pid in children(root)? {

@@ -2,8 +2,11 @@
 use arc_core::process_identity::ProcessIdentity;
 use std::{
     io::{self, Read},
-    os::fd::{AsRawFd, FromRawFd, OwnedFd},
-    process::{Child, Command, ExitStatus, Output, Stdio},
+    os::{
+        fd::{AsRawFd, FromRawFd, OwnedFd},
+        unix::process::CommandExt,
+    },
+    process::{Child, Command, Output, Stdio},
     sync::{
         atomic::{AtomicU64, Ordering},
         Arc,
@@ -48,6 +51,7 @@ pub fn counts() -> (u64, u64) {
 
 pub struct GoChild {
     pub child: Child,
+    marker: marker::Marker,
     owned: Vec<ProcessIdentity>,
     reaped: bool,
     clean: bool,
@@ -55,11 +59,17 @@ pub struct GoChild {
 }
 impl GoChild {
     pub fn spawn(command: &mut Command) -> io::Result<Self> {
+        // Reserve a private group before exec so an orphaned pipe holder can
+        // still be identified while the direct child remains unreaped.
+        command.process_group(0);
+        let mut marker = marker::Marker::attach(command)?;
         let child = command.spawn()?;
+        marker.close_parent();
         let counts = COUNTS.with(Arc::clone);
         counts.started.fetch_add(1, Ordering::SeqCst);
         let mut guard = Self {
             child,
+            marker,
             owned: Vec::new(),
             reaped: false,
             clean: false,
@@ -72,7 +82,28 @@ impl GoChild {
     }
 
     pub fn observe(&mut self) -> io::Result<()> {
-        self.reaped |= self.child.try_wait()?.is_some();
+        if self.exited_without_reaping()? {
+            self.observe_marker()?;
+        }
+        self.observe_tree()
+    }
+
+    fn observe_marker(&mut self) -> io::Result<()> {
+        for identity in self.marker.identities()? {
+            if !self.owned.contains(&identity) {
+                self.owned.push(identity);
+            }
+        }
+        Ok(())
+    }
+
+    fn observe_all(&mut self) -> io::Result<()> {
+        self.observe_marker()?;
+        self.observe_tree()
+    }
+
+    fn observe_tree(&mut self) -> io::Result<()> {
+        self.observe_group()?;
         let mut at = 0;
         while at < self.owned.len() {
             let parent = self.owned[at].clone();
@@ -100,12 +131,86 @@ impl GoChild {
 
     fn current(&mut self, identity: &ProcessIdentity) -> io::Result<bool> {
         if identity.pid == self.child.id() {
-            self.reaped |= self.child.try_wait()?.is_some();
             if self.reaped {
                 return Ok(false);
             }
+            // Do not reap the group anchor until the final group observation.
+            return Ok(!self.exited_without_reaping()?);
         }
         Ok(crate::cleanup::capture(identity.pid)?.as_ref() == Some(identity))
+    }
+
+    fn exited_without_reaping(&self) -> io::Result<bool> {
+        let mut info: libc::siginfo_t = unsafe { std::mem::zeroed() };
+        let result = unsafe {
+            libc::waitid(
+                libc::P_PID,
+                self.child.id(),
+                &mut info,
+                libc::WEXITED | libc::WNOHANG | libc::WNOWAIT,
+            )
+        };
+        if result != 0 {
+            return Err(io::Error::last_os_error());
+        }
+        Ok(info.si_pid != 0
+            && matches!(
+                info.si_code,
+                libc::CLD_EXITED | libc::CLD_KILLED | libc::CLD_DUMPED
+            ))
+    }
+
+    fn observe_group(&mut self) -> io::Result<()> {
+        if self.reaped {
+            return Ok(());
+        }
+        // waitid confirms this is still our unreaped child, even after exit;
+        // its reserved PID prevents the private group ID from being reused.
+        match self.exited_without_reaping() {
+            Ok(_) => (),
+            Err(error) if error.raw_os_error() == Some(libc::ECHILD) => {
+                self.reaped = self.child.try_wait()?.is_some();
+                return Ok(());
+            }
+            Err(error) => return Err(error),
+        }
+        let mut ids = vec![0i32; 128];
+        loop {
+            let bytes = unsafe {
+                *libc::__error() = 0;
+                libc::proc_listpids(
+                    2,
+                    self.child.id(),
+                    ids.as_mut_ptr().cast(),
+                    std::mem::size_of_val(ids.as_slice()) as i32,
+                )
+            };
+            if bytes < 0 || (bytes == 0 && io::Error::last_os_error().raw_os_error() != Some(0)) {
+                return Err(io::Error::last_os_error());
+            }
+            let count = bytes as usize / std::mem::size_of::<i32>();
+            if count == ids.len() {
+                if ids.len() >= 16_384 {
+                    return Err(io::Error::other("Go fixture process group limit"));
+                }
+                ids.resize(ids.len() * 2, 0);
+                continue;
+            }
+            for pid in ids[..count].iter().copied().filter(|pid| *pid > 0) {
+                if pid as u32 == self.child.id() {
+                    continue;
+                }
+                let Some(identity) = crate::cleanup::capture(pid as u32)? else {
+                    continue;
+                };
+                if unsafe { libc::getpgid(pid) } == self.child.id() as i32
+                    && !self.owned.contains(&identity)
+                {
+                    self.owned.push(identity);
+                }
+            }
+            return Ok(());
+        }
     }
 
     pub fn identities(&self) -> Vec<ProcessIdentity> {
@@ -115,7 +220,7 @@ impl GoChild {
     /// Stop children before their parent; retain exact native identities and
     /// require disappearance, including zombie reaping, before reporting success.
     pub fn stop(&mut self) -> io::Result<()> {
-        self.stop_with(Self::observe, crate::cleanup::kill_tree)
+        self.stop_with(Self::observe_all, crate::cleanup::kill_tree)
     }
 
     fn stop_with(
@@ -163,6 +268,22 @@ impl GoChild {
                 }
                 Ok(false) => (),
                 Err(error) => errors.push(error.to_string()),
+            }
+        }
+        if !errors.is_empty() && !self.reaped {
+            // Visit recorded identities before the group fallback: signalling
+            // the group first can make the root exit before its tree is visited.
+            // The unreaped child still reserves the group until it is reaped.
+            match self.exited_without_reaping() {
+                Ok(_) => {
+                    if unsafe { libc::kill(-(self.child.id() as i32), libc::SIGKILL) } != 0 {
+                        let error = io::Error::last_os_error();
+                        if error.raw_os_error() != Some(libc::ESRCH) {
+                            errors.push(format!("cannot terminate Go fixture group: {error}"));
+                        }
+                    }
+                }
+                Err(error) => errors.push(format!("cannot verify Go fixture group: {error}")),
             }
         }
         if !self.reaped {
@@ -223,8 +344,10 @@ impl GoChild {
             thread::yield_now();
         }
         if !errors.is_empty() {
+            self.marker.retain_on_drop();
             return Err(io::Error::other(errors.join("; ")));
         }
+        self.marker.remove_on_drop();
         self.clean = true;
         self.counts.cleaned.fetch_add(1, Ordering::SeqCst);
         Ok(())
@@ -235,6 +358,15 @@ impl GoChild {
     }
 
     pub fn wait_until(&mut self, end: Instant) -> io::Result<Output> {
+        self.wait_with_clock(end, Instant::now, OutputEvents::wait)
+    }
+
+    fn wait_with_clock(
+        &mut self,
+        end: Instant,
+        now: impl Fn() -> Instant,
+        mut wait: impl FnMut(&OutputEvents, Instant) -> io::Result<()>,
+    ) -> io::Result<Output> {
         drop(self.child.stdin.take());
         let mut out = self.child.stdout.take();
         let mut err = self.child.stderr.take();
@@ -242,40 +374,50 @@ impl GoChild {
         nonblocking(err.as_ref())?;
         let mut events = OutputEvents::new(out.as_ref(), err.as_ref())?;
         let (mut stdout, mut stderr) = (Vec::new(), Vec::new());
-        let mut status: Option<ExitStatus> = None;
         loop {
             self.observe()?;
-            let registration_pending = events.watch(&self.owned)?;
             drain(&mut out, &mut stdout)?;
             drain(&mut err, &mut stderr)?;
-            if status.is_none() {
-                status = self.child.try_wait()?;
-                self.reaped = status.is_some();
+            if self.exited_without_reaping()? {
+                // Keep the root unreaped as a group identity anchor until every
+                // owned descendant finishes and both output streams reach EOF.
+                self.observe_group()?;
+                let mut descendants_running = false;
+                for identity in self.owned.clone() {
+                    if identity.pid != self.child.id() && self.current(&identity)? {
+                        descendants_running = true;
+                    }
+                }
+                if !descendants_running && out.is_none() && err.is_none() {
+                    let status = self.child.try_wait()?.ok_or_else(|| {
+                        io::Error::other("fixture root exit was not available to reap")
+                    })?;
+                    self.reaped = true;
+                    self.stop()?;
+                    return Ok(Output {
+                        status,
+                        stdout,
+                        stderr,
+                    });
+                }
             }
-            if let (Some(status), None, None) = (status, &out, &err) {
-                self.stop()?;
-                return Ok(Output {
-                    status,
-                    stdout,
-                    stderr,
-                });
-            }
-            if Instant::now() >= end {
-                self.stop()?;
+            if now() >= end {
+                let cleanup = self.stop().err();
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,
                     format!(
-                        "fixture child {} did not exit or close its output pipes",
-                        self.child.id()
+                        "fixture child {} or its descendants did not exit and close output pipes; cleanup: {cleanup:?}",
+                        self.child.id(),
                     ),
                 ));
             }
+            let registration_pending = events.watch(&self.owned)?;
             if registration_pending {
                 // Darwin can reject a process filter just before waitpid
                 // exposes exit. Re-observe that state rather than missing it.
                 thread::yield_now();
             } else {
-                events.wait(end)?;
+                wait(&events, end)?;
             }
         }
     }
@@ -292,134 +434,17 @@ impl Drop for GoChild {
     }
 }
 
-// Pipe readiness and native process fork/exit notifications wake the owner;
-// no fixed polling interval is part of a successful fixture run.
-struct OutputEvents {
-    queue: OwnedFd,
-    watched: Vec<ProcessIdentity>,
-}
-impl OutputEvents {
-    fn new(out: Option<&impl AsRawFd>, err: Option<&impl AsRawFd>) -> io::Result<Self> {
-        let fd = unsafe { libc::kqueue() };
-        if fd < 0 {
-            return Err(io::Error::last_os_error());
-        }
-        let mut events = Self {
-            queue: unsafe { OwnedFd::from_raw_fd(fd) },
-            watched: Vec::new(),
-        };
-        for fd in [out.map(AsRawFd::as_raw_fd), err.map(AsRawFd::as_raw_fd)]
-            .into_iter()
-            .flatten()
-        {
-            events.register(fd as usize, libc::EVFILT_READ, 0)?;
-        }
-        Ok(events)
-    }
+#[path = "owned_events.rs"]
+mod events;
+use events::{drain, nonblocking, OutputEvents};
 
-    fn register(&mut self, id: usize, filter: i16, flags: u32) -> io::Result<()> {
-        let mut event: libc::kevent = unsafe { std::mem::zeroed() };
-        event.ident = id as _;
-        event.filter = filter;
-        event.flags = libc::EV_ADD | libc::EV_ENABLE | libc::EV_CLEAR;
-        event.fflags = flags;
-        if unsafe {
-            libc::kevent(
-                self.queue.as_raw_fd(),
-                &event,
-                1,
-                std::ptr::null_mut(),
-                0,
-                std::ptr::null(),
-            )
-        } < 0
-        {
-            return Err(io::Error::last_os_error());
-        }
-        Ok(())
-    }
-
-    fn watch(&mut self, identities: &[ProcessIdentity]) -> io::Result<bool> {
-        let mut pending = false;
-        for identity in identities {
-            if self.watched.contains(identity) {
-                continue;
-            }
-            if let Err(error) = self.register(
-                identity.pid as usize,
-                libc::EVFILT_PROC,
-                libc::NOTE_FORK | libc::NOTE_EXIT,
-            ) {
-                // A process can exit between identity capture and registration.
-                // The next root/pipe event still drives observation and cleanup.
-                if error.raw_os_error() != Some(libc::ESRCH) {
-                    return Err(error);
-                }
-                if crate::cleanup::capture(identity.pid)?.as_ref() == Some(identity) {
-                    pending = true;
-                }
-                continue;
-            }
-            self.watched.push(identity.clone());
-        }
-        Ok(pending)
-    }
-
-    fn wait(&self, deadline: Instant) -> io::Result<()> {
-        let duration = deadline.saturating_duration_since(Instant::now());
-        let timeout = libc::timespec {
-            tv_sec: duration.as_secs() as _,
-            tv_nsec: duration.subsec_nanos() as _,
-        };
-        let mut event: libc::kevent = unsafe { std::mem::zeroed() };
-        let result = unsafe {
-            libc::kevent(
-                self.queue.as_raw_fd(),
-                std::ptr::null(),
-                0,
-                &mut event,
-                1,
-                &timeout,
-            )
-        };
-        if result < 0 && io::Error::last_os_error().kind() != io::ErrorKind::Interrupted {
-            return Err(io::Error::last_os_error());
-        }
-        Ok(())
-    }
-}
-
-fn nonblocking(pipe: Option<&impl AsRawFd>) -> io::Result<()> {
-    if let Some(pipe) = pipe {
-        let fd = pipe.as_raw_fd();
-        // SAFETY: only this fixture's captured output descriptors are changed.
-        let flags = unsafe { libc::fcntl(fd, libc::F_GETFL) };
-        if flags < 0 || unsafe { libc::fcntl(fd, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0 {
-            return Err(io::Error::last_os_error());
-        }
-    }
-    Ok(())
-}
-fn drain(pipe: &mut Option<impl Read>, bytes: &mut Vec<u8>) -> io::Result<()> {
-    let mut buffer = [0; 16384];
-    for _ in 0..16 {
-        let Some(reader) = pipe.as_mut() else {
-            break;
-        };
-        match reader.read(&mut buffer) {
-            Ok(0) => {
-                *pipe = None;
-                break;
-            }
-            Ok(n) => bytes.extend_from_slice(&buffer[..n]),
-            Err(error) if error.kind() == io::ErrorKind::WouldBlock => break,
-            Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
-            Err(error) => return Err(error),
-        }
-    }
-    Ok(())
-}
+#[path = "../../support/owned_marker.rs"]
+mod marker;
 
 #[cfg(test)]
 #[path = "owned_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "owned_descriptor_tests.rs"]
+mod descriptor_tests;

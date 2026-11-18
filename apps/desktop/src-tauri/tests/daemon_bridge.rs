@@ -2,6 +2,8 @@
 //! No display, browser, production database or existing daemon is controlled.
 #![cfg(unix)]
 
+#[path = "../../../../crates/arc-daemon/tests/support/mod.rs"]
+mod coordination;
 mod daemon_bridge_support;
 #[path = "../../../../crates/arc-daemon/tests/support/native_exec.rs"]
 mod execution;
@@ -17,8 +19,44 @@ mod meter_router;
 #[allow(dead_code)] // Other native suites use the remaining shared fixture ports.
 #[path = "../../../../crates/arc-daemon/tests/support/native_fixture.rs"]
 mod native;
-#[path = "../../../../crates/arc-daemon/tests/support/mod.rs"]
-mod serialization;
+
+mod serialization {
+    pub fn serial() -> super::coordination::Serial {
+        if std::thread::current().name()
+            == Some(
+                "meter_native::accepted_old_daemon_is_unsupported_without_disabling_health_or_jobs",
+            )
+        {
+            use std::{
+                os::unix::process::CommandExt,
+                process::{Command, Stdio},
+                time::Duration,
+            };
+            let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .ancestors()
+                .nth(3)
+                .unwrap();
+            let mut command = Command::new("bun");
+            command
+                .arg("scripts/host-meter/prepare-legacy.ts")
+                .current_dir(root)
+                .env("CARGO_NET_OFFLINE", "true")
+                .process_group(0)
+                .stdin(Stdio::null())
+                .stdout(Stdio::piped())
+                .stderr(Stdio::piped());
+            let mut child = super::native::OwnedChild::new(command.spawn().unwrap());
+            let result = child
+                .wait_with_output_for(Duration::from_secs(7200), true)
+                .expect("legacy compatibility preparation watchdog");
+            assert!(
+                result.status.success(),
+                "legacy compatibility preparation: {result:?}"
+            );
+        }
+        super::coordination::serial()
+    }
+}
 
 use arc_core::process_identity::{probe_live, IdentityStatus, ProcessIdentity};
 use arc_desktop::{
@@ -143,32 +181,47 @@ fn rejects_malformed_response() {
     let _serial = serialization::serial();
     let mut case = RealDaemon::new("rejects_malformed_response");
     let (id, cached) = recorded_exit(&mut case, 17);
-    for fault in [
-        Fault::Json,
-        Fault::Oversized,
-        Fault::Shape,
-        Fault::Correlation,
-        Fault::Protocol,
-        Fault::Stall,
-    ] {
-        let (bridge, server) = case.fault_server(fault, None);
-        let started = Instant::now();
-        let error = bridge.job_by_id(&id).unwrap_err();
-        let elapsed = started.elapsed();
+    let read_lock = std::sync::Mutex::new(());
+    std::thread::scope(|scope| {
+        for fault in [
+            Fault::Json,
+            Fault::Oversized,
+            Fault::Shape,
+            Fault::Correlation,
+            Fault::Protocol,
+            Fault::Stall,
+        ] {
+            let case = &case;
+            let id = &id;
+            let cached = &cached;
+            let read_lock = &read_lock;
+            scope.spawn(move || {
+                let (bridge, server) = case.fault_server(fault, None);
+                let started = Instant::now();
+                let error = bridge.job_by_id(id).unwrap_err();
+                let elapsed = started.elapsed();
 
-        assert_eq!(error.code, fault.expected_code());
-        assert_eq!(
-            detail(&case.bridge.job_by_id(&id).unwrap()).outcome,
-            cached.outcome
-        );
-        case.save(
-            fault.name(),
-            &json!({
-                "faultServerRequest": server.finish(), "failure": error,
-                "elapsedMs": elapsed.as_millis(), "retainedStaleDetail": cached,
-            }),
-        );
-    }
+                assert_eq!(error.code, fault.expected_code());
+                {
+                    // The shared bridge has a bounded read permit. Preserve a
+                    // readback after every fault without contending with the
+                    // other fault workers' readbacks.
+                    let _read = read_lock.lock().unwrap();
+                    assert_eq!(
+                        detail(&case.bridge.job_by_id(id).unwrap()).outcome,
+                        cached.outcome
+                    );
+                }
+                case.save(
+                    fault.name(),
+                    &json!({
+                        "faultServerRequest": server.finish(), "failure": error,
+                        "elapsedMs": elapsed.as_millis(), "retainedStaleDetail": cached,
+                    }),
+                );
+            });
+        }
+    });
     case.stop("malformed");
 }
 

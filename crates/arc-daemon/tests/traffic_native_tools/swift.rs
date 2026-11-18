@@ -1,7 +1,10 @@
 //! Real offline SwiftPM, shared class-aware barriers and the registered read callback.
 use super::{cargo_peer, pair, Case, Form, Read, ORDERED_PAIRS};
+mod cleanup;
+mod direct;
 mod evidence;
 mod forwarding;
+mod pool;
 mod process;
 mod projects;
 mod semantics;

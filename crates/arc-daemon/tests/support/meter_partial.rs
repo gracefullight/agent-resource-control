@@ -1,6 +1,9 @@
 //! Forced per-field failures in a test entrypoint using the actual daemon
 //! supervisor/collector/sampler and real authenticated CLI. Not calibration.
 use super::{runtime, support};
+#[path = "child_watchdog.rs"]
+#[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
+mod child_watchdog;
 use arc_core::{
     meter::{MeterSnapshot, Reading},
     process_identity::ProcessIdentity,
@@ -36,11 +39,13 @@ fn partial_native_failures_preserve_available_fields_cli_health_and_jobs() {
     let identity = ProcessIdentity::capture(child.child.id()).unwrap();
     let deadline = Instant::now() + Duration::from_secs(60);
     let sample: MeterSnapshot = loop {
-        let output = Command::new(fixture.binary("arcctl"))
-            .args(["meter", "snapshot", "--json"])
-            .env(arc_core::ARC_SOCKET_PATH, &fixture.socket)
-            .output()
-            .unwrap();
+        let output = child_watchdog::output(
+            Command::new(fixture.binary("arcctl"))
+                .args(["meter", "snapshot", "--json"])
+                .env(arc_core::ARC_SOCKET_PATH, &fixture.socket),
+            "partial meter snapshot",
+        )
+        .unwrap();
         if output.status.success() {
             assert!(output.stderr.is_empty());
             break arc_ipc::meter::decode_snapshot(

@@ -318,6 +318,9 @@ fn start(
         .stdin(Stdio::null())
         .stdout(File::create(project.join("stdout")).unwrap())
         .stderr(File::create(project.join("stderr")).unwrap());
+    if command.ends_with(" -- cargo build") {
+        shell.env("CARGO_INCREMENTAL", "0");
+    }
     if let Some((id, entry)) = predecessor {
         shell
             .env("TBS_PREDECESSOR", id)

@@ -121,30 +121,13 @@ impl TreeChild {
         signal(identity, libc::SIGSTOP)?;
         visit(identity)?;
         let mut errors = Vec::new();
-        for pid in crate::cleanup::children(identity.pid)? {
-            let result = (|| {
+        for pid in events::owned_children(identity)? {
+            let result: io::Result<()> = (|| {
                 let Some(child) = crate::cleanup::capture(pid)? else {
                     return Ok(());
                 };
                 // Verify ancestry after capture so a recycled enumeration cannot be owned.
-                let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
-                let size = std::mem::size_of_val(&info) as i32;
-                let n = unsafe {
-                    libc::proc_pidinfo(
-                        pid as i32,
-                        libc::PROC_PIDTBSDINFO,
-                        0,
-                        (&mut info as *mut libc::proc_bsdinfo).cast(),
-                        size,
-                    )
-                };
-                if n != size {
-                    if crate::cleanup::capture(pid)?.is_none() {
-                        return Ok(());
-                    }
-                    return Err(io::Error::last_os_error());
-                }
-                if info.pbi_ppid == identity.pid
+                if events::child_parent(&child)? == Some(identity.pid)
                     && crate::cleanup::capture(pid)?.as_ref() == Some(&child)
                 {
                     self.capture_tree_with(&child, depth + 1, visit)?;

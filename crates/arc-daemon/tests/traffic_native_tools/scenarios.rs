@@ -33,6 +33,9 @@ pub fn pair<T: RunnerTools>(case: Case<T>, descriptor: Pair, first: Prepared, se
     assert_eq!(log(&second.project.join("launches")).lines().count(), 0);
     finish(&mut a, first.form);
     let released_a = terminal(&case, &a, first.form, 0);
+    if matches!(first.form, Form::SwiftBuild | Form::SwiftTest) {
+        super::swift::assert_completed(&first.project);
+    }
     let entered_b = entered(&case, &mut b, &second);
     assert_eq!(queued_b.job_id, entered_b.job_id);
     let row_a = case.row(&entered_a.job_id);
@@ -47,14 +50,12 @@ pub fn pair<T: RunnerTools>(case: Case<T>, descriptor: Pair, first: Prepared, se
     assert_eq!(probe_live(&entered_a.child), IdentityStatus::Missing);
     finish(&mut b, second.form);
     let released_b = terminal(&case, &b, second.form, 0);
+    if matches!(second.form, Form::SwiftBuild | Form::SwiftTest) {
+        super::swift::assert_completed(&second.project);
+    }
     assert_eq!(probe_live(&entered_b.child), IdentityStatus::Missing);
     let permits = permit_history(&case, first.form.class(), 2, 1);
     assert_eq!(permits["matchingClassPermitHighWater"], 1);
-    for prepared in [&first, &second] {
-        if matches!(prepared.form, Form::SwiftBuild | Form::SwiftTest) {
-            super::swift::assert_completed(&prepared.project);
-        }
-    }
     case.save(
         descriptor.id,
         json!({"pairId":descriptor.id,"productionDaemon":true,

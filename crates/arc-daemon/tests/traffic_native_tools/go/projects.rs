@@ -8,7 +8,7 @@ use std::{
     process::{Command, Output, Stdio},
     sync::{
         atomic::{AtomicU64, Ordering},
-        Mutex, OnceLock,
+        OnceLock,
     },
 };
 
@@ -18,7 +18,7 @@ const GATE: &str = "package nativefixture\n// ";
 // replacement regular source has exactly the same bytes as the released FIFO.
 const RELEASE: &str = "export const gate: number = 42;\n";
 static BINARY_CACHE: OnceLock<PathBuf> = OnceLock::new();
-static SEED_READY: Mutex<bool> = Mutex::new(false);
+static SEED_READY: OnceLock<()> = OnceLock::new();
 static INSTALLED: OnceLock<Installed> = OnceLock::new();
 #[cfg(test)]
 static SEED_PREPARATIONS: AtomicU64 = AtomicU64::new(0);
@@ -99,19 +99,24 @@ impl Tools {
         fs::create_dir_all(&cache).unwrap();
         // Prepare the standard-library build once before independent cases
         // start. Each case receives a private writable clone of that seed.
-        let mut ready = SEED_READY.lock().unwrap();
-        if *ready {
-            snapshot_build(&base.join("build-seed"), &cache.join("build"));
-        }
-        for name in ["build", "modules", "path", "tmp"] {
-            writable_cache(&cache.join(name));
-        }
-        let installed = INSTALLED.get_or_init(|| Self::probe(&cache));
-        if !*ready {
+        let mut prepared_here = false;
+        SEED_READY.get_or_init(|| {
+            for name in ["build", "modules", "path", "tmp"] {
+                writable_cache(&cache.join(name));
+            }
+            let installed = INSTALLED.get_or_init(|| Self::probe(&cache));
             prepare_seed(base, &cache, &installed.go);
-            *ready = true;
+            prepared_here = true;
+        });
+        if !prepared_here {
+            // OnceLock publishes the complete seed before any clones start.
+            // Each destination is private, so clones need no shared lock.
+            snapshot_build(&base.join("build-seed"), &cache.join("build"));
+            for name in ["build", "modules", "path", "tmp"] {
+                writable_cache(&cache.join(name));
+            }
         }
-        drop(ready);
+        let installed = INSTALLED.get().expect("Go seed initialized its tools");
         let shims = directory.join("observers");
         Self {
             go: installed.go.clone(),
@@ -207,6 +212,16 @@ fn snapshot_build(source: &Path, destination: &Path) {
 impl Drop for Tools {
     fn drop(&mut self) {
         if std::thread::panicking() {
+            // The case's source and observed output remain in its artifact
+            // directory; the private Go build cache is not diagnostic evidence.
+            if let Err(error) = fs::remove_dir_all(&self.cache) {
+                if error.kind() != std::io::ErrorKind::NotFound {
+                    eprintln!(
+                        "cannot remove failed Go cache {}: {error}",
+                        self.cache.display()
+                    );
+                }
+            }
             return;
         }
         fs::remove_dir_all(&self.directory).unwrap();
@@ -310,7 +325,7 @@ pub fn argv(form: Form) -> Vec<String> {
             "-count=1".into(),
             "-parallel=2".into(),
             "-run=TestNative".into(),
-            "-timeout=30s".into(),
+            "-timeout=60s".into(),
         ]),
         Form::GoVet => argv.push("-printf".into()),
         _ => unreachable!(),
@@ -382,6 +397,38 @@ mod cache_tests {
     use super::*;
 
     #[test]
+    fn go_failed_tool_discards_build_cache_and_preserves_observer_evidence() {
+        let root = std::env::temp_dir().join(format!(
+            "arc-go-failed-cache-{}",
+            arc_core::process_identity::random_job_id().unwrap()
+        ));
+        let cache = root.join("cache");
+        let shims = root.join("observers");
+        fs::create_dir_all(cache.join("build")).unwrap();
+        fs::create_dir_all(&shims).unwrap();
+        fs::write(cache.join("build/large"), vec![1; 1024 * 1024]).unwrap();
+        fs::write(shims.join("go"), b"observer evidence").unwrap();
+        let tools = Tools {
+            go: PathBuf::new(),
+            cargo: PathBuf::new(),
+            shims: shims.clone(),
+            cache: cache.clone(),
+            version: String::new(),
+            directory: root.clone(),
+            go_sha256: String::new(),
+            cargo_clippy_sha256: String::new(),
+        };
+        assert!(std::panic::catch_unwind(|| {
+            let _tools = tools;
+            panic!("simulated Go scenario failure");
+        })
+        .is_err());
+        assert!(!cache.exists(), "failed Go build caches must be removed");
+        assert_eq!(fs::read(shims.join("go")).unwrap(), b"observer evidence");
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
     fn go_cache_seed_is_independent_of_case_writes() {
         let root = std::env::temp_dir().join(format!(
             "arc-go-cache-{}",
@@ -404,8 +451,16 @@ mod cache_tests {
 
     #[test]
     fn go_native_seed_is_prepared_once_and_case_build_caches_are_isolated() {
-        let first = Tools::installed();
-        let second = Tools::installed();
+        let barrier = std::sync::Barrier::new(2);
+        let (first, second) = std::thread::scope(|scope| {
+            let first = scope.spawn(|| {
+                barrier.wait();
+                Tools::installed()
+            });
+            barrier.wait();
+            let second = Tools::installed();
+            (first.join().unwrap(), second)
+        });
         assert_eq!(SEED_PREPARATIONS.load(Ordering::SeqCst), 1);
         assert_ne!(first.cache, second.cache);
         let marker = first.cache.join("build/case-only");

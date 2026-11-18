@@ -17,6 +17,7 @@ use std::{
 pub mod agent_hooks;
 pub mod compatibility;
 pub mod contention;
+mod hashing;
 pub mod outputs;
 pub mod preservation;
 pub mod projects;
@@ -24,6 +25,8 @@ pub mod protocol;
 pub mod recovery;
 pub mod repository;
 pub mod semantics;
+
+pub use hashing::sha;
 
 pub type Read = fn(&Path, &str, Value) -> Value;
 pub fn root() -> PathBuf {
@@ -91,18 +94,6 @@ pub fn rows(database: &Path, sql: &str) -> Vec<Value> {
     } else {
         serde_json::from_slice(&output.stdout).unwrap()
     }
-}
-pub fn sha(path: &Path) -> String {
-    let mut command = Command::new("/usr/bin/shasum");
-    command.args(["-a", "256"]).arg(path);
-    let out = projects::fixture_output(&mut command).unwrap();
-    assert!(out.status.success());
-    String::from_utf8(out.stdout)
-        .unwrap()
-        .split_whitespace()
-        .next()
-        .unwrap()
-        .to_owned()
 }
 pub fn executable(pid: u32) -> PathBuf {
     let mut buffer = [0_u8; 4096];
@@ -396,6 +387,9 @@ impl Run {
             .stdin(Stdio::null())
             .stdout(File::create(project.join("stdout")).unwrap())
             .stderr(File::create(project.join("stderr")).unwrap());
+        if argv.first() == Some(&"cargo") {
+            cmd.env("CARGO_INCREMENTAL", "0");
+        }
         configure(&mut cmd);
         let wrapper = native::OwnedChild::new(cmd.spawn().unwrap());
         let identity = ProcessIdentity::capture(wrapper.child.id()).unwrap();

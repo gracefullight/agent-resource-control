@@ -9,13 +9,11 @@ use std::{
         unix::{net::UnixStream, process::CommandExt},
     },
     path::Path,
-    process::{Child, Command, ExitStatus},
-    time::{Duration, Instant},
+    process::Command,
 };
 
 const WORKER_TOKEN: &str = "ARC_HOOK_TEST_WORKER_TOKEN";
 const WORKER_FD: i32 = 9;
-const WATCHDOG: Duration = Duration::from_secs(120);
 
 /// Prepare a private, pre-sent handshake. Keep the returned endpoint alive
 /// until the child has been spawned. Ambient environment is not authorization
@@ -76,103 +74,9 @@ pub(in super::super) fn worker_enabled() -> bool {
     length == bytes.len() as isize && bytes == expected.as_bytes()
 }
 
-/// Fixture children run in a private process group. Deadlines diagnose hangs;
-/// successful tests proceed only after observing the child's actual exit.
-pub(in super::super) struct OwnedChild {
-    child: Option<Child>,
-    label: String,
-    own_group: bool,
-}
-
-impl OwnedChild {
-    pub(in super::super) fn spawn(command: &mut Command, label: &str) -> Self {
-        command.process_group(0);
-        Self {
-            child: Some(command.spawn().expect("spawn owned fixture child")),
-            label: label.into(),
-            own_group: true,
-        }
-    }
-
-    /// Nested fixture children remain in their already isolated parent's group,
-    /// so its watchdog can terminate them even if the parent itself stalls.
-    pub(in super::super) fn spawn_nested(command: &mut Command, label: &str) -> Self {
-        Self {
-            child: Some(command.spawn().expect("spawn nested fixture child")),
-            label: label.into(),
-            own_group: false,
-        }
-    }
-
-    pub(in super::super) fn child_mut(&mut self) -> &mut Child {
-        self.child.as_mut().expect("fixture child already reaped")
-    }
-
-    pub(in super::super) fn wait(&mut self) -> ExitStatus {
-        let deadline = Instant::now() + WATCHDOG;
-        loop {
-            match self.child_mut().try_wait() {
-                Ok(Some(status)) => {
-                    self.child = None;
-                    return status;
-                }
-                Ok(None) if Instant::now() < deadline => std::thread::yield_now(),
-                Ok(None) => panic!("{}: fixture child did not exit", self.label),
-                Err(error) => panic!("{}: cannot observe fixture child exit: {error}", self.label),
-            }
-        }
-    }
-
-    /// Allow ARC's wrapper to forward termination and reap its own child.
-    pub(in super::super) fn terminate_gracefully(&mut self) {
-        if let Some(child) = &mut self.child {
-            if matches!(child.try_wait(), Ok(None)) {
-                unsafe { libc::kill(child.id() as i32, libc::SIGTERM) };
-                let deadline = Instant::now() + WATCHDOG;
-                loop {
-                    match child.try_wait() {
-                        Ok(Some(_)) => {
-                            self.child = None;
-                            return;
-                        }
-                        Ok(None) if Instant::now() < deadline => std::thread::yield_now(),
-                        _ => break,
-                    }
-                }
-                eprintln!(
-                    "{}: graceful fixture termination did not complete",
-                    self.label
-                );
-            }
-        }
-    }
-}
-
-impl Drop for OwnedChild {
-    fn drop(&mut self) {
-        let Some(mut child) = self.child.take() else {
-            return;
-        };
-        if matches!(child.try_wait(), Ok(None)) {
-            // SAFETY: this process group was created for this fixture child.
-            if self.own_group {
-                unsafe { libc::kill(-(child.id() as i32), libc::SIGKILL) };
-            }
-            let _ = child.kill();
-        }
-        let deadline = Instant::now() + WATCHDOG;
-        loop {
-            match child.try_wait() {
-                Ok(Some(_)) => return,
-                Ok(None) if Instant::now() < deadline => std::thread::yield_now(),
-                result => {
-                    eprintln!("{}: failed to reap fixture child: {result:?}", self.label);
-                    return;
-                }
-            }
-        }
-    }
-}
+#[path = "fixture_owned.rs"]
+mod owned;
+pub(in super::super) use owned::OwnedChild;
 
 pub(in super::super) mod claude {
     use super::*;

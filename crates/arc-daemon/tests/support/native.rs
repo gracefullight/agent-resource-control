@@ -1,5 +1,8 @@
 //! Native process RSS/thread snapshots and owned-child wait4 lifetime peaks.
 use std::io;
+#[path = "child_watchdog.rs"]
+#[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
+mod child_watchdog;
 
 #[cfg(target_os = "macos")]
 #[repr(C)]
@@ -65,9 +68,7 @@ pub fn sample(pid: u32) -> io::Result<(u64, u64)> {
 
 pub fn host() -> serde_json::Value {
     fn output(program: &str, args: &[&str]) -> String {
-        let out = std::process::Command::new(program)
-            .args(args)
-            .output()
+        let out = child_watchdog::output(std::process::Command::new(program).args(args), program)
             .unwrap();
         assert!(out.status.success(), "{out:?}");
         String::from_utf8(out.stdout).unwrap().trim().to_owned()

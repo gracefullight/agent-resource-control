@@ -49,7 +49,9 @@ test('environment', () => writeFileSync(process.env.RESULT!, JSON.stringify(Obje
         let mut direct = Command::new("bun");
         direct.args(["test", "environment.test.ts"]);
         configure(&mut direct);
-        let output = direct.output().unwrap();
+        let output = OwnedChild::new(direct.spawn().unwrap())
+            .wait_with_output()
+            .expect("direct Bun environment child/pipe watchdog");
         assert!(
             output.status.success(),
             "{}",
@@ -61,7 +63,10 @@ test('environment', () => writeFileSync(process.env.RESULT!, JSON.stringify(Obje
         let mut scheduled = Command::new(binary("arcctl"));
         scheduled.args(["exec", "--", "bun", "test", "environment.test.ts"]);
         configure(&mut scheduled);
-        let output = scheduled.output().unwrap();
+        let mut child = BuildChild::new(OwnedChild::new(scheduled.spawn().unwrap()), &f, true);
+        let output = child
+            .wait_with_output()
+            .expect("scheduled Bun environment child/pipe watchdog");
         assert!(
             output.status.success(),
             "{}",

@@ -8,6 +8,7 @@ import { inputIdentity, sourceInventory, hash } from "../coverage/source";
 import { referenceFile } from "../coverage/evidence";
 import type { CoverageReuse, ProfileProof } from "../coverage/coverage-receipts";
 import type { Receipt } from "../coverage/commands";
+import { runSync } from "./test-support";
 
 const project=resolve(import.meta.dir,"../..");
 export function reuseFixture(withExample=false) {
@@ -88,7 +89,7 @@ export function reuseFixture(withExample=false) {
     bundle.evidence[key]=save(bundle.evidence[key].path,data);writeBundle();
   };
   const sync=(argv:string[])=>{
-    const child=Bun.spawnSync(argv,{cwd:root,stdout:"pipe",stderr:"pipe"});
+    const child=runSync(argv,root);
     if(child.exitCode!==0) throw Error(`Fixture setup failed: ${argv.join(" ")}: ${child.stderr}`);
   };
   sync(["git","-c","init.templateDir=","init","--quiet"]);

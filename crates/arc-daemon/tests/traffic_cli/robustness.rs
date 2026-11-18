@@ -11,6 +11,48 @@ use std::{
     },
 };
 
+fn thread_waiting(name: &str) -> bool {
+    // PROC_PIDLISTTHREADS returns the addresses accepted by PROC_PIDTHREADINFO.
+    let mut threads = [0u64; 1024];
+    let size = std::mem::size_of_val(&threads) as i32;
+    let pid = std::process::id() as i32;
+    let bytes = unsafe { libc::proc_pidinfo(pid, 6, 0, threads.as_mut_ptr().cast(), size) };
+    assert!(
+        bytes > 0 && bytes < size,
+        "cannot enumerate fixture threads"
+    );
+    threads[..bytes as usize / std::mem::size_of::<u64>()]
+        .iter()
+        .any(|&thread_id| {
+            let mut info: libc::proc_threadinfo = unsafe { std::mem::zeroed() };
+            let size = std::mem::size_of_val(&info) as i32;
+            let bytes = unsafe {
+                libc::proc_pidinfo(
+                    pid,
+                    libc::PROC_PIDTHREADINFO,
+                    thread_id,
+                    (&mut info as *mut libc::proc_threadinfo).cast(),
+                    size,
+                )
+            };
+            bytes == size
+                && info
+                    .pth_name
+                    .iter()
+                    .map(|&byte| byte as u8)
+                    .take_while(|&byte| byte != 0)
+                    .eq(name.bytes())
+                && info.pth_run_state == libc::TH_STATE_WAITING
+        })
+}
+
+struct StopWatcher(Arc<AtomicBool>);
+impl Drop for StopWatcher {
+    fn drop(&mut self) {
+        self.0.store(true, Ordering::SeqCst);
+    }
+}
+
 fn queued_with_stderr(broken: bool) {
     let _serial = support::serial();
     let f = Fixture::new();
@@ -56,19 +98,36 @@ fn queued_with_stderr(broken: bool) {
     let mut sibling = writer.try_clone().unwrap();
     let sibling_done = Arc::new(AtomicBool::new(false));
     let sibling_signal = sibling_done.clone();
+    let sibling_started = Arc::new(AtomicBool::new(false));
+    let sibling_ready = sibling_started.clone();
+    let sibling_name = "arc-stderr-sibling";
     let sibling_writer = (!broken).then(|| {
-        thread::spawn(move || {
-            let result = sibling.write_all(b"y");
-            sibling_signal.store(true, Ordering::SeqCst);
-            result
-        })
+        thread::Builder::new()
+            .name(sibling_name.into())
+            .spawn(move || {
+                sibling_ready.store(true, Ordering::SeqCst);
+                let result = sibling.write_all(b"y");
+                sibling_signal.store(true, Ordering::SeqCst);
+                result
+            })
+            .unwrap()
     });
+    if !broken {
+        // There is no blocking operation between the publication and write.
+        // A kernel-waiting sibling has therefore entered the full pipe write.
+        eventually(|| sibling_started.load(Ordering::SeqCst) && thread_waiting(sibling_name));
+    }
     let stop = Arc::new(AtomicBool::new(false));
+    let _stop_watcher = StopWatcher(stop.clone());
     let changed = Arc::new(AtomicBool::new(false));
+    let sample_requested = Arc::new(AtomicBool::new(false));
+    let sampled = Arc::new(AtomicBool::new(false));
     let observed_flags = Arc::new(AtomicI32::new(flags));
     let worker_stop = stop.clone();
     let worker_changed = changed.clone();
     let worker_flags = observed_flags.clone();
+    let worker_request = sample_requested.clone();
+    let worker_sampled = sampled.clone();
     let watcher = thread::spawn(move || {
         while !worker_stop.load(Ordering::SeqCst) {
             let actual = unsafe { libc::fcntl(watch.as_raw_fd(), libc::F_GETFL) };
@@ -76,11 +135,28 @@ fn queued_with_stderr(broken: bool) {
                 worker_flags.store(actual, Ordering::SeqCst);
                 worker_changed.store(true, Ordering::SeqCst);
             }
+            if worker_request.load(Ordering::SeqCst) {
+                worker_sampled.store(true, Ordering::SeqCst);
+            }
         }
     });
     if broken {
         drop(reader.take());
     }
+    let mut state = libc::pollfd {
+        fd: writer.as_raw_fd(),
+        events: libc::POLLOUT,
+        revents: 0,
+    };
+    assert!(unsafe { libc::poll(&mut state, 1, 0) } >= 0);
+    if broken {
+        assert_ne!(state.revents & (libc::POLLHUP | libc::POLLERR), 0);
+    } else {
+        assert_eq!(state.revents & libc::POLLOUT, 0);
+    }
+    let checkpoint_path = f.root.join("notice-checkpoint");
+    let checkpoint_listener = std::os::unix::net::UnixListener::bind(&checkpoint_path).unwrap();
+    checkpoint_listener.set_nonblocking(true).unwrap();
     let marker = f.root.join("quiet-child");
     let mut second = OwnedChild::new(
         Command::new(binary("arcctl"))
@@ -91,6 +167,8 @@ fn queued_with_stderr(broken: bool) {
                 format!("{}:{}", f.root.display(), std::env::var("PATH").unwrap()),
             )
             .env("TRAFFIC_CHILD_MARKER", &marker)
+            .env("ARC_PRESSURE_ACCEPTANCE_STAGE", "queued")
+            .env("ARC_PRESSURE_ACCEPTANCE_BARRIER", &checkpoint_path)
             .env_remove("ARC_TRAFFIC_LINEAGE")
             .stdin(Stdio::null())
             .stdout(Stdio::from(
@@ -101,7 +179,33 @@ fn queued_with_stderr(broken: bool) {
             .unwrap(),
     );
     eventually(|| entry(&f, second.child.id()).is_some_and(|e| e.0 == "QUEUED"));
-    thread::sleep(Duration::from_millis(150));
+    let deadline = Instant::now() + Duration::from_secs(60);
+    let mut checkpoint = loop {
+        match checkpoint_listener.accept() {
+            Ok((stream, _)) => break stream,
+            Err(error) if error.kind() == std::io::ErrorKind::WouldBlock => {
+                assert!(second.child.try_wait().unwrap().is_none());
+                assert!(
+                    Instant::now() < deadline,
+                    "queued notice checkpoint timed out"
+                );
+                thread::yield_now();
+            }
+            Err(error) => panic!("queued notice checkpoint: {error}"),
+        }
+    };
+    checkpoint.set_nonblocking(false).unwrap();
+    checkpoint
+        .set_read_timeout(Some(Duration::from_secs(60)))
+        .unwrap();
+    let mut payload = String::new();
+    std::io::BufRead::read_line(&mut std::io::BufReader::new(&mut checkpoint), &mut payload)
+        .unwrap();
+    let queued: serde_json::Value = serde_json::from_str(&payload).unwrap();
+    assert_eq!(queued["request"]["action"], "ENQUEUE");
+    // The queued checkpoint runs only after write_notice returns on this pipe.
+    sample_requested.store(true, Ordering::SeqCst);
+    eventually(|| sampled.load(Ordering::SeqCst));
     assert!(!marker.exists());
     assert!(
         !changed.load(Ordering::SeqCst),
@@ -111,6 +215,7 @@ fn queued_with_stderr(broken: bool) {
     if !broken {
         assert!(!sibling_done.load(Ordering::SeqCst));
     }
+    checkpoint.write_all(b"x").unwrap();
     fs::write(project[0].join("release"), "release").unwrap();
     finish(&mut first);
     eventually(|| second.child.try_wait().unwrap().is_some());

@@ -1,4 +1,7 @@
 //! Daemon-only CLI/storage assertions over the shared owned native fixtures.
+#[path = "child_watchdog.rs"]
+#[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
+mod child_watchdog;
 #[path = "native_fixture.rs"]
 mod native_fixture;
 pub use native_fixture::{assert_report, Fixture};
@@ -32,12 +35,14 @@ impl Fixture {
             "workspace CLI prerequisite: {}",
             path.display()
         );
-        Command::new(path)
-            .arg(operation)
-            .env(arc_core::ARC_SOCKET_PATH, &self.socket)
-            .env(arc_core::ARC_DB_PATH, &self.database)
-            .output()
-            .unwrap()
+        child_watchdog::output(
+            Command::new(path)
+                .arg(operation)
+                .env(arc_core::ARC_SOCKET_PATH, &self.socket)
+                .env(arc_core::ARC_DB_PATH, &self.database),
+            "runtime CLI",
+        )
+        .unwrap()
     }
 
     pub fn assert_cli(&self) {

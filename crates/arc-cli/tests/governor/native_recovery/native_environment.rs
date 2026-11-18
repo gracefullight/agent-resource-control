@@ -7,6 +7,12 @@ use std::{
     path::{Path, PathBuf},
     process::Output,
 };
+#[path = "go_cache_seed.rs"]
+mod go_cache_seed;
+
+pub(crate) fn prepare_go_cache() {
+    go_cache_seed::prepare();
+}
 
 const GO_TEST: &str = r#"package lineage
 import (
@@ -66,9 +72,10 @@ impl Project {
     pub(super) fn new(root: &Path, database: PathBuf) -> Self {
         let project = root.join("lineage-project");
         fs::create_dir_all(&project).unwrap();
-        for dir in ["build", "modules", "path", "tmp"] {
+        for dir in ["modules", "path", "tmp"] {
             fs::create_dir_all(project.join("cache").join(dir)).unwrap();
         }
+        go_cache_seed::copy_to(&project);
         fs::write(
             project.join("go.mod"),
             "module example.org/lineage\n\ngo 1.20\n",

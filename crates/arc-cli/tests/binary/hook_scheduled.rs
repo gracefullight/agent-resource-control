@@ -120,6 +120,7 @@ impl Fixture {
             .env("ARC_FIXTURE_MODE", "hook-capture")
             .env("ARC_HOOK_CAPTURE_KEY", self.root.join("capture-key"))
             .env("ARC_HOOK_CAPTURE_MARKER", self.root.join("starts"))
+            .env("ARC_TEST_OWNERSHIP", self.root.join("ownership"))
             .env("PRIVATE_ENV", OsString::from_vec(b"private-\xff".to_vec()))
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
@@ -339,6 +340,9 @@ fn fixture_captures_large_streams_and_reaps_on_unwind() {
         Some(libc::ECHILD)
     );
 }
+
+#[path = "hook_child_tests.rs"]
+mod child_tests;
 
 #[test]
 fn scheduled_hook_exec_preserves_actual_child_environment_streams_cwd_and_status() {

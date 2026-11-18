@@ -2,7 +2,6 @@
 use super::super::{observer, root, sha, writable_cache, RunnerTools};
 use serde_json::{json, Value};
 use std::{
-    fs,
     path::{Path, PathBuf},
     process::Command,
     sync::{
@@ -19,6 +18,8 @@ pub struct Tools {
     pub shims: PathBuf,
     pub directory: PathBuf,
     pub observers: Value,
+    leases: super::pool::Leases,
+    _cleanup: super::cleanup::Projects,
     version: String,
     cargo_version: String,
     image_sha256: String,
@@ -35,9 +36,9 @@ struct Installed {
 }
 
 fn output(program: &Path, args: &[&str]) -> String {
-    let result = Command::new(program)
-        .args(args)
-        .output()
+    let mut command = Command::new(program);
+    command.args(args);
+    let result = super::super::go::owned::fixture_output(&mut command)
         .unwrap_or_else(|e| panic!("required installed offline tool {}: {e}", program.display()));
     assert!(result.status.success(), "{}: {result:?}", program.display());
     String::from_utf8(result.stdout).unwrap().trim().to_owned()
@@ -65,6 +66,8 @@ impl Tools {
             cargo: installed.cargo.clone(),
             sdk: installed.sdk.clone(),
             shims,
+            leases: super::pool::Leases::default(),
+            _cleanup: super::cleanup::Projects::new(directory.clone()),
             directory,
             observers,
             version: installed.version.clone(),
@@ -112,6 +115,23 @@ impl Tools {
             "cargo":self.cargo,"cargoVersion":self.cargo_version,"offline":true,
             "remoteDependencies":0,"privateCaches":true,"argvRewritten":false})
     }
+
+    pub(super) fn lease(&self, form: super::Form, evidence: &Path) -> PathBuf {
+        self.leases.acquire(self, form, evidence)
+    }
+
+    #[cfg(test)]
+    pub(super) fn reacquire(&self, form: super::Form, evidence: &Path, project: &Path) -> PathBuf {
+        self.leases.reacquire(self, form, evidence, project)
+    }
+
+    pub(super) fn release_baseline(&self, path: &Path) {
+        self.leases.release_baseline(path);
+    }
+
+    pub(super) fn release_success(&self, path: &Path) {
+        self.leases.release_success(path);
+    }
 }
 impl RunnerTools for Tools {
     fn cpu_budget_millis(&self) -> u64 {
@@ -119,20 +139,5 @@ impl RunnerTools for Tools {
     }
     fn shims(&self) -> &Path {
         &self.shims
-    }
-}
-impl Drop for Tools {
-    fn drop(&mut self) {
-        // Only this instance's observers/readiness projects; Case retains runtime evidence.
-        if !std::thread::panicking() {
-            if let Err(error) = fs::remove_dir_all(&self.directory) {
-                if error.kind() != std::io::ErrorKind::NotFound {
-                    panic!(
-                        "cannot remove owned Swift fixture {}: {error}",
-                        self.directory.display()
-                    );
-                }
-            }
-        }
     }
 }

@@ -1,6 +1,6 @@
 //! Production daemon, native CLI, read-only SQLite; no socket result mocks.
 #[path = "native_recovery/native_environment.rs"]
-mod native_environment;
+pub(super) mod native_environment;
 #[path = "native_recovery/native_routes.rs"]
 mod native_routes;
 #[path = "native_recovery/owned_tree.rs"]

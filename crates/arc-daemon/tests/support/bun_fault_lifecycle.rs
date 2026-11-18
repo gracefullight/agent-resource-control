@@ -1,3 +1,7 @@
+#[path = "child_watchdog.rs"]
+#[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
+mod bun_fault_watchdog;
+
 // Spawned by the test below: this executes the normal daemon entry point in a
 // separate test-binary process, with a cfg(test)-only lost-reply hook.
 #[test]
@@ -10,17 +14,8 @@ fn bun_fault_daemon_child() {
 #[test]
 fn committed_bun_grant_lost_before_old_peer_replacement_recovers_original_store() {
     use arc_ipc::governor::OPERATION_JOB;
-    use std::{os::unix::fs::DirBuilderExt, path::Path, process::Child};
-
-    struct Owned(Child);
-    impl Drop for Owned {
-        fn drop(&mut self) {
-            if self.0.try_wait().ok().flatten().is_none() {
-                let _ = self.0.kill();
-            }
-            let _ = self.0.wait();
-        }
-    }
+    use bun_fault_watchdog::Owned;
+    use std::{os::unix::fs::DirBuilderExt, path::Path};
     struct Release(std::path::PathBuf);
     impl Drop for Release {
         fn drop(&mut self) {
@@ -39,11 +34,11 @@ fn committed_bun_grant_lost_before_old_peer_replacement_recovers_original_store(
     }
     fn stop(daemon: &mut Owned) {
         assert_eq!(
-            unsafe { libc::kill(daemon.0.id() as i32, libc::SIGTERM) },
+            unsafe { libc::kill(daemon.child.id() as i32, libc::SIGTERM) },
             0
         );
-        until(|| daemon.0.try_wait().unwrap().is_some());
-        assert!(daemon.0.wait().unwrap().success());
+        until(|| daemon.child.try_wait().unwrap().is_some());
+        assert!(daemon.wait("fault fixture daemon").unwrap().success());
     }
     fn daemon(root: &Path, marker: Option<&Path>, suffix: &str) -> Owned {
         let mut command = Command::new(std::env::current_exe().unwrap());
@@ -73,10 +68,10 @@ fn committed_bun_grant_lost_before_old_peer_replacement_recovers_original_store(
         } else {
             command.env_remove("ARC_TEST_BUN_GRANT_ACK_LOST");
         }
-        let mut child = Owned(command.spawn().unwrap());
+        let mut child = Owned::spawn(&mut command).unwrap();
         until(|| {
             assert!(
-                child.0.try_wait().unwrap().is_none(),
+                child.child.try_wait().unwrap().is_none(),
                 "test daemon exited before binding"
             );
             root.join("sock").exists()
@@ -84,13 +79,15 @@ fn committed_bun_grant_lost_before_old_peer_replacement_recovers_original_store(
         child
     }
     fn status(bin: &Path, root: &Path, id: &str) {
-        let _ = Command::new(bin.join("arcctl"))
-            .args(["job", "status", id])
-            .env(arc_core::ARC_SOCKET_PATH, root.join("sock"))
-            .stdout(Stdio::null())
-            .stderr(Stdio::null())
-            .status()
-            .unwrap();
+        let _ = bun_fault_watchdog::status(
+            Command::new(bin.join("arcctl"))
+                .args(["job", "status", id])
+                .env(arc_core::ARC_SOCKET_PATH, root.join("sock"))
+                .stdout(Stdio::null())
+                .stderr(Stdio::null()),
+            "fault fixture status",
+        )
+        .unwrap();
     }
     fn active(root: &Path) -> i64 {
         rusqlite::Connection::open(root.join("db"))
@@ -153,7 +150,7 @@ while True:
         let _release = Release(release.clone());
         let ack_marker = root.join("grant-committed");
         let mut first = daemon(&root, Some(&ack_marker), "first");
-        let mut cli = Owned(
+        let mut cli = Owned::spawn(
             Command::new(bin.join("arcctl"))
                 .args(["exec", "--", "bun", "test", "--timeout=60000"])
                 .current_dir(&project)
@@ -165,17 +162,16 @@ while True:
                 .stdout(Stdio::null())
                 .stderr(Stdio::from(
                     fs::File::create(project.join("stderr")).unwrap(),
-                ))
-                .spawn()
-                .unwrap(),
-        );
+                )),
+        )
+        .unwrap();
         until(|| ack_marker.exists());
         let mut stopped = 0;
-        until(|| unsafe { libc::waitpid(cli.0.id() as i32, &mut stopped, libc::WUNTRACED | libc::WNOHANG) } > 0 && libc::WIFSTOPPED(stopped));
+        until(|| unsafe { libc::waitpid(cli.child.id() as i32, &mut stopped, libc::WUNTRACED | libc::WNOHANG) } > 0 && libc::WIFSTOPPED(stopped));
         let db = rusqlite::Connection::open(root.join("db")).unwrap();
         let (id, state): (String, String) = db.query_row(
             "SELECT t.job_id,t.state FROM traffic_entries t JOIN job_lifecycle l ON l.job_id=t.job_id WHERE l.observer_pid=?1",
-            [cli.0.id()], |r| Ok((r.get(0)?,r.get(1)?)),
+            [cli.child.id()], |r| Ok((r.get(0)?,r.get(1)?)),
         ).unwrap();
         assert_eq!(state, "RESERVED");
         assert_eq!(active(&root), 1);
@@ -184,7 +180,7 @@ while True:
         stop(&mut first);
 
         let peer_log = root.join("old-peer-log");
-        let mut old = Owned(
+        let mut old = Owned::spawn(
             Command::new("python3")
                 .args(["-c", OLD_PEER])
                 .arg(root.join("sock"))
@@ -193,18 +189,23 @@ while True:
                 .stdout(Stdio::null())
                 .stderr(Stdio::from(
                     fs::File::create(root.join("old-peer.err")).unwrap(),
-                ))
-                .spawn()
-                .unwrap(),
-        );
+                )),
+        )
+        .unwrap();
         until(|| root.join("sock").exists());
         if cancel {
-            assert_eq!(unsafe { libc::kill(cli.0.id() as i32, libc::SIGTERM) }, 0);
+            assert_eq!(
+                unsafe { libc::kill(cli.child.id() as i32, libc::SIGTERM) },
+                0
+            );
         }
-        assert_eq!(unsafe { libc::kill(cli.0.id() as i32, libc::SIGCONT) }, 0);
+        assert_eq!(
+            unsafe { libc::kill(cli.child.id() as i32, libc::SIGCONT) },
+            0
+        );
         if cancel {
-            until(|| cli.0.try_wait().unwrap().is_some());
-            assert!(!cli.0.wait().unwrap().success());
+            until(|| cli.child.try_wait().unwrap().is_some());
+            assert!(!cli.wait("fault fixture CLI").unwrap().success());
             assert!(!project.join("started").exists());
         } else {
             until(|| project.join("started").exists());
@@ -224,19 +225,19 @@ while True:
             .lines()
             .map(|line| serde_json::from_str(line).unwrap())
             .collect();
-        assert!(requests
-            .iter()
-            .all(|r| r["operation"] == OPERATION_JOB
-                && r["payload"]["action"] == "TRAFFIC"
-                && r["payload"]["request"]["job_id"] == id));
+        assert!(requests.iter().all(|r| r["operation"] == OPERATION_JOB
+            && r["payload"]["action"] == "TRAFFIC"
+            && r["payload"]["request"]["job_id"] == id));
         if !cancel {
-            assert!(requests.iter().any(|r| r["payload"]["request"]["action"] == "ENQUEUE"));
+            assert!(requests
+                .iter()
+                .any(|r| r["payload"]["request"]["action"] == "ENQUEUE"));
             assert!(requests
                 .iter()
                 .any(|r| r["payload"]["request"]["action"] == "FALLBACK"));
         }
-        old.0.kill().unwrap();
-        old.0.wait().unwrap();
+        old.child.kill().unwrap();
+        old.wait("fault fixture old peer").unwrap();
         fs::remove_file(root.join("sock")).unwrap();
         let mut restored = daemon(&root, None, "restored");
         status(&bin, &root, &id);
@@ -247,8 +248,8 @@ while True:
                 "live Bun child retains the original grant"
             );
             fs::write(&release, "release").unwrap();
-            until(|| cli.0.try_wait().unwrap().is_some());
-            assert!(cli.0.wait().unwrap().success());
+            until(|| cli.child.try_wait().unwrap().is_some());
+            assert!(cli.wait("fault fixture CLI").unwrap().success());
             assert_eq!(
                 fs::read_to_string(project.join("started")).unwrap(),
                 "once\n"
@@ -264,12 +265,9 @@ while True:
             [&id], |r| Ok((r.get(0)?,r.get(1)?)),
         ).unwrap();
         assert_eq!(counts, (1, 1));
-        let job = arc_storage::jobs::get(
-            &db,
-            &arc_ipc::jobs::JobId::try_from(id.clone()).unwrap(),
-        )
-        .unwrap()
-        .unwrap();
+        let job = arc_storage::jobs::get(&db, &arc_ipc::jobs::JobId::try_from(id.clone()).unwrap())
+            .unwrap()
+            .unwrap();
         // Outage completion can persist the wrapper's observed outcome without
         // a live child attachment. The old peer's captured FALLBACK and native
         // marker independently identify the one child; never invent an attach.
@@ -288,7 +286,10 @@ while True:
             );
         }
         if !cancel {
-            assert_eq!(job.outcome, Some(arc_ipc::jobs::Outcome::Exited { code: 0 }));
+            assert_eq!(
+                job.outcome,
+                Some(arc_ipc::jobs::Outcome::Exited { code: 0 })
+            );
         }
         eprintln!(
             "lost-grant-reconciled={}",

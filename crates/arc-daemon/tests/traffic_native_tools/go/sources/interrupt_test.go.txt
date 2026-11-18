@@ -21,7 +21,8 @@ func publishPID(root, name string) error {
 func TestInterruptRoot(t *testing.T) {
     binary, err := os.Executable()
     if err != nil { t.Fatal(err) }
-    child := exec.Command(binary, "-test.run=TestInterruptLeaf", "-test.timeout=30s")
+    // The Rust fixture observes readiness for up to 60 seconds before cleanup.
+    child := exec.Command(binary, "-test.run=TestInterruptLeaf", "-test.timeout=120s")
     child.Stdout, child.Stderr = os.Stdout, os.Stderr
     if err := child.Start(); err != nil { t.Fatal(err) }
     // This is a real native test descendant, never a substituted tool.

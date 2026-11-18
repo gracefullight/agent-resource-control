@@ -1,7 +1,10 @@
+import "./coverage-reuse-owned-cases";
 import { expect, test } from "bun:test";
-import { chmodSync, mkdirSync, readFileSync, rmSync, unlinkSync, writeFileSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { delimiter, resolve } from "node:path";
+import { runOwned } from "./owned-process";
 import { reuseFixture } from "./coverage-reuse-fixture";
+import { HARNESS_TEST_WATCHDOG_MS, HARNESS_WATCHDOG_MS, withAsyncFixture, withFixture } from "./coverage-reuse-test-support";
 import { coverageEvidence, reuseCoverage } from "../coverage/coverage-receipts";
 import { coverageLayout, removeInstrumentedBuild } from "../coverage/output-layout";
 import { CRATES, METER_INPUTS, MEMORY_PRESSURE_INPUTS, GOVERNOR_INPUTS, AGENT_HOOK_INPUTS, FROZEN_INPUTS, BASELINE } from "../coverage/config";
@@ -9,11 +12,8 @@ import { hash, inputIdentity } from "../coverage/source";
 import { account } from "../coverage/accounting";
 import { enforce } from "../coverage/gate";
 import { nativeOutput } from "../coverage/native-output";
+import { observe, runSync } from "./test-support";
 
-function withFixture(run:(f:ReturnType<typeof reuseFixture>)=>void) {
-  const f=reuseFixture();
-  try {run(f);} finally {rmSync(f.root,{recursive:true,force:true});}
-}
 const reuse=(f:ReturnType<typeof reuseFixture>)=>reuseCoverage(f.root,f.path);
 
 test("synthetic same-input receipt recomputes all eleven integer floors without collection",()=>withFixture(f=>{
@@ -24,9 +24,9 @@ test("synthetic same-input receipt recomputes all eleven integer floors without 
   expect(result.result.crates.map(c=>c.crate)).toEqual([...CRATES]);
   for(const crate of result.result.crates) expect(crate).toMatchObject({covered:4,total:5,pass:true});
   expect(f.bundle.acceptedBaseline).toBe(BASELINE);
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
-test("validated receipt remains reusable after removing only the instrumented build",()=>withFixture(f=>{
+test("validated receipt remains reusable after removing only the instrumented build",()=>withAsyncFixture(async f=>{
   const debug=resolve(f.proof.target,"debug");
   mkdirSync(debug,{recursive:true});
   writeFileSync(resolve(debug,"instrumented-binary"),"build");
@@ -37,17 +37,17 @@ test("validated receipt remains reusable after removing only the instrumented bu
   expect(()=>readFileSync(resolve(debug,"instrumented-binary"))).toThrow();
   expect(readFileSync(sibling,"utf8")).toBe("keep");
   expect(reuse(f).recollected).toBe(false);
-  const result=harness(f,f.path);
+  const result=await harness(f,f.path);
   expect(result.exit).toBe(0);
   expect(result.collected).toBe("");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("agent hook contract is a required frozen input",()=>withFixture(f=>{
   const path=AGENT_HOOK_INPUTS[0];
   expect(FROZEN_INPUTS).toContain(path);
   delete f.bundle.frozenInputs[path]; f.writeBundle();
   expect(()=>reuse(f)).toThrow(`frozen input mismatch ${path}`);
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse rejects consistent source hashes unrelated to the validated input digest",()=>withFixture(f=>{
   const sourceHash="0".repeat(64);
@@ -56,7 +56,7 @@ test("reuse rejects consistent source hashes unrelated to the validated input di
   f.rebind("summary",{...f.summary,sourceHash});
   expect(()=>coverageEvidence(f.root,f.bundle.evidence,sourceHash)).toThrow("source hash/input digest mismatch");
   expect(()=>reuse(f)).toThrow("source hash/input digest mismatch");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("memory-pressure frozen inputs bind receipts while generated reports do not enter identity",()=>withFixture(f=>{
   for(const name of ["gates.json","integration.json","qa.json","final.md"]) {
@@ -68,7 +68,7 @@ test("memory-pressure frozen inputs bind receipts while generated reports do not
   const contract=MEMORY_PRESSURE_INPUTS[0];
   delete f.bundle.frozenInputs[contract];f.writeBundle();
   expect(()=>reuse(f)).toThrow(`frozen input mismatch ${contract}`);
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("Governor contract is a frozen input and generated Governor receipts cannot invalidate collection",()=>withFixture(f=>{
   for(const name of ["gates.json","integration.json","qa.json","final.md"]) {
@@ -81,7 +81,7 @@ test("Governor contract is a frozen input and generated Governor receipts cannot
   expect(FROZEN_INPUTS).toContain(contract);
   delete f.bundle.frozenInputs[contract];f.writeBundle();
   expect(()=>reuse(f)).toThrow(`frozen input mismatch ${contract}`);
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("rebinding current input manifests cannot reuse an earlier source identity",()=>withFixture(f=>{
   for(const path of ["scripts/fixture.test.ts","apps/desktop/tests/fixture.test.ts","apps/desktop/tsconfig.json",
@@ -99,7 +99,7 @@ test("rebinding current input manifests cannot reuse an earlier source identity"
     expect(()=>reuse(f)).toThrow("source hash/input digest mismatch");
     writeFileSync(file,bytes);
   }
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("each added crate independently fails when missing or below 80%",()=>withFixture(f=>{
   const lcov=readFileSync(resolve(f.root,f.bundle.evidence.rawReports.lcov.path),"utf8");
@@ -110,7 +110,7 @@ test("each added crate independently fails when missing or below 80%",()=>withFi
     expect(()=>enforce(account(below,f.inventory,f.root))).toThrow(`BELOW_THRESHOLD: ${crate} 3/5`);
     expect(()=>account(records.filter(record=>!record.includes(resolve(f.root,file.path))).join("end_of_record\n")+"end_of_record\n",f.inventory,f.root)).toThrow(`MISSING_CRATE: ${crate}`);
   }
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse rejects changed source, tests, config, locks, SRS and frozen contract inputs",()=>withFixture(f=>{
   for(const path of ["crates/arc-platform/src/lib.rs","crates/arc-meter/src/lib.rs","crates/arc-policy/src/lib.rs","scripts/fixture.test.ts",
@@ -129,7 +129,7 @@ test("reuse rejects changed source, tests, config, locks, SRS and frozen contrac
   f.save("target/host-meter/later-output.json",{status:"generated"});
   f.save(".arc-verify/host-meter/gates.json",{status:"generated"});
   expect(reuse(f).sourceHash).toBe(f.inputs.sha256);
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse rejects failed, stale, incomplete or mismatched collection identities",()=>withFixture(f=>{
   for(const change of [{pass:false},{exit:1},{sourceHash:"0".repeat(64)},{runId:"older-run"},{acceptedBaseline:"changed"},{receipts:[]}]) {
@@ -150,7 +150,7 @@ test("reuse rejects failed, stale, incomplete or mismatched collection identitie
   f.rebind("summary",f.summary);
   f.bundle.frozenInputs[METER_INPUTS[1]]="0".repeat(64);f.writeBundle();
   expect(()=>reuse(f)).toThrow("frozen input mismatch");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse rejects changed workspace membership and unexpected manifest roots",()=>withFixture(f=>{
   for(const metadata of [
@@ -161,7 +161,7 @@ test("reuse rejects changed workspace membership and unexpected manifest roots",
     f.bundle.metadata=f.save(f.bundle.metadata.path,metadata);f.writeBundle();
     expect(()=>reuse(f)).toThrow("MISSING_CRATE");
   }
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse requires present hash-matching raw reports, profiles and collection artifacts",()=>withFixture(f=>{
   const refs=[f.bundle.evidence.receipt,f.bundle.evidence.summary,f.bundle.evidence.profiles,f.bundle.metadata,
@@ -175,7 +175,7 @@ test("reuse requires present hash-matching raw reports, profiles and collection 
     unlinkSync(path);expect(()=>reuse(f)).toThrow();writeFileSync(path,bytes);
   }
   unlinkSync(resolve(f.root,f.path));expect(()=>reuse(f)).toThrow();
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse rechecks exact merge membership and mandatory native child profiles",()=>withFixture(f=>{
   for(const change of [
@@ -191,7 +191,7 @@ test("reuse rechecks exact merge membership and mandatory native child profiles"
   f.rebind("profiles",f.proof);
   f.proof.mergeList=f.save(f.proof.mergeList.path,f.proof.merge.slice(1).join("\n"));
   f.rebind("profiles",f.proof);expect(()=>reuse(f)).toThrow("merge input mismatch");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse requires successful complete native collection, exports, metadata and probe receipts",()=>withFixture(f=>{
   for(const index of f.commands.keys()) {
@@ -213,7 +213,7 @@ test("reuse requires successful complete native collection, exports, metadata an
     const commands=structuredClone(f.commands);Object.assign(commands[change.index],change.patch);
     f.rebind("receipt",{...f.receipt,receipts:commands});expect(()=>reuse(f)).toThrow();
   }
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("reuse cannot replace native tests with empty, failing, ignored or filtered output",()=>withFixture(f=>{
   for(const text of ["", "running 1 test\ntest fixture ... FAILED\n",
@@ -223,7 +223,7 @@ test("reuse cannot replace native tests with empty, failing, ignored or filtered
     commands[1].output!.stdout=f.save(commands[1].output!.stdout.path,text);
     f.rebind("receipt",{...f.receipt,receipts:commands});expect(()=>reuse(f)).toThrow();
   }
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
 test("coverage scratch layout moves reports, logs and profiles without replacing historical identities",()=>withFixture(f=>{
   const normal=coverageLayout(f.root,"fixture-run"), scratch=coverageLayout(f.root,"fixture-run","target/host-meter");
@@ -234,52 +234,180 @@ test("coverage scratch layout moves reports, logs and profiles without replacing
   const output=nativeOutput(f.commands[1].argv,f.root,Buffer.from("synthetic stdout"),Buffer.from("synthetic stderr"),scratch.nativeDirectory)!;
   expect(output.stdout.path).toContain("target/host-meter/coverage/");
   expect(readFileSync(resolve(f.root,output.stdout.path),"utf8")).toBe("synthetic stdout");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
-function harness(f:ReturnType<typeof reuseFixture>, receipt:string|undefined) {
+async function harness(f:ReturnType<typeof reuseFixture>, receipt:string|undefined, forceWatchdog?:AbortSignal) {
   const bin=resolve(f.root,".fixture-bin"), calls=resolve(f.root,".fixture-coverage-calls");
   mkdirSync(bin,{recursive:true});
   const quote=(value:string)=>"'"+value.replaceAll("'","'\\''")+"'";
   writeFileSync(resolve(bin,"bun"),`#!/bin/bash\nif [ "$1" = run ]; then printf 'standalone fixture collection\\n' >> ${quote(calls)}; exit 0; fi\nexec ${quote(process.execPath)} "$@"\n`);
   chmodSync(resolve(bin,"bun"),0o755);
   const env={...process.env,PATH:bin+delimiter+process.env.PATH,ARC_COVERAGE_RECEIPT:receipt};
-  const result=Bun.spawnSync(["/bin/bash","scripts/harness/validate.sh"],{cwd:f.root,env,stdout:"pipe",stderr:"pipe"});
+  let result;
+  try {
+    const owned=await runOwned(["/bin/bash","scripts/harness/validate.sh"],f.root,env,
+      {watchdogMs:HARNESS_WATCHDOG_MS,signal:forceWatchdog});
+    if(owned.signal) throw Error(`harness terminated: ${owned.signal}`);
+    result={exit:owned.exit,stdout:owned.stdout.toString(),stderr:owned.stderr.toString()};
+  } catch(error) {
+    const failure=error as Error & {stdout?:Buffer;stderr?:Buffer};
+    throw Error(`harness ${failure.message}\nstdout: ${failure.stdout ?? ""}\nstderr: ${failure.stderr ?? ""}`);
+  }
+
   let collected="";try {collected=readFileSync(calls,"utf8");} catch {}
-  return {exit:result.exitCode,stdout:result.stdout.toString(),stderr:result.stderr.toString(),collected};
+  return {...result,collected};
 }
 
-test("harness validates a good receipt, executes all architecture checks and never recollects",()=>withFixture(f=>{
-  const result=harness(f,f.path);
+test("harness validates a good receipt, executes all architecture checks and never recollects",()=>withAsyncFixture(async f=>{
+  const result=await harness(f,f.path);
   expect(result.exit).toBe(0);expect(result.collected).toBe("");
   expect(result.stdout).toContain("validated fresh receipt");
   for(let i=1;i<=5;i++) expect(result.stdout).toContain(`Check ${i}/5:`);
   expect(result.stdout).toContain("All checks passed (0 violations)");
   f.save("domain/violation.ts",'import x from "../infrastructure/x";\n');
-  const tracked=Bun.spawnSync(["git","add","--","domain/violation.ts"],{cwd:f.root});expect(tracked.exitCode).toBe(0);
-  const bad=harness(f,f.path);
+  const tracked=runSync(["git","add","--","domain/violation.ts"],f.root);expect(tracked.exitCode).toBe(0);
+  const bad=await harness(f,f.path);
   expect(bad.exit).not.toBe(0);expect(bad.stderr).toContain("Architecture violation");expect(bad.collected).toBe("");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
-test("explicit invalid, missing, empty and stale harness receipts fail without hidden recollection",()=>withFixture(f=>{
+test("explicit invalid, missing, empty and stale harness receipts fail without hidden recollection",()=>withAsyncFixture(async f=>{
   for(const path of ["", "target/host-meter/missing.json", "../outside.json"]) {
-    const result=harness(f,path);expect(result.exit).not.toBe(0);expect(result.collected).toBe("");
+    const result=await harness(f,path);expect(result.exit).not.toBe(0);expect(result.collected).toBe("");
     expect(result.stderr).toContain("Coverage receipt validation failed");
   }
   f.save("scripts/fixture.test.ts","// changed test\n");
-  const result=harness(f,f.path);expect(result.exit).not.toBe(0);expect(result.collected).toBe("");expect(result.stderr).toContain("stale or incomplete");
-}));
+  const result=await harness(f,f.path);expect(result.exit).not.toBe(0);expect(result.collected).toBe("");expect(result.stderr).toContain("stale or incomplete");
+}),HARNESS_TEST_WATCHDOG_MS);
 
-test("harness rejects a rebound current manifest with an earlier source identity",()=>withFixture(f=>{
+test("harness rejects a rebound current manifest with an earlier source identity",()=>withAsyncFixture(async f=>{
   f.save("scripts/fixture.test.ts","// changed test input\n");
   f.rebind("summary",{...f.summary,inputs:inputIdentity(f.root)});
-  const result=harness(f,f.path);
+  const result=await harness(f,f.path);
   expect(result.exit).not.toBe(0);expect(result.collected).toBe("");
   expect(result.stderr).toContain("source hash/input digest mismatch");
   expect(result.stderr).toContain("Coverage receipt validation failed");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
 
-test("no harness receipt retains normal standalone collection",()=>withFixture(f=>{
-  const result=harness(f,undefined);
+test("no harness receipt retains normal standalone collection",()=>withAsyncFixture(async f=>{
+  const result=await harness(f,undefined);
   expect(result.exit).toBe(0);expect(result.collected).toBe("standalone fixture collection\n");
   expect(result.stdout).toContain("Coverage thresholds met");
-}));
+}),HARNESS_TEST_WATCHDOG_MS);
+
+test("harness reports a signaled child instead of treating it as an invalid receipt",()=>withAsyncFixture(async f=>{
+  f.save("scripts/harness/validate.sh","kill -KILL $$\n");
+  await expect(harness(f,f.path)).rejects.toThrow("SIGKILL");
+}),HARNESS_TEST_WATCHDOG_MS);
+
+test("harness cleans a redirected descendant after a successful root exit",()=>withAsyncFixture(async f=>{
+  const ready=resolve(f.root,"redirected-ready");
+  f.save("scripts/harness/validate.sh",`/usr/bin/mkfifo redirected-gate
+exec 3<>redirected-gate
+/bin/cat <&3 >/dev/null 2>&1 &
+printf '%s' "$!" > redirected-pending
+/bin/mv redirected-pending redirected-ready
+exit 0`);
+  const result=await harness(f,f.path);
+  expect(result.exit).toBe(0);
+  const pid=Number(readFileSync(ready,"utf8"));
+  expect(Number.isInteger(pid)&&pid>0).toBe(true);
+  expect(()=>process.kill(pid,0)).toThrow();
+}),HARNESS_TEST_WATCHDOG_MS);
+
+test("timing probe cleans a redirected descendant after a successful root exit",()=>withAsyncFixture(async f=>{
+  const script=`/usr/bin/mkfifo probe-redirected-gate
+exec 3<>probe-redirected-gate
+/bin/cat <&3 >/dev/null 2>&1 &
+printf '%s' "$!" > probe-redirected-pending
+/bin/mv probe-redirected-pending probe-redirected-ready
+printf 'complete'
+exit 0`;
+  const result=await observe(["/bin/sh","-c",script],f.root,process.env,resolve(f.root,"probe-redirected-evidence"));
+  expect(result.receipt.exit).toBe(0);
+  expect(result.stdout.toString()).toBe("complete");
+  const pid=Number(readFileSync(resolve(f.root,"probe-redirected-ready"),"utf8"));
+  expect(Number.isInteger(pid)&&pid>0).toBe(true);
+  expect(()=>process.kill(pid,0)).toThrow();
+}),HARNESS_TEST_WATCHDOG_MS);
+
+test("harness watchdog terminates a descendant holding its captured pipes",()=>withAsyncFixture(async f=>{
+  const ready=resolve(f.root,"child-ready");
+  f.save("scripts/harness/validate.sh",`/usr/bin/mkfifo gate
+exec 3<>gate
+/bin/cat <&3 &
+printf '%s' "$!" > child-pending
+/bin/mv child-pending child-ready
+wait
+`);
+  const watchdog=new AbortController();
+  const running=harness(f,f.path,watchdog.signal);
+  try {
+    const deadline=Date.now()+60_000;
+    while(!existsSync(ready)) {
+      if(Date.now()>=deadline) throw Error("harness descendant never published readiness");
+      await new Promise(resolve=>setTimeout(resolve,1));
+    }
+    const pid=Number(readFileSync(ready,"utf8"));
+    expect(Number.isInteger(pid)&&pid>0).toBe(true);
+    watchdog.abort();
+    await expect(running).rejects.toThrow("watchdog expired");
+    while(true) {
+      try {process.kill(pid,0);}
+      catch(error) {
+        if((error as NodeJS.ErrnoException).code==="ESRCH") break;
+        throw error;
+      }
+      if(Date.now()>=deadline) throw Error(`owned harness descendant ${pid} was not reaped`);
+      await new Promise(resolve=>setTimeout(resolve,1));
+    }
+  } finally {
+    watchdog.abort();
+    await running.catch(()=>{});
+  }
+}),HARNESS_TEST_WATCHDOG_MS);
+
+test("timing probe preserves ordinary output, exit and receipt",()=>withAsyncFixture(async f=>{
+  const dir=resolve(f.root,"probe-evidence");
+  const result=await observe(["/bin/sh","-c","printf 'probe output'; printf 'probe error' >&2; exit 7"],f.root,process.env,dir);
+  expect(result.stdout.toString()).toBe("probe output");
+  expect(result.stderr.toString()).toBe("probe error");
+  expect(result.receipt.exit).toBe(7);
+  expect(JSON.parse(readFileSync(resolve(dir,"receipt.json"),"utf8")).exit).toBe(7);
+}),HARNESS_TEST_WATCHDOG_MS);
+
+test("timing probe watchdog cleans a pipe-holding descendant after its parent exits",()=>withAsyncFixture(async f=>{
+  const marker=resolve(f.root,"probe-pid");
+  const script=`/usr/bin/mkfifo probe-fifo
+exec 3<>probe-fifo
+parent=$$
+/bin/sh -c 'while kill -0 "$1" 2>/dev/null; do :; done; printf "Check 1/5: Hardcoded secrets\\n"; exec /bin/cat <&3' sh "$parent" &
+printf '%s' "$!" > probe-pid
+exit 0
+`;
+  const watchdog=new AbortController();
+  let observed=false;
+  const running=observe(["/bin/sh","-c",script],f.root,process.env,resolve(f.root,"probe-evidence"),key=>{
+    if(key==="check1") {observed=true;watchdog.abort();}
+  },watchdog.signal);
+  try {
+    await expect(running).rejects.toThrow("harness probe watchdog expired");
+    expect(observed).toBe(true);
+    expect(readFileSync(resolve(f.root,"probe-evidence/stdout.txt"),"utf8")).toContain("Check 1/5: Hardcoded secrets");
+    expect(existsSync(resolve(f.root,"probe-evidence/receipt.json"))).toBe(false);
+    const pid=Number(readFileSync(marker,"utf8"));
+    expect(Number.isInteger(pid)&&pid>0).toBe(true);
+    const deadline=Date.now()+60_000;
+    while(true) {
+      try {process.kill(pid,0);}
+      catch(error) {
+        if((error as NodeJS.ErrnoException).code==="ESRCH") break;
+        throw error;
+      }
+      if(Date.now()>=deadline) throw Error(`probe descendant ${pid} was not reaped`);
+      await new Promise(resolve=>setTimeout(resolve,1));
+    }
+  } finally {
+    watchdog.abort();
+    await running.catch(()=>{});
+  }
+}),HARNESS_TEST_WATCHDOG_MS);

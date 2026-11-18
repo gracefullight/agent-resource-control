@@ -1,5 +1,8 @@
 //! Native execution barrier and bounded child wait shared with desktop acceptance.
 use serde_json::Value;
+#[path = "child_watchdog.rs"]
+#[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
+mod child_watchdog;
 use std::{
     os::unix::net::{UnixListener, UnixStream},
     thread,
@@ -30,16 +33,5 @@ pub fn accept(listener: &UnixListener) -> (UnixStream, Value) {
     (stream, value)
 }
 pub fn wait(child: &mut std::process::Child) -> std::process::ExitStatus {
-    let end = Instant::now() + Duration::from_secs(60);
-    loop {
-        if let Some(status) = child.try_wait().unwrap() {
-            return status;
-        }
-        if Instant::now() >= end {
-            let _ = child.kill();
-            let _ = child.wait();
-            panic!("owned child wait expired");
-        }
-        thread::sleep(Duration::from_millis(1));
-    }
+    child_watchdog::wait_child(child, "native execution child").unwrap()
 }

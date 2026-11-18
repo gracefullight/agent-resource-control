@@ -58,26 +58,10 @@ fn run_nested_recovery_case(
     let cargo_child = f.root.join("cargo_child");
     let bun_root = f.root.join("bun_parent");
     let bun_child = f.root.join("bun_child");
-    for (dir, name) in [
-        (&cargo_root, "traffic_lineage_parent"),
-        (&cargo_child, "traffic_lineage_child"),
-    ] {
-        fs::create_dir_all(dir.join("src")).unwrap();
-        fs::write(
-            dir.join("Cargo.toml"),
-            format!("[package]\nname='{name}'\nversion='0.1.0'\nedition='2021'\n"),
-        )
-        .unwrap();
-    }
+    performance_fixture::copy_lineage_to(&cargo_root, true);
+    performance_fixture::copy_lineage_to(&cargo_child, false);
     fs::create_dir(&bun_root).unwrap();
     fs::create_dir(&bun_child).unwrap();
-    fs::write(cargo_child.join("src/lib.rs"), r#"
-#[test] fn child() {
-    use std::{fs::OpenOptions, io::Write, thread, time::Duration};
-    writeln!(OpenOptions::new().append(true).create(true).open(std::env::var("CHILD_MARKER").unwrap()).unwrap(), "child").unwrap();
-    while !std::path::Path::new(&std::env::var("CHILD_RELEASE").unwrap()).exists() { thread::sleep(Duration::from_millis(10)); }
-}
-"#).unwrap();
     fs::write(
         bun_child.join("child.test.ts"),
         r#"
@@ -90,21 +74,6 @@ test('child', async () => {
 "#,
     )
     .unwrap();
-    fs::write(cargo_root.join("src/lib.rs"), r#"
-#[test] fn parent() {
-    use std::{fs::{self, OpenOptions}, io::Write, process::Command, thread, time::Duration};
-    writeln!(OpenOptions::new().append(true).create(true).open(std::env::var("ROOT_MARKER").unwrap()).unwrap(), "root").unwrap();
-    while !std::path::Path::new(&std::env::var("START_NESTED").unwrap()).exists() { thread::sleep(Duration::from_millis(10)); }
-    let frozen = std::env::var_os("FROZEN_MODE").is_some();
-    let mut cmd = Command::new(std::env::var(if frozen {"FROZEN_CLIENT"} else {"TEST_ARCCTL"}).unwrap());
-    if frozen { cmd.env("ARC_FIXTURE_FROZEN_TRAFFIC_V1", "1").env("FROZEN_DROP_ENQUEUE_REPLY", "1"); }
-    else if std::env::var("CHILD_TOOL").unwrap() == "cargo" { cmd.args(["exec", "--", "cargo", "test", "--offline"]); }
-    else { cmd.args(["exec", "--", "bun", "test", "--timeout=60000"]); }
-    let status = cmd.current_dir(std::env::var("NESTED_DIR").unwrap()).env("CARGO_TARGET_DIR", std::env::var("CHILD_TARGET").unwrap()).status().unwrap();
-    assert!(status.success(), "nested exit: {status}");
-    fs::write(std::env::var("ROOT_SUCCESS").unwrap(), "success\n").unwrap();
-}
-"#).unwrap();
     fs::write(bun_root.join("parent.test.ts"), r#"
 import {test, expect} from 'bun:test';
 import {appendFileSync, existsSync, writeFileSync} from 'node:fs';
@@ -202,7 +171,11 @@ test('parent', async () => {
     assert_eq!(&root_witness[104..136], root_id.as_bytes());
     if kill_wrapper {
         wrapper.child.kill().unwrap();
-        assert!(!wrapper.child.wait().unwrap().success());
+        assert!(!wrapper
+            .wait_with_output()
+            .expect("killed lineage wrapper watchdog")
+            .status
+            .success());
         assert_eq!(probe_live(&native), IdentityStatus::VerifiedMatch);
         assert_eq!(active(&f).1, 1);
         assert_eq!(fs::read(&root_witness_path).unwrap(), root_witness);

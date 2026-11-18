@@ -4,13 +4,15 @@ use super::{
     fail_open::{arc_stderr, receipt},
     fault::{Fault, MODES},
     native_python,
-    runtime::Fixture,
+    runtime::{Fixture, OwnedChild},
     support,
 };
 use std::{
     fs,
     os::{fd::AsRawFd, unix::process::CommandExt},
     process::{Command, Stdio},
+    thread,
+    time::Duration,
 };
 #[test]
 fn fallback_preserves_closed_standard_and_extra_inherited_descriptors() {
@@ -34,84 +36,112 @@ sys.exit(17)
     for mode in MODES {
         let f = Fixture::new();
         let mut daemon = f.spawn("test");
-        let fault = Fault::new(&f, mode);
         let inherited = f.root.join("input");
         fs::write(&inherited, b"inherited\0descriptor").unwrap();
-        for mask in [0u8, 1, 2, 4, 7] {
-            let mut observations = Vec::new();
-            for wrapped in [false, true] {
-                let file = fs::File::open(&inherited).unwrap();
-                let fd = file.as_raw_fd();
-                let report = f.root.join(format!("fds-{mask}-{wrapped}.json"));
-                let mut c = if wrapped {
-                    let mut c = command(&f);
-                    c.args(["exec", "--"]).arg(&python);
-                    c
-                } else {
-                    Command::new(&python)
-                };
-                let marker = f.root.join(format!("calls-{mask}-{wrapped}"));
-                c.args(["-c", source])
-                    .arg(&report)
-                    .arg(&marker)
-                    .env(arc_core::ARC_SOCKET_PATH, &fault.path)
-                    .stdin(Stdio::null());
-                unsafe {
-                    c.pre_exec(move || {
-                        if libc::dup2(fd, 9) < 0 {
-                            return Err(std::io::Error::last_os_error());
+        // Each mask has private files and a private proxy. Its direct and
+        // wrapped invocations remain ordered, while unrelated masks overlap.
+        // Separate proxies preserve every mode's request-counter semantics.
+        thread::scope(|scope| {
+            let mut workers = Vec::new();
+            for mask in [0u8, 1, 2, 4, 7] {
+                let f = &f;
+                let inherited = &inherited;
+                let python = &python;
+                workers.push(scope.spawn(move || {
+                    let fault = Fault::at(f, mode, &format!("fds-{mask}.sock"));
+                    let mut observations = Vec::new();
+                    for wrapped in [false, true] {
+                        let file = fs::File::open(inherited).unwrap();
+                        let fd = file.as_raw_fd();
+                        let report = f.root.join(format!("fds-{mask}-{wrapped}.json"));
+                        let mut c = if wrapped {
+                            let mut c = command(f);
+                            c.args(["exec", "--"]).arg(python);
+                            c
+                        } else {
+                            Command::new(python)
+                        };
+                        let marker = f.root.join(format!("calls-{mask}-{wrapped}"));
+                        c.args(["-c", source])
+                            .arg(&report)
+                            .arg(&marker)
+                            .env(arc_core::ARC_SOCKET_PATH, &fault.path)
+                            .stdin(Stdio::null())
+                            .stdout(Stdio::piped())
+                            .stderr(Stdio::piped())
+                            .process_group(0);
+                        unsafe {
+                            c.pre_exec(move || {
+                                if libc::dup2(fd, 9) < 0 {
+                                    return Err(std::io::Error::last_os_error());
+                                }
+                                libc::fcntl(9, libc::F_SETFD, 0);
+                                for i in 0..3 {
+                                    if mask & (1 << i) != 0 {
+                                        libc::close(i);
+                                    }
+                                }
+                                Ok(())
+                            });
                         }
-                        libc::fcntl(9, libc::F_SETFD, 0);
-                        for i in 0..3 {
-                            if mask & (1 << i) != 0 {
-                                libc::close(i);
-                            }
+                        let mut child = OwnedChild::new(c.spawn().unwrap());
+                        let out = child
+                            .wait_with_output_for(Duration::from_secs(60), true)
+                            .unwrap_or_else(|error| {
+                                panic!("descriptor {mode} mask {mask} wrapped {wrapped}: {error}")
+                            });
+                        assert_eq!(out.status.code(), Some(17));
+                        assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
+                        assert!(out.stdout.is_empty());
+                        assert!(if wrapped {
+                            arc_stderr(&out.stderr)
+                        } else {
+                            out.stderr
                         }
-                        Ok(())
-                    });
-                }
-                let out = c.output().unwrap();
-                assert_eq!(out.status.code(), Some(17));
-                assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);
-                assert!(out.stdout.is_empty());
-                assert!(if wrapped {
-                    arc_stderr(&out.stderr)
-                } else {
-                    out.stderr
-                }
-                .is_empty());
-                let observation: serde_json::Value =
-                    serde_json::from_slice(&fs::read(&report).unwrap()).unwrap();
-                assert_eq!(
-                    observation["standard"],
-                    serde_json::json!((0..3).map(|i| mask & (1 << i) == 0).collect::<Vec<_>>())
-                );
-                assert_eq!(
-                    observation["extra"],
-                    serde_json::json!(b"inherited\0descriptor".to_vec())
-                );
-                observations.push(observation);
+                        .is_empty());
+                        let observation: serde_json::Value =
+                            serde_json::from_slice(&fs::read(&report).unwrap()).unwrap();
+                        assert_eq!(
+                            observation["standard"],
+                            serde_json::json!((0..3)
+                                .map(|i| mask & (1 << i) == 0)
+                                .collect::<Vec<_>>())
+                        );
+                        assert_eq!(
+                            observation["extra"],
+                            serde_json::json!(b"inherited\0descriptor".to_vec())
+                        );
+                        observations.push(observation);
+                    }
+                    assert_eq!(observations[0], observations[1]);
+                    let report = fault.finish();
+                    let expected_event = match mode {
+                        "absent" | "refused" => None,
+                        "disconnect-before-read" => Some("accepted-before-read"),
+                        "disconnect-register" | "disconnect-claim" => {
+                            Some("disconnected-before-commit")
+                        }
+                        "stall-register" | "stall-claim" | "shared-budget" => {
+                            Some("stalled-before-commit")
+                        }
+                        "partial-register" => Some("partial-reply-withheld"),
+                        "committed-register" | "committed-claim" => Some("backend-ack-withheld"),
+                        "busy-register" | "busy-claim" => Some("injected-db-busy"),
+                        _ => unreachable!("unknown fault mode: {mode}"),
+                    };
+                    if let Some(expected) = expected_event {
+                        assert!(
+                            report.events.iter().any(|event| event["event"] == expected),
+                            "fault {mode} mask {mask} was not injected: {:?}",
+                            report.events
+                        );
+                    }
+                }));
             }
-            assert_eq!(observations[0], observations[1]);
-        }
-        let report = fault.finish();
-        let expected_event = match mode {
-            "absent" | "refused" => None,
-            "disconnect-before-read" => Some("accepted-before-read"),
-            "disconnect-register" | "disconnect-claim" => Some("disconnected-before-commit"),
-            "stall-register" | "stall-claim" | "shared-budget" => Some("stalled-before-commit"),
-            "partial-register" => Some("partial-reply-withheld"),
-            "committed-register" | "committed-claim" => Some("backend-ack-withheld"),
-            "busy-register" | "busy-claim" => Some("injected-db-busy"),
-            _ => unreachable!("unknown fault mode: {mode}"),
-        };
-        if let Some(expected) = expected_event {
-            assert!(
-                report.events.iter().any(|event| event["event"] == expected),
-                "fault {mode} was not injected: {:?}",
-                report.events
-            );
-        }
+            for worker in workers {
+                worker.join().unwrap();
+            }
+        });
         daemon.stop(libc::SIGTERM);
         f.report();
     }

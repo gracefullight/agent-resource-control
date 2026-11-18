@@ -1,6 +1,9 @@
 //! Process witnesses for the mixed-tool measurement fixture.
 use super::*;
 use std::os::unix::{ffi::OsStrExt, fs::PermissionsExt};
+#[path = "child_watchdog.rs"]
+#[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
+mod child_watchdog;
 
 // The PID is unchanged across exec, so ARC observes the native tool itself.
 const SHIM: &str = r##"#!/bin/sh
@@ -77,25 +80,27 @@ fn shim_rejects_early_launch_without_waiting_for_a_permit() {
         rusqlite::params![second, std::process::id()],
     )
     .unwrap();
-    let mut gone = Command::new("/usr/bin/true").spawn().unwrap();
-    let gone_pid = gone.id();
-    assert!(gone.wait().unwrap().success());
+    let mut gone = child_watchdog::Owned::spawn(&mut Command::new("/usr/bin/true")).unwrap();
+    let gone_pid = gone.child.id();
+    assert!(gone.wait("mixed-tool exited witness").unwrap().success());
     let tool = fixture.root.join("real-tool");
     fs::write(&tool, "#!/bin/sh\nprintf executed > \"$ACTUAL_EXEC\"\n").unwrap();
     fs::set_permissions(&tool, fs::Permissions::from_mode(0o700)).unwrap();
     let run = |name: &str, pid: u32| {
         let path = fixture.root.join(name);
         fs::create_dir(&path).unwrap();
-        let status = Command::new(fixture.root.join("cargo"))
-            .env("MIXED_LAUNCH_LOG", path.join("launches"))
-            .env("MIXED_REAL_TOOL", &tool)
-            .env("MIXED_FIRST_JOB", first)
-            .env("MIXED_FIRST_TEST_PID", pid.to_string())
-            .env("MIXED_DATABASE", &db_path)
-            .env("MIXED_RELEASE_WITNESS", path.join("committed-release"))
-            .env("ACTUAL_EXEC", path.join("executed"))
-            .status()
-            .unwrap();
+        let status = child_watchdog::status(
+            Command::new(fixture.root.join("cargo"))
+                .env("MIXED_LAUNCH_LOG", path.join("launches"))
+                .env("MIXED_REAL_TOOL", &tool)
+                .env("MIXED_FIRST_JOB", first)
+                .env("MIXED_FIRST_TEST_PID", pid.to_string())
+                .env("MIXED_DATABASE", &db_path)
+                .env("MIXED_RELEASE_WITNESS", path.join("committed-release"))
+                .env("ACTUAL_EXEC", path.join("executed")),
+            "mixed-tool shim",
+        )
+        .unwrap();
         (path, status)
     };
     let (live, status) = run("first-still-running", std::process::id());

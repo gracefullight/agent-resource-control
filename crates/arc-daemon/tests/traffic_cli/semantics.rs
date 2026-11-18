@@ -1,8 +1,12 @@
 use super::*;
 use std::{
-    io::{Read, Write},
+    io::Write,
     os::unix::{net::UnixListener, process::ExitStatusExt},
 };
+
+#[path = "semantics/output.rs"]
+mod output;
+use output::managed_output;
 
 fn class_execution(program: &str, subcommand: &str, class: &str, reason: &str) {
     let f = Fixture::new();
@@ -36,14 +40,17 @@ fn class_execution(program: &str, subcommand: &str, class: &str, reason: &str) {
     };
     let mut direct = Command::new(f.root.join(program));
     configure(&mut direct, &f.root.join("direct-marker"));
-    let mut direct = direct.spawn().unwrap();
+    let mut direct = OwnedChild::new(direct.spawn().unwrap());
     direct
+        .child
         .stdin
         .take()
         .unwrap()
         .write_all(b"stdin\0bytes\n")
         .unwrap();
-    let expected = direct.wait_with_output().unwrap();
+    let expected = direct
+        .wait_with_output()
+        .expect("direct class execution child/pipe watchdog");
     assert_eq!(expected.status.code(), Some(17));
 
     let marker = f.root.join("managed-marker");
@@ -56,7 +63,7 @@ fn class_execution(program: &str, subcommand: &str, class: &str, reason: &str) {
             format!("{}:{}", f.root.display(), std::env::var("PATH").unwrap()),
         );
     configure(&mut command, &marker);
-    let mut wrapper = OwnedChild::new(command.spawn().unwrap());
+    let mut wrapper = BuildChild::new(OwnedChild::new(command.spawn().unwrap()), &f, true);
     eventually(|| entry(&f, wrapper.child.id()).is_some_and(|e| e.0 == "QUEUED"));
     assert!(!marker.exists());
     let (actual_class, actual_reason): (String, String) = database(&f).query_row(
@@ -80,27 +87,13 @@ fn class_execution(program: &str, subcommand: &str, class: &str, reason: &str) {
         .unwrap()
         .write_all(b"stdin\0bytes\n")
         .unwrap();
-    eventually(|| wrapper.child.try_wait().unwrap().is_some());
-    assert_eq!(wrapper.child.wait().unwrap().code(), Some(17));
-    let mut stdout = Vec::new();
-    let mut stderr = Vec::new();
-    wrapper
-        .child
-        .stdout
-        .take()
-        .unwrap()
-        .read_to_end(&mut stdout)
-        .unwrap();
-    wrapper
-        .child
-        .stderr
-        .take()
-        .unwrap()
-        .read_to_end(&mut stderr)
-        .unwrap();
-    assert_eq!(stdout, expected.stdout);
-    assert!(stderr.ends_with(&expected.stderr));
-    assert!(String::from_utf8_lossy(&stderr).contains("QUEUED\nWaiting to start."));
+    let actual = wrapper
+        .wait_with_output()
+        .expect("managed class execution child/pipe watchdog");
+    assert_eq!(actual.status.code(), Some(17));
+    assert_eq!(actual.stdout, expected.stdout);
+    assert!(actual.stderr.ends_with(&expected.stderr));
+    assert!(String::from_utf8_lossy(&actual.stderr).contains("QUEUED\nWaiting to start."));
     assert_eq!(fs::read_to_string(marker).unwrap().lines().count(), 1);
     assert_eq!(active(&f).1, 0);
     daemon.stop(libc::SIGTERM);
@@ -134,7 +127,8 @@ fn scheduled_child_signal_is_returned_as_native_signal_status() {
         let f = Fixture::new();
         let mut daemon = f.spawn("test");
         symlink(binary("arc-exec-fixture"), f.root.join(program)).unwrap();
-        let output = Command::new(binary("arcctl"))
+        let mut command = Command::new(binary("arcctl"));
+        command
             .args(["exec", "--", program, "test"])
             .env(arc_core::ARC_SOCKET_PATH, &f.socket)
             .env(
@@ -142,9 +136,8 @@ fn scheduled_child_signal_is_returned_as_native_signal_status() {
                 format!("{}:{}", f.root.display(), std::env::var("PATH").unwrap()),
             )
             .env("ARC_FIXTURE_MODE", "term")
-            .env_remove("ARC_TRAFFIC_LINEAGE")
-            .output()
-            .unwrap();
+            .env_remove("ARC_TRAFFIC_LINEAGE");
+        let output = managed_output(&f, &mut command, "signaled managed execution watchdog");
         assert_eq!(output.status.signal(), Some(libc::SIGTERM));
         let (outcome, signal): (String, i64) = database(&f)
             .query_row(
@@ -200,7 +193,8 @@ fn bun_watch_hot_unresolved_scripts_and_remote_bypass_a_full_test_window() {
             .root
             .join(format!("bypass-{}", args.join("_").replace(' ', "_")));
         let before = active(&f);
-        let output = Command::new(binary("arcctl"))
+        let mut command = Command::new(binary("arcctl"));
+        command
             .args(["exec", "--"])
             .args(&args)
             .env(arc_core::ARC_SOCKET_PATH, &f.socket)
@@ -208,9 +202,8 @@ fn bun_watch_hot_unresolved_scripts_and_remote_bypass_a_full_test_window() {
             .env("ARC_FIXTURE_MODE", "echo")
             .env("ARC_FIXTURE_MARKER", &marker)
             .env_remove("ARC_TRAFFIC_LINEAGE")
-            .stdin(Stdio::null())
-            .output()
-            .unwrap();
+            .stdin(Stdio::null());
+        let output = managed_output(&f, &mut command, "bypass execution watchdog");
         assert_eq!(output.status.code(), Some(17), "{args:?}: {output:?}");
 
         assert!(!String::from_utf8_lossy(&output.stderr).contains("QUEUED"));
@@ -272,7 +265,16 @@ fn bun_lost_grant_attach_and_completion_replies_reuse_one_permit() {
     else {
         panic!("expected Bun grant")
     };
-    let mut child = OwnedChild::new(Command::new("/bin/sleep").arg("1").spawn().unwrap());
+    // Keep the real child alive until the lost attach is observed and retried.
+    // Closing its input then gives it a successful, deterministic exit.
+    let mut child = OwnedChild::new(
+        Command::new("/bin/cat")
+            .stdin(Stdio::piped())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null())
+            .spawn()
+            .unwrap(),
+    );
     let attach = JobRequest::Attach {
         job_id: id.clone(),
         observer: observer.clone(),
@@ -291,7 +293,12 @@ fn bun_lost_grant_attach_and_completion_replies_reuse_one_permit() {
     });
     drop(lost);
     assert_eq!(traffic_result(send(&attach)), JobResult::Running {});
-    assert!(child.child.wait().unwrap().success());
+    drop(child.child.stdin.take());
+    assert!(child
+        .wait_with_output()
+        .expect("released cat child watchdog")
+        .status
+        .success());
     let complete = JobRequest::Complete {
         job_id: id.clone(),
         observer,
@@ -461,16 +468,16 @@ fn bun_probe_rejects_malformed_or_mismatched_replies_and_lost_reply_fails_open_o
         });
         symlink(binary("arc-exec-fixture"), f.root.join("bun")).unwrap();
         let marker = f.root.join("probe-marker");
-        let output = Command::new(binary("arcctl"))
+        let mut command = Command::new(binary("arcctl"));
+        command
             .args(["exec", "--", "bun", "test"])
             .env(arc_core::ARC_SOCKET_PATH, &f.socket)
             .env("PATH", &f.root)
             .env("ARC_FIXTURE_MODE", "echo")
             .env("ARC_FIXTURE_MARKER", &marker)
             .env_remove("ARC_TRAFFIC_LINEAGE")
-            .stdin(Stdio::null())
-            .output()
-            .unwrap();
+            .stdin(Stdio::null());
+        let output = managed_output(&f, &mut command, "capability probe execution watchdog");
         peer.join().unwrap();
         if mode == "lost" {
             assert_eq!(output.status.code(), Some(17));

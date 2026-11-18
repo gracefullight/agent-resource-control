@@ -33,19 +33,12 @@ fn eventually(mut check: impl FnMut() -> bool) {
 fn projects(root: &Path, scenario: &str) -> [PathBuf; 2] {
     std::array::from_fn(|index| {
         let path = root.join(format!("{scenario}-{index}"));
-        fs::create_dir_all(path.join("src")).unwrap();
-        fs::write(path.join("Cargo.toml"), format!("[package]\nname = \"traffic_fixture_{scenario}_{index}\"\nversion = \"0.1.0\"\nedition = \"2021\"\n")).unwrap();
-        fs::write(path.join("src/lib.rs"), "pub fn fixture() {}\n").unwrap();
-        fs::write(path.join("build.rs"), r#"
-use std::{fs::{self, OpenOptions}, io::Write, thread, time::Duration};
-fn main() {
-    let marker = std::env::var_os("TRAFFIC_TEST_MARKER").unwrap();
-    let release = std::env::var_os("TRAFFIC_TEST_RELEASE").unwrap();
-    writeln!(OpenOptions::new().create(true).append(true).open(marker).unwrap(), "started").unwrap();
-    while !std::path::Path::new(&release).exists() { thread::sleep(Duration::from_millis(10)); }
-    let _ = fs::metadata(release).unwrap();
-}
-"#).unwrap();
+        performance_fixture::copy_to(&path);
+        if scenario == "cached" {
+            // This scenario asserts Cargo's exact package name on its second
+            // execution, so keep its original manifest and private cache.
+            fs::write(path.join("Cargo.toml"), format!("[package]\nname = \"traffic_fixture_{scenario}_{index}\"\nversion = \"0.1.0\"\nedition = \"2021\"\n")).unwrap();
+        }
         path
     })
 }
@@ -156,6 +149,7 @@ fn spawn_build(f: &Fixture, project: &Path, managed: bool) -> BuildChild {
         .args(["build", "--offline"])
         .current_dir(project)
         .env("CARGO_TARGET_DIR", project.join("target"))
+        .env("CARGO_INCREMENTAL", "0")
         .env("TRAFFIC_TEST_MARKER", project.join("started"))
         .env("TRAFFIC_TEST_RELEASE", project.join("release"))
         .env_remove("ARC_TRAFFIC_LINEAGE")
@@ -202,6 +196,7 @@ fn spawn_observed_build(f: &Fixture, project: &Path, managed: bool) -> BuildChil
         .args(["build", "--offline"])
         .current_dir(project)
         .env("CARGO_TARGET_DIR", project.join("target"))
+        .env("CARGO_INCREMENTAL", "0")
         .env("TRAFFIC_TEST_MARKER", project.join("started"))
         .env("TRAFFIC_TEST_RELEASE", project.join("release"))
         .env_remove("ARC_TRAFFIC_LINEAGE")
@@ -287,6 +282,8 @@ mod cleanup;
 mod diagnostics;
 #[path = "traffic_cli/measurement.rs"]
 mod measurement;
+#[path = "traffic_cli/performance_fixture.rs"]
+mod performance_fixture;
 #[path = "traffic_cli/policy_compat.rs"]
 mod policy_compat;
 #[path = "traffic_cli/process_cleanup.rs"]

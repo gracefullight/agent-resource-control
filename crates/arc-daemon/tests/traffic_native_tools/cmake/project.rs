@@ -1,6 +1,22 @@
 //! Fixture-only setup may configure/compile. The detector never imports this module.
 use super::*;
-use std::fs;
+use std::{fs, sync::OnceLock};
+
+static SEED_ROOT: OnceLock<PathBuf> = OnceLock::new();
+static SEED: OnceLock<PathBuf> = OnceLock::new();
+#[cfg(test)]
+static SEED_PREPARATIONS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+
+extern "C" fn remove_seed() {
+    if let Some(path) = SEED_ROOT.get() {
+        if let Err(error) = fs::remove_dir_all(path) {
+            if error.kind() != std::io::ErrorKind::NotFound {
+                eprintln!("cannot remove CMake seed {}: {error}", path.display());
+                unsafe { libc::_exit(1) };
+            }
+        }
+    }
+}
 
 pub fn configure(project: &Path, command: &mut Command) {
     for cache in ["cache", "cache/clang", "tmp"] {
@@ -26,64 +42,138 @@ pub fn configure(project: &Path, command: &mut Command) {
 
 fn checked(mut command: Command, project: &Path) {
     configure(project, &mut command);
-    let out = command.current_dir(project).output().unwrap();
+    command.current_dir(project);
+    let out = super::super::go::owned::fixture_output(&mut command)
+        .unwrap_or_else(|error| panic!("offline CMake preparation {command:?}: {error}"));
     assert!(
         out.status.success(),
         "offline CMake preparation: {command:?}\n{out:?}"
     );
 }
 
+fn seed(tools: &Tools) -> &Path {
+    SEED.get_or_init(|| {
+        let base = SEED_ROOT.get_or_init(|| {
+            let base = root().join(format!(
+                "target/traffic-native-tools/cmake/runtime-{}-{}",
+                std::process::id(),
+                arc_core::process_identity::random_job_id().unwrap()
+            ));
+            fs::create_dir_all(&base).unwrap();
+            assert_eq!(unsafe { libc::atexit(remove_seed) }, 0);
+            base.canonicalize().unwrap()
+        });
+        let project = base.join("seed project");
+        fs::create_dir(&project).unwrap();
+        write(
+            &project.join("CMakeLists.txt"),
+            include_str!("sources/CMakeLists.txt"),
+        );
+        write(
+            &project.join("fixture.c"),
+            include_str!("sources/fixture.c"),
+        );
+        let build = project.join("build tree");
+        let mut setup = Command::new(&tools.cmake);
+        setup
+            .arg("-S")
+            .arg(&project)
+            .arg("-B")
+            .arg(&build)
+            .args(["-G", "Unix Makefiles", "-DCMAKE_BUILD_TYPE=Debug"])
+            .arg(format!(
+                "-DCMAKE_MAKE_PROGRAM:FILEPATH={}",
+                tools.make.display()
+            ))
+            .arg(format!(
+                "-DCMAKE_C_COMPILER:FILEPATH={}",
+                tools.compiler.display()
+            ));
+        checked(setup, &project);
+        let cache = log(&build.join("CMakeCache.txt"));
+        assert!(cache.contains("CMAKE_GENERATOR:INTERNAL=Unix Makefiles"));
+        assert!(cache.contains(&format!(
+            "CMAKE_MAKE_PROGRAM:FILEPATH={}",
+            tools.make.display()
+        )));
+        // Prepare the actual C test dependency before either direct/managed route.
+        // This target is fixture setup, never a classified/scheduled command.
+        let mut compile = Command::new(&tools.cmake);
+        compile
+            .arg("--build")
+            .arg(&build)
+            .args(["--target", "fixture", "--parallel", "2"]);
+        checked(compile, &project);
+        assert!(
+            build.join("fixture").is_file(),
+            "native C fixture must be compiled"
+        );
+        assert!(
+            !project.join("bodies").exists(),
+            "preparation must not enter test/build barrier"
+        );
+        #[cfg(test)]
+        SEED_PREPARATIONS.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+        project
+    })
+}
+
+/// CMake's Makefiles and CTest manifests contain absolute source/build paths.
+/// Clone the prepared tree and relocate only text files, retaining binary bytes
+/// and private writable inodes. The real build and test commands exercise it.
+fn clone_seed(source: &Path, destination: &Path) {
+    assert!(!destination.exists(), "CMake case directory must be new");
+    fs::create_dir_all(destination.parent().unwrap()).unwrap();
+    let mut copy = Command::new("/bin/cp");
+    copy.args(["-cRp"]).arg(source).arg(destination);
+    let output = super::super::go::owned::fixture_output(&mut copy).unwrap();
+    assert!(output.status.success(), "CMake seed copy: {output:?}");
+    let destination = destination.canonicalize().unwrap();
+    let old = source.to_str().unwrap();
+    let new = destination.to_str().unwrap();
+    fn relocate(directory: &Path, old: &str, new: &str) {
+        for entry in fs::read_dir(directory).unwrap() {
+            let entry = entry.unwrap();
+            let kind = entry.file_type().unwrap();
+            if kind.is_dir() {
+                relocate(&entry.path(), old, new);
+            } else if kind.is_file() {
+                let bytes = fs::read(entry.path()).unwrap();
+                if !bytes.contains(&0) {
+                    if let Ok(text) = std::str::from_utf8(&bytes) {
+                        let rewritten = text
+                            .replace(&old.replace(' ', "\\ "), &new.replace(' ', "\\ "))
+                            .replace(old, new);
+                        if rewritten != text {
+                            // CMake regenerates when its cache appears newer than
+                            // cmake.check_cache. Relocation changes paths, not the
+                            // inputs, so retain the copied metadata's times.
+                            let metadata = entry.metadata().unwrap();
+                            let times = fs::FileTimes::new()
+                                .set_accessed(metadata.accessed().unwrap())
+                                .set_modified(metadata.modified().unwrap());
+                            let mut file = fs::OpenOptions::new()
+                                .write(true)
+                                .truncate(true)
+                                .open(entry.path())
+                                .unwrap();
+                            use std::io::Write;
+                            file.write_all(rewritten.as_bytes()).unwrap();
+                            file.set_times(times).unwrap();
+                        }
+                    }
+                }
+            }
+        }
+    }
+    relocate(&destination, old, new);
+}
+
 pub fn prepare(path: &Path, form: Form, tools: &Tools, hold: bool, fail: bool) -> Prepared {
     assert!(matches!(form, Form::CmakeBuild | Form::Ctest));
-    fs::create_dir_all(path).unwrap();
+    clone_seed(seed(tools), path);
     let project = path.canonicalize().unwrap();
-    write(
-        &project.join("CMakeLists.txt"),
-        include_str!("sources/CMakeLists.txt"),
-    );
-    write(
-        &project.join("fixture.c"),
-        include_str!("sources/fixture.c"),
-    );
-    let build = project.join("build tree");
-    let mut setup = Command::new(&tools.cmake);
-    setup
-        .arg("-S")
-        .arg(&project)
-        .arg("-B")
-        .arg(&build)
-        .args(["-G", "Unix Makefiles", "-DCMAKE_BUILD_TYPE=Debug"])
-        .arg(format!(
-            "-DCMAKE_MAKE_PROGRAM:FILEPATH={}",
-            tools.make.display()
-        ))
-        .arg(format!(
-            "-DCMAKE_C_COMPILER:FILEPATH={}",
-            tools.compiler.display()
-        ));
-    checked(setup, &project);
-    let cache = log(&build.join("CMakeCache.txt"));
-    assert!(cache.contains("CMAKE_GENERATOR:INTERNAL=Unix Makefiles"));
-    assert!(cache.contains(&format!(
-        "CMAKE_MAKE_PROGRAM:FILEPATH={}",
-        tools.make.display()
-    )));
-    // Prepare the actual C test dependency before either direct/managed route.
-    // This target is fixture setup, never a classified/scheduled command.
-    let mut compile = Command::new(&tools.cmake);
-    compile
-        .arg("--build")
-        .arg(&build)
-        .args(["--target", "fixture", "--parallel", "2"]);
-    checked(compile, &project);
-    assert!(
-        build.join("fixture").is_file(),
-        "native C fixture must be compiled"
-    );
-    assert!(
-        !project.join("bodies").exists(),
-        "preparation must not enter test/build barrier"
-    );
+    assert_prepared(&project, tools);
     if !hold {
         write(&project.join("release"), "release");
     }
@@ -138,6 +228,24 @@ pub fn prepare(path: &Path, form: Form, tools: &Tools, hold: bool, fail: bool) -
         ready,
         configure,
     }
+}
+
+fn assert_prepared(project: &Path, tools: &Tools) {
+    let build = project.join("build tree");
+    let cache = log(&build.join("CMakeCache.txt"));
+    assert!(cache.contains("CMAKE_GENERATOR:INTERNAL=Unix Makefiles"));
+    assert!(cache.contains(&format!(
+        "CMAKE_MAKE_PROGRAM:FILEPATH={}",
+        tools.make.display()
+    )));
+    assert!(
+        build.join("fixture").is_file(),
+        "native C fixture must be compiled"
+    );
+    assert!(
+        !project.join("bodies").exists(),
+        "preparation must not enter test/build barrier"
+    );
 }
 
 pub fn ready(run: &mut Run) -> bool {
@@ -204,66 +312,5 @@ pub fn records(form: Form, bytes: &[u8]) -> Vec<String> {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn cmake_stream_records_detect_unmarked_loss_reordering_corruption_and_placement() {
-        let stdout = b"ordinary stdout before\nNATIVE_PHASE=build\nordinary stdout after\n";
-        let stderr = b"ordinary stderr before\nNATIVE_STDERR=build\nordinary stderr after\n";
-        let expected = [
-            records(Form::CmakeBuild, stdout),
-            records(Form::CmakeBuild, stderr),
-        ];
-        for (out, err) in [
-            (
-                b"NATIVE_PHASE=build\nordinary stdout after\n".as_slice(),
-                stderr.as_slice(),
-            ),
-            (
-                b"ordinary stdout after\nNATIVE_PHASE=build\nordinary stdout before\n",
-                stderr,
-            ),
-            (
-                b"ordinary stdout befOre\nNATIVE_PHASE=build\nordinary stdout after\n",
-                stderr,
-            ),
-            (
-                stdout.as_slice(),
-                b"NATIVE_STDERR=build\nordinary stderr after\n",
-            ),
-            (
-                stdout,
-                b"ordinary stderr after\nNATIVE_STDERR=build\nordinary stderr before\n",
-            ),
-            (
-                stdout,
-                b"ordinary stderr before\nNATIVE_STDERR=build\nordinary stderr afTer\n",
-            ),
-            (stderr, stdout),
-        ] {
-            assert_ne!(
-                expected,
-                [
-                    records(Form::CmakeBuild, out),
-                    records(Form::CmakeBuild, err)
-                ]
-            );
-        }
-    }
-
-    #[test]
-    fn cmake_stream_normalizes_only_ctest_duration_fields() {
-        let a = b"1/1 Test #1: native_case ... Passed    0.12 sec\noffline    =   0.12 sec*proc (1 test)\nTotal Test time (real) =   0.13 sec\nordinary 0.12 sec\n";
-        let b = b"1/1 Test #1: native_case ... Passed    1.23 sec\noffline    =   1.23 sec*proc (1 test)\nTotal Test time (real) =   1.24 sec\nordinary 0.12 sec\n";
-        assert_eq!(records(Form::Ctest, a), records(Form::Ctest, b));
-        assert_ne!(records(Form::CmakeBuild, a), records(Form::CmakeBuild, b));
-        let changed = std::str::from_utf8(b)
-            .unwrap()
-            .replace("ordinary", "changed");
-        assert_ne!(
-            records(Form::Ctest, a),
-            records(Form::Ctest, changed.as_bytes())
-        );
-    }
-}
+#[path = "project_tests.rs"]
+mod tests;

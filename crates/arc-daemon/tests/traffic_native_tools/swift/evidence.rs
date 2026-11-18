@@ -158,6 +158,16 @@ pub fn held(project: &Path, owner: u32) -> Option<(File, ProcessIdentity)> {
         "evidence must come from the owned native tree"
     );
     let image = executable(pid);
+    let scratch = project.join("scratch path").canonicalize().unwrap();
+    if entry["form"] == "swift-test" {
+        let bundle = Path::new(entry["testBundle"].as_str().unwrap())
+            .canonicalize()
+            .unwrap();
+        assert!(
+            bundle.starts_with(&scratch),
+            "Swift test bundle must come from this case's leased build tree: {entry}"
+        );
+    }
     let argv0 = PathBuf::from(entry["argv"][0].as_str().unwrap());
     let argv0 = if argv0.is_absolute() {
         argv0
@@ -172,7 +182,7 @@ pub fn held(project: &Path, owner: u32) -> Option<(File, ProcessIdentity)> {
         path.canonicalize().unwrap()
     );
     if entry["form"] == "swift-build" {
-        assert!(image.starts_with(project.join("scratch path").canonicalize().unwrap()));
+        assert!(image.starts_with(&scratch));
         assert_eq!(entry["argv"][1], entry["evidenceRoot"]);
         // SwiftPM can suffix host tools (for example, -tool); use the resolved
         // tool path passed by PluginContext instead of guessing its layout/name.

@@ -11,12 +11,20 @@ use process_witness::{executable, identity, launch, observe_body, shim};
 const TOOLS: [&str; 2] = ["cargo", "bun"];
 
 fn sha256(path: &Path) -> String {
-    let out = Command::new("/usr/bin/shasum")
-        .arg("-a")
-        .arg("256")
-        .arg(path)
-        .output()
-        .unwrap();
+    let mut child = OwnedChild::new(
+        Command::new("/usr/bin/shasum")
+            .arg("-a")
+            .arg("256")
+            .arg(path)
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap(),
+    );
+    let out = child
+        .wait_with_output()
+        .expect("sha256 child/pipe watchdog");
     assert!(out.status.success());
     String::from_utf8(out.stdout)
         .unwrap()
@@ -39,22 +47,10 @@ fn event(events: &mut Vec<Value>, start: Instant, name: &str, job: usize) {
 }
 
 fn project(path: &Path, tool: usize) {
-    fs::create_dir_all(path).unwrap();
     if tool == 0 {
-        fs::create_dir_all(path.join("src")).unwrap();
-        fs::write(path.join("Cargo.toml"), "[package]\nname = \"mixed_traffic_fixture\"\nversion = \"0.1.0\"\nedition = \"2021\"\n\n[workspace]\n").unwrap();
-        fs::write(path.join("src/lib.rs"), r#"
-#[test]
-fn real_cargo_barrier() {
-    use std::{fs::{self, OpenOptions}, io::Write, thread, time::Duration};
-    let marker = std::env::var_os("MIXED_BODY_LOG").unwrap();
-    let release = std::env::var_os("MIXED_RELEASE").unwrap();
-    writeln!(OpenOptions::new().create(true).append(true).open(marker).unwrap(), "{}", std::process::id()).unwrap();
-    while !std::path::Path::new(&release).exists() { thread::sleep(Duration::from_millis(10)); }
-    fs::metadata(release).unwrap();
-}
-"#).unwrap();
+        performance_fixture::copy_mixed_test_to(path);
     } else {
+        fs::create_dir_all(path).unwrap();
         fs::write(
             path.join("barrier.test.ts"),
             r#"
@@ -72,10 +68,18 @@ test('real bun barrier', async () => {
 }
 
 pub(super) fn real_bun() -> PathBuf {
-    let output = Command::new("bun")
-        .args(["-p", "process.execPath"])
-        .output()
-        .unwrap();
+    let mut child = OwnedChild::new(
+        Command::new("bun")
+            .args(["-p", "process.execPath"])
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap(),
+    );
+    let output = child
+        .wait_with_output()
+        .expect("Bun executable probe watchdog");
     assert!(output.status.success(), "bun executable unavailable");
     fs::canonicalize(String::from_utf8(output.stdout).unwrap().trim()).unwrap()
 }
@@ -267,10 +271,11 @@ fn run_case(first: usize, managed: bool) {
     // Deliberately observe the second body before polling release. The shim's
     // single committed-state query precedes exec and never waits for a permit.
     let mut second_body_observed_at = None;
+    let mut observations = Vec::new();
     if managed {
         second_body = observe_body(&b, &paths[second], second, true);
         second_body_observed_at = Some(unix_us());
-        thread::sleep(Duration::from_millis(100));
+        observations.push("second-body");
     }
     // These are controller observations, not the times of the underlying exit
     // and commit; either may have happened before the second body's entry.
@@ -293,6 +298,7 @@ fn run_case(first: usize, managed: bool) {
             if let Some((state, Some(released_at))) = released {
                 if state == "RELEASED" {
                     release_observation = Some((released_at, unix_us()));
+                    observations.push("committed-release");
                 }
             }
         }
@@ -322,7 +328,7 @@ fn run_case(first: usize, managed: bool) {
         assert_eq!(grant_state, "ACTIVE");
         assert!(grant >= release);
         event(&mut events, start, "grant", second);
-        assert!(second_body_observed_at.unwrap() < release_observed_us);
+        assert_eq!(observations, ["second-body", "committed-release"]);
         let witness = fs::read_to_string(paths[second].join("committed-release")).unwrap();
         assert_eq!(
             witness,
@@ -337,9 +343,8 @@ fn run_case(first: usize, managed: bool) {
                 queue["queuedAtMs"].as_i64().unwrap()
             )
         );
-        // Darwin process identities use Unix microseconds. The durable release
-        // time is truncated to milliseconds, so the same millisecond cannot
-        // establish the order, even if the shim later observes the commit.
+        // The archived measurement validator also requires the kernel launch
+        // time to be strictly later than the recorded release millisecond.
         let start_us: u128 = second_body["tool"]["start_token"]
             .as_str()
             .unwrap()

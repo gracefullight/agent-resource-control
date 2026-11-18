@@ -14,31 +14,15 @@ use std::{
 #[path = "expiry_tests.rs"]
 mod expiry;
 
-struct Socket {
-    root: PathBuf,
-    listener: UnixListener,
-}
-impl Socket {
-    fn new() -> Self {
-        let root = PathBuf::from(format!(
-            "/tmp/arc-launch-{}",
-            arc_core::process_identity::random_job_id().unwrap()
-        ));
-        fs::DirBuilder::new().mode(0o700).create(&root).unwrap();
-        Self {
-            listener: UnixListener::bind(root.join("s")).unwrap(),
-            root,
-        }
-    }
-    fn path(&self) -> PathBuf {
-        self.root.join("s")
-    }
-}
-impl Drop for Socket {
-    fn drop(&mut self) {
-        fs::remove_dir_all(&self.root).unwrap();
-    }
-}
+#[path = "../../../../arc-daemon/tests/support/child_watchdog.rs"]
+mod child_watchdog;
+#[path = "../../../../arc-daemon/tests/support/child_watchdog_tests.rs"]
+mod child_watchdog_tests;
+
+#[path = "socket_fixture.rs"]
+mod socket_fixture;
+use socket_fixture::Socket;
+
 fn read(stream: &mut UnixStream) -> Request {
     Request::decode(&read_frame(stream).unwrap()).unwrap()
 }
@@ -55,6 +39,35 @@ fn input() -> LaunchRequest {
         observer: ProcessIdentity::capture(std::process::id()).unwrap(),
         permit_generation: 1,
     }
+}
+
+#[path = "release_tests.rs"]
+mod release;
+
+use release::wait_for_release_loss;
+
+#[test]
+fn release_loss_watchdog_distinguishes_a_closed_socket_from_a_hang_or_data() {
+    use std::{io::Write, os::fd::AsRawFd, time::Duration};
+
+    let (reader, mut peer) = UnixStream::pair().unwrap();
+    assert_eq!(
+        wait_for_release_loss(reader.as_raw_fd(), Duration::ZERO)
+            .unwrap_err()
+            .kind(),
+        io::ErrorKind::TimedOut
+    );
+    peer.write_all(b"x").unwrap();
+    assert_eq!(
+        wait_for_release_loss(reader.as_raw_fd(), Duration::from_secs(60))
+            .unwrap_err()
+            .kind(),
+        io::ErrorKind::InvalidData
+    );
+    drop(peer);
+    let (reader, peer) = UnixStream::pair().unwrap();
+    drop(peer);
+    wait_for_release_loss(reader.as_raw_fd(), Duration::from_secs(60)).unwrap();
 }
 
 #[test]
@@ -131,9 +144,9 @@ fn held_is_not_outage_and_one_recovery_exec_preserves_the_native_exit() {
         .args(["-c", "printf x >> \"$ARC_TEST_MARKER\"; exit 17"])
         .env("ARC_TEST_MARKER", &marker);
     gate.install(&mut command);
-    let mut child = command.spawn().unwrap();
-    assert!(gate.acknowledge(Some(ProcessIdentity::capture(child.id()).unwrap())));
-    assert_eq!(child.wait().unwrap().code(), Some(17));
+    let mut child = child_watchdog::Owned::spawn(&mut command).unwrap();
+    assert!(gate.acknowledge(Some(ProcessIdentity::capture(child.child.id()).unwrap())));
+    assert_eq!(child.wait("held launch target").unwrap().code(), Some(17));
     assert_eq!(fs::read(&marker).unwrap(), b"x");
     fs::remove_file(marker).unwrap();
     server.join().unwrap();
@@ -274,7 +287,9 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
                 closed_tx.send(()).unwrap();
             } else {
                 closed_tx.send(()).unwrap();
-                done_rx.recv().unwrap();
+                done_rx
+                    .recv_timeout(std::time::Duration::from_secs(60))
+                    .unwrap();
             }
         });
         let Coordination::Fenced(mut gate) =
@@ -282,37 +297,12 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
         else {
             panic!("expected gate");
         };
-        closed_rx.recv().unwrap();
+        closed_rx
+            .recv_timeout(std::time::Duration::from_secs(60))
+            .unwrap();
         if lost {
-            let fd = gate.session.raw_fd();
-            let mut observed = libc::pollfd {
-                fd,
-                events: libc::POLLIN | libc::POLLHUP,
-                revents: 0,
-            };
-            loop {
-                let ready = unsafe { libc::poll(&mut observed, 1, -1) };
-                if ready < 0 && io::Error::last_os_error().kind() == io::ErrorKind::Interrupted {
-                    continue;
-                }
-                assert_eq!(ready, 1, "release socket readiness");
-                let mut byte = 0u8;
-                let count = unsafe {
-                    libc::recv(
-                        fd,
-                        (&mut byte as *mut u8).cast(),
-                        1,
-                        libc::MSG_PEEK | libc::MSG_DONTWAIT,
-                    )
-                };
-                if count == 0 {
-                    break;
-                }
-                if count < 0 && io::Error::last_os_error().kind() == io::ErrorKind::WouldBlock {
-                    continue;
-                }
-                panic!("unexpected release socket state: {count}");
-            }
+            wait_for_release_loss(gate.session.raw_fd(), std::time::Duration::from_secs(60))
+                .expect("release socket readiness watchdog");
         } else {
             gate.deadline = Instant::now();
         }
@@ -331,7 +321,18 @@ fn expired_or_lost_release_is_rejected_by_native_pre_exec_before_the_target() {
                 })
             ),
             Ok(mut child) => {
-                let status = child.wait().unwrap();
+                let _ = child.kill();
+                let deadline = Instant::now() + std::time::Duration::from_secs(60);
+                let status = loop {
+                    if let Some(status) = child.try_wait().unwrap() {
+                        break status;
+                    }
+                    assert!(
+                        Instant::now() < deadline,
+                        "unexpected target could not be reaped"
+                    );
+                    thread::yield_now();
+                };
                 panic!("pre-exec gate admitted a child after release loss: {status:?}");
             }
         }
@@ -444,9 +445,15 @@ fn lost_launch_ack_never_replays_a_native_execution_or_changes_its_exit() {
         .args(["-c", "printf x >> \"$ARC_TEST_MARKER\"; exit 23"])
         .env("ARC_TEST_MARKER", &marker);
     gate.install(&mut command);
-    let mut child = command.spawn().unwrap();
-    assert!(!gate.acknowledge(Some(ProcessIdentity::capture(child.id()).unwrap())));
-    assert_eq!(child.wait().unwrap().code(), Some(23));
+    let mut child = child_watchdog::Owned::spawn(&mut command).unwrap();
+    assert!(!gate.acknowledge(Some(ProcessIdentity::capture(child.child.id()).unwrap())));
+    assert_eq!(
+        child
+            .wait("lost launch acknowledgement target")
+            .unwrap()
+            .code(),
+        Some(23)
+    );
     assert_eq!(fs::read(&marker).unwrap(), b"x");
     fs::remove_file(marker).unwrap();
     server.join().unwrap();

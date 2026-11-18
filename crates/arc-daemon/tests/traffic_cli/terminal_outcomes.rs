@@ -4,6 +4,8 @@ use arc_ipc::traffic::JobRequest;
 
 #[path = "status_clock.rs"]
 mod status_clock;
+#[path = "terminal_barrier.rs"]
+mod terminal_barrier;
 
 pub(super) fn stored_record(f: &Fixture, id: &str) -> Vec<rusqlite::types::Value> {
     let db = database(f);
@@ -24,10 +26,13 @@ pub(super) fn status(f: &Fixture, id: Option<&str>) -> String {
     if let Some(id) = id {
         command.arg(id);
     }
-    let output = command
+    command
         .env(arc_core::ARC_SOCKET_PATH, &f.socket)
-        .output()
-        .unwrap();
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let mut child = OwnedChild::new(command.spawn().unwrap());
+    let output = child.wait_with_output().expect("status command watchdog");
     assert!(output.status.success(), "{output:?}");
     assert!(output.stderr.is_empty(), "{output:?}");
     String::from_utf8(output.stdout).unwrap()
@@ -82,13 +87,15 @@ fn run_exit_and_restart(scheduled: bool, code: u8) {
     let marker = f.root.join("launches");
     let mut command = Command::new(binary("arcctl"));
     command.args(["exec", "--"]);
-    if scheduled {
-        symlink(binary("arc-exec-fixture"), f.root.join("cargo")).unwrap();
+    let prepared = if scheduled {
+        let barrier = terminal_barrier::Barrier::prepare(&f, &mut command);
         command.args(["cargo", "build"]).env("PATH", &f.root);
+        Some(barrier)
     } else {
         command.arg(binary("arc-exec-fixture"));
-    }
-    let output = command
+        None
+    };
+    command
         .env(arc_core::ARC_SOCKET_PATH, &f.socket)
         .env(
             "ARC_FIXTURE_MODE",
@@ -97,8 +104,17 @@ fn run_exit_and_restart(scheduled: bool, code: u8) {
         .env("ARC_FIXTURE_MARKER", &marker)
         .env_remove("ARC_TRAFFIC_LINEAGE")
         .stdin(Stdio::null())
-        .output()
-        .unwrap();
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    let mut child = OwnedChild::new(command.spawn().unwrap());
+    // Drop the release before the child guard on unwind, so a blocked target
+    // can exit and its owned identity can be cleaned up.
+    let mut barrier = prepared;
+    if let Some(barrier) = &mut barrier {
+        barrier.wait_for_attachment(&f, &mut child);
+        barrier.release();
+    }
+    let output = child.wait_with_output().expect("terminal fixture watchdog");
     assert_eq!(output.status.code(), Some(i32::from(code)), "{output:?}");
     assert_eq!(output.stderr, b"fixture-stderr\n");
     assert_eq!(fs::read_to_string(&marker).unwrap().lines().count(), 1);

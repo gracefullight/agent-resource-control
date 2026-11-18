@@ -71,7 +71,9 @@ fn desired_state_controls_and_json_readback_use_the_frozen_authenticated_contrac
 
 #[test]
 fn lost_control_ack_reads_the_same_identity_once_without_replaying_a_write() {
-    for receipt_exists in [false, true] {
+    thread::scope(|scope| {
+        for receipt_exists in [false, true] {
+            scope.spawn(move || {
         let socket = Socket::new();
         let listener = socket.listener.try_clone().unwrap();
         let id = format!("4-{}", "a".repeat(32));
@@ -105,12 +107,16 @@ fn lost_control_ack_reads_the_same_identity_once_without_replaying_a_write() {
         assert!(String::from_utf8_lossy(&result.stderr).contains(&id));
         assert!(String::from_utf8_lossy(&result.stderr).contains("Change not confirmed"));
         server.join().unwrap();
-    }
+        });
+        }
+    });
 }
 
 #[test]
 fn replayed_pause_receipt_displays_current_state_after_another_client_resumes() {
-    for json_output in [false, true] {
+    thread::scope(|scope| {
+        for json_output in [false, true] {
+            scope.spawn(move || {
         let socket = Socket::new();
         let listener = socket.listener.try_clone().unwrap();
         let id = format!("4-{}", "d".repeat(32));
@@ -162,7 +168,9 @@ fn replayed_pause_receipt_displays_current_state_after_another_client_resumes() 
             std::io::ErrorKind::WouldBlock,
             "a replay must only read, never resend or rebase the mutation"
         );
-    }
+        });
+        }
+    });
 }
 
 #[test]
@@ -218,6 +226,9 @@ fn conflict_is_a_failed_control_and_invalid_revision_identity_never_dispatches()
 #[path = "governor/execution.rs"]
 mod execution;
 
+#[cfg(target_os = "macos")]
+#[path = "../../arc-daemon/tests/support/mod.rs"]
+mod coordination;
 #[cfg(unix)]
 #[allow(dead_code)] // Reuse the maintained owned-process/coordination fixture ports.
 #[path = "../../arc-daemon/tests/support/native_fixture.rs"]
@@ -229,6 +240,20 @@ mod native_process;
 #[cfg(target_os = "macos")]
 #[path = "governor/native_recovery.rs"]
 mod native_recovery;
+
 #[cfg(target_os = "macos")]
-#[path = "../../arc-daemon/tests/support/mod.rs"]
-mod serialization;
+mod serialization {
+    pub fn serial() -> super::coordination::Serial {
+        if matches!(
+            std::thread::current().name(),
+            Some(
+                "native_recovery::native_environment::native_environment_real_go_preserves_lineage_and_nested_permit_and_legacy_fallback"
+                    | "native_recovery::owned_tree_tests::native_environment_early_unwind_cleans_direct_and_nested_go_trees"
+            )
+        ) {
+            // Compile the offline Go cache without holding the daemon anchor.
+            super::native_recovery::native_environment::prepare_go_cache();
+        }
+        super::coordination::serial()
+    }
+}

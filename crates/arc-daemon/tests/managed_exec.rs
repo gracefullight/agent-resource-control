@@ -1,6 +1,8 @@
 //! Native lifecycle acceptance through real authenticated IPC and SQLite.
 #[path = "managed_exec/cli.rs"]
 mod cli;
+#[path = "support/mod.rs"]
+mod coordination;
 #[path = "managed_exec/pipeline.rs"]
 mod pipeline;
 #[path = "managed_exec/protocol.rs"]
@@ -8,7 +10,25 @@ mod protocol;
 #[allow(dead_code)] // Shared fixture helpers also serve older acceptance suites.
 #[path = "support/runtime.rs"]
 mod runtime;
-mod support;
+// The accepted historical client is built and validated independently of the
+// per-user daemon. Prepare it before taking the daemon lock so unrelated
+// lifecycle cases can run while the offline compatibility fixture is built.
+mod support {
+    pub fn serial() -> super::coordination::Serial {
+        let current = std::thread::current();
+        if matches!(
+            current.name(),
+            Some(
+                "cli::spawn_failure_quick_exit_help_and_status_have_static_diagnostics"
+                    | "fail_open::historical_arcctl_fails_live_fallback_assertions"
+                    | "retries::cli_has_one_child_under_before_after_commit_reply_loss_and_retains_exit17"
+            )
+        ) {
+            super::historical::negative_control_binary();
+        }
+        super::coordination::serial()
+    }
+}
 #[path = "managed_exec/terminal.rs"]
 mod terminal;
 

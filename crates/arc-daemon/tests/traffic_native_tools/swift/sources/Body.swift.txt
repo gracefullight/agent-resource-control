@@ -11,7 +11,7 @@ func fixtureRequired(_ key: String, in environment: [String: String]) throws -> 
     return value
 }
 
-func fixtureBody(root: String, readInput: Bool) throws {
+func fixtureBody(root: String, readInput: Bool, testBundle: String? = nil) throws {
     let env = ProcessInfo.processInfo.environment
     // Log only the fixture's explicit contract, never the complete environment.
     var fixture: [String: String] = [:]
@@ -32,11 +32,12 @@ func fixtureBody(root: String, readInput: Bool) throws {
     close(fd)
     let gatePath = root + "/gate.ts"
     precondition(mkfifo(gatePath, 0o600) == 0)
-    let entry: [String: Any] = [
+    var entry: [String: Any] = [
         "pid": getpid(), "ppid": getppid(), "argv": CommandLine.arguments,
         "evidenceRoot": root, "cwd": FileManager.default.currentDirectoryPath,
         "form": form, "environment": fixture, "coverage": inherited
     ]
+    if let testBundle { entry["testBundle"] = testBundle }
     try JSONSerialization.data(withJSONObject: entry, options: [.sortedKeys])
         .write(to: URL(fileURLWithPath: root + "/entry.json"), options: [.atomic])
     if !FileManager.default.fileExists(atPath: release) {

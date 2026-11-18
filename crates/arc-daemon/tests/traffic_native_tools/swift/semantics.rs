@@ -1,6 +1,6 @@
 //! Success/failure baselines and managed comparison; shared recovery remains shared.
 use super::{projects::*, tools::Tools, *};
-use crate::suite::{entered, permit_history, terminal, Prepared, Run};
+use crate::suite::{entered, permit_history, terminal, Run};
 use serde_json::json;
 use std::{
     io::Write,
@@ -28,10 +28,12 @@ pub fn offline() {
                     assert_result(&output, form, fail);
                     super::streams::validate_form(form, &output.stdout, &output.stderr);
                     let record = record(&prepared.project);
-                    json!({"form":form.id(),"fail":fail,"exitCode":output.status.code(),
+                    let facts = json!({"form":form.id(),"fail":fail,"exitCode":output.status.code(),
                         "record":record,"argv":prepared.argv,"offline":true,"executions":1,
                         "nativeChild":super::evidence::observation(&prepared.project),
-                        "stdinSupplied":INPUT,"privateCacheWritesVerified":true})
+                        "stdinSupplied":INPUT,"privateCacheWritesVerified":true});
+                    tools.release_success(&prepared.project);
+                    facts
                 }));
             }
         }
@@ -62,10 +64,15 @@ pub fn managed(read: Read) {
             );
             let expected = direct(&case.tools, &baseline);
             assert_result(&expected, form, fail);
-            (baseline, expected)
+            // The direct case is independently complete even if a sibling or
+            // its later managed comparison fails.
+            let baseline_record = record(&baseline.project);
+            let argv = baseline.argv.clone();
+            case.tools.release_baseline(&baseline.project);
+            (argv, baseline_record, expected)
         },
-        |form, fail, (baseline, expected)| {
-            managed_one(&case, form, fail, &baseline, &expected);
+        |form, fail, (argv, baseline_record, expected)| {
+            managed_one(&case, form, fail, &argv, &baseline_record, &expected);
         },
     );
     let permits = permit_history(&case, "BUILD", 4, 1);
@@ -104,7 +111,14 @@ fn compare_all<T: Send>(
     }
 }
 
-fn managed_one(case: &Case<Tools>, form: Form, fail: bool, baseline: &Prepared, expected: &Output) {
+fn managed_one(
+    case: &Case<Tools>,
+    form: Form,
+    fail: bool,
+    baseline_argv: &[String],
+    baseline_record: &serde_json::Value,
+    expected: &Output,
+) {
     let prepared = prepare(
         &case.artifacts,
         &case.tools,
@@ -113,7 +127,7 @@ fn managed_one(case: &Case<Tools>, form: Form, fail: bool, baseline: &Prepared, 
         true,
         fail,
     );
-    assert_eq!(baseline.argv[..5], prepared.argv[..5]);
+    assert_eq!(baseline_argv[..5], prepared.argv[..5]);
     let argv: Vec<_> = prepared.argv.iter().map(String::as_str).collect();
     let mut run = Run::start_with(case, &prepared.project, &argv, |command| {
         configure(&prepared.project, command);
@@ -130,7 +144,7 @@ fn managed_one(case: &Case<Tools>, form: Form, fail: bool, baseline: &Prepared, 
     let code = i32::from(fail);
     crate::suite::finish_swift(&mut run, code);
     let actual = record(&prepared.project);
-    assert_eq!(actual, record(&baseline.project));
+    assert_eq!(&actual, baseline_record);
     assert_streams(form, expected, &prepared.project);
     assert_eq!(super::evidence::body_count(&prepared.project), 1);
     let terminal = terminal(case, &run, form, code);
@@ -140,6 +154,9 @@ fn managed_one(case: &Case<Tools>, form: Form, fail: bool, baseline: &Prepared, 
                     "entry":entry,"nativeChild":super::evidence::observation(&prepared.project),
                     "offline":true,"eachExecutedOnce":true,"originalExecutionSemantics":true}),
     );
+    // Preserve this completed comparison for a later failure, but do not hold
+    // its build tree while the remaining comparisons wait for their leases.
+    case.tools.release_baseline(&prepared.project);
 }
 
 fn assert_streams(form: Form, expected: &Output, project: &Path) {

@@ -27,7 +27,9 @@ fn interrupted_go_fixture_reaps_native_descendants() {
                 "-p=2",
                 "-count=1",
                 "-run=^TestInterruptRoot$",
-                "-timeout=30s",
+                // Readiness has its own 60-second watchdog; the Go timer must
+                // leave room for the observed barrier and forced cleanup.
+                "-timeout=120s",
                 ".",
             ])
             .current_dir(&path)

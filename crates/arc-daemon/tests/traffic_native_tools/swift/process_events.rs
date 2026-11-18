@@ -1,5 +1,6 @@
 //! Event-driven waiting and output draining for the owned Swift fixture.
 use super::TreeChild;
+use arc_core::process_identity::ProcessIdentity;
 use std::{
     io::{self, Read},
     os::fd::{AsRawFd, FromRawFd, OwnedFd},
@@ -12,6 +13,122 @@ pub(super) fn is_terminal_event(info: &libc::siginfo_t) -> bool {
             info.si_code,
             libc::CLD_EXITED | libc::CLD_KILLED | libc::CLD_DUMPED
         )
+}
+
+// A process can become a zombie between identity capture and proc_pidinfo.
+// Check the native process record, including its start token, before deciding
+// that a failed parent or descendant query is a completed exit transition.
+pub(super) fn terminal_or_replaced(identity: &ProcessIdentity) -> io::Result<bool> {
+    if crate::cleanup::capture(identity.pid)?.as_ref() != Some(identity) {
+        return Ok(true);
+    }
+    #[repr(C)]
+    struct Prefix {
+        start: libc::timeval,
+        vmspace: *mut libc::c_void,
+        sigacts: *mut libc::c_void,
+        flags: libc::c_int,
+        status: libc::c_char,
+        pid: libc::pid_t,
+    }
+    let mut mib = [
+        libc::CTL_KERN,
+        libc::KERN_PROC,
+        libc::KERN_PROC_PID,
+        identity.pid as i32,
+    ];
+    let mut bytes = [0u8; 4096];
+    let mut length = bytes.len();
+    let result = unsafe {
+        libc::sysctl(
+            mib.as_mut_ptr(),
+            mib.len() as u32,
+            bytes.as_mut_ptr().cast(),
+            &mut length,
+            std::ptr::null_mut(),
+            0,
+        )
+    };
+    if result != 0 {
+        return Err(io::Error::last_os_error());
+    }
+    if length == 0 {
+        return Ok(true);
+    }
+    if length < std::mem::size_of::<Prefix>() || length > bytes.len() {
+        return Err(io::Error::other("incomplete Swift process state"));
+    }
+    let info = unsafe { std::ptr::read_unaligned(bytes.as_ptr().cast::<Prefix>()) };
+    if info.start.tv_sec <= 0 || !(0..1_000_000).contains(&info.start.tv_usec) {
+        return Err(io::Error::other("invalid Swift process start time"));
+    }
+    let start = (info.start.tv_sec as u64)
+        .checked_mul(1_000_000)
+        .and_then(|seconds| seconds.checked_add(info.start.tv_usec as u64));
+    if info.pid != identity.pid as i32
+        || start.map(|value| value.to_string()).as_ref() != Some(&identity.start_token)
+    {
+        return Ok(true);
+    }
+    Ok(info.status as u32 == libc::SZOMB)
+}
+
+fn query_after_transition<T>(
+    mut query: impl FnMut() -> io::Result<T>,
+    mut terminal: impl FnMut() -> io::Result<bool>,
+    mut retry: impl FnMut() -> bool,
+) -> io::Result<Option<T>> {
+    loop {
+        match query() {
+            Ok(value) => return Ok(Some(value)),
+            Err(error) => {
+                if terminal()? {
+                    return Ok(None);
+                }
+                if error.raw_os_error() == Some(libc::ESRCH) && retry() {
+                    continue;
+                }
+                return Err(error);
+            }
+        }
+    }
+}
+
+pub(super) fn child_parent(identity: &ProcessIdentity) -> io::Result<Option<u32>> {
+    let end = Instant::now() + Duration::from_secs(60);
+    query_after_transition(
+        || {
+            let mut info: libc::proc_bsdinfo = unsafe { std::mem::zeroed() };
+            let size = std::mem::size_of_val(&info) as i32;
+            let written = unsafe {
+                libc::proc_pidinfo(
+                    identity.pid as i32,
+                    libc::PROC_PIDTBSDINFO,
+                    0,
+                    (&mut info as *mut libc::proc_bsdinfo).cast(),
+                    size,
+                )
+            };
+            if written == size {
+                Ok(info.pbi_ppid)
+            } else {
+                Err(io::Error::last_os_error())
+            }
+        },
+        || terminal_or_replaced(identity),
+        || {
+            std::thread::yield_now();
+            Instant::now() < end
+        },
+    )
+}
+
+pub(super) fn owned_children(identity: &ProcessIdentity) -> io::Result<Vec<u32>> {
+    match crate::cleanup::children(identity.pid) {
+        Ok(children) => Ok(children),
+        Err(_) if terminal_or_replaced(identity)? => Ok(Vec::new()),
+        Err(error) => Err(error),
+    }
 }
 
 pub(super) fn wait_for_group_leader_stop(pid: u32) -> io::Result<()> {
@@ -232,4 +349,51 @@ pub(super) fn drain(pipe: &mut Option<impl Read>, bytes: &mut Vec<u8>) -> io::Re
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod transition_tests {
+    use super::*;
+
+    #[test]
+    fn missing_parent_observation_recovers_only_after_verified_exit() {
+        let mut attempts = 0;
+        let result = query_after_transition(
+            || {
+                attempts += 1;
+                Err::<u32, _>(io::Error::from_raw_os_error(libc::ESRCH))
+            },
+            || Ok(true),
+            || panic!("verified exit must not be retried"),
+        )
+        .unwrap();
+        assert_eq!(result, None);
+        assert_eq!(attempts, 1);
+    }
+
+    #[test]
+    fn transient_missing_parent_is_retried_but_denial_stays_an_error() {
+        let mut attempts = 0;
+        let result = query_after_transition(
+            || {
+                attempts += 1;
+                if attempts == 1 {
+                    Err(io::Error::from_raw_os_error(libc::ESRCH))
+                } else {
+                    Ok(17)
+                }
+            },
+            || Ok(false),
+            || true,
+        )
+        .unwrap();
+        assert_eq!(result, Some(17));
+        let error = query_after_transition(
+            || Err::<u32, _>(io::Error::from_raw_os_error(libc::EACCES)),
+            || Ok(false),
+            || panic!("denied observation must not be retried"),
+        )
+        .unwrap_err();
+        assert_eq!(error.raw_os_error(), Some(libc::EACCES));
+    }
 }

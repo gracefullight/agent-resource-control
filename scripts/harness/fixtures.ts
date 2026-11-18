@@ -1,11 +1,19 @@
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, chmodSync, unlinkSync, symlinkSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, chmodSync, unlinkSync, symlinkSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve, dirname, join } from "node:path";
-import { root, sync, oracle, sha } from "./test-support";
+import { root, sync, runSync, oracle, sha } from "./test-support";
 
 export type Fixture = { id: string; content?: Record<string, string | Buffer>; args?: string[]; coverageExit?: number;
   missingBun?: boolean; skip?: boolean; missing?: string[]; links?: Record<string, string>; staged?: boolean;
   unstaged?: Record<string, string>; deleteStaged?: string[]; emptyStaged?: boolean; unreadable?: string[] };
+export function retireFixture(dir: string, passed: boolean) {
+  if (passed) rmSync(dir, { recursive: true, force: true });
+}
+export function withRetiredFixture<T>(dir: string, run: () => T): T {
+  let passed = false;
+  try { const result = run(); passed = true; return result; }
+  finally { retireFixture(dir, passed); }
+}
 const secret = (prefix: string, n: number) => prefix + "A".repeat(n);
 const key = (name: string) => `${name}="${"A".repeat(20)}"\n`;
 const remove = ["rm", "-rf", "/tmp/probe"].join(" ");
@@ -108,7 +116,7 @@ export function executeFixture(f: Fixture, dir: string, env: Record<string, stri
   const path = resolve(dir, "scripts/harness/validate.sh"); mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, candidate ? readFileSync(resolve(root, "scripts/harness/validate.sh")) : oracle()); chmodSync(path, 0o755);
   for (const p of [".fixture-calls", ".fixture-grep"]) { try { unlinkSync(resolve(dir, p)); } catch {} }
-  const result = Bun.spawnSync(["/bin/bash", path, ...(f.args ?? (f.staged || f.emptyStaged ? ["--staged"] : []))], { cwd: dir, env, stdout: "pipe", stderr: "pipe" });
+  const result = runSync(["/bin/bash", path, ...(f.args ?? (f.staged || f.emptyStaged ? ["--staged"] : []))], dir, undefined, { env });
   let calls = "", trace = Buffer.alloc(0);
   try { calls = readFileSync(resolve(dir, ".fixture-calls"), "utf8"); } catch {}
   try { trace = readFileSync(resolve(dir, ".fixture-grep")); } catch {}

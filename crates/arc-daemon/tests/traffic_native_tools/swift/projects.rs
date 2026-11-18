@@ -1,23 +1,111 @@
 //! Dependency-free packages. Direct and managed children use this exact isolation.
+pub use super::direct::direct;
 use super::{super::*, tools::Tools};
 use std::{
     fs,
     process::{Command, Output, Stdio},
-    time::{Duration, Instant},
+    time::Duration,
 };
 pub const VALUE: &str = "literal $HOME ' value 日本語";
 pub const INPUT: &[u8] = b"stdin\0native bytes\n";
+#[cfg(test)]
+static SEED_PREPARATIONS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
 
-pub fn prepare(
-    directory: &Path,
-    tools: &Tools,
-    name: &str,
-    form: Form,
-    hold: bool,
-    fail: bool,
-) -> Prepared {
+pub(super) fn build_tree(project: &Path, tools: &Tools, form: Form) {
+    assert!(!project.exists(), "SwiftPM pool tree must be new");
     assert!(matches!(form, Form::SwiftBuild | Form::SwiftTest));
-    let project = directory.join(name);
+    create_sources(project, tools);
+    // Prepare the tree with the same form as its borrowers, at its final path.
+    // This preparation is not a scenario: release the fixture body immediately
+    // and remove its observations before the tree is made available.
+    write(&project.join("form"), form.id());
+    write(&project.join("release"), "release");
+    let mut command = Command::new(&tools.swift);
+    command
+        .arg(if form == Form::SwiftBuild {
+            "build"
+        } else {
+            "test"
+        })
+        .args(["--package-path", "package path"])
+        .arg("--scratch-path")
+        .arg(project.join("scratch path"))
+        .args(["--configuration=debug", "--jobs", "1"])
+        .current_dir(project)
+        .stdin(Stdio::null())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
+    if form == Form::SwiftTest {
+        command.args(["--filter", "FixtureTests.testNative"]);
+    }
+    configure(project, &mut command);
+    let description = format!("{command:?}");
+    let output = super::process::TreeChild::spawn(command)
+        .and_then(|mut child| child.wait_with_output(Duration::from_secs(300)))
+        .unwrap_or_else(|error| panic!("offline SwiftPM preparation {description}: {error}"));
+    assert!(
+        output.status.success(),
+        "offline SwiftPM preparation {description}: {output:?}"
+    );
+    reset_tree(project).expect("reset SwiftPM preparation observations");
+    #[cfg(test)]
+    SEED_PREPARATIONS.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+}
+
+/// Restore scenario-owned observations, leaving the path-bound products in place.
+pub(super) fn reset_tree(project: &Path) -> std::io::Result<()> {
+    for name in [
+        "form",
+        "fail",
+        "release",
+        "launches",
+        "release-witness",
+        "native-child.json",
+        "entry.json",
+        "semantic.json",
+        "bodies",
+        "gate.ts",
+        "stdout",
+        "stderr",
+        "direct-stdout",
+        "direct-stderr",
+        ".arc-swift-case-passed",
+    ] {
+        match fs::remove_file(project.join(name)) {
+            Ok(()) => {}
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+            Err(error) => return Err(error),
+        }
+    }
+    let mut pending = vec![(project.join("scratch path/plugins/outputs"), 0)];
+    let mut visited = 0;
+    while let Some((directory, depth)) = pending.pop() {
+        visited += 1;
+        if visited > 4096 || depth > 12 {
+            return Err(std::io::Error::other("Swift plugin reset traversal bound"));
+        }
+        let entries = match fs::read_dir(&directory) {
+            Ok(entries) => entries,
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
+            Err(error) => return Err(error),
+        };
+        for entry in entries {
+            let entry = entry?;
+            let kind = entry.file_type()?;
+            let name = entry.file_name();
+            if name == "arc-swift-evidence" && kind.is_dir() {
+                fs::remove_dir_all(entry.path())?;
+            } else if name == "ARCGenerated.swift" && (kind.is_file() || kind.is_symlink()) {
+                fs::remove_file(entry.path())?;
+            } else if kind.is_dir() {
+                pending.push((entry.path(), depth + 1));
+            }
+        }
+    }
+    Ok(())
+}
+
+fn create_sources(project: &Path, tools: &Tools) {
     let package = project.join("package path");
     fs::create_dir_all(package.join("Sources/Fixture")).unwrap();
     fs::create_dir_all(package.join("Tests/FixtureTests")).unwrap();
@@ -45,6 +133,38 @@ pub fn prepare(
         "public func fixtureAnswer() -> Int { 42 }\n",
     );
     write(&project.join("sdk-path"), tools.sdk.to_str().unwrap());
+    for cache in [
+        "scratch path",
+        "private-home",
+        "module-cache",
+        "clang-cache",
+        "config",
+    ] {
+        writable_cache(&project.join(cache));
+    }
+}
+
+pub fn prepare(
+    directory: &Path,
+    tools: &Tools,
+    name: &str,
+    form: Form,
+    hold: bool,
+    fail: bool,
+) -> Prepared {
+    assert!(matches!(form, Form::SwiftBuild | Form::SwiftTest));
+    let destination = directory.join(name);
+    let project = tools.lease(form, &destination);
+    prepare_project(project, tools, form, hold, fail)
+}
+
+fn prepare_project(
+    project: PathBuf,
+    tools: &Tools,
+    form: Form,
+    hold: bool,
+    fail: bool,
+) -> Prepared {
     write(&project.join("form"), form.id());
     if fail {
         write(&project.join("fail"), "1");
@@ -122,53 +242,6 @@ fn ready(run: &mut Run) -> bool {
     run.wrapper.own_process(identity);
     run.fifo = Some(file);
     true
-}
-
-pub fn direct(tools: &Tools, prepared: &Prepared) -> Output {
-    use std::io::Write;
-    let mut command = Command::new(tools.shims.join("swift"));
-    command
-        .args(&prepared.argv[1..])
-        .current_dir(&prepared.project)
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped());
-    configure(&prepared.project, &mut command);
-    command.stdin(Stdio::piped());
-    // Parent-supplied fixture lineage cannot turn a direct baseline into a nested run.
-    command.env_remove("TBS_PREDECESSOR");
-    // Even direct baselines stop at the real native body so its live identity and
-    // SwiftPM-selected evidence path are verified before explicit release.
-    if prepared.project.join("release").exists() {
-        fs::remove_file(prepared.project.join("release")).unwrap();
-    }
-    let mut child = super::process::TreeChild::spawn(command).unwrap();
-    child.child.stdin.take().unwrap().write_all(INPUT).unwrap();
-    let end = Instant::now() + Duration::from_secs(180);
-    let mut gate = loop {
-        if child.has_exited().unwrap() {
-            let output = child.wait_with_output_until_exit().unwrap();
-            panic!("SwiftPM exited before native evidence/barrier: {output:?}");
-        }
-        if let Some(gate) = super::evidence::held(&prepared.project, child.child.id()) {
-            break gate;
-        }
-        assert!(
-            Instant::now() < end,
-            "SwiftPM never published native evidence and its release barrier"
-        );
-        std::thread::yield_now();
-    };
-    gate.0.write_all(b"release\n").unwrap();
-    write(&prepared.project.join("release"), "release");
-    let result = child.wait_with_output_until_exit().unwrap();
-    assert_eq!(log(&prepared.project.join("launches")).lines().count(), 1);
-    assert_eq!(
-        super::evidence::body_count(&prepared.project),
-        1,
-        "required native Swift fixture did not enter exactly once: {result:?}"
-    );
-    super::streams::validate(&result.stdout, &result.stderr);
-    result
 }
 
 pub fn record(project: &Path) -> serde_json::Value {
@@ -250,3 +323,7 @@ pub fn assert_result(output: &Output, form: Form, fail: bool) {
         );
     }
 }
+
+#[cfg(test)]
+#[path = "relocation_tests.rs"]
+mod seed_tests;

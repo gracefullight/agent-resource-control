@@ -8,7 +8,7 @@ use std::{
     path::PathBuf,
     sync::{
         atomic::{AtomicBool, Ordering},
-        Arc,
+        Arc, Mutex,
     },
     thread,
     time::{Duration, Instant},
@@ -93,7 +93,12 @@ pub struct Fault {
 }
 impl Fault {
     pub fn new(f: &Fixture, mode: &str) -> Self {
-        let path = f.root.join("fault.sock");
+        Self::at(f, mode, "fault.sock")
+    }
+    // Independent callers can exercise the same outage against one daemon
+    // without sharing the proxy's per-request counters or socket.
+    pub fn at(f: &Fixture, mode: &str, socket: &str) -> Self {
+        let path = f.root.join(socket);
         let stop = Arc::new(AtomicBool::new(false));
         let reached = Arc::new(AtomicBool::new(false));
         if mode == "absent" {
@@ -270,12 +275,22 @@ impl Fault {
                     );
                     continue;
                 }
-                let mut target = UnixStream::connect(&backend).unwrap();
-                target
-                    .set_read_timeout(Some(Duration::from_secs(60)))
-                    .unwrap();
-                let response = arc_ipc::exchange(&mut target, &r).unwrap();
-                assert_eq!(response.status, "ok", "real commit barrier");
+                // Parallel fault clients share one real daemon. Serialize only
+                // backend commits, so injected stalls still overlap without
+                // turning SQLite contention into a different fault scenario.
+                static BACKEND_COMMIT: Mutex<()> = Mutex::new(());
+                let response = {
+                    let _commit = BACKEND_COMMIT
+                        .lock()
+                        .unwrap_or_else(|error| error.into_inner());
+                    let mut target = UnixStream::connect(&backend).unwrap();
+                    target
+                        .set_read_timeout(Some(Duration::from_secs(60)))
+                        .unwrap();
+                    let response = arc_ipc::exchange(&mut target, &r).unwrap();
+                    assert_eq!(response.status, "ok", "real commit barrier");
+                    response
+                };
                 if mode == "committed-register" && action == "REGISTER"
                     || mode == "committed-claim" && action == "CLAIM"
                 {

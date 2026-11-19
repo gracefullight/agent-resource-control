@@ -2,6 +2,9 @@ use super::*;
 use arc_detector::{analyze_script_argv, scripts::*, JobClass};
 use std::fs::{self, FileTimes};
 
+#[path = "clock_tests.rs"]
+mod clock_tests;
+
 struct Fixture(PathBuf);
 impl Fixture {
     fn new() -> Self {
@@ -33,6 +36,141 @@ impl Fixture {
 impl Drop for Fixture {
     fn drop(&mut self) {
         fs::remove_dir_all(&self.0).unwrap();
+    }
+}
+
+#[test]
+fn execution_boundary_keeps_absolute_bun_script_resolution() {
+    let fixture = Fixture::new();
+    fixture.manifest("", serde_json::json!({"scripts":{"target":"vite build"}}));
+    let argv = vec![
+        OsString::from("/usr/bin/bun"),
+        OsString::from("run"),
+        OsString::from("--cwd"),
+        fixture.0.as_os_str().to_owned(),
+        OsString::from("target"),
+    ];
+    assert_eq!(classify(&argv).reason, arc_detector::Reason::BunScriptBuild);
+}
+
+#[test]
+fn package_script_remote_leaves_use_endpoint_context_without_legacy_fallthrough() {
+    let fixture = Fixture::new();
+    fixture.manifest(
+        "",
+        serde_json::json!({"scripts":{
+            "ssh":"ssh build01 make test",
+            "ci":"gh workflow run build.yml",
+            "nested-ci":"bun run --cwd nested ci",
+            "nested-local":"bun run --cwd nested local"
+        }}),
+    );
+    fixture.manifest(
+        "nested",
+        serde_json::json!({"scripts":{"ci":"gh workflow run build.yml","local":"vite build"}}),
+    );
+    let context = arc_detector::EndpointContext {
+        captured_at_ms: 10_000,
+        environment: BTreeMap::from([("GH_HOST".into(), "localhost".into())]),
+        ..Default::default()
+    };
+    for name in ["ssh", "ci"] {
+        let args = vec![
+            OsString::from("bun"),
+            OsString::from("run"),
+            OsString::from(name),
+        ];
+        let legacy = analyze_script_argv(&args, &fixture.0, &mut FreshMetadata::default());
+        assert_eq!(
+            legacy.classification.locality,
+            arc_detector::Locality::Remote
+        );
+        let contextual = arc_detector::analyze_script_argv_with_context(
+            &args,
+            &fixture.0,
+            &mut FreshMetadata::default(),
+            &context,
+            10_000,
+        );
+        assert_eq!(contextual.classification.classification, JobClass::Unknown);
+        assert_eq!(
+            contextual.classification.uncertainty,
+            arc_detector::Uncertainty::Observe
+        );
+    }
+
+    // Positive control: a simulated, verified effective repository host, not
+    // GH_HOST alone, supports the same remote graph.
+    let context = arc_detector::EndpointContext {
+        captured_at_ms: 10_000,
+        facts: vec![arc_detector::EndpointFact {
+            kind: arc_detector::EndpointKind::CiHost,
+            selector: "gh".into(),
+            endpoints: vec!["https://github.com".into()],
+        }],
+        ..Default::default()
+    };
+    let args = ["bun".into(), "run".into(), "ci".into()];
+    let remote = arc_detector::analyze_script_argv_with_context(
+        &args,
+        &fixture.0,
+        &mut FreshMetadata::default(),
+        &context,
+        10_000,
+    );
+    assert_eq!(remote.classification.classification, JobClass::RemoteCi);
+    assert_eq!(
+        remote.classification.locality,
+        arc_detector::Locality::Remote
+    );
+    assert_eq!(
+        remote.classification.reason,
+        arc_detector::Reason::GhWorkflowRun
+    );
+    for (name, expected) in [
+        ("nested-ci", JobClass::Unknown),
+        ("nested-local", JobClass::Build),
+    ] {
+        let args = ["bun".into(), "run".into(), name.into()];
+        let nested = arc_detector::analyze_script_argv_with_context(
+            &args,
+            &fixture.0,
+            &mut FreshMetadata::default(),
+            &context,
+            10_000,
+        );
+        assert_eq!(nested.classification.classification, expected, "{name}");
+    }
+}
+
+#[test]
+fn unavailable_endpoint_data_retains_only_revalidated_local_script_graphs() {
+    let fixture = Fixture::new();
+    fixture.manifest(
+        "",
+        serde_json::json!({"scripts":{
+            "local":"vite build",
+            "remote":"gh workflow run build.yml",
+            "mixed":"vite build && gh workflow run build.yml"
+        }}),
+    );
+    for (name, expected) in [
+        ("local", Some(JobClass::Build)),
+        ("remote", None),
+        ("mixed", None),
+    ] {
+        let args = vec![
+            OsString::from("bun"),
+            OsString::from("run"),
+            OsString::from("--cwd"),
+            fixture.0.as_os_str().to_owned(),
+            OsString::from(name),
+        ];
+        assert_eq!(
+            local_without_endpoint_context(&args).map(|result| result.classification),
+            expected,
+            "{name}"
+        );
     }
 }
 

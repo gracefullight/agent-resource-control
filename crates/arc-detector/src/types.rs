@@ -104,6 +104,15 @@ pub enum Reason {
     SshAmbiguous,
     #[serde(rename = "DOCKER_ENDPOINT_UNKNOWN")]
     DockerEndpointUnknown,
+    /// Additive locality vocabulary, available only on the contextual route.
+    #[serde(rename = "REMOTE_CI_DISPATCH")]
+    RemoteCiDispatch,
+    #[serde(rename = "REMOTE_ENDPOINT_EXEC")]
+    RemoteEndpointExec,
+    #[serde(rename = "LOCAL_ENDPOINT_BUILD")]
+    LocalEndpointBuild,
+    #[serde(rename = "ENDPOINT_AMBIGUOUS")]
+    EndpointAmbiguous,
     #[serde(rename = "INPUT_LIMIT")]
     InputLimit,
     #[serde(rename = "TOKEN_LIMIT")]
@@ -185,6 +194,9 @@ impl Classification {
             R::BunScriptTypecheck => self.classification == C::Typecheck,
             R::GhWorkflowRun | R::GhRunWatch | R::GhRunView => self.classification == C::RemoteCi,
             R::SshRemoteCommand => self.classification == C::RemoteExec,
+            R::RemoteCiDispatch => self.classification == C::RemoteCi,
+            R::RemoteEndpointExec => self.classification == C::RemoteExec,
+            R::LocalEndpointBuild => self.classification == C::Build,
             R::CompoundLocal => matches!(
                 self.classification,
                 C::Build | C::Test | C::Lint | C::Typecheck
@@ -229,6 +241,7 @@ impl Classification {
     /// Exact protocol-1 vocabulary predating negotiated additions. Never project storage.
     pub fn legacy(self) -> Self {
         if self.reason == Reason::BunTest
+            || self.is_endpoint_locality()
             || self.is_bun_script()
             || self.is_python_test()
             || self.is_native_tool()
@@ -238,5 +251,16 @@ impl Classification {
         } else {
             self
         }
+    }
+
+    /// Reasons introduced by the endpoint-aware classification operation.
+    pub fn is_endpoint_locality(&self) -> bool {
+        matches!(
+            self.reason,
+            Reason::RemoteCiDispatch
+                | Reason::RemoteEndpointExec
+                | Reason::LocalEndpointBuild
+                | Reason::EndpointAmbiguous
+        )
     }
 }

@@ -1,6 +1,8 @@
 //! One CLI-owned native child, independent of every metadata retry.
 mod accounting;
+mod ci_context;
 mod descriptors;
+mod endpoint_context;
 mod entry;
 mod governor;
 mod launch;

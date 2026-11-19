@@ -23,11 +23,55 @@ pub(super) struct FreshMetadata {
 }
 
 pub(super) fn classify(argv: &[OsString]) -> Classification {
+    // These native workload recognizers have no endpoint dependency. Do not
+    // make their local admission depend on unrelated environment or clocks.
+    let direct = arc_detector::classify_argv(argv);
+    if direct.locality == arc_detector::Locality::HostLocal {
+        return direct;
+    }
+    let Some(mut context) = super::endpoint_context::capture(argv) else {
+        return local_without_endpoint_context(argv).unwrap_or_else(unknown);
+    };
+    if super::ci_context::extend(argv, &mut context).is_none() {
+        return local_without_endpoint_context(argv).unwrap_or_else(unknown);
+    }
+    classify_with_context(argv, &context, || arc_ipc::locality::now_ms().unwrap_or(0))
+}
+
+fn classify_with_context(
+    argv: &[OsString],
+    context: &arc_detector::EndpointContext,
+    mut now_ms: impl FnMut() -> u64,
+) -> Classification {
+    let now = now_ms();
+    if !context.is_valid_at(now) {
+        return local_without_endpoint_context(argv).unwrap_or_else(unknown);
+    }
+    let contextual = arc_detector::classify_argv_with_context(argv, context, now);
+    // The old lifecycle operation cannot carry new reason strings. It receives
+    // a conservative projection until an additive execution route exists.
+    if contextual.is_endpoint_locality() {
+        return contextual.legacy();
+    }
+    // The script resolver also accepts an absolute Bun executable path, which
+    // the syntax-only fallback intentionally does not recognize as a command.
+    if argv
+        .first()
+        .and_then(|program| Path::new(program).file_name())
+        .is_none_or(|name| name != "bun")
+    {
+        return contextual;
+    }
     let Ok(cwd) = std::env::current_dir() else {
         return arc_detector::classify_argv(argv).legacy();
     };
     let mut metadata = FreshMetadata::default();
-    let mut result = arc_detector::analyze_script_argv(argv, &cwd, &mut metadata);
+    let now = now_ms();
+    if !context.is_valid_at(now) {
+        return local_without_endpoint_context(argv).unwrap_or_else(unknown);
+    }
+    let mut result =
+        arc_detector::analyze_script_argv_with_context(argv, &cwd, &mut metadata, context, now);
     if !result.packages.is_empty()
         && metadata
             .revalidate(&result.packages, &mut result.metadata)
@@ -35,7 +79,52 @@ pub(super) fn classify(argv: &[OsString]) -> Classification {
     {
         return arc_detector::classify_argv(argv).legacy();
     }
-    result.classification
+    if !context.is_valid_at(now_ms()) {
+        return local_without_endpoint_context(argv).unwrap_or_else(unknown);
+    }
+    if result.classification.is_endpoint_locality() {
+        result.classification.legacy()
+    } else {
+        result.classification
+    }
+}
+
+fn unknown() -> Classification {
+    arc_detector::Classification {
+        classification: arc_detector::JobClass::Unknown,
+        locality: arc_detector::Locality::Unknown,
+        reason: arc_detector::Reason::UnresolvedCommand,
+        uncertainty: arc_detector::Uncertainty::Observe,
+    }
+}
+
+// An unavailable endpoint snapshot cannot make a remote or mixed script local.
+// The legacy graph only returns HOST_LOCAL when all supported leaves are local;
+// still revalidate every consulted package before retaining that result.
+fn local_without_endpoint_context(argv: &[OsString]) -> Option<Classification> {
+    let direct = arc_detector::classify_argv(argv);
+    if direct.locality == arc_detector::Locality::HostLocal {
+        return Some(direct);
+    }
+    if argv
+        .first()
+        .and_then(|program| Path::new(program).file_name())
+        .is_none_or(|name| name != "bun")
+    {
+        return None;
+    }
+    let cwd = std::env::current_dir().ok()?;
+    let mut metadata = FreshMetadata::default();
+    let mut result = arc_detector::analyze_script_argv(argv, &cwd, &mut metadata);
+    if result.classification.locality != arc_detector::Locality::HostLocal
+        || result.packages.is_empty()
+        || metadata
+            .revalidate(&result.packages, &mut result.metadata)
+            .is_err()
+    {
+        return None;
+    }
+    Some(result.classification)
 }
 
 fn read(path: &Path, budget: &mut MetadataStats) -> Result<Option<Vec<u8>>, E> {

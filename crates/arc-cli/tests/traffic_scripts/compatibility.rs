@@ -310,44 +310,6 @@ fn invalid_capability_reply_stops_before_spawn_and_does_not_approve_scripts_from
     assert!(String::from_utf8_lossy(&result.stderr).contains("IPC_ERROR"));
 }
 
-#[test]
-fn remote_only_and_unsupported_graphs_execute_as_observations_without_local_admission() {
-    for (body, locality) in [
-        ("gh workflow run ci.yml", "REMOTE"),
-        ("ssh remote.example 'bun run build'", "REMOTE"),
-        ("vite build --watch", "UNKNOWN"),
-        ("vite build && biome check .", "UNKNOWN"),
-        ("bun run surprise", "UNKNOWN"),
-    ] {
-        let socket = Socket::new();
-        setup(&socket, body);
-        let listener = socket.listener.try_clone().unwrap();
-        let server = thread::spawn(move || {
-            for _ in 0..3 {
-                let (stream, request) = next(&listener);
-                assert_eq!(
-                    request.operation,
-                    arc_ipc::jobs::OPERATION_JOB_START,
-                    "Bypass graphs must never enqueue or negotiate a reservation"
-                );
-                assert_eq!(request.payload["classification"]["locality"], locality);
-                assert_ne!(request.payload["classification"]["classification"], "BUILD");
-                drop(stream);
-            }
-        });
-        let result = output(command(&socket));
-        server.join().unwrap();
-        assert_eq!(result.status.code(), Some(17));
-        assert_eq!(
-            fs::read_to_string(socket.root.join("starts"))
-                .unwrap()
-                .lines()
-                .count(),
-            1
-        );
-    }
-}
-
 fn assert_typecheck_observation(body: &str, forwarded: &[&str]) {
     let socket = Socket::new();
     setup(&socket, body);

@@ -8,6 +8,7 @@ pub(crate) struct Parser<'a> {
     lexer: Lexer<'a>,
     look: Option<Token>,
     loaded: bool,
+    context: Option<&'a crate::EndpointContext>,
 }
 pub(crate) struct Invocation {
     pub words: Vec<String>,
@@ -23,6 +24,13 @@ impl<'a> Parser<'a> {
             lexer: Lexer::new(source),
             look: None,
             loaded: false,
+            context: None,
+        }
+    }
+    pub(crate) fn with_context(source: &'a str, context: &'a crate::EndpointContext) -> Self {
+        Self {
+            context: Some(context),
+            ..Self::new(source)
         }
     }
     fn peek(&mut self, b: &mut Budget) -> Checked<&Option<Token>> {
@@ -132,7 +140,11 @@ impl<'a> Parser<'a> {
                         b.depth(depth + 1)?;
                         // Borrow decoded storage: no additional nested-input copy.
                         let before = leaves.len();
-                        Parser::new(&words[2]).parse(depth + 1, b, leaves)?;
+                        let mut nested = match self.context {
+                            Some(context) => Parser::with_context(&words[2], context),
+                            None => Parser::new(&words[2]),
+                        };
+                        nested.parse(depth + 1, b, leaves)?;
                         if leaves.len() == before {
                             b.charge(1)?;
                             leaves.push(Classification::unknown(Reason::EmptyCommand));
@@ -142,7 +154,13 @@ impl<'a> Parser<'a> {
                         leaves.push(Classification::unknown(Reason::UnresolvedScript));
                     }
                 } else {
-                    let result = rules::recognize(&words, b)?;
+                    let result = match self.context {
+                        Some(context) => match crate::locality::recognize(&words, context, b)? {
+                            Some(result) => result,
+                            None => rules::recognize(&words, b)?,
+                        },
+                        None => rules::recognize(&words, b)?,
+                    };
                     b.charge(1)?; // effective child consumed
                     leaves.push(result);
                 }

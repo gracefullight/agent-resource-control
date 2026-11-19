@@ -11,7 +11,9 @@ mod pipeline;
 #[path = "../../src/exec"]
 mod exec {
     mod accounting;
+    mod ci_context;
     mod descriptors;
+    mod endpoint_context;
     mod entry;
     mod governor;
     mod launch;

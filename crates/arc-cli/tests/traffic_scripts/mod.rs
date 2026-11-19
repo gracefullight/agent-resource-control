@@ -3,4 +3,5 @@
 mod bun_semantics;
 mod compatibility;
 mod diagnostics;
+mod endpoint_compatibility;
 pub(super) mod execution;

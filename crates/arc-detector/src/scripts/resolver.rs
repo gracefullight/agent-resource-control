@@ -25,8 +25,31 @@ pub fn analyze_script_argv(
     cwd: &Path,
     metadata: &mut impl PackageMetadata,
 ) -> ScriptResolution {
+    analyze_script(argv, cwd, metadata, None)
+}
+
+/// Resolve package scripts with the same terminal endpoint decisions used by
+/// direct commands. Invalid context never reaches metadata or legacy rules.
+pub fn analyze_script_argv_with_context(
+    argv: &[OsString],
+    cwd: &Path,
+    metadata: &mut impl PackageMetadata,
+    context: &crate::EndpointContext,
+    now_ms: u64,
+) -> ScriptResolution {
+    analyze_script(argv, cwd, metadata, Some((context, now_ms)))
+}
+
+fn analyze_script(
+    argv: &[OsString],
+    cwd: &Path,
+    metadata: &mut impl PackageMetadata,
+    context: Option<(&crate::EndpointContext, u64)>,
+) -> ScriptResolution {
     let mut graph = Graph {
         source: metadata,
+        context,
+        context_cwd: cwd,
         result: ScriptResolution {
             classification: Classification::unknown(Reason::UnresolvedScript),
             analysis: Budget::default(),
@@ -38,7 +61,11 @@ pub fn analyze_script_argv(
         active: Vec::new(),
         leaves: Vec::new(),
     };
-    let result = graph.native(argv, cwd);
+    let result = if context.is_some_and(|(ctx, now)| !ctx.is_valid_at(now)) {
+        Err(syntax(Reason::EndpointAmbiguous))
+    } else {
+        graph.native(argv, cwd)
+    };
     match result {
         Ok(classification) => graph.result.classification = classification,
         Err((reason, issue)) => {
@@ -51,6 +78,8 @@ pub fn analyze_script_argv(
 
 struct Graph<'a, M> {
     source: &'a mut M,
+    context: Option<(&'a crate::EndpointContext, u64)>,
+    context_cwd: &'a Path,
     result: ScriptResolution,
     active: Vec<(PathBuf, String)>,
     leaves: Vec<Classification>,
@@ -74,10 +103,10 @@ impl<M: PackageMetadata> Graph<'_, M> {
             words.push(word.to_owned());
         }
         if !super::commands::is_bun(words.first().map(String::as_str).unwrap_or("")) {
-            return Ok(crate::classify_argv(argv));
+            return Ok(self.classify_native(argv));
         }
         let Some(call) = super::commands::script_call(&words, cwd, b).map_err(syntax)? else {
-            return Ok(crate::classify_argv(argv));
+            return Ok(self.classify_native(argv));
         };
         b.invocation().map_err(syntax)?;
         self.script(&call.cwd, &call.name, &call.args, 0)?;
@@ -93,6 +122,12 @@ impl<M: PackageMetadata> Graph<'_, M> {
             _ => return Err((Reason::UnresolvedCompound, ScriptIssue::Mixed)),
         };
         Ok(Classification::new(class.classification, reason))
+    }
+    fn classify_native(&self, argv: &[OsString]) -> Classification {
+        self.context.map_or_else(
+            || crate::classify_argv(argv),
+            |(context, now)| crate::classify_argv_with_context(argv, context, now),
+        )
     }
     fn edge(&mut self, depth: usize) -> Result<()> {
         self.result.analysis.depth(depth).map_err(syntax)?;
@@ -178,8 +213,26 @@ impl<M: PackageMetadata> Graph<'_, M> {
             {
                 self.script(&call.cwd, &call.name, &call.args, invocation.depth + 1)?;
             } else {
-                let leaf = super::commands::leaf(&invocation.words, &mut self.result.analysis)
-                    .map_err(syntax)?;
+                let contextual = if let Some((context, _)) = self.context {
+                    crate::locality::recognize(
+                        &invocation.words,
+                        context,
+                        &mut self.result.analysis,
+                    )
+                    .map_err(syntax)?
+                } else {
+                    None
+                };
+                // Endpoint facts describe the caller's cwd. Bun may resolve a
+                // parent or nested package with a different repository/config.
+                if contextual.is_some() && cwd != self.context_cwd {
+                    return Err(unsupported());
+                }
+                let leaf = match contextual {
+                    Some(classification) => classification,
+                    None => super::commands::leaf(&invocation.words, &mut self.result.analysis)
+                        .map_err(syntax)?,
+                };
                 if leaf.classification == JobClass::Unknown {
                     return Err(unsupported());
                 }
@@ -217,6 +270,8 @@ mod tests {
         // independently retain the frozen graph-edge guard for all traversals.
         let mut graph = Graph {
             source: &mut NoMetadata,
+            context: None,
+            context_cwd: Path::new("."),
             result: ScriptResolution {
                 classification: Classification::unknown(Reason::UnresolvedScript),
                 analysis: Budget::default(),

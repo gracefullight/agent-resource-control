@@ -20,6 +20,10 @@ use tokio::{
 mod legacy_projection;
 use legacy_projection::project_legacy_snapshot;
 
+#[path = "connection/classification.rs"]
+mod classification;
+use classification::classify_request;
+
 pub(crate) use arc_ipc::ERROR_DB_BUSY;
 #[path = "governor_dispatch.rs"]
 pub(crate) mod governor_dispatch;
@@ -270,13 +274,7 @@ async fn handle_inner<D, F, J, G, T, H>(
         }
         // Classification consumes the payload synchronously under request admission.
         // Version rejection in dispatch precedes all typed payload decoding.
-        let classified = if request.operation == arc_ipc::OPERATION_JOB_CLASSIFY {
-            Some(arc_ipc::dispatch(&request, || {
-                unreachable!("classification never uses SQLite")
-            }))
-        } else {
-            None
-        };
+        let classified = classify_request(&request, arc_ipc::locality::now_ms().unwrap_or(0));
         let lifecycle = if request.protocol_version == PROTOCOL_VERSION {
             arc_ipc::jobs::LifecycleRequest::decode(&request.operation, &request.payload)
         } else {

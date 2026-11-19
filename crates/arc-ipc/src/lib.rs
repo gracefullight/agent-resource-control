@@ -8,6 +8,7 @@
 pub mod client;
 pub mod governor;
 pub mod jobs;
+pub mod locality;
 pub mod meter;
 pub mod policy;
 mod schema;
@@ -362,6 +363,7 @@ where
 
     match request.operation.as_str() {
         OPERATION_JOB_CLASSIFY => classify_response(request),
+        locality::OPERATION_CLASSIFY => locality::classify_response(request),
         OPERATION_HELLO => Response::ok(
             &request.request_id,
             json!({

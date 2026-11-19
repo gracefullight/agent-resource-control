@@ -39,6 +39,16 @@ mod retries;
 #[path = "managed_exec/scenarios.rs"]
 mod scenarios;
 
+#[path = "managed_exec/remote_contract.rs"]
+mod remote_contract;
+
+#[path = "managed_exec/remote_ci.rs"]
+mod remote_ci;
+#[path = "managed_exec/remote_endpoints.rs"]
+mod remote_endpoints;
+#[path = "managed_exec/remote_unknown.rs"]
+mod remote_unknown;
+
 #[path = "managed_exec/historical.rs"]
 mod historical;
 

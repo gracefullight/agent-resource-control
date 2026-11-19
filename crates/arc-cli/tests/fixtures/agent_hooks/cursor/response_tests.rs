@@ -1,7 +1,8 @@
 use super::*;
 
-// Validate only the explicit object/type/required/enum rules in the published
-// schema projection; this is not Cursor's parser or approval implementation.
+// Validate only object/type/required/enum rules in the projection derived from
+// the vendor reference and recorded accepted response; this is not Cursor's
+// parser or approval implementation.
 fn documented_response(schema: &Value, value: &Value) -> bool {
     let Some(object) = value.as_object() else {
         return false;
@@ -34,21 +35,26 @@ fn documented_response(schema: &Value, value: &Value) -> bool {
     })
 }
 
-pub(super) fn schema_candidates(root: &Path, bin: &Path, arcctl: &Path) {
+pub(super) fn schema_candidates(root: &Path, _bin: &Path, arcctl: &Path) {
     let context = HookContext {
         executable: Some(arcctl.to_path_buf()),
     };
-    let surface = VerifiedSurface {
-        command_path: bin.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     let schema: Value =
         serde_json::from_str(include_str!("pre-tool-use-response-schema.json")).unwrap();
     let candidate = cursor::handle_verified(&event(), &context, Some(&surface)).unwrap();
     assert!(candidate.get("permission").is_none());
     assert!(candidate["updated_input"].is_object());
-    // The frozen fixture-only transformation does not satisfy this projection.
-    // Production must not send it until the real runtime and approval are proven.
-    assert!(!documented_response(&schema, &candidate));
+    // The recorded runtime accepts updated_input without a permission field.
+    assert!(documented_response(&schema, &candidate));
+    for recorded in [
+        include_str!("recorded/response-cargo-build-rewrite.json"),
+        include_str!("recorded/response-bun-run-build-rewrite.json"),
+    ] {
+        let recorded: Value = serde_json::from_str(recorded).unwrap();
+        assert!(recorded.get("permission").is_none());
+        assert!(documented_response(&schema, &recorded));
+    }
     assert!(documented_response(
         &schema,
         &json!({"permission": "ask", "updated_input": candidate["updated_input"]})
@@ -58,7 +64,7 @@ pub(super) fn schema_candidates(root: &Path, bin: &Path, arcctl: &Path) {
         &json!({"permission": "allow"})
     ));
     assert!(documented_response(&schema, &json!({"permission": "deny"})));
-    assert!(!documented_response(
+    assert!(documented_response(
         &schema,
         &json!({"updated_input": {"command": "cargo build"}})
     ));
@@ -70,14 +76,14 @@ pub(super) fn schema_candidates(root: &Path, bin: &Path, arcctl: &Path) {
         &schema,
         &json!({"permission": "ask", "updated_input": "invalid"})
     ));
-    // No fixture verdict is sent by the production entry: the real approval
-    // and denial paths cannot be established by this schema check.
-    assert!(cursor::handle(&event(), &context).is_none());
+    // The production response makes no permission decision. This schema check
+    // does not establish the approval UI.
+    assert_eq!(cursor::handle(&event(), &context), Some(candidate));
     assert!(!root.join("starts").exists());
 }
 
 #[test]
-fn provisional_fixture_and_documented_schema_projection_remain_distinct() {
+fn recorded_response_form_matches_contract_projection() {
     Fixture::new().worker("schema-candidates", &[]);
 }
 
@@ -92,11 +98,10 @@ fn fixture_host_decision(
 ) -> Option<std::process::Output> {
     let schema: Value =
         serde_json::from_str(include_str!("pre-tool-use-response-schema.json")).unwrap();
-    if responses.iter().any(|response| {
-        !(documented_response(&schema, response)
-            || response.as_object().is_some_and(|object| object.len() == 1)
-                && response.get("updated_input").is_some_and(Value::is_object))
-    }) || !approved
+    if responses
+        .iter()
+        .any(|response| !documented_response(&schema, response))
+        || !approved
         || responses
             .iter()
             .any(|response| response.get("permission").and_then(Value::as_str) == Some("deny"))
@@ -115,9 +120,7 @@ pub(super) fn approval_decisions(root: &Path, bin: &Path, arcctl: &Path) {
     let context = HookContext {
         executable: Some(arcctl.to_path_buf()),
     };
-    let surface = VerifiedSurface {
-        command_path: bin.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     let marker = root.join("starts");
     let mut starts = 0;
     for literal in ["cargo build", "bun run build"] {
@@ -125,8 +128,8 @@ pub(super) fn approval_decisions(root: &Path, bin: &Path, arcctl: &Path) {
         input["tool_input"]["command"] = json!(literal);
         let candidate = cursor::handle_verified(&input, &context, Some(&surface)).unwrap();
         assert!(candidate.get("permission").is_none());
-        assert!(cursor::handle(&input, &context).is_none());
-        // Exercise both the provisional fixture and actual no-change output.
+        assert_eq!(cursor::handle(&input, &context), Some(candidate.clone()));
+        // Exercise the fixture transformation and actual no-change output.
         for update in [Some(&candidate), None] {
             let updates: Vec<_> = update.into_iter().collect();
             let count = || {

@@ -1,0 +1,7 @@
+{
+  "updated_input": {
+    "command": "echo ARC_REWRITE_ACCEPTED original=\"cargo build\"",
+    "cwd": "",
+    "timeout": 30000
+  }
+}

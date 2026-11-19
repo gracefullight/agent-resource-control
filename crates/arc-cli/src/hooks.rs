@@ -15,7 +15,7 @@ use serde_json::Value;
 use std::{
     ffi::{CString, OsStr, OsString},
     io::{self, Read, Write},
-    os::unix::ffi::OsStrExt,
+    os::unix::{ffi::OsStrExt, fs::MetadataExt},
     path::{Path, PathBuf},
     process::ExitCode,
 };
@@ -67,13 +67,9 @@ pub(super) struct HookContext {
     pub(super) executable: Option<PathBuf>,
 }
 
-/// The adapter must establish, from its supported execution surface, that the
-/// command shell is local, enabled, and will resolve the literal program via
-/// this PATH without an alias, function, hash, or startup change. This type is
-/// an adapter-to-shared-code contract, not evidence by itself.
-pub(super) struct VerifiedSurface<'a> {
-    pub(super) command_path: &'a OsStr,
-}
+/// The recorded local vendor shell starts hook-exec with its own cwd and PATH.
+/// Tool resolution belongs to that later process, not to the hook process.
+pub(super) struct VerifiedSurface;
 
 pub(crate) fn run(command: HooksCommand) -> ExitCode {
     let context = HookContext {
@@ -89,13 +85,13 @@ pub(crate) fn run(command: HooksCommand) -> ExitCode {
                 .ok()
                 .filter(|_| bytes.len() <= MAX_EVENT_BYTES as usize)
                 .and_then(|_| event::decode(&bytes));
-            let response = event.and_then(|event| dispatch(vendor, &event, &context));
+            let response = event
+                .and_then(|event| dispatch(vendor, &event, &context))
+                .and_then(|response| event::wire_response(vendor, &bytes, &response));
             match response {
                 Some(value) => {
                     let mut output = io::stdout().lock();
-                    if serde_json::to_writer(&mut output, &value).is_err()
-                        || output.write_all(b"\n").is_err()
-                    {
+                    if output.write_all(&value).is_err() || output.write_all(b"\n").is_err() {
                         return ExitCode::FAILURE;
                     }
                     ExitCode::SUCCESS
@@ -130,27 +126,20 @@ fn dispatch_with(
     claude: impl FnOnce(&Value, &HookContext) -> Option<Value>,
     cursor: impl FnOnce(&Value, &HookContext) -> Option<Value>,
 ) -> Option<Value> {
-    if !event::exact_numbers(event) {
-        return None;
-    }
     match vendor {
         Vendor::Claude => claude(event, context),
         Vendor::Cursor => cursor(event, context),
     }
 }
 
-/// Fixture drivers may call the same adapter transformation with proof from a
-/// controlled shell. Production dispatch does not manufacture such proof.
+/// Fixture drivers can exercise the same adapter transformation directly.
 #[cfg(test)]
 pub(super) fn dispatch_verified(
     vendor: Vendor,
     event: &Value,
     context: &HookContext,
-    surface: &VerifiedSurface<'_>,
+    surface: &VerifiedSurface,
 ) -> Option<Value> {
-    if !event::exact_numbers(event) {
-        return None;
-    }
     match vendor {
         Vendor::Claude => claude::handle_verified(event, context, Some(surface)),
         Vendor::Cursor => cursor::handle_verified(event, context, Some(surface)),
@@ -164,7 +153,7 @@ pub(super) fn dispatch_verified_event(
     vendor: Vendor,
     bytes: &[u8],
     context: &HookContext,
-    surface: &VerifiedSurface<'_>,
+    surface: &VerifiedSurface,
 ) -> Option<Value> {
     let event = event::decode(bytes)?;
     dispatch_verified(vendor, &event, context, surface)
@@ -230,24 +219,21 @@ pub(crate) fn literal_argv(argv: &[OsString]) -> bool {
     }
 }
 
-/// Never launches either executable. The caller is responsible for obtaining
-/// a real surface proof before constructing `VerifiedSurface`.
+/// The hook does not resolve or launch the requested executable.
 pub(super) fn rewrite_literal(
     command: &str,
     context: &HookContext,
-    surface: Option<&VerifiedSurface<'_>>,
+    surface: Option<&VerifiedSurface>,
 ) -> Option<String> {
-    let program = match command {
-        "cargo build" => "cargo",
-        "bun run build" => "bun",
+    match command {
+        "cargo build" | "bun run build" => (),
         _ => return None,
-    };
-    let surface = surface?;
+    }
+    surface?;
     let executable = context.executable.as_deref()?;
     if !executable.is_absolute() || !is_executable(executable) {
         return None;
     }
-    resolved_executable(OsStr::new(program), surface.command_path)?;
     let quoted = format!("'{}'", executable.to_str()?.replace('\'', "'\\''"));
     Some(format!("{quoted} hook-exec -- {command}"))
 }
@@ -263,16 +249,47 @@ fn is_executable(path: &Path) -> bool {
     unsafe { libc::access(path.as_ptr(), libc::X_OK) == 0 }
 }
 
-/// Use the same non-canonicalized absolute PATH spelling that the supported
-/// fixture shells place in their exported `_` variable for a native command.
+/// Use the same non-canonicalized absolute PATH spelling that zsh places in
+/// its exported `_` variable, including relative and empty PATH components.
 pub(crate) fn resolved_executable(program: &OsStr, path: &OsStr) -> Option<PathBuf> {
-    let dirs: Vec<PathBuf> = std::env::split_paths(path).collect();
-    if dirs.is_empty() || dirs.iter().any(|dir| !dir.is_absolute()) {
-        return None;
-    }
-    dirs.into_iter()
-        .map(|dir| dir.join(program))
-        .find(|candidate| is_executable(candidate))
+    resolved_path_entry(program, path).map(|(path, _)| path)
+}
+
+/// Return zsh's absolute `_` spelling and the path used to invoke the tool.
+pub(crate) fn resolved_path_entry(program: &OsStr, path: &OsStr) -> Option<(PathBuf, PathBuf)> {
+    let physical_cwd = std::env::current_dir().ok()?;
+    let cwd = std::env::var_os("PWD")
+        .map(PathBuf::from)
+        .filter(|pwd| {
+            pwd.is_absolute()
+                && std::fs::metadata(pwd)
+                    .ok()
+                    .zip(std::fs::metadata(&physical_cwd).ok())
+                    .is_some_and(|(a, b)| a.dev() == b.dev() && a.ino() == b.ino())
+        })
+        .unwrap_or(physical_cwd);
+    std::env::split_paths(path)
+        .map(|dir| {
+            let current = dir.as_os_str().is_empty() || dir.as_os_str() == OsStr::new(".");
+            let invocation = if current {
+                program.to_os_string()
+            } else {
+                let mut name = dir.as_os_str().to_os_string();
+                name.push("/");
+                name.push(program);
+                name
+            };
+            let absolute = if dir.is_absolute() {
+                PathBuf::from(&invocation)
+            } else {
+                let mut name = cwd.as_os_str().to_os_string();
+                name.push("/");
+                name.push(&invocation);
+                PathBuf::from(name)
+            };
+            (absolute, PathBuf::from(invocation))
+        })
+        .find(|(candidate, _)| is_executable(candidate))
 }
 
 #[cfg(test)]

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$comment": "Projection of the published preToolUse output table, not Cursor's internal schema or an approval-flow proof: https://cursor.com/docs/hooks#pretooluse",
+  "$comment": "Projection of https://cursor.com/docs/hooks.md retrieved 2026-11-18T13:56:18Z, together with the operator's cursor-agent 2026.11.13-eacade1 recordings: updated_input without permission was accepted. Not Cursor's internal schema or evidence of an interactive prompt.",
   "type": "object",
-  "required": ["permission"],
+  "required": [],
   "properties": {
     "permission": {"type": "string", "enum": ["allow", "deny", "ask"]},
     "updated_input": {"type": "object"},

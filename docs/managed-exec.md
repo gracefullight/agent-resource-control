@@ -17,10 +17,9 @@ The CLI owns one child and inherits the caller's working directory, environment 
 
 ## Agent hook setup and recovery
 
-The CLI connects the install and uninstall commands to the Claude Code Bash and Cursor Shell installers. Both production hook handlers currently return no update for every event; installing a hook does not yet make it rewrite or schedule commands. Use `arcctl exec -- ...` directly for managed execution. For a no-change hook run the shared CLI writes no response: Claude exits 0 and Cursor exits 1. The frozen contract uses Cursor's nonzero exit as its fail-open path and the Cursor installer does not set `failClosed`; live runtime behavior remains unverified.
+Claude Code Bash and Cursor Shell hooks can route exactly `cargo build` and `bun run build` through ARC on the supported local macOS execution surface. Other commands, disabled or recognized remote events, and hook errors pass through unchanged. For a no-change hook run the CLI writes no response: Claude exits 0 and Cursor exits 1. Cursor's documented default treats that nonzero exit as fail-open; the ARC installer does not set `failClosed`.
 
-The installer modules and transformations have isolated fixture coverage. That does not establish compatibility with a live Claude Code or Cursor runtime. A successful configuration update alone does not prove that a vendor invoked the hook or that a command was scheduled.
-
+The operator recorded the vendors accepting permission-free rewrite responses on macOS. Those sessions did not exercise the ARC hook or an interactive approval prompt. Installing a hook alone does not prove invocation or scheduling.
 Choose one vendor and scope. Workspace scope requires an existing absolute directory; replace the example path with the workspace root. User scope does not accept `--workspace`.
 
 ```sh
@@ -45,11 +44,13 @@ For Claude, ownership is recorded in `settings.json.arc-claude-id` beside the se
 
 ### Bounded hook behavior
 
-The fixture transformation accepts only the exact literal text `cargo build` and `bun run build`. Extra whitespace, options, quotes, assignments, shell operators, redirections, substitutions, path-qualified commands and already wrapped commands receive no update. Passing through leaves the vendor's original input unchanged and does not establish an ARC job or reservation. The hook does not execute the requested command. In controlled fixtures, the proposed response preserves the other tool-input fields and changes only the command; it does not grant permission. Claude may evaluate its normal permissions against changed input. The Cursor response remains fixture-only until a supported runtime verifies both the response and its normal approval behavior. A rewritten Bun command is admitted as BUILD only when the target workspace's build script is resolved by the bounded script capability.
+The production transformation accepts only the exact literal text `cargo build` and `bun run build`. Extra whitespace, options, quotes, assignments, shell operators, redirections, substitutions, path-qualified commands and already wrapped commands receive no update. The hook does not execute the command. Its response preserves the complete tool input except for the command and does not make a permission decision; the vendor's normal permission evaluation remains in place. An interactive approval prompt has not been observed. A rewritten Bun command is admitted as BUILD only when the target workspace's build script is resolved by the bounded script capability.
 
-A rewrite also requires an established local macOS execution surface: the actual command shell's cwd and PATH, executable availability and resolution must be known, including the absence of aliases, functions, shell startup changes or hashes that alter resolution. The shell's `_` behavior must also be verified so a rewrite preserves what direct execution would pass to the child. Every PATH component must be absolute, and both `arcctl` and the PATH-resolved tool must be executable regular files. A workspace location, an environment marker or an absent remote flag alone does not establish locality. Remote or unverified surfaces (including an unverified shell), disabled adapters and unavailable executables receive no update. The delivered modules also pass through when `CLAUDE_CODE_REMOTE=true` or `CURSOR_CODE_REMOTE=true`, respectively. `ARC_HOOKS_DISABLED=1` disables both delivered adapters; `ARC_HOOKS_CLAUDE_DISABLED=1` and `ARC_HOOKS_CURSOR_DISABLED=1` disable the named adapter. If the installed `arcctl` path later disappears, the hook itself may be unavailable; restore the executable and update the installation rather than assuming a vendor invocation was managed.
+The supported surface is the recorded local macOS zsh tool shell, which starts `arcctl hook-exec` in the project cwd with the tool shell's PATH. ARC resolves the program through that inherited PATH after the hook returns. A shell alias or function named `cargo` or `bun` is bypassed by the wrapped command; other shells, remote and cloud agents, and Windows are unverified. Recognized remote markers `CLAUDE_CODE_REMOTE=true`, `CURSOR_CODE_REMOTE=true`, or `SSH_CONNECTION` cause pass-through. `ARC_HOOKS_DISABLED=1` disables both adapters; `ARC_HOOKS_CLAUDE_DISABLED=1` and `ARC_HOOKS_CURSOR_DISABLED=1` disable the named adapter. If the installed `arcctl` path disappears, restore the executable and update the installation.
 
-When a verified rewrite is eventually used, it routes through the existing managed-execution path. The child inherits the cwd, streams and environment, including `ARC_TRAFFIC_LINEAGE` without legacy injection, and retains its exit status; ARC may add queue or outage diagnostics to stderr. For `_`, the hook route substitutes the PATH-resolved tool spelling only when the inherited value exactly names the current wrapper executable and the tool can be resolved; otherwise it leaves the inherited value, including absence, unchanged. This limited restoration does not establish equivalence for an unverified shell. A tracking outage uses the bounded single-attempt behavior described in [Outages and recovery](#outages-and-recovery). Use the vendor's observed result and, when available, the job status guidance below. A missing record or an unavailable status does not establish whether a command ran; do not start another copy merely to recover tracking.
+An executable text file without an interpreter line can run directly in zsh but fails as a native spawn through `hook-exec`.
+
+The child inherits cwd, streams and environment, including `ARC_TRAFFIC_LINEAGE` without legacy injection, and retains its exit status; ARC may add queue or outage diagnostics to stderr. For `_`, the hook route substitutes the PATH-resolved tool spelling only when the inherited value exactly names the current wrapper executable and the tool can be resolved; otherwise it leaves the inherited value unchanged. A tracking outage uses the bounded single-attempt behavior described in [Outages and recovery](#outages-and-recovery). Use the vendor's observed result and, when available, the job status guidance below. A missing record or an unavailable status does not establish whether a command ran; do not start another copy merely to recover tracking.
 
 ## Scheduling
 
@@ -83,7 +84,7 @@ The grammar is finite; unlisted options bypass admission. Paths and opaque value
 
 The daemon defaults remain a 2000-millicore shared CPU budget and the existing per-class reservations/windows. An explicit `ARC_TRAFFIC_CPU_BUDGET_MILLIS` setting at daemon startup accepts decimal millicores that fit every class reservation, exact JSON integers (at most 9007199254740991) and SQLite integers; malformed or impossible values reject startup. Admission and diagnostics share that immutable resident setting. Native contention fixtures set 4000 millicores, retain the one-slot class windows and prove both estimates fit the CPU and memory budgets before asserting a class-window wait. This configures only owned fixture daemons during verification.
 
-Wrappers such as `env`, `sh` and `xcrun`, custom execution flags, help/version/dry-run modes and unresolved targets bypass. Classification never rewrites a rejected invocation or prevents native execution. Broader DET-003, vendor integration and native Windows acceptance remain open.
+Wrappers such as `env`, `sh` and `xcrun`, custom execution flags, help/version/dry-run modes and unresolved targets bypass. Classification never rewrites a rejected invocation or prevents native execution. Broader DET-003, other vendor integration and native Windows acceptance remain open.
 
 ### Python TEST commands
 
@@ -186,7 +187,7 @@ Tracking recovery is observational. A by-ID status check may update the lifecycl
 
 `job status` identifies truncation. `job status <JOB_ID>` refreshes the selected record's identity observation. Existing `status`, `doctor` and `classify` commands retain their protocol-1 behavior.
 
-Transport and SQLite admission remain bounded. Desktop integration, native Windows acceptance, vendor hooks, broader command detection and remaining scheduling policy remain outstanding.
+Transport and SQLite admission remain bounded. Desktop integration, native Windows acceptance, broader command detection and remaining scheduling policy remain outstanding.
 
 ## Job CPU accounting
 
@@ -215,7 +216,7 @@ Reports identify the observer and child by PID, process birth token and boot ide
 
 After terminal observation the CLI freezes one 500 ms accounting-report deadline. Existing bounded lifecycle completion runs first and consumes that window; a slow completion can leave no report budget. Accounting sends only additive `meter.report` metadata, preserving protocol-1 start/complete payloads. Lost acknowledgements use the same immutable report identity and bytes, with a bounded summary read and identical retry inside the original window. Unsupported peers, outages, conflicts and exhausted budgets do not change child streams, exit status, signals or the number of executions. One accepted summary per job remains immutable and is subject to the SRS 90-day metadata retention policy; client wall time and retries cannot extend retention.
 
-Vendor/project aggregation, live process-tree metering, Windows, vendor hooks and full Meter acceptance remain outstanding.
+Vendor/project aggregation, live process-tree metering, Windows and full Meter acceptance remain outstanding.
 
 ## Timing and protocol errors
 

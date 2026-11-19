@@ -142,7 +142,7 @@ fn main() {
             .collect();
         println!(
             "{}",
-            serde_json::json!({"environment":environment,"cwd":std::env::current_dir().unwrap().as_os_str().as_bytes(),"args":args,"stdin":input})
+            serde_json::json!({"environment":environment,"cwd":std::env::current_dir().unwrap().as_os_str().as_bytes(),"argv0":std::env::args_os().next().unwrap().as_bytes(),"args":args,"stdin":input})
         );
         eprintln!("child-stderr");
         std::process::exit(17);

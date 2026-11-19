@@ -1,0 +1,17 @@
+{
+  "conversation_id": "fe9bd683-50ce-4416-beba-80c68f0fd779",
+  "generation_id": "fe9bd683-50ce-4416-beba-80c68f0fd779",
+  "model": "grok-4.7",
+  "command": "echo ARC_REWRITE_ACCEPTED original=\"cargo build\"",
+  "cwd": "",
+  "sandbox": false,
+  "tool_use_id": "10fc48da-c138-44dd-ab79-532aa2e64d9c",
+  "session_id": "fe9bd683-50ce-4416-beba-80c68f0fd779",
+  "hook_event_name": "beforeShellExecution",
+  "cursor_version": "2026.11.13-eacade1",
+  "workspace_roots": [
+    "/tmp/arc-recording/project"
+  ],
+  "user_email": "operator@example.invalid",
+  "transcript_path": "/Users/operator/.cursor/projects/tmp-arc-recording-project/agent-transcripts/fe9bd683-50ce-4416-beba-80c68f0fd779.jsonl"
+}

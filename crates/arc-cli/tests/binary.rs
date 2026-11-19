@@ -48,6 +48,12 @@ fn stderr_comparison_rejects_unrecognized_or_duplicated_output() {
 
 // Integration fixtures can compile the same source without a production
 // command-line switch or environment variable that manufactures surface proof.
+#[path = "binary/claude_hook_lane.rs"]
+mod claude_hook_lane;
+#[path = "binary/cursor_hook_lane.rs"]
+mod cursor_hook_lane;
+#[path = "binary/hook_resolution.rs"]
+mod hook_resolution;
 #[path = "binary/hook_scheduled.rs"]
 mod hook_scheduled;
 #[allow(dead_code)]
@@ -55,13 +61,13 @@ mod hook_scheduled;
 mod hooks;
 #[path = "binary/hooks_install.rs"]
 mod hooks_install;
+#[path = "binary/installer_hardening.rs"]
+mod installer_hardening;
 
 #[test]
 fn fixture_driver_can_compile_the_frozen_dispatch_interface() {
     let context = hooks::HookContext { executable: None };
-    let surface = hooks::VerifiedSurface {
-        command_path: std::ffi::OsStr::new("/fixture/bin"),
-    };
+    let surface = hooks::VerifiedSurface;
     let event: serde_json::Value = serde_json::from_str(include_str!(
         "fixtures/agent_hooks/claude-pre-tool-use.json"
     ))
@@ -167,6 +173,106 @@ fn shared_hook_dispatch_and_exec_preserve_literal_child_behavior() {
 }
 
 #[test]
+fn hook_exec_propagates_child_signal_once_for_both_literals() {
+    use std::process::Stdio;
+
+    let output_path = std::path::PathBuf::from("/tmp").join(format!(
+        "arc-hook-signal-worker-{}",
+        arc_core::process_identity::random_job_id().unwrap()
+    ));
+    let mut command = Command::new(env::current_exe().unwrap());
+    command
+        .args(["--exact", "hook_exec_signal_worker", "--nocapture"])
+        .env_clear()
+        .stdout(Stdio::from(std::fs::File::create(&output_path).unwrap()));
+    if let Some(profile) = env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
+    let _handshake = hooks::fixture::worker_handshake(&mut command);
+    // The marker and owned group survive the nested hook-exec process group.
+    // If the worker or nested wait expires, this supervisor owns cleanup.
+    let mut child = hooks::fixture::OwnedChild::spawn(&mut command, "hook signal worker");
+    let status = child.wait();
+    let output = std::fs::read_to_string(&output_path).unwrap();
+    assert!(
+        status.success(),
+        "hook signal worker failed: {status}: {output}"
+    );
+    assert!(
+        output.contains("test hook_exec_signal_worker ...")
+            && output.contains("test result: ok. 1 passed;")
+            && output.contains("ARC_HOOK_SIGNAL_WORKER_COMPLETE"),
+        "fixture worker did not execute: {output}"
+    );
+    std::fs::remove_file(output_path).unwrap();
+}
+
+#[test]
+fn hook_exec_signal_worker() {
+    if !hooks::fixture::worker_enabled() {
+        return;
+    }
+    use std::{
+        fs,
+        os::unix::{fs::PermissionsExt, process::ExitStatusExt},
+        process::Stdio,
+    };
+
+    struct Fixture(std::path::PathBuf);
+    impl Drop for Fixture {
+        fn drop(&mut self) {
+            if !std::thread::panicking() {
+                fs::remove_dir_all(&self.0).unwrap();
+            }
+        }
+    }
+    let fixture = Fixture(std::path::PathBuf::from("/tmp").join(format!(
+        "arc-hook-signal-{}'",
+        arc_core::process_identity::random_job_id().unwrap()
+    )));
+    fs::create_dir(&fixture.0).unwrap();
+    for name in ["cargo", "bun"] {
+        let path = fixture.0.join(name);
+        fs::write(
+            &path,
+            b"#!/bin/sh\nprintf 'start\\n' >> \"$WITNESS\"\nprintf child-out\nprintf child-stderr >&2\nkill -TERM $$\n",
+        )
+        .unwrap();
+        fs::set_permissions(path, fs::Permissions::from_mode(0o755)).unwrap();
+    }
+    let marker = fixture.0.join("starts");
+    let ownership = env::var_os("ARC_TEST_OWNERSHIP").expect("owned signal worker marker");
+    let arcctl = env!("CARGO_BIN_EXE_arcctl").replace('\'', "'\\''");
+    let execute = |command: &str| {
+        let mut process = Command::new("/bin/sh");
+        process
+            .args(["-c", command])
+            .env_clear()
+            .env("HOME", &fixture.0)
+            .env("PATH", &fixture.0)
+            .env("ARC_SOCKET_PATH", fixture.0.join("missing.sock"))
+            .env("ARC_TEST_OWNERSHIP", &ownership)
+            .env("WITNESS", &marker)
+            .current_dir(&fixture.0)
+            .stdin(Stdio::null());
+        if let Some(profile) = env::var_os("LLVM_PROFILE_FILE") {
+            process.env("LLVM_PROFILE_FILE", profile);
+        }
+        hook_scheduled::FixtureChild::spawn_nested(process, &fixture.0).output()
+    };
+    for literal in ["cargo build", "bun run build"] {
+        let direct = execute(literal);
+        let wrapped = execute(&format!("'{arcctl}' hook-exec -- {literal}"));
+        assert_eq!(direct.status.signal(), Some(libc::SIGTERM));
+        assert_eq!(wrapped.status.signal(), direct.status.signal());
+        assert_eq!(wrapped.stdout, direct.stdout);
+        assert!(fixture_stderr_matches(&direct.stderr, &wrapped.stderr));
+    }
+    assert_eq!(fs::read_to_string(marker).unwrap().lines().count(), 4);
+    println!("ARC_HOOK_SIGNAL_WORKER_COMPLETE");
+}
+
+#[test]
 fn vendor_event_semantics_worker() {
     if !hooks::fixture::worker_enabled() {
         return;
@@ -229,21 +335,20 @@ fn vendor_event_semantics_worker() {
         };
 
     let cli = OsStr::new(env!("CARGO_BIN_EXE_arcctl"));
-    for (vendor, event, expected_status) in [
+    for (vendor, event) in [
         (
             "claude",
             include_bytes!("fixtures/agent_hooks/claude-pre-tool-use.json").as_slice(),
-            0,
         ),
         (
             "cursor",
             include_bytes!("fixtures/agent_hooks/cursor-pre-tool-use.json").as_slice(),
-            1,
         ),
     ] {
         let output = execute(cli, &["hooks", "run", vendor], None, event);
-        assert_eq!(output.status.code(), Some(expected_status));
-        assert!(output.stdout.is_empty());
+        assert_eq!(output.status.code(), Some(0));
+        let response: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert!(response.is_object());
         assert!(!marker.exists(), "a hook executed the requested program");
     }
     let invalid = execute(
@@ -255,6 +360,11 @@ fn vendor_event_semantics_worker() {
     assert!(!invalid.status.success());
     assert!(!marker.exists());
 
+    let shells: Vec<&str> = ["/bin/sh", "/bin/bash", "/bin/zsh"]
+        .into_iter()
+        .filter(|shell| Path::new(shell).is_file())
+        .collect();
+    assert!(shells.contains(&"/bin/sh"));
     for (vendor, fixture_event) in [
         (
             hooks::Vendor::Claude,
@@ -269,19 +379,18 @@ fn vendor_event_semantics_worker() {
             let mut event: serde_json::Value = serde_json::from_str(fixture_event).unwrap();
             event["cwd"] = serde_json::json!(&fixture.0);
             event["tool_input"]["command"] = serde_json::json!(literal);
-            let context = hooks::HookContext {
-                executable: Some(std::path::PathBuf::from(cli)),
+            let vendor_name = match vendor {
+                hooks::Vendor::Claude => "claude",
+                hooks::Vendor::Cursor => "cursor",
             };
-            let surface = hooks::VerifiedSurface {
-                command_path: fixture.0.as_os_str(),
-            };
-            let response = hooks::dispatch_verified_event(
-                vendor,
+            let hook = execute(
+                cli,
+                &["hooks", "run", vendor_name],
+                None,
                 &serde_json::to_vec(&event).unwrap(),
-                &context,
-                &surface,
-            )
-            .unwrap();
+            );
+            assert_eq!(hook.status.code(), Some(0));
+            let response: serde_json::Value = serde_json::from_slice(&hook.stdout).unwrap();
             let input = match vendor {
                 hooks::Vendor::Claude => &response["hookSpecificOutput"]["updatedInput"],
                 hooks::Vendor::Cursor => &response["updated_input"],
@@ -291,43 +400,48 @@ fn vendor_event_semantics_worker() {
             restored["command"] = serde_json::json!(literal);
             assert_eq!(restored, event["tool_input"]);
             event["tool_input"] = input.clone();
-            assert!(hooks::dispatch_verified_event(
-                vendor,
-                &serde_json::to_vec(&event).unwrap(),
-                &context,
-                &surface
-            )
-            .is_none());
-            for lineage in [
+            let repeated = execute(
+                cli,
+                &["hooks", "run", vendor_name],
                 None,
-                Some(OsStr::new("")),
-                Some(OsStr::new("supplied-value")),
-                Some(OsStr::from_bytes(b"supplied-\xff")),
-            ] {
-                let direct = execute(
-                    OsStr::new("/bin/sh"),
-                    &["-c", literal],
-                    lineage,
-                    b"stdin bytes\n",
-                );
-                let wrapped = execute(
-                    OsStr::new("/bin/sh"),
-                    &["-c", rewritten],
-                    lineage,
-                    b"stdin bytes\n",
-                );
-                assert_eq!(direct.status.code(), Some(17));
-                assert_eq!(wrapped.status.code(), direct.status.code());
-                assert_eq!(wrapped.stdout, direct.stdout);
-                assert!(
-                    fixture_stderr_matches(&direct.stderr, &wrapped.stderr),
-                    "child stderr or outage diagnostic differed: direct={:?}, wrapped={:?}",
-                    direct.stderr,
-                    wrapped.stderr
-                );
+                &serde_json::to_vec(&event).unwrap(),
+            );
+            assert!(repeated.stdout.is_empty());
+            for shell in &shells {
+                for lineage in [
+                    None,
+                    Some(OsStr::new("")),
+                    Some(OsStr::new("supplied-value")),
+                    Some(OsStr::from_bytes(b"supplied-\xff")),
+                ] {
+                    let direct = execute(
+                        OsStr::new(shell),
+                        &["-c", literal],
+                        lineage,
+                        b"stdin bytes\n",
+                    );
+                    let wrapped = execute(
+                        OsStr::new(shell),
+                        &["-c", rewritten],
+                        lineage,
+                        b"stdin bytes\n",
+                    );
+                    assert_eq!(direct.status.code(), Some(17), "{shell}");
+                    assert_eq!(wrapped.status.code(), direct.status.code(), "{shell}");
+                    assert_eq!(wrapped.stdout, direct.stdout, "{shell}");
+                    assert!(
+                        fixture_stderr_matches(&direct.stderr, &wrapped.stderr),
+                        "{shell}: child stderr or outage diagnostic differed: direct={:?}, wrapped={:?}",
+                        direct.stderr,
+                        wrapped.stderr
+                    );
+                }
             }
         }
     }
-    assert_eq!(fs::read_to_string(marker).unwrap().lines().count(), 32);
+    assert_eq!(
+        fs::read_to_string(marker).unwrap().lines().count(),
+        32 * shells.len()
+    );
     println!("ARC_VENDOR_SEMANTICS_WORKER_COMPLETE");
 }

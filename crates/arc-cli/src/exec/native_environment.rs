@@ -1,7 +1,14 @@
 //! Preserve the caller's native-tool environment at the single spawn boundary.
 use arc_detector::Classification;
 use arc_ipc::traffic::LineageContext;
-use std::{ffi::OsStr, process::Command};
+use std::{
+    collections::BTreeMap,
+    ffi::{CString, OsStr, OsString},
+    io,
+    os::unix::{ffi::OsStrExt, process::CommandExt},
+    process::Command,
+    ptr,
+};
 
 /// Supported shells set `_` to the executable they invoke. If they set it to
 /// this wrapper, restore the PATH spelling they would have used for the tool.
@@ -18,6 +25,88 @@ pub(super) fn restore_shell_underscore(command: &mut Command, program: &OsStr) {
         if let Some(program_path) = crate::hooks::resolved_executable(program, &path) {
             command.env("_", program_path);
         }
+    }
+}
+
+// Preserve zsh's PATH spelling for scripts' $0, including bare names for
+// empty or "." entries. Install direct execve after the normal launch,
+// signal, descriptor and witness hooks.
+pub(super) fn preserve_path_invocation(command: &mut Command, argv: &[OsString]) -> io::Result<()> {
+    let Some(path) = std::env::var_os("PATH") else {
+        return Ok(());
+    };
+    let Some((_, invocation_path)) = crate::hooks::resolved_path_entry(&argv[0], &path) else {
+        return Ok(());
+    };
+    let invocation = DirectInvocation::new(command, argv, invocation_path.as_os_str())?;
+    // SAFETY: the closure performs only execve and an errno read after fork;
+    // all memory and pointer arrays are prepared and owned before spawning.
+    unsafe { command.pre_exec(move || invocation.exec()) };
+    Ok(())
+}
+
+struct DirectInvocation {
+    program: CString,
+    _arguments: Vec<CString>,
+    _environment: Vec<CString>,
+    arguments: Vec<*const libc::c_char>,
+    environment: Vec<*const libc::c_char>,
+}
+
+// The pointers address immutable CString allocations owned by this structure;
+// moving it does not move those allocations and no pointer is mutated.
+unsafe impl Send for DirectInvocation {}
+unsafe impl Sync for DirectInvocation {}
+
+impl DirectInvocation {
+    fn new(command: &Command, argv: &[OsString], path: &OsStr) -> io::Result<Self> {
+        let invalid = |_| io::Error::new(io::ErrorKind::InvalidInput, "NUL in exec input");
+        let program = CString::new(path.as_bytes()).map_err(invalid)?;
+        let arguments: Vec<CString> = argv
+            .iter()
+            .map(|arg| CString::new(arg.as_bytes()).map_err(invalid))
+            .collect::<io::Result<_>>()?;
+        let mut variables: BTreeMap<OsString, OsString> = std::env::vars_os().collect();
+        for (key, value) in command.get_envs() {
+            if let Some(value) = value {
+                variables.insert(key.to_owned(), value.to_owned());
+            } else {
+                variables.remove(key);
+            }
+        }
+        let environment: Vec<CString> = variables
+            .into_iter()
+            .map(|(key, value)| {
+                let mut entry = key.as_bytes().to_vec();
+                entry.push(b'=');
+                entry.extend_from_slice(value.as_bytes());
+                CString::new(entry).map_err(invalid)
+            })
+            .collect::<io::Result<_>>()?;
+        let mut argument_pointers: Vec<_> = arguments.iter().map(|value| value.as_ptr()).collect();
+        let mut environment_pointers: Vec<_> =
+            environment.iter().map(|value| value.as_ptr()).collect();
+        argument_pointers.push(ptr::null());
+        environment_pointers.push(ptr::null());
+        Ok(Self {
+            program,
+            _arguments: arguments,
+            _environment: environment,
+            arguments: argument_pointers,
+            environment: environment_pointers,
+        })
+    }
+
+    fn exec(&self) -> io::Result<()> {
+        // SAFETY: all strings and null-terminated pointer arrays remain alive.
+        unsafe {
+            libc::execve(
+                self.program.as_ptr(),
+                self.arguments.as_ptr(),
+                self.environment.as_ptr(),
+            )
+        };
+        Err(io::Error::last_os_error())
     }
 }
 

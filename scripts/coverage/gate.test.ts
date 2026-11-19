@@ -1,5 +1,5 @@
 import { test, expect } from "bun:test";
-import { readFileSync, writeFileSync, utimesSync, unlinkSync, mkdirSync, rmSync, symlinkSync } from "node:fs";
+import { readFileSync, writeFileSync, utimesSync, unlinkSync, mkdirSync, rmSync, symlinkSync, chmodSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fixture } from "./fixtures";
 import { commandEvidence, readEvidence } from "./evidence";
@@ -10,6 +10,23 @@ import { activeBunEvidence, desktopSectionsEvidence } from "./desktop-operations
 import { gitBytes } from "./hygiene";
 import { idleAccounting, nativeEvidence, type Observation } from "./host-meter-evidence";
 import { nativeFixture, invalidReferences, numericReferencePaths, policyCases, inventoryCases } from "./host-meter-fixture";
+import { prepareProfiles } from "./output-layout";
+
+test("run-owned profiles created under a restrictive umask are all readable for merging",()=>{
+  const f=fixture(), target=join(f.root,"profiles");
+  try {
+    mkdirSync(target);
+    const restricted=join(target,"arc-42-123.profraw"), readable=join(target,"arc-43-123.profraw");
+    writeFileSync(restricted,"restricted profile");writeFileSync(readable,"readable profile");
+    chmodSync(restricted,0);chmodSync(readable,0o640);
+    expect(prepareProfiles(target)).toEqual(["arc-42-123.profraw","arc-43-123.profraw"]);
+    expect(statSync(restricted).mode&0o777).toBe(0o400);
+    expect(statSync(readable).mode&0o777).toBe(0o640);
+    expect(readFileSync(restricted,"utf8")).toBe("restricted profile");
+    symlinkSync(readable,join(target,"arc-44-123.profraw"));
+    expect(()=>prepareProfiles(target)).toThrow("not an owned regular file");
+  } finally {rmSync(f.root,{recursive:true,force:true});}
+});
 
 async function check(change:(args:any,f:ReturnType<typeof fixture>)=>void,diagnostic?:string) {
   const f=fixture();

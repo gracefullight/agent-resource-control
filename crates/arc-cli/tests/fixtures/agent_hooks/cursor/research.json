@@ -1,7 +1,7 @@
 {
   "source": "https://cursor.com/docs/hooks",
   "source_notes": {
-    "response": "The frozen contract uses a permission-free updated_input for fixture transformation; the documented schema projection requires permission. Production remains fail-open until locality and approval behavior are established.",
+    "response": "The 2026-11-18 operator recording for cursor-agent 2026.11.13-eacade1 accepted updated_input without permission and observed the rewritten command at beforeShellExecution. Interactive approval and live use of the ARC hook were not observed. The operator's separate execution-surface recording establishes the local zsh surface for this mission.",
     "ownership": "The installer records the complete managed entry in its locked sidecar. An unproven, modified or duplicated exact-marker entry requires manual resolution."
   },
   "supported_literals": [

@@ -3,6 +3,8 @@
 mod lossless_json;
 #[path = "metadata.rs"]
 mod metadata;
+#[path = "path_guard.rs"]
+mod path_guard;
 #[path = "transaction.rs"]
 mod transaction;
 
@@ -13,7 +15,7 @@ use std::{
     ffi::{CString, OsStr},
     fs::{self, OpenOptions},
     io::{self, Write},
-    os::unix::{ffi::OsStrExt, fs::OpenOptionsExt},
+    os::unix::{ffi::OsStrExt, fs::OpenOptionsExt, io::AsRawFd},
     path::{Path, PathBuf},
 };
 
@@ -66,15 +68,15 @@ fn configure_inner(
     checkpoint: impl FnOnce(),
     before_replace: impl FnOnce(),
 ) -> Result<(), &'static str> {
-    let path = settings_path(scope, workspace)?;
+    let requested_path = settings_path(scope, workspace)?;
+    let guard = path_guard::Guard::capture(&requested_path)?;
     // Follow an existing settings symlink instead of replacing it when the
     // temporary file is renamed over the settings target.
-    let path = match fs::symlink_metadata(&path) {
-        Ok(metadata) if metadata.file_type().is_symlink() => {
-            fs::canonicalize(&path).map_err(|_| "Cannot resolve Claude settings symlink.")?
-        }
-        Ok(_) => path,
-        Err(error) if error.kind() == io::ErrorKind::NotFound => path,
+    let path = match fs::symlink_metadata(&requested_path) {
+        Ok(metadata) if metadata.file_type().is_symlink() => fs::canonicalize(&requested_path)
+            .map_err(|_| "Cannot resolve Claude settings symlink.")?,
+        Ok(_) => requested_path,
+        Err(error) if error.kind() == io::ErrorKind::NotFound => requested_path,
         Err(_) => return Err("Cannot inspect Claude settings."),
     };
     let _lock = transaction::Lock::acquire(&path, on_contention)?;
@@ -90,6 +92,7 @@ fn configure_inner(
     reject_unknown_candidates(&settings.value, known_commands)?;
     settings_snapshot.ensure_current(&path)?;
     identity_snapshot.ensure_current(&identity_path)?;
+    guard.check()?;
     if existing_identity.is_none() && matches!(action, InstallAction::Uninstall) {
         return Ok(());
     }
@@ -130,24 +133,36 @@ fn configure_inner(
         .map(str::to_owned);
     let changed = update_entries(pre_tool_use, entry, known_commands);
     let created_identity = existing_identity.is_none() && matches!(action, InstallAction::Install);
+    let mut expected_identity = identity_snapshot.bytes.clone();
     if created_identity {
         let identity = Identity {
             id,
             commands: vec![new_command.clone().unwrap()],
         };
         create_identity(&identity_path, &identity)?;
+        expected_identity = Some(encode_identity(&identity)?);
     } else if changed && matches!(action, InstallAction::Install) {
         let mut identity = existing_identity.unwrap();
         let command = new_command.unwrap();
         if !identity.commands.contains(&command) {
             identity.commands.push(command);
-            identity_snapshot.write(&identity_path, &encode_identity(&identity)?)?;
+            let encoded = encode_identity(&identity)?;
+            identity_snapshot.write(&identity_path, &encoded)?;
+            expected_identity = Some(encoded);
         }
     }
     if changed {
         // Keep the identity if the settings update fails. It records both
         // possible commands and permits a safe retry after a stale snapshot.
-        settings_snapshot.write_with(&path, &settings.encode()?, before_replace)?;
+        let committed_identity = transaction::Snapshot::read(&identity_path)?;
+        if committed_identity.bytes != expected_identity {
+            return Err("Claude hook identity changed during the update; review the current settings and retry.");
+        }
+        settings_snapshot.write_with(&path, &settings.encode()?, || {
+            before_replace();
+            guard.check()?;
+            committed_identity.ensure_current(&identity_path)
+        })?;
     }
     if matches!(action, InstallAction::Uninstall) {
         identity_snapshot.ensure_current(&identity_path)?;
@@ -392,6 +407,10 @@ fn create_identity(path: &Path, identity: &Identity) -> Result<(), &'static str>
         .mode(0o600)
         .open(path)
         .map_err(|_| "Cannot create Claude hook identity.")?;
+    if unsafe { libc::fchmod(file.as_raw_fd(), 0o600) } != 0 {
+        let _ = fs::remove_file(path);
+        return Err("Cannot set Claude hook identity permissions.");
+    }
     if file
         .write_all(&encode_identity(identity)?)
         .and_then(|()| file.flush())

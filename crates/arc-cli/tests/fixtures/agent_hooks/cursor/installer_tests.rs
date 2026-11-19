@@ -2,7 +2,7 @@ use super::*;
 #[cfg(target_os = "macos")]
 use std::os::unix::fs::MetadataExt;
 
-const AMBIGUOUS: &str = "Cursor ARC marker has ambiguous ownership; review hooks.json and remove or resolve the marked entry manually.";
+const AMBIGUOUS: &str = "Cursor ARC marker has ambiguous ownership; compare .cursor/hooks.json and .cursor/.hooks.json.arc.lock, manually remove only the ARC_CURSOR_HOOK_V1 preToolUse entry after confirming ownership, and clear a stale ownership record manually.";
 
 fn config_path(fixture: &Fixture, scope: &str) -> PathBuf {
     let root = if scope == "user" {
@@ -152,7 +152,7 @@ fn unproven_matching_handlers_and_duplicate_copies_are_ambiguous() {
 }
 
 #[test]
-fn external_entry_removal_clears_stale_ownership() {
+fn external_entry_removal_stops_for_manual_ownership_review() {
     for (scope, source) in [
         ("user", include_str!("user.json")),
         ("workspace", include_str!("workspace.json")),
@@ -164,7 +164,18 @@ fn external_entry_removal_clears_stale_ownership() {
             } else {
                 fs::write(&path, source).unwrap();
             }
-            fixture.worker(&format!("uninstall-{scope}"), &[]);
+            let lock = path.parent().unwrap().join(".hooks.json.arc.lock");
+            let owner = fs::read(&lock).unwrap();
+            let before = fs::read(&path).ok();
+            fixture.worker(
+                &format!("uninstall-{scope}"),
+                &[("CURSOR_EXPECT_ERROR_MESSAGE", AMBIGUOUS)],
+            );
+            assert_eq!(fs::read(&path).ok(), before);
+            assert_eq!(fs::read(&lock).unwrap(), owner);
+            // After an explicit manual resolution, a copied entry is no longer
+            // treated as owned by the installer.
+            fs::write(&lock, b"").unwrap();
             reject_ambiguous(&fixture, &path, scope, &installed);
         }
     }

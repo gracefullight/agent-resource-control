@@ -1,38 +1,16 @@
-//! Documented vendor-event fixtures, controlled shells and production admission.
-//! The proof supplied here applies only to these fresh, non-login fixture shells.
+//! Recorded vendor events through the built hook and a real daemon.
 use super::{projects::*, *};
-use std::{ffi::OsStr, os::unix::fs::OpenOptionsExt};
+use std::{
+    ffi::OsStr,
+    os::unix::{fs::OpenOptionsExt, process::CommandExt},
+};
+
+#[path = "agent_hooks_semantics.rs"]
+mod semantics;
 
 #[allow(dead_code)]
 #[path = "../../../arc-cli/src/hooks.rs"]
 mod hooks;
-
-#[test]
-fn hook_transform_worker() {
-    if !hooks::fixture::worker_enabled() {
-        return;
-    }
-    let vendor = match std::env::var("HOOK_TEST_VENDOR").unwrap().as_str() {
-        "claude" => hooks::Vendor::Claude,
-        "cursor" => hooks::Vendor::Cursor,
-        other => panic!("unknown fixture vendor {other}"),
-    };
-    let context = hooks::HookContext {
-        executable: Some(PathBuf::from(std::env::var_os("HOOK_TEST_ARCCTL").unwrap())),
-    };
-    let path = std::env::var_os("HOOK_TEST_PATH").unwrap();
-    let surface = hooks::VerifiedSurface {
-        command_path: &path,
-    };
-    let event = fs::read(std::env::var_os("HOOK_TEST_EVENT").unwrap()).unwrap();
-    let response = hooks::dispatch_verified_event(vendor, &event, &context, &surface).unwrap();
-    fs::write(
-        std::env::var_os("HOOK_TEST_RESPONSE").unwrap(),
-        serde_json::to_vec(&response).unwrap(),
-    )
-    .unwrap();
-    println!("ARC_AGENT_HOOK_TRANSFORM_COMPLETE");
-}
 
 fn node_executable(bun: &Path) -> PathBuf {
     let mut candidates = vec![
@@ -159,55 +137,41 @@ fn command_path(case: &Case) -> std::ffi::OsString {
     std::env::join_paths(dirs).unwrap()
 }
 
-fn transform(project: &Path, vendor: &str, literal: &str, path: &OsStr) -> String {
-    let source = match vendor {
-        "claude" => {
-            include_str!("../../../arc-cli/tests/fixtures/agent_hooks/claude-pre-tool-use.json")
-        }
-        "cursor" => {
-            include_str!("../../../arc-cli/tests/fixtures/agent_hooks/cursor-pre-tool-use.json")
-        }
-        _ => unreachable!(),
+fn transform(project: &Path, vendor: &str, literal: &str, _path: &OsStr) -> String {
+    // Only the cwd is changed from the sanitized recording for this fixture.
+    let source = match (vendor, literal) {
+        ("claude", "cargo build") => include_str!("../../../arc-cli/tests/fixtures/agent_hooks/claude-recorded-2.1.327-cargo-build.json"),
+        ("claude", "bun run build") => include_str!("../../../arc-cli/tests/fixtures/agent_hooks/claude-recorded-2.1.327-bun-run-build.json"),
+        ("cursor", "cargo build") => include_str!("../../../arc-cli/tests/fixtures/agent_hooks/cursor/recorded/preToolUse-cargo-build-rewrite.json"),
+        ("cursor", "bun run build") => include_str!("../../../arc-cli/tests/fixtures/agent_hooks/cursor/recorded/preToolUse-bun-run-build-rewrite.json"),
+        _ => panic!("unsupported test case"),
     };
     let mut event: Value = serde_json::from_str(source).unwrap();
     event["cwd"] = json!(project);
-    event["tool_input"]["command"] = json!(literal);
-    if vendor == "cursor" {
-        event["tool_input"]["working_directory"] = json!(project);
-    }
     let input = project.join("event.json");
-    let response = project.join("response.json");
     write(&input, serde_json::to_vec(&event).unwrap());
-    let mut worker = Command::new(std::env::current_exe().unwrap());
-    let thread = thread::current();
-    let test_name = thread.name().unwrap_or_default();
-    let worker_name = match test_name.split_once("::agent_hooks::") {
-        Some((prefix, _)) => format!("{prefix}::agent_hooks::hook_transform_worker"),
-        None => "suite::agent_hooks::hook_transform_worker".into(),
-    };
-    worker
-        .args(["--exact", &worker_name, "--nocapture"])
+    let mut hook = Command::new(binary("arcctl"));
+    hook.args(["hooks", "run", vendor])
+        .process_group(0)
         .env_clear()
-        .env("HOOK_TEST_VENDOR", vendor)
-        .env("HOOK_TEST_ARCCTL", binary("arcctl"))
-        .env("HOOK_TEST_PATH", path)
-        .env("HOOK_TEST_EVENT", &input)
-        .env("HOOK_TEST_RESPONSE", &response);
+        // The hook PATH deliberately lacks the later shell's tool executables.
+        .env("PATH", "/nonexistent")
+        .env("HOME", project)
+        .current_dir(project)
+        .stdin(Stdio::from(File::open(input).unwrap()))
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped());
     if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
-        worker.env("LLVM_PROFILE_FILE", profile);
+        hook.env("LLVM_PROFILE_FILE", profile);
     }
-    let _handshake = hooks::fixture::worker_handshake(&mut worker);
-    let output = projects::fixture_output(&mut worker).unwrap();
-    assert!(output.status.success(), "fixture transformer: {output:?}");
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    assert!(
-        stdout.contains(&format!("test {worker_name} ..."))
-            && stdout.contains("test result: ok. 1 passed;")
-            && stdout.contains("ARC_AGENT_HOOK_TRANSFORM_COMPLETE"),
-        "fixture transformer did not execute: {output:?}"
-    );
+    let mut child = native::OwnedChild::new(hook.spawn().unwrap());
+    let output = child
+        .wait_with_output_for(Duration::from_secs(60), true)
+        .unwrap();
+    assert!(output.status.success(), "built {vendor} hook: {output:?}");
+    assert!(output.stderr.is_empty());
     assert!(!project.join("launches").exists(), "hook started a command");
-    let result: Value = serde_json::from_slice(&fs::read(response).unwrap()).unwrap();
+    let result: Value = serde_json::from_slice(&output.stdout).unwrap();
     let updated = if vendor == "claude" {
         assert!(result["hookSpecificOutput"]
             .get("permissionDecision")
@@ -226,14 +190,12 @@ fn transform(project: &Path, vendor: &str, literal: &str, path: &OsStr) -> Strin
 }
 
 #[test]
-fn transformer_parent_observes_both_vendor_workers() {
+fn production_hook_transforms_both_literals_for_both_vendors() {
     struct Directory(PathBuf);
     impl Drop for Directory {
         fn drop(&mut self) {
             if !thread::panicking() {
                 fs::remove_dir_all(&self.0).unwrap();
-            } else {
-                eprintln!("retained transformer fixture {}", self.0.display());
             }
         }
     }
@@ -242,16 +204,13 @@ fn transformer_parent_observes_both_vendor_workers() {
         arc_core::process_identity::random_job_id().unwrap()
     )));
     fs::create_dir(&directory.0).unwrap();
-    for tool in ["cargo", "bun"] {
-        let path = directory.0.join(tool);
-        fs::write(&path, b"#!/bin/sh\nexit 0\n").unwrap();
-        fs::set_permissions(path, fs::Permissions::from_mode(0o700)).unwrap();
-    }
-    for (vendor, literal) in [("claude", "cargo build"), ("cursor", "bun run build")] {
-        assert!(
-            transform(&directory.0, vendor, literal, directory.0.as_os_str())
-                .ends_with(&format!(" hook-exec -- {literal}"))
-        );
+    for vendor in ["claude", "cursor"] {
+        for literal in ["cargo build", "bun run build"] {
+            assert!(
+                transform(&directory.0, vendor, literal, OsStr::new("/nonexistent"))
+                    .ends_with(&format!(" hook-exec -- {literal}"))
+            );
+        }
     }
 }
 
@@ -397,8 +356,8 @@ fn builds(read: Read, claude_first: bool) {
         ]
     } else {
         [
-            ("cursor", Kind::Vite, "bun run build"),
-            ("claude", Kind::Cargo, "cargo build"),
+            ("cursor", Kind::Cargo, "cargo build"),
+            ("claude", Kind::Vite, "bun run build"),
         ]
     };
     let paths = [
@@ -468,6 +427,9 @@ fn builds(read: Read, claude_first: bool) {
             ["high_water"],
         1
     );
-    case.save("agent-hook-contention", json!({"fixtureOnly":true,"order":[order[0].0,order[1].0],"firstEntry":first_entry,"secondQueued":queued,"secondEntry":second_entry,"terminal":[first_done,second_done],"secondStartsBeforeRelease":0,"permitHighWater":1,"starts":[1,1],"activePermitsAtEnd":0}));
+    case.save("agent-hook-contention", json!({"productionHook":true,"order":[order[0].0,order[1].0],"firstEntry":first_entry,"secondQueued":queued,"secondEntry":second_entry,"terminal":[first_done,second_done],"secondStartsBeforeRelease":0,"permitHighWater":1,"starts":[1,1],"activePermitsAtEnd":0}));
+    for (vendor, kind, literal) in order {
+        semantics::compare(&case, vendor, kind, literal);
+    }
     case.done();
 }

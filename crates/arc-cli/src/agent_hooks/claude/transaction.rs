@@ -20,15 +20,29 @@ impl Lock {
         fs::create_dir_all(parent).map_err(|_| "Cannot create Claude settings directory.")?;
         let mut name = path.as_os_str().to_os_string();
         name.push(".arc-claude-lock");
-        let file = OpenOptions::new()
-            .read(true)
-            .write(true)
-            .create(true)
-            .truncate(false)
-            .mode(0o600)
-            .custom_flags(libc::O_NOFOLLOW)
-            .open(PathBuf::from(name))
-            .map_err(|_| "Cannot open Claude settings lock.")?;
+        let open = |create: bool| {
+            OpenOptions::new()
+                .read(true)
+                .write(true)
+                .create_new(create)
+                .mode(0o600)
+                .custom_flags(libc::O_NOFOLLOW)
+                .open(PathBuf::from(&name))
+        };
+        let file = match open(true) {
+            Ok(file) => {
+                // The owner must be able to reopen a lock created under a
+                // restrictive umask; never chmod a pre-existing lock.
+                if unsafe { libc::fchmod(file.as_raw_fd(), 0o600) } != 0 {
+                    return Err("Cannot set Claude settings lock permissions.");
+                }
+                file
+            }
+            Err(error) if error.kind() == io::ErrorKind::AlreadyExists => {
+                open(false).map_err(|_| "Cannot open Claude settings lock.")?
+            }
+            Err(_) => return Err("Cannot open Claude settings lock."),
+        };
         loop {
             // SAFETY: the file descriptor is open and owned by this guard.
             if unsafe { libc::flock(file.as_raw_fd(), libc::LOCK_EX | libc::LOCK_NB) } == 0 {
@@ -140,14 +154,24 @@ impl Snapshot {
     }
 
     pub fn write(&self, path: &Path, bytes: &[u8]) -> Result<(), &'static str> {
-        self.write_with(path, bytes, || {})
+        self.write_with(path, bytes, || Ok(()))
     }
 
     pub fn write_with(
         &self,
         path: &Path,
         bytes: &[u8],
-        before_replace: impl FnOnce(),
+        before_replace: impl FnOnce() -> Result<(), &'static str>,
+    ) -> Result<(), &'static str> {
+        self.write_with_intercept(path, bytes, before_replace, || {})
+    }
+
+    fn write_with_intercept(
+        &self,
+        path: &Path,
+        bytes: &[u8],
+        before_replace: impl FnOnce() -> Result<(), &'static str>,
+        after_check: impl FnOnce(),
     ) -> Result<(), &'static str> {
         let parent = path.parent().ok_or("Invalid Claude settings path.")?;
         let id = arc_core::process_identity::random_job_id()
@@ -161,6 +185,9 @@ impl Snapshot {
                 .mode(0o600)
                 .open(&temporary)
                 .map_err(|_| "Cannot write Claude settings.")?;
+            if self.file.is_none() && unsafe { libc::fchmod(file.as_raw_fd(), 0o600) } != 0 {
+                return Err("Cannot set Claude settings permissions.");
+            }
             file.write_all(bytes)
                 .and_then(|()| file.flush())
                 .map_err(|_| "Cannot write Claude settings.")?;
@@ -172,13 +199,23 @@ impl Snapshot {
             // replacement to detect edits from writers that do not honor it. The
             // exchange also checks the inode actually displaced by replacement.
             let prepared = Self::read(&temporary)?;
-            before_replace();
+            before_replace()?;
             // Compare after the checkpoint and immediately before replacement.
             // A settings editor need not use ARC's lock.
             self.ensure_current(path)?;
+            after_check();
             if self.file.is_none() {
-                return fs::rename(&temporary, path)
-                    .map_err(|_| "Cannot replace Claude settings safely.");
+                // link is an atomic no-replace publication, unlike rename:
+                // another writer may create the path after our last check.
+                fs::hard_link(&temporary, path).map_err(|error| {
+                    if error.kind() == io::ErrorKind::AlreadyExists {
+                        STALE
+                    } else {
+                        "Cannot replace Claude settings safely."
+                    }
+                })?;
+                return fs::remove_file(&temporary)
+                    .map_err(|_| "Cannot finish Claude settings update.");
             }
             swap(&temporary, path).map_err(|error| {
                 if error.kind() == io::ErrorKind::NotFound {
@@ -218,6 +255,10 @@ impl Snapshot {
         result
     }
 }
+
+#[cfg(test)]
+#[path = "transaction_tests.rs"]
+mod tests;
 
 const STALE: &str =
     "Claude settings changed during the update; review the current settings and retry.";

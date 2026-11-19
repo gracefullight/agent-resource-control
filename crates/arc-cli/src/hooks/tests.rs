@@ -54,9 +54,7 @@ fn fixtures_dispatch_without_unverified_approval_or_execution() {
         let event: Value = serde_json::from_str(source).unwrap();
         assert_eq!(event["tool_name"], name);
         assert!(dispatch(vendor, &event, &context).is_none());
-        let surface = VerifiedSurface {
-            command_path: OsStr::new("/fixture/bin"),
-        };
+        let surface = VerifiedSurface;
         assert!(dispatch_verified(vendor, &event, &context, &surface).is_none());
     }
 }
@@ -139,9 +137,7 @@ fn exact_event_worker() {
     };
     fixture.executable("cargo");
     fixture.executable("bun");
-    let surface = VerifiedSurface {
-        command_path: fixture.0.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     for (vendor, source, field, literal) in [
         (
             Vendor::Claude,
@@ -160,7 +156,7 @@ fn exact_event_worker() {
         event["tool_input"]["max_integer"] = serde_json::json!(u64::MAX);
         event["tool_input"]["nested"] = serde_json::json!([{"key": "value"}, true, null]);
         let input = serde_json::to_vec(&event).unwrap();
-        assert!(dispatch(vendor, &event, &context).is_none());
+        assert!(dispatch(vendor, &event, &context).is_some());
         let response = dispatch_verified_event(vendor, &input, &context, &surface).unwrap();
         let updated = if field == "updatedInput" {
             assert!(response["hookSpecificOutput"]
@@ -190,6 +186,18 @@ fn exact_event_worker() {
             r#""duplicate":1,"duplicate":2"#,
             r#""duplicate":1,"\u0064uplicate":2"#,
             r#""nested":{"x":1,"x":2}"#,
+        ] {
+            let raw = source.replacen(
+                "\"tool_input\": {",
+                &format!("\"tool_input\": {{{extra},"),
+                1,
+            );
+            assert!(
+                dispatch_verified_event(vendor, raw.as_bytes(), &context, &surface).is_none(),
+                "{raw}"
+            );
+        }
+        for extra in [
             r#""precise":0.12345678901234567890123456789"#,
             r#""decimal":1.0"#,
             r#""exponent":1e0"#,
@@ -201,10 +209,16 @@ fn exact_event_worker() {
                 &format!("\"tool_input\": {{{extra},"),
                 1,
             );
-            assert!(
-                dispatch_verified_event(vendor, raw.as_bytes(), &context, &surface).is_none(),
-                "{raw}"
-            );
+            let expected: Value = serde_json::from_str(&raw).unwrap();
+            let response =
+                dispatch_verified_event(vendor, raw.as_bytes(), &context, &surface).unwrap();
+            let mut actual = if field == "updatedInput" {
+                response["hookSpecificOutput"][field].clone()
+            } else {
+                response[field].clone()
+            };
+            actual["command"] = serde_json::json!(literal);
+            assert_eq!(actual, expected["tool_input"], "{raw}");
         }
         assert!(!fixture.0.join("executed").exists());
     }
@@ -269,7 +283,7 @@ fn run_and_installer_dispatch_select_the_requested_vendor() {
 }
 
 #[test]
-fn literal_rewrite_requires_proof_and_available_executables() {
+fn literal_rewrite_requires_surface_and_available_arcctl_but_not_hook_path() {
     let fixture = Fixture::new();
     let arcctl = fixture.executable("arcctl");
     fixture.executable("cargo");
@@ -277,9 +291,7 @@ fn literal_rewrite_requires_proof_and_available_executables() {
     let context = HookContext {
         executable: Some(arcctl),
     };
-    let surface = VerifiedSurface {
-        command_path: fixture.0.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     assert!(rewrite_literal("cargo build", &context, None).is_none());
     for command in ["cargo build", "bun run build"] {
         let rewritten = rewrite_literal(command, &context, Some(&surface)).unwrap();
@@ -308,11 +320,11 @@ fn literal_rewrite_requires_proof_and_available_executables() {
     }
     assert!(!fixture.0.join("executed").exists());
     fs::remove_file(fixture.0.join("cargo")).unwrap();
-    assert!(rewrite_literal("cargo build", &context, Some(&surface)).is_none());
-    let relative = VerifiedSurface {
-        command_path: OsStr::new("relative"),
+    assert!(rewrite_literal("cargo build", &context, Some(&surface)).is_some());
+    let relative = HookContext {
+        executable: Some(PathBuf::from("relative")),
     };
-    assert!(rewrite_literal("bun run build", &context, Some(&relative)).is_none());
+    assert!(rewrite_literal("bun run build", &relative, Some(&surface)).is_none());
     fs::remove_file(context.executable.as_ref().unwrap()).unwrap();
     assert!(rewrite_literal("bun run build", &context, Some(&surface)).is_none());
 }
@@ -328,9 +340,7 @@ fn controlled_shell_executes_rewritten_literal_once_after_hook_returns() {
     };
     // The driver, rather than a vendor event or environment marker, controls
     // this shell: a fresh non-login shell with no startup variables/functions.
-    let surface = VerifiedSurface {
-        command_path: fixture.0.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     let rewritten = rewrite_literal("cargo build", &context, Some(&surface)).unwrap();
     let marker = fixture.0.join("executed");
     assert!(!marker.exists());
@@ -345,6 +355,9 @@ fn controlled_shell_executes_rewritten_literal_once_after_hook_returns() {
     assert!(status.success());
     assert_eq!(fs::read(marker).unwrap(), b"x");
 }
+
+#[path = "surface_tests.rs"]
+mod surface_tests;
 
 #[test]
 fn hook_exec_grammar_is_exact() {

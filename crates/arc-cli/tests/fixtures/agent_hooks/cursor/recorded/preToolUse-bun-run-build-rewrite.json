@@ -1,0 +1,21 @@
+{
+  "conversation_id": "9e50dfa7-897f-4358-9ea3-cfbafaff030f",
+  "generation_id": "9e50dfa7-897f-4358-9ea3-cfbafaff030f",
+  "model": "grok-4.7",
+  "tool_name": "Shell",
+  "tool_input": {
+    "command": "bun run build",
+    "cwd": "",
+    "timeout": 30000
+  },
+  "tool_use_id": "7d22c4b1-8c0f-4339-92d1-a9fe95e6a412",
+  "cwd": "",
+  "session_id": "9e50dfa7-897f-4358-9ea3-cfbafaff030f",
+  "hook_event_name": "preToolUse",
+  "cursor_version": "2026.11.13-eacade1",
+  "workspace_roots": [
+    "/tmp/arc-recording/project"
+  ],
+  "user_email": "operator@example.invalid",
+  "transcript_path": null
+}

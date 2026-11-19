@@ -88,7 +88,7 @@ pub(in super::super) mod claude {
     pub(in super::super::super) fn handle_verified(
         event: &Value,
         context: &HookContext,
-        surface: Option<&VerifiedSurface<'_>>,
+        surface: Option<&VerifiedSurface>,
     ) -> Option<Value> {
         super::super::claude::handle_verified(event, context, surface)
     }
@@ -133,7 +133,7 @@ pub(in super::super) mod cursor {
     pub(in super::super::super) fn handle_verified(
         event: &Value,
         context: &HookContext,
-        surface: Option<&VerifiedSurface<'_>>,
+        surface: Option<&VerifiedSurface>,
     ) -> Option<Value> {
         super::super::cursor::handle_verified(event, context, surface)
     }

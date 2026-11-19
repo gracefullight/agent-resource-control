@@ -158,9 +158,14 @@ pub(super) fn run_with_clocks(
     if let Some(gate) = &launch_gate {
         gate.install(&mut command);
     }
+    let invocation = if preserve_environment {
+        native_environment::preserve_path_invocation(&mut command, &argv)
+    } else {
+        Ok(())
+    };
     let (spawned_at, spawned) = match preparation::admit(
         || !signals.admit_spawn(),
-        || accounting::timed_spawn(now, || command.spawn()),
+        || accounting::timed_spawn(now, || invocation.and_then(|_| command.spawn())),
     ) {
         Ok(spawned) => spawned,
         Err(error) => {
@@ -208,7 +213,7 @@ pub(super) fn run_with_clocks(
             tracking.finish_unspawned(&socket, &job_id, &observer);
             return preparation::stopped(transport::Failure::Cancelled);
         }
-        Err(_) => {
+        Err(error) => {
             let outcome = spawn_failure.expect("failed native spawn has its terminal outcome");
             match &tracking {
                 traffic::Mode::Legacy(preparation::Tracking::Managed) => {
@@ -273,7 +278,11 @@ pub(super) fn run_with_clocks(
                 _ => (),
             }
             preparation::best_effort("SPAWN_FAILED\nNo child was started. Check the executable and execution permissions.");
-            return ExitCode::FAILURE;
+            return match (preserve_environment, error.kind()) {
+                (true, io::ErrorKind::NotFound) => ExitCode::from(127),
+                (true, io::ErrorKind::PermissionDenied) => ExitCode::from(126),
+                _ => ExitCode::FAILURE,
+            };
         }
     };
     signals.attach(child.id());

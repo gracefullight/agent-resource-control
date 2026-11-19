@@ -156,7 +156,7 @@ fn verified_events_preserve_complete_input_and_bypass_unsupported_calls() {
     run_case("disabled", &[("CLAUDE_CODE_REMOTE", "true")]);
     run_case("unverified", &[("BASH_ENV", "/untrusted/startup")]);
     run_case("unverified", &[("BASH_FUNC_cargo%%", "() { false; }")]);
-    run_case("unverified", &[("SSH_CONNECTION", "remote")]);
+    run_case("disabled", &[("SSH_CONNECTION", "remote")]);
     run_case("unverified", &[("ARC_HOOKS_VERIFIED", "1")]);
     run_case("execute", &[]);
 }
@@ -203,7 +203,7 @@ fn isolated_installers_preserve_settings_and_hook_order() {
 }
 
 #[test]
-fn production_unverified_hook_passes_the_documented_event_through() {
+fn production_hook_rewrites_the_documented_event_without_execution() {
     let fixture = Fixture::new();
     let input = fs::File::open(concat!(
         env!("CARGO_MANIFEST_DIR"),
@@ -225,7 +225,11 @@ fn production_unverified_hook_passes_the_documented_event_through() {
         Duration::from_secs(90),
     );
     assert!(output.status.success());
-    assert!(output.stdout.is_empty());
+    let response: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert!(response["hookSpecificOutput"]["updatedInput"]["command"]
+        .as_str()
+        .unwrap()
+        .ends_with(" hook-exec -- cargo build"));
     assert!(!fixture.marker.exists());
 }
 
@@ -331,9 +335,7 @@ fn local_event(fixture: &Fixture) -> Value {
 
 fn rewrite_cases(fixture: &Fixture) {
     let context = fixture.context();
-    let surface = VerifiedSurface {
-        command_path: fixture.bin.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     for literal in ["cargo build", "bun run build"] {
         let mut event = local_event(fixture);
         event["tool_input"]["command"] = json!(literal);
@@ -358,15 +360,13 @@ fn rewrite_cases(fixture: &Fixture) {
             .is_none());
         event["tool_input"] = response["hookSpecificOutput"]["updatedInput"].clone();
         assert!(claude::handle_verified(&event, &context, Some(&surface)).is_none());
-        assert!(claude::handle(&original, &context).is_none());
+        assert_eq!(claude::handle(&original, &context), Some(response));
     }
 }
 
 fn bypass_cases(fixture: &Fixture) {
     let context = fixture.context();
-    let surface = VerifiedSurface {
-        command_path: fixture.bin.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     for command in [
         "cargo  build",
         " cargo build",
@@ -402,8 +402,7 @@ fn bypass_cases(fixture: &Fixture) {
     ] {
         assert!(claude::handle_verified(&malformed, &context, Some(&surface)).is_none());
     }
-    // The frozen shared dispatcher may already have rounded these values.
-    // No response keeps the original raw input at the vendor intact.
+    // Arbitrary-precision JSON preserves unrelated numeric tool input fields.
     for raw in [
         "18446744073709551617",
         "-9223372036854775809",
@@ -412,16 +411,18 @@ fn bypass_cases(fixture: &Fixture) {
     ] {
         let mut event = local_event(fixture);
         event["tool_input"]["future_field"] = serde_json::from_str(raw).unwrap();
-        assert!(
-            claude::handle_verified(&event, &context, Some(&surface)).is_none(),
+        let response = claude::handle_verified(&event, &context, Some(&surface)).unwrap();
+        assert_eq!(
+            response["hookSpecificOutput"]["updatedInput"]["future_field"],
+            event["tool_input"]["future_field"],
             "{raw}"
         );
     }
     assert!(claude::handle_verified(&local_event(fixture), &context, None).is_none());
-    let relative = VerifiedSurface {
-        command_path: std::ffi::OsStr::new("bin"),
+    let relative = HookContext {
+        executable: Some(PathBuf::from("relative")),
     };
-    assert!(claude::handle_verified(&local_event(fixture), &context, Some(&relative)).is_none());
+    assert!(claude::handle_verified(&local_event(fixture), &relative, Some(&surface)).is_none());
     assert!(claude::handle_verified(
         &local_event(fixture),
         &HookContext { executable: None },
@@ -433,21 +434,19 @@ fn bypass_cases(fixture: &Fixture) {
     };
     assert!(claude::handle_verified(&local_event(fixture), &missing, Some(&surface)).is_none());
     fs::remove_file(fixture.bin.join("cargo")).unwrap();
-    assert!(claude::handle_verified(&local_event(fixture), &context, Some(&surface)).is_none());
+    assert!(claude::handle_verified(&local_event(fixture), &context, Some(&surface)).is_some());
     fs::set_permissions(fixture.bin.join("bun"), fs::Permissions::from_mode(0o644)).unwrap();
     let mut bun_event = local_event(fixture);
     bun_event["tool_input"]["command"] = json!("bun run build");
-    assert!(claude::handle_verified(&bun_event, &context, Some(&surface)).is_none());
+    assert!(claude::handle_verified(&bun_event, &context, Some(&surface)).is_some());
 }
 
 fn assert_no_update(fixture: &Fixture, verified: bool) {
     let context = fixture.context();
-    let surface = VerifiedSurface {
-        command_path: fixture.bin.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     if verified {
         assert!(claude::handle_verified(&local_event(fixture), &context, Some(&surface)).is_none());
     } else {
-        assert!(claude::handle(&local_event(fixture), &context).is_none());
+        assert!(claude::handle(&local_event(fixture), &context).is_some());
     }
 }

@@ -1,0 +1,6 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "result": "I'll run `bun run build` once and report the output as-is.```\nARC_REWRITE_ACCEPTED original=bun run build\n\n```"
+}

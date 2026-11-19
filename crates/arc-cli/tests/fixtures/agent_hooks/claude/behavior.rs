@@ -21,9 +21,7 @@ pub(super) fn execution(fixture: &Fixture) {
     let context = HookContext {
         executable: Some(env!("CARGO_BIN_EXE_arcctl").into()),
     };
-    let surface = VerifiedSurface {
-        command_path: fixture.bin.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     let run = |command: &str| -> Output {
         let mut child = Command::new("/bin/sh");
         child

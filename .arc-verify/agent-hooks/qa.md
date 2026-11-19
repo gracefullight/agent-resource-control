@@ -1,134 +1,43 @@
-# Independent agent-hook QA
+# Independent agent-hook lane review
 
-Verdict: **FAIL; verification partial.** Coverage reuse fails, a test lacks a
-child watchdog, and production hooks pass through: active control is incomplete.
+**No current blocker reproduced; verification partial.** Skill: `oma-qa`.
 
-## Inputs and provenance
+## Scope
 
-Reviewed Actor HEAD/snapshot `8e84705654e9200452d72d7a94e7b9cade3f8b1f`, tree
-`30ef347d790afc38a016ead82a382b7ed31ec5ce`. Its overlays are absent from the
-accepted committed baseline `7f9987c1c26ff72fb010c773e3cfc4995a8daacc`, tree
-`0b3e6582cba0eb228e7b6c7f2c621a11ab29bd4f`. Snapshot/worker refs were unavailable. Mission HEAD is the baseline with
-staged/untracked overlays; 12 selected inputs matched, not the entire tree.
-`qa.md` was staged there and `contract.md` untracked; task 8 must carry it. Only this report changed here.
+Baseline `f29db0b5330ba16f3e21f1f504d43d517651a0aa`, tree `0d4a8a9e69041800366b3062429b425069f98924`. Earlier review snapshot `b3514e845fc5b3ee1d12e3a707e882d19a3150b3`, tree `11f9e7d9cff3e38f5bac3a8f0db858afdceb736c`, included an overlay absent from baseline. Current review HEAD/snapshot `981bedfd2a0341d773c1d947c6c1908310549275`, tree `d45e225e0465b6286d4348a3e4ef406bdb9c16a8`, matches the mission's staged tree; its HEAD remains the baseline. Task-evidence refs did not resolve here. Full status reports `av.yaml: Operation not permitted`; scoped status was clean. Serena unavailable. Installer files match Actor snapshot `c5b70a17e290e0cb1431874d8717770665629205`, tree `11375f12c89b6469b29bb4682122bd38a6a49cd3`. Handoffs were read at `250ae908fa08c0d8686a04d04b82c52147a815f8`; four withdrawn recovery files are absent.
 
-SHA-256: `contract.md` = `29dbfd5fee5fa3dfae5f2d29dc787c39e60c11e3da0789f4aab006357579e216`;
-`docs/requirements/traceability.md` = `4634ad621b1d4a2b88050846a35f6c478bb07eeb87d0a2c571cb29851ca10821`.
+## Earlier integration finding
 
-## Blocking findings
+Paths under `crates/arc-cli/src/`; `claude/`, `cursor/` under `agent_hooks/`; `binary/` under `crates/arc-cli/tests/binary/`. Reviewer owns only `qa.md`.
 
-1. **HIGH — coverage reuse rejects the recorded collection. Owners: task-2
-   coverage and task-5 integration; task 8 coordinates shared files.**
-   `scripts/coverage/coverage-receipts.ts:49-55` rejects any ignored test. Mission-workspace receipt
-   `target/av-runner/coverage/runs/2026-11-17T18-14-21-498Z-2f3c50b3-b7ee-46ce-9b49-24900995f378/receipt.json`
-   has `--no-report` stdout that `parseCargoExecution` in
-   `scripts/archive/harness/managed-exec-test-output.ts:10` parses as **1,836
-   passed, 23 ignored, 84 harnesses**. `crates/arc-cli/tests/binary.rs:136-184`
-   launches an ignored worker from its parent. Runner log
-   `target/av-runner/gates/harness.2026-11-17T18-40-51-625Z.stderr.log`
-   reports `COVERAGE: incomplete native tests`; exit 1, no recollection. Make
-   worker execution and reuse compatible, proving required workers ran without
-   broadly accepting skips; rerun final-input reuse.
+At `b3514e8`, `hooks/event.rs:39-40,64-66` rejected valid `1e400` mutations and all four vendor/literal pairs passed through. At `981bedf`, `hooks/event.rs:38-71,98-123` preserves raw numbers; built-hook probes below confirm rewrites for all four pairs. The mutations are not observed vendor fields.
 
-2. **HIGH — unbounded direct child waits. Owner: task-5 integration; task 8
-   coordinates overlap.** `crates/arc-cli/tests/binary/hook_scheduled.rs:46-76`
-   reads pipes to EOF and waits without a watchdog, including in `Drop`. The
-   test at `:303-326` has no enclosing watchdog; a stalled child or retained
-   pipe can hang it, including during unwind. Supervise output and the direct
-   child/group with a diagnostic watchdog of at least 60 seconds; bound cleanup.
-   No hang was injected. Nested-helper cleanup on watchdog failure is deferred.
+## Five installer/watchdog dispositions
 
-## Reviewed behavior
+1. **Settings/symlinks/sidecars — remains.** Cursor checks the owner snapshot (`cursor/installer.rs:261-264`, `cursor/lock.rs:73-86,136-140`); checkpoint (`cursor/installer_tests.rs:100,144`) and symlink tests passed. Failed temporary unlink records ownership for retry/uninstall (`cursor/installer_tests.rs:39`). Injected empty/partial owner writes stop later operations unchanged and name both files and marker for manual resolution (`:184`); automatic recovery was withdrawn.
+2. **Other/privileged user then owner — unverified; remains.** Locks use invoking identity (`claude/transaction.rs:23`, `cursor/lock.rs:12`). `/usr/bin/sudo -n -u nobody /usr/bin/id` was denied, exit 127, `operation not permitted`; real two-identity testing is needed.
+3. **Owner-denying umask/ACL — partial; remains.** Existing-directory `umask 0777` repeat tests passed. Independently, absent vendor directories became mode `000` and both installs exited 1, unable to open locks. The inherited owner-deny ACL test failed safely with settings unchanged but an unreadable lock (`binary/installer_hardening.rs:312-368`). Other ACLs remain unverified.
+4. **Nested watchdog — addressed for tested tree.** `hooks/fixture_owned_installer_tests.rs:5-98` passed: injected expiry kills observed detached helper and descendant and reaps root. Escape before observation or loss of marker remains unverified (`hooks/fixture_owned.rs:189`).
+5. **Unwritten matcher/schema forms — bounded; remains manual.** `binary/installer_hardening.rs:162-212` passed: unrelated alternate matchers/extra fields survive; modified marked entries stop. Forms are not exhaustive.
 
-- `crates/arc-cli/src/agent_hooks/claude.rs:10-13` and `cursor.rs:25-28`
-  supply no `VerifiedSurface`; `hooks.rs:235-252` requires one, so production
-  never rewrites. Claude's fixture copies input fields without granting
-  permission; Cursor's candidate fails its schema projection
-  (`cursor/response_tests.rs:37-51`). Live approval and shell remain unverified.
-- `hooks/event.rs:46-61` rejects duplicate keys and inexact numbers;
-  `hooks.rs:235-252` only rewrites the two literals when executable/PATH checks
-  and surface proof pass. Fixtures cover disabled/unavailable adapters,
-  unsupported input, no hook-side execution and no double wrapping.
-- Claude ownership/comparison: `claude/installer.rs:159-180`,
-  `claude/transaction.rs:171-189`; Cursor: `cursor.rs:184-223,307-346`,
-  `cursor/snapshot.rs:83-109`. Fixtures cover scope, order, idempotence,
-  ambiguity, metadata and edits. No further blocker reproduced; focused runs
-  are Actor-reported.
-- `traffic_bun_scripts/agent_hooks.rs:309-399` specifies both fixture orders
-  with the production daemon: zero second starts before release, high-water
-  one, one execution each and no final permits. `mod.rs:262-320` reconciles
-  SQLite, CLI and a supplied read; desktop `traffic_bun_scripts.rs:26-65`
-  supplies the registered bridge. Execution is runner-owned.
-- Source: `support/native_fixture.rs:75-95` retains failures;
-  `scripts/coverage/hygiene.ts:8-30` counts blocks, with a sparse-file test;
-  `scripts/coverage/run.ts:111-120` cleans the validated instrumented build;
-  `job_meter_acceptance/calibration.rs:144-171` compares a same-run reference;
-  `exec/descriptors.rs:92-170` probes SIGPIPE restoration.
+## Installer hardening follow-ups and amendment 21
 
-## Integration and runner evidence
+The 22:15Z ruling classifies concurrent-writer and interrupted-write cases as follow-ups: Cursor settings can change after `cursor/installer.rs:362-364` and before rename at `:411`; owner record after `:373` and before `cursor/lock.rs:165-169`; Claude identity after its check and before unlink (`claude/installer.rs:94,112-123,167-169,425-429`). Symlink/identity checks and publication are separate (`:157-165`). Recovery can require manual resolution; last-check-to-write changes are not always detected.
 
-The three previously leaked `crates/arc-cli/default_*.profraw` files are absent
-in both worktrees. `queue_tests.rs:101-146` forwards and checks `LLVM_PROFILE_FILE`;
-`scripts/coverage/source.ts:237-260` rejects stray profiles outside root target,
-excluding other AV workspaces. Tests cover ignored files and reuse. This is not
-repository-wide proof of profile forwarding.
+The 00:50Z ruling also classifies these as follow-ups: extra fields in ARC's Claude identity or Cursor lock record can be lost on rewrite (`claude/installer.rs:144-150,360-397`, `cursor/installer.rs:369-378`); duplicate record keys are not detected (`claude/installer.rs:360-362`, `cursor/lock.rs:143-151`); and a missing Claude marked entry is reinstalled when its identity remains, the intended idempotent behavior (`claude/installer.rs:174-195`). Earlier disposable probes exercised the Claude extra-field, Cursor duplicate-key, and missing-entry cases.
 
-The later receipt reports 11 crate floors above 80% (lowest arc-cli 89.77%)
-and digest `8959359416b021b1d8e420ba54ec60663d6752942d6cfa33664bfadd6a7bb64b`.
-Three changed source hashes match this snapshot; reuse failed as above. A runner
-workspace record reports **1,125.673 s**, above 360 s; speed
-is deferred for lane acceptance, not achieved for the mission. Final-input
-integration, desktop, coverage reuse, clean workspace, binary timings,
-post-workspace Bun/hygiene and evidence sizes remain runner-owned. SIGINT and
-killed-owner runtime checks, live vendor lifecycle, attribution, broader syntax
-and Windows remain open.
-`av.yaml` was readable on retry; no container/service observation policy is
-configured in the supplied mission.
+Amendment 21 C10 requires preservation, idempotence, exact ownership or ambiguity stops, and atomic replacement preserving mode/ACL. The Actor reported metadata and idempotence tests passing; C3 and later rulings define the review boundary.
 
-## Installer hardening follow-ups
+## Vendor and execution-surface evidence
 
-Under 02:35Z, defer post-comparison settings-file, symlink and sidecar races;
-different/privileged-user invocation followed by the owner; owner-denying
-umask/ACL on installer-created files; nested helper process-group cleanup on
-watchdog failure; and vendor matcher/schema forms the installer never writes,
-except where the exact-marker rule applies.
+Operator `vendor-docs/README.md` binds pages retrieved 2026-11-18T13:56:18Z to Claude `2.1.327` and cursor-agent `2026.11.13-eacade1`. Recomputed SHA-256 matched the three full hashes and URLs in `contract.md`. All 10 fixtures matched `recorded/{claude-code,cursor}/sanitized` (provenance: `recorded/README.md`); no raw recording was read. Claude accepted complete `updatedInput` without `permissionDecision`; Cursor accepted `updated_input` without `permission`, and later `beforeShellExecution` saw the rewrite. The operator rules neither decides permission, preserving normal evaluation. Sessions used bypass/force and echo rewrites: interactive prompts and live ARC-hook acceptance remain unverified, neither a success criterion.
 
-## Test-support follow-ups
+`recorded/execution-surface/README.md` records zsh, unchanged argv, project cwd and tool-shell PATH distinct from hook PATH; the operator binds this surface for both vendors/literals. Accepted shell differences: cargo/Bun aliases and functions, command hashes, no-shebang executable text, `command_not_found`, `precmd`, `preexec` and DEBUG hooks, and shell lookup options. Other shells, remote/cloud and Windows remain unverified; recognized remote markers pass through.
 
-Under the 08:10Z, 11:45Z and 14:35Z rulings these historical single failures
-are follow-ups, not lane rejections; lines are from those runs:
+## Checks and gaps
 
-- `go_ordered_pairs`, `traffic_native_tools/witnesses.rs:138`: “native
-  Bun-script synchronization timed out”; target later passed isolated.
-- `interrupted_go_fixture_reaps_native_descendants`, `go/cleanup.rs:54`:
-  `ParseIntError Empty`; passed isolated.
-- `swift_direct_timeout_terminates_and_reaps_the_owned_tree`,
-  `swift/process_tests.rs:168`: `Other` instead of `TimedOut`; passed isolated.
-- `swift_helper_rejects_unexpected_release_byte_and_reaps_siblings`,
-  `swift/process_release_tests.rs:111`: `kill group: Operation not permitted`;
-  later isolated pass and stopped/zombie repair reported.
-- `scripts/harness/coverage-reuse.test.ts:263`, “explicit invalid, missing,
-  empty and stale harness receipts fail without hidden recollection”: 5,095 ms
-  against default 5,000 ms; add a diagnostic watchdog.
-- Earlier `swift_execution_semantics` and `registered_swift_execution_semantics`,
-  `witnesses.rs:31`, timed out; synchronization repair was reported. Their
-  current runner check remains required under the blocking scope ruling.
+- Earlier mission `target/debug/arcctl`, SHA-256 `9ba6f70bee7afd3bc61ff307f1018bfc5cee768a6559f46cf9f96859aa13c72c`: CLI/core/IPC sources and manifests matched `b3514e8` and predated the binary. Disposable-workspace probes reproduced the three installer observations, the earlier integration finding and the absent-directory umask result; both recorded literals and top-level `1.25` mutations rewrote for both vendors; `cargo build --release` passed through.
+- Existing `target/debug/deps/binary-9110e985c07b74f9`: 10 `--exact` tests passed for owner-write failure, temporary unlink, two owner-snapshot cases, watchdog, settings edits, symlink retarget, matcher variants, umask and ACL. No build, browser or UI check ran. Baseline-to-snapshot `git diff --check` excluding `av.yaml`, three document hashes and 10 sanitized fixture comparisons passed.
+- Mission runner `.agent-valley/integration-checks/2026-11-18T22-30-16-770Z.log`: two workspace tests passed (741.3 s, 627.1 s), 22-file Bun passed 370 tests, built-hook/daemon contention tests passed, and four architecture checks passed with coverage skipped. Two coverage collections failed when `llvm-profdata merge` exited via SIGTRAP. Runner ended `INTEGRATION CHECK FAILED` for `final-gates(second-run,duration,traceability,coverage,harness)` despite individually passing workspace runs. An earlier 20:45Z run failed `native_launch_races` at `apps/desktop/src-tauri/tests/memory_pressure/native_sequence.rs:70`; inputs changed since then.
 
-Also defer speed, Go descendant registration, legacy preparation/pointer/lease
-atomicity, Rust receipt/artifact validation, Meter and notice-writer clocks,
-fixture locks and probe descendants holding pipes.
-`exec/launch/tests.rs:277-294` needs a watchdog; recent-fifty
-(`traffic_cli/terminal_outcomes.rs:142`) still uses a real deadline.
-
-## Review checks
-
-Skill: `oma-qa`. Serena unavailable; scoped reads and Git diffs were used.
-`bun test scripts/requirements/traceability-parser.test.ts
-scripts/requirements/traceability.test.ts` passed 29/29. `bun
-scripts/requirements/traceability.ts` reconciled 316 rows: Requirements
-165/13/44/108, Acceptance 47/1/15/31, Catalogs 104/9/38/57
-(total/Complete/Partial/Pending), zero Blocked. It checks counts, not narrative.
-A read-only Bun parser probe produced finding 1's counts.
-`git diff --check` baseline-to-snapshot passed excluding `av.yaml`; archive
-had no diff. No native build gates, integration, desktop, workspace, coverage,
-harness, SwiftPM or GUI checks were run here. Refresh after input changes.
+The later runner log `.agent-valley/integration-checks/2026-11-18T23-46-47-265Z.log` reports two passing workspace runs, Bun (371 tests across 22 files), desktop, fresh coverage and the full harness, ending `integration check passed`; its staged product tree matches `981bedf`. Current mission `target/debug/arcctl`, SHA-256 `a95cbf1290c7a72b7bab53f6eefd0364909a7669976b63306fd326b93f55bd8b`, postdates the matched source. Direct non-building probes of both literals for both vendors preserved raw `1e400`, emitted rewrites and omitted permission decisions. `av.yaml` was unreadable; that denial does not block acceptance. No live ARC-hook or interactive approval was verified.

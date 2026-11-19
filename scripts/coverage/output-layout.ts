@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { rmSync } from "node:fs";
+import { chmodSync, lstatSync, readdirSync, rmSync } from "node:fs";
 import { EVIDENCE } from "./config";
 
 // Only scratch output moves. Historical baseline identities and standalone
@@ -21,4 +21,18 @@ export function coverageLayout(root:string, id:string, scratchRoot?:string) {
 // instrumented Cargo build subtree is disposable after reports are validated.
 export function removeInstrumentedBuild(target:string) {
   rmSync(resolve(target,"debug"),{recursive:true,force:true});
+}
+
+// Test children can inherit a restrictive umask. After they exit, restore
+// owner-read access only to profiles in this run's private target directory.
+export function prepareProfiles(target:string) {
+  const owner=process.getuid?.(), directory=lstatSync(target);
+  if(owner===undefined || !directory.isDirectory() || directory.uid!==owner) throw Error("PROFILE: target is not an owned directory");
+  const profiles=readdirSync(target).filter(p=>p.endsWith(".profraw")).sort();
+  for(const profile of profiles) {
+    const path=resolve(target,profile), file=lstatSync(path);
+    if(!file.isFile() || file.uid!==owner || file.nlink!==1) throw Error(`PROFILE: not an owned regular file ${profile}`);
+    if((file.mode&0o400)===0) chmodSync(path,(file.mode&0o7777)|0o400);
+  }
+  return profiles;
 }

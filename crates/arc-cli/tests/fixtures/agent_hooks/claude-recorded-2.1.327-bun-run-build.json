@@ -1,0 +1,17 @@
+{
+  "session_id": "9532ceef-9d31-47d9-8ede-9b22e6112263",
+  "transcript_path": "/Users/operator/.claude/projects/-tmp-arc-recording-project/9532ceef-9d31-47d9-8ede-9b22e6112263.jsonl",
+  "cwd": "/tmp/arc-recording/project",
+  "prompt_id": "101721d6-a7cc-42f1-8045-46490e6c9784",
+  "permission_mode": "bypassPermissions",
+  "effort": {
+    "level": "xhigh"
+  },
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "bun run build",
+    "description": "Run the project build script"
+  },
+  "tool_use_id": "toolu_015y1B91cJMP4CVKkPLhHtfk"
+}

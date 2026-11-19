@@ -1,8 +1,6 @@
 use std::{
     cell::RefCell,
-    env,
-    ffi::OsStr,
-    fs,
+    env, fs,
     os::unix::fs::PermissionsExt,
     path::{Path, PathBuf},
     process::{Command, Stdio},
@@ -155,15 +153,13 @@ fn transformations(root: &Path, bin: &Path, arcctl: &Path) {
     let context = HookContext {
         executable: Some(arcctl.to_path_buf()),
     };
-    let surface = VerifiedSurface {
-        command_path: bin.as_os_str(),
-    };
+    let surface = VerifiedSurface;
     let marker = root.join("starts");
     for literal in research()["supported_literals"].as_array().unwrap() {
         let literal = literal.as_str().unwrap();
         let mut input = event();
         input["tool_input"]["command"] = json!(literal);
-        assert!(cursor::handle(&input, &context).is_none());
+        assert!(cursor::handle(&input, &context).is_some());
         assert!(cursor::handle_verified(&input, &context, None).is_none());
         let response = cursor::handle_verified(&input, &context, Some(&surface)).unwrap();
         assert!(response.get("permission").is_none());
@@ -206,14 +202,10 @@ fn transformations(root: &Path, bin: &Path, arcctl: &Path) {
         executable: Some(root.join("missing")),
     };
     assert!(cursor::handle_verified(&event(), &missing, Some(&surface)).is_none());
-    let bad_path = VerifiedSurface {
-        command_path: OsStr::new("relative"),
+    let bad_path = HookContext {
+        executable: Some(PathBuf::from("relative")),
     };
-    assert!(cursor::handle_verified(&event(), &context, Some(&bad_path)).is_none());
-    let missing_tool = VerifiedSurface {
-        command_path: root.as_os_str(),
-    };
-    assert!(cursor::handle_verified(&event(), &context, Some(&missing_tool)).is_none());
+    assert!(cursor::handle_verified(&event(), &bad_path, Some(&surface)).is_none());
     assert_eq!(
         fs::read_to_string(root.join("starts"))
             .unwrap()
@@ -241,14 +233,12 @@ fn cursor_worker() {
         "schema-candidates" => response::schema_candidates(&root, &bin, &arcctl),
         "approval-decisions" => response::approval_decisions(&root, &bin, &arcctl),
         "bypass" => {
-            let surface = VerifiedSurface {
-                command_path: bin.as_os_str(),
-            };
+            let surface = VerifiedSurface;
             assert!(cursor::handle_verified(&event(), &context, Some(&surface)).is_none());
             assert!(!root.join("starts").exists());
         }
         "unverified" => {
-            assert!(cursor::handle(&event(), &context).is_none());
+            assert!(cursor::handle(&event(), &context).is_some());
             assert!(cursor::handle_verified(&event(), &context, None).is_none());
             assert!(!root.join("starts").exists());
         }
@@ -324,13 +314,14 @@ fn disabled_and_remote_events_pass_through_even_with_a_fixture_surface() {
         ("ARC_HOOKS_DISABLED", "1"),
         ("ARC_HOOKS_CURSOR_DISABLED", "1"),
         ("CURSOR_CODE_REMOTE", "true"),
+        ("SSH_CONNECTION", "remote"),
     ] {
         Fixture::new().worker("bypass", &[variable]);
     }
 }
 
 #[test]
-fn unverified_shell_startup_and_functions_cannot_manufacture_locality_proof() {
+fn shell_startup_does_not_run_during_the_hook() {
     let fixture = Fixture::new();
     let startup = fixture.root.join("startup");
     fs::write(
@@ -349,12 +340,15 @@ fn unverified_shell_startup_and_functions_cannot_manufacture_locality_proof() {
 }
 
 #[test]
-fn production_cli_fails_open_without_output_or_executing_the_command() {
+fn production_cli_rewrites_valid_events_and_fails_open_for_invalid_json() {
     let fixture = Fixture::new();
     let event_path = fixture.root.join("event.json");
-    for input in [
-        include_str!("fixtures/agent_hooks/cursor-pre-tool-use.json"),
-        "{invalid json",
+    for (input, status) in [
+        (
+            include_str!("fixtures/agent_hooks/cursor-pre-tool-use.json"),
+            0,
+        ),
+        ("{invalid json", 1),
     ] {
         fs::write(&event_path, input).unwrap();
         let mut command = Command::new(env!("CARGO_BIN_EXE_arcctl"));
@@ -370,8 +364,13 @@ fn production_cli_fails_open_without_output_or_executing_the_command() {
             command.env("LLVM_PROFILE_FILE", profile);
         }
         let output = process::output(&mut command, "production hook exit");
-        assert_eq!(output.status.code(), Some(1));
-        assert!(output.stdout.is_empty());
+        assert_eq!(output.status.code(), Some(status));
+        if status == 0 {
+            let response: Value = serde_json::from_slice(&output.stdout).unwrap();
+            assert!(response.get("permission").is_none());
+        } else {
+            assert!(output.stdout.is_empty());
+        }
         assert!(!fixture.root.join("starts").exists());
     }
 }

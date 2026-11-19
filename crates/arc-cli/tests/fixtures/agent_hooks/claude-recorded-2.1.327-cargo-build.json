@@ -1,0 +1,17 @@
+{
+  "session_id": "3acb5359-ba96-4012-935e-ec726553d47c",
+  "transcript_path": "/Users/operator/.claude/projects/-tmp-arc-recording-project/3acb5359-ba96-4012-935e-ec726553d47c.jsonl",
+  "cwd": "/tmp/arc-recording/project",
+  "prompt_id": "cc4b2033-16db-41ce-8d61-65a7742f2ae8",
+  "permission_mode": "bypassPermissions",
+  "effort": {
+    "level": "xhigh"
+  },
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "cargo build",
+    "description": "Build the Rust project"
+  },
+  "tool_use_id": "toolu_013uZbuwaEGmySEFAiGDX8op"
+}

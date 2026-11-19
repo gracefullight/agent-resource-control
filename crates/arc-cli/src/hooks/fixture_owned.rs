@@ -21,14 +21,23 @@ pub(crate) struct OwnedChild {
 impl OwnedChild {
     pub(crate) fn spawn(command: &mut Command, label: &str) -> Self {
         command.process_group(0);
-        Self::start(command, label, true)
-    }
-    pub(crate) fn spawn_nested(command: &mut Command, label: &str) -> Self {
         Self::start(command, label, false)
     }
-    fn start(command: &mut Command, label: &str, own_group: bool) -> Self {
-        let mut marker = own_group
-            .then(|| marker::Marker::attach(command).expect("create owned fixture marker"));
+    pub(crate) fn spawn_nested(command: &mut Command, label: &str) -> Self {
+        // Own a distinct group without replacing the outer worker's inherited
+        // marker or changing the child's explicitly controlled environment.
+        command.process_group(0);
+        Self::start(command, label, true)
+    }
+    fn start(command: &mut Command, label: &str, nested: bool) -> Self {
+        let mut marker = Some(
+            if nested {
+                marker::Marker::attach_nested(command)
+            } else {
+                marker::Marker::attach(command)
+            }
+            .expect("create owned fixture marker"),
+        );
         let child = command.spawn().expect("spawn owned fixture child");
         if let Some(marker) = &mut marker {
             marker.close_parent();
@@ -37,7 +46,7 @@ impl OwnedChild {
             child: Some(child),
             marker,
             label: label.into(),
-            own_group,
+            own_group: true,
             descendants: Vec::new(),
         }
     }
@@ -299,11 +308,34 @@ impl OwnedChild {
 
 mod marker {
     include!("../../../arc-daemon/tests/support/owned_marker.rs");
+
+    impl Marker {
+        // Attach a second private descriptor while leaving the outer marker
+        // environment untouched. The outer supervisor retains its own proof.
+        pub(super) fn attach_nested(command: &mut Command) -> io::Result<Self> {
+            let mut unused = Command::new("/dev/null");
+            let marker = Self::attach(&mut unused)?;
+            let fd = marker.file.as_ref().unwrap().as_raw_fd();
+            unsafe {
+                command.pre_exec(move || {
+                    if libc::fcntl(fd, libc::F_SETFD, 0) < 0 {
+                        return Err(io::Error::last_os_error());
+                    }
+                    Ok(())
+                });
+            }
+            Ok(marker)
+        }
+    }
 }
 
 #[cfg(test)]
 #[path = "fixture_owned_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "fixture_owned_installer_tests.rs"]
+mod installer_watchdog_tests;
 
 impl Drop for OwnedChild {
     fn drop(&mut self) {

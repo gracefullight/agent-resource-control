@@ -1,0 +1,6 @@
+{
+  "type": "result",
+  "subtype": "success",
+  "is_error": false,
+  "result": "I'll run `cargo build` once and report the output exactly as it comes back.```\nARC_REWRITE_ACCEPTED original=cargo build\n```"
+}

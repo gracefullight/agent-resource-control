@@ -109,7 +109,10 @@ impl Fixture {
         Self { root, listener }
     }
     fn shell(&self, command: &str, lineage: Option<&OsStr>) -> Command {
-        let mut result = Command::new("/bin/sh");
+        self.shell_with("/bin/sh", command, lineage)
+    }
+    fn shell_with(&self, shell: &str, command: &str, lineage: Option<&OsStr>) -> Command {
+        let mut result = Command::new(shell);
         result
             .env_clear()
             .args(["-c", command])
@@ -355,49 +358,58 @@ fn scheduled_hook_exec_preserves_actual_child_environment_streams_cwd_and_status
             )),
             Some(OsStr::from_bytes(b"supplied-\xff")),
         ] {
-            let fixture = Fixture::new();
-            let direct = finish(
-                fixture.shell(literal, lineage),
-                &fixture.root,
-                b"stdin bytes\n",
-            );
-            let executable = env!("CARGO_BIN_EXE_arcctl").replace('\'', "'\\''");
-            let wrapped = format!("'{executable}' hook-exec -- {literal}");
-            let listener = fixture.listener.try_clone().unwrap();
-            let (send, receive) = mpsc::channel();
-            let (result_send, result_receive) = mpsc::channel();
-            thread::spawn(move || {
-                let _ = result_send.send(peer(listener, literal.starts_with("bun"), send));
-            });
-            let mut child = FixtureChild::spawn(fixture.shell(&wrapped, lineage), &fixture.root);
-            receive
-                .recv_timeout(Duration::from_secs(60))
-                .expect("scheduled child was not attached");
-            child.write_input(b"stdin bytes\n");
-            let scheduled = child.output();
-            assert_eq!(
-                result_receive
-                    .recv_timeout(Duration::from_secs(120))
-                    .expect("scheduled protocol peer did not finish"),
-                (1, 1, 1)
-            );
-            assert_eq!(direct.status.code(), Some(17));
-            assert_eq!(scheduled.status.code(), direct.status.code());
-            assert_eq!(
-                scheduled.stdout, direct.stdout,
-                "{literal}, lineage={lineage:?}"
-            );
-            assert_eq!(
-                scheduled.stderr, direct.stderr,
-                "{literal}, lineage={lineage:?}"
-            );
-            assert_eq!(
-                fs::read_to_string(fixture.root.join("starts"))
-                    .unwrap()
-                    .lines()
-                    .count(),
-                2
-            );
+            for path in [None, Some(OsStr::new(""))] {
+                let fixture = Fixture::new();
+                let shell = |command: &str| {
+                    let mut child = if path.is_some() {
+                        fixture.shell_with("/bin/zsh", command, lineage)
+                    } else {
+                        fixture.shell(command, lineage)
+                    };
+                    if let Some(path) = path {
+                        child.env("PATH", path);
+                    }
+                    child
+                };
+                let direct = finish(shell(literal), &fixture.root, b"stdin bytes\n");
+                let executable = env!("CARGO_BIN_EXE_arcctl").replace('\'', "'\\''");
+                let wrapped = format!("'{executable}' hook-exec -- {literal}");
+                let listener = fixture.listener.try_clone().unwrap();
+                let (send, receive) = mpsc::channel();
+                let (result_send, result_receive) = mpsc::channel();
+                thread::spawn(move || {
+                    let _ = result_send.send(peer(listener, literal.starts_with("bun"), send));
+                });
+                let mut child = FixtureChild::spawn(shell(&wrapped), &fixture.root);
+                receive
+                    .recv_timeout(Duration::from_secs(60))
+                    .expect("scheduled child was not attached");
+                child.write_input(b"stdin bytes\n");
+                let scheduled = child.output();
+                assert_eq!(
+                    result_receive
+                        .recv_timeout(Duration::from_secs(120))
+                        .expect("scheduled protocol peer did not finish"),
+                    (1, 1, 1)
+                );
+                assert_eq!(direct.status.code(), Some(17));
+                assert_eq!(scheduled.status.code(), direct.status.code());
+                assert_eq!(
+                    scheduled.stdout, direct.stdout,
+                    "{literal}, lineage={lineage:?}, path={path:?}"
+                );
+                assert_eq!(
+                    scheduled.stderr, direct.stderr,
+                    "{literal}, lineage={lineage:?}, path={path:?}"
+                );
+                assert_eq!(
+                    fs::read_to_string(fixture.root.join("starts"))
+                        .unwrap()
+                        .lines()
+                        .count(),
+                    2
+                );
+            }
         }
     }
 }

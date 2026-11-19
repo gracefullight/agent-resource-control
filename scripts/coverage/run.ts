@@ -5,7 +5,7 @@ import { hash, sourceInventory, inputIdentity, walk } from "./source";
 import { requireExit, requireVersion, validateReport, enforce, requireWorkspace } from "./gate";
 import { command, type Receipt } from "./commands";
 import { referenceFile } from "./evidence";
-import { coverageLayout, removeInstrumentedBuild } from "./output-layout";
+import { coverageLayout, prepareProfiles, removeInstrumentedBuild } from "./output-layout";
 import type { CoverageReuse } from "./coverage-receipts";
 
 const root=resolve(import.meta.dir,"../..");
@@ -92,7 +92,7 @@ try {
     for(const profile of profiles) if(!statSync(join(target,profile)).size) throw Error(`CHILD_PROFILE: empty ${profile}`);
     childProof.push({binary,pid:receipt.pid,profiles,exit:receipt.exit});
   }
-  const profiles=readdirSync(target).filter(p=>p.endsWith(".profraw")).sort();
+  const profiles=prepareProfiles(target);
   if(!profiles.length) throw Error("MISSING_REPORT: no raw profiles");
   console.log("Coverage: merging fresh execution profiles and validating reports");
   const report=join(dir,"raw.lcov"), started=Date.now();

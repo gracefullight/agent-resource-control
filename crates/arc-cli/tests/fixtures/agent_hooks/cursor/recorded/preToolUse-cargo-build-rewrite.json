@@ -1,0 +1,21 @@
+{
+  "conversation_id": "fe9bd683-50ce-4416-beba-80c68f0fd779",
+  "generation_id": "fe9bd683-50ce-4416-beba-80c68f0fd779",
+  "model": "grok-4.7",
+  "tool_name": "Shell",
+  "tool_input": {
+    "command": "cargo build",
+    "cwd": "",
+    "timeout": 30000
+  },
+  "tool_use_id": "10fc48da-c138-44dd-ab79-532aa2e64d9c",
+  "cwd": "",
+  "session_id": "fe9bd683-50ce-4416-beba-80c68f0fd779",
+  "hook_event_name": "preToolUse",
+  "cursor_version": "2026.11.13-eacade1",
+  "workspace_roots": [
+    "/tmp/arc-recording/project"
+  ],
+  "user_email": "operator@example.invalid",
+  "transcript_path": null
+}

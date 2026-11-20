@@ -1,11 +1,149 @@
-//! Fresh caller environment. Task-3 owns the bounded endpoint evidence port.
+//! Fresh caller environment. Task-2 owns the bounded endpoint evidence port.
 use arc_detector::{EndpointContext, CONTEXT_ENV_KEYS, MAX_CONTEXT_BYTES, MAX_CONTEXT_VALUE_BYTES};
-use std::{collections::BTreeMap, ffi::OsString, path::Path};
+use std::{
+    collections::BTreeMap,
+    ffi::OsString,
+    path::Path,
+    sync::mpsc,
+    time::{Duration, Instant},
+};
+
+mod docker;
+mod files;
+mod interfaces;
+mod kube;
+mod ssh;
 
 pub(super) fn capture(argv: &[OsString]) -> Option<EndpointContext> {
-    capture_with(argv, arc_ipc::locality::now_ms()?, |key| {
+    match within_input_budget(argv, || Some(capture_valid_input(argv))) {
+        Some(context) => context,
+        None => Some(EndpointContext {
+            captured_at_ms: arc_ipc::locality::now_ms()?,
+            ..EndpointContext::default()
+        }),
+    }
+}
+
+// Skip discovery for oversized inputs before collecting the environment,
+// allocating a copy of argv, or opening any endpoint configuration. The empty
+// context still lets the detector report its INPUT_LIMIT or TOKEN_LIMIT.
+fn within_input_budget<T>(argv: &[OsString], work: impl FnOnce() -> Option<T>) -> Option<T> {
+    if argv.len() > arc_detector::MAX_TOKENS
+        || argv.iter().try_fold(0usize, |bytes, arg| {
+            bytes.checked_add(arg.as_encoded_bytes().len())
+        })? > arc_detector::MAX_INPUT_BYTES
+    {
+        return None;
+    }
+    work()
+}
+
+fn capture_valid_input(argv: &[OsString]) -> Option<EndpointContext> {
+    let started = Instant::now();
+    let mut context = capture_with(argv, arc_ipc::locality::now_ms()?, |key| {
         std::env::var_os(key)
-    })
+    })?;
+    let words: Vec<String> = argv
+        .iter()
+        .map(|arg| arg.to_str().map(str::to_owned))
+        .collect::<Option<_>>()?;
+    if matches!(
+        words.first().map(String::as_str),
+        Some("ssh" | "docker" | "kubectl")
+    ) {
+        // A regular-file read can still block on a slow filesystem despite
+        // O_NONBLOCK. One-shot discovery is bounded by the freshness window.
+        let remaining = Duration::from_millis(arc_detector::MAX_CONTEXT_AGE_MS)
+            .checked_sub(started.elapsed())?;
+        context = bounded(remaining, move || {
+            let mut reads = files::Reads::new();
+            let result = match words[0].as_str() {
+                "ssh" => ssh::capture(&words[1..], &mut context, &mut reads),
+                "docker" => docker::capture(&words[1..], &mut context, &mut reads),
+                "kubectl" => kube::capture(&words[1..], &mut context, &mut reads),
+                _ => unreachable!(),
+            };
+            // Missing or unsupported data leave no usable facts.
+            if result.is_none() {
+                context.facts.clear();
+            }
+            context
+        })?;
+    }
+    context
+        .is_valid_at(arc_ipc::locality::now_ms()?)
+        .then_some(context)
+}
+
+fn bounded<T: Send + 'static>(
+    limit: Duration,
+    work: impl FnOnce() -> T + Send + 'static,
+) -> Option<T> {
+    let (send, receive) = mpsc::sync_channel(1);
+    std::thread::Builder::new()
+        .name("arc-endpoint-capture".into())
+        .spawn(move || {
+            let _ = send.send(work());
+        })
+        .ok()?;
+    receive.recv_timeout(limit).ok()
+}
+
+/// Bind selected Git-over-SSH hosts only after the Git lane resolves its URLs.
+pub(super) fn finish(_: &[OsString], context: &mut EndpointContext) -> Option<()> {
+    if context.environment.contains_key("GIT_SSH")
+        || context.environment.contains_key("GIT_SSH_COMMAND")
+    {
+        return Some(());
+    }
+    let hosts = git_ssh_hosts(context);
+    if hosts.is_empty() {
+        return Some(());
+    }
+    let age = arc_ipc::locality::now_ms()?.checked_sub(context.captured_at_ms)?;
+    let remaining = arc_detector::MAX_CONTEXT_AGE_MS.checked_sub(age)?;
+    let mut snapshot = context.clone();
+    let resolved = bounded(Duration::from_millis(remaining), move || {
+        let mut reads = files::Reads::new();
+        for host in hosts {
+            ssh::bind_git(&host, &mut snapshot, &mut reads)?;
+        }
+        Some(snapshot)
+    })?;
+    if let Some(resolved) = resolved {
+        *context = resolved;
+    }
+    Some(())
+}
+
+fn git_ssh_hosts(context: &EndpointContext) -> std::collections::BTreeSet<String> {
+    use arc_detector::EndpointKind;
+    let mut hosts = std::collections::BTreeSet::new();
+    for item in &context.facts {
+        if !matches!(
+            item.kind,
+            EndpointKind::GitRemote | EndpointKind::GitPushDefault
+        ) {
+            continue;
+        }
+        for endpoint in &item.endpoints {
+            let Some(rest) = endpoint.strip_prefix("ssh://git@") else {
+                continue;
+            };
+            let Some((host, _)) = rest.split_once('/') else {
+                continue;
+            };
+            if matches!(host, "github.com" | "gitlab.com")
+                && !context
+                    .facts
+                    .iter()
+                    .any(|fact| fact.kind == EndpointKind::SshDestination && fact.selector == host)
+            {
+                hosts.insert(host.to_owned());
+            }
+        }
+    }
+    hosts
 }
 
 fn capture_with(
@@ -68,7 +206,72 @@ fn relevant(argv: &[OsString], key: &str) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::cell::Cell;
     use std::os::unix::ffi::OsStringExt;
+
+    #[test]
+    fn input_limits_precede_all_discovery() {
+        let calls = Cell::new(0);
+        let run = |argv: &[OsString]| {
+            within_input_budget(argv, || {
+                calls.set(calls.get() + 1);
+                Some(())
+            })
+        };
+        let bytes_at_limit = [OsString::from("x".repeat(arc_detector::MAX_INPUT_BYTES))];
+        assert!(run(&bytes_at_limit).is_some());
+        let bytes_over_limit = [
+            OsString::from("docker"),
+            OsString::from("x".repeat(arc_detector::MAX_INPUT_BYTES)),
+        ];
+        assert!(run(&bytes_over_limit).is_none());
+        let tokens_at_limit = vec![OsString::from("x"); arc_detector::MAX_TOKENS];
+        assert!(run(&tokens_at_limit).is_some());
+        let mut tokens_over_limit = vec![OsString::from("x"); arc_detector::MAX_TOKENS + 1];
+        tokens_over_limit[0] = OsString::from("docker");
+        assert!(run(&tokens_over_limit).is_none());
+        assert_eq!(
+            calls.get(),
+            2,
+            "over-budget inputs must not reach discovery"
+        );
+        for (argv, reason) in [
+            (
+                bytes_over_limit.as_slice(),
+                arc_detector::Reason::InputLimit,
+            ),
+            (
+                tokens_over_limit.as_slice(),
+                arc_detector::Reason::TokenLimit,
+            ),
+        ] {
+            for program in ["docker", "ssh", "kubectl", "git", "gh", "bun", "fixture"] {
+                let mut invocation = argv.to_vec();
+                invocation[0] = program.into();
+                let context =
+                    capture(&invocation).expect("over-budget input retains an empty context");
+                assert!(context.environment.is_empty(), "{program}");
+                assert!(context.facts.is_empty(), "{program}");
+                let result = super::super::metadata::classify(&invocation);
+                assert_eq!(
+                    result.classification,
+                    arc_detector::JobClass::Unknown,
+                    "{program}"
+                );
+                assert_eq!(
+                    result.locality,
+                    arc_detector::Locality::Unknown,
+                    "{program}"
+                );
+                assert_eq!(
+                    result.uncertainty,
+                    arc_detector::Uncertainty::Observe,
+                    "{program}"
+                );
+                assert_eq!(result.reason, reason, "{program}");
+            }
+        }
+    }
 
     #[test]
     fn unrelated_invalid_values_do_not_affect_local_commands() {
@@ -91,4 +294,53 @@ mod tests {
             .is_none());
         }
     }
+
+    #[test]
+    fn a_stalled_capture_does_not_supply_facts() {
+        let (release, wait) = std::sync::mpsc::channel::<()>();
+        assert!(bounded(Duration::from_millis(10), move || wait.recv()).is_none());
+        release.send(()).unwrap();
+    }
+
+    #[test]
+    fn git_post_capture_selects_public_ssh_hosts_and_retains_existing_facts() {
+        use arc_detector::{EndpointFact, EndpointKind};
+        let mut context = EndpointContext {
+            captured_at_ms: 10_000,
+            facts: vec![
+                EndpointFact {
+                    kind: EndpointKind::GitRemote,
+                    selector: "origin".into(),
+                    endpoints: vec!["ssh://git@github.com/org/repo.git".into()],
+                },
+                EndpointFact {
+                    kind: EndpointKind::GitPushDefault,
+                    selector: "@bare-push".into(),
+                    endpoints: vec!["ssh://git@gitlab.com/org/repo.git".into()],
+                },
+            ],
+            ..Default::default()
+        };
+        assert_eq!(
+            git_ssh_hosts(&context).into_iter().collect::<Vec<_>>(),
+            ["github.com", "gitlab.com"]
+        );
+        context.facts.push(EndpointFact {
+            kind: EndpointKind::SshDestination,
+            selector: "github.com".into(),
+            endpoints: vec!["ssh://192.0.2.24:22".into()],
+        });
+        assert_eq!(
+            git_ssh_hosts(&context).into_iter().collect::<Vec<_>>(),
+            ["gitlab.com"]
+        );
+        context
+            .environment
+            .insert("GIT_SSH_COMMAND".into(), "custom".into());
+        assert!(finish(&[], &mut context).is_some());
+        assert_eq!(context.facts.len(), 3);
+    }
 }
+
+#[cfg(test)]
+mod route_tests;

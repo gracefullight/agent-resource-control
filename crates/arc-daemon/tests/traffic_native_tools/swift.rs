@@ -40,6 +40,9 @@ pub(super) fn assert_completed(project: &std::path::Path) {
     // Check the complete native body before the case removes its own tree.
     assert_eq!(evidence::body_count(project), 1);
     projects::record(project);
+    // The pool tree can be reused by another concurrent case as soon as this
+    // pair returns. Observe the native body disappear before returning it.
+    evidence::wait_for_retirement(project);
 }
 
 /// Separate synthetic byte-forwarding proof; real SwiftPM scenarios remain above.

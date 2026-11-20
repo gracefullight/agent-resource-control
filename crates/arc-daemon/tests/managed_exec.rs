@@ -49,6 +49,15 @@ mod remote_endpoints;
 #[path = "managed_exec/remote_unknown.rs"]
 mod remote_unknown;
 
+#[path = "managed_exec/capture_endpoints.rs"]
+mod capture_endpoints;
+#[path = "managed_exec/capture_git.rs"]
+mod capture_git;
+#[path = "managed_exec/capture_integration.rs"]
+mod capture_integration;
+#[path = "managed_exec/shared_execution_contract.rs"]
+mod shared_execution_contract;
+
 #[path = "managed_exec/historical.rs"]
 mod historical;
 

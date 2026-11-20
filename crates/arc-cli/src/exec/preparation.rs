@@ -77,7 +77,11 @@ pub(super) fn prepare_with(
             Failure::Unavailable | Failure::Uncertain | Failure::Busy | Failure::InvalidEndpoint,
         ) => Ok(Tracking::Uncertain),
         Err(error) => Err(error),
-        Ok(r) if r.job.phase == Phase::Launching && r.job.classification == classification => {
+        Ok(r)
+            if r.job.phase == Phase::Launching
+                && (r.job.classification == classification
+                    || r.job.classification == classification.legacy()) =>
+        {
             Ok(Tracking::Managed)
         }
         Ok(_) => Err(Failure::InvalidReply),

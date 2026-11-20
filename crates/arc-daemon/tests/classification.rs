@@ -1,6 +1,8 @@
 //! Actual daemon/client contract cases; no analyzed command is ever executed.
 #[path = "classification/boundaries.rs"]
 mod boundaries;
+#[path = "support/child_watchdog.rs"]
+mod child_watchdog;
 #[path = "classification/privacy.rs"]
 mod privacy;
 #[path = "support/runtime.rs"]
@@ -38,11 +40,20 @@ fn exchange(stream: &mut UnixStream, payload: Value) -> Response {
 }
 fn cli(fixture: &Fixture, args: &[&str]) -> Output {
     let path = Path::new(env!("CARGO_BIN_EXE_arc-daemon")).with_file_name("arcctl");
-    Command::new(path)
-        .args(args)
+    let mut command = Command::new(path);
+    command
+        .env_clear()
+        .env("HOME", &fixture.root)
+        .env("PATH", &fixture.root)
+        .env("GH_HOST", "github.com")
+        .env("GH_REPO", "github.com/fixture-owner/fixture-repo")
+        .current_dir(&fixture.root)
         .env(arc_core::ARC_SOCKET_PATH, &fixture.socket)
-        .output()
-        .unwrap()
+        .args(args);
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
+    child_watchdog::output(&mut command, "classification CLI").unwrap()
 }
 fn human(result: &Value) -> String {
     format!(
@@ -80,6 +91,17 @@ fn daemon_and_cli_matrix(cases: Vec<Value>) {
         );
         let command = case["payload"]["command"].as_str().unwrap();
         let shell = case["payload"]["shell_kind"].as_str().unwrap_or("sh");
+        let reason = case["result"]["reason"].as_str().unwrap();
+        let contextual = if matches!(
+            reason,
+            "SSH_REMOTE_COMMAND" | "SSH_AMBIGUOUS" | "SSH_FORWARDING" | "DOCKER_ENDPOINT_UNKNOWN"
+        ) || case["id"] == "terminated-compound"
+        {
+            json!({"classification":"UNKNOWN","locality":"UNKNOWN",
+                "reason":"ENDPOINT_AMBIGUOUS","uncertainty":"OBSERVE"})
+        } else {
+            case["result"].clone()
+        };
         for json in [false, true] {
             let mut args = vec!["classify", "--shell", shell];
             if json {
@@ -94,14 +116,14 @@ fn daemon_and_cli_matrix(cases: Vec<Value>) {
                 assert_eq!(output.stdout.iter().filter(|b| **b == b'\n').count(), 1);
                 assert_eq!(
                     serde_json::from_slice::<Value>(&output.stdout).unwrap(),
-                    case["result"],
+                    contextual,
                     "{}",
                     case["id"]
                 );
             } else {
                 assert_eq!(
                     output.stdout,
-                    human(&case["result"]).as_bytes(),
+                    human(&contextual).as_bytes(),
                     "{}",
                     case["id"]
                 );
@@ -206,6 +228,8 @@ fn ssh_option_values_preserve_typed_daemon_and_cli_observations() {
             Some(expected.clone()),
             "ssh-option-{index}"
         );
+        let contextual = json!({"classification":"UNKNOWN","locality":"UNKNOWN",
+            "reason":"ENDPOINT_AMBIGUOUS","uncertainty":"OBSERVE"});
         for json in [false, true] {
             let mut args = vec!["classify"];
             if json {
@@ -220,13 +244,13 @@ fn ssh_option_values_preserve_typed_daemon_and_cli_observations() {
             if json {
                 assert_eq!(
                     serde_json::from_slice::<Value>(&output.stdout).unwrap(),
-                    expected,
+                    contextual,
                     "ssh-option-{index}"
                 );
             } else {
                 assert_eq!(
                     output.stdout,
-                    human(&expected).as_bytes(),
+                    human(&contextual).as_bytes(),
                     "ssh-option-{index}"
                 );
             }

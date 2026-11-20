@@ -2,25 +2,42 @@
 use super::transport;
 use arc_ipc::jobs::{
     CompleteRequest, CompleteResult, JobId, Outcome, ProcessIdentity, StartRequest, StartResult,
-    OPERATION_JOB_COMPLETE, OPERATION_JOB_START,
+    OPERATION_JOB_COMPLETE, OPERATION_JOB_START, OPERATION_JOB_START_LOCALITY,
 };
 use serde_json::json;
 use std::{path::Path, time::Instant};
 
 pub(super) fn start_until(
     socket: &Path,
-    input: StartRequest,
+    mut input: StartRequest,
     deadline: Instant,
     cancelled: &dyn Fn() -> bool,
 ) -> Result<StartResult, transport::Failure> {
     use transport::Failure;
-    let value = transport::call_until(
-        socket,
-        OPERATION_JOB_START,
-        json!(input),
-        deadline,
-        cancelled,
-    )?;
+    let contextual = matches!(&input, StartRequest::Register { classification, .. }
+        if classification.is_endpoint_locality());
+    let operation = if contextual {
+        OPERATION_JOB_START_LOCALITY
+    } else {
+        OPERATION_JOB_START
+    };
+    let value = match transport::call_until(socket, operation, json!(input), deadline, cancelled) {
+        Err(Failure::Unsupported) if contextual => {
+            // An authenticated explicit rejection, with no earlier possible
+            // commit, is the only safe point for a legacy registration.
+            if let StartRequest::Register { classification, .. } = &mut input {
+                *classification = classification.legacy();
+            }
+            transport::call_until(
+                socket,
+                OPERATION_JOB_START,
+                json!(input),
+                deadline,
+                cancelled,
+            )?
+        }
+        result => result?,
+    };
     let result: StartResult = serde_json::from_value(value).map_err(|_| Failure::InvalidReply)?;
     if result.job.job_id != *input.job_id()
         || result.job.observer != *input.observer()
@@ -69,3 +86,6 @@ pub(super) fn complete(
     }
     Ok(())
 }
+
+#[cfg(test)]
+mod contract_tests;

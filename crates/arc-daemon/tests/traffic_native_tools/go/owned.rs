@@ -37,16 +37,19 @@ struct Counts {
     started: AtomicU64,
     cleaned: AtomicU64,
 }
+impl Counts {
+    fn snapshot(&self) -> (u64, u64) {
+        (
+            self.started.load(Ordering::SeqCst),
+            self.cleaned.load(Ordering::SeqCst),
+        )
+    }
+}
 thread_local! {
     static COUNTS: Arc<Counts> = Arc::new(Counts::default());
 }
 pub fn counts() -> (u64, u64) {
-    COUNTS.with(|counts| {
-        (
-            counts.started.load(Ordering::SeqCst),
-            counts.cleaned.load(Ordering::SeqCst),
-        )
-    })
+    COUNTS.with(|counts| counts.snapshot())
 }
 
 pub struct GoChild {
@@ -59,13 +62,16 @@ pub struct GoChild {
 }
 impl GoChild {
     pub fn spawn(command: &mut Command) -> io::Result<Self> {
+        Self::spawn_counted(command, COUNTS.with(Arc::clone))
+    }
+
+    fn spawn_counted(command: &mut Command, counts: Arc<Counts>) -> io::Result<Self> {
         // Reserve a private group before exec so an orphaned pipe holder can
         // still be identified while the direct child remains unreaped.
         command.process_group(0);
         let mut marker = marker::Marker::attach(command)?;
         let child = command.spawn()?;
         marker.close_parent();
-        let counts = COUNTS.with(Arc::clone);
         counts.started.fetch_add(1, Ordering::SeqCst);
         let mut guard = Self {
             child,

@@ -26,11 +26,19 @@ impl Fixture {
         Self { root }
     }
     fn cli(&self, args: &[&str]) -> Output {
-        Command::new(env!("CARGO_BIN_EXE_arcctl"))
-            .args(args)
-            .env(arc_core::ARC_SOCKET_PATH, self.root.join("ipc"))
-            .output()
-            .unwrap()
+        let mut command = Command::new(env!("CARGO_BIN_EXE_arcctl"));
+        command
+            .env_clear()
+            .env("HOME", &self.root)
+            .env("XDG_CONFIG_HOME", self.root.join("config"))
+            .env("PATH", &self.root)
+            .current_dir(&self.root)
+            .env(arc_core::ARC_SOCKET_PATH, self.root.join("ipc"));
+        // Preserve coverage accounting while isolating configuration discovery.
+        if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+            command.env("LLVM_PROFILE_FILE", profile);
+        }
+        command.args(args).output().unwrap()
     }
     fn peer(
         &self,
@@ -58,7 +66,7 @@ impl Fixture {
                 stream.set_write_timeout(Some(Duration::from_secs(60))).unwrap();
                 let request: Request = arc_ipc::read_message(&mut stream).unwrap();
                 assert_eq!(request.protocol_version, 1);
-                assert_eq!(request.operation, arc_ipc::OPERATION_JOB_CLASSIFY);
+                assert_eq!(request.operation, arc_ipc::locality::OPERATION_CLASSIFY);
                 assert!(request.request_id.starts_with("arcctl-"));
                 reply(request, &mut stream);
                 assert!(matches!(listener.accept(), Err(e) if e.kind() == std::io::ErrorKind::WouldBlock), "unexpected retry or diagnostic connection");
@@ -155,9 +163,12 @@ fn literal_payloads_and_options_are_preserved_in_one_request() {
         ] {
             let fixture = Fixture::new();
             let output = fixture.peer(&args, |request, stream| {
-                assert!(request.payload["command"] == text, "payload bytes changed");
                 assert!(
-                    request.payload["shell_kind"]
+                    request.payload["command"]["command"] == text,
+                    "payload bytes changed"
+                );
+                assert!(
+                    request.payload["command"]["shell_kind"]
                         == if args.contains(&"zsh") {
                             "zsh"
                         } else if args.contains(&"bash") {
@@ -166,14 +177,86 @@ fn literal_payloads_and_options_are_preserved_in_one_request() {
                             "sh"
                         }
                 );
-                let response = Response::ok(request.request_id, valid());
+                assert_eq!(request.payload["command"]["kind"], "SHELL");
+                let response = arc_ipc::locality::classify_response_at(
+                    &request,
+                    arc_ipc::locality::now_ms().unwrap(),
+                );
                 arc_ipc::write_response(stream, &response).unwrap();
             });
             assert!(output.status.success() && output.stderr.is_empty());
-            assert_eq!(
-                serde_json::from_slice::<Value>(&output.stdout).unwrap(),
-                valid()
-            );
+            let value = serde_json::from_slice::<Value>(&output.stdout).unwrap();
+            if text.contains("$(never-run)") {
+                assert_eq!(value["classification"], "UNKNOWN");
+                assert_eq!(value["uncertainty"], "OBSERVE");
+            } else {
+                assert_eq!(value, valid());
+            }
+        }
+    }
+}
+
+#[test]
+fn text_output_is_labeled_and_classify_never_executes_shell_text() {
+    let fixture = Fixture::new();
+    let output = fixture.peer(&["classify", "cargo test"], |request, stream| {
+        let response =
+            arc_ipc::locality::classify_response_at(&request, arc_ipc::locality::now_ms().unwrap());
+        arc_ipc::write_response(stream, &response).unwrap();
+    });
+    assert!(output.status.success() && output.stderr.is_empty());
+    assert_eq!(
+        output.stdout,
+        b"Classification: TEST\nLocality: HOST_LOCAL\nReason: CARGO_TEST\nUncertainty: NONE\nCommand not executed.\n"
+    );
+
+    fs::remove_file(fixture.root.join("ipc")).unwrap();
+    let marker = fixture.root.join("not-executed");
+    let command = format!("cargo test $(touch {})", marker.display());
+    let output = fixture.peer(&["classify", "--json", &command], |request, stream| {
+        let response =
+            arc_ipc::locality::classify_response_at(&request, arc_ipc::locality::now_ms().unwrap());
+        arc_ipc::write_response(stream, &response).unwrap();
+    });
+    assert!(output.status.success() && output.stderr.is_empty());
+    let result: Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(result.as_object().unwrap().len(), 4);
+    assert_eq!(result["classification"], "UNKNOWN");
+    assert_eq!(result["uncertainty"], "OBSERVE");
+    assert!(!marker.exists());
+}
+
+#[test]
+fn older_peer_receives_a_legacy_request_and_unproved_remote_stays_unknown() {
+    for (command, expected) in [
+        ("cargo test", "TEST"),
+        (
+            "gh workflow run build.yml --repo localhost/org/repo",
+            "UNKNOWN",
+        ),
+    ] {
+        let fixture = Fixture::new();
+        let output = fixture.peer(&["classify", "--json", command], |request, stream| {
+            assert_eq!(request.payload["command"]["command"], command);
+            arc_ipc::write_response(
+                stream,
+                &Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY),
+            )
+            .unwrap();
+            let legacy: Request = arc_ipc::read_message(stream).unwrap();
+            assert_eq!(legacy.protocol_version, 1);
+            assert_eq!(legacy.operation, arc_ipc::OPERATION_JOB_CLASSIFY);
+            assert_eq!(legacy.payload, json!({"command":command,"shell_kind":"sh"}));
+            let response = arc_ipc::dispatch(&legacy, || unreachable!());
+            arc_ipc::write_response(stream, &response).unwrap();
+        });
+        assert!(output.status.success() && output.stderr.is_empty());
+        let result: Value = serde_json::from_slice(&output.stdout).unwrap();
+        assert_eq!(result.as_object().unwrap().len(), 4);
+        assert_eq!(result["classification"], expected);
+        if expected == "UNKNOWN" {
+            assert_eq!(result["locality"], "UNKNOWN");
+            assert_eq!(result["uncertainty"], "OBSERVE");
         }
     }
 }
@@ -181,7 +264,7 @@ fn literal_payloads_and_options_are_preserved_in_one_request() {
 #[test]
 fn peer_failures_are_typed_correlated_and_never_reflected() {
     // Every case is one actual arcctl process and one local protocol exchange.
-    for case in 0..16 {
+    for case in 0..18 {
         let fixture = Fixture::new();
         let output = fixture.peer(&["classify", "--json", "cargo test"], |request, stream| {
             let mut response = Response::ok(&request.request_id, valid());
@@ -207,13 +290,35 @@ fn peer_failures_are_typed_correlated_and_never_reflected() {
                 13 => { arc_ipc::write_frame(stream, b"{malformed-json").unwrap(); return; }
                 14 => response.error = Some(arc_ipc::ErrorBody {code:"INVALID_REQUEST".into(),message:Some("untrusted-secret-canary".into())}),
                 15 => response.result.as_mut().unwrap()["extra"] = "untrusted-secret-canary".into(),
+                16 => {
+                    response = Response::error("wrong-correlation", "UNSUPPORTED_CAPABILITY");
+                }
+                17 => {
+                    response = Response::error(&request.request_id, "UNSUPPORTED_CAPABILITY");
+                    response.protocol_version = 2;
+                }
                 _ => unreachable!(),
             }
             if let Some(error) = response.error.as_mut() { error.message = Some("untrusted-secret-canary".into()); }
             arc_ipc::write_response(stream, &response).unwrap();
+            if case == 2 {
+                let legacy: Request = arc_ipc::read_message(stream).unwrap();
+                assert_eq!(legacy.protocol_version, 1);
+                assert_eq!(legacy.operation, arc_ipc::OPERATION_JOB_CLASSIFY);
+                assert_eq!(legacy.payload, json!({"command":"cargo test","shell_kind":"sh"}));
+                arc_ipc::write_response(
+                    stream,
+                    &Response::error(legacy.request_id, "UNSUPPORTED_CAPABILITY"),
+                )
+                .unwrap();
+            }
+            if case >= 16 {
+                use std::io::Read;
+                assert_eq!(stream.read(&mut [0u8; 1]).unwrap(), 0, "untrusted reply triggered fallback");
+            }
         });
         let expected = match case {
-            0 | 1 => "PROTOCOL_INCOMPATIBLE",
+            0 | 1 | 17 => "PROTOCOL_INCOMPATIBLE",
             2 => "UNSUPPORTED_CAPABILITY",
             3 => "INVALID_REQUEST",
             _ => "IPC_ERROR",

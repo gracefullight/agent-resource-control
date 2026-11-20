@@ -394,7 +394,13 @@ async fn handle_inner<D, F, J, G, T, H>(
                     let deadline = std::time::Instant::now() + limits.db_response_timeout;
                     match timeout_at(Instant::from_std(deadline), jobs(input, deadline)).await {
                         Ok(Ok(mut value)) => {
-                            project_legacy_snapshot(&mut value);
+                            if !matches!(
+                                request.operation.as_str(),
+                                arc_ipc::jobs::OPERATION_JOB_START_LOCALITY
+                                    | arc_ipc::jobs::OPERATION_JOB_STATUS_LOCALITY
+                            ) {
+                                project_legacy_snapshot(&mut value);
+                            }
                             Response::ok(&request.request_id, value)
                         }
                         Ok(Err(code)) => Response::error(&request.request_id, code),

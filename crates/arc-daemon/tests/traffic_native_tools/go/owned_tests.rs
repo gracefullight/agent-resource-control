@@ -416,26 +416,38 @@ fn go_owned_child_counts_are_isolated_between_parallel_cases() {
     let (done_tx, done_rx) = mpsc::channel();
     let mut releases = Vec::new();
     let mut workers = Vec::new();
-    for _ in 0..2 {
+    let cases: Vec<_> = (0..2).map(|_| Arc::new(Counts::default())).collect();
+    for counts in &cases {
         let (release, receive) = mpsc::channel();
         releases.push(release);
         let ready = ready_tx.clone();
         let done = done_tx.clone();
+        let counts = Arc::clone(counts);
         workers.push(thread::spawn(move || {
-            let before = counts();
+            // Keep the default counter contract under test alongside the
+            // explicitly scoped case, even when both share one worker thread.
+            let before = super::counts();
+            let mut default_command = Command::new("/bin/cat");
+            default_command
+                .stdin(Stdio::piped())
+                .stdout(Stdio::null())
+                .stderr(Stdio::null());
+            let mut default_child = GoChild::spawn(&mut default_command).unwrap();
             let mut command = Command::new("/bin/cat");
             command
                 .stdin(Stdio::piped())
                 .stdout(Stdio::null())
                 .stderr(Stdio::null());
-            let mut child = GoChild::spawn(&mut command).unwrap();
+            let mut child = GoChild::spawn_counted(&mut command, Arc::clone(&counts)).unwrap();
             ready.send(()).unwrap();
             receive
                 .recv_timeout(Duration::from_secs(60))
                 .expect("case was not released");
+            assert!(default_child.wait_with_output().unwrap().status.success());
             assert!(child.wait_with_output().unwrap().status.success());
-            let after = counts();
+            let after = super::counts();
             assert_eq!((after.0 - before.0, after.1 - before.1), (1, 1));
+            assert_eq!(counts.snapshot(), (1, 1));
             done.send(()).unwrap();
         }));
     }
@@ -444,14 +456,19 @@ fn go_owned_child_counts_are_isolated_between_parallel_cases() {
             .recv_timeout(Duration::from_secs(60))
             .expect("case never started its owned child");
     }
+    assert_eq!(cases[0].snapshot(), (1, 0));
+    assert_eq!(cases[1].snapshot(), (1, 0));
     releases[0].send(()).unwrap();
     done_rx
         .recv_timeout(Duration::from_secs(60))
         .expect("first case never reaped its child");
+    assert_eq!(cases[0].snapshot(), (1, 1));
+    assert_eq!(cases[1].snapshot(), (1, 0));
     releases[1].send(()).unwrap();
     done_rx
         .recv_timeout(Duration::from_secs(60))
         .expect("second case never reaped its child");
+    assert_eq!(cases[1].snapshot(), (1, 1));
     for worker in workers {
         worker.join().unwrap();
     }

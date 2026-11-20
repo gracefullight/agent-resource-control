@@ -9,8 +9,8 @@ use std::{
     fs,
     io::{BufRead, BufReader, Write},
     os::unix::net::{UnixListener, UnixStream},
-    thread,
-    time::{Duration, Instant},
+    process::{Command, Stdio},
+    time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
 fn arrive(listener: &UnixListener) -> (UnixStream, Value) {
@@ -199,11 +199,47 @@ fn policy_read_during_ready_reports_typed_unavailable_then_recovers_after_ack() 
 #[test]
 fn expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_once() {
     let _serial = serialization::serial();
-    let mut case = Case::new(true);
+    let now_ms = u64::try_from(
+        SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_millis(),
+    )
+    .unwrap();
+    let mut case = Case::with_daemon_clock(now_ms);
     let normal = case.pressure("Normal", 0);
     let socket = case.fixture.root.join("expiry-barrier.sock");
     let barrier = UnixListener::bind(&socket).unwrap();
-    let mut run = Run::start_with_barrier(&case, "expiry", "test", Some(("ready", &socket)));
+    let clock = case.fixture.root.join("ready-clock.dylib");
+    let source = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/memory_pressure/ready_clock.c");
+    let mut compiler = super::native::OwnedChild::new(
+        Command::new("/usr/bin/clang")
+            .args(["-dynamiclib", "-Wall", "-Wextra", "-Werror"])
+            .arg(source)
+            .arg("-o")
+            .arg(&clock)
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .unwrap(),
+    );
+    let built = compiler
+        .wait_with_output()
+        .expect("clock fixture compiler exit/pipe-drain watchdog");
+    assert!(
+        built.status.success(),
+        "clock fixture compilation failed: {}",
+        String::from_utf8_lossy(&built.stderr)
+    );
+    let advance = case.fixture.root.join("advance-ready-clock");
+    let mut run = Run::start_with_barrier_and_clock(
+        &case,
+        "expiry",
+        "test",
+        ("ready", &socket),
+        (&clock, &advance),
+    );
     let (mut release, ready) = arrive(&barrier);
     assert_eq!(ready["request"]["mode"], "RESERVED");
     assert_eq!(ready["release"]["state"], "RESERVED");
@@ -221,15 +257,19 @@ fn expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_
     );
     assert_eq!(first.len(), 1);
     assert_eq!(first[0]["entity_id"], id);
-    // READY is received before this barrier. Advancing beyond its maximum
-    // lifetime deterministically expires it without ever installing a command.
-    let end = Instant::now() + Duration::from_millis(2100);
-    while Instant::now() < end {
-        assert_eq!(run.count(), 0);
-        assert!(run.wrapper.child.try_wait().unwrap().is_none());
-        thread::sleep(Duration::from_millis(10));
-    }
+    assert_eq!(first[0]["created_at"], now_ms);
+    assert_eq!(run.count(), 0);
+    assert!(run.wrapper.child.try_wait().unwrap().is_none());
     assert_eq!(reservation(&case, id, generation), reserved);
+    // The CLI creates its deadline before this checkpoint and caps it at two
+    // seconds. Advance only its monotonic clock across that exact bound; the
+    // daemon retains real monotonic time for the same-connection ACK.
+    // Advance the fixture's separate database clock atomically so the renewed
+    // marker proves that the first marker was retracted, even within one ms.
+    let next_clock = case.fixture.root.join("daemon-clock-next");
+    fs::write(&next_clock, (now_ms + 1).to_string()).unwrap();
+    fs::rename(next_clock, case.fixture.root.join("daemon-clock")).unwrap();
+    fs::write(&advance, b"advance").unwrap();
     release.write_all(b"x").unwrap();
     let child = run.started();
     assert_eq!(run.finish().code(), Some(17));
@@ -240,6 +280,7 @@ fn expired_ready_real_cli_reevaluates_with_real_dispatcher_and_executes_exactly_
     );
     assert_eq!(final_marker.len(), 1);
     assert_eq!(final_marker[0]["id"], first[0]["id"]);
+    assert_eq!(final_marker[0]["created_at"], now_ms + 1);
     assert!(
         final_marker[0]["created_at"].as_u64().unwrap() > first[0]["created_at"].as_u64().unwrap()
     );

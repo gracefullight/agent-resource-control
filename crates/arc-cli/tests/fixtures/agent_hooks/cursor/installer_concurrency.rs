@@ -39,6 +39,15 @@ pub(super) fn controlled_configure(
                     .read_exact(&mut release)
                     .expect("waiting for first installer release");
                 assert_eq!(release, *b"X");
+            } else if mode == "contention" {
+                // The second writer has acquired the lock and prepared its
+                // update from the first writer's published configuration.
+                stream.write_all(b"A").unwrap();
+                let mut release = [0];
+                stream
+                    .read_exact(&mut release)
+                    .expect("waiting for second installer release");
+                assert_eq!(release, *b"Y");
             }
         },
     )
@@ -146,9 +155,30 @@ fn competing_arc_processes_are_serialized_in_both_scopes() {
             "second installer lock contention",
         );
         first_control.write_all(b"X").unwrap();
+        signal(
+            &mut second_control,
+            b'A',
+            "second installer locked snapshot",
+        );
+        let original: Value = serde_json::from_str(source).unwrap();
+        let installed: Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        let entries = installed["hooks"]["preToolUse"].as_array().unwrap();
+        assert_eq!(
+            &entries[..2],
+            original["hooks"]["preToolUse"].as_array().unwrap()
+        );
+        assert_eq!(entries.len(), 3);
+        assert_eq!(entries[2]["matcher"], "^Shell$");
+        assert_eq!(
+            entries[2]["command"],
+            format!(
+                "'{}' hooks run cursor # ARC_CURSOR_HOOK_V1",
+                fixture.arcctl.to_str().unwrap().replace('\'', "'\\''")
+            )
+        );
+        second_control.write_all(b"Y").unwrap();
         success(first, "first installer");
         success(second, "second installer");
-        let original: Value = serde_json::from_str(source).unwrap();
         assert_eq!(
             serde_json::from_slice::<Value>(&fs::read(path).unwrap()).unwrap(),
             original

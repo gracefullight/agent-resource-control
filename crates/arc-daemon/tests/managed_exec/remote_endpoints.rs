@@ -2,7 +2,6 @@
 use super::{protocol, runtime::Fixture, support};
 use arc_ipc::{locality::OPERATION_CLASSIFY, Request};
 use serde_json::{json, Value};
-
 struct Case {
     id: &'static str,
     shell: &'static str,
@@ -13,7 +12,6 @@ struct Case {
 fn fact(kind: &str, selector: &str, endpoints: &[&str]) -> Value {
     json!({"kind":kind,"selector":selector,"endpoints":endpoints})
 }
-
 fn context(mut facts: Vec<Value>) -> Value {
     // Simulated complete local address inventory, not an assertion about a real host.
     facts.push(fact(
@@ -167,7 +165,7 @@ fn precedence_local_and_ambiguous_controls() {
         "docker --context local build .",
         &["docker", "--context", "local", "build", "."],
         &settings,
-        "BUILD",
+        "UNKNOWN",
     );
     settings["environment"]["DOCKER_CONTEXT"] = json!("local");
     both(
@@ -176,7 +174,11 @@ fn precedence_local_and_ambiguous_controls() {
         &settings,
         "REMOTE_EXEC",
     );
-    both("docker build .", &plain_docker, &settings, "BUILD");
+    both("docker build .", &plain_docker, &settings, "UNKNOWN");
+    let host = "tcp://192.0.2.40:2376";
+    let facts = settings["facts"].as_array_mut().unwrap();
+    facts.extend(["DOCKER_CONTEXT", "DOCKER_BUILDER"].map(|kind| fact(kind, host, &[host])));
+    both("docker build .", &plain_docker, &settings, "REMOTE_EXEC");
     both(
         "docker --context prod --host tcp://192.0.2.40:2376 build .",
         &[
@@ -212,7 +214,6 @@ fn precedence_local_and_ambiguous_controls() {
         &legacy_engine,
         "UNKNOWN",
     );
-
     let mut buildx = docker_context("@current", "unix:///var/run/docker.sock");
     buildx["facts"].as_array_mut().unwrap().extend([
         fact("DOCKER_CONTEXT", "prod", &["tcp://192.0.2.40:2376"]),
@@ -239,24 +240,24 @@ fn precedence_local_and_ambiguous_controls() {
         (json!({"BUILDX_BUILDER":"remote"}), "docker build .", &["docker", "build", "."], "UNKNOWN"),
         (json!({"BUILDX_BUILDER":"remote", "DOCKER_BUILDKIT":"1"}), "docker build .", &["docker", "build", "."], "UNKNOWN"),
         (json!({"DOCKER_CONTEXT":"prod", "BUILDX_BUILDER":"remote"}), "docker build .", &["docker", "build", "."], "REMOTE_EXEC"),
-        (json!({"BUILDX_BUILDER":"local"}), "docker build .", &["docker", "build", "."], "BUILD"),
+        (json!({"BUILDX_BUILDER":"local"}), "docker build .", &["docker", "build", "."], "UNKNOWN"),
         (json!({"DOCKER_CONTEXT":"prod", "BUILDX_BUILDER":"local"}), "docker build --builder remote .", &["docker", "build", "--builder", "remote", "."], "REMOTE_EXEC"),
-        (json!({"BUILDX_BUILDER":"remote"}), "docker build --builder local .", &["docker", "build", "--builder", "local", "."], "BUILD"),
-        (json!({"BUILDX_BUILDER":"remote"}), "docker buildx build --builder local .", &["docker", "buildx", "build", "--builder", "local", "."], "BUILD"),
+        (json!({"BUILDX_BUILDER":"remote"}), "docker build --builder local .", &["docker", "build", "--builder", "local", "."], "UNKNOWN"),
+        (json!({"BUILDX_BUILDER":"remote"}), "docker buildx build --builder local .", &["docker", "buildx", "build", "--builder", "local", "."], "UNKNOWN"),
         (json!({"BUILDX_BUILDER":"local"}), "docker buildx build --builder remote .", &["docker", "buildx", "build", "--builder", "remote", "."], "REMOTE_EXEC"),
-        (json!({"DOCKER_CONTEXT":"prod", "BUILDX_BUILDER":"remote"}), "docker buildx build --builder local .", &["docker", "buildx", "build", "--builder", "local", "."], "BUILD"),
+        (json!({"DOCKER_CONTEXT":"prod", "BUILDX_BUILDER":"remote"}), "docker buildx build --builder local .", &["docker", "buildx", "build", "--builder", "local", "."], "UNKNOWN"),
         (json!({"BUILDX_BUILDER":"local", "DOCKER_BUILDKIT":"0"}), "docker buildx build --builder remote .", &["docker", "buildx", "build", "--builder", "remote", "."], "REMOTE_EXEC"),
-        (json!({"DOCKER_CONTEXT":"prod", "BUILDX_BUILDER":"remote", "DOCKER_BUILDKIT":"0"}), "docker buildx build --builder local .", &["docker", "buildx", "build", "--builder", "local", "."], "BUILD"),
+        (json!({"DOCKER_CONTEXT":"prod", "BUILDX_BUILDER":"remote", "DOCKER_BUILDKIT":"0"}), "docker buildx build --builder local .", &["docker", "buildx", "build", "--builder", "local", "."], "UNKNOWN"),
         (json!({"DOCKER_BUILDKIT":"0", "BUILDX_BUILDER":"remote"}), "docker buildx build .", &["docker", "buildx", "build", "."], "REMOTE_EXEC"),
-        (json!({"DOCKER_CONTEXT":"prod", "DOCKER_BUILDKIT":"0", "BUILDX_BUILDER":"local"}), "docker buildx build .", &["docker", "buildx", "build", "."], "BUILD"),
-        (json!({"DOCKER_CONTEXT":"prod", "DOCKER_BUILDKIT":"0"}), "docker buildx build .", &["docker", "buildx", "build", "."], "BUILD"),
+        (json!({"DOCKER_CONTEXT":"prod", "DOCKER_BUILDKIT":"0", "BUILDX_BUILDER":"local"}), "docker buildx build .", &["docker", "buildx", "build", "."], "UNKNOWN"),
+        (json!({"DOCKER_CONTEXT":"prod", "DOCKER_BUILDKIT":"0"}), "docker buildx build .", &["docker", "buildx", "build", "."], "UNKNOWN"),
         (json!({"DOCKER_CONTEXT":"prod"}), "docker build --builder local .", &["docker", "build", "--builder", "local", "."], "UNKNOWN"),
-        (json!({}), "docker --context prod buildx build --builder local .", &["docker", "--context", "prod", "buildx", "build", "--builder", "local", "."], "BUILD"),
+        (json!({}), "docker --context prod buildx build --builder local .", &["docker", "--context", "prod", "buildx", "build", "--builder", "local", "."], "UNKNOWN"),
         (json!({}), "docker build --builder remote .", &["docker", "build", "--builder", "remote", "."], "UNKNOWN"),
         (json!({"DOCKER_CONTEXT":"prod"}), "docker build .", &["docker", "build", "."], "UNKNOWN"),
         (json!({"BUILDX_BUILDER":"remote"}), "docker buildx build --builder mixed .", &["docker", "buildx", "build", "--builder", "mixed", "."], "UNKNOWN"),
         (json!({}), "docker buildx build --builder missing .", &["docker", "buildx", "build", "--builder", "missing", "."], "UNKNOWN"),
-        (json!({"BUILDX_BUILDER":"local"}), "docker buildx build .", &["docker", "buildx", "build", "."], "BUILD"),
+        (json!({"BUILDX_BUILDER":"local"}), "docker buildx build .", &["docker", "buildx", "build", "."], "UNKNOWN"),
         (json!({}), "docker buildx build .", &["docker", "buildx", "build", "."], "UNKNOWN"),
     ];
     for (environment, shell, argv, expected) in cases {
@@ -269,7 +270,7 @@ fn precedence_local_and_ambiguous_controls() {
     independent["environment"] = json!({"BUILDX_BUILDER":"local", "DOCKER_BUILDKIT":"0"});
     let buildx_shell = "docker buildx build .";
     let buildx_argv = ["docker", "buildx", "build", "."];
-    both(buildx_shell, &buildx_argv, &independent, "BUILD");
+    both(buildx_shell, &buildx_argv, &independent, "UNKNOWN");
     let unresolved_engine = fact("DOCKER_CONTEXT", "@current", &["unresolvable"]);
     independent["facts"]
         .as_array_mut()
@@ -308,7 +309,6 @@ fn precedence_local_and_ambiguous_controls() {
     for control in [&no_local_inventory, &same_host, &loopback] {
         both("ssh build01 make", &ssh_argv, control, "UNKNOWN");
     }
-
     let kube_shell = "kubectl --context prod exec remote-pod -- make";
     #[rustfmt::skip]
     let kube_argv = ["kubectl", "--context", "prod", "exec", "remote-pod", "--", "make"];
@@ -448,17 +448,13 @@ fn unresolved_endpoint_stubs_execute_once_without_a_permit() {
     ] {
         symlink(super::cli::binary("arc-exec-fixture"), f.root.join(name)).unwrap();
         let marker = f.root.join(format!("{name}-calls"));
-        let mut command = super::cli::command(&f);
+        let mut command = super::capture_integration::isolated_endpoint_stub(&f, name);
         command
-            .args(["exec", "--", name])
             .args(&args)
             .current_dir(&f.root)
             .env("PATH", &f.root)
             .env("ARC_FIXTURE_MODE", "echo")
             .env("ARC_FIXTURE_MARKER", &marker)
-            .env_remove("DOCKER_CONTEXT")
-            .env_remove("DOCKER_HOST")
-            .env_remove("BUILDX_BUILDER")
             .stdin(Stdio::null())
             .stdout(Stdio::piped())
             .stderr(Stdio::piped());

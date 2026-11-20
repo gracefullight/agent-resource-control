@@ -10,8 +10,11 @@ pub use types::{
 };
 
 pub const OPERATION_JOB_START: &str = "job.start";
+/// Additive lifecycle vocabulary. Legacy operations retain their original shape.
+pub const OPERATION_JOB_START_LOCALITY: &str = "job.start.locality.v1";
 pub const OPERATION_JOB_COMPLETE: &str = "job.complete";
 pub const OPERATION_JOB_STATUS: &str = "job.status";
+pub const OPERATION_JOB_STATUS_LOCALITY: &str = "job.status.locality.v1";
 pub const ERROR_JOB_CONFLICT: &str = "JOB_CONFLICT";
 pub const ERROR_INVALID_JOB_TRANSITION: &str = "INVALID_JOB_TRANSITION";
 pub const ERROR_PROCESS_IDENTITY_UNAVAILABLE: &str = "PROCESS_IDENTITY_UNAVAILABLE";
@@ -146,9 +149,16 @@ where
 /// Bound and validate the complete request before any worker admission. Decode
 /// failures are static; serde diagnostics must not be exposed to users or logs.
 pub fn decode_start(payload: &serde_json::Value) -> Result<StartRequest, &'static str> {
-    let request: StartRequest = decode_payload(payload)?;
+    let request = decode_start_locality(payload)?;
     (request.is_valid()
         && !matches!(&request, StartRequest::Register { classification, .. } if classification.legacy() != *classification))
+        .then_some(request)
+        .ok_or(crate::ERROR_INVALID_REQUEST)
+}
+pub fn decode_start_locality(payload: &serde_json::Value) -> Result<StartRequest, &'static str> {
+    let request: StartRequest = decode_payload(payload)?;
+    request
+        .is_valid()
         .then_some(request)
         .ok_or(crate::ERROR_INVALID_REQUEST)
 }
@@ -208,8 +218,10 @@ impl LifecycleRequest {
     ) -> Option<Result<Self, &'static str>> {
         Some(match operation {
             OPERATION_JOB_START => decode_start(payload).map(Self::Start),
+            OPERATION_JOB_START_LOCALITY => decode_start_locality(payload).map(Self::Start),
             OPERATION_JOB_COMPLETE => decode_complete(payload).map(Self::Complete),
             OPERATION_JOB_STATUS => decode_status(payload).map(Self::Status),
+            OPERATION_JOB_STATUS_LOCALITY => decode_status(payload).map(Self::Status),
             _ => return None,
         })
     }

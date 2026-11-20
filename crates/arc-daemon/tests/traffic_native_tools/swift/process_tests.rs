@@ -401,6 +401,20 @@ fn swift_direct_retains_exited_parent_until_descendants_are_cleaned() {
     let mut tree = HeldTree::start();
     // The native parent can exit while its descendants still hold both output pipes.
     signal(&tree.runner.root, libc::SIGTERM).unwrap();
+    let end = Instant::now() + Duration::from_secs(60);
+    while !tree.runner.has_exited().unwrap() {
+        assert!(Instant::now() < end, "Swift parent did not report its exit");
+        std::thread::yield_now();
+    }
+    // waitid(WNOWAIT) must leave the exited parent as the group anchor. The
+    // already-observed descendants must still be present when cleanup starts.
+    for identity in &tree.identities {
+        assert_eq!(
+            crate::cleanup::capture(identity.pid).unwrap().as_ref(),
+            Some(identity),
+            "fixture identity disappeared before cleanup: {identity:?}"
+        );
+    }
     let output = tree.runner.wait_with_output_until_exit().unwrap();
     assert_eq!(output.status.signal(), Some(libc::SIGTERM));
     for identity in &tree.identities {

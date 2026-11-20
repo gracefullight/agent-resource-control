@@ -11,6 +11,7 @@ mod pipeline;
 #[path = "../../src/exec"]
 mod exec {
     mod accounting;
+    mod capture;
     mod ci_context;
     mod descriptors;
     mod endpoint_context;
@@ -29,10 +30,46 @@ mod exec {
     mod traffic;
     pub(crate) mod transport;
     mod witness;
+    pub(crate) use capture::capture_argv;
     pub(crate) use entry::{run, run_hook, run_with_environment, run_with_environment_and_notice};
     use lifecycle::start_until;
     pub(crate) use preparation::invalid;
     pub(crate) use preparation::{write_notice_bounded, write_notice_for_fixture};
+
+    pub(crate) fn synthetic_endpoint_exec(
+        argv: Vec<std::ffi::OsString>,
+        synthetic_local: bool,
+    ) -> std::process::ExitCode {
+        let context: arc_detector::EndpointContext = serde_json::from_value(serde_json::json!({
+            "captured_at_ms":10000,
+            "facts":[
+                {"kind":"DOCKER_CONTEXT","selector":"prod","endpoints":["tcp://192.0.2.40:2376"]},
+                {"kind":"DOCKER_BUILDER","selector":"prod","endpoints":["tcp://192.0.2.40:2376"]},
+                {"kind":"SSH_DESTINATION","selector":"@local-addresses","endpoints":["192.0.2.5"]}
+            ]
+        }))
+        .unwrap();
+        run::run_with_classifier(
+            argv,
+            false,
+            &std::time::Instant::now,
+            &std::time::Instant::now,
+            &|args| {
+                if synthetic_local {
+                    // Exercise negotiated local admission independently of
+                    // whether endpoint discovery can prove local compute.
+                    arc_detector::Classification {
+                        classification: arc_detector::JobClass::Build,
+                        locality: arc_detector::Locality::HostLocal,
+                        reason: arc_detector::Reason::LocalEndpointBuild,
+                        uncertainty: arc_detector::Uncertainty::None,
+                    }
+                } else {
+                    metadata::classify_with_context(args, &context, || 10000)
+                }
+            },
+        )
+    }
 }
 #[cfg(not(test))]
 #[allow(dead_code)]
@@ -64,6 +101,57 @@ fn hook_capture_handshake() -> bool {
         .is_some_and(|bytes| bytes == HELLO)
 }
 fn main() {
+    #[cfg(not(test))]
+    if std::env::args_os()
+        .next()
+        .and_then(|program| {
+            std::path::Path::new(&program)
+                .file_name()
+                .map(|s| s.to_owned())
+        })
+        .as_deref()
+        == Some(std::ffi::OsStr::new("docker"))
+        && std::env::var_os("ARC_FIXTURE_ENV_REPORT").is_some()
+    {
+        let environment: std::collections::BTreeMap<_, _> = std::env::vars().collect();
+        println!(
+            "{}",
+            serde_json::json!({
+                "environment":environment,
+                "pid":std::process::id(),
+                "argv":std::env::args().collect::<Vec<_>>(),
+                "cwd":std::env::current_dir().unwrap()
+            })
+        );
+        std::io::stdout().flush().unwrap();
+        let mut release = String::new();
+        std::io::stdin().read_line(&mut release).unwrap();
+        std::process::exit(if release == "release\n" { 23 } else { 2 });
+    }
+    #[cfg(not(test))]
+    {
+        let mode = std::env::args_os().nth(1);
+        let synthetic_local =
+            mode.as_deref() == Some(std::ffi::OsStr::new("--synthetic-local-endpoint-exec"));
+        if synthetic_local
+            || mode.as_deref() == Some(std::ffi::OsStr::new("--synthetic-endpoint-exec"))
+        {
+            let key = std::env::var_os("ARC_FIXTURE_ENDPOINT_KEY")
+                .and_then(|path| std::fs::read(path).ok());
+            if key.as_deref() != Some(b"arc-synthetic-endpoint-v1") {
+                std::process::exit(2);
+            }
+            let code = exec::synthetic_endpoint_exec(
+                std::env::args_os().skip(2).collect(),
+                synthetic_local,
+            );
+            std::process::exit(if code == std::process::ExitCode::from(23) {
+                23
+            } else {
+                i32::from(code != std::process::ExitCode::SUCCESS)
+            });
+        }
+    }
     #[cfg(not(test))]
     if std::env::args_os().nth(1).as_deref()
         == Some(std::ffi::OsStr::new("--clocked-fixture-job-status"))

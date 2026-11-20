@@ -13,6 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::fmt;
 
 pub mod diagnostics;
+pub mod endpoint;
 pub mod native;
 pub mod python;
 pub mod scripts;

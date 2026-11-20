@@ -1,6 +1,7 @@
 use arc_ipc::{
-    Classification, ClassifyRequest, Request, OPERATION_JOB_CLASSIFY, PROTOCOL_VERSION,
-    STATUS_ERROR, STATUS_OK,
+    locality::{ClassifyLocalityRequest, Command, OPERATION_CLASSIFY},
+    Classification, ClassifyRequest, JobClass, Locality, Reason, Request, Uncertainty,
+    OPERATION_JOB_CLASSIFY, PROTOCOL_VERSION, STATUS_ERROR, STATUS_OK,
 };
 use std::{os::unix::net::UnixStream, path::Path};
 
@@ -14,8 +15,34 @@ pub(crate) fn run(
         command,
         shell_kind: shell.unwrap_or_else(|| "sh".into()),
     };
-    let mut request = Request::new(super::request_id(), OPERATION_JOB_CLASSIFY);
-    request.payload = serde_json::to_value(input).map_err(|_| super::IPC_ERROR)?;
+    let context = super::exec::capture_shell(&input);
+    let result = classify(socket, &input, context, arc_ipc::locality::now_ms)?;
+    let value = serde_json::to_value(result).map_err(|_| super::IPC_ERROR)?;
+    if json {
+        println!("{value}");
+    } else {
+        for (label, field) in [
+            ("Classification", "classification"),
+            ("Locality", "locality"),
+            ("Reason", "reason"),
+            ("Uncertainty", "uncertainty"),
+        ] {
+            println!(
+                "{label}: {}",
+                value[field].as_str().ok_or(super::IPC_ERROR)?
+            );
+        }
+        println!("Command not executed.");
+    }
+    Ok(())
+}
+
+fn classify(
+    socket: &Path,
+    input: &ClassifyRequest,
+    context: Option<arc_detector::EndpointContext>,
+    now_ms: impl Fn() -> Option<u64>,
+) -> Result<Classification, &'static str> {
     let mut stream = UnixStream::connect(socket).map_err(|_| super::DAEMON_UNAVAILABLE)?;
     stream
         .set_read_timeout(Some(super::TIMEOUT))
@@ -23,7 +50,68 @@ pub(crate) fn run(
     stream
         .set_write_timeout(Some(super::TIMEOUT))
         .map_err(|_| super::DAEMON_UNAVAILABLE)?;
-    let response = arc_ipc::exchange(&mut stream, &request).map_err(|_| super::IPC_ERROR)?;
+
+    // Oversized or unsupported inputs already have a definite legacy UNKNOWN.
+    // Keep the original protocol-1 path for these cases, including inputs that
+    // exceed the smaller locality payload bound.
+    if input.command.len() > arc_detector::MAX_INPUT_BYTES
+        || !matches!(input.shell_kind.as_str(), "sh" | "bash" | "zsh")
+    {
+        let result = exchange(&mut stream, OPERATION_JOB_CLASSIFY, input)?;
+        return Ok(verified_result(input, context.as_ref(), now_ms(), result));
+    }
+
+    let contextual = ClassifyLocalityRequest {
+        command: Command::Shell {
+            command: input.command.clone(),
+            shell_kind: input.shell_kind.clone(),
+        },
+        // An invalid timestamp makes capture failure explicit to a new peer.
+        context: context.clone().unwrap_or_default(),
+    };
+    match exchange(&mut stream, OPERATION_CLASSIFY, &contextual) {
+        Ok(result) => Ok(verified_result(input, context.as_ref(), now_ms(), result)),
+        Err(arc_ipc::ERROR_UNSUPPORTED_CAPABILITY) => {
+            // Use the same peer and the unchanged protocol-1 request shape.
+            // No malformed, lost, mismatched or otherwise rejected reply is a
+            // capability negotiation signal.
+            let result = exchange(&mut stream, OPERATION_JOB_CLASSIFY, input)?;
+            Ok(verified_result(input, context.as_ref(), now_ms(), result))
+        }
+        Err(arc_ipc::ERROR_INVALID_REQUEST)
+            if context.as_ref().is_some_and(|context| {
+                context.is_valid_at(context.captured_at_ms)
+                    && context
+                        .facts
+                        .iter()
+                        .any(|fact| fact.kind == arc_detector::EndpointKind::GitPushDefault)
+            }) =>
+        {
+            // The original locality-v1 schema predates GIT_PUSH_DEFAULT.
+            // Probe the same request with only that new kind removed: an
+            // unrelated INVALID_REQUEST must still be returned to the user.
+            let mut older = contextual;
+            older
+                .context
+                .facts
+                .retain(|fact| fact.kind != arc_detector::EndpointKind::GitPushDefault);
+            exchange(&mut stream, OPERATION_CLASSIFY, &older)?;
+            // A peer that could not receive the selected destination cannot
+            // prove the result of this request, even if its probe is confident.
+            Ok(unknown())
+        }
+        Err(error) => Err(error),
+    }
+}
+
+fn exchange(
+    stream: &mut UnixStream,
+    operation: &str,
+    input: &impl serde::Serialize,
+) -> Result<Classification, &'static str> {
+    let mut request = Request::new(super::request_id(), operation);
+    request.payload = serde_json::to_value(input).map_err(|_| super::IPC_ERROR)?;
+    let response = arc_ipc::exchange(stream, &request).map_err(|_| super::IPC_ERROR)?;
     if response.protocol_version != PROTOCOL_VERSION {
         return Err(super::PROTOCOL_INCOMPATIBLE);
     }
@@ -53,24 +141,60 @@ pub(crate) fn run(
     if !result.is_consistent() {
         return Err(super::IPC_ERROR);
     }
-    let value = serde_json::to_value(result).map_err(|_| super::IPC_ERROR)?;
-    if json {
-        println!("{value}");
-    } else {
-        for (label, field) in [
-            ("Classification", "classification"),
-            ("Locality", "locality"),
-            ("Reason", "reason"),
-            ("Uncertainty", "uncertainty"),
-        ] {
-            println!(
-                "{label}: {}",
-                value[field].as_str().ok_or(super::IPC_ERROR)?
-            );
+    Ok(result)
+}
+
+fn verified_result(
+    input: &ClassifyRequest,
+    context: Option<&arc_detector::EndpointContext>,
+    now_ms: Option<u64>,
+    result: Classification,
+) -> Classification {
+    // A failed capture must not obscure a definitive UNKNOWN diagnostic
+    // behind the contextual operation's invalid timestamp.
+    if context.is_none() {
+        let diagnostic = arc_detector::classify(input);
+        if diagnostic.classification == JobClass::Unknown
+            && matches!(
+                diagnostic.reason,
+                Reason::EmptyCommand
+                    | Reason::UnsupportedShell
+                    | Reason::UnsupportedSyntax
+                    | Reason::UnresolvedCommand
+                    | Reason::UnresolvedScript
+                    | Reason::UnresolvedExpansion
+                    | Reason::InputLimit
+                    | Reason::TokenLimit
+                    | Reason::InvocationLimit
+                    | Reason::NestingLimit
+                    | Reason::WorkLimit
+            )
+        {
+            return diagnostic;
         }
-        println!("Command not executed.");
     }
-    Ok(())
+    if result.classification == JobClass::Unknown {
+        return result;
+    }
+    // Locality-v1 peers may implement older endpoint precedence. Accept a
+    // confident reply only when the current detector agrees on fresh facts.
+    if let (Some(context), Some(now)) = (context, now_ms) {
+        if context.is_valid_at(now)
+            && arc_detector::classify_with_context(input, context, now) == result
+        {
+            return result;
+        }
+    }
+    unknown()
+}
+
+fn unknown() -> Classification {
+    Classification {
+        classification: JobClass::Unknown,
+        locality: Locality::Unknown,
+        reason: Reason::UnresolvedCommand,
+        uncertainty: Uncertainty::Observe,
+    }
 }
 
 /// Static recovery text only; never use the daemon's message or request input.
@@ -83,3 +207,6 @@ pub(crate) fn recovery(code: &str) -> &'static str {
         _ => "Check the daemon connection, then submit again.",
     }
 }
+
+#[cfg(test)]
+mod tests;

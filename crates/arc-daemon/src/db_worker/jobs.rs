@@ -106,13 +106,6 @@ pub(super) async fn call(
         _ => Err(arc_ipc::ERROR_DB_BUSY),
     }
 }
-// Persisted classification retains its negotiated vocabulary. Frozen lifecycle
-// replies project only the legacy classification, without rewriting storage.
-fn legacy_snapshot(mut job: JobSnapshot) -> JobSnapshot {
-    job.classification = job.classification.legacy();
-    job
-}
-
 fn wire<T: serde::Serialize>(
     value: Result<T, JobError>,
 ) -> Result<serde_json::Value, &'static str> {
@@ -140,19 +133,13 @@ pub(crate) async fn handle(
             )
             .await?
             {
-                Value::Start(value) => wire(value.map(|mut result| {
-                    result.job = legacy_snapshot(result.job);
-                    result
-                })),
+                Value::Start(value) => wire(value),
                 _ => Err(arc_ipc::ERROR_DB_BUSY),
             }
         }
         LifecycleRequest::Complete(request) => {
             match call(&client, Operation::Complete(request), deadline).await? {
-                Value::Complete(value) => wire(value.map(|mut result| {
-                    result.job = legacy_snapshot(result.job);
-                    result
-                })),
+                Value::Complete(value) => wire(value),
                 _ => Err(arc_ipc::ERROR_DB_BUSY),
             }
         }
@@ -174,9 +161,7 @@ pub(crate) async fn handle(
                     return wire(Ok(StatusResult::NotFound {}));
                 };
                 if job.outcome.is_some() {
-                    return wire(Ok(StatusResult::Found {
-                        job: Box::new(legacy_snapshot(job)),
-                    }));
+                    return wire(Ok(StatusResult::Found { job: Box::new(job) }));
                 }
                 let evidence = jobs::observe(&job, now().max(job.updated_at_ms));
                 let result = match call(&client, Operation::Reconcile(evidence), deadline).await? {
@@ -185,9 +170,7 @@ pub(crate) async fn handle(
                 };
                 match result {
                     ReconcileResult::Applied(job) | ReconcileResult::Unchanged(job) => {
-                        return wire(Ok(StatusResult::Found {
-                            job: Box::new(legacy_snapshot(*job)),
-                        }))
+                        return wire(Ok(StatusResult::Found { job }))
                     }
                     ReconcileResult::NotFound => return wire(Ok(StatusResult::NotFound {})),
                     ReconcileResult::Stale => (),

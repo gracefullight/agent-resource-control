@@ -8,7 +8,6 @@ use std::net::{IpAddr, SocketAddr};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Place {
-    Local,
     Remote,
 }
 
@@ -118,14 +117,10 @@ fn socket_endpoint(value: &str, scheme: &str) -> Option<SocketAddr> {
 }
 
 fn place(endpoint: &str, context: &EndpointContext) -> Option<Place> {
-    if endpoint.starts_with("unix:///") && endpoint.len() > "unix:///".len() {
-        return Some(Place::Local);
-    }
-    for scheme in ["tcp://", "ssh://"] {
-        if let Some(socket) = socket_endpoint(endpoint, scheme) {
-            return (socket.port() != 0 && remote_ip(socket.ip(), context))
-                .then_some(Place::Remote);
-        }
+    // A Unix socket may be forwarded, and SSH configuration can redirect its
+    // transport. Neither URI alone establishes the builder's compute host.
+    if let Some(socket) = socket_endpoint(endpoint, "tcp://") {
+        return (socket.port() != 0 && remote_ip(socket.ip(), context)).then_some(Place::Remote);
     }
     None
 }
@@ -150,6 +145,18 @@ fn ssh(args: &[String], context: &EndpointContext) -> Option<Classification> {
         }
         // Forwarding, config overrides, proxy options and unknown flags are
         // intentionally unresolved; none may fall back to syntax-only SSH.
+        if arg == "-F" {
+            at += 1;
+            if args.get(at).is_none_or(String::is_empty) {
+                return None;
+            }
+            at += 1;
+            continue;
+        }
+        if arg.starts_with("-F") && arg.len() > 2 {
+            at += 1;
+            continue;
+        }
         let value = if arg == "-p" {
             at += 1;
             args.get(at)?.as_str()
@@ -214,12 +221,14 @@ fn selected<'a>(slot: &mut Option<&'a str>, value: &'a str) -> Option<()> {
 }
 
 fn docker(args: &[String], context: &EndpointContext) -> Option<Classification> {
-    let (mut at, mut cli_context, mut cli_host) = (0, None, None);
+    let (mut at, mut cli_context, mut cli_host, mut config) = (0, None, None, None);
     while let Some(arg) = args.get(at) {
         if let Some(value) = option(args, &mut at, &["--context", "-c"])? {
             selected(&mut cli_context, value)?;
         } else if let Some(value) = option(args, &mut at, &["--host", "-H"])? {
             selected(&mut cli_host, value)?;
+        } else if let Some(value) = option(args, &mut at, &["--config"])? {
+            selected(&mut config, value)?;
         } else if arg.starts_with('-') {
             return None;
         } else {
@@ -297,7 +306,7 @@ fn docker(args: &[String], context: &EndpointContext) -> Option<Classification> 
         .filter(|v| !v.is_empty())
         .map(String::as_str);
     let host = cli_host.or_else(|| {
-        if cli_context.is_none() && env_context.is_none() {
+        if cli_context.is_none() || cli_context == Some("default") {
             env_host
         } else {
             None
@@ -305,8 +314,8 @@ fn docker(args: &[String], context: &EndpointContext) -> Option<Classification> 
     });
     let selector = cli_context
         .or(cli_host)
-        .or(env_context)
         .or(env_host)
+        .or(env_context)
         .unwrap_or("@current");
     let engine = fact(context, EndpointKind::DockerContext, selector);
     if let (Some(host), Some(engine)) = (host, engine) {
@@ -332,7 +341,11 @@ fn docker(args: &[String], context: &EndpointContext) -> Option<Classification> 
         context,
     )?;
     let engine_place = engine.and_then(|engine| single_place(engine, context));
-    if engine.is_some() && engine_place.is_none() {
+    let unix_transport = engine.is_some_and(|fact| {
+        matches!(fact.endpoints.as_slice(), [endpoint]
+            if endpoint.starts_with("unix:///") && endpoint.len() > "unix:///".len())
+    });
+    if engine.is_some() && engine_place.is_none() && !(buildx && unix_transport) {
         return None;
     }
     // Plain docker build can use the engine even with a selected Buildx
@@ -342,17 +355,12 @@ fn docker(args: &[String], context: &EndpointContext) -> Option<Classification> 
     if !buildx && engine_place != Some(builder_place) {
         return None;
     }
-    match builder_place {
-        Place::Remote => Some(remote(Reason::RemoteEndpointExec)),
-        Place::Local => Some(Classification::new(
-            JobClass::Build,
-            Reason::LocalEndpointBuild,
-        )),
-    }
+    Some(remote(Reason::RemoteEndpointExec))
 }
 
 fn kubectl(args: &[String], context: &EndpointContext) -> Option<Classification> {
-    let (mut at, mut selected_context, mut namespace, mut pod) = (0, None, None, None);
+    let (mut at, mut selected_context, mut kubeconfig, mut namespace, mut pod) =
+        (0, None, None, None, None);
     let mut exec = false;
     while let Some(arg) = args.get(at) {
         if arg == "--" {
@@ -361,6 +369,8 @@ fn kubectl(args: &[String], context: &EndpointContext) -> Option<Classification>
         }
         if let Some(value) = option(args, &mut at, &["--context"])? {
             selected(&mut selected_context, value)?;
+        } else if let Some(value) = option(args, &mut at, &["--kubeconfig"])? {
+            selected(&mut kubeconfig, value)?;
         } else if let Some(value) = option(args, &mut at, &["--namespace", "-n"])? {
             selected(&mut namespace, value)?;
         } else if exec && matches!(arg.as_str(), "-i" | "-t" | "-it" | "-ti") {
@@ -426,61 +436,4 @@ fn kubectl(args: &[String], context: &EndpointContext) -> Option<Classification>
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::{analyze_argv_with_context, MAX_WORK};
-    use std::ffi::OsString;
-
-    #[test]
-    fn remote_addresses_require_distinct_complete_local_inventory() {
-        let context = EndpointContext {
-            captured_at_ms: 10_000,
-            facts: vec![EndpointFact {
-                kind: EndpointKind::SshDestination,
-                selector: "@local-addresses".into(),
-                endpoints: vec!["192.0.2.5".into(), "::1".into()],
-            }],
-            ..EndpointContext::default()
-        };
-        for value in [
-            "127.0.0.1",
-            "::1",
-            "::ffff:127.0.0.1",
-            "::127.0.0.1",
-            "0.0.0.0",
-            "169.254.1.1",
-            "224.0.0.1",
-            "192.0.2.5",
-        ] {
-            assert!(!remote_ip(value.parse().unwrap(), &context), "{value}");
-        }
-        assert!(remote_ip("192.0.2.30".parse().unwrap(), &context));
-        assert!(!remote_ip(
-            "192.0.2.30".parse().unwrap(),
-            &EndpointContext::default()
-        ));
-        for value in [
-            "tcp://localhost:2376",
-            "tcp://192.0.2.30:0",
-            "tcp://127.0.0.1:2376",
-        ] {
-            assert!(place(value, &context).is_none(), "{value}");
-        }
-    }
-
-    #[test]
-    fn endpoint_scans_obey_the_existing_work_limit() {
-        let context = EndpointContext {
-            captured_at_ms: 10_000,
-            ..EndpointContext::default()
-        };
-        let args = vec![
-            OsString::from("ssh"),
-            OsString::from("x".repeat(16_000)),
-            OsString::from("make"),
-        ];
-        let (result, stats) = analyze_argv_with_context(&args, &context, 10_000);
-        assert_eq!(result.classification, JobClass::Unknown);
-        assert!(stats.work <= MAX_WORK);
-    }
-}
+mod tests;

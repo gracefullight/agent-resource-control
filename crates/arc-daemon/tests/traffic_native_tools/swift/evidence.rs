@@ -6,6 +6,7 @@ use std::{
     fs::{self, File, OpenOptions},
     os::unix::fs::OpenOptionsExt,
     path::{Path, PathBuf},
+    time::{Duration, Instant},
 };
 
 pub fn directory(project: &Path) -> Option<PathBuf> {
@@ -217,10 +218,75 @@ pub fn observation(project: &Path) -> Value {
     serde_json::from_str(&log(&project.join("native-child.json"))).unwrap()
 }
 
+pub fn wait_for_retirement(project: &Path) {
+    let identity: ProcessIdentity =
+        serde_json::from_value(observation(project)["identity"].clone()).unwrap();
+    let end = Instant::now() + Duration::from_secs(60);
+    wait_for_retirement_with(&identity, crate::cleanup::capture, || Instant::now() >= end)
+        .unwrap_or_else(|error| panic!("Swift native body retirement for {identity:?}: {error}"));
+}
+
+fn wait_for_retirement_with(
+    identity: &ProcessIdentity,
+    mut capture: impl FnMut(u32) -> std::io::Result<Option<ProcessIdentity>>,
+    mut expired: impl FnMut() -> bool,
+) -> std::io::Result<()> {
+    loop {
+        if capture(identity.pid)?.as_ref() != Some(identity) {
+            return Ok(());
+        }
+        if expired() {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::TimedOut,
+                "native body remained present after its wrapper exited",
+            ));
+        }
+        std::thread::yield_now();
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::os::unix::fs::symlink;
+
+    #[test]
+    fn swift_pair_waits_for_the_exact_native_body_before_reusing_its_tree() {
+        use std::sync::mpsc;
+
+        let identity = ProcessIdentity::capture(std::process::id()).unwrap();
+        let observed = identity.clone();
+        let (seen, waiting) = mpsc::channel();
+        let (release, released) = mpsc::channel();
+        let (finished, result) = mpsc::channel();
+        let worker = std::thread::spawn(move || {
+            let mut calls = 0;
+            wait_for_retirement_with(
+                &observed,
+                |_| {
+                    calls += 1;
+                    if calls == 1 {
+                        return Ok(Some(observed.clone()));
+                    }
+                    seen.send(()).unwrap();
+                    released.recv_timeout(Duration::from_secs(60)).unwrap();
+                    Ok(None)
+                },
+                || false,
+            )
+            .unwrap();
+            finished.send(()).unwrap();
+        });
+        waiting.recv_timeout(Duration::from_secs(60)).unwrap();
+        assert!(matches!(result.try_recv(), Err(mpsc::TryRecvError::Empty)));
+        release.send(()).unwrap();
+        result.recv_timeout(Duration::from_secs(60)).unwrap();
+        worker.join().unwrap();
+
+        let error = wait_for_retirement_with(&identity, |_| Ok(Some(identity.clone())), || true)
+            .unwrap_err();
+        assert_eq!(error.kind(), std::io::ErrorKind::TimedOut);
+    }
 
     #[test]
     fn swift_native_environment_rejects_missing_changed_and_cross_case_values() {

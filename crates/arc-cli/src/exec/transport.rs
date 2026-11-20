@@ -144,12 +144,15 @@ pub(super) fn call_until_with_continuity(
     request.payload = payload;
     if matches!(
         operation,
-        arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
+        arc_ipc::jobs::OPERATION_JOB_START_LOCALITY
+            | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
             | arc_ipc::traffic::OPERATION_BUN_SCRIPTS_JOB
             | arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES
             | arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB
             | arc_ipc::traffic::native::OPERATION_CAPABILITIES
             | arc_ipc::traffic::native::OPERATION_JOB
+            | arc_ipc::traffic::endpoint::OPERATION_CAPABILITIES
+            | arc_ipc::traffic::endpoint::OPERATION_JOB
     ) {
         return negotiated(
             socket,

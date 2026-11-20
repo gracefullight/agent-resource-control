@@ -18,9 +18,10 @@ pub use budget::{
     AnalysisStats, MAX_DEPTH, MAX_INPUT_BYTES, MAX_INVOCATIONS, MAX_TOKENS, MAX_WORK,
 };
 pub use locality::{
-    analyze_argv_with_context, analyze_with_context, classify_argv_with_context,
-    classify_with_context, EndpointContext, EndpointFact, EndpointKind, CONTEXT_ENV_KEYS,
-    MAX_CONTEXT_AGE_MS, MAX_CONTEXT_BYTES, MAX_CONTEXT_ENTRIES, MAX_CONTEXT_VALUE_BYTES,
+    analyze_argv_with_context, analyze_with_context, capture_shell_argv,
+    classify_argv_with_context, classify_with_context, EndpointContext, EndpointFact, EndpointKind,
+    CONTEXT_ENV_KEYS, MAX_CONTEXT_AGE_MS, MAX_CONTEXT_BYTES, MAX_CONTEXT_ENTRIES,
+    MAX_CONTEXT_VALUE_BYTES,
 };
 pub use types::{Classification, ClassifyRequest, JobClass, Locality, Reason, Uncertainty};
 

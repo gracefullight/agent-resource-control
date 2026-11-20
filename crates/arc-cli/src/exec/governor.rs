@@ -34,7 +34,9 @@ pub(super) fn prepare(
     signals: &Signals,
 ) -> Result<Mode, Failure> {
     use arc_detector::{Locality, Reason};
-    let route = if classification.is_bun_script() {
+    let route = if classification.reason == Reason::LocalEndpointBuild {
+        Route::Endpoint
+    } else if classification.is_bun_script() {
         Route::BunScripts
     } else if classification.is_python_test() {
         Route::PythonTests
@@ -46,6 +48,7 @@ pub(super) fn prepare(
     let fallback_classification = if classification.is_bun_script()
         || classification.is_python_test()
         || classification.is_native_tool()
+        || classification.is_endpoint_locality()
     {
         classification.legacy()
     } else {
@@ -56,6 +59,7 @@ pub(super) fn prepare(
             || matches!(
                 classification.reason,
                 Reason::CargoBuild
+                    | Reason::LocalEndpointBuild
                     | Reason::CargoTest
                     | Reason::CargoClippy
                     | Reason::CargoFmt
@@ -83,6 +87,10 @@ pub(super) fn prepare(
         Route::NativeTools => Some((
             arc_ipc::traffic::native::OPERATION_CAPABILITIES,
             arc_ipc::traffic::native::CAPABILITY,
+        )),
+        Route::Endpoint => Some((
+            arc_ipc::traffic::endpoint::OPERATION_CAPABILITIES,
+            arc_ipc::traffic::endpoint::CAPABILITY,
         )),
         _ => None,
     };
@@ -208,7 +216,7 @@ pub(super) fn prepare(
         Err(Failure::Unsupported)
             if matches!(
                 route,
-                Route::BunScripts | Route::PythonTests | Route::NativeTools
+                Route::BunScripts | Route::PythonTests | Route::NativeTools | Route::Endpoint
             ) =>
         {
             // await_admission only returns Unsupported when no prior attempt

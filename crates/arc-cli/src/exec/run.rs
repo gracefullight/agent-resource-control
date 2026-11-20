@@ -1,5 +1,5 @@
 use super::{
-    accounting, descriptors, governor, invalid, launch, lifecycle::complete, lineage, metadata,
+    accounting, descriptors, governor, invalid, launch, lifecycle::complete, lineage,
     native_environment, preparation, signals, start_until, terminal, traffic, transport,
 };
 use arc_core::process_identity::random_job_id;
@@ -12,11 +12,13 @@ use std::{
     time::{Duration, Instant},
 };
 
-pub(super) fn run_with_clocks(
+/// The native fixture supplies synthetic facts while exercising this exact run path.
+pub(super) fn run_with_classifier(
     argv: Vec<OsString>,
     preserve_environment: bool,
     now: &dyn Fn() -> Instant,
     delivery_now: &dyn Fn() -> Instant,
+    classify: &dyn Fn(&[OsString]) -> arc_detector::Classification,
 ) -> ExitCode {
     if !preparation::valid_argv(&argv) {
         return invalid();
@@ -36,7 +38,7 @@ pub(super) fn run_with_clocks(
     else {
         return preparation::stopped(transport::Failure::Local);
     };
-    let classification = metadata::classify(&argv);
+    let classification = classify(&argv);
     let mut tracking = match governor::prepare(
         &socket,
         &job_id,
@@ -138,9 +140,14 @@ pub(super) fn run_with_clocks(
         _ => None,
     };
     // Older clients need the environment claim for legacy families. Native
-    // tools instead inherit the caller's environment exactly.
-    if let traffic::Mode::Scheduled { context, .. } = &tracking {
-        native_environment::configure(&mut command, classification, context, preserve_environment);
+    // tools and endpoint admission inherit the caller's environment exactly.
+    if let traffic::Mode::Scheduled { context, route, .. } = &tracking {
+        native_environment::configure(
+            &mut command,
+            classification,
+            context,
+            preserve_environment || *route == traffic::Route::Endpoint,
+        );
     }
     if !shared_job {
         command.process_group(0);

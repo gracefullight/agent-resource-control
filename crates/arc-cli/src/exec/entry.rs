@@ -20,8 +20,23 @@ pub(crate) fn run_with_environment_and_notice(
     writer: fn(&str) -> super::preparation::NoticeWrite,
 ) -> ExitCode {
     super::preparation::with_notice_writer(writer, || {
-        super::run::run_with_clocks(argv, preserve_environment, now, &Instant::now)
+        run_with_clocks(argv, preserve_environment, now, &Instant::now)
     })
+}
+
+pub(super) fn run_with_clocks(
+    argv: Vec<OsString>,
+    preserve_environment: bool,
+    now: &dyn Fn() -> Instant,
+    delivery_now: &dyn Fn() -> Instant,
+) -> ExitCode {
+    super::run::run_with_classifier(
+        argv,
+        preserve_environment,
+        now,
+        delivery_now,
+        &super::metadata::classify,
+    )
 }
 
 pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {

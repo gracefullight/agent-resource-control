@@ -39,11 +39,49 @@ pub const CONTEXT_ENV_KEYS: &[&str] = &[
     "GIT_SSH_COMMAND",
 ];
 
+/// Extract literal invocations using exactly the detector's bounded grammar.
+/// This does not evaluate shell text. A rejected parse must not trigger probes.
+pub fn capture_shell_argv(request: &ClassifyRequest) -> Option<Vec<Vec<OsString>>> {
+    fn collect(
+        source: &str,
+        depth: usize,
+        budget: &mut Budget,
+        output: &mut Vec<Vec<OsString>>,
+    ) -> Checked<()> {
+        let mut commands = Vec::new();
+        Parser::new(source).commands(depth, budget, &mut commands)?;
+        for command in commands {
+            let words = command.words;
+            if matches!(
+                words.first().map(String::as_str),
+                Some("sh" | "bash" | "zsh")
+            ) && words.len() == 3
+                && matches!(words[1].as_str(), "-c" | "-lc")
+            {
+                collect(&words[2], command.depth + 1, budget, output)?;
+            } else {
+                output.push(words.into_iter().map(OsString::from).collect());
+            }
+        }
+        Ok(())
+    }
+    if request.command.len() > MAX_INPUT_BYTES
+        || !matches!(request.shell_kind.as_str(), "sh" | "bash" | "zsh")
+    {
+        return None;
+    }
+    let mut output = Vec::new();
+    collect(&request.command, 0, &mut Budget::default(), &mut output).ok()?;
+    Some(output)
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
 #[serde(rename_all = "SCREAMING_SNAKE_CASE")]
 pub enum EndpointKind {
     CiHost,
     GitRemote,
+    /// Effective destination of a bare push; selector is always `@bare-push`.
+    GitPushDefault,
     SshDestination,
     DockerContext,
     DockerBuilder,
@@ -231,3 +269,47 @@ pub fn analyze_argv_with_context(
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod capture_contract_tests {
+    use super::*;
+
+    #[test]
+    fn shell_capture_uses_the_bounded_literal_grammar_including_nested_shells() {
+        let request = ClassifyRequest {
+            command: "gh workflow run 'build.yml' && sh -c 'docker build .'".into(),
+            shell_kind: "sh".into(),
+        };
+        assert_eq!(
+            capture_shell_argv(&request).unwrap(),
+            vec![
+                vec![
+                    OsString::from("gh"),
+                    OsString::from("workflow"),
+                    OsString::from("run"),
+                    OsString::from("build.yml")
+                ],
+                vec![
+                    OsString::from("docker"),
+                    OsString::from("build"),
+                    OsString::from(".")
+                ],
+            ]
+        );
+        for command in [
+            "gh workflow run $(touch marker)",
+            "if true; then gh run list; fi",
+        ] {
+            assert!(capture_shell_argv(&ClassifyRequest {
+                command: command.into(),
+                shell_kind: "sh".into()
+            })
+            .is_none());
+        }
+        assert!(capture_shell_argv(&ClassifyRequest {
+            command: "gh run list".into(),
+            shell_kind: "fish".into()
+        })
+        .is_none());
+    }
+}

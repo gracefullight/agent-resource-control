@@ -61,6 +61,12 @@ pub struct Case {
 }
 impl Case {
     pub fn new(injected: bool) -> Self {
+        Self::with_clock(injected, None)
+    }
+    pub fn with_daemon_clock(initial_ms: u64) -> Self {
+        Self::with_clock(true, Some(initial_ms))
+    }
+    fn with_clock(injected: bool, clock_ms: Option<u64>) -> Self {
         let fixture = native::Fixture::with_binary(binary(if injected {
             "arc-pressure-daemon-fixture"
         } else {
@@ -70,6 +76,11 @@ impl Case {
         symlink(binary("arc-exec-fixture"), fixture.root.join("cargo")).unwrap();
         let mut command = fixture.command();
         command.env("ARC_PRESSURE_CONTROL", fixture.root.join("pressure"));
+        if let Some(now) = clock_ms {
+            let clock = fixture.root.join("daemon-clock");
+            fs::write(&clock, now.to_string()).unwrap();
+            command.arg("--fixture-daemon-clock").arg(clock);
+        }
         let mut daemon = native::OwnedChild::new(command.spawn().unwrap());
         let bridge = DesktopBridge::from_socket_path(fixture.socket.clone());
         let mut reported = false;
@@ -228,6 +239,24 @@ impl Run {
         subcommand: &str,
         barrier: Option<(&str, &std::path::Path)>,
     ) -> Self {
+        Self::start_inner(case, name, subcommand, barrier, None)
+    }
+    pub fn start_with_barrier_and_clock(
+        case: &Case,
+        name: &str,
+        subcommand: &str,
+        barrier: (&str, &std::path::Path),
+        clock: (&std::path::Path, &std::path::Path),
+    ) -> Self {
+        Self::start_inner(case, name, subcommand, Some(barrier), Some(clock))
+    }
+    fn start_inner(
+        case: &Case,
+        name: &str,
+        subcommand: &str,
+        barrier: Option<(&str, &std::path::Path)>,
+        clock: Option<(&std::path::Path, &std::path::Path)>,
+    ) -> Self {
         let root = &case.fixture.root;
         let socket = root.join(format!("{name}.sock"));
         let marker = root.join(format!("{name}.starts"));
@@ -254,6 +283,11 @@ impl Run {
             command
                 .env("ARC_PRESSURE_ACCEPTANCE_STAGE", stage)
                 .env("ARC_PRESSURE_ACCEPTANCE_BARRIER", socket);
+        }
+        if let Some((library, control)) = clock {
+            command
+                .env("DYLD_INSERT_LIBRARIES", library)
+                .env("ARC_TEST_READY_CLOCK_CONTROL", control);
         }
         let wrapper = native::OwnedChild::new(command.spawn().unwrap());
         Self {

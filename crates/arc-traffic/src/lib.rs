@@ -191,6 +191,7 @@ pub fn decide(
         (
             JobClass::Build,
             Reason::CargoBuild
+            | Reason::LocalEndpointBuild
             | Reason::BunScriptBuild
             | Reason::GoBuild
             | Reason::SwiftBuild

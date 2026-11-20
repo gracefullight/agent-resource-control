@@ -198,12 +198,33 @@ fn git_push(
     context: &EndpointContext,
     b: &mut Budget,
 ) -> Checked<Option<Reason>> {
-    b.charge(words.get(1).map_or(1, |word| 1 + word.len()))?;
-    if words.get(1).map(String::as_str) != Some("push") {
+    let mut index = 1;
+    while let Some(word) = words.get(index) {
+        b.charge(1 + word.len())?;
+        match word.as_str() {
+            "push" => {
+                index += 1;
+                break;
+            }
+            "-C" | "-c" => {
+                index += 1;
+                let Some(value) = words.get(index) else {
+                    return Ok(None);
+                };
+                b.charge(1 + value.len())?;
+                if value.is_empty() || (word == "-c" && !value.contains('=')) {
+                    return Ok(None);
+                }
+            }
+            _ => return Ok(None),
+        }
+        index += 1;
+    }
+    if words.get(index.saturating_sub(1)).map(String::as_str) != Some("push") {
         return Ok(None);
     }
     let mut destination = None;
-    for word in &words[2..] {
+    for word in &words[index..] {
         b.charge(1 + 4 * word.len())?;
         if word.starts_with('-') {
             if !matches!(
@@ -218,10 +239,11 @@ fn git_push(
             destination = Some(word.as_str());
         }
     }
-    let Some(destination) = destination else {
-        return Ok(None);
+    let (kind, selector) = match destination {
+        Some(destination) => (EndpointKind::GitRemote, destination),
+        None => (EndpointKind::GitPushDefault, "@bare-push"),
     };
-    let Some(endpoint) = fact(context, EndpointKind::GitRemote, destination, b)? else {
+    let Some(endpoint) = fact(context, kind, selector, b)? else {
         return Ok(None);
     };
     b.charge(1 + 4 * endpoint.len())?;
@@ -328,151 +350,4 @@ fn gitlab(words: &[String], context: &EndpointContext, b: &mut Budget) -> Checke
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-    use crate::{ClassifyRequest, EndpointFact, Locality, Uncertainty};
-    use std::ffi::OsString;
-
-    const NOW: u64 = 10_000;
-    const HTTPS: &str = "https://github.com/org/repo.git";
-    const SSH: &str = "ssh://git@github.com/org/repo.git";
-
-    fn context(kind: EndpointKind, selector: &str, endpoint: &str) -> EndpointContext {
-        EndpointContext {
-            captured_at_ms: NOW,
-            facts: vec![EndpointFact {
-                kind,
-                selector: selector.into(),
-                endpoints: vec![endpoint.into()],
-            }],
-            ..EndpointContext::default()
-        }
-    }
-
-    fn routes(command: &str, context: &EndpointContext, now: u64) -> [Classification; 2] {
-        let request = ClassifyRequest {
-            command: command.into(),
-            shell_kind: "sh".into(),
-        };
-        let argv: Vec<OsString> = command.split_whitespace().map(Into::into).collect();
-        [
-            crate::classify_with_context(&request, context, now),
-            crate::classify_argv_with_context(&argv, context, now),
-        ]
-    }
-
-    #[test]
-    fn options_endpoints_and_ambiguous_or_mixed_controls_are_conservative() {
-        let gh = context(EndpointKind::CiHost, "gh", "https://github.com");
-        let mut override_repo = gh.clone();
-        override_repo
-            .environment
-            .insert("GH_HOST".into(), "localhost".into());
-        override_repo
-            .environment
-            .insert("GH_REPO".into(), "localhost/a/b".into());
-        for actual in routes(
-            "gh workflow run build.yml --repo github.com/org/repo",
-            &override_repo,
-            NOW,
-        ) {
-            assert_eq!(actual.classification, JobClass::RemoteCi);
-        }
-        let mut override_env_repo = gh.clone();
-        override_env_repo
-            .environment
-            .insert("GH_REPO".into(), "localhost/a/b".into());
-        for actual in routes(
-            "gh workflow run build.yml --repo org/repo",
-            &override_env_repo,
-            NOW,
-        ) {
-            assert_eq!(actual.classification, JobClass::RemoteCi);
-        }
-        let mut host_only = EndpointContext {
-            captured_at_ms: NOW,
-            ..EndpointContext::default()
-        };
-        host_only
-            .environment
-            .insert("GH_HOST".into(), "github.com".into());
-        let local_git = context(EndpointKind::GitRemote, "origin", "file:///tmp/repo");
-        let mut local_ssh = context(EndpointKind::GitRemote, SSH, SSH);
-        local_ssh.facts.push(EndpointFact {
-            kind: EndpointKind::SshDestination,
-            selector: "github.com".into(),
-            endpoints: vec!["ssh://127.0.0.1:22".into()],
-        });
-        let multi_git = EndpointContext {
-            facts: vec![EndpointFact {
-                kind: EndpointKind::GitRemote,
-                selector: "origin".into(),
-                endpoints: vec![HTTPS.into(), "file:///tmp/repo".into()],
-            }],
-            ..gh.clone()
-        };
-        for (command, context) in [
-            ("gh workflow run build.yml", &host_only),
-            ("gh workflow run build.yml", &override_repo),
-            ("gh workflow run build.yml --repo localhost/org/repo", &gh),
-            (
-                "gh workflow run build.yml --repo org/repo --repo org/other",
-                &gh,
-            ),
-            ("gh workflow run build.yml --mystery value", &gh),
-            ("gh workflow list --workflow build.yml", &gh),
-            ("/tmp/gh workflow run build.yml", &gh),
-            ("git push origin main", &local_git),
-            ("git push origin main", &multi_git),
-            ("git push https://github.com/org/repo.git main", &gh),
-            (
-                "git push ssh://git@github.com/org/repo.git main",
-                &local_ssh,
-            ),
-            ("git push origin main --receive-pack custom", &gh),
-            ("gitlab pipeline run --branch main", &gh),
-        ] {
-            for result in routes(command, context, NOW) {
-                assert_eq!(
-                    (result.classification, result.locality, result.uncertainty),
-                    (JobClass::Unknown, Locality::Unknown, Uncertainty::Observe),
-                    "{command}: {result:?}"
-                );
-            }
-        }
-        for result in routes("gh workflow run build.yml", &gh, NOW + 5_001) {
-            assert_eq!(result.classification, JobClass::Unknown);
-            assert_eq!(result.uncertainty, Uncertainty::Observe);
-        }
-        for result in routes("cargo build", &gh, NOW) {
-            assert_eq!(
-                (result.classification, result.locality),
-                (JobClass::Build, Locality::HostLocal)
-            );
-        }
-        let mixed = crate::classify_with_context(
-            &ClassifyRequest {
-                command: "cargo test && gh workflow run build.yml".into(),
-                shell_kind: "sh".into(),
-            },
-            &gh,
-            NOW,
-        );
-        assert_eq!(
-            (mixed.classification, mixed.locality),
-            (JobClass::Mixed, Locality::Mixed)
-        );
-        let mixed_unknown = crate::classify_with_context(
-            &ClassifyRequest {
-                command: "cargo test && gh workflow run build.yml".into(),
-                shell_kind: "sh".into(),
-            },
-            &host_only,
-            NOW,
-        );
-        assert_eq!(
-            (mixed_unknown.classification, mixed_unknown.uncertainty),
-            (JobClass::Unknown, Uncertainty::Observe)
-        );
-    }
-}
+mod tests;

@@ -29,16 +29,13 @@ pub(super) fn classify(argv: &[OsString]) -> Classification {
     if direct.locality == arc_detector::Locality::HostLocal {
         return direct;
     }
-    let Some(mut context) = super::endpoint_context::capture(argv) else {
+    let Some(context) = super::capture_argv(argv) else {
         return local_without_endpoint_context(argv).unwrap_or_else(unknown);
     };
-    if super::ci_context::extend(argv, &mut context).is_none() {
-        return local_without_endpoint_context(argv).unwrap_or_else(unknown);
-    }
     classify_with_context(argv, &context, || arc_ipc::locality::now_ms().unwrap_or(0))
 }
 
-fn classify_with_context(
+pub(super) fn classify_with_context(
     argv: &[OsString],
     context: &arc_detector::EndpointContext,
     mut now_ms: impl FnMut() -> u64,
@@ -48,10 +45,8 @@ fn classify_with_context(
         return local_without_endpoint_context(argv).unwrap_or_else(unknown);
     }
     let contextual = arc_detector::classify_argv_with_context(argv, context, now);
-    // The old lifecycle operation cannot carry new reason strings. It receives
-    // a conservative projection until an additive execution route exists.
     if contextual.is_endpoint_locality() {
-        return contextual.legacy();
+        return contextual;
     }
     // The script resolver also accepts an absolute Bun executable path, which
     // the syntax-only fallback intentionally does not recognize as a command.
@@ -82,11 +77,7 @@ fn classify_with_context(
     if !context.is_valid_at(now_ms()) {
         return local_without_endpoint_context(argv).unwrap_or_else(unknown);
     }
-    if result.classification.is_endpoint_locality() {
-        result.classification.legacy()
-    } else {
-        result.classification
-    }
+    result.classification
 }
 
 fn unknown() -> Classification {

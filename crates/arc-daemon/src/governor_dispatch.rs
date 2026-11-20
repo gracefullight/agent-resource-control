@@ -67,6 +67,8 @@ pub(crate) async fn dispatch_with_clock(
             | arc_ipc::traffic::OPERATION_PYTHON_TESTS_JOB
             | arc_ipc::traffic::native::OPERATION_CAPABILITIES
             | arc_ipc::traffic::native::OPERATION_JOB
+            | arc_ipc::traffic::endpoint::OPERATION_CAPABILITIES
+            | arc_ipc::traffic::endpoint::OPERATION_JOB
     ) {
         return false;
     }
@@ -94,13 +96,17 @@ pub(crate) async fn dispatch_with_clock(
         arc_ipc::traffic::OPERATION_BUN_SCRIPTS_CAPABILITIES
             | arc_ipc::traffic::OPERATION_PYTHON_TESTS_CAPABILITIES
             | arc_ipc::traffic::native::OPERATION_CAPABILITIES
+            | arc_ipc::traffic::endpoint::OPERATION_CAPABILITIES
     ) {
         send(
             if arc_ipc::traffic::decode_probe(&request.payload).is_ok() {
                 Response::ok(
                     &request.request_id,
                     serde_json::json!(if request.operation
-                        == arc_ipc::traffic::native::OPERATION_CAPABILITIES
+                        == arc_ipc::traffic::endpoint::OPERATION_CAPABILITIES
+                    {
+                        arc_ipc::traffic::Capabilities::endpoint_supported()
+                    } else if request.operation == arc_ipc::traffic::native::OPERATION_CAPABILITIES
                     {
                         arc_ipc::traffic::Capabilities::native_supported()
                     } else if request.operation
@@ -134,6 +140,10 @@ pub(crate) async fn dispatch_with_clock(
         }
         arc_ipc::traffic::native::OPERATION_JOB => {
             arc_ipc::traffic::native::decode_job(&request.operation, &request.payload)
+                .map(Input::Job)
+        }
+        arc_ipc::traffic::endpoint::OPERATION_JOB => {
+            arc_ipc::traffic::endpoint::decode_job(&request.operation, &request.payload)
                 .map(Input::Job)
         }
         OPERATION_LAUNCH => decode_launch(&request.payload).map(Input::Launch),

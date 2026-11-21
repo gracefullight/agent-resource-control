@@ -2,6 +2,9 @@
 #[path = "child_watchdog.rs"]
 #[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
 mod child_watchdog;
+#[path = "instrumentation.rs"]
+#[allow(clippy::duplicate_mod)]
+mod instrumentation;
 #[path = "native_fixture.rs"]
 mod native_fixture;
 pub use native_fixture::{assert_report, Fixture};
@@ -23,6 +26,26 @@ impl Fixture {
     pub fn spawn(&self, profile: &str) -> OwnedChild {
         let mut command = self.command();
         command.env("ARC_IPC_PROFILE", profile);
+        let mut child = OwnedChild::new(command.spawn().unwrap());
+        self.wait_for(&mut child, "arc-daemon ready.");
+        child
+    }
+
+    /// Start the production daemon with only fixture configuration and coverage
+    /// instrumentation, independently of the test runner's user environment.
+    #[allow(dead_code)] // Not every binary using the common fixture needs this seam.
+    pub fn spawn_isolated(&self, profile: &str) -> OwnedChild {
+        let home = self.root.join("daemon-home");
+        fs::create_dir_all(&home).unwrap();
+        let mut command = self.command();
+        command.env_clear();
+        self.configure(&mut command);
+        command
+            .env("HOME", &home)
+            .env("XDG_CONFIG_HOME", home.join("xdg"))
+            .env("PATH", "/usr/bin:/bin")
+            .env("ARC_IPC_PROFILE", profile);
+        instrumentation::forward(&mut command);
         let mut child = OwnedChild::new(command.spawn().unwrap());
         self.wait_for(&mut child, "arc-daemon ready.");
         child

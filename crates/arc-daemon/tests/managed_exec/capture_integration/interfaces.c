@@ -39,6 +39,31 @@ static void fixture_freeifaddrs(struct ifaddrs *value) { (void)value; }
 /* Optional, nonpersistent observation of the debug CLI capture seam. */
 void arc_test_capture_observe(const unsigned char *route, size_t route_len,
                               const unsigned char *json, size_t json_len) {
+    /* Simulate a file changing after capture, before the caller uses it. */
+    const char *replacement = getenv("ARC_TEST_CAPTURE_REPLACE_MAKEFILE");
+    if (replacement != NULL && route_len == 5 && memcmp(route, "shell", 5) == 0) {
+        static const char changed[] = "test:\n\t$(TEST_RUNNER) test\n";
+        int file = open(replacement, O_WRONLY | O_TRUNC);
+        if (file >= 0) {
+            (void)write(file, changed, sizeof(changed) - 1);
+            (void)close(file);
+        }
+    }
+    const char *package = getenv("ARC_TEST_CAPTURE_REPLACE_PACKAGE");
+    static const char pnpm_fact[] = "\"kind\":\"PNPM_SCRIPT\"";
+    if (package != NULL) {
+        for (size_t i = 0; i + sizeof(pnpm_fact) - 1 <= json_len; ++i) {
+            if (memcmp(json + i, pnpm_fact, sizeof(pnpm_fact) - 1) == 0) {
+                static const char changed[] = "{\"scripts\":{\"deploy\":\"cargo build && $DEPLOY_STEP\"}}";
+                int file = open(package, O_WRONLY | O_TRUNC);
+                if (file >= 0) {
+                    (void)write(file, changed, sizeof(changed) - 1);
+                    (void)close(file);
+                }
+                break;
+            }
+        }
+    }
     const char *path = getenv("ARC_TEST_CAPTURE_SOCKET");
     if (path == NULL) return;
     struct sockaddr_un target;

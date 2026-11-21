@@ -8,6 +8,8 @@ use serde::Deserialize;
 use sha2::{Digest, Sha256};
 use std::path::{Path, PathBuf};
 
+mod socket;
+
 #[derive(Deserialize, Default)]
 struct Config {
     #[serde(rename = "currentContext")]
@@ -227,6 +229,21 @@ pub(super) fn capture(
         &builder_selector,
         endpoint.clone(),
     )?;
+    // Inspect the listener through OS process/descriptor tables; never
+    // connect to the endpoint. An unproved or ambiguous listener stays unknown.
+    for (index, value) in [host.as_str(), endpoint.as_str()].into_iter().enumerate() {
+        if index == 1 && endpoint == host {
+            continue;
+        }
+        if socket::is_local_engine(value) {
+            fact(
+                context,
+                EndpointKind::DockerContext,
+                &format!("@local-proof/{index}"),
+                value.to_owned(),
+            )?;
+        }
+    }
     if [endpoint.as_str(), host.as_str()]
         .iter()
         .any(|v| v.starts_with("tcp://") || v.starts_with("ssh://"))

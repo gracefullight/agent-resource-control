@@ -8,6 +8,7 @@ use std::net::{IpAddr, SocketAddr};
 
 #[derive(Clone, Copy, PartialEq, Eq)]
 enum Place {
+    Local,
     Remote,
 }
 
@@ -21,7 +22,7 @@ pub(crate) fn recognize(
     };
     budget.charge(1 + head.len())?;
     let name = head.rsplit('/').next().unwrap_or("");
-    if !budget.one_of(name, &["ssh", "docker", "docker-compose", "kubectl"])? {
+    if !budget.one_of(name, &["ssh", "docker", "docker-compose", "kubectl", "act"])? {
         return Ok(None);
     }
     // An arbitrary path can name a custom program, even if its basename is docker.
@@ -45,9 +46,27 @@ pub(crate) fn recognize(
         "ssh" => ssh(&words[1..], context),
         "docker" => docker(&words[1..], context),
         "kubectl" => kubectl(&words[1..], context),
+        "act" => act(&words[1..], context),
         _ => None,
     };
     Ok(Some(result.unwrap_or_else(ambiguous)))
+}
+
+fn act(args: &[String], context: &EndpointContext) -> Option<Classification> {
+    if args != ["-j", "build"] {
+        return None;
+    }
+    let host = context.environment.get("DOCKER_HOST")?;
+    let selected = fact(context, EndpointKind::ActLocal, "act")?;
+    if selected.endpoints.as_slice() != [host.as_str()]
+        || place(host, context) != Some(Place::Local)
+    {
+        return None;
+    }
+    Some(Classification::new(
+        JobClass::Build,
+        Reason::LocalEndpointBuild,
+    ))
 }
 
 fn ambiguous() -> Classification {
@@ -117,8 +136,17 @@ fn socket_endpoint(value: &str, scheme: &str) -> Option<SocketAddr> {
 }
 
 fn place(endpoint: &str, context: &EndpointContext) -> Option<Place> {
-    // A Unix socket may be forwarded, and SSH configuration can redirect its
-    // transport. Neither URI alone establishes the builder's compute host.
+    // A Unix URI alone may be forwarded. Capture may separately bind it to a
+    // native local Docker daemon; the endpoint must match that proof exactly.
+    if endpoint.starts_with("unix:///")
+        && context.facts.iter().any(|f| {
+            f.kind == EndpointKind::DockerContext
+                && f.selector.starts_with("@local-proof/")
+                && f.endpoints.as_slice() == [endpoint]
+        })
+    {
+        return Some(Place::Local);
+    }
     if let Some(socket) = socket_endpoint(endpoint, "tcp://") {
         return (socket.port() != 0 && remote_ip(socket.ip(), context)).then_some(Place::Remote);
     }
@@ -355,12 +383,15 @@ fn docker(args: &[String], context: &EndpointContext) -> Option<Classification> 
     if !buildx && engine_place != Some(builder_place) {
         return None;
     }
-    Some(remote(Reason::RemoteEndpointExec))
+    Some(match builder_place {
+        Place::Local => Classification::new(JobClass::Build, Reason::LocalEndpointBuild),
+        Place::Remote => remote(Reason::RemoteEndpointExec),
+    })
 }
 
 fn kubectl(args: &[String], context: &EndpointContext) -> Option<Classification> {
-    let (mut at, mut selected_context, mut kubeconfig, mut namespace, mut pod) =
-        (0, None, None, None, None);
+    let (mut at, mut selected_context, mut kubeconfig, mut namespace, mut pod, mut timeout) =
+        (0, None, None, None, None, None);
     let mut exec = false;
     while let Some(arg) = args.get(at) {
         if arg == "--" {
@@ -373,6 +404,8 @@ fn kubectl(args: &[String], context: &EndpointContext) -> Option<Classification>
             selected(&mut kubeconfig, value)?;
         } else if let Some(value) = option(args, &mut at, &["--namespace", "-n"])? {
             selected(&mut namespace, value)?;
+        } else if let Some(value) = option(args, &mut at, &["--request-timeout"])? {
+            selected(&mut timeout, value)?;
         } else if exec && matches!(arg.as_str(), "-i" | "-t" | "-it" | "-ti") {
             // Interactive flags do not select a different pod.
         } else if exec && option(args, &mut at, &["--container", "-c"])?.is_some() {

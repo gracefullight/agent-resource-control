@@ -13,12 +13,21 @@ use std::{
 #[allow(clippy::duplicate_mod)]
 #[path = "../support/child_watchdog.rs"]
 mod child_watchdog;
+#[path = "capture_integration/closing_exec.rs"]
+mod closing_exec;
+#[path = "capture_integration/closing_locality.rs"]
+mod closing_locality;
+#[path = "capture_integration/closing_shell.rs"]
+mod closing_shell;
 #[path = "capture_integration/endpoints.rs"]
 mod endpoints;
 #[path = "capture_integration/git_system.rs"]
 mod git_system;
 #[path = "capture_integration/held.rs"]
 mod held;
+#[path = "../support/instrumentation.rs"]
+#[allow(clippy::duplicate_mod)] // Shared by independently reusable fixture modules.
+mod instrumentation;
 
 struct Sandbox {
     home: PathBuf,
@@ -33,13 +42,27 @@ fn write(path: &Path, data: impl AsRef<[u8]>) {
     fs::write(path, data).unwrap();
 }
 
+fn admission_counts(f: &Fixture) -> (i64, i64) {
+    let db = rusqlite::Connection::open(&f.database).unwrap();
+    db.query_row(
+        "SELECT (SELECT count(*) FROM traffic_entries), (SELECT count(*) FROM permits)",
+        [],
+        |row| Ok((row.get(0)?, row.get(1)?)),
+    )
+    .unwrap()
+}
+
 pub(super) fn fixture_interfaces(f: &Fixture) -> PathBuf {
     // Each fixture gets a private library and a deterministic inventory.
     let source = f.root.join("interfaces.c");
     let interfaces = f.root.join("interfaces-library");
     write(&source, include_str!("capture_integration/interfaces.c"));
     let mut compiler = Command::new("/usr/bin/cc");
-    compiler.env_clear().env("PATH", "/usr/bin:/bin");
+    compiler
+        .env_clear()
+        .env("HOME", &f.root)
+        .env("PATH", "/usr/bin:/bin");
+    instrumentation::forward(&mut compiler);
     if cfg!(target_os = "macos") {
         compiler.arg("-dynamiclib");
     } else {
@@ -63,9 +86,7 @@ pub(super) fn use_fixture_interfaces(command: &mut Command, f: &Fixture) {
     command
         .env(preload_key(), f.root.join("interfaces-library"))
         .env("ARC_TEST_INTERFACE_MARKER", f.root.join("interface-calls"));
-    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
-        command.env("LLVM_PROFILE_FILE", profile);
-    }
+    instrumentation::forward(command);
 }
 
 pub(super) fn isolated_endpoint_stub(f: &Fixture, name: &str) -> Command {
@@ -87,9 +108,7 @@ pub(super) fn isolated_endpoint_stub(f: &Fixture, name: &str) -> Command {
     if name == "ssh" {
         command.arg("-F").arg(home.join("missing-ssh-config"));
     }
-    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
-        command.env("LLVM_PROFILE_FILE", profile);
-    }
+    instrumentation::forward(&mut command);
     command
 }
 
@@ -146,9 +165,7 @@ impl Sandbox {
             .current_dir(&self.repo);
         command.env(preload_key(), &self.interfaces);
         // Coverage runners supply an output destination, not endpoint config.
-        if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
-            command.env("LLVM_PROFILE_FILE", profile);
-        }
+        instrumentation::forward(&mut command);
         for (key, value) in env {
             if let Some(value) = value {
                 command.env(key, value);

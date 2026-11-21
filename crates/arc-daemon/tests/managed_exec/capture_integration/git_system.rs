@@ -272,3 +272,50 @@ fn git_system_configuration_is_consistent_across_both_cli_routes() {
     daemon.stop(libc::SIGTERM);
     f.report();
 }
+
+pub(super) fn gitlab_explicit_public_endpoint_and_unresolved_controls_on_both_routes() {
+    let _serial = support::serial();
+    let f = Fixture::new();
+    let s = Sandbox::new(&f);
+    symlink(cli::binary("arc-exec-fixture"), s.bin.join("gitlab")).unwrap();
+    let mut daemon = f.spawn_isolated("test");
+    let literal = &["gitlab", "pipeline", "run"][..];
+    let branch = &["gitlab", "pipeline", "run", "--branch", "main"][..];
+    for (name, argv, env, expected) in [
+        (
+            "literal dispatch to explicit public server",
+            literal,
+            vec![("GITLAB_URL", Some("https://gitlab.com"))],
+            "REMOTE_CI",
+        ),
+        (
+            "branch dispatch to explicit public server",
+            branch,
+            vec![("GITLAB_URL", Some("https://gitlab.com"))],
+            "REMOTE_CI",
+        ),
+        ("no verified server", literal, vec![], "UNKNOWN"),
+        (
+            "conflicting host",
+            literal,
+            vec![
+                ("GITLAB_URL", Some("https://gitlab.com")),
+                ("GITLAB_HOST", Some("localhost")),
+            ],
+            "UNKNOWN",
+        ),
+    ] {
+        let before = admission_counts(&f);
+        let inspection = s.classify(&f, argv, &env);
+        let (job, _) = s.exec(&f, argv, &env);
+        assert!(!assert_routes(name, &inspection, &job, expected));
+        super::closing_locality::assert_recorded_fixture_child(&s, &job);
+        assert_eq!(admission_counts(&f), before, "{name} added local admission");
+    }
+    assert_eq!(s.calls(), 4);
+    eprintln!(
+        "GitLab cases: denominator 4, recognized-remote 2, UNKNOWN 2, false-local 0 per route"
+    );
+    daemon.stop(libc::SIGTERM);
+    f.report();
+}

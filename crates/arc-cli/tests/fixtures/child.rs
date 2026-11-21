@@ -2,6 +2,7 @@
 #[cfg(target_os = "macos")]
 mod frozen_traffic_v1;
 mod hold_unattached;
+mod hook_capture;
 mod job_meter;
 mod pipeline;
 // Compile the same execution implementation into this test fixture so the
@@ -24,6 +25,7 @@ mod exec {
     mod native_environment;
     pub(crate) mod policy;
     mod preparation;
+    mod proof;
     mod run;
     mod signals;
     mod terminal;
@@ -70,6 +72,37 @@ mod exec {
             },
         )
     }
+
+    // Exercise the production run path with an injected preparation clock.
+    // The synthetic elapsed interval surrounds actual endpoint classification.
+    pub(crate) fn delayed_capture_exec(argv: Vec<std::ffi::OsString>) -> std::process::ExitCode {
+        use std::{
+            cell::Cell,
+            time::{Duration, Instant},
+        };
+        let captured = Cell::new(false);
+        let clock = || {
+            if captured.get() {
+                Instant::now()
+            } else {
+                Instant::now() - Duration::from_secs(3)
+            }
+        };
+        run::run_with_classifier_and_preparation_clock(
+            argv,
+            false,
+            &Instant::now,
+            &Instant::now,
+            &|args| {
+                let before = clock();
+                let classification = metadata::classify(args);
+                captured.set(true);
+                assert!(clock().duration_since(before) >= Duration::from_secs(3));
+                classification
+            },
+            &clock,
+        )
+    }
 }
 #[cfg(not(test))]
 #[allow(dead_code)]
@@ -94,13 +127,17 @@ extern "C" fn observed(_: i32) {
         libc::write(ACK.load(Ordering::SeqCst), b"s".as_ptr().cast(), 1);
     }
 }
-fn hook_capture_handshake() -> bool {
-    const HELLO: &[u8] = b"arc-hook-fixture-capture-v1";
-    std::env::var_os("ARC_HOOK_CAPTURE_KEY")
-        .and_then(|path| std::fs::read(path).ok())
-        .is_some_and(|bytes| bytes == HELLO)
-}
 fn main() {
+    #[cfg(not(test))]
+    if std::env::args_os().nth(1).as_deref() == Some(std::ffi::OsStr::new("--delayed-capture-exec"))
+    {
+        let result = exec::delayed_capture_exec(std::env::args_os().skip(2).collect());
+        std::process::exit(if result == std::process::ExitCode::from(17) {
+            17
+        } else {
+            1
+        });
+    }
     #[cfg(not(test))]
     if std::env::args_os()
         .next()
@@ -205,38 +242,7 @@ fn main() {
         job_meter::run(&mode);
         return;
     }
-    if std::env::var("ARC_FIXTURE_MODE").as_deref() == Ok("hook-capture")
-        && hook_capture_handshake()
-    {
-        if let Some(marker) = std::env::var_os("ARC_HOOK_CAPTURE_MARKER") {
-            use std::fs::OpenOptions;
-            writeln!(
-                OpenOptions::new()
-                    .create(true)
-                    .append(true)
-                    .open(marker)
-                    .unwrap(),
-                "start"
-            )
-            .unwrap();
-        }
-        let mut environment: Vec<_> = std::env::vars_os()
-            .map(|(key, value)| (key.as_bytes().to_vec(), value.as_bytes().to_vec()))
-            .collect();
-        environment.sort();
-        let mut input = Vec::new();
-        std::io::stdin().read_to_end(&mut input).unwrap();
-        let args: Vec<_> = std::env::args_os()
-            .skip(1)
-            .map(|arg| arg.as_bytes().to_vec())
-            .collect();
-        println!(
-            "{}",
-            serde_json::json!({"environment":environment,"cwd":std::env::current_dir().unwrap().as_os_str().as_bytes(),"argv0":std::env::args_os().next().unwrap().as_bytes(),"args":args,"stdin":input})
-        );
-        eprintln!("child-stderr");
-        std::process::exit(17);
-    }
+    hook_capture::run_if_requested();
     if std::env::var_os("ARC_FIXTURE_HOLD_UNATTACHED").is_some() {
         hold_unattached::run();
         return;

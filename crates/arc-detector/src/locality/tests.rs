@@ -20,6 +20,63 @@ fn argv(words: &[&str]) -> Vec<OsString> {
 }
 
 #[test]
+fn nested_bash_startup_cannot_borrow_caller_endpoint_facts() {
+    let mut c = context();
+    c.facts.push(EndpointFact {
+        kind: EndpointKind::CiHost,
+        selector: "gh".into(),
+        endpoints: vec!["https://github.com".into()],
+    });
+    for option in ["-c", "-lc"] {
+        let command = format!("bash {option} 'gh workflow run build.yml'");
+        for result in [
+            classify_with_context(&shell(&command), &c, 10_000),
+            classify_argv_with_context(
+                &argv(&["bash", option, "gh workflow run build.yml"]),
+                &c,
+                10_000,
+            ),
+        ] {
+            assert_eq!(
+                (result.classification, result.locality, result.uncertainty),
+                (JobClass::Unknown, Locality::Unknown, Uncertainty::Observe),
+                "{command}"
+            );
+        }
+        assert_eq!(
+            capture_shell_argv(&shell(&command)),
+            Some(vec![argv(&["bash", option, "gh workflow run build.yml"])])
+        );
+    }
+    // Protocol-1 is a frozen syntax-only contract. The CLI does not trust its
+    // confident result without agreement from the guarded contextual route.
+    assert_eq!(
+        crate::classify(&shell("bash -lc 'cargo test'")).classification,
+        JobClass::Test
+    );
+    for command in [
+        "sh -c \"bash -c 'gh workflow run build.yml'\"",
+        "cargo build && bash -lc 'gh workflow run build.yml'",
+    ] {
+        let result = classify_with_context(&shell(command), &c, 10_000);
+        assert_eq!(
+            (result.classification, result.locality, result.uncertainty),
+            (JobClass::Unknown, Locality::Unknown, Uncertainty::Observe),
+            "{command}"
+        );
+    }
+    assert_eq!(
+        classify_with_context(&shell("sh -c 'gh workflow run build.yml'"), &c, 10_000)
+            .classification,
+        JobClass::RemoteCi
+    );
+    assert_eq!(
+        classify_with_context(&shell("cargo build"), &c, 10_000).classification,
+        JobClass::Build
+    );
+}
+
+#[test]
 fn both_routes_use_unowned_fallback_and_terminal_unknown_for_ambiguous_owned_commands() {
     let c = context();
     assert_eq!(

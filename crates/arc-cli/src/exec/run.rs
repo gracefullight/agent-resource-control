@@ -3,7 +3,7 @@ use super::{
     native_environment, preparation, signals, start_until, terminal, traffic, transport,
 };
 use arc_core::process_identity::random_job_id;
-use arc_ipc::jobs::{JobId, Outcome, ProcessIdentity, StartRequest};
+use arc_ipc::jobs::{JobId, ProcessIdentity, StartRequest};
 use std::{
     ffi::OsString,
     io,
@@ -20,10 +20,27 @@ pub(super) fn run_with_classifier(
     delivery_now: &dyn Fn() -> Instant,
     classify: &dyn Fn(&[OsString]) -> arc_detector::Classification,
 ) -> ExitCode {
+    run_with_classifier_and_preparation_clock(
+        argv,
+        preserve_environment,
+        now,
+        delivery_now,
+        classify,
+        &Instant::now,
+    )
+}
+
+pub(super) fn run_with_classifier_and_preparation_clock(
+    argv: Vec<OsString>,
+    preserve_environment: bool,
+    now: &dyn Fn() -> Instant,
+    delivery_now: &dyn Fn() -> Instant,
+    classify: &dyn Fn(&[OsString]) -> arc_detector::Classification,
+    preparation_now: &dyn Fn() -> Instant,
+) -> ExitCode {
     if !preparation::valid_argv(&argv) {
         return invalid();
     }
-    let deadline = preparation::deadline(Instant::now());
     let Ok(socket) = arc_core::socket_path() else {
         return preparation::stopped(transport::Failure::Local);
     };
@@ -39,6 +56,9 @@ pub(super) fn run_with_classifier(
         return preparation::stopped(transport::Failure::Local);
     };
     let classification = classify(&argv);
+    // Endpoint capture can use its own bounded I/O budget. Registration and
+    // claim share a separate budget beginning only after capture completes.
+    let deadline = preparation::deadline(preparation_now());
     let mut tracking = match governor::prepare(
         &socket,
         &job_id,
@@ -293,19 +313,7 @@ pub(super) fn run_with_classifier(
         }
     };
     signals.attach(child.id());
-    let mut diagnostics = match &tracking {
-        traffic::Mode::Legacy(mode) => preparation::started(*mode, &job_id),
-        traffic::Mode::Uncertain { .. } => {
-            preparation::started(preparation::Tracking::Uncertain, &job_id)
-        }
-        traffic::Mode::Scheduled { waited, .. } | traffic::Mode::Unreserved { waited, .. } => {
-            let mut diagnostics = preparation::Diagnostics::default();
-            if *waited {
-                diagnostics.emit(format_args!("STARTED\nCommand started."));
-            }
-            diagnostics
-        }
-    };
+    let mut diagnostics = preparation::started_for_mode(&tracking, &job_id);
     // Do not reap before capture: native identity remains available for a fast
     // exit's zombie, without pretending it is a currently running process.
     let child_identity = ProcessIdentity::capture(child.id()).ok();
@@ -406,13 +414,7 @@ pub(super) fn run_with_classifier(
     };
     let status = termination.status;
     signals.reaped();
-    let outcome = match status.code() {
-        Some(code) => Outcome::Exited { code: code as u8 },
-        None => Outcome::Signaled {
-            signal: status.signal().unwrap_or(libc::SIGTERM) as u8,
-            core_dumped: status.core_dumped(),
-        },
-    };
+    let outcome = preparation::outcome_from_status(&status);
     let completed = match &tracking {
         traffic::Mode::Legacy(preparation::Tracking::Managed) => {
             complete(&socket, &job_id, &observer, outcome).is_ok()

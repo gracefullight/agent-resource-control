@@ -1,4 +1,4 @@
-//! Fresh caller environment. Task-2 owns the bounded endpoint evidence port.
+//! Fresh, bounded endpoint evidence from the caller's environment.
 use arc_detector::{EndpointContext, CONTEXT_ENV_KEYS, MAX_CONTEXT_BYTES, MAX_CONTEXT_VALUE_BYTES};
 use std::{
     collections::BTreeMap,
@@ -49,7 +49,7 @@ fn capture_valid_input(argv: &[OsString]) -> Option<EndpointContext> {
         .collect::<Option<_>>()?;
     if matches!(
         words.first().map(String::as_str),
-        Some("ssh" | "docker" | "kubectl")
+        Some("ssh" | "docker" | "kubectl" | "act")
     ) {
         // A regular-file read can still block on a slow filesystem despite
         // O_NONBLOCK. One-shot discovery is bounded by the freshness window.
@@ -61,6 +61,7 @@ fn capture_valid_input(argv: &[OsString]) -> Option<EndpointContext> {
                 "ssh" => ssh::capture(&words[1..], &mut context, &mut reads),
                 "docker" => docker::capture(&words[1..], &mut context, &mut reads),
                 "kubectl" => kube::capture(&words[1..], &mut context, &mut reads),
+                "act" => capture_act(&words[1..], &mut context, &mut reads),
                 _ => unreachable!(),
             };
             // Missing or unsupported data leave no usable facts.
@@ -75,7 +76,7 @@ fn capture_valid_input(argv: &[OsString]) -> Option<EndpointContext> {
         .then_some(context)
 }
 
-fn bounded<T: Send + 'static>(
+pub(super) fn bounded<T: Send + 'static>(
     limit: Duration,
     work: impl FnOnce() -> T + Send + 'static,
 ) -> Option<T> {
@@ -188,19 +189,57 @@ fn relevant(argv: &[OsString], key: &str) -> bool {
         .and_then(|name| name.to_str());
     match program {
         // Package scripts can contain any of the endpoint-dependent commands.
-        Some("bun") => true,
+        Some("bun" | "pnpm") => true,
         Some("gh" | "git" | "gitlab" | "glab") => {
             key.starts_with("GH_")
                 || key.starts_with("GIT_")
                 || key.starts_with("GITLAB_")
                 || key.starts_with("GLAB_")
         }
-        Some("docker" | "docker-compose") => {
+        Some("docker" | "docker-compose" | "act") => {
             key.starts_with("DOCKER_") || key.starts_with("BUILDX_")
         }
         Some("kubectl") => key == "KUBECONFIG",
         _ => false,
     }
+}
+
+fn capture_act(
+    args: &[String],
+    context: &mut EndpointContext,
+    reads: &mut files::Reads,
+) -> Option<()> {
+    if args != ["-j", "build"]
+        || context.environment.contains_key("DOCKER_CONTEXT")
+        || std::env::vars_os().any(|(key, _)| key.to_string_lossy().starts_with("ACT_"))
+    {
+        return None;
+    }
+    let host = context.environment.get("DOCKER_HOST")?.clone();
+    if !host.starts_with("unix:///") {
+        return None;
+    }
+    let home = files::path_env("HOME")??;
+    let cwd = std::env::current_dir().ok()?;
+    let xdg = files::path_env("XDG_CONFIG_HOME")?.unwrap_or_else(|| home.join(".config"));
+    for path in [
+        cwd.join(".actrc"),
+        home.join(".actrc"),
+        xdg.join("act/actrc"),
+    ] {
+        if reads.read(&path)?.is_some() {
+            return None;
+        }
+    }
+    docker::capture(&["build".into(), ".".into()], context, reads)?;
+    if !context.facts.iter().any(|fact| {
+        fact.kind == arc_detector::EndpointKind::DockerContext
+            && fact.selector.starts_with("@local-proof/")
+            && fact.endpoints.as_slice() == [host.as_str()]
+    }) {
+        return None;
+    }
+    files::fact(context, arc_detector::EndpointKind::ActLocal, "act", host)
 }
 
 #[cfg(test)]

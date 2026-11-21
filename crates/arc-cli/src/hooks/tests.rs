@@ -293,13 +293,24 @@ fn literal_rewrite_requires_surface_and_available_arcctl_but_not_hook_path() {
     };
     let surface = VerifiedSurface;
     assert!(rewrite_literal("cargo build", &context, None).is_none());
-    for command in ["cargo build", "bun run build"] {
+    for command in ["cargo build", "bun run build", "gh workflow run build.yml"] {
         let rewritten = rewrite_literal(command, &context, Some(&surface)).unwrap();
         assert!(
             rewritten.contains("'\\''"),
             "quote in executable path: {rewritten}"
         );
-        assert!(rewritten.ends_with(&format!(" hook-exec -- {command}")));
+        if command == "gh workflow run build.yml" {
+            assert!(rewritten.starts_with("case "));
+            assert!(rewritten.contains("--arc-check-gh-path"));
+            assert_eq!(
+                rewritten
+                    .matches(" hook-exec -- gh workflow run build.yml")
+                    .count(),
+                4
+            );
+        } else {
+            assert!(rewritten.ends_with(&format!(" hook-exec -- {command}")));
+        }
         assert!(rewrite_literal(&rewritten, &context, Some(&surface)).is_none());
     }
     for unsupported in [
@@ -311,6 +322,9 @@ fn literal_rewrite_requires_surface_and_available_arcctl_but_not_hook_path() {
         "'cargo' build",
         "bun run build\n",
         "bun run build | cat",
+        "gh workflow run build.yml --ref main",
+        "gh workflow run build.yml; true",
+        "gh workflow run 'build.yml'",
         "arcctl exec -- cargo build",
     ] {
         assert!(
@@ -327,6 +341,40 @@ fn literal_rewrite_requires_surface_and_available_arcctl_but_not_hook_path() {
     assert!(rewrite_literal("bun run build", &relative, Some(&surface)).is_none());
     fs::remove_file(context.executable.as_ref().unwrap()).unwrap();
     assert!(rewrite_literal("bun run build", &context, Some(&surface)).is_none());
+}
+
+#[test]
+fn gh_rewrite_executes_through_an_apostrophe_in_the_arc_path() {
+    let fixture = Fixture::new();
+    let arcctl = fixture.executable("arcctl");
+    fs::write(
+        &arcctl,
+        "#!/bin/sh\nif [ \"$3\" = --arc-check-gh-path ]; then exit 0; fi\nshift 2\nexec \"$@\"\n",
+    )
+    .unwrap();
+    fixture.executable("gh");
+    let context = HookContext {
+        executable: Some(arcctl),
+    };
+    let rewritten = rewrite_literal(
+        "gh workflow run build.yml",
+        &context,
+        Some(&VerifiedSurface),
+    )
+    .unwrap();
+    let mut command = std::process::Command::new("/bin/sh");
+    command
+        .args(["-c", &rewritten])
+        .env_clear()
+        .env("HOME", &fixture.0)
+        .env("PATH", &fixture.0)
+        .current_dir(&fixture.0);
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
+    let mut child = super::fixture::OwnedChild::spawn(&mut command, "quoted gh rewrite");
+    assert!(child.wait().success());
+    assert_eq!(fs::read(fixture.0.join("executed")).unwrap(), b"x");
 }
 
 #[test]
@@ -364,11 +412,13 @@ fn hook_exec_grammar_is_exact() {
     let argv = |words: &[&str]| words.iter().map(OsString::from).collect::<Vec<_>>();
     assert!(literal_argv(&argv(&["cargo", "build"])));
     assert!(literal_argv(&argv(&["bun", "run", "build"])));
+    assert!(literal_argv(&argv(&["gh", "workflow", "run", "build.yml"])));
     for words in [
         &["cargo", "build", "--release"][..],
         &["/bin/cargo", "build"],
         &["bun", "build"],
         &["sh", "-c", "cargo build"],
+        &["gh", "workflow", "run", "build.yml", "--ref", "main"],
     ] {
         assert!(!literal_argv(&argv(words)));
     }

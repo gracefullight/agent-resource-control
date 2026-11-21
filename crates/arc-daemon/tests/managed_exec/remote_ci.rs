@@ -125,7 +125,7 @@ fn classify_fresh(fixture: &Fixture, command: Value) -> Value {
 fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_execution() {
     let _serial = support::serial();
     let fixture = Fixture::new();
-    let mut daemon = fixture.spawn("test");
+    let mut daemon = fixture.spawn_isolated("test");
     let observer = ProcessIdentity::capture(std::process::id()).unwrap();
     let id = JobId::try_from("a123456789abcdef0123456789abcdef".to_owned()).unwrap();
     let classification = serde_json::from_value(json!({
@@ -191,17 +191,24 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         let missing_socket = fixture.root.join("no-daemon.sock");
         for socket in [&fixture.socket, &missing_socket] {
             let output = hook(&fixture, vendor, &event, socket);
-            // Cursor's existing fail-open contract is exit 1 with no JSON;
-            // Claude's pass-through is exit 0 with no JSON.
-            assert_eq!(
-                output.status.code(),
-                Some(if vendor == "cursor" { 1 } else { 0 }),
-                "{vendor} pass-through: {output:?}"
-            );
-            assert!(
-                output.stdout.is_empty(),
-                "{vendor} must make no update or approval decision"
-            );
+            assert!(output.status.success(), "{vendor} rewrite: {output:?}");
+            let response: Value = serde_json::from_slice(&output.stdout).unwrap();
+            let input = if vendor == "claude" {
+                assert!(response["hookSpecificOutput"]
+                    .get("permissionDecision")
+                    .is_none());
+                &response["hookSpecificOutput"]["updatedInput"]
+            } else {
+                assert!(response.get("permission").is_none());
+                &response["updated_input"]
+            };
+            let rewritten = input["command"].as_str().unwrap();
+            assert!(rewritten.starts_with("case "));
+            assert!(rewritten.contains("--arc-check-gh-path"));
+            assert!(rewritten.contains(&format!(" hook-exec -- {COMMAND}")));
+            let mut restored = input.clone();
+            restored["command"] = json!(COMMAND);
+            assert_eq!(restored, event["tool_input"]);
             assert!(output.stderr.is_empty());
             assert!(!marker.exists(), "the hook must not execute the payload");
             assert_eq!(event["tool_input"]["command"], COMMAND);
@@ -235,14 +242,15 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
     ));
     assert_eq!(scheduling(&fixture), baseline);
 
-    // Simulate the vendor running the unchanged command. gh is a local stub;
-    // it performs no network dispatch and is invoked exactly once.
+    // Independently exercise the unchanged command as a historical offline
+    // fixture. The installed-hook execution is covered by closing_exec.
     let stdout = fixture.root.join("gh-stdout");
     let stderr = fixture.root.join("gh-stderr");
     let mut command = Command::new("/bin/sh");
     command
         .args(["-c", COMMAND])
         .env_clear()
+        .env("HOME", &fixture.root)
         .env("PATH", &fixture.root)
         .env("CI_MARKER", &marker)
         .env("CI_VALUE", "value with spaces")
@@ -250,6 +258,9 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         .stdin(Stdio::piped())
         .stdout(fs::File::create(&stdout).unwrap())
         .stderr(fs::File::create(&stderr).unwrap());
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
     // A dedicated process group permits bounded cleanup even on unwinding.
     let mut child = child_watchdog::Owned::spawn(&mut command).unwrap();
     child

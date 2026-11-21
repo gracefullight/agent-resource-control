@@ -215,6 +215,9 @@ pub(crate) fn literal_argv(argv: &[OsString]) -> bool {
     match argv {
         [program, action] => program == "cargo" && action == "build",
         [program, action, script] => program == "bun" && action == "run" && script == "build",
+        [program, resource, action, workflow] => {
+            program == "gh" && resource == "workflow" && action == "run" && workflow == "build.yml"
+        }
         _ => false,
     }
 }
@@ -226,7 +229,7 @@ pub(super) fn rewrite_literal(
     surface: Option<&VerifiedSurface>,
 ) -> Option<String> {
     match command {
-        "cargo build" | "bun run build" => (),
+        "cargo build" | "bun run build" | "gh workflow run build.yml" => (),
         _ => return None,
     }
     surface?;
@@ -234,8 +237,107 @@ pub(super) fn rewrite_literal(
     if !executable.is_absolute() || !is_executable(executable) {
         return None;
     }
-    let quoted = format!("'{}'", executable.to_str()?.replace('\'', "'\\''"));
+    let shell_quote = |value: &str| format!("'{}'", value.replace('\'', "'\\''"));
+    let quoted = shell_quote(executable.to_str()?);
+    if command == "gh workflow run build.yml" {
+        // The shell owns alias and function resolution. The final command
+        // below is the original literal, so aliases with shell syntax retain
+        // their usual parsing and do not require newlines in the surrounding
+        // source. Only a PATH-selected binary is temporarily intercepted.
+        let status = format!(
+            "_ARC_HOOK_STATUS_{}",
+            arc_core::process_identity::random_job_id().ok()?
+        );
+        let underscore = format!("{status}_UNDERSCORE");
+        // A traced shell prints even its `case` statements. Inspect the flags
+        // inside a redirected group, then leave traced commands to the user's
+        // shell. This also works when zsh's special options table was unset.
+        // Restore $? and Bash's $_ before either route, without leaving the
+        // random scratch variables in the shell or the child's environment.
+        // The here-document makes even a multiline $_ inert input to eval;
+        // choose a delimiter absent from that value. Double negation shields
+        // the restored nonzero status from errexit without changing it.
+        let trace = format!(
+            "_ARC_TRACE_{}",
+            arc_core::process_identity::random_job_id().ok()?
+        );
+        let saved = format!("{trace}_STATUS");
+        let saved_underscore = format!("{trace}_UNDERSCORE");
+        let flags = format!("{trace}_FLAGS");
+        let mode = format!("{trace}_MODE");
+        let newline = format!("{trace}_NEWLINE");
+        let delimiter = format!("{trace}_DELIMITER");
+        // Hide the wrapper's tracing, including Bash's conventional
+        // auxiliary trace descriptors, until the original command runs.
+        let silence = ">/dev/null 2>&1 3>/dev/null 4>/dev/null 5>/dev/null 6>/dev/null 7>/dev/null 8>/dev/null 9>/dev/null";
+        let restore = |traced: bool, builtin: bool, restore_zsh: bool| {
+            let helper = if builtin { "\\command \\builtin " } else { "" };
+            let cleanup = format!(
+                "{helper}\\unset {saved} {saved_underscore} {flags} {mode} {newline} {delimiter}"
+            );
+            let reset = if restore_zsh {
+                "case \\${options[POSIX_BUILTINS]::=off} in *) ;; esac; "
+            } else {
+                ""
+            };
+            let exit = if restore_zsh {
+                format!("(case \\${{options[POSIX_BUILTINS]::=on}} in *) ;; esac; {helper}\\exit ${{{saved}}})")
+            } else {
+                format!("({helper}\\exit ${{{saved}}})")
+            };
+            let body = if traced {
+                format!("{{ \\set -x; {exit}; }} {silence}")
+            } else {
+                exit
+            };
+            format!(
+                "{helper}\\eval \"{cleanup}; {reset}{body} <<'${{{delimiter}}}'${{{newline}%X}}\" \"${{{saved_underscore}}}\" 2>/dev/null"
+            )
+        };
+        let route = |traced: bool| {
+            let direct = restore(traced, false, false);
+            let builtin = restore(traced, true, false);
+            let zsh_restore = restore(traced, true, true);
+            format!(
+                "! {{ ! {{ case \"${{{mode}}}\" in builtin) {builtin} ;; zsh_restore) {zsh_restore} ;; *) {direct} ;; esac; }}; }}"
+            )
+        };
+        let traced = route(true);
+        let untraced = route(false);
+        // The inert expansion makes the end of this rewrite identifiable in
+        // zsh's -c input, even when another command has the same spelling.
+        let tail = format!("gh workflow run build.yml${{{trace}_TAIL:+}}");
+        let quoted_tail = shell_quote(&tail);
+        let sh_function = shell_quote(&format!(
+            "gh() {{ \\command \\unset -f gh; {quoted} hook-exec -- gh workflow run build.yml; }}"
+        ));
+        let zsh_function = shell_quote(&format!(
+            "gh() {{ \\unfunction gh; case \"${{ZSH_EXECUTION_STRING%\"${{ZSH_EXECUTION_STRING##*[![:space:]]}}\"}}\" in *{quoted_tail}|*{quoted_tail}';') \\exec {quoted} hook-exec -- gh workflow run build.yml ;; *) {quoted} hook-exec -- gh workflow run build.yml ;; esac; }}"
+        ));
+        // Define the short-lived function only when shell resolution and ARC
+        // agree on the executable. The function removes itself before the
+        // managed child starts, preserving the caller's later shell state.
+        let install = format!(
+            "case \"${{{status}+x}}${{{underscore}+x}}\" in '') case \"$(\\command -v gh 2>/dev/null)\" in ''|gh|'alias '*) \\: ;; *) if {quoted} hook-exec -- --arc-check-gh-path \"$(\\command -v gh 2>/dev/null)\" 2>/dev/null; then case \"${{ZSH_VERSION+x}}:${{{mode}}}:${{ZSH_EVAL_CONTEXT-}}\" in x:builtin:cmdarg|x:zsh_restore:cmdarg) \\command \\builtin \\eval {zsh_function} ;; x:*) \\: ;; :builtin:*) \\command \\builtin \\eval {sh_function} ;; *) \\eval {sh_function} ;; esac; fi ;; esac ;; esac"
+        );
+        return Some(format!(
+            "case \"$-\" in *) {saved}=$? {saved_underscore}=${{_-}} {flags}=$-; \\set +x; {mode}=direct; case \"${{BASH_VERSION+x}}:${{ZSH_VERSION+x}}\" in x:*) {mode}=builtin ;; :x) case \"${{+options}}${{+functions}}\" in 11) case \"${{(t)options}}:${{(t)functions}}\" in association-*special:association-*special) case \"${{+functions[command]}}\" in 0) case \"${{options[POSIX_BUILTINS]}}\" in on) {mode}=builtin ;; *) {mode}=zsh_restore; case \"${{options[POSIX_BUILTINS]::=on}}\" in *) ;; esac ;; esac ;; esac ;; esac ;; esac ;; esac; {newline}=$(\\printf '\\nX'); {delimiter}=ARC_HOOK_{trace}; while case \"${{{saved_underscore}}}\" in *\"${{{delimiter}}}\"*) true ;; *) false ;; esac; do {delimiter}=\"${{{delimiter}}}_\"; done ;; esac {silence}; case \"${{{flags}}}\" in *x*) {traced} ;; *) {install}; {untraced} ;; esac; {tail}"
+        ));
+    }
     Some(format!("{quoted} hook-exec -- {command}"))
+}
+
+/// A shell-selected gh is managed only when ARC will invoke the exact same
+/// PATH spelling. In particular, a shell hash may select a different binary.
+pub(crate) fn matches_gh_shell_path(selected: &OsStr) -> bool {
+    if selected.is_empty() || selected == "gh" {
+        return false;
+    }
+    let Some(path) = std::env::var_os("PATH") else {
+        return false;
+    };
+    resolved_path_entry(OsStr::new("gh"), &path)
+        .is_some_and(|(_, invocation)| invocation.as_os_str() == selected)
 }
 
 fn is_executable(path: &Path) -> bool {

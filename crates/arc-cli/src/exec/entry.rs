@@ -43,9 +43,18 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
     super::run_with_environment(argv, false, &Instant::now)
 }
 
-/// The hook route accepts only the frozen literal argv and preserves the
-/// caller's environment rather than adding the legacy lineage variable.
+/// The hook route accepts supported literal argv and its silent gh path probe;
+/// execution preserves the caller's environment without a lineage variable.
 pub(crate) fn run_hook(argv: Vec<OsString>) -> ExitCode {
+    if let [option, selected] = argv.as_slice() {
+        if option == "--arc-check-gh-path" {
+            return if crate::hooks::matches_gh_shell_path(selected) {
+                ExitCode::SUCCESS
+            } else {
+                ExitCode::FAILURE
+            };
+        }
+    }
     if !crate::hooks::literal_argv(&argv) {
         return super::invalid();
     }

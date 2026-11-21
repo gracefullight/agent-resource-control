@@ -1,4 +1,4 @@
-//! Kubeconfig proves an API selection only, never pod placement.
+//! Capture kubeconfig selection without probing the cluster or inferring placement.
 use super::files::{fact, path_env, Reads};
 use arc_detector::{EndpointContext, EndpointKind};
 use serde::Deserialize;
@@ -24,6 +24,8 @@ struct NamedContext {
 #[derive(Deserialize)]
 struct Context {
     cluster: String,
+    #[serde(default)]
+    namespace: Option<String>,
 }
 #[derive(Deserialize)]
 struct NamedCluster {
@@ -40,7 +42,7 @@ pub(super) fn capture(
     context: &mut EndpointContext,
     reads: &mut Reads,
 ) -> Option<()> {
-    let (mut selected, mut config, mut i) = (None, None, 0);
+    let (mut selected, mut config, mut namespace, mut i) = (None, None, None, 0);
     while let Some(arg) = args.get(i) {
         if arg == "--" {
             break;
@@ -54,11 +56,14 @@ pub(super) fn capture(
             || arg.starts_with("--server=")
             || arg == "-s"
             || (arg.starts_with("-s") && !arg.starts_with("--"))
+            || arg == "-A"
+            || arg == "--all-namespaces"
+            || arg.starts_with("--all-namespaces=")
         {
             return None;
         }
         let mut found = None;
-        for name in ["--context", "--kubeconfig"] {
+        for name in ["--context", "--kubeconfig", "--namespace", "-n"] {
             if arg == name {
                 i += 1;
                 found = Some((name, args.get(i)?.as_str()));
@@ -68,15 +73,19 @@ pub(super) fn capture(
                 found = Some((name, v));
                 break;
             }
+            if name == "-n" && arg.starts_with("-n") && arg.len() > 2 {
+                found = Some((name, &arg[2..]));
+                break;
+            }
         }
         if let Some((name, value)) = found {
             if value.is_empty() {
                 return None;
             }
-            let slot = if name == "--context" {
-                &mut selected
-            } else {
-                &mut config
+            let slot = match name {
+                "--context" => &mut selected,
+                "--kubeconfig" => &mut config,
+                _ => &mut namespace,
             };
             if slot.replace(value).is_some() {
                 return None;
@@ -99,12 +108,13 @@ pub(super) fn capture(
     if paths.is_empty() || paths.len() > 8 {
         return None;
     }
-    resolve(paths, selected, context, reads)
+    resolve(paths, selected, namespace, context, reads)
 }
 
 fn resolve(
     paths: Vec<PathBuf>,
     selected: Option<&str>,
+    namespace_override: Option<&str>,
     context: &mut EndpointContext,
     reads: &mut Reads,
 ) -> Option<()> {
@@ -134,7 +144,7 @@ fn resolve(
             if item.name.is_empty() || !local.insert(item.name.clone()) {
                 return None;
             }
-            contexts.entry(item.name).or_insert(item.context.cluster);
+            contexts.entry(item.name).or_insert(item.context);
         }
         local.clear();
         for item in config.clusters {
@@ -145,128 +155,53 @@ fn resolve(
         }
     }
     let name = selected.or(current.as_deref())?;
-    let server = clusters.get(contexts.get(name)?)?;
+    let selection = contexts.get(name)?;
+    let server = clusters.get(&selection.cluster)?;
+    let namespace = namespace_override
+        .or(selection.namespace.as_deref())
+        .filter(|value| !value.is_empty())
+        .unwrap_or("default");
+    if !valid_name(namespace) || selection.cluster.is_empty() {
+        return None;
+    }
+    // Each metadata selector is tied to the same concrete API endpoint as the
+    // ordinary context fact. None asserts where a pod executes.
+    let metadata = [
+        format!("@selected-context/{name}"),
+        format!("@selected-cluster/{}", selection.cluster),
+        format!("@selected-namespace/{namespace}"),
+    ];
+    if metadata
+        .iter()
+        .any(|item| item == selected.unwrap_or("@current"))
+    {
+        return None;
+    }
     fact(
         context,
         EndpointKind::KubernetesContext,
         selected.unwrap_or("@current"),
         server.clone(),
-    )
+    )?;
+    for selector in metadata {
+        fact(
+            context,
+            EndpointKind::KubernetesContext,
+            &selector,
+            server.clone(),
+        )?;
+    }
+    Some(())
+}
+
+fn valid_name(value: &str) -> bool {
+    !value.is_empty()
+        && value.len() <= 253
+        && !value.starts_with('-')
+        && value
+            .bytes()
+            .all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || matches!(c, b'.' | b'-'))
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-    use std::{
-        fs,
-        sync::atomic::{AtomicUsize, Ordering},
-    };
-    static NEXT: AtomicUsize = AtomicUsize::new(0);
-    struct Dir(PathBuf);
-    impl Dir {
-        fn new() -> Self {
-            let dir = std::env::temp_dir().join(format!(
-                "arc-kube-capture-{}-{}",
-                std::process::id(),
-                NEXT.fetch_add(1, Ordering::Relaxed)
-            ));
-            fs::create_dir(&dir).unwrap();
-            Self(dir)
-        }
-    }
-    impl Drop for Dir {
-        fn drop(&mut self) {
-            let _ = fs::remove_dir_all(&self.0);
-        }
-    }
-
-    #[test]
-    fn selected_cluster_is_captured_but_never_attests_a_pod() {
-        let dir = Dir::new();
-        let file = dir.0.join("fixture.yaml");
-        fs::write(&file, "current-context: first\ncontexts:\n- name: first\n  context:\n    cluster: one\n- name: second\n  context:\n    cluster: two\nclusters:\n- name: one\n  cluster:\n    server: https://192.0.2.41:6443\n- name: two\n  cluster:\n    server: https://192.0.2.42:6443\n").unwrap();
-        for (selected, expected) in [
-            (None, "https://192.0.2.41:6443"),
-            (Some("second"), "https://192.0.2.42:6443"),
-        ] {
-            let mut args = vec!["--kubeconfig".to_owned(), file.to_str().unwrap().to_owned()];
-            if let Some(selected) = selected {
-                args.extend(["--context".into(), selected.into()]);
-            }
-            let mut context = EndpointContext {
-                captured_at_ms: 10_000,
-                ..Default::default()
-            };
-            capture(&args, &mut context, &mut Reads::new()).unwrap();
-            assert_eq!(context.facts.len(), 1);
-            assert!(context.facts[0].kind == EndpointKind::KubernetesContext);
-            assert_eq!(context.facts[0].endpoints, [expected]);
-            let mut argv = vec!["kubectl".into()];
-            argv.extend(args.iter().cloned().map(Into::into));
-            argv.extend(["exec", "pod", "--", "make"].map(Into::into));
-            let classification = arc_detector::classify_argv_with_context(&argv, &context, 10_000);
-            assert_eq!(
-                classification.classification,
-                arc_detector::JobClass::Unknown
-            );
-            assert_eq!(
-                classification.uncertainty,
-                arc_detector::Uncertainty::Observe
-            );
-        }
-        fs::write(
-            &file,
-            "current-context: missing\ncontexts: []\nclusters: []\n",
-        )
-        .unwrap();
-        let args = vec!["--kubeconfig".to_owned(), file.to_str().unwrap().to_owned()];
-        let mut context = EndpointContext {
-            captured_at_ms: 10_000,
-            ..Default::default()
-        };
-        assert!(capture(&args, &mut context, &mut Reads::new()).is_none());
-        fs::write(
-            &file,
-            "current-context: &anchor x\ncontexts: []\nclusters: []\n",
-        )
-        .unwrap();
-        assert!(capture(&args, &mut context, &mut Reads::new()).is_none());
-    }
-
-    #[test]
-    fn cluster_and_server_overrides_never_emit_the_context_server() {
-        for options in [
-            vec!["--cluster", "other"],
-            vec!["--cluster=other"],
-            vec!["--server", "https://192.0.2.43:6443"],
-            vec!["--server=https://192.0.2.43:6443"],
-            vec!["-s", "https://192.0.2.43:6443"],
-            vec!["--cluster", "one", "--cluster", "other"],
-        ] {
-            let mut args = vec!["--context".to_owned(), "one".to_owned()];
-            args.extend(options.into_iter().map(str::to_owned));
-            args.extend(["exec", "pod", "--", "make"].map(str::to_owned));
-            let mut context = EndpointContext {
-                captured_at_ms: 10_000,
-                ..Default::default()
-            };
-            assert!(capture(&args, &mut context, &mut Reads::new()).is_none());
-            assert!(context.facts.is_empty());
-        }
-    }
-
-    #[test]
-    fn kubeconfig_list_uses_first_current_context_and_first_named_objects() {
-        let dir = Dir::new();
-        let one = dir.0.join("one.yaml");
-        let two = dir.0.join("two.yaml");
-        fs::write(&one, "current-context: first\ncontexts:\n- name: first\n  context:\n    cluster: alpha\nclusters: []\n").unwrap();
-        fs::write(&two, "current-context: second\ncontexts:\n- name: first\n  context:\n    cluster: beta\n- name: second\n  context:\n    cluster: beta\nclusters:\n- name: alpha\n  cluster:\n    server: https://192.0.2.41:6443\n- name: beta\n  cluster:\n    server: https://192.0.2.42:6443\n").unwrap();
-        let mut context = EndpointContext {
-            captured_at_ms: 10_000,
-            ..Default::default()
-        };
-        resolve(vec![one, two], None, &mut context, &mut Reads::new()).unwrap();
-        assert_eq!(context.facts[0].endpoints, ["https://192.0.2.41:6443"]);
-    }
-}
+mod tests;

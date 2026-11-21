@@ -65,9 +65,12 @@ fn captured_shell_and_argv_share_endpoint_facts() {
                         .iter()
                         .filter(|fact| fact.kind == arc_detector::EndpointKind::KubernetesContext)
                         .collect();
-                    assert_eq!(facts.len(), 1);
+                    assert_eq!(facts.len(), 4);
                     assert_eq!(facts[0].selector, "@current");
                     assert_eq!(facts[0].endpoints, ["https://192.0.2.41:6443"]);
+                    assert_eq!(facts[1].selector, "@selected-context/one");
+                    assert_eq!(facts[2].selector, "@selected-cluster/one");
+                    assert_eq!(facts[3].selector, "@selected-namespace/default");
                     assert!(!context
                         .facts
                         .iter()
@@ -145,6 +148,7 @@ fn captured_shell_and_argv_share_endpoint_facts() {
         }
     }
     let _cleanup = Cleanup(root.clone());
+    fs::create_dir(root.join("empty-bin")).unwrap();
     fs::create_dir_all(root.join(".docker/buildx/instances")).unwrap();
     fs::write(root.join(".docker/buildx/instances/fixture-builder"),
         r#"{"Name":"fixture-builder","Driver":"remote","Dynamic":false,"Nodes":[{"Name":"node","Endpoint":"tcp://192.0.2.21:1234"}]}"#).unwrap();
@@ -174,7 +178,8 @@ fn captured_shell_and_argv_share_endpoint_facts() {
     let mut command = Command::new(std::env::current_exe().unwrap());
     command
         .env_clear()
-        .env("HOME", root)
+        .env("HOME", &root)
+        .env("PATH", root.join("empty-bin"))
         .env("DOCKER_HOST", "tcp://192.0.2.20:2376")
         .env("ARC_CAPTURE_ROUTE_CHILD", "1")
         .env("ARC_TEST_INTERFACE_MARKER", &marker)

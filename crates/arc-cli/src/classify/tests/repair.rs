@@ -1,6 +1,43 @@
 use super::*;
 
 #[test]
+fn nested_bash_rejects_legacy_peer_results_when_startup_can_change_endpoints() {
+    for command in [
+        "bash -c 'gh workflow run build.yml'",
+        "bash -lc 'cargo test'",
+    ] {
+        for captured in [Some(gh()), None] {
+            let result = peer(
+                &shell(command),
+                captured,
+                Some(CAPTURED),
+                |request, stream| {
+                    assert_eq!(request.operation, OPERATION_CLASSIFY);
+                    arc_ipc::write_response(
+                        stream,
+                        &arc_ipc::Response::error(
+                            request.request_id,
+                            arc_ipc::ERROR_UNSUPPORTED_CAPABILITY,
+                        ),
+                    )
+                    .unwrap();
+                    let legacy: Request = arc_ipc::read_message(stream).unwrap();
+                    assert_eq!(legacy.operation, OPERATION_JOB_CLASSIFY);
+                    let response = arc_ipc::dispatch(&legacy, || unreachable!());
+                    arc_ipc::write_response(stream, &response).unwrap();
+                },
+            )
+            .unwrap();
+            assert_eq!(
+                (result.classification, result.locality, result.uncertainty),
+                (JobClass::Unknown, Locality::Unknown, Uncertainty::Observe),
+                "{command}"
+            );
+        }
+    }
+}
+
+#[test]
 fn locality_peer_disagreement_never_turns_remote_work_into_a_local_result() {
     // Task-1's synthetic gh fact is sufficient to establish REMOTE_CI. A
     // controlled peer can disagree without relying on another lane's parser.
@@ -118,6 +155,110 @@ fn locality_v1_schema_mismatch_is_probed_without_hiding_other_invalid_requests()
             assert_eq!(result, Err(arc_ipc::ERROR_INVALID_REQUEST));
         }
     }
+}
+
+#[test]
+fn pnpm_fingerprint_stays_local_and_old_peer_fails_closed() {
+    let input = shell("pnpm run deploy");
+    let digest = "a".repeat(64);
+    let captured = context(
+        json!([{ "kind":"PNPM_SCRIPT", "selector":"deploy", "endpoints":["cargo-build-gh-workflow-ci-v1", digest] }]),
+        json!({}),
+    );
+    let result = peer(&input, Some(captured), Some(CAPTURED), |request, stream| {
+        assert_eq!(
+            request.payload["context"]["facts"][0]["endpoints"],
+            json!(["cargo-build-gh-workflow-ci-v1"])
+        );
+        arc_ipc::write_response(
+            stream,
+            &arc_ipc::Response::error(&request.request_id, arc_ipc::ERROR_INVALID_REQUEST),
+        )
+        .unwrap();
+        let stripped: Request = arc_ipc::read_message(stream).unwrap();
+        assert_eq!(stripped.payload["context"]["facts"], json!([]));
+        arc_ipc::write_response(
+            stream,
+            &arc_ipc::Response::ok(
+                &stripped.request_id,
+                json!({"classification":"UNKNOWN", "locality":"UNKNOWN",
+                "reason":"UNRESOLVED_SCRIPT", "uncertainty":"OBSERVE"}),
+            ),
+        )
+        .unwrap();
+    })
+    .unwrap();
+    assert_eq!(
+        (result.classification, result.locality, result.uncertainty),
+        (JobClass::Unknown, Locality::Unknown, Uncertainty::Observe)
+    );
+}
+
+#[test]
+fn old_locality_peers_fail_closed_for_make_shell_and_act_proofs() {
+    for (kind, selector, value) in [
+        ("MAKEFILE", "test", "test:\n\tcargo test\n"),
+        ("SHELL_STARTUP", "zsh", "safe-nonlogin-v1"),
+        ("ACT_LOCAL", "act", "unix:///fixture/docker.sock"),
+    ] {
+        let captured = context(
+            json!([{ "kind":kind, "selector":selector, "endpoints":[value] }]),
+            json!({}),
+        );
+        let result = peer(
+            &shell("make test"),
+            Some(captured),
+            Some(CAPTURED),
+            |request, stream| {
+                arc_ipc::write_response(
+                    stream,
+                    &arc_ipc::Response::error(&request.request_id, arc_ipc::ERROR_INVALID_REQUEST),
+                )
+                .unwrap();
+                let stripped: Request = arc_ipc::read_message(stream).unwrap();
+                assert_eq!(stripped.payload["context"]["facts"], json!([]));
+                arc_ipc::write_response(
+                    stream,
+                    &arc_ipc::Response::ok(
+                        &stripped.request_id,
+                        json!({"classification":"UNKNOWN", "locality":"UNKNOWN",
+                    "reason":"UNRESOLVED_SCRIPT", "uncertainty":"OBSERVE"}),
+                    ),
+                )
+                .unwrap();
+            },
+        )
+        .unwrap();
+        assert_eq!(
+            (result.classification, result.locality, result.uncertainty),
+            (JobClass::Unknown, Locality::Unknown, Uncertainty::Observe),
+            "{kind}"
+        );
+    }
+}
+
+#[test]
+fn context_expiring_during_revalidation_cannot_certify_the_peer_result() {
+    use std::cell::Cell;
+    let context = gh();
+    let input = shell("gh workflow run build.yml");
+    let remote = arc_detector::classify_with_context(&input, &context, CAPTURED);
+    let calls = Cell::new(0);
+    let clock = || {
+        let count = calls.get();
+        calls.set(count + 1);
+        Some(if count == 0 {
+            CAPTURED
+        } else {
+            CAPTURED + arc_detector::MAX_CONTEXT_AGE_MS + 1
+        })
+    };
+    let result = verified_result(&input, Some(&context), &clock, remote);
+    assert_eq!(
+        (result.classification, result.locality, result.uncertainty),
+        (JobClass::Unknown, Locality::Unknown, Uncertainty::Observe)
+    );
+    assert_eq!(calls.get(), 2);
 }
 
 #[test]

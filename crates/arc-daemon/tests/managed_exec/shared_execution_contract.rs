@@ -22,12 +22,15 @@ use std::{
 
 #[path = "../support/child_watchdog.rs"]
 mod child_watchdog;
+#[path = "../support/instrumentation.rs"]
+#[allow(clippy::duplicate_mod)] // Shared by independently reusable fixture modules.
+mod instrumentation;
 
 #[test]
 fn synthetic_endpoint_classification_is_bound_to_the_one_executed_child() {
     let _serial = support::serial(); // The daemon itself enforces one instance per user.
     let fixture = Fixture::new();
-    let mut daemon = fixture.spawn("test");
+    let mut daemon = fixture.spawn_isolated("test");
     let argv = ["docker", "--context", "prod", "build", "."];
     let context = json!({
         "captured_at_ms":10000, "facts":[
@@ -88,6 +91,7 @@ fn synthetic_endpoint_classification_is_bound_to_the_one_executed_child() {
         .stdin(Stdio::piped())
         .stdout(fs::File::create(&stdout).unwrap())
         .stderr(Stdio::null());
+    instrumentation::forward(&mut command);
     let mut child = child_watchdog::Owned::spawn(&mut command).unwrap();
     let identity = ProcessIdentity::capture(child.child.id()).unwrap();
     let attach = StartRequest::Attach {
@@ -173,7 +177,7 @@ fn synthetic_proven_local_endpoint_uses_negotiated_build_admission() {
         traffic::{self, JobRequest, JobResult},
     };
     let fixture = Fixture::new();
-    let mut daemon = fixture.spawn("test");
+    let mut daemon = fixture.spawn_isolated("test");
     // Explicitly inject a synthetic local classification to exercise admission.
     let classification = arc_ipc::Classification {
         classification: arc_ipc::JobClass::Build,
@@ -242,7 +246,7 @@ fn synthetic_proven_local_endpoint_uses_negotiated_build_admission() {
 fn synthetic_local_endpoint_preserves_child_environment_and_lifecycle() {
     let _serial = support::serial();
     let fixture = Fixture::new();
-    let mut daemon = fixture.spawn("test");
+    let mut daemon = fixture.spawn_isolated("test");
     let binary = fixture.binary("arc-exec-fixture");
     assert!(binary.is_file(), "build the arc-cli fixture binary first");
     symlink(&binary, fixture.root.join("docker")).unwrap();
@@ -263,9 +267,7 @@ fn synthetic_local_endpoint_preserves_child_environment_and_lifecycle() {
     ]);
     // Keep the coverage runner's destination through both env_clear and the
     // managed execution boundary. It is part of the intended environment.
-    if let Ok(profile) = std::env::var("LLVM_PROFILE_FILE") {
-        expected.insert("LLVM_PROFILE_FILE".into(), profile);
-    }
+    instrumentation::include_expected(&mut expected);
 
     for lineage in [None, Some(""), Some("inherited value")] {
         if let Some(value) = lineage {
@@ -312,12 +314,7 @@ fn synthetic_local_endpoint_preserves_child_environment_and_lifecycle() {
         assert_eq!(child.wait("local endpoint child").unwrap().code(), Some(23));
         let mut actual: BTreeMap<String, String> =
             serde_json::from_value(report["environment"].clone()).unwrap();
-        if expected.contains_key("LLVM_PROFILE_FILE") {
-            // compiler-rt may add this internal initialization marker after
-            // the process starts. All caller-supplied values, including the
-            // profile destination and lineage, remain an exact comparison.
-            actual.remove("__LLVM_PROFILE_RT_INIT_ONCE");
-        }
+        instrumentation::normalize_actual(&mut actual, &expected);
         assert_eq!(actual, expected, "lineage={lineage:?}");
         assert_eq!(
             report["argv"],
@@ -371,7 +368,7 @@ fn synthetic_remote_facts_follow_the_actual_execution_path_once_while_build_is_h
     let _serial = support::serial();
     use arc_ipc::traffic::{JobRequest, JobResult, OPERATION_TRAFFIC_JOB};
     let fixture = Fixture::new();
-    let mut daemon = fixture.spawn("test");
+    let mut daemon = fixture.spawn_isolated("test");
     let id = JobId::try_from("d".repeat(32)).unwrap();
     let observer = ProcessIdentity::capture(std::process::id()).unwrap();
     let local: arc_ipc::Classification = serde_json::from_value(json!({"classification":"BUILD", "locality":"HOST_LOCAL", "reason":"CARGO_BUILD", "uncertainty":"NONE"})).unwrap();
@@ -430,6 +427,7 @@ fn synthetic_remote_facts_follow_the_actual_execution_path_once_while_build_is_h
         .stdin(Stdio::piped())
         .stdout(fs::File::create(&stdout).unwrap())
         .stderr(fs::File::create(&stderr).unwrap());
+    instrumentation::forward(&mut command);
     let mut child = child_watchdog::Owned::spawn(&mut command).unwrap();
     child
         .child

@@ -155,7 +155,9 @@ fn run(
         json!(fs::canonicalize(&f.root).unwrap().as_os_str().as_bytes())
     );
     assert_eq!(metadata["environment"], json!(b"offline-fixture-value"));
-    assert_eq!(fs::read_to_string(marker).unwrap().lines().count(), 1);
+    #[path = "capture_integration/closing_locality/marker.rs"]
+    mod marker;
+    marker::check(f, name, args, marker);
     let id = cli::recent(f);
     let response = protocol::call(
         f,

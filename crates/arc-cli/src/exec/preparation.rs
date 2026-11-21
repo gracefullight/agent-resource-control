@@ -1,11 +1,12 @@
 //! Preparation never owns execution. A lost acknowledgement cannot veto spawn.
-use super::{signals::Signals, start_until, transport::Failure};
-use arc_ipc::jobs::{JobId, Phase, ProcessIdentity, StartRequest, StartResult};
+use super::{signals::Signals, start_until, traffic, transport::Failure};
+use arc_ipc::jobs::{JobId, Outcome, Phase, ProcessIdentity, StartRequest, StartResult};
 use std::{
     fmt,
     io::{self, Write},
+    os::unix::process::ExitStatusExt,
     path::Path,
-    process::ExitCode,
+    process::{ExitCode, ExitStatus},
     sync::mpsc::{self, Sender},
     time::{Duration, Instant},
 };
@@ -123,6 +124,30 @@ pub(super) fn started(tracking: Tracking, job_id: &JobId) -> Diagnostics {
         Tracking::Uncertain => uncertain(&mut diagnostics, job_id),
     }
     diagnostics
+}
+
+pub(super) fn started_for_mode(tracking: &traffic::Mode, job_id: &JobId) -> Diagnostics {
+    match tracking {
+        traffic::Mode::Legacy(mode) => started(*mode, job_id),
+        traffic::Mode::Uncertain { .. } => started(Tracking::Uncertain, job_id),
+        traffic::Mode::Scheduled { waited, .. } | traffic::Mode::Unreserved { waited, .. } => {
+            let mut diagnostics = Diagnostics::default();
+            if *waited {
+                diagnostics.emit(format_args!("STARTED\nCommand started."));
+            }
+            diagnostics
+        }
+    }
+}
+
+pub(super) fn outcome_from_status(status: &ExitStatus) -> Outcome {
+    match status.code() {
+        Some(code) => Outcome::Exited { code: code as u8 },
+        None => Outcome::Signaled {
+            signal: status.signal().unwrap_or(libc::SIGTERM) as u8,
+            core_dumped: status.core_dumped(),
+        },
+    }
 }
 
 fn write_diagnostic(output: &mut impl Write, message: fmt::Arguments<'_>) {

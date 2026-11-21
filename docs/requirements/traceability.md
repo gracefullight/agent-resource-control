@@ -8,9 +8,65 @@ The authoritative [SRS](ARC_SRS_2026-11-06.md) SHA-256 is `a8ef945251f9f3fd7c3e3
 
 The frozen [task-5 interface contract](../../.arc-verify/governor/contract.md#amendment-13-traceability-format-and-counts), [task-8 integrated receipt](../../.arc-verify/governor/integration.json) and its `task13RepairAttempt2` correction are consumed without modification. The current format requires `Complete`, `Partial`, `Pending` or `Blocked`; each primary row carries Source, one primary Phase, Status, Evidence and Cycle. Requirements and acceptance cross-references use their respective inventories. `None` always explains the unmapped obligation. Catalog IDs retain their separate inventory and related mappings.
 
+
+## Phase 0 closure integration evidence
+
+Accepted committed baseline: `566db287c54320a49692ac238220b180f21787fe`,
+tree `b7622ba1c876b8cc4680358acbd4857ac304cce8`. The first integration
+attempt inspected snapshot `282168c41863fab677de50c4d81d95517bfc05a8`, tree
+`35658d5ec45e8c584baeecb101b231bad1b5e4fd`, and delivered uncommitted edits.
+The preceding repair inspected snapshot `ffd79b71ca0e07f0e5855b87170378f3e7d6f659`,
+tree `76eba86d02af69a0b8929e2cde170200424404de`. This repair inspected Actor
+snapshot `8795feb3575e0f3f3f175253df6ef696af076bc9`, tree
+`350e64fd5d9923bcfc6ecb742d3a5da6d278b202`; its changes are uncommitted on
+that snapshot. Focused tests described here are local receipts,
+not the runner's final verification or the independent QA report. The finite
+lists and exact test mappings are in [closing.md](closing.md).
+
+The preserved **simulated denominator** is **42** (CI01–CI20 and EP01–EP22):
+**recognized-remote 42, UNKNOWN 0, false-local: 0** on each detector route.
+Those tests inject endpoint facts and do not execute a vendor or remote service.
+
+The separate named **production-path denominator** is **10 unique cases**:
+`gh workflow run build.yml`; `gh run watch`; `gh run view`; `git push`; literal
+and branch `gitlab pipeline run`; remote `ssh ... make test`; remote Docker
+`--context prod build`; remote selected Buildx `build`; and `kubectl exec`
+without pod-placement proof. Their two routes each observed **recognized-remote
+9, UNKNOWN 1, false-local: 0**. The six cases in
+`closing_locality::proven_remote_cases_never_classify_local_on_either_route`,
+the one in `proven_gh_remote_is_the_same_inspected_and_executed_child`, the two
+remote cases in `gitlab_explicit_public_endpoint_and_unresolved_controls_on_both_routes`,
+and the no-placement-proof `kubectl exec` in
+`kubectl_without_placement_proof_stays_observed_without_starting_a_probe` are
+distinct. The separately tested installed hook executes the same gh case and
+is not added again. Local act, same-PC runner, local Docker, ambiguous controls,
+other kubectl variants and mixed commands are not part of this denominator.
+
+DET-001 is Complete against its numbered HOST cases. DET-005, SAFE-008 and
+NFR-007 are Blocked only on the numbered genuinely external placement cases;
+their HOST cases have focused passing evidence. AT-TRF-02 is Complete for
+the operator-defined default shell state: the installed hook reaches the real
+daemon, and named sh, Bash and zsh tests preserve native behavior, including
+continuing-shell line numbers. The earlier high Bash xtrace descriptor and
+low descriptor-limit observations are outside that ruling and remain
+follow-ups. AT-TRF-12 and
+AT-SWP-20 retain their own outstanding statuses; mixed classification is not
+stage-by-stage control or sweep protection. No live vendor or GitHub result is
+claimed. Runner-owned workspace, desktop, coverage, traceability and harness
+checks, independent reviews, and configured-container health remain unverified.
+
+| Primary phase | Total | Complete | Partial | Pending | Blocked |
+| --- | --- | --- | --- | --- | --- |
+| Phase 0 | 40 | 15 | 14 | 8 | 3 |
+| Phase 1 | 71 | 13 | 46 | 12 | 0 |
+| Phase 2 | 43 | 1 | 8 | 34 | 0 |
+| Phase 3 | 108 | 0 | 5 | 103 | 0 |
+| Phase 4 | 44 | 0 | 15 | 29 | 0 |
+| Phase 5 | 10 | 0 | 1 | 9 | 0 |
+
 ## Endpoint-capture integration evidence, 2026-11-20
 
-**AT-TRF-02 remains Partial:** the hook passes `gh workflow run build.yml` through and does not link that agent invocation to ARC classification. A separate direct `arcctl exec` request is classified and recorded as REMOTE_CI; it does not prove the agent path. DET-001 also remains Partial because the affected shell route does not prove the broader Bash/zsh obligation.
+**Historical snapshot:** at this preceding endpoint-capture stage the hook passed `gh workflow run build.yml` through and did not link the invocation to ARC classification; DET-001 was also Partial. See the newer Phase 0 closure evidence above for current status.
 
 Current repair provenance: accepted baseline `b8a4da14537adcd44aca68f32ce47557f82f2eef` (tree `555dcfda17be04105c55dead4ad71bd904c5e824`); this Actor's isolated input snapshot `2ae52acf5f852d451a90e94c53ddc1912bbf1641` (tree `73174e2933a8e0fd7529d38ae22370781c86dd8b`). The current capture, fixture and documentation repairs are uncommitted on that snapshot, not part of the accepted baseline.
 
@@ -46,7 +102,7 @@ The independent [QA report](../../.arc-verify/endpoint-capture/qa.md) also ident
 
 The [held-permit test](../../crates/arc-daemon/tests/managed_exec/capture_integration/held.rs#gh_and_buildx_same_execution_bypass_held_permit_and_buildx_cli_is_metered) runs a separate local `cargo build` fixture through `arcctl` until its child reaches a barrier. While its Build permit is held, the same direct gh execution is recorded REMOTE_CI and an offline Buildx execution is recorded REMOTE_EXEC; each stub runs once and neither adds a queue entry or reservation. The Buildx job's recorded Meter summary exposes its local CLI child's CPU usage separately; its native waited-descendants scope is Partial and does not measure remote builder CPU. The focused [protocol-1 compatibility tests](../../crates/arc-cli/tests/classification.rs#older_peer_receives_a_legacy_request_and_unproved_remote_stays_unknown) passed. No live service or vendor execution was used.
 
-**Selected rows Complete: 1 of 6** (AT-TRF-04). DET-005, SAFE-008 and NFR-007 remain Partial because the complete remote-compute/official-trigger inventory has not been established. AT-TRF-02 and DET-001 retain the gaps above. The AT-TRF-04 transition is Pending/Outstanding → Complete: Phase 2 acceptance changes to 1 Complete, 1 Partial and 5 Pending; the TRF family changes to 3 Complete, 7 Partial and 2 Outstanding. Across all primary rows the result is **316 = 27 Complete + 94 Partial + 24 Unverified + 171 Outstanding**, with zero Blocked.
+**Historical selected rows Complete: 1 of 6** (AT-TRF-04). DET-005, SAFE-008 and NFR-007 remain Partial because the complete remote-compute/official-trigger inventory has not been established. AT-TRF-02 and DET-001 retain the gaps above. The AT-TRF-04 transition is Pending/Outstanding → Complete: Phase 2 acceptance changes to 1 Complete, 1 Partial and 5 Pending; the TRF family changes to 3 Complete, 7 Partial and 2 Outstanding. Across all primary rows the result is **316 = 27 Complete + 94 Partial + 24 Unverified + 171 Outstanding**, with zero Blocked.
 
 ## Test-performance integration evidence, 2026-11-18
 
@@ -136,12 +192,12 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 
 | Requirement ID | SRS declaration | Source | Acceptance-test ID | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| DET-001 | Bash/zsh에서 직접 명령·파이프·복합문 인식 | [§8.7, L762](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-12 | Phase 0 | Partial | Partial | The [combined inspection cases](../../crates/arc-daemon/tests/managed_exec/capture_integration/endpoints.rs#both_routes_use_offline_source_selection_and_conservative_uncertainty) exercise supported literal shell commands against the daemon. Full Bash/zsh pipelines and compound syntax remain unproven. | endpoint-capture-2026-11-20 |
+| DET-001 | Bash/zsh에서 직접 명령·파이프·복합문 인식 | [§8.7, L762](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-12 | Phase 0 | Complete | Complete | The [named Bash and zsh managed-shell tests](closing.md#integration-evidence-and-outstanding-boundary) exercise direct, pipeline, compound, mixed and conservative startup cases on both routes with isolated shells and daemon records. | phase-0-closure-2026-11-21 |
 | DET-002 | PowerShell/Windows cmd의 명령·인용 처리 | [§8.7, L763](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Pending | Outstanding | Pending: Windows PowerShell/cmd acceptance is not delivered by the macOS fixtures. | governor-2026-11-13 |
 | DET-003 | JS/TS/Python/Rust/Go/Gradle/Swift/.NET/C++ 인식 | [§8.7, L764](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-01 | Phase 2 | Partial | Partial | [real-tool test](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_real_tools_outputs); [executed Bun-script receipt](.arc-verify/traffic-bun-scripts/integration.json#/nativeIntegration/checkReceipts/5); direct Cargo and bounded Bun-script support is retained. [Python grammar fixtures](../../crates/arc-detector/tests/python_tests.rs#python_entrypoints_and_core_selectors_are_test), [native execution](../../crates/arc-daemon/tests/traffic_python_tests.rs#native_python_execution_semantics) and [four registered mixed TEST pairs](#focused-python-test-acceptance-evidence) add only pytest/unittest discovery, documented core selectors and lexical venv paths. Broader Python commands and full Go/Gradle/Swift/.NET/C++ coverage remain outstanding; this nine-family catalog stays Partial. [Native grammar](../managed-exec.md#native-go-swiftpm-and-cmakectest-commands) and detector tests `native_go`, `native_swift`, `native_cmake` add only the seven bounded Go/SwiftPM/CMake/CTest forms; [current evidence](#focused-native-tool-family-evidence) distinguishes delivered source, focused receipts and final-gate availability. Broader DET-003, Gradle/.NET, other language commands, vendor integration and native Windows remain open. [Test-performance integration](#test-performance-integration-evidence-2026-11-18) retains this evidence scope; final gates remain pending. | test-performance-2026-11-18 |
 | DET-004 | Build/Test/Lint/Typecheck 구분 | [§8.7, L765](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-01 | Phase 1 | Complete | Complete | [four-class command test](crates/arc-detector/tests/script_resolution.rs#leaf_commands_not_script_names_determine_all_four_classes_and_same_class_chains); [real-tool outputs](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_real_tools_outputs); [executed Bun-script receipt](.arc-verify/traffic-bun-scripts/integration.json#/nativeIntegration/checkReceipts/5). [Python grammar fixtures](../../crates/arc-detector/tests/python_tests.rs#python_entrypoints_and_core_selectors_are_test) map both Python reasons only to TEST/HOST_LOCAL/NONE; [native and registered execution/pair evidence](#focused-python-test-acceptance-evidence) reconciles that classification with outcomes and permits. Complete retains its supported-behavior meaning; Python BUILD/LINT/TYPECHECK breadth is not claimed. [Native descriptors](../../crates/arc-daemon/tests/traffic_native_tools/descriptors.rs) map GO_BUILD/SWIFT_BUILD/CMAKE_BUILD to BUILD, GO_TEST/SWIFT_TEST/CTEST to TEST and GO_VET to LINT. [Negotiated validation](../../crates/arc-ipc/tests/native_tools.rs) rejects inconsistent classes/localities/uncertainties; current runtime evidence is scoped in native gates. [Test-performance integration](#test-performance-integration-evidence-2026-11-18) retains this evidence scope; final gates remain pending. | test-performance-2026-11-18 |
-| DET-005 | 원격 CI·원격 SSH 제외 | [§8.7, L766](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-02, AT-TRF-04, AT-TRF-12 | Phase 0 | Partial | Partial | The [combined fixtures](#endpoint-capture-integration-evidence-2026-11-20) exercise fresh CLI configuration discovery and remote/UNKNOWN classifications; the 42 named detector fixtures use simulated facts. The full remote CI and SSH inventory remains unverified. | endpoint-capture-2026-11-20 |
-| DET-006 | gh workflow run` 슬롯 미점유 | [§8.7, L767](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-02 | Phase 0 | Complete | Complete | The lane runner passed [the held-permit scenario](../../crates/arc-daemon/tests/managed_exec/remote_ci.rs): both built hooks pass derived `gh workflow run build.yml` payloads through and an offline stub runs once with no added queue entry or reservation. The separate daemon classification uses simulated facts; no live dispatch or vendor acceptance is claimed. | remote-locality-2026-11-19 |
+| DET-005 | 원격 CI·원격 SSH 제외 | [§8.7, L766](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-02, AT-TRF-04, AT-TRF-12 | Phase 0 | Blocked | Blocked | [Numbered cases](closing.md#det-005--remote-ci-and-ssh-exclusion) have passing HOST evidence; proven remote pod placement and actual Windows WSL placement require their external environments. | phase-0-closure-2026-11-21 |
+| DET-006 | gh workflow run` 슬롯 미점유 | [§8.7, L767](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-02 | Phase 0 | Complete | Complete | The [installed-hook held-permit test](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_exec.rs#installed_claude_hook_executes_same_remote_child_with_held_build_permit) records the same offline `gh workflow run build.yml` child as REMOTE_CI with no added queue entry or reservation. This is simulated agent execution, not live vendor or GitHub acceptance. | phase-0-closure-2026-11-21 |
 | DET-007 | 검증 불가 명령 자동 차단 금지 | [§8.7, L768](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-11 | Phase 0 | Complete | Complete | The lane runner passed [custom_shell_bypasses_held_build_and_preserves_native_execution_on_fail_open](../../crates/arc-daemon/tests/managed_exec/remote_unknown.rs): UNKNOWN/OBSERVE executes without a local permit, including unavailable classification input and daemon cases; the generic UNKNOWN route bypasses admission. | remote-locality-2026-11-19 |
 | DET-008 | 명령 분석 과정에서 실제 빌드를 실행하지 않음 | [§8.7, L769](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Complete | Complete | [metadata and poison-body test](crates/arc-cli/src/exec/metadata/tests.rs#real_repository_scripts_classify_without_executing_any_script_or_probes); [executed Bun-script receipt](.arc-verify/traffic-bun-scripts/integration.json#/nativeIntegration/checkReceipts/5). The pure [Python recognizer](../../crates/arc-detector/src/python.rs), [poison executable/import fixtures](../../crates/arc-detector/tests/python_tests.rs#python_classification_never_executes_or_imports) and [bounded unresolved fixtures](../../crates/arc-detector/tests/python_tests.rs#unresolved_python_forms_observe_within_budget) add no lookup, tool execution, project metadata read or import. Interpreter readiness probes belong solely to native test fixtures, not classification. The pure [native recognizers](../../crates/arc-detector/src/native/mod.rs) and `native_go/native_swift/native_cmake` poison/budget fixtures perform no tool execution, manifest evaluation or target discovery. Installed-tool probes exist only in real offline acceptance setup, outside classification. | native-tool-families-2026-11-15 |
 | DET-009 | Package script 중첩·workspace 분석 | [§8.7, L770](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 1 | Partial | Partial | [nested cwd test](crates/arc-detector/tests/script_resolution.rs#root_desktop_delegations_explicit_cwd_and_parent_package_execution_context); [metadata invalidation](crates/arc-cli/src/exec/metadata/tests.rs#replacement_same_size_preserved_mtime_and_fresh_invocations_use_content_identity); [executed resolution](.arc-verify/traffic-bun-scripts/integration.json#/resolution/allRequiredCasesPassed); bounded nested/lifecycle graphs, forwarded arguments and explicit --cwd desktop delegations pass. General workspace analysis/fan-out remains unsupported and bypasses, as do cyclic, dynamic, mixed, watch/hot and unresolved graphs; remote-only graphs reserve nothing. | traffic-bun-scripts-2026-11-14 |
@@ -273,7 +329,7 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 | SAFE-005 |  | [§17.3, L2367](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-05, AT-SWP-06, AT-SWP-16 | Phase 3 | Pending | Outstanding | Pending: No delivered unproven user Worktree protection acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
 | SAFE-006 |  | [§17.3, L2368](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-04, AT-SWP-05, AT-SWP-09, AT-SWP-10, AT-SWP-15 | Phase 3 | Pending | Outstanding | Pending: No delivered deletion-time path identity/symlink revalidation acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
 | SAFE-007 |  | [§17.3, L2369](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Partial | Partial | [GV-N01](.arc-verify/governor/integration.json#/nativeAcceptance/cases/0); owner-authenticated controls and native job identity are enforced; complete cross-account filesystem/Reaper access acceptance remains outstanding. | governor-2026-11-13 |
-| SAFE-008 |  | [§17.3, L2370](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-TRF-02, AT-TRF-04, AT-SWP-20 | Phase 0 | Partial | Partial | The [held-permit executions](../../crates/arc-daemon/tests/managed_exec/capture_integration/held.rs#gh_and_buildx_same_execution_bypass_held_permit_and_buildx_cli_is_metered) recorded remote gh and Buildx children without new local admission state. UNKNOWN also bypasses; the full remote-compute inventory remains unverified. | endpoint-capture-2026-11-20 |
+| SAFE-008 |  | [§17.3, L2370](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-TRF-02, AT-TRF-04, AT-SWP-20 | Phase 0 | Blocked | Blocked | [Numbered HOST cases](closing.md#safe-008--remote-work-is-not-forcibly-scheduled-locally) pass; genuine remote pod placement requires a live cluster. AT-SWP-20 retains its independent full scope. | phase-0-closure-2026-11-21 |
 | SAFE-009 |  | [§17.3, L2371](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-08, AT-SWP-21 | Phase 3 | Pending | Outstanding | Pending: No delivered anonymous-telemetry/privacy acceptance; absence of a Governor upload path does not prove the full privacy requirement. | governor-2026-11-13 |
 | SAFE-010 |  | [§17.3, L2372](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 3 | Pending | Outstanding | Pending: No delivered GC Safety Validator fail-closed execution acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
 | SAFE-011 |  | [§17.3, L2373](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-TRF-06, AT-TRF-11 | Phase 0 | Complete | Complete | [GV-N14](.arc-verify/governor/integration.json#/nativeAcceptance/cases/13); [105 CLI checks](.arc-verify/governor/integration.json#/task8/checks/cli-compatibility); bounded daemon-outage fail-open executes the owned target once and preserves command semantics. | governor-2026-11-13 |
@@ -292,7 +348,7 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 | NFR-004 | IPC 왕복 · 로컬 작은 메시지 P95 **20ms 이내 목표** | [§18, L2428](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Pending | Unverified | Pending: Cycle 22 reruns 10000 small-message exchanges after 200 warmups and the 100000-attempt workload. [Current local measurements](../../.arc-verify/cycle-22/contract.md#timing-inventory) retain the 20ms SRS target; final coverage and representative deployment confirmation remain pending. | governor-2026-11-13 |
 | NFR-005 | Job Classifier 지연 · 캐시된 일반 명령 P95 **50ms 이내 목표** | [§18, L2429](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Pending | Unverified | Pending: No representative cached-classifier P95 benchmark establishes this SLO. Cycle 22 keeps classification and native workload scope unchanged. | governor-2026-11-13 |
 | NFR-006 | UI interactive update · 실제 샘플 수신 후 사용자 체감 지연 최소화 | [§18, L2430](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 4 | Partial | Partial | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); sample/committed-state UI updates are deterministic; native interactive update latency is not measured. | governor-2026-11-13 |
-| NFR-007 | 원격 CI 제외 정확도 · 공식 트리거/remote fixtures의 **false local classification 0** | [§18, L2431](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-TRF-02, AT-TRF-04 | Phase 0 | Partial | Partial | The [42 named simulated fixtures](#endpoint-capture-integration-evidence-2026-11-20) yielded 42 remote, 0 UNKNOWN and 0 false-local per detector route. The separately counted built-CLI source cases also had zero false-local; the complete official-trigger inventory remains unverified. | endpoint-capture-2026-11-20 |
+| NFR-007 | 원격 CI 제외 정확도 · 공식 트리거/remote fixtures의 **false local classification 0** | [§18, L2431](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-TRF-02, AT-TRF-04 | Phase 0 | Blocked | Blocked | [Finite remote cases](#phase-0-closure-integration-evidence) have zero false-local on both routes; proven remote pod placement requires a live cluster. | phase-0-closure-2026-11-21 |
 | NFR-008 | GC 잘못된 삭제 · 개인 브라우저/활성 세션/주 Worktree 사고 **0** | [§18, L2432](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-SWP-02, AT-SWP-03, AT-SWP-07, AT-SWP-18 | Phase 3 | Pending | Outstanding | Pending: No executed Sweeper safety suite establishing zero incorrect deletions. | governor-2026-11-13 |
 | NFR-009 | Permit 일관성 · 중복/유실 permit **0** (무작위 장애 테스트) | [§18, L2433](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-TRF-05, AT-TRF-09 | Phase 1 | Partial | Partial | [GV-N07](.arc-verify/governor/integration.json#/nativeAcceptance/cases/6); [GV-N09](.arc-verify/governor/integration.json#/nativeAcceptance/cases/8); [GV-N11](.arc-verify/governor/integration.json#/nativeAcceptance/cases/10); deterministic race/duplicate reconciliation passes; randomized fault coverage remains outstanding. | governor-2026-11-13 |
 | NFR-010 | 데이터 일관성 · 강제 종료 이후 DB integrity check 통과 | [§18, L2434](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-SWP-10 | Phase 0 | Partial | Partial | [GV-N01](.arc-verify/governor/integration.json#/nativeAcceptance/cases/0); [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); committed restart/migration integrity boundaries pass; a complete current forced-termination integrity suite is not supplied. | governor-2026-11-13 |
@@ -324,7 +380,7 @@ These 47 rows refer to actual §21 Gherkin headings. GV-N and G01–G13 below ar
 | Acceptance-test ID | Scenario | Source | Requirement ID | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | AT-TRF-01 | 다중 벤더 전역 큐 | [AT-TRF-01, L2617](ARC_SRS_2026-11-06.md#at-trf-01-다중-벤더-전역-큐) | VND-006, DET-003, DET-004, TRF-001, TRF-002, TRF-004, TRF-015 | Phase 1 | Partial | Partial | [Cargo first](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_cargo_first_one_build_slot); [Bun-script first](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_bun_script_first_one_build_slot); [both BUILD orders passed](.arc-verify/traffic-bun-scripts/integration.json#/nativeAcceptance/buildBothArrivalOrdersPassed) retain cargo build/bun run build evidence. The [four named native/registered Python TEST pairs](#focused-python-test-acceptance-evidence) add pytest/cargo test and pytest/bun test in both arrival orders, with zero second starts before release, TEST permit high-water one, exactly one execution each and all permits released across SQLite/CLI/registered bridge. The [documented Claude and Cursor fixture events](../../crates/arc-daemon/tests/traffic_bun_scripts/agent_hooks.rs) now drive real Cargo and Bun BUILD children in both orders against a production daemon; both daemon-side cases and both registered-bridge fixture orders passed in the runner's 2026-11-17 17:53Z workspace run on its recorded input. Production vendor handlers still pass through and live vendor execution and the full declared scenario remain open; Partial is retained. [Test-performance integration](#test-performance-integration-evidence-2026-11-18) retains this evidence scope; final gates remain pending. | test-performance-2026-11-18 |
-| AT-TRF-02 | 원격 GitHub Actions 우회 | [AT-TRF-02, L2629](ARC_SRS_2026-11-06.md#at-trf-02-원격-github-actions-우회) | DET-005, DET-006, TRF-006, SAFE-008, NFR-007 | Phase 0 | Partial | Partial | The [same direct gh execution](../../crates/arc-daemon/tests/managed_exec/capture_integration/held.rs#gh_and_buildx_same_execution_bypass_held_permit_and_buildx_cli_is_metered) was recorded REMOTE_CI and ran once without local admission while a Build permit was held. The hook passes the agent request unchanged and does not link it to classification; the agent criterion remains unmet. | endpoint-capture-2026-11-20 |
+| AT-TRF-02 | 원격 GitHub Actions 우회 | [AT-TRF-02, L2629](ARC_SRS_2026-11-06.md#at-trf-02-원격-github-actions-우회) | DET-005, DET-006, TRF-006, SAFE-008, NFR-007 | Phase 0 | Complete | Complete | The [installed-hook execution](closing.md#integration-evidence-and-outstanding-boundary) ties the simulated event to the real daemon and stub child while a Build permit is held; named shell tests preserve the default-state command and native result. | phase-0-closure-2026-11-21 |
 | AT-TRF-03 | 로컬 Docker Build | [AT-TRF-03, L2639](ARC_SRS_2026-11-06.md#at-trf-03-로컬-docker-build) | DET-011, TRF-003 | Phase 2 | Pending | Outstanding | Pending: The full declared scenario has no delivered passing execution receipt in this Governor slice. | governor-2026-11-13 |
 | AT-TRF-04 | 원격 Docker Builder | [AT-TRF-04, L2648](ARC_SRS_2026-11-06.md#at-trf-04-원격-docker-builder) | DET-005, DET-011, TRF-006, SAFE-008, NFR-007 | Phase 2 | Complete | Complete | The [built CLI and real-daemon Buildx test](../../crates/arc-daemon/tests/managed_exec/capture_integration/held.rs#gh_and_buildx_same_execution_bypass_held_permit_and_buildx_cli_is_metered) passed with a remote builder selected from offline config while a separate local Build permit was held. Its stub ran once without a new queue entry or reservation, and the same job recorded local CLI CPU accounting separately. | endpoint-capture-2026-11-20 |
 | AT-TRF-05 | 중첩 실행 이중 Permit 방지 | [AT-TRF-05, L2657](ARC_SRS_2026-11-06.md#at-trf-05-중첩-실행-이중-permit-방지) | DET-012, TRF-008, NFR-009 | Phase 1 | Partial | Partial | [105 CLI checks](.arc-verify/governor/integration.json#/task8/checks/cli-compatibility); nested managed wrappers share a canonical root. Python [native/registered lifecycle evidence](#focused-python-test-acceptance-evidence) additionally reconciles one shared permit and canonical/included Meter lineage, without early release while the parent lives. The exact `bun run test` → vitest → Hook scenario remains outstanding. | python-tests-2026-11-15 |
@@ -709,13 +765,13 @@ These are row-level accounting totals. **No phase is declared finished**: the SR
 
 | Inventory | Phase | Total | Complete | Partial | Pending | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | Phase 0 | 19 | 5 | 7 | 7 | 0 |
+| Requirements | Phase 0 | 19 | 6 | 3 | 7 | 3 |
 | Requirements | Phase 1 | 34 | 10 | 20 | 4 | 0 |
 | Requirements | Phase 2 | 24 | 0 | 3 | 21 | 0 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 52 | 0 |
 | Requirements | Phase 4 | 29 | 0 | 8 | 21 | 0 |
 | Requirements | Phase 5 | 4 | 0 | 1 | 3 | 0 |
-| Acceptance | Phase 0 | 4 | 1 | 3 | 0 | 0 |
+| Acceptance | Phase 0 | 4 | 2 | 2 | 0 | 0 |
 | Acceptance | Phase 1 | 10 | 1 | 8 | 1 | 0 |
 | Acceptance | Phase 2 | 7 | 1 | 1 | 5 | 0 |
 | Acceptance | Phase 3 | 22 | 0 | 0 | 22 | 0 |
@@ -734,13 +790,13 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 
 | Scope inventory | Primary phase | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | Phase 0 | 19 | 5 | 7 | 6 | 1 | 0 |
+| Requirements | Phase 0 | 19 | 6 | 3 | 6 | 1 | 3 |
 | Requirements | Phase 1 | 34 | 10 | 20 | 4 | 0 | 0 |
 | Requirements | Phase 2 | 24 | 0 | 3 | 1 | 20 | 0 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 0 | 52 | 0 |
 | Requirements | Phase 4 | 29 | 0 | 8 | 0 | 21 | 0 |
 | Requirements | Phase 5 | 4 | 0 | 1 | 0 | 3 | 0 |
-| Acceptance | Phase 0 | 4 | 1 | 3 | 0 | 0 | 0 |
+| Acceptance | Phase 0 | 4 | 2 | 2 | 0 | 0 | 0 |
 | Acceptance | Phase 1 | 10 | 1 | 8 | 1 | 0 | 0 |
 | Acceptance | Phase 2 | 7 | 1 | 1 | 0 | 5 | 0 |
 | Acceptance | Phase 3 | 22 | 0 | 0 | 0 | 22 | 0 |
@@ -757,14 +813,14 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 
 | Primary inventory | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | 165 | 15 | 42 | 11 | 97 | 0 |
-| Acceptance | 47 | 3 | 14 | 1 | 29 | 0 |
+| Requirements | 165 | 16 | 38 | 11 | 97 | 3 |
+| Acceptance | 47 | 4 | 13 | 1 | 29 | 0 |
 | Catalogs | 104 | 9 | 38 | 12 | 45 | 0 |
-| All primary rows | 316 | 27 | 94 | 24 | 171 | 0 |
+| All primary rows | 316 | 29 | 89 | 24 | 171 | 3 |
 
 | Acceptance family | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| TRF | 12 | 3 | 7 | 0 | 2 | 0 |
+| TRF | 12 | 4 | 6 | 0 | 2 | 0 |
 | MTR | 3 | 0 | 2 | 1 | 0 | 0 |
 | POL | 3 | 0 | 1 | 0 | 2 | 0 |
 | SWP | 21 | 0 | 0 | 0 | 21 | 0 |
@@ -775,7 +831,7 @@ Toggle supplement: 30 = 0 Complete + 1 Partial + 2 Unverified + 27 Outstanding. 
 
 ### Current-cycle completion delta
 
-Endpoint-capture integration: **1 of 6 selected rows is Complete** (AT-TRF-04); see the [current evidence and remaining gaps](#endpoint-capture-integration-evidence-2026-11-20).
+Phase 0 closure integration: DET-001 and AT-TRF-02 are Complete; DET-005, SAFE-008 and NFR-007 are Blocked on their numbered external cases. AT-TRF-02 moves Partial → Complete under the operator's shell-state ruling; all primary rows are 29 Complete, 89 Partial, 24 Unverified, 171 Outstanding and 3 Blocked. See [current evidence](#phase-0-closure-integration-evidence). The older endpoint-capture assessment is historical.
 
 Previous remote-locality integration: **Selected rows Complete: 3 of 7** (DET-006, DET-007 and AT-TRF-11). The four retained Partial rows state their remaining gaps. The accepted committed baseline is `46255c67225a62c364e4bb1b53f92d7c57b34c9c` (tree `0847231c44f8ed20000c51a437a66a36b011187a`); this integration Actor inspected snapshot `f620f40a9194e0b3519368a7d64de1549873d4fd` (tree `283ba177db591ec812428c99e599bddee7656427`), which contains the lane overlay. Its test and documentation edits are uncommitted on that snapshot. The cited lane checks predate these edits. A prior runner full run reported failures in `cleared_child_environment_retains_the_coverage_destination` and `robustness::queued_cli_waits_through_real_sqlite_busy_then_starts_after_release`; each passed in isolation. Final-input runner checks and container health remain unverified.
 

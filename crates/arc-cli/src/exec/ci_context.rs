@@ -35,7 +35,7 @@ fn extend_with(
         argv.first()
             .and_then(|s| Path::new(s).file_name())
             .and_then(|s| s.to_str()),
-        Some("git" | "gh")
+        Some("git" | "gh" | "gitlab")
     ) {
         return Some(());
     }
@@ -97,6 +97,19 @@ fn capture_fact(words: Vec<String>) -> Option<EndpointFact> {
             selector: "gh".into(),
             endpoints: vec!["https://github.com".into()],
         }),
+        // Require an explicit server URL. A named or missing configuration is
+        // not sufficient to establish the effective endpoint; GITLAB_URL is
+        // the documented server-url override of the gitlab CLI.
+        Some("gitlab")
+            if std::env::var_os("GITLAB_URL").as_deref()
+                == Some(std::ffi::OsStr::new("https://gitlab.com")) =>
+        {
+            Some(EndpointFact {
+                kind: EndpointKind::CiHost,
+                selector: "gitlab".into(),
+                endpoints: vec!["https://gitlab.com".into()],
+            })
+        }
         _ => None,
     }
 }

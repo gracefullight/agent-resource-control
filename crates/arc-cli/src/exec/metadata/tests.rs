@@ -5,6 +5,9 @@ use std::fs::{self, FileTimes};
 #[path = "clock_tests.rs"]
 mod clock_tests;
 
+#[path = "tests/sh_fallback.rs"]
+mod sh_fallback;
+
 struct Fixture(PathBuf);
 impl Fixture {
     fn new() -> Self {

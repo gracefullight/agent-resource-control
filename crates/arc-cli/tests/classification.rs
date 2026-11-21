@@ -3,7 +3,10 @@ use arc_ipc::{Request, Response};
 use serde_json::{json, Value};
 use std::{
     fs,
-    os::unix::{fs::DirBuilderExt, net::UnixListener},
+    os::unix::{
+        fs::{symlink, DirBuilderExt},
+        net::UnixListener,
+    },
     path::PathBuf,
     process::{Command, Output},
     sync::atomic::{AtomicU64, Ordering},
@@ -23,6 +26,11 @@ impl Fixture {
             NEXT.fetch_add(1, Ordering::Relaxed)
         ));
         fs::DirBuilder::new().mode(0o700).create(&root).unwrap();
+        // Shell startup proofs must resolve the same system shells used by
+        // managed execution, without admitting the host's other PATH tools.
+        for shell in ["bash", "zsh"] {
+            symlink(format!("/bin/{shell}"), root.join(shell)).unwrap();
+        }
         Self { root }
     }
     fn cli(&self, args: &[&str]) -> Output {

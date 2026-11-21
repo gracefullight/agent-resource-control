@@ -1,4 +1,5 @@
 use arc_ipc::{
+    compute_location,
     locality::{ClassifyLocalityRequest, Command, OPERATION_CLASSIFY},
     Classification, ClassifyRequest, JobClass, Locality, Reason, Request, Uncertainty,
     OPERATION_JOB_CLASSIFY, PROTOCOL_VERSION, STATUS_ERROR, STATUS_OK,
@@ -81,7 +82,10 @@ fn classify(
         }),
     };
     match exchange(&mut stream, OPERATION_CLASSIFY, &contextual) {
-        Ok(result) => Ok(verified_result(input, context.as_ref(), &now_ms, result)),
+        Ok(result) => {
+            let result = negotiated_location(&mut stream, &contextual, result)?;
+            Ok(verified_result(input, context.as_ref(), &now_ms, result))
+        }
         Err(arc_ipc::ERROR_UNSUPPORTED_CAPABILITY) => {
             // Use the same peer and the unchanged protocol-1 request shape.
             // No malformed, lost, mismatched or otherwise rejected reply is a
@@ -127,6 +131,35 @@ fn classify(
     }
 }
 
+/// The locality operation predates `LOCAL_CONTAINER` and answers its
+/// HOST_LOCAL projection. Only a record that has a container form is asked
+/// again, on the same connection, through the negotiated operation. An earlier
+/// daemon rejects that operation as an unsupported capability and its
+/// projection stands; every other record costs no second request.
+fn negotiated_location(
+    stream: &mut UnixStream,
+    request: &ClassifyLocalityRequest,
+    projected: Classification,
+) -> Result<Classification, &'static str> {
+    if compute_location::canonical(projected) == projected {
+        return Ok(projected);
+    }
+    match exchange(stream, compute_location::OPERATION_CLASSIFY, request) {
+        // The same record in its negotiated form, or the daemon's own UNKNOWN
+        // once the facts aged between the two requests.
+        Ok(result)
+            if compute_location::project(result) == projected
+                || result.classification == JobClass::Unknown =>
+        {
+            Ok(result)
+        }
+        // Two confident answers for one request cannot both be displayed.
+        Ok(_) => Ok(unknown()),
+        Err(arc_ipc::ERROR_UNSUPPORTED_CAPABILITY) => Ok(projected),
+        Err(error) => Err(error),
+    }
+}
+
 fn exchange(
     stream: &mut UnixStream,
     operation: &str,
@@ -164,7 +197,13 @@ fn exchange(
     if !result.is_consistent() {
         return Err(super::IPC_ERROR);
     }
-    Ok(result)
+    // A reply to an operation that did not negotiate the location is read in
+    // that operation's vocabulary, whatever the peer wrote.
+    Ok(if compute_location::negotiated(operation) {
+        result
+    } else {
+        compute_location::project(result)
+    })
 }
 
 fn verified_result(
@@ -201,12 +240,16 @@ fn verified_result(
     }
     // Locality-v1 peers may implement older endpoint precedence. Accept a
     // confident reply only when the current detector agrees on fresh facts.
+    // An earlier peer names a Local Container by its HOST_LOCAL projection,
+    // so the two records are compared in that common vocabulary.
     if let (Some(context), Some(now)) = (context, now_ms()) {
         if context.is_valid_at(now)
             && super::exec::revalidate_context(context)
             && now_ms().is_some_and(|now| {
                 context.is_valid_at(now)
-                    && arc_detector::classify_with_context(input, context, now) == result
+                    && arc_detector::classify_with_context(input, context, now)
+                        .host_local_projection()
+                        == result.host_local_projection()
             })
         {
             return result;

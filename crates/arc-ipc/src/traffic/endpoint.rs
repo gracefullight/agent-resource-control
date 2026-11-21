@@ -23,15 +23,20 @@ pub fn decode_job(
     if operation != OPERATION_JOB {
         return Err(ERROR_UNSUPPORTED_CAPABILITY);
     }
-    let request: GovernorJobRequest =
+    let mut request: GovernorJobRequest =
         crate::policy::decode(payload, crate::governor::MAX_EXECUTION_BYTES)?;
-    let allowed = match &request {
-        GovernorJobRequest::Traffic {
-            request: JobRequest::Enqueue { classification, .. },
-        } => classification.reason == crate::Reason::LocalEndpointBuild,
-        _ => true,
-    };
-    (allowed && request.is_valid())
-        .then_some(request)
-        .ok_or(ERROR_INVALID_REQUEST)
+    if !request.is_valid() {
+        return Err(ERROR_INVALID_REQUEST);
+    }
+    if let GovernorJobRequest::Traffic {
+        request: JobRequest::Enqueue { classification, .. },
+    } = &mut request
+    {
+        if classification.reason != crate::Reason::LocalEndpointBuild {
+            return Err(ERROR_INVALID_REQUEST);
+        }
+        // A request carries the HOST_LOCAL projection; record the canonical form.
+        *classification = crate::compute_location::canonical(*classification);
+    }
+    Ok(request)
 }

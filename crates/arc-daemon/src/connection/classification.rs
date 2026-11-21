@@ -4,7 +4,7 @@ use arc_ipc::{Request, Response};
 // real daemon route without depending on how long an IPC request takes.
 pub(super) fn classify_request(request: &Request, now_ms: u64) -> Option<Response> {
     match request.operation.as_str() {
-        arc_ipc::locality::OPERATION_CLASSIFY => {
+        arc_ipc::locality::OPERATION_CLASSIFY | arc_ipc::compute_location::OPERATION_CLASSIFY => {
             Some(arc_ipc::locality::classify_response_at(request, now_ms))
         }
         arc_ipc::OPERATION_JOB_CLASSIFY => Some(arc_ipc::dispatch(request, || {

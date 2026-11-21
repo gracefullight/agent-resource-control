@@ -33,7 +33,9 @@ pub(super) fn prepare(
     deadline: Instant,
     signals: &Signals,
 ) -> Result<Mode, Failure> {
-    use arc_detector::{Locality, Reason};
+    use arc_detector::Reason;
+    // Requests always carry the projection; the daemon stores the canonical form.
+    let classification = classification.host_local_projection();
     let route = if classification.reason == Reason::LocalEndpointBuild {
         Route::Endpoint
     } else if classification.is_bun_script() {
@@ -54,7 +56,7 @@ pub(super) fn prepare(
     } else {
         classification
     };
-    if classification.locality != Locality::HostLocal
+    if !classification.locality.is_local_compute()
         || !(classification.is_native_tool()
             || matches!(
                 classification.reason,

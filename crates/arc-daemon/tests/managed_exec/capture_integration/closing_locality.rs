@@ -6,6 +6,8 @@ mod docker_controls;
 mod integration;
 #[path = "closing_locality/kube_controls.rs"]
 mod kube_controls;
+#[path = "closing_locality/local_container.rs"]
+mod local_container;
 
 const PROD_CONTEXT_HASH: &str = "6754af9632a2745e85c293e5aac0863370d9bd3330b9938c00cadfd215227d77";
 

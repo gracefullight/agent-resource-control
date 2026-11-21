@@ -2,6 +2,7 @@
 mod argv;
 pub use argv::{analyze_argv, classify_argv};
 mod budget;
+mod compute_location;
 mod lexer;
 mod locality;
 pub mod native;
@@ -58,7 +59,7 @@ fn aggregate(leaves: &[Classification], b: &mut budget::Budget) -> budget::Check
         if leaf.classification == JobClass::Unknown && unknown.is_none() {
             unknown = Some(*leaf);
         }
-        local |= leaf.locality == Locality::HostLocal;
+        local |= leaf.locality.is_local_compute();
         remote |= leaf.locality == Locality::Remote;
         same &= leaf.classification == first.classification;
     }

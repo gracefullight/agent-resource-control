@@ -1,6 +1,6 @@
 use super::{
     accounting, descriptors, governor, invalid, launch, lifecycle::complete, lineage,
-    native_environment, preparation, signals, start_until, terminal, traffic, transport,
+    native_environment, preparation, signals, stages, start_until, terminal, traffic, transport,
 };
 use arc_core::process_identity::random_job_id;
 use arc_ipc::jobs::{JobId, ProcessIdentity, StartRequest};
@@ -8,7 +8,7 @@ use std::{
     ffi::OsString,
     io,
     os::unix::process::ExitStatusExt,
-    process::{Command, ExitCode},
+    process::ExitCode,
     time::{Duration, Instant},
 };
 
@@ -71,6 +71,7 @@ pub(super) fn run_with_classifier_and_preparation_clock(
         Ok(tracking) => tracking,
         Err(error) => return preparation::stopped(error),
     };
+    stages::link(&socket, &job_id, &observer, &tracking);
     let mut launch_gate =
         match launch::prepare(&socket, &job_id, &observer, &mut tracking, &signals) {
             Ok(launch::Coordination::Fenced(gate)) => {
@@ -120,9 +121,8 @@ pub(super) fn run_with_classifier_and_preparation_clock(
         };
     let (accounting_relation, accounting_record) =
         accounting::lineage(&socket, &observer, &job_id, &tracking);
-    let mut command = Command::new(&argv[0]);
+    let mut command = stages::command(&argv, &job_id, classification);
     use std::os::unix::process::CommandExt;
-    command.args(&argv[1..]);
     if preserve_environment {
         native_environment::restore_shell_underscore(&mut command, &argv[0]);
     }

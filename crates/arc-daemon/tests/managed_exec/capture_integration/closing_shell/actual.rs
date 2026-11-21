@@ -26,6 +26,15 @@ fn bash_and_zsh_execute_the_same_direct_pipeline_compound_and_mixed_commands() {
         let inspections = inspect_shell(&s, &f, source, &[]);
         for (dialect, inspected) in ["bash", "zsh"].into_iter().zip(inspections) {
             let (job, _) = execute_dialect(&s, &f, dialect, source, &[], calls);
+            // `arcctl exec -- bash -c` separates the two mixed compounds into
+            // stages (closing_shell/stages.rs). Its own record stays the MIXED
+            // request record; zsh keeps the single pass-through record.
+            let job = if dialect == "bash" && class == "MIXED" {
+                assert_eq!(job["classification"]["classification"], "REMOTE_CI");
+                super::stages::request_record(&f, &job)
+            } else {
+                job
+            };
             for result in [&inspected, &job["classification"]] {
                 assert_eq!(
                     result["classification"], class,

@@ -28,6 +28,22 @@ const fixturePath = resolve(
 const JOB = wire.queries[0]?.job_id ?? "";
 const OTHER = "a".repeat(32);
 const clone = <T>(value: T): T => structuredClone(value);
+const STATES = [
+  "QUEUED",
+  "RESERVED",
+  "RUNNING",
+  "COMPLETED",
+  "CANCELLED",
+  "ABANDONED",
+  "UNCONFIRMED",
+  "UNRESERVED",
+] as const;
+const INVALID = { code: "invalid_reply", retryable: false };
+const read = (data: unknown) =>
+  createDesktopClient(async () => ({
+    data,
+    received_at_ms: 30,
+  })).trafficJobDiagnostics(JOB);
 
 describe("Rust-derived negotiated Traffic contract", () => {
   test("Tool reasons accept only their local certain class facts and retain strict admission validation", async () => {
@@ -42,16 +58,7 @@ describe("Rust-derived negotiated Traffic contract", () => {
       "CMAKE_BUILD",
       "CTEST",
     ] as const) {
-      for (const state of [
-        "QUEUED",
-        "RESERVED",
-        "RUNNING",
-        "COMPLETED",
-        "CANCELLED",
-        "ABANDONED",
-        "UNCONFIRMED",
-        "UNRESERVED",
-      ] as const) {
+      for (const state of STATES) {
         const result = toolTraffic(trafficFixture(JOB, state), reason);
         expect(isTrafficDiagnosticResult(result, JOB)).toBe(true);
         const calls: unknown[] = [];
@@ -79,12 +86,7 @@ describe("Rust-derived negotiated Traffic contract", () => {
             classification: { ...result.classification, ...patch },
           };
           expect(isTrafficDiagnosticResult(malformed, JOB)).toBe(false);
-          await expect(
-            createDesktopClient(async () => ({
-              data: malformed,
-              received_at_ms: 30,
-            })).trafficJobDiagnostics(JOB),
-          ).rejects.toEqual({ code: "invalid_reply", retryable: false });
+          await expect(read(malformed)).rejects.toEqual(INVALID);
         }
       }
       const queued = toolTraffic(trafficWait(JOB), reason);
@@ -204,18 +206,24 @@ const badState: DiagnosticResult = { ...results[0]!, admission: { ...results[0]!
       new Set(
         wire.results.flatMap((r) => (r.admission ? [r.admission.state] : [])),
       ),
-    ).toEqual(
-      new Set([
-        "QUEUED",
-        "RESERVED",
-        "RUNNING",
-        "COMPLETED",
-        "CANCELLED",
-        "ABANDONED",
-        "UNCONFIRMED",
-        "UNRESERVED",
-      ]),
+    ).toEqual(new Set<string>(STATES));
+  });
+
+  test("local container build diagnostics are read as the HOST_LOCAL projection and LOCAL_CONTAINER is rejected", async () => {
+    // Rust-derived: the daemon's reply for a stored LOCAL_CONTAINER build.
+    const result = wire.results.find(
+      (r) => r.classification?.reason === "LOCAL_ENDPOINT_BUILD",
     );
+    expect(isTrafficDiagnosticResult(result, JOB)).toBe(true);
+    if (!isTrafficDiagnosticResult(result, JOB)) throw new Error("unread");
+    expect(result.classification?.locality).toBe("HOST_LOCAL");
+    expect((await read(result)).data).toEqual(result);
+    const classification = {
+      ...result.classification,
+      locality: "LOCAL_CONTAINER",
+    };
+    expect(isTrafficClassification(classification)).toBe(false);
+    await expect(read({ ...result, classification })).rejects.toEqual(INVALID);
   });
 
   test("configured four-class limits validate reservations against the shared budget rather than pinning defaults", () => {

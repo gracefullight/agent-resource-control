@@ -156,11 +156,24 @@ pub fn decode_start(payload: &serde_json::Value) -> Result<StartRequest, &'stati
         .ok_or(crate::ERROR_INVALID_REQUEST)
 }
 pub fn decode_start_locality(payload: &serde_json::Value) -> Result<StartRequest, &'static str> {
-    let request: StartRequest = decode_payload(payload)?;
-    request
-        .is_valid()
-        .then_some(request)
-        .ok_or(crate::ERROR_INVALID_REQUEST)
+    let mut request: StartRequest = decode_payload(payload)?;
+    if !request.is_valid() {
+        return Err(crate::ERROR_INVALID_REQUEST);
+    }
+    // A request carries the HOST_LOCAL projection; record the canonical form.
+    if let StartRequest::Register { classification, .. } = &mut request {
+        *classification = crate::compute_location::canonical(*classification);
+    }
+    Ok(request)
+}
+/// Operations whose lifecycle reply is not reduced to protocol-1 vocabulary.
+pub fn carries_locality_vocabulary(operation: &str) -> bool {
+    matches!(
+        operation,
+        OPERATION_JOB_START_LOCALITY
+            | OPERATION_JOB_STATUS_LOCALITY
+            | crate::compute_location::OPERATION_JOB_STATUS
+    )
 }
 pub fn decode_complete(payload: &serde_json::Value) -> Result<CompleteRequest, &'static str> {
     let request: CompleteRequest = decode_payload(payload)?;
@@ -172,7 +185,7 @@ pub fn decode_complete(payload: &serde_json::Value) -> Result<CompleteRequest, &
 pub fn decode_status(payload: &serde_json::Value) -> Result<StatusRequest, &'static str> {
     decode_payload(payload)
 }
-fn decode_payload<T: serde::de::DeserializeOwned>(
+pub(crate) fn decode_payload<T: serde::de::DeserializeOwned>(
     payload: &serde_json::Value,
 ) -> Result<T, &'static str> {
     // The transport already caps a frame. Check compact lifecycle size before
@@ -210,6 +223,8 @@ pub enum LifecycleRequest {
     Start(StartRequest),
     Complete(CompleteRequest),
     Status(StatusRequest),
+    /// Additive stage linkage; see `crate::request`.
+    Request(crate::request::StageRequest),
 }
 impl LifecycleRequest {
     pub fn decode(
@@ -221,7 +236,10 @@ impl LifecycleRequest {
             OPERATION_JOB_START_LOCALITY => decode_start_locality(payload).map(Self::Start),
             OPERATION_JOB_COMPLETE => decode_complete(payload).map(Self::Complete),
             OPERATION_JOB_STATUS => decode_status(payload).map(Self::Status),
-            OPERATION_JOB_STATUS_LOCALITY => decode_status(payload).map(Self::Status),
+            OPERATION_JOB_STATUS_LOCALITY | crate::compute_location::OPERATION_JOB_STATUS => {
+                decode_status(payload).map(Self::Status)
+            }
+            crate::request::OPERATION => crate::request::decode(payload).map(Self::Request),
             _ => return None,
         })
     }

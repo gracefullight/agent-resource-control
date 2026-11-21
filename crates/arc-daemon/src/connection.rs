@@ -231,7 +231,7 @@ async fn handle_inner<D, F, J, G, T, H>(
                         ERROR_INVALID_REQUEST
                     };
                     let response = Response::error("", code);
-                    respond(&stream, &response, &limits, &metrics).await;
+                    respond(&stream, &response, &limits, &metrics, false).await;
                     return;
                 }
                 Err(error) => {
@@ -266,6 +266,7 @@ async fn handle_inner<D, F, J, G, T, H>(
                     &Response::error("", ERROR_INVALID_REQUEST),
                     &limits,
                     &metrics,
+                    false,
                 )
                 .await
                 {
@@ -426,11 +427,7 @@ async fn handle_inner<D, F, J, G, T, H>(
                     let deadline = std::time::Instant::now() + limits.db_response_timeout;
                     match timeout_at(Instant::from_std(deadline), jobs(input, deadline)).await {
                         Ok(Ok(mut value)) => {
-                            if !matches!(
-                                request.operation.as_str(),
-                                arc_ipc::jobs::OPERATION_JOB_START_LOCALITY
-                                    | arc_ipc::jobs::OPERATION_JOB_STATUS_LOCALITY
-                            ) {
+                            if !arc_ipc::jobs::carries_locality_vocabulary(&request.operation) {
                                 project_legacy_snapshot(&mut value);
                             }
                             Response::ok(&request.request_id, value)
@@ -466,7 +463,8 @@ async fn handle_inner<D, F, J, G, T, H>(
                 unreachable!("non-doctor dispatch cannot use the database")
             })
         };
-        if !respond(&stream, &response, &limits, &metrics).await {
+        let negotiated = arc_ipc::compute_location::negotiated(&request.operation);
+        if !respond(&stream, &response, &limits, &metrics, negotiated).await {
             return;
         }
     }

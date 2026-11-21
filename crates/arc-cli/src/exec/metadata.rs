@@ -26,7 +26,7 @@ pub(super) fn classify(argv: &[OsString]) -> Classification {
     // These native workload recognizers have no endpoint dependency. Do not
     // make their local admission depend on unrelated environment or clocks.
     let direct = arc_detector::classify_argv(argv);
-    if direct.locality == arc_detector::Locality::HostLocal {
+    if direct.locality.is_local_compute() {
         return direct;
     }
     let Some(context) = super::capture_argv(argv) else {
@@ -162,7 +162,7 @@ fn bounded_sh_fallback(
 // still revalidate every consulted package before retaining that result.
 fn local_without_endpoint_context(argv: &[OsString]) -> Option<Classification> {
     let direct = arc_detector::classify_argv(argv);
-    if direct.locality == arc_detector::Locality::HostLocal {
+    if direct.locality.is_local_compute() {
         return Some(direct);
     }
     if argv
@@ -175,7 +175,7 @@ fn local_without_endpoint_context(argv: &[OsString]) -> Option<Classification> {
     let cwd = std::env::current_dir().ok()?;
     let mut metadata = FreshMetadata::default();
     let mut result = arc_detector::analyze_script_argv(argv, &cwd, &mut metadata);
-    if result.classification.locality != arc_detector::Locality::HostLocal
+    if !result.classification.locality.is_local_compute()
         || result.packages.is_empty()
         || metadata
             .revalidate(&result.packages, &mut result.metadata)

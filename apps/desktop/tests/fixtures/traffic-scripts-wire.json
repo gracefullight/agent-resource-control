@@ -33,6 +33,12 @@
     {
       "classification": "BUILD",
       "locality": "HOST_LOCAL",
+      "reason": "LOCAL_ENDPOINT_BUILD",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "BUILD",
+      "locality": "HOST_LOCAL",
       "reason": "COMPOUND_LOCAL",
       "uncertainty": "NONE"
     },
@@ -153,6 +159,12 @@
     {
       "classification": "REMOTE_CI",
       "locality": "REMOTE",
+      "reason": "REMOTE_CI_DISPATCH",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_CI",
+      "locality": "REMOTE",
       "reason": "COMPOUND_REMOTE",
       "uncertainty": "NONE"
     },
@@ -160,6 +172,12 @@
       "classification": "REMOTE_EXEC",
       "locality": "REMOTE",
       "reason": "SSH_REMOTE_COMMAND",
+      "uncertainty": "NONE"
+    },
+    {
+      "classification": "REMOTE_EXEC",
+      "locality": "REMOTE",
+      "reason": "REMOTE_ENDPOINT_EXEC",
       "uncertainty": "NONE"
     },
     {
@@ -232,6 +250,12 @@
       "classification": "UNKNOWN",
       "locality": "UNKNOWN",
       "reason": "DOCKER_ENDPOINT_UNKNOWN",
+      "uncertainty": "OBSERVE"
+    },
+    {
+      "classification": "UNKNOWN",
+      "locality": "UNKNOWN",
+      "reason": "ENDPOINT_AMBIGUOUS",
       "uncertainty": "OBSERVE"
     },
     {
@@ -1363,6 +1387,69 @@
         "classification": "TEST",
         "locality": "HOST_LOCAL",
         "reason": "CTEST",
+        "uncertainty": "NONE"
+      },
+      "job_id": "0123456789abcdef0123456789abcdef",
+      "limits": {
+        "budget": {
+          "cpu_millis": 2000,
+          "memory_bytes": 4294967296
+        },
+        "build": {
+          "reservation": {
+            "cpu_millis": 2000,
+            "memory_bytes": 2147483648
+          },
+          "window": 1
+        },
+        "lint": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "test": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        },
+        "typecheck": {
+          "reservation": {
+            "cpu_millis": 1000,
+            "memory_bytes": 1073741824
+          },
+          "window": 1
+        }
+      },
+      "liveness_fresh": false,
+      "recorded_at_ms": 20,
+      "schema_version": 1
+    },
+    {
+      "admission": {
+        "granted_at_ms": null,
+        "last_decision": null,
+        "outcome": {
+          "code": 17,
+          "kind": "EXITED"
+        },
+        "permit_active": false,
+        "permit_generation": null,
+        "queue_wait_ms": 2,
+        "queued_at_ms": 10,
+        "reservation": null,
+        "root_job_id": null,
+        "sequence": 1,
+        "state": "COMPLETED",
+        "wait_reason": null
+      },
+      "classification": {
+        "classification": "BUILD",
+        "locality": "HOST_LOCAL",
+        "reason": "LOCAL_ENDPOINT_BUILD",
         "uncertainty": "NONE"
       },
       "job_id": "0123456789abcdef0123456789abcdef",

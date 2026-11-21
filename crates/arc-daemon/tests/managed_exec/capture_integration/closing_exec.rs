@@ -3,6 +3,8 @@ use std::os::unix::net::UnixListener;
 
 #[path = "closing_exec/edge_cases.rs"]
 mod edge_cases;
+#[path = "closing_exec/stages.rs"]
+mod stages;
 
 fn output_with_input(command: &mut Command, input: &[u8], label: &str) -> std::process::Output {
     command

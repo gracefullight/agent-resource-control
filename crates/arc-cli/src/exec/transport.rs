@@ -154,6 +154,7 @@ pub(super) fn call_until_with_continuity(
         arc_ipc::jobs::OPERATION_JOB_START
             | arc_ipc::jobs::OPERATION_JOB_START_LOCALITY
             | arc_ipc::jobs::OPERATION_JOB_COMPLETE
+            | arc_ipc::request::OPERATION
     ) {
         let _ = relay_proof::bind(&mut request);
     }

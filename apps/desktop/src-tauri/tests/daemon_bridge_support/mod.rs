@@ -169,16 +169,8 @@ impl RealDaemon {
         assert!(self.daemon.is_none());
         let mut command = self.fixture.command();
         if self.isolated_environment {
-            // Reapply the fixture's explicit paths after clearing ambient ARC
-            // configuration. Coverage is restored by profile_command below.
-            command
-                .env_clear()
-                .env(arc_core::ARC_DB_PATH, &self.fixture.database)
-                .env(arc_core::ARC_SOCKET_PATH, &self.fixture.socket)
-                .env("ARC_RUNTIME_REPORT", self.fixture.root.join("runtime.json"))
-                .env("HOME", &self.fixture.root)
-                .env("TMPDIR", &self.fixture.root)
-                .env("PATH", "/usr/bin:/bin");
+            self.isolate(&mut command);
+            command.env("ARC_RUNTIME_REPORT", self.fixture.root.join("runtime.json"));
         }
         if self.test_profile {
             command.env("ARC_IPC_PROFILE", "test");
@@ -217,6 +209,19 @@ impl RealDaemon {
             "health": health, "recent": recent, "privateRuntimeMode": "0700", "socketMode": "0600",
             "productionInstanceAnchorPreserved": true,
         }));
+    }
+
+    /// Clear the ambient environment of a built binary and reapply only this
+    /// fixture's explicit paths and temporary HOME. Coverage is restored by
+    /// profile_command.
+    pub fn isolate(&self, command: &mut Command) {
+        command
+            .env_clear()
+            .env(arc_core::ARC_DB_PATH, &self.fixture.database)
+            .env(arc_core::ARC_SOCKET_PATH, &self.fixture.socket)
+            .env("HOME", &self.fixture.root)
+            .env("TMPDIR", &self.fixture.root)
+            .env("PATH", "/usr/bin:/bin");
     }
 
     pub fn identity(&self) -> ProcessIdentity {
@@ -388,6 +393,9 @@ impl HeldJob {
         let control = case.fixture.root.join("child.sock");
         let listener = UnixListener::bind(&control).unwrap();
         let mut command = Command::new(case.fixture.binary("arcctl"));
+        if case.isolated_environment {
+            case.isolate(&mut command);
+        }
         command
             .args(["exec", "--"])
             .arg(case.fixture.binary("arc-exec-fixture"))

@@ -37,6 +37,7 @@ const reasons: Record<
     "GO_BUILD",
     "SWIFT_BUILD",
     "CMAKE_BUILD",
+    "LOCAL_ENDPOINT_BUILD",
     "COMPOUND_LOCAL",
   ],
   TEST: [
@@ -62,9 +63,14 @@ const reasons: Record<
     "GH_WORKFLOW_RUN",
     "GH_RUN_WATCH",
     "GH_RUN_VIEW",
+    "REMOTE_CI_DISPATCH",
     "COMPOUND_REMOTE",
   ],
-  REMOTE_EXEC: ["SSH_REMOTE_COMMAND", "COMPOUND_REMOTE"],
+  REMOTE_EXEC: [
+    "SSH_REMOTE_COMMAND",
+    "REMOTE_ENDPOINT_EXEC",
+    "COMPOUND_REMOTE",
+  ],
   MIXED: ["COMPOUND_MIXED"],
   UNKNOWN: [
     "EMPTY_COMMAND",
@@ -77,6 +83,7 @@ const reasons: Record<
     "SSH_FORWARDING",
     "SSH_AMBIGUOUS",
     "DOCKER_ENDPOINT_UNKNOWN",
+    "ENDPOINT_AMBIGUOUS",
     "INPUT_LIMIT",
     "TOKEN_LIMIT",
     "INVOCATION_LIMIT",

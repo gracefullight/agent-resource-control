@@ -396,3 +396,66 @@ fn registered_native_diagnostics_fallback_never_accepts_unnegotiated_native_fact
         assert_eq!(peer.requests.load(Ordering::Relaxed), 3);
     }
 }
+
+#[test]
+fn registered_traffic_diagnostics_return_the_local_container_projection() {
+    use arc_ipc::traffic::diagnostics as d;
+    // What a real daemon answers on every diagnostics generation for a stored
+    // LOCAL_CONTAINER build (arc-daemon closing_locality/local_container/readers.rs).
+    let projected = json!({"classification":"BUILD","locality":"HOST_LOCAL",
+        "reason":"LOCAL_ENDPOINT_BUILD","uncertainty":"NONE"});
+    let fixtures = traffic_fixtures();
+    let result = fixtures["results"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|result| result["classification"]["reason"] == "LOCAL_ENDPOINT_BUILD")
+        .expect("Rust-derived local container fixture")
+        .clone();
+    assert_eq!(result["classification"], projected);
+    let generations = [
+        (
+            n::OPERATION_DIAGNOSTICS_CAPABILITIES,
+            n::OPERATION_DIAGNOSTICS_JOB,
+            n::DIAGNOSTICS_CAPABILITY,
+        ),
+        (
+            d::OPERATION_PYTHON_CAPABILITIES,
+            d::OPERATION_PYTHON_JOB,
+            d::PYTHON_CAPABILITY,
+        ),
+        (d::OPERATION_CAPABILITIES, d::OPERATION_JOB, d::CAPABILITY),
+    ];
+    for (selected, (probe, job, capability)) in generations.into_iter().enumerate() {
+        let reply = result.clone();
+        let peer = Peer::new(selected + 2, move |stream, request| {
+            let operation = request.operation.as_str();
+            let response = if operation == probe {
+                Response::ok(request.request_id, json!({ "capability": capability }))
+            } else if operation == job {
+                assert_eq!(request.payload, json!({"job_id":JOB}));
+                Response::ok(request.request_id, reply.clone())
+            } else {
+                // A newer generation this peer predates; never another read.
+                assert!(generations[..selected].iter().any(|g| g.0 == operation));
+                Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY)
+            };
+            arc_ipc::write_response(stream, &response).unwrap();
+        });
+        let actual = App::new(peer.bridge())
+            .invoke("traffic_job_diagnostics", json!({"job_id":JOB}))
+            .unwrap();
+        assert_eq!(actual, json!({"data":result,"received_at_ms":RECEIVED}));
+        assert_eq!(actual["data"]["classification"], projected);
+        assert!(!actual.to_string().contains("LOCAL_CONTAINER"));
+        // The projection names the container build and keeps its admission.
+        let typed = d::decode_result(&actual["data"], &JobId::try_from(JOB.to_owned()).unwrap())
+            .unwrap();
+        assert_eq!(
+            typed.classification.unwrap().canonical().locality,
+            Locality::LocalContainer
+        );
+        assert!(typed.admission.is_some());
+        assert_eq!(peer.requests.load(Ordering::Relaxed), selected + 2);
+    }
+}

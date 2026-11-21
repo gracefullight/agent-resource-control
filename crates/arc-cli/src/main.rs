@@ -104,6 +104,9 @@ Desktop integration, native Windows acceptance, vendor hooks and other schedulin
     /// Internal execution route used by the agent hook adapters
     #[command(hide = true)]
     HookExec {
+        /// Request whose stage this is; consumed by arcctl, never by the child
+        #[arg(long = "arc-request", value_name = "ID")]
+        request: Option<String>,
         #[arg(required = true, num_args = 1.., last = true, value_name = "PROGRAM")]
         argv: Vec<std::ffi::OsString>,
     },
@@ -197,7 +200,7 @@ fn main() -> ExitCode {
     };
     let command = match cli.command {
         Command::Exec { argv } => return exec::run(argv),
-        Command::HookExec { argv } => return exec::run_hook(argv),
+        Command::HookExec { request, argv } => return exec::run_hook(argv, request),
         Command::Hooks { command } => return hooks::run(command),
         Command::Job {
             command: JobCommand::Status { job_id },

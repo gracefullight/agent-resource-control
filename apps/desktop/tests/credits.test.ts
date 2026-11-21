@@ -1,5 +1,12 @@
 import { afterEach, describe, expect, test } from "bun:test";
 import {
+  GithubLogoIcon,
+  type Icon,
+  LinkedinLogoIcon,
+} from "@phosphor-icons/react";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import {
   act,
   cleanup,
   clone,
@@ -11,6 +18,13 @@ import {
 } from "./fixtures/desktop-test-harness";
 
 afterEach(cleanup);
+
+// The glyph the Phosphor component itself renders, for comparison with the link.
+function phosphorGlyph(icon: Icon): string {
+  const host = document.createElement("div");
+  host.innerHTML = renderToStaticMarkup(createElement(icon));
+  return host.querySelector("svg")?.innerHTML ?? "";
+}
 
 async function openCredits(native = new NativeFixture()) {
   const view = mountDesktop(native);
@@ -46,9 +60,14 @@ describe("production About / Credits", () => {
     expect(oma.getAttribute("href")).toBe(
       "https://github.com/first-fluke/oh-my-agent",
     );
-    for (const social of [github, linkedin]) {
+    for (const [social, icon] of [
+      [github, GithubLogoIcon],
+      [linkedin, LinkedinLogoIcon],
+    ] as const) {
       expect(social.textContent).toBe("");
       expect(social.querySelectorAll("svg")).toHaveLength(1);
+      expect(phosphorGlyph(icon)).toContain("<path");
+      expect(social.querySelector("svg")?.innerHTML).toBe(phosphorGlyph(icon));
       expect(social.querySelector("svg")?.getAttribute("aria-hidden")).toBe(
         "true",
       );

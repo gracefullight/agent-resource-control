@@ -392,4 +392,5 @@ fn unsupported_shell_and_oversized_input_keep_legacy_unknown_reasons() {
     }
 }
 
+mod container;
 mod repair;

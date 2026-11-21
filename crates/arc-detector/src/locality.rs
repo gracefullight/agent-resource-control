@@ -105,8 +105,9 @@ pub fn capture_shell_argv(request: &ClassifyRequest) -> Option<Vec<Vec<OsString>
         };
         if output.is_empty()
             || output.iter().any(|argv| {
-                classify_argv_with_context(argv, &empty_context, 1).locality
-                    != crate::Locality::HostLocal
+                !classify_argv_with_context(argv, &empty_context, 1)
+                    .locality
+                    .is_local_compute()
             })
         {
             return None;
@@ -315,14 +316,14 @@ fn local_leaf(words: &[String], budget: &mut Budget) -> Checked<Option<Classific
     }
     if head == "cargo" {
         let result = crate::rules::recognize(words, budget)?;
-        return Ok((result.locality == crate::Locality::HostLocal).then_some(result));
+        return Ok(result.locality.is_local_compute().then_some(result));
     }
     if !head.ends_with('/') && head.contains('/') && head.rsplit('/').next() == Some("cargo") {
         budget.charge(words.iter().map(|word| 1 + word.len()).sum())?;
         let mut literal = words.to_vec();
         literal[0] = "cargo".into();
         let result = crate::rules::recognize(&literal, budget)?;
-        return Ok((result.locality == crate::Locality::HostLocal).then_some(result));
+        return Ok(result.locality.is_local_compute().then_some(result));
     }
     Ok(None)
 }

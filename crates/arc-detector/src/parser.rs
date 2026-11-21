@@ -73,7 +73,7 @@ impl<'a> Parser<'a> {
                 || leaves.len() == before
                 || leaves[before..]
                     .iter()
-                    .any(|leaf| leaf.locality != crate::Locality::HostLocal))
+                    .any(|leaf| !leaf.locality.is_local_compute()))
         {
             return Err(Reason::UnresolvedScript);
         }
@@ -210,7 +210,7 @@ impl<'a> Parser<'a> {
                         None => rules::recognize(&words, b)?,
                     };
                     if words.first().is_some_and(|word| word == "make")
-                        && result.locality == crate::Locality::HostLocal
+                        && result.locality.is_local_compute()
                     {
                         self.caller_directory_fact_used = true;
                     }

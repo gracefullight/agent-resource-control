@@ -219,7 +219,7 @@ pub(super) fn prepare(
     signals: &Signals,
 ) -> Result<Mode, Failure> {
     use arc_detector::{Locality, Reason};
-    if classification.locality != Locality::HostLocal
+    if !classification.locality.is_local_compute()
         || !matches!(
             classification.reason,
             Reason::CargoBuild

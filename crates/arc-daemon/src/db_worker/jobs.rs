@@ -16,6 +16,7 @@ pub(crate) enum Operation {
     Get(JobId),
     Recent,
     Reconcile(ReconcileEvidence),
+    Request(arc_ipc::request::StageRequest, u64),
     Traffic(super::traffic::Operation),
     Meter(super::job_meter::Operation),
     Policy(super::policy::Operation),
@@ -28,6 +29,7 @@ pub(crate) enum Value {
     Get(Result<Option<JobSnapshot>, JobError>),
     Status(Result<StatusResult, JobError>),
     Reconcile(Result<ReconcileResult, JobError>),
+    Request(Result<arc_ipc::request::StagesResult, JobError>),
     Traffic(super::traffic::Value),
     Meter(super::job_meter::Value),
     Policy(Result<super::policy::Value, JobError>),
@@ -75,6 +77,9 @@ pub(crate) fn execute_observed(
         Operation::Recent => Value::Status(jobs::recent(connection, now())),
         Operation::Reconcile(evidence) => {
             Value::Reconcile(jobs::apply_observation(connection, &evidence))
+        }
+        Operation::Request(request, at_ms) => {
+            Value::Request(arc_storage::request::apply(connection, &request, at_ms))
         }
         Operation::Traffic(operation) => Value::Traffic(super::traffic::execute_observed(
             connection, operation, reader,
@@ -149,6 +154,13 @@ pub(crate) async fn handle(
         LifecycleRequest::Complete(request) => {
             match call(&client, Operation::Complete(request), deadline).await? {
                 Value::Complete(value) => wire(value),
+                _ => Err(arc_ipc::ERROR_DB_BUSY),
+            }
+        }
+        LifecycleRequest::Request(request) => {
+            // Metadata only: ownership is checked against the stored job row.
+            match call(&client, Operation::Request(request, now()), deadline).await? {
+                Value::Request(value) => wire(value),
                 _ => Err(arc_ipc::ERROR_DB_BUSY),
             }
         }

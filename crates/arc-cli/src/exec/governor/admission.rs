@@ -169,7 +169,10 @@ where
                 }
                 JobResult::Queued { .. } => {
                     if !waited {
-                        write_notice("QUEUED\nWaiting to start.\n");
+                        write_notice(&format!(
+                            "QUEUED\nWaiting to start.\nReference: {}\n",
+                            id.as_str()
+                        ));
                         waited = true;
                         super::super::launch::after_queue(&json!({"request":request}), cancelled)?;
                     }

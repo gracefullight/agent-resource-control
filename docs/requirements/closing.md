@@ -51,16 +51,26 @@ Source: §8.5, §8.7 DET-005; linked AT-TRF-02, AT-TRF-04 and AT-TRF-12.
    UNKNOWN/OBSERVE; evidence: `closing_locality`.
 8. **HOST** — `make test && gh workflow run ci.yml` with the literal Makefile
    and proven remote CI endpoint specified in DET-001 item 7: MIXED; evidence:
-   `closing_shell` on both production routes. This is classification evidence
-   only for AT-TRF-12.
+   `closing_shell` on both production routes. This item is classification
+   evidence; the stage-by-stage control of the same compound is
+   [AT-TRF-12](#at-trf-12--mixed-command) and
+   [DET-016](#det-016--stage-by-stage-permits-for-mixed-commands).
 9. **HOST** — `docker build .` and `docker buildx build .` with proven local
-   engine/builder endpoints are BUILD/HOST_LOCAL controls. For `act -j build`,
+   engine/builder endpoints are BUILD controls placed in a Local Container:
+   `arcctl classify` and the negotiated `job.status.container.v1` reader name
+   the compute location `LOCAL_CONTAINER`; every reader that did not negotiate
+   it (`*.locality.v1`, Traffic diagnostics, the desktop) receives the
+   HOST_LOCAL projection, and a protocol-1 reader keeps UNKNOWN. Each control
+   takes one queue entry and one reservation. For `act -j build`,
    `wsl.exe -- cargo build`, and the fixture `./self-hosted-runner` with no
    proof of their execution endpoint, the expected result is UNKNOWN/OBSERVE.
    The SRS labels
    an actual WSL workload LOCAL_VM and a runner on this machine HOST_LOCAL;
    these unproved negative controls do not complete those broader
-   local-detection cases. Evidence: individual `closing_locality` controls.
+   local-detection cases. Evidence: individual `closing_locality` controls;
+   the local-endpoint controls are
+   `closing_locality::docker_local_listener_controls_use_both_production_routes_and_admission`,
+   which is macOS-only.
 10. **HOST** — `pnpm run deploy` with fixture script
     `cargo build && gh workflow run ci.yml` and a proven remote CI endpoint is
     MIXED. Evidence:
@@ -73,8 +83,10 @@ Source: §8.5, §8.7 DET-005; linked AT-TRF-02, AT-TRF-04 and AT-TRF-12.
     remote placement. The local capture path does not probe a cluster; the
     simulated pod fact is not a live placement observation.
 13. **HOST** — `act -j build` with an explicit Unix Docker endpoint and a
-    fixture listener proven to be a local engine is BUILD/HOST_LOCAL and
-    receives local admission.
+    fixture listener proven to be a local engine is BUILD with compute
+    location `LOCAL_CONTAINER` (HOST_LOCAL for a reader that did not negotiate
+    it) and receives local admission: one queue entry and one reservation.
+    Evidence: the case "act on local engine" of the same macOS-only test.
 14. **HOST** — a same-PC simulated self-hosted runner starts a locally
     managed `cargo build`; its actual child identity and local admission are
     recorded. An arbitrary runner without that evidence stays UNKNOWN.
@@ -97,8 +109,9 @@ Source: §17.3 SAFE-008 and §8.5; linked AT-TRF-02, AT-TRF-04, AT-SWP-20.
    UNKNOWN/OBSERVE without forced local scheduling; evidence:
    `closing_locality`.
 5. **HOST** — mixed local-test/remote-CI classification is not misrepresented
-   as a blanket remote bypass; evidence: `closing_shell`. The linked
-   AT-TRF-12 requires separate stage-by-stage control and dispatch evidence.
+   as a blanket remote bypass; evidence: `closing_shell`. The stage-by-stage
+   control of the two named compounds is separate evidence, assessed under
+   [AT-TRF-12](#at-trf-12--mixed-command); no live dispatch is claimed.
 6. **EXTERNAL** — a genuinely remote pod and its remote execution require a live cluster; see DET-005 item 12.
 
 AT-SWP-20 also requires a remote Docker context to disable the Docker sweep
@@ -195,8 +208,10 @@ than guessed. All evidence targets are `closing_shell` unless specified.
    `test` recipe `cargo test`, and `bun test && gh workflow run ci.yml`, with
    a proven remote CI endpoint, are MIXED on both routes. Evidence:
    `capture_integration::closing_shell::actual::bash_and_zsh_execute_the_same_direct_pipeline_compound_and_mixed_commands`.
-   These results do not establish AT-TRF-12's separately required local-Test
-   control and remote dispatch.
+   On `arcctl exec -- bash -c` the MIXED record is the request record and its
+   two stages are recorded separately. Classification alone does not establish
+   AT-TRF-12; its local-Test control is the separate evidence in
+   [AT-TRF-12](#at-trf-12--mixed-command), and no live dispatch is claimed.
 8. **HOST** — the following dynamic wrapper fixtures are UNKNOWN/OBSERVE on
    both routes; inspection does not execute their contents. `./build.sh`
    contains `#!/bin/sh` followed by `exec "$RUNNER"`; `pnpm run deploy` has
@@ -218,8 +233,9 @@ than guessed. All evidence targets are `closing_shell` unless specified.
 
 The PowerShell, cmd, Windows Drive/UNC and unrelated language-catalog cases in
 §8.2 are not Bash/zsh DET-001 cases. Their own requirement rows remain
-independent. AT-TRF-12 is not Complete until its stage-by-stage acceptance is
-demonstrated; classification of either mixed example is not that demonstration.
+independent. Classification of either mixed example is not AT-TRF-12's
+stage-by-stage acceptance; that acceptance was assessed later, with its own
+named tests, in [Phase 0 locality and desktop](#phase-0-locality-and-desktop).
 
 ## Task 1 baseline evidence
 
@@ -389,7 +405,9 @@ configuration and any configured container health are not established here.
 
 The 42 simulated cases and the 10 named production-path remote/uncertain
 cases are accounted separately in [traceability](traceability.md#phase-0-closure-integration-evidence).
-`AT-TRF-12` and `AT-SWP-20` remain at their existing statuses. The Kubernetes
+`AT-TRF-12` and `AT-SWP-20` kept their existing statuses in that cycle;
+AT-TRF-12 was assessed later in
+[Phase 0 locality and desktop](#phase-0-locality-and-desktop). The Kubernetes
 probe remains removed; an API endpoint alone does not prove pod placement.
 
 ## Remaining Phase 0 inventories
@@ -403,6 +421,9 @@ Historical evidence for each row is in its corresponding primary row in
 SAFE-001, SAFE-007, NFR-010 and R-007 were assessed in the later Reaper
 safety cycle; their named tests are in
 [Phase 0 Reaper safety, ownership and recovery](#phase-0-reaper-safety-ownership-and-recovery).
+AT-GUI-01, AT-GUI-04, DEC-003, DEC-004, DEC-012, DEC-022, G-02, ADR-002 and
+ADR-005 were assessed in the locality and desktop cycle; their named tests are
+in [Phase 0 locality and desktop](#phase-0-locality-and-desktop).
 
 ### Requirements
 
@@ -425,24 +446,24 @@ safety cycle; their named tests are in
 ### Acceptance tests
 
 - **AT-TRF-11** — 1. **HOST** UNKNOWN command passes without a local permit; 2. **HOST** its actual execution and native result are retained. Complete in the existing row.
-- **AT-GUI-01** — 1. **HOST** closing the fixture window hides it and leaves the daemon running; 2. **EXTERNAL** installed macOS menu-bar and Windows tray remain available after window close. Partial.
-- **AT-GUI-04** — 1. **HOST** About shows the specified icon-only links and Try OMA; 2. **EXTERNAL** each link opens its official destination in the real default browser. Partial.
+- **AT-GUI-01** — 1. **HOST** closing the fixture window hides it and leaves the daemon running; 2. **EXTERNAL** installed macOS menu-bar and Windows tray remain available after window close. Blocked; only item 2 remains.
+- **AT-GUI-04** — 1. **HOST** About shows the specified icon-only links and Try OMA; 2. **EXTERNAL** each link opens its official destination in the real default browser. Blocked; only item 2 remains.
 
 ### Product decisions, goals, architecture and risks
 
 - **DEC-001** — 1. **HOST** the product and switch display the specified Agent Resource Control / ARC identity. Complete.
-- **DEC-003** — 1. **HOST** GUI and CLI use the shared Rust daemon; 2. **EXTERNAL** per-user installation and lifecycle on the required platforms. Partial.
-- **DEC-004** — 1. **HOST** fixture window close hides without daemon exit; 2. **EXTERNAL** installed macOS menu-bar and Windows tray behavior. Partial.
+- **DEC-003** — 1. **HOST** GUI and CLI use the shared Rust daemon; 2. **EXTERNAL** per-user installation and lifecycle on the required platforms. Blocked; only item 2 remains.
+- **DEC-004** — 1. **HOST** fixture window close hides without daemon exit; 2. **EXTERNAL** installed macOS menu-bar and Windows tray behavior. Blocked; only item 2 remains.
 - **DEC-005** — 1. **HOST** daemon uses Rust/Tokio and SQLite without a persistent Node or LLM service. Complete.
 - **DEC-006** — 1. **HOST** desktop uses the declared React 19 and TypeScript 7 stack. Complete.
 - **DEC-007** — 1. **HOST** Bun is the declared JS/TS package manager. Complete.
 - **DEC-008** — 1. **HOST** desktop uses the declared Tailwind, basecn and Phosphor stack. Complete.
 - **DEC-009** — 1. **HOST** Biome is the declared JS/TS formatting and lint tool. Complete.
-- **DEC-012** — 1. **HOST** the named local and remote endpoint controls in DET-005; 2. **EXTERNAL** proven remote pod placement and Windows WSL placement. Partial; these cases do not close other endpoint families.
-- **DEC-022** — 1. **HOST** specified About icons and CTA are displayed; 2. **EXTERNAL** actual browser opening of their official destinations. Partial.
-- **G-02** — 1. **HOST** the named finite remote triggers bypass local admission; 2. **EXTERNAL** remaining placement-dependent scenarios; 3. **HOST** the broader official-trigger goal remains separately unverified. Partial.
-- **ADR-002** — 1. **HOST** separated Rust daemon and React/Tauri GUI; 2. **EXTERNAL** installed cross-platform lifecycle. Partial.
-- **ADR-005** — 1. **HOST** named endpoint-based local, remote and UNKNOWN decisions; 2. **EXTERNAL** live pod and WSL placement; 3. **HOST** remaining endpoint/tool-family cases. Partial.
+- **DEC-012** — 1. **HOST** the named local and remote endpoint controls in DET-005; 2. **EXTERNAL** proven remote pod placement and Windows WSL placement. Blocked; only item 2 remains. These cases do not close other endpoint families.
+- **DEC-022** — 1. **HOST** specified About icons and CTA are displayed; 2. **EXTERNAL** actual browser opening of their official destinations. Blocked; only item 2 remains.
+- **G-02** — 1. **HOST** the named finite remote triggers bypass local admission; 2. **EXTERNAL** remaining placement-dependent scenarios; 3. **HOST** [AT-TRF-03](#at-trf-03--local-docker-build): a local Docker build is placed as Local Container and takes a Build reservation; 4. **HOST** [AT-TRF-12](#at-trf-12--mixed-command): only the local Test stage of the mixed command is admitted and the remote CI trigger uses no local slot. Blocked; only item 2 remains. The SRS names AT-TRF-02, 03, 04 and 12 for this goal (§1.2 and §24); AT-TRF-02 and AT-TRF-04 are already Complete, so items 3 and 4 are the whole remainder of the former open item.
+- **ADR-002** — 1. **HOST** separated Rust daemon and React/Tauri GUI; 2. **EXTERNAL** installed cross-platform lifecycle. Blocked; only item 2 remains.
+- **ADR-005** — 1. **HOST** named endpoint-based local, remote and UNKNOWN decisions; 2. **EXTERNAL** live pod and WSL placement; 3. **HOST** a local Docker engine is placed as Local Container ([DET-011](#det-011--local-dockerwsl-detection) item 1); 4. **HOST** a local Buildx builder is placed as Local Container (DET-011 item 2); 5. **HOST** stage-by-stage permits for the two named mixed compounds ([DET-016](#det-016--stage-by-stage-permits-for-mixed-commands) items 1 and 2). Blocked; only item 2 remains. Items 3 to 5 are the cases its related IDs DET-011 and DET-016 and the §8.5 table give, and replace the former open item; WSL placement stays in item 2.
 - **ADR-011** — 1. **HOST** the declared Bun, TS7, React19, Tailwind4, basecn, Phosphor and Biome stack is maintained. Complete.
 - **R-004** — 1. **HOST** macOS admission fallback; 2. **EXTERNAL** Windows and Linux capability/hard-limit behavior. Pending/Unverified.
 - **R-007** — 1. **HOST** PID/start-time identity evidence; 2. **HOST** Reaper revalidation before acting on a reused PID. Complete.
@@ -576,8 +597,11 @@ between the check and the signal. The daemon never signals.
 | NFR-010 | Complete | None in the numbered HOST list. |
 | R-007 | Complete | None in the numbered HOST list. |
 
-Phase 0 is now 18 Complete, 10 Partial, 8 Pending and 4 Blocked of 40; see
+At the end of this cycle Phase 0 was 18 Complete, 10 Partial, 8 Pending and
+4 Blocked of 40; see
 [traceability](traceability.md#phase-0-reaper-safety-integration-evidence).
+The current counts are under
+[Phase 0 locality and desktop](#phase-0-locality-and-desktop).
 
 ### Integration checks and boundary
 
@@ -641,3 +665,501 @@ configuration in effect cannot be read from this workspace. Whether container
 targets are configured, and their health, availability and recent errors, is
 therefore not established, and this document does not claim mission
 completion.
+
+## Phase 0 locality and desktop shell: finite Phase 2 lists
+
+The replacements for G-02 item 3 and ADR-005 item 3 above name cases that
+belong to four Phase 2 rows. Their finite lists are fixed here before any lane
+starts; the interfaces and file ownership are in the
+[cycle contract](../../.arc-verify/phase-0-locality-desktop/contract.md).
+Sources: [locality §8.5](ARC_SRS_2026-11-06.md#85-locality-판정네트워크-요청과-로컬-컴퓨팅의-분리),
+[detector §8.7](ARC_SRS_2026-11-06.md#87-detector-요구사항) and
+[traffic acceptance §21.2](ARC_SRS_2026-11-06.md#212-gherkin-기반-acceptance-tests--traffic).
+
+This section fixed the obligations before the lanes started. Integration then
+assessed every item against a named test; the files, the conditions and the
+row outcomes are in
+[Phase 0 locality and desktop](#phase-0-locality-and-desktop), and the status
+line under each list is that assessment. An item
+counts only when the path a user's command takes (the installed hook,
+`hook-exec`, `arcctl exec` or `arcctl classify`, then a real daemon) produces
+the behaviour with offline stubs; an injected fact proves the classifier only.
+No live Docker engine, GitHub dispatch or vendor runtime is run or claimed.
+
+"Proven local endpoint" below means an isolated Docker context and Buildx
+builder whose Unix endpoint has a fixture listener the existing socket
+inventory proves to be a local engine. Classification never contacts that
+socket. The compute location is the negotiated value `LOCAL_CONTAINER`; a
+protocol-1 peer or a reader that did not negotiate it receives a valid earlier
+record instead.
+
+### AT-TRF-03 — local Docker build
+
+1. **HOST** — `docker buildx build .` with a proven local endpoint is recorded
+   BUILD with compute location Local Container on the `arcctl exec` route.
+   Test: `local_container_buildx_via_exec`.
+2. **HOST** — the same command on the `hook-exec` route. Test:
+   `local_container_buildx_via_hook_exec`.
+3. **HOST** — the global resource budget is checked: on both routes the build
+   takes one BUILD queue entry and reservation; while a separate Build permit
+   is held the offline docker stub has zero starts, then runs exactly once and
+   releases its permit. Asserted by the two tests above.
+4. **HOST** — classification executes nothing and contacts no socket, and
+   `arcctl classify` names the location. Test:
+   `local_container_classify_contacts_no_socket`.
+
+Status: Complete. Every item has a passing test; all three tests are
+macOS-only.
+
+### AT-TRF-12 — mixed command
+
+1. **HOST** — `bun test && gh workflow run ci.yml` with a proven remote CI
+   endpoint through the installed hook: the local Test stage is recorded
+   TEST/HOST_LOCAL and admitted; while a separate TEST permit is held it has
+   zero starts, then runs exactly once and releases its permit; the gh stage
+   is recorded REMOTE_CI with no queue entry or reservation and is not delayed
+   by a held Build permit; both stage records are linked to the one request.
+   Test: `mixed_bun_stages_via_hook`.
+2. **HOST** — the same compound through `arcctl exec -- bash -c`. Test:
+   `mixed_bun_stages_via_exec`.
+3. **HOST** — shell semantics are preserved: a failing test stage prevents the
+   gh stage, and arguments, working directory, environment, streams and exit
+   status are unchanged. Test: `mixed_failing_test_stage_skips_gh_stage`, with
+   the exact comparisons in the two tests above.
+4. **HOST** — the command graph is analysed without executing anything. Test:
+   `mixed_classify_executes_nothing`.
+
+Status: Complete. Every item has a passing test.
+
+### DET-011 — local Docker/WSL detection
+
+1. **HOST** — `docker build .` on a proven local engine is BUILD with compute
+   location Local Container on both production routes and takes a BUILD
+   reservation. Tests: `local_container_docker_build_via_exec`,
+   `local_container_docker_build_via_hook_exec`.
+2. **HOST** — `docker buildx build .` with a proven local context and builder,
+   as AT-TRF-03 items 1 to 3. Tests: `local_container_buildx_via_exec`,
+   `local_container_buildx_via_hook_exec`.
+3. **HOST** — remote, mixed-node, missing or conflicting endpoints keep their
+   existing REMOTE_EXEC or UNKNOWN/OBSERVE result and take no local
+   reservation (the AT-TRF-04 control). Test:
+   `local_container_other_endpoints_unchanged`.
+4. **HOST** — detection contacts no socket and runs nothing. Test:
+   `local_container_classify_contacts_no_socket`.
+5. **HOST** — `act -j build` on a proven local engine shares the reason
+   `LOCAL_ENDPOINT_BUILD` and the §8.5 expectation, so it moves with the Docker
+   cases. Test: `closing_locality::docker_local_listener_controls_use_both_production_routes_and_admission`,
+   which is macOS-only (`#[cfg(target_os = "macos")]`, it injects the socket
+   inventory through `DYLD_INSERT_LIBRARIES`); on another host this item has no
+   executed evidence.
+6. **HOST** — the location is additive vocabulary: a protocol-1 peer keeps
+   protocol-1 vocabulary and every reader that did not negotiate receives the
+   HOST_LOCAL projection. Test: `local_container_projection_for_earlier_peers`
+   (daemon replies: protocol-1 status, locality status, the three Traffic
+   diagnostics operations and an earlier-peer enqueue). For the desktop reader
+   two further tests continue from the same record:
+   `registered_traffic_diagnostics_return_the_local_container_projection`
+   (`apps/desktop/src-tauri/tests/registered_commands_support/traffic_diagnostics.rs`)
+   and "local container build diagnostics are read as the HOST_LOCAL
+   projection and LOCAL_CONTAINER is rejected"
+   (`apps/desktop/tests/traffic-scripts-contract.test.ts`). These are three
+   tests joined by one identical record (daemon reply, registered command,
+   TypeScript reader), not one end-to-end test.
+7. **EXTERNAL** — `wsl.exe -- cargo build` with actual LOCAL_VM placement
+   needs a Windows host with WSL (DET-005 item 15). Not selected or claimed.
+
+Status: Blocked; only item 7 remains. Items 1, 2, 4, 5 and 6 have executed
+evidence on macOS only.
+
+The Sweeper's Docker switch condition (SRS §12.15, `sweeper.docker`) cites
+DET-011 but belongs to the Sweeper rows and is not an item here.
+
+### DET-016 — stage-by-stage permits for mixed commands
+
+1. **HOST** — `bun test && gh workflow run ci.yml`: the stage-by-stage permits
+   of AT-TRF-12 items 1 and 2 on both routes. Tests:
+   `mixed_bun_stages_via_hook`, `mixed_bun_stages_via_exec`.
+2. **HOST** — `make test && gh workflow run ci.yml` with the literal Makefile
+   recipe `cargo test` and a proven remote CI endpoint: the same on both
+   routes. Tests: `mixed_make_stages_via_hook`, `mixed_make_stages_via_exec`.
+3. **HOST** — a failing test stage prevents the gh stage and the compound's
+   exit status is the shell's. Test: `mixed_failing_test_stage_skips_gh_stage`.
+4. **HOST** — a compound that cannot be separated safely (command
+   substitution, redirection, a dynamic target, a startup-altering nested
+   shell) keeps today's MIXED or UNKNOWN/OBSERVE pass-through with no stage
+   record. Test: `mixed_unseparable_compounds_pass_through`.
+5. **HOST** — classification executes nothing. Test:
+   `mixed_classify_executes_nothing`.
+
+Status: Complete. Every item has a passing test.
+
+Exactly these two compounds are separated. Every other source, including
+`sh -c` and `zsh -c` on the `arcctl exec` route, keeps today's result.
+
+## Phase 0 locality and desktop
+
+This cycle assessed thirteen rows against their numbered cases: nine Phase 0
+rows from the [remaining inventories](#remaining-phase-0-inventories)
+(DEC-003, DEC-004, ADR-002, AT-GUI-01, AT-GUI-04, DEC-022, DEC-012, G-02 and
+ADR-005) and the four Phase 2 rows whose
+[finite lists](#phase-0-locality-and-desktop-shell-finite-phase-2-lists)
+replaced the two former open items (AT-TRF-03, AT-TRF-12, DET-011 and
+DET-016). The interfaces are in the
+[cycle contract](../../.arc-verify/phase-0-locality-desktop/contract.md).
+Sources: [product decisions §0](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정),
+[product goals §1.2](ARC_SRS_2026-11-06.md#12-제품-목표),
+[architecture decisions §4.4](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records),
+[locality §8.5](ARC_SRS_2026-11-06.md#85-locality-판정네트워크-요청과-로컬-컴퓨팅의-분리)
+and the linked acceptance tests.
+
+### Where the tests are and what limits them
+
+- **Desktop shell**, under `apps/desktop/src-tauri/tests`: `lifecycle.rs`
+  (target `lifecycle`), and `registered_commands_support/input_validation.rs`
+  and `registered_commands_support/traffic_diagnostics.rs` (target
+  `registered_commands`). Each builds the application through
+  `configure_with_ports` with the production command handlers on Tauri's mock
+  runtime. `apps/desktop/tests/credits.test.ts` and
+  `apps/desktop/tests/traffic-scripts-contract.test.ts` are Bun tests of the
+  React About view and of the TypeScript reader.
+- **Mixed stages**, under
+  `crates/arc-daemon/tests/managed_exec/capture_integration` (target
+  `managed_exec`): `closing_exec/stages.rs` for the installed-hook route and
+  `closing_shell/stages.rs` for `arcctl exec -- bash -c`. Both run
+  `closing_shell/stages/admission.rs` with the helpers in
+  `closing_shell/stages/harness.rs`.
+- **Local container**, same target: `closing_locality/local_container.rs` with
+  `local_container/fixture.rs` and `local_container/readers.rs`, and
+  `closing_locality/docker_controls.rs`.
+
+A test that starts a binary runs the built `arcctl` and the real `arc-daemon`
+with a cleared environment, a temporary HOME and explicit socket and database
+paths, against offline stubs. The conditions below limit what the evidence
+shows:
+
+- **macOS-only local proof.** The six local-proof container tests (every
+  `local_container_*` test except `local_container_other_endpoints_unchanged`)
+  and the Docker controls test are compiled only on macOS: the listener
+  inventory that proves a local engine is injected through
+  `DYLD_INSERT_LIBRARIES`. They ran on this macOS host; on another host those
+  items have no executed evidence.
+- **Hook route for the container literals.** The two `*_via_hook_exec` tests
+  first assert that the installed Claude hook returns exactly
+  `'<arcctl>' hook-exec -- <literal>`, and then run that `hook-exec` command
+  directly. The vendor shell is not in between, because macOS removes
+  `DYLD_INSERT_LIBRARIES` for system shells and with it the injected inventory.
+- **Four-core Traffic budget.** The four `mixed_*_stages_via_*` tests start
+  the daemon with `ARC_TRAFFIC_CPU_BUDGET_MILLIS=4000`. With the default
+  two-core budget one held Build reservation is the whole budget, so the Test
+  stage would also wait for the build; with four cores only the TEST window
+  delays it. On the hook route the rewrite returned by the installed Claude
+  hook is run by `/bin/sh` (Bun compound) and `/bin/zsh` (Make compound). The
+  Cursor adapter shares the rewrite and has no installed-hook stage test.
+- **Injected close request.** The desktop test calls
+  `lifecycle::close_requested`, the adapter that `on_window_event` installs,
+  with a counting prevention port, because Tauri's `CloseRequestApi` has no
+  public constructor. No native close event is delivered.
+- **Self-reported daemon identity is macOS-only.** In the same test, the step
+  in which the daemon states its own PID and start time (the registered
+  `meter_snapshot` and `arcctl meter snapshot --json`) is compiled on macOS
+  only. On another Unix host the test shows the unchanged process identity,
+  `daemon_health` and `arcctl status`.
+
+### Desktop shell rows
+
+**DEC-003** — public shared local daemon.
+
+1. **HOST** — GUI and CLI use the shared Rust daemon.
+   `close_request_hides_main_and_same_daemon_serves_bridge_and_cli`
+   (`lifecycle.rs`): one private real daemon answers the registered
+   `daemon_health` command and the built `arcctl status` from the same socket,
+   and (macOS) names the same PID and start time to both; a job started with
+   `arcctl exec` is read through the registered `job_by_id` as RUNNING, is
+   first in `recent_jobs`, and reads COMPLETED with exit 17 after exactly one
+   launch. `registered_app_reads_private_real_daemon` (same file) is the seam
+   test for the registered application reading that daemon.
+2. **EXTERNAL** — per-user installation and lifecycle on the required
+   platforms. Not selected or claimed.
+
+**DEC-004** — window close hides, daemon keeps running.
+
+1. **HOST** — fixture window close hides without daemon exit. The same test:
+   after `open_dashboard`, the close request on `main` is prevented exactly
+   once; the shell records `show, unminimize, focus, hide`; the same `main`
+   window object remains the only window, with no exit and no bridge shutdown;
+   the daemon's process identity is unchanged before and after, and at the end
+   of the test. `close_request_hides_existing_window` (same file) is the
+   earlier accepted test of prevent-and-hide without a daemon.
+2. **EXTERNAL** — installed macOS menu-bar and Windows tray behavior. Not
+   selected or claimed.
+
+**ADR-002** — Rust per-user daemon with a separate React/Tauri GUI.
+
+1. **HOST** — separated Rust daemon and React/Tauri GUI. The same test: the
+   daemon is its own `arc-daemon` process, reached by the desktop only through
+   the registered bridge commands; hiding the GUI window changes neither the
+   daemon's identity nor its answers to the CLI, and the CLI's job is visible
+   to the GUI only through that daemon.
+2. **EXTERNAL** — installed cross-platform lifecycle. Not selected or claimed.
+
+**AT-GUI-01** — menu bar / tray.
+
+1. **HOST** — closing the fixture window hides it and leaves the daemon
+   running. `close_request_hides_main_and_same_daemon_serves_bridge_and_cli`,
+   as under DEC-004 item 1 and DEC-003 item 1.
+2. **EXTERNAL** — installed macOS menu-bar and Windows tray remain available
+   after window close. Not selected or claimed.
+
+**AT-GUI-04** — credits links.
+
+1. **HOST** — About shows the specified icon-only links and Try OMA.
+   `apps/desktop/tests/credits.test.ts`, test "exact SRS identity and three
+   destinations use only the fixed native opener": GitHub and LinkedIn are
+   links with an accessible name and one `aria-hidden` SVG each, equal to the
+   glyph Phosphor's `GithubLogoIcon` and `LinkedinLogoIcon` render, with no
+   visible text; the Try OMA call to action is present; the three clicks reach
+   the opener with the three fixed destinations.
+   `registered_opener_accepts_exactly_the_three_enum_destinations`
+   (`registered_commands_support/input_validation.rs`): the registered
+   `open_credit_link` command accepts exactly `github`, `linkedin` and `oma`
+   with the three fixed official URLs, rejects five other values with
+   `invalid_request`, and the opener plugin's own command is refused.
+2. **EXTERNAL** — each link opens its official destination in the real default
+   browser. Not selected or claimed; the opener port is a recording fake.
+
+**DEC-022** — Credit/About.
+
+1. **HOST** — specified About icons and CTA are displayed. The same
+   `credits.test.ts` test.
+2. **EXTERNAL** — actual browser opening of their official destinations. Not
+   selected or claimed.
+
+### Locality rows
+
+Test names below are in `capture_integration::closing_locality`,
+`closing_shell` or `closing_exec` as named in
+[DET-005](#det-005--remote-ci-and-ssh-exclusion) and in the
+[finite Phase 2 lists](#phase-0-locality-and-desktop-shell-finite-phase-2-lists).
+
+**DEC-012** — the place where the computation runs decides, not the command.
+
+1. **HOST** — the named local and remote endpoint controls in DET-005, set
+   from the existing tests of that list:
+   - remote, items 1 to 5:
+     `closing_exec::installed_claude_hook_executes_same_remote_child_with_held_build_permit`,
+     `closing_locality::proven_gh_remote_is_the_same_inspected_and_executed_child`,
+     `closing_locality::proven_remote_cases_never_classify_local_on_either_route`,
+     `closing_locality::gitlab_explicit_public_endpoint_and_unresolved_controls_on_both_routes`
+     and
+     `closing_locality::remote_docker_and_ssh_execute_while_local_build_permit_remains_held`;
+   - unresolved, items 6, 7 and 11:
+     `closing_locality::kubectl_without_placement_proof_stays_observed_without_starting_a_probe`,
+     `closing_locality::ambiguous_and_local_controls_are_counted_separately`
+     and
+     `closing_locality::explicit_prod_context_takes_precedence_over_docker_host_on_both_routes`;
+   - local, items 9, 13 and 14:
+     `closing_locality::docker_local_listener_controls_use_both_production_routes_and_admission`
+     (macOS-only; restated above for `LOCAL_CONTAINER`) and
+     `closing_locality::integration::same_pc_runner_starts_a_recorded_locally_admitted_build_child`;
+   - mixed, items 8 and 10:
+     `closing_shell::actual::bash_and_zsh_execute_the_same_direct_pipeline_compound_and_mixed_commands`,
+     `closing_shell::actual::makefile_selection_and_post_capture_changes_fail_closed_on_both_routes`
+     and
+     `closing_locality::pnpm_deploy_literal_build_and_remote_ci_is_mixed_on_both_routes`.
+2. **EXTERNAL** — proven remote pod placement and Windows WSL placement
+   (DET-005 items 12 and 15). Not selected or claimed.
+
+**G-02** — only local execution is scheduled.
+
+1. **HOST** — the named finite remote triggers bypass local admission: the
+   five remote tests listed under DEC-012 item 1. They are the evidence
+   already accepted for [SAFE-008](#safe-008--remote-work-is-not-forcibly-scheduled-locally)
+   items 1 to 3 (no local queue entry or reservation), and two of them run
+   while a separate local Build permit stays held (AT-TRF-02 and AT-TRF-04).
+2. **EXTERNAL** — remaining placement-dependent scenarios. Not selected or
+   claimed.
+3. **HOST** — AT-TRF-03: `local_container_buildx_via_exec` and
+   `local_container_buildx_via_hook_exec` (`local_container.rs`).
+4. **HOST** — AT-TRF-12: `mixed_bun_stages_via_hook`
+   (`closing_exec/stages.rs`) and `mixed_bun_stages_via_exec`
+   (`closing_shell/stages.rs`).
+
+This is the finite set the SRS names for the goal (AT-TRF-02, 03, 04 and 12).
+It is not a measurement of every official remote trigger, and no live GitHub
+dispatch ran.
+
+**ADR-005** — the actual execution location decides the Traffic target.
+
+1. **HOST** — named endpoint-based local, remote and UNKNOWN decisions: the
+   remote, unresolved and local tests listed under DEC-012 item 1.
+2. **EXTERNAL** — live pod and WSL placement. Not selected or claimed.
+3. **HOST** — a local Docker engine is placed as Local Container:
+   `local_container_docker_build_via_exec` and
+   `local_container_docker_build_via_hook_exec`.
+4. **HOST** — a local Buildx builder is placed as Local Container:
+   `local_container_buildx_via_exec` and
+   `local_container_buildx_via_hook_exec`.
+5. **HOST** — stage-by-stage permits for the two named mixed compounds:
+   `mixed_bun_stages_via_hook`, `mixed_make_stages_via_hook`,
+   `mixed_bun_stages_via_exec` and `mixed_make_stages_via_exec`.
+
+### What the Phase 2 tests show
+
+The four container build tests each run one build on one route with an
+isolated `DOCKER_CONFIG` and `BUILDX_CONFIG`: `arcctl classify` names
+`LOCAL_CONTAINER`; while a separate `arcctl exec -- cargo build`, whose
+`cargo` is an offline stub, holds the Build permit, the docker stub has zero
+starts and the build has a QUEUED entry with no reservation; after the release the stub runs exactly once, the stored
+location is `LOCAL_CONTAINER`, the one reservation has the same CPU and memory
+amounts as the held build and is released, and the Docker socket has zero
+connections. `local_container_other_endpoints_unchanged` keeps REMOTE_EXEC or
+UNKNOWN on both routes with no admission for a remote context, a remote
+builder, a mixed-node builder, a missing endpoint, and an engine and builder
+that conflict. Selectors that conflict on the command line are UNKNOWN on
+`arcctl exec`; the installed hook leaves that command alone and `hook-exec`
+rejects it without starting a child.
+
+The four stage tests each run one compound on one route: the Test stage is
+recorded TEST/HOST_LOCAL and QUEUED with zero stub starts while separate TEST
+and Build permits are held; after the TEST permit is released it starts
+exactly once with an ACTIVE permit and ends COMPLETED/RELEASED; the gh stage
+is recorded REMOTE_CI/REMOTE with no queue entry, reservation or schedule
+while the Build permit is still ACTIVE; both stage records are read back in
+order from the one request. The exit status, stdout, child stderr, arguments,
+working directory, stdin and environment equal a native run.
+`mixed_stages_run_once_without_a_daemon` (`closing_shell/stages.rs`) adds
+that with no daemon each stage still runs exactly once.
+
+**Queue notice.** A waiting stage or build writes one notice to its own
+stderr, which on the hook route is the vendor shell's:
+`QUEUED`, `Waiting to start.`, `Reference: <job id>`. The four stage tests
+require the reference to be the waiting TEST stage's job id and exclude the
+notice from the child-stream comparison; the four container build tests
+require it to be the waiting build's id. The gh stage writes none. The
+reference line was added to this admission route in this integration
+(`crates/arc-cli/src/exec/governor/admission.rs`); the same route also serves
+directly executed Cargo, Bun, Python and native-tool waits, whose notices now
+carry it too.
+
+**Desktop.** The desktop does not distinguish container builds. It accepts
+the HOST_LOCAL projection of a local container build, a record that is
+BUILD/HOST_LOCAL like any other local build and is shown as one, and it never
+accepts `LOCAL_CONTAINER`: the TypeScript reader rejects a record that carries
+it. The evidence is the chain of three tests named under
+[DET-011](#det-011--local-dockerwsl-detection) item 6, joined by one
+identical record; it is not one end-to-end test, and no test renders a
+container build in the dashboard.
+
+### Row outcomes
+
+| Row | Status | Remaining item |
+| --- | --- | --- |
+| DEC-003 | Blocked | External per-user installation and lifecycle (item 2). |
+| DEC-004 | Blocked | External installed menu-bar and tray behavior (item 2). |
+| ADR-002 | Blocked | External installed cross-platform lifecycle (item 2). |
+| AT-GUI-01 | Blocked | External installed menu-bar and tray (item 2). |
+| AT-GUI-04 | Blocked | External real default-browser opening (item 2). |
+| DEC-022 | Blocked | External real browser opening (item 2). |
+| DEC-012 | Blocked | External remote pod and Windows WSL placement (item 2). |
+| G-02 | Blocked | External placement-dependent scenarios (item 2). |
+| ADR-005 | Blocked | External live pod and WSL placement (item 2). |
+| AT-TRF-03 | Complete | None in the numbered HOST list. |
+| AT-TRF-12 | Complete | None in the numbered HOST list. |
+| DET-016 | Complete | None in the numbered HOST list. |
+| DET-011 | Blocked | External Windows WSL placement (item 7). |
+
+Phase 0 is now 18 Complete, 1 Partial, 8 Pending and 13 Blocked of 40; R-018
+is the remaining Partial row and was not selected. Phase 2 is 4 Complete,
+8 Partial, 30 Pending and 1 Blocked of 43. Phases 1, 3, 4 and 5 are unchanged:
+13/46/12/0 of 71, 0/5/103/0 of 108, 0/15/29/0 of 44 and 0/1/9/0 of 10 in the
+same order. See
+[traceability](traceability.md#phase-0-locality-and-desktop-integration-evidence).
+These are row counts; no phase is declared finished.
+
+Not claimed by any row: a live Docker engine, a live GitHub dispatch, a live
+vendor runtime, a native tray click, an installed menu bar, a real browser or
+a screen check. No customer or revenue effect is claimed. No EXTERNAL item
+was selected, run or claimed.
+
+### Integration checks and boundary
+
+This integration inspected Actor snapshot
+`5faacb7876621e232ca75077c7bd3400111b2fdd`, tree
+`0cf6af957ffe732899b86e067caa82f07ae142a0`, which contains the shared seam,
+the three lane deliveries and the desktop reader vocabulary; the accepted
+committed baseline is `aabf278d0d29f07fa9514d3ff8df4cb52742a7dc`, tree
+`a2f228e88a90465c619430f7f27134547e358cad`. The integration edits are
+uncommitted on that snapshot: the queue-notice reference and the test helpers
+that read it, `docs/managed-exec.md`, the cycle contract, this document and
+the traceability matrix. These are focused local checks using `oma-backend`,
+not the runner's final verification. The independent QA report
+(`.arc-verify/phase-0-locality-desktop/qa.md`) is written separately for its
+own snapshot and is not cited here.
+
+- Passed on the final source: `cargo fmt --all -- --check`; `cargo clippy
+  --workspace --all-targets -- -D warnings`; `cargo test -p arc-daemon --test
+  managed_exec`, 181 of 181 with none ignored; `cargo test -p arc-cli`, all 13
+  targets (202 unit tests, `binary` 66, `governor` 34, `classification` 7);
+  `cargo test -p arc-detector -p arc-ipc -p arc-storage`, every target; the
+  `arc-daemon` unit tests (143, and 128 for each of the three fixture
+  daemons) with `bounded`, `classification`, `db_worker_unit`, `governor`,
+  `memory_pressure`, `resident`, `startup`, `traffic_bun_scripts`,
+  `traffic_cli`, `traffic_python_tests`, `transport_unit`, `worker_runtime`
+  and `legacy_preparation`; and the `arc-desktop` unit tests with
+  `lifecycle` (10), `registered_commands` (31), `daemon_bridge` (14),
+  `governor`, `job_meter_acceptance` (35), `memory_pressure`,
+  `traffic_bun_scripts` and `traffic_python_tests`. No target reported a
+  failed or ignored test.
+- Passed: `bun test` on `apps/desktop/tests/credits.test.ts`,
+  `apps/desktop/tests/traffic-scripts-contract.test.ts`,
+  `scripts/requirements/traceability-parser.test.ts` and
+  `scripts/requirements/traceability.test.ts`, 44 pass and 0 fail;
+  `bun scripts/requirements/traceability.ts` reports the matrix valid with
+  the counts above.
+- No test failed in a combined run and passed alone in these checks, so there
+  is no such result to record.
+- Not run here, by assignment: the workspace test command, coverage, the
+  architecture harness, any browser or screen check, and the SwiftPM-backed
+  `traffic_native_tools` targets of `arc-daemon` and `arc-desktop`. The
+  daemon target reads the queue notice only by checking that stderr contains
+  `QUEUED` and `Waiting to start.`
+  (`crates/arc-daemon/tests/traffic_native_tools/witnesses.rs`), which the
+  added reference line still satisfies; that is a reading of the source, not
+  an execution.
+- **The 60-second rule is not met for `managed_exec`.** The binary took 112 s
+  for its 163 tests before this mission, 134.79 s in the runner's check after
+  the lanes and 137.02 s for 181 tests here. The mission's new test modules
+  were not moved to their own target: they use the fixtures and helpers of
+  their mod parents (`capture_integration.rs`, `closing_exec.rs`,
+  `closing_shell.rs`, `closing_locality.rs`), so a second target would need
+  those parents compiled into it, running their existing tests twice, or a
+  refactor of the shared helpers. That is more than a manifest entry and
+  mod-parent lines. No test was ignored or removed. No other binary run here
+  exceeded 60 s; the longest were `traffic_cli` at 47.01 s and the desktop
+  `daemon_bridge` at 40.91 s.
+
+Gaps that the row statuses do not cover:
+
+- No installed-hook stage test uses the Cursor adapter; it shares the rewrite
+  with the Claude adapter.
+- The hook rewrites the two compounds without checking the endpoint or the
+  Makefile recipe; each stage is classified on its own when it runs. The
+  hook-route case with an unproven remote endpoint is not exercised.
+- With no daemon, the `arcctl exec` route writes one outage notice per stage
+  and one for the request; the test asserts their presence, not their count.
+- A shell alias or function named `bun`, `make`, `gh` or `docker` is bypassed
+  by a stage or container rewrite, as documented in
+  [managed execution](../managed-exec.md#bounded-hook-behavior).
+- Job rows stored before this cycle keep HOST_LOCAL; there is no backfill, so
+  the negotiated reader returns HOST_LOCAL for them.
+- The desktop's Rust bridge forwards whatever the diagnostics decoder accepts.
+  The daemon projects every diagnostics reply, so `LOCAL_CONTAINER` does not
+  reach it today; if it did, only the TypeScript reader would reject it.
+- The non-macOS configuration of the container test modules was not compiled
+  on this host.
+
+Unmet prerequisite: the working `av.yaml` returns `Operation not permitted`
+from this workspace, so the runner configuration in effect, and whether any
+container targets are configured and healthy, is not established here. This
+document does not claim mission completion; the runner's four commands and
+the final review decide that.

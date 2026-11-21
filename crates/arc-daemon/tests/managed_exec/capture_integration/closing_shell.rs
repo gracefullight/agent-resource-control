@@ -471,3 +471,5 @@ fn make_test_and_remote_ci_are_mixed_on_both_routes() {
 
 #[path = "closing_shell/actual.rs"]
 mod actual;
+#[path = "closing_shell/stages.rs"]
+mod stages;

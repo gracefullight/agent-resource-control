@@ -37,7 +37,10 @@ pub(super) fn observer(request: &LifecycleRequest) -> Option<&ProcessIdentity> {
     match request {
         LifecycleRequest::Start(request) => Some(request.observer()),
         LifecycleRequest::Complete(request) => Some(&request.observer),
-        LifecycleRequest::Status(_) => None,
+        LifecycleRequest::Request(arc_ipc::request::StageRequest::Link { observer, .. }) => {
+            Some(observer)
+        }
+        LifecycleRequest::Request(_) | LifecycleRequest::Status(_) => None,
     }
 }
 

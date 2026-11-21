@@ -24,12 +24,23 @@ pub enum JobClass {
 pub enum Locality {
     #[serde(rename = "HOST_LOCAL")]
     HostLocal,
+    /// Additive negotiated vocabulary: compute in a container on this machine.
+    /// Peers that did not negotiate it receive `host_local_projection`.
+    #[serde(rename = "LOCAL_CONTAINER")]
+    LocalContainer,
     #[serde(rename = "REMOTE")]
     Remote,
     #[serde(rename = "MIXED")]
     Mixed,
     #[serde(rename = "UNKNOWN")]
     Unknown,
+}
+
+impl Locality {
+    /// Compute on this machine: local admission and reservations apply.
+    pub fn is_local_compute(self) -> bool {
+        matches!(self, Self::HostLocal | Self::LocalContainer)
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -155,20 +166,28 @@ pub struct Classification {
 }
 impl Classification {
     pub(crate) fn new(classification: JobClass, reason: Reason) -> Self {
-        let (locality, uncertainty) = match classification {
-            JobClass::Build | JobClass::Test | JobClass::Lint | JobClass::Typecheck => {
-                (Locality::HostLocal, Uncertainty::None)
-            }
-            JobClass::RemoteCi | JobClass::RemoteExec => (Locality::Remote, Uncertainty::None),
-            JobClass::Mixed => (Locality::Mixed, Uncertainty::None),
-            JobClass::Unknown => (Locality::Unknown, Uncertainty::Observe),
-        };
         Self {
             classification,
-            locality,
+            locality: crate::compute_location::of(classification, reason),
             reason,
-            uncertainty,
+            uncertainty: if classification == JobClass::Unknown {
+                Uncertainty::Observe
+            } else {
+                Uncertainty::None
+            },
         }
+    }
+    /// The stored form of a consistent record, whichever wire form arrived.
+    pub fn canonical(self) -> Self {
+        Self::new(self.classification, self.reason)
+    }
+    /// The record for every operation or peer that did not negotiate
+    /// `LOCAL_CONTAINER`. Protocol-1 replies use `legacy` instead.
+    pub fn host_local_projection(mut self) -> Self {
+        if self.locality == Locality::LocalContainer {
+            self.locality = Locality::HostLocal;
+        }
+        self
     }
     pub(crate) fn unknown(reason: Reason) -> Self {
         Self::new(JobClass::Unknown, reason)
@@ -205,7 +224,10 @@ impl Classification {
             R::CompoundMixed => self.classification == C::Mixed,
             _ => self.classification == C::Unknown,
         };
-        reason_valid && *self == Self::new(self.classification, self.reason)
+        // Earlier peers send and store the HOST_LOCAL projection of a
+        // LOCAL_CONTAINER record; both wire forms name the same record.
+        let canonical = self.canonical();
+        reason_valid && (*self == canonical || *self == canonical.host_local_projection())
     }
 
     /// Vocabulary introduced only on the negotiated package-script operation.

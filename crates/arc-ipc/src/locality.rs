@@ -39,7 +39,8 @@ pub fn classify_response_at(request: &Request, now_ms: u64) -> Response {
     if request.protocol_version != crate::PROTOCOL_VERSION {
         return Response::error(&request.request_id, crate::ERROR_PROTOCOL_INCOMPATIBLE);
     }
-    if request.operation != OPERATION_CLASSIFY {
+    let negotiated = request.operation == crate::compute_location::OPERATION_CLASSIFY;
+    if request.operation != OPERATION_CLASSIFY && !negotiated {
         return Response::error(&request.request_id, crate::ERROR_UNSUPPORTED_CAPABILITY);
     }
     if !request.payload.is_object()
@@ -67,6 +68,12 @@ pub fn classify_response_at(request: &Request, now_ms: u64) -> Response {
             &input.context,
             now_ms,
         ),
+    };
+    // This operation predates LOCAL_CONTAINER; only the negotiated one names it.
+    let result = if negotiated {
+        result
+    } else {
+        crate::compute_location::project(result)
     };
     Response::ok(&request.request_id, serde_json::json!(result))
 }

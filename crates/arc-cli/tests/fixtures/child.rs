@@ -28,6 +28,7 @@ mod exec {
     mod proof;
     mod run;
     mod signals;
+    mod stages;
     mod terminal;
     mod traffic;
     pub(crate) mod transport;

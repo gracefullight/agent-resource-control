@@ -1,6 +1,8 @@
 //! Shared dispatcher and bounded hook contract. Vendor adapters own their files.
 #[path = "agent_hooks/claude.rs"]
 mod claude;
+#[path = "hooks/container.rs"]
+mod container;
 #[path = "agent_hooks/cursor.rs"]
 mod cursor;
 #[path = "hooks/event.rs"]
@@ -9,6 +11,8 @@ mod event;
 #[allow(dead_code)]
 #[path = "hooks/fixture.rs"]
 pub(super) mod fixture;
+#[path = "hooks/stages.rs"]
+mod stages;
 
 use clap::{Subcommand, ValueEnum};
 use serde_json::Value;
@@ -212,14 +216,15 @@ fn configure_with(
 }
 
 pub(crate) fn literal_argv(argv: &[OsString]) -> bool {
-    match argv {
+    let literal = match argv {
         [program, action] => program == "cargo" && action == "build",
         [program, action, script] => program == "bun" && action == "run" && script == "build",
         [program, resource, action, workflow] => {
             program == "gh" && resource == "workflow" && action == "run" && workflow == "build.yml"
         }
         _ => false,
-    }
+    };
+    literal || stages::literal_argv(argv) || container::literal_argv(argv)
 }
 
 /// The hook does not resolve or launch the requested executable.
@@ -230,7 +235,10 @@ pub(super) fn rewrite_literal(
 ) -> Option<String> {
     match command {
         "cargo build" | "bun run build" | "gh workflow run build.yml" => (),
-        _ => return None,
+        _ => {
+            return stages::rewrite(command, context, surface)
+                .or_else(|| container::rewrite(command, context, surface))
+        }
     }
     surface?;
     let executable = context.executable.as_deref()?;

@@ -13,10 +13,15 @@ pub(super) async fn respond(
     response: &Response,
     limits: &RuntimeLimits,
     metrics: &Arc<RuntimeMetrics>,
+    negotiated: bool,
 ) -> bool {
     let deadline = Instant::now() + limits.write_timeout;
     let _bytes = metrics.enter(Gauge::ResponseBytes, MAX_FRAME_BYTES as usize);
-    let result = transport::write_response(stream, response, deadline).await;
+    let result = if negotiated {
+        transport::write_negotiated_response(stream, response, deadline).await
+    } else {
+        transport::write_response(stream, response, deadline).await
+    };
     match result {
         Ok(()) => {
             metrics.increment(Counter::FramesCompleted);

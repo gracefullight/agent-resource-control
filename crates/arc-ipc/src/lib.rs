@@ -6,12 +6,14 @@
 
 #[cfg(unix)]
 pub mod client;
+pub mod compute_location;
 pub mod governor;
 pub mod jobs;
 pub mod locality;
 pub mod meter;
 pub mod policy;
 pub mod reaper;
+pub mod request;
 mod schema;
 pub mod traffic;
 pub use schema::{
@@ -364,7 +366,9 @@ where
 
     match request.operation.as_str() {
         OPERATION_JOB_CLASSIFY => classify_response(request),
-        locality::OPERATION_CLASSIFY => locality::classify_response(request),
+        locality::OPERATION_CLASSIFY | compute_location::OPERATION_CLASSIFY => {
+            locality::classify_response(request)
+        }
         OPERATION_HELLO => Response::ok(
             &request.request_id,
             json!({

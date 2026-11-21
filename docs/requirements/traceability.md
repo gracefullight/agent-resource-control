@@ -9,7 +9,77 @@ The authoritative [SRS](ARC_SRS_2026-11-06.md) SHA-256 is `a8ef945251f9f3fd7c3e3
 The frozen [task-5 interface contract](../../.arc-verify/governor/contract.md#amendment-13-traceability-format-and-counts), [task-8 integrated receipt](../../.arc-verify/governor/integration.json) and its `task13RepairAttempt2` correction are consumed without modification. The current format requires `Complete`, `Partial`, `Pending` or `Blocked`; each primary row carries Source, one primary Phase, Status, Evidence and Cycle. Requirements and acceptance cross-references use their respective inventories. `None` always explains the unmapped obligation. Catalog IDs retain their separate inventory and related mappings.
 
 
+## Phase 0 locality and desktop integration evidence
+
+Accepted committed baseline: `aabf278d0d29f07fa9514d3ff8df4cb52742a7dc`,
+tree `a2f228e88a90465c619430f7f27134547e358cad`. This integration inspected
+Actor snapshot `5faacb7876621e232ca75077c7bd3400111b2fdd`, tree
+`0cf6af957ffe732899b86e067caa82f07ae142a0`, which contains the shared seam,
+the three lane deliveries and the desktop reader vocabulary. The integration
+edits (the queue-notice reference, the test helpers that read it and these
+documents) are uncommitted on that snapshot. The focused checks described
+here are local receipts, not the runner's final verification. Independent QA
+writes `.arc-verify/phase-0-locality-desktop/qa.md` separately; it is not
+cited here. The numbered cases, the exact test mapping and the conditions of
+each test are in [closing.md](closing.md#phase-0-locality-and-desktop).
+
+Row outcomes: DEC-003, DEC-004, ADR-002, AT-GUI-01, AT-GUI-04, DEC-022,
+DEC-012, G-02 and ADR-005 move Partial → Blocked. Each of their HOST cases has
+a named passing test, and the one remaining case of each is its recorded
+external case, which was not run, selected or claimed. AT-TRF-03, AT-TRF-12
+and DET-016 move Pending → Complete against their finite lists, and DET-011
+moves Pending → Blocked on its external WSL case. R-018 keeps Partial and was
+not selected. No other row changed.
+
+Boundaries of the evidence. The local-proof container tests and the Docker
+controls test are macOS-only and prove the local engine with an injected
+listener inventory; no live Docker engine ran, and the hook-route container
+tests run the `hook-exec` command the installed hook returns without a vendor
+shell in between. The four stage-admission tests run the daemon with
+`ARC_TRAFFIC_CPU_BUDGET_MILLIS=4000` and offline stubs; no live GitHub
+dispatch or vendor runtime ran. The desktop close request is injected through
+`lifecycle::close_requested` on Tauri's mock runtime, and the daemon's
+self-reported identity in that test is checked on macOS only; no native tray
+click, installed menu bar, real browser or screen was observed. The desktop
+reader evidence is three tests joined by one identical record (daemon reply,
+registered command, TypeScript reader), not one end-to-end test; the desktop
+accepts the HOST_LOCAL projection, shows a container build as an ordinary
+local Build and never accepts `LOCAL_CONTAINER`. No customer or revenue
+effect is claimed.
+
+Focused checks on the final source, all passing: `cargo fmt --all --
+--check`; `cargo clippy --workspace --all-targets -- -D warnings`; `cargo
+test -p` for `arc-detector`, `arc-ipc`, `arc-storage`, `arc-cli`,
+`arc-daemon` and `arc-desktop`, every target except the SwiftPM-backed
+`traffic_native_tools` targets, with no failed or ignored test (`managed_exec`
+181 of 181); the two touched desktop Bun files and the two traceability Bun
+files, 44 pass; and `bun scripts/requirements/traceability.ts`, which
+reconciles all 316 rows. No test failed in a combined run and passed alone.
+The `managed_exec` binary took 137.02 s here (112 s before this mission,
+134.79 s in the runner's check after the lanes), so the 60-second per-binary
+rule is not met for that binary; the reason it was not split is in closing.md.
+
+Prerequisites not established from this workspace: `av.yaml` returns
+`Operation not permitted`, so the configuration in effect and the state of
+any configured container targets remain unverified. Runner-owned workspace
+tests, desktop checks, per-crate coverage, the architecture harness and the
+final review are not claimed here.
+
+| Primary phase | Total | Complete | Partial | Pending | Blocked |
+| --- | --- | --- | --- | --- | --- |
+| Phase 0 | 40 | 18 | 1 | 8 | 13 |
+| Phase 1 | 71 | 13 | 46 | 12 | 0 |
+| Phase 2 | 43 | 4 | 8 | 30 | 1 |
+| Phase 3 | 108 | 0 | 5 | 103 | 0 |
+| Phase 4 | 44 | 0 | 15 | 29 | 0 |
+| Phase 5 | 10 | 0 | 1 | 9 | 0 |
+
 ## Phase 0 Reaper safety integration evidence
+
+**Historical snapshot:** this section records the preceding Phase 0 Reaper
+safety cycle. The nine Phase 0 rows and four Phase 2 rows assessed in the
+locality and desktop cycle above still had their earlier statuses at that
+stage.
 
 Accepted committed baseline: `86fac84ec77e216f2d86b8c072140ccdf91564b7`,
 tree `27635eb500955608140eb71ba557adc5bf5ae371`. This integration inspected
@@ -51,14 +121,12 @@ errors, remain unverified. Runner-owned workspace tests, desktop checks,
 per-crate coverage, the architecture harness and the final serial run are
 also not claimed here.
 
-| Primary phase | Total | Complete | Partial | Pending | Blocked |
-| --- | --- | --- | --- | --- | --- |
-| Phase 0 | 40 | 18 | 10 | 8 | 4 |
-| Phase 1 | 71 | 13 | 46 | 12 | 0 |
-| Phase 2 | 43 | 1 | 8 | 34 | 0 |
-| Phase 3 | 108 | 0 | 5 | 103 | 0 |
-| Phase 4 | 44 | 0 | 15 | 29 | 0 |
-| Phase 5 | 10 | 0 | 1 | 9 | 0 |
+At the end of that Reaper safety cycle the Phase 0 row counts were 40 total:
+18 Complete, 10 Partial, 8 Pending and 4 Blocked, and Phase 2 was 43 total:
+1 Complete, 8 Partial, 34 Pending and 0 Blocked. Phases 1, 3, 4 and 5 have not
+changed since; the current table is in the
+[locality and desktop section](#phase-0-locality-and-desktop-integration-evidence)
+above.
 
 ## Phase 0 closure integration evidence
 
@@ -112,7 +180,8 @@ checks, independent reviews, and configured-container health remain unverified.
 At the end of that Phase 0 closure cycle the Phase 0 row counts were 40
 total: 15 Complete, 14 Partial, 8 Pending and 3 Blocked. The other phases have
 not changed since; the current table is in the
-[Reaper safety section](#phase-0-reaper-safety-integration-evidence) above.
+[locality and desktop section](#phase-0-locality-and-desktop-integration-evidence)
+above.
 
 ## Endpoint-capture integration evidence, 2026-11-20
 
@@ -252,12 +321,12 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 | DET-008 | 명령 분석 과정에서 실제 빌드를 실행하지 않음 | [§8.7, L769](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Complete | Complete | [metadata and poison-body test](crates/arc-cli/src/exec/metadata/tests.rs#real_repository_scripts_classify_without_executing_any_script_or_probes); [executed Bun-script receipt](.arc-verify/traffic-bun-scripts/integration.json#/nativeIntegration/checkReceipts/5). The pure [Python recognizer](../../crates/arc-detector/src/python.rs), [poison executable/import fixtures](../../crates/arc-detector/tests/python_tests.rs#python_classification_never_executes_or_imports) and [bounded unresolved fixtures](../../crates/arc-detector/tests/python_tests.rs#unresolved_python_forms_observe_within_budget) add no lookup, tool execution, project metadata read or import. Interpreter readiness probes belong solely to native test fixtures, not classification. The pure [native recognizers](../../crates/arc-detector/src/native/mod.rs) and `native_go/native_swift/native_cmake` poison/budget fixtures perform no tool execution, manifest evaluation or target discovery. Installed-tool probes exist only in real offline acceptance setup, outside classification. | native-tool-families-2026-11-15 |
 | DET-009 | Package script 중첩·workspace 분석 | [§8.7, L770](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 1 | Partial | Partial | [nested cwd test](crates/arc-detector/tests/script_resolution.rs#root_desktop_delegations_explicit_cwd_and_parent_package_execution_context); [metadata invalidation](crates/arc-cli/src/exec/metadata/tests.rs#replacement_same_size_preserved_mtime_and_fresh_invocations_use_content_identity); [executed resolution](.arc-verify/traffic-bun-scripts/integration.json#/resolution/allRequiredCasesPassed); bounded nested/lifecycle graphs, forwarded arguments and explicit --cwd desktop delegations pass. General workspace analysis/fan-out remains unsupported and bypasses, as do cyclic, dynamic, mixed, watch/hot and unresolved graphs; remote-only graphs reserve nothing. | traffic-bun-scripts-2026-11-14 |
 | DET-010 | Make/Just/Task/Bazel 확장 | [§8.7, L771](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 2 | Pending | Outstanding | Pending: No delivered Make/Just/Task/Bazel extension acceptance in this slice. | governor-2026-11-13 |
-| DET-011 | 로컬 Docker/WSL 감지 | [§8.7, L772](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-03, AT-TRF-04 | Phase 2 | Pending | Outstanding | Pending: No local-Docker/WSL endpoint and native-host admission acceptance was executed for this slice. | governor-2026-11-13 |
+| DET-011 | 로컬 Docker/WSL 감지 | [§8.7, L772](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-03, AT-TRF-04 | Phase 2 | Blocked | Blocked | [HOST cases 1 to 6](closing.md#det-011--local-dockerwsl-detection) pass in [local_container](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_locality/local_container.rs) and [docker_controls](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_locality/docker_controls.rs): `docker build .`, `docker buildx build .` and `act -j build` on a proven local endpoint are BUILD/`LOCAL_CONTAINER` with a BUILD reservation on both routes; remote, mixed-node, missing and conflicting endpoints keep REMOTE_EXEC or UNKNOWN; readers that did not negotiate the location receive HOST_LOCAL, shown for the desktop by three tests joined by one identical record, not one end-to-end test. Cases 1, 2 and 4 to 6 are macOS-only with an injected listener inventory. Case 7, actual WSL LOCAL_VM placement, needs a Windows host with WSL and was not run. | phase-0-locality-desktop-2026-11-22 |
 | DET-012 | Managed child runtime process 연계 | [§8.7, L773](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-05 | Phase 1 | Partial | Partial | [105 CLI checks](.arc-verify/governor/integration.json#/task8/checks/cli-compatibility); canonical-root nested-wrapper reuse is verified; the complete managed child-runtime catalog remains outstanding. | governor-2026-11-13 |
 | DET-013 | Detector Plugin Registry | [§8.7, L774](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 2 | Pending | Outstanding | Pending: No delivered extensible Detector Registry acceptance for this cycle. | governor-2026-11-13 |
 | DET-014 | 프로젝트 단위 분석 캐시 | [§8.7, L775](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 1 | Pending | Unverified | Pending: Project analysis cache behavior has no dedicated current focused receipt. | governor-2026-11-13 |
 | DET-015 | 오분류율 계측·회귀 테스트 | [§8.7, L776](ARC_SRS_2026-11-06.md#87-detector-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 2 | Pending | Unverified | Pending: No misclassification-rate numerator/denominator or complete Detector regression receipt is supplied. | governor-2026-11-13 |
-| DET-016 | 혼합 로컬/원격 단계별 허가 | [§8.7, L777](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-12 | Phase 2 | Pending | Outstanding | Pending: No delivered stage-by-stage local/remote mixed-command authorization acceptance. | governor-2026-11-13 |
+| DET-016 | 혼합 로컬/원격 단계별 허가 | [§8.7, L777](ARC_SRS_2026-11-06.md#87-detector-요구사항) | AT-TRF-12 | Phase 2 | Complete | Complete | [Numbered cases](closing.md#det-016--stage-by-stage-permits-for-mixed-commands) pass in [closing_exec/stages](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_exec/stages.rs) and [closing_shell/stages](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_shell/stages.rs): exactly `bun test && gh workflow run ci.yml` and `make test && gh workflow run ci.yml` (literal recipe `cargo test`) are admitted stage by stage on both routes; a failing test stage prevents the gh stage; unseparable compounds keep a single MIXED or UNKNOWN/OBSERVE record; classification starts nothing. Only these two compounds are separated. | phase-0-locality-desktop-2026-11-22 |
 
 ### Traffic
 
@@ -431,7 +500,7 @@ These 47 rows refer to actual §21 Gherkin headings. GV-N and G01–G13 below ar
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | AT-TRF-01 | 다중 벤더 전역 큐 | [AT-TRF-01, L2617](ARC_SRS_2026-11-06.md#at-trf-01-다중-벤더-전역-큐) | VND-006, DET-003, DET-004, TRF-001, TRF-002, TRF-004, TRF-015 | Phase 1 | Partial | Partial | [Cargo first](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_cargo_first_one_build_slot); [Bun-script first](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_bun_script_first_one_build_slot); [both BUILD orders passed](.arc-verify/traffic-bun-scripts/integration.json#/nativeAcceptance/buildBothArrivalOrdersPassed) retain cargo build/bun run build evidence. The [four named native/registered Python TEST pairs](#focused-python-test-acceptance-evidence) add pytest/cargo test and pytest/bun test in both arrival orders, with zero second starts before release, TEST permit high-water one, exactly one execution each and all permits released across SQLite/CLI/registered bridge. The [documented Claude and Cursor fixture events](../../crates/arc-daemon/tests/traffic_bun_scripts/agent_hooks.rs) now drive real Cargo and Bun BUILD children in both orders against a production daemon; both daemon-side cases and both registered-bridge fixture orders passed in the runner's 2026-11-17 17:53Z workspace run on its recorded input. Production vendor handlers still pass through and live vendor execution and the full declared scenario remain open; Partial is retained. [Test-performance integration](#test-performance-integration-evidence-2026-11-18) retains this evidence scope; final gates remain pending. | test-performance-2026-11-18 |
 | AT-TRF-02 | 원격 GitHub Actions 우회 | [AT-TRF-02, L2629](ARC_SRS_2026-11-06.md#at-trf-02-원격-github-actions-우회) | DET-005, DET-006, TRF-006, SAFE-008, NFR-007 | Phase 0 | Complete | Complete | The [installed-hook execution](closing.md#integration-evidence-and-outstanding-boundary) ties the simulated event to the real daemon and stub child while a Build permit is held; named shell tests preserve the default-state command and native result. | phase-0-closure-2026-11-21 |
-| AT-TRF-03 | 로컬 Docker Build | [AT-TRF-03, L2639](ARC_SRS_2026-11-06.md#at-trf-03-로컬-docker-build) | DET-011, TRF-003 | Phase 2 | Pending | Outstanding | Pending: The full declared scenario has no delivered passing execution receipt in this Governor slice. | governor-2026-11-13 |
+| AT-TRF-03 | 로컬 Docker Build | [AT-TRF-03, L2639](ARC_SRS_2026-11-06.md#at-trf-03-로컬-docker-build) | DET-011, TRF-003 | Phase 2 | Complete | Complete | [Numbered cases](closing.md#at-trf-03--local-docker-build) pass in [local_container](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_locality/local_container.rs): with an isolated Docker context and Buildx builder on a proven local endpoint, `docker buildx build .` is recorded BUILD with compute location `LOCAL_CONTAINER` on `arcctl exec` and `hook-exec`, waits with zero stub starts while a separate Build permit is held, then runs once with one released BUILD reservation; `arcctl classify` names the location and contacts no socket. macOS-only, with an injected listener inventory and an offline docker stub; no live Docker engine ran. | phase-0-locality-desktop-2026-11-22 |
 | AT-TRF-04 | 원격 Docker Builder | [AT-TRF-04, L2648](ARC_SRS_2026-11-06.md#at-trf-04-원격-docker-builder) | DET-005, DET-011, TRF-006, SAFE-008, NFR-007 | Phase 2 | Complete | Complete | The [built CLI and real-daemon Buildx test](../../crates/arc-daemon/tests/managed_exec/capture_integration/held.rs#gh_and_buildx_same_execution_bypass_held_permit_and_buildx_cli_is_metered) passed with a remote builder selected from offline config while a separate local Build permit was held. Its stub ran once without a new queue entry or reservation, and the same job recorded local CLI CPU accounting separately. | endpoint-capture-2026-11-20 |
 | AT-TRF-05 | 중첩 실행 이중 Permit 방지 | [AT-TRF-05, L2657](ARC_SRS_2026-11-06.md#at-trf-05-중첩-실행-이중-permit-방지) | DET-012, TRF-008, NFR-009 | Phase 1 | Partial | Partial | [105 CLI checks](.arc-verify/governor/integration.json#/task8/checks/cli-compatibility); nested managed wrappers share a canonical root. Python [native/registered lifecycle evidence](#focused-python-test-acceptance-evidence) additionally reconciles one shared permit and canonical/included Meter lineage, without early release while the parent lives. The exact `bun run test` → vitest → Hook scenario remains outstanding. | python-tests-2026-11-15 |
 | AT-TRF-06 | Fail-open | [AT-TRF-06, L2667](ARC_SRS_2026-11-06.md#at-trf-06-fail-open) | TRF-007, SAFE-011, NFR-014 | Phase 1 | Partial | Partial | [GV-N14](.arc-verify/governor/integration.json#/nativeAcceptance/cases/13); production CLI outage fail-open passes. Python [lifecycle/compatibility fixtures and receipts](#focused-python-test-acceptance-evidence) add one original execution under unsupported/hung/absent peers; synthetic transport faults remain distinct from real-daemon acceptance and retain the original preparation deadline. Full Claude Hook and destructive-GC exclusion scope remains outstanding. [Test-performance integration](#test-performance-integration-evidence-2026-11-18) retains this evidence scope; final gates remain pending. | test-performance-2026-11-18 |
@@ -440,7 +509,7 @@ These 47 rows refer to actual §21 Gherkin headings. GV-N and G01–G13 below ar
 | AT-TRF-09 | 중복 이벤트 | [AT-TRF-09, L2697](ARC_SRS_2026-11-06.md#at-trf-09-중복-이벤트) | VND-009, TRF-004, NFR-009 | Phase 1 | Partial | Partial | [GV-N07](.arc-verify/governor/integration.json#/nativeAcceptance/cases/6); duplicate Governor/managed-job writes pass. Python [lifecycle/compatibility evidence](#focused-python-test-acceptance-evidence) adds deliberately unconsumed enqueue/start/attach/completion acknowledgments, one original body entry and permit release without replay. No vendor Adapter `tool_call_id` redelivery acceptance is supplied; Partial remains. | python-tests-2026-11-15 |
 | AT-TRF-10 | 데몬 재시작 | [AT-TRF-10, L2706](ARC_SRS_2026-11-06.md#at-trf-10-데몬-재시작) | TRF-007, TRF-009, MTR-002, NFR-021 | Phase 1 | Partial | Partial | [GV-N05](.arc-verify/governor/integration.json#/nativeAcceptance/cases/4); [GV-N12](.arc-verify/governor/integration.json#/nativeAcceptance/cases/11); cycle 22's [timing treatments](../../.arc-verify/cycle-22/contract.md#timing-inventory), [gates](../../.arc-verify/cycle-22/gates.json) and [QA](../../.arc-verify/cycle-22/qa.json) retain their historical restart scope. Python [native/registered lifecycle evidence](#focused-python-test-acceptance-evidence) adds an owned crash/restart with running and queued work, a cancelled job with zero starts, the survivor retaining its ID and one execution, and Governor OFF persistence. These fixtures do not complete the SRS's vendor and broader Meter/GC recovery obligations; Partial remains. | python-tests-2026-11-15 |
 | AT-TRF-11 | 알 수 없는 실행 | [AT-TRF-11, L2716](ARC_SRS_2026-11-06.md#at-trf-11-알-수-없는-실행) | DET-007, SAFE-011 | Phase 0 | Complete | Complete | The runner passed [custom shell execution](../../crates/arc-daemon/tests/managed_exec/remote_unknown.rs): `arcctl exec` records UNKNOWN/OBSERVE, starts the real custom program once while a Build permit is held, and preserves arguments, cwd, environment, streams and exit status without adding a queue entry or reservation. | remote-locality-2026-11-19 |
-| AT-TRF-12 | 혼합 명령 | [AT-TRF-12, L2725](ARC_SRS_2026-11-06.md#at-trf-12-혼합-명령) | DET-001, DET-005, DET-016, TRF-006 | Phase 2 | Pending | Outstanding | Pending: The full declared scenario has no delivered passing execution receipt in this Governor slice. | governor-2026-11-13 |
+| AT-TRF-12 | 혼합 명령 | [AT-TRF-12, L2725](ARC_SRS_2026-11-06.md#at-trf-12-혼합-명령) | DET-001, DET-005, DET-016, TRF-006 | Phase 2 | Complete | Complete | [Numbered cases](closing.md#at-trf-12--mixed-command) pass in [closing_exec/stages](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_exec/stages.rs) and [closing_shell/stages](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_shell/stages.rs): for `bun test && gh workflow run ci.yml` through the installed hook and `arcctl exec -- bash -c`, the Test stage is TEST/HOST_LOCAL, waits for a held TEST permit and runs once; the gh stage is REMOTE_CI with no queue entry or reservation while a Build permit is held; both stages are linked to the one request and shell semantics are native. The daemon ran with a four-core Traffic budget and offline stubs; no live GitHub dispatch ran. | phase-0-locality-desktop-2026-11-22 |
 
 ### Meter acceptance
 
@@ -488,10 +557,10 @@ These 47 rows refer to actual §21 Gherkin headings. GV-N and G01–G13 below ar
 
 | Acceptance-test ID | Scenario | Source | Requirement ID | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AT-GUI-01 | Menu Bar / Tray | [AT-GUI-01, L3009](ARC_SRS_2026-11-06.md#at-gui-01-menu-bar--tray) | NFR-011, NFR-022 | Phase 0 | Partial | Partial | [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); hide/desktop-only exit is deterministic; installed macOS menu-bar/Windows tray interaction is not executed in this task. | governor-2026-11-13 |
+| AT-GUI-01 | Menu Bar / Tray | [AT-GUI-01, L3009](ARC_SRS_2026-11-06.md#at-gui-01-menu-bar--tray) | NFR-011, NFR-022 | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#desktop-shell-rows) passes: `close_request_hides_main_and_same_daemon_serves_bridge_and_cli` in [lifecycle](../../apps/desktop/src-tauri/tests/lifecycle.rs) hides the fixture window on an injected close request and the same daemon identity then answers the registered bridge and the built CLI. Case 2, the installed macOS menu bar and Windows tray after window close, needs an installed application; no native tray click or screen was observed. | phase-0-locality-desktop-2026-11-22 |
 | AT-GUI-02 | Switch-only | [AT-GUI-02, L3018](ARC_SRS_2026-11-06.md#at-gui-02-switch-only) | None — the full Settings switch catalog is declared in §15.5 without a standalone functional requirement ID. | Phase 4 | Partial | Partial | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); one accessible Governor master switch is verified; Build/Test/GC/Learning Settings catalog is outstanding. | governor-2026-11-13 |
 | AT-GUI-03 | 스위치 적용 실패 | [AT-GUI-03, L3027](ARC_SRS_2026-11-06.md#at-gui-03-스위치-적용-실패) | None — Sweeper write-rejection feedback is declared in §15.7 without a standalone requirement ID. | Phase 3 | Pending | Outstanding | Pending: The SRS scenario changes a Sweeper switch. G05 tests Governor rejection only; no Sweeper setter/rejection acceptance is delivered. | governor-2026-11-13 |
-| AT-GUI-04 | Credits 링크 | [AT-GUI-04, L3037](ARC_SRS_2026-11-06.md#at-gui-04-credits-링크) | None — About/official opener behavior is declared in §15.9 and DEC-022, outside the Requirements inventory. | Phase 0 | Partial | Partial | [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); expected icon/CTA and guarded-opener contracts are fixture-tested; actual default-browser external opening is unverified. | governor-2026-11-13 |
+| AT-GUI-04 | Credits 링크 | [AT-GUI-04, L3037](ARC_SRS_2026-11-06.md#at-gui-04-credits-링크) | None — About/official opener behavior is declared in §15.9 and DEC-022, outside the Requirements inventory. | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#desktop-shell-rows) passes: the test "exact SRS identity and three destinations use only the fixed native opener" in [credits.test.ts](../../apps/desktop/tests/credits.test.ts) shows GitHub and LinkedIn as icon-only Phosphor links and the Try OMA call to action, and `registered_opener_accepts_exactly_the_three_enum_destinations` in [input_validation](../../apps/desktop/src-tauri/tests/registered_commands_support/input_validation.rs) shows the registered opener command accepting only the three fixed official destinations. Case 2, opening each destination in the real default browser, was not run; the opener is a recording fake. | phase-0-locality-desktop-2026-11-22 |
 
 ### Vendor/install acceptance
 
@@ -512,8 +581,8 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | DEC-001 | Product decisions | 제품명 Agent Resource Control · 표시 이름 `Agent Resource Control`, 약칭 `ARC | [§0, L85](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | §15.5; G-09 | Phase 0 | Complete | Complete | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); Agent Resource Control product/switch label and ARC application identity are exercised. | governor-2026-11-13 |
 | DEC-002 | Product decisions | Vendor-neutral · 단일 공통 Core, 11종 초기 Vendor Adapter | [§0, L86](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-03; VND-001 | Phase 2 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
-| DEC-003 | Product decisions | 반드시 공용 로컬 데몬 · 사용자별 단일 Rust 데몬, GUI/CLI와 독립 | [§0, L87](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | ADR-002; VND-006 | Phase 0 | Partial | Partial | [46 native integration checks](.arc-verify/governor/integration.json#/task8/checks/desktop-native-verified); a shared Rust production daemon serves CLI and registered desktop; full per-user install/cross-platform lifecycle remains outstanding. | governor-2026-11-13 |
-| DEC-004 | Product decisions | macOS 메뉴바 / Windows 트레이 · 창 닫기는 Hide, Daemon은 계속 동작 | [§0, L88](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | AT-GUI-01; NFR-011 | Phase 0 | Partial | Partial | [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); desktop-only hide/exit semantics are tested; real installed Windows tray/macOS menu-bar behavior remains unverified. | governor-2026-11-13 |
+| DEC-003 | Product decisions | 반드시 공용 로컬 데몬 · 사용자별 단일 Rust 데몬, GUI/CLI와 독립 | [§0, L87](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | ADR-002; VND-006 | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#desktop-shell-rows) passes: `close_request_hides_main_and_same_daemon_serves_bridge_and_cli` in [lifecycle](../../apps/desktop/src-tauri/tests/lifecycle.rs) builds the application through `configure_with_ports`; one private real daemon answers the registered `daemon_health` command and the built `arcctl status`, and a job started with `arcctl exec` is read back through the registered `job_by_id`. Case 2, per-user installation and lifecycle on the required platforms, needs an installed product on each platform and was not run. | phase-0-locality-desktop-2026-11-22 |
+| DEC-004 | Product decisions | macOS 메뉴바 / Windows 트레이 · 창 닫기는 Hide, Daemon은 계속 동작 | [§0, L88](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | AT-GUI-01; NFR-011 | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#desktop-shell-rows) passes: in `close_request_hides_main_and_same_daemon_serves_bridge_and_cli` in [lifecycle](../../apps/desktop/src-tauri/tests/lifecycle.rs) the close request on `main` is prevented once and the same window is hidden while the daemon keeps its process identity. The request is injected through `lifecycle::close_requested`; no native close event is delivered. Case 2, installed macOS menu-bar and Windows tray behavior, needs an installed application and was not run. | phase-0-locality-desktop-2026-11-22 |
 | DEC-005 | Product decisions | Rust/Tokio/SQLite · 자원 관리를 위해 별도 LLM이나 장기 상주 Node 프로세스 불필요 | [§0, L89](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | ADR-002, ADR-003 | Phase 0 | Complete | Complete | [writer/launch checks](.arc-verify/governor/integration.json#/task8/checks/daemon-governor-verified); [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); production Rust/Tokio/SQLite daemon and bounded writer execute on the maintained stack. | governor-2026-11-13 |
 | DEC-006 | Product decisions | Frontend TS 7 / React 19 · 이전 TS 6·Svelte 제안 폐기 | [§0, L90](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | ADR-011 | Phase 0 | Complete | Complete | [TypeScript 7 no-emit check](.arc-verify/governor/integration.json#/task8/checks/desktop-typecheck); [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); [pinned React 19/TS7](apps/desktop/package.json). | governor-2026-11-13 |
 | DEC-007 | Product decisions | Bun · JS/TS 프로젝트의 패키지 매니저 확정 | [§0, L91](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | ADR-011 | Phase 0 | Complete | Complete | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); Bun executes the desktop suites against the maintained Bun workspace. | governor-2026-11-13 |
@@ -521,7 +590,7 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | DEC-009 | Product decisions | Biome · JS/TS 린트·포맷 단일화 | [§0, L93](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | ADR-011 | Phase 0 | Complete | Complete | [Biome desktop check](.arc-verify/governor/integration.json#/task8/checks/desktop-lint); maintained single JS/TS lint/format route passes. | governor-2026-11-13 |
 | DEC-010 | Product decisions | Meter 핵심 기능 · 현재·누적 사용량, 벤더별 비용, 절약 추정치 구분 | [§0, L94](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-01; MTR-001, MTR-003 | Phase 1 | Partial | Partial | [synchronized observations](.arc-verify/governor/integration.json#/nativeAcceptance/primarySequence); real root usage and honest completeness remain visible; full vendor cost/savings scope is outstanding. | governor-2026-11-13 |
 | DEC-011 | Product decisions | Build/Test/Lint 전체 탐지 · 언어가 아니라 **실행 도구와 실제 작업 종류** 중심으로 분류 | [§0, L95](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | DET-001, DET-003, DET-004 | Phase 2 | Partial | Partial | [105 CLI checks](.arc-verify/governor/integration.json#/task8/checks/cli-compatibility); supported Cargo/Bun paths are retained. [Python classifier fixtures](../../crates/arc-detector/tests/python_tests.rs#python_entrypoints_and_core_selectors_are_test) and [real execution/pair evidence](#focused-python-test-acceptance-evidence) add only the documented pytest/unittest TEST forms; broader Python work and the full tool-family catalog remain outstanding. | python-tests-2026-11-15 |
-| DEC-012 | Product decisions | 원격 CI 요청 제외 · 명령이 아닌 **실제 계산 수행 장소**를 기준으로 판정 | [§0, L96](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-02; SAFE-008 | Phase 0 | Partial | Partial | [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); supported remote requests bypass admission; complete execution-location coverage is outstanding. | governor-2026-11-13 |
+| DEC-012 | Product decisions | 원격 CI 요청 제외 · 명령이 아닌 **실제 계산 수행 장소**를 기준으로 판정 | [§0, L96](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-02; SAFE-008 | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#locality-rows) is set from the existing named [DET-005](closing.md#det-005--remote-ci-and-ssh-exclusion) endpoint-control tests in [closing_locality](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_locality.rs), `closing_shell` and `closing_exec`, each named in closing.md; the local Docker and `act` controls are now recorded BUILD/`LOCAL_CONTAINER` and are macOS-only. Case 2, proven remote pod placement and actual Windows WSL placement, needs those external environments and was not run. Other endpoint families are not closed by this row. | phase-0-locality-desktop-2026-11-22 |
 | DEC-013 | Product decisions | 전역 실행 윈도우 · Semaphore + 자원 예약 + 공정성 + 실행 시작률 제어 | [§0, L97](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-04; TRF-001, TRF-003, TRF-013, TRF-014 | Phase 1 | Partial | Partial | [GV-N02](.arc-verify/governor/integration.json#/nativeAcceptance/cases/1); [GV-N06](.arc-verify/governor/integration.json#/nativeAcceptance/cases/5); shared window and reservations execute; resource adaptation/fairness/start-rate breadth remains outstanding. | governor-2026-11-13 |
 | DEC-014 | Product decisions | Self-Tuning · LLM 없이 온라인 계측/통계/제약된 정책 학습 | [§0, L98](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-07; POL-002, POL-005 | Phase 4 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | DEC-015 | Product decisions | Aggressive Sweeper · 소유권 증명된 비활성 개발 자원은 삭제; 불필요한 아카이브 없음 | [§0, L99](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-05; SWP-001, SWP-005 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
@@ -531,7 +600,7 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | DEC-019 | Product decisions | Safety boundary · 활성 세션·개인 브라우저·소유권 불명 리소스는 삭제하지 않음 | [§0, L103](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-06; SAFE-001, SAFE-002, SAFE-003 | Phase 3 | Partial | Partial | [GV-N02](.arc-verify/governor/integration.json#/nativeAcceptance/cases/1); A is preserved; personal-browser/active-session/ownership-unknown GC safety acceptance remains outstanding. | governor-2026-11-13 |
 | DEC-020 | Product decisions | Switch-only 설정 · 사용자가 TTL/코어 수/GB 임계값/YAML 편집을 할 필요 없음 | [§0, L104](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-09; AT-GUI-02 | Phase 4 | Partial | Partial | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); Governor control requires one switch; full switch-only settings and self-tuned thresholds remain outstanding. | governor-2026-11-13 |
 | DEC-021 | Product decisions | 마켓 검색/설치 · 벤더가 허용하는 공식 마켓·카탈로그 우선, 불가하면 native install 제공 | [§0, L105](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | G-10; VND-003, VND-011 | Phase 2 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
-| DEC-022 | Product decisions | Credit/About · GitHub/LinkedIn 아이콘 전용, `Try OMA` 표시 | [§0, L106](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | AT-GUI-04; §15.9 | Phase 0 | Partial | Partial | [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); icon-only GitHub/LinkedIn and Try OMA are fixture-tested; actual external default-browser effect is unverified. | governor-2026-11-13 |
+| DEC-022 | Product decisions | Credit/About · GitHub/LinkedIn 아이콘 전용, `Try OMA` 표시 | [§0, L106](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | AT-GUI-04; §15.9 | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#desktop-shell-rows) passes: the test "exact SRS identity and three destinations use only the fixed native opener" in [credits.test.ts](../../apps/desktop/tests/credits.test.ts) shows the icon-only GitHub and LinkedIn Phosphor links and Try OMA. Case 2, actual browser opening of the official destinations, was not run. | phase-0-locality-desktop-2026-11-22 |
 | DEC-023 | Product decisions | 사전 승인과 최소 권한 · OS 상주/종료/삭제에 필요한 승인 절차를 설치 시 명시 | [§0, L107](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | VND-008; NFR-016 | Phase 5 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | DEC-024 | Product decisions | 개발자 책임 · 훅 차이·OS 차이·벤더 저장구조는 **어댑터로 흡수**; 사용자에게 수동 연구 요구 금지 | [§0, L108](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | VND-004, VND-013; DET-002 | Phase 2 | Partial | Partial | [GV-N14](.arc-verify/governor/integration.json#/nativeAcceptance/cases/13); native Governor client compatibility executes; all vendor/OS adapter differences remain outstanding. | governor-2026-11-13 |
 | DEC-025 | Product decisions | User-Scoped Project Sweep · 사용자가 등록한 폴더 아래 Git 저장소의 **gitignore된 알려진 빌드 산출물(30일)·의존성 디렉터리(90일)**를 주기 스윕. 등록 행위가 소유권 증거 | [§0, L109](ARC_SRS_2026-11-06.md#0-최종적으로-확정한-제품-결정) | SWP-026, SWP-027, SWP-028, SWP-029, SWP-030, SWP-031 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
@@ -543,7 +612,7 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | Catalog ID | Catalog | SRS declaration | Source | Related IDs | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | G-01 | Product goals | CPU/RAM/Disk 소비 귀속 · 벤더·세션·프로젝트·작업별 사용량 집계, 불확실한 값은 별도 표시 | [§1.2, L137](ARC_SRS_2026-11-06.md#12-제품-목표) | MTR-001, MTR-002, MTR-003, MTR-004, MTR-005, MTR-006, MTR-007, MTR-008, MTR-009, MTR-010, MTR-011, MTR-012, MTR-013, MTR-014, MTR-015, MTR-016, MTR-017, MTR-018; AT-MTR-01, AT-MTR-02, AT-MTR-03 | Phase 1 | Partial | Partial | [synchronized observations](.arc-verify/governor/integration.json#/nativeAcceptance/primarySequence); root usage/queue/run/outcomes reconcile; full vendor/session/project CPU/RAM/Disk attribution is outstanding. | governor-2026-11-13 |
-| G-02 | Product goals | 로컬 실행만 교통 정리 · 100%의 공식 원격 CI 트리거 테스트가 로컬 슬롯 미점유 | [§1.2, L138](ARC_SRS_2026-11-06.md#12-제품-목표) | DET-005, DET-006, DET-007, TRF-006; AT-TRF-02, AT-TRF-03, AT-TRF-04, AT-TRF-12 | Phase 0 | Partial | Partial | [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); remote/unknown bypass passes; 100-percent official-trigger coverage is unverified. | governor-2026-11-13 |
+| G-02 | Product goals | 로컬 실행만 교통 정리 · 100%의 공식 원격 CI 트리거 테스트가 로컬 슬롯 미점유 | [§1.2, L138](ARC_SRS_2026-11-06.md#12-제품-목표) | DET-005, DET-006, DET-007, TRF-006; AT-TRF-02, AT-TRF-03, AT-TRF-04, AT-TRF-12 | Phase 0 | Blocked | Blocked | [HOST cases 1, 3 and 4](closing.md#locality-rows) pass: the five named remote tests take no local queue entry or reservation; `local_container_buildx_via_exec` and `local_container_buildx_via_hook_exec` (AT-TRF-03) take a BUILD reservation as a Local Container; `mixed_bun_stages_via_hook` and `mixed_bun_stages_via_exec` (AT-TRF-12) admit only the local Test stage. This is the finite set the SRS names (AT-TRF-02, 03, 04 and 12), with offline stubs and no live GitHub dispatch; it is not a measurement of every official trigger. Case 2, the remaining placement-dependent scenarios, was not run. | phase-0-locality-desktop-2026-11-22 |
 | G-03 | Product goals | 여러 에이전트 공존 · 모든 지원 플러그인이 **사용자별 동일 데몬** 이용 | [§1.2, L139](ARC_SRS_2026-11-06.md#12-제품-목표) | VND-001, VND-002, VND-003, VND-004, VND-005, VND-006, VND-007, VND-008, VND-009, VND-010, VND-011, VND-012, VND-013, VND-014, VND-015, VND-016, VND-017; AT-PLG-01, AT-PLG-02, AT-PLG-03, AT-PLG-04 | Phase 2 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | G-04 | Product goals | 개발자의 기기 반응성 유지 · ARC ON/OFF A/B 성능 시험에 작업 완료율·응답 지연 함께 측정 | [§1.2, L140](ARC_SRS_2026-11-06.md#12-제품-목표) | TRF-001, TRF-002, TRF-003, TRF-004, TRF-005, TRF-006, TRF-007, TRF-008, TRF-009, TRF-010, TRF-011, TRF-012, TRF-013, TRF-014, TRF-015, TRF-016, TRF-017, TRF-018, TRF-019, TRF-020, TRF-021, TRF-022; POL-001, POL-002, POL-003, POL-004, POL-005, POL-006, POL-007, POL-008, POL-009, POL-010, POL-011, POL-012, POL-013, POL-014; matched ON/OFF experiment (§1.2) | Phase 4 | Pending | Unverified | Pending: No representative matched ON/OFF responsiveness/completion-rate experiment was executed. Governor and mixed Python/Cargo/Bun fixtures establish correctness; they measure no responsiveness benefit, adoption or profitability. | python-tests-2026-11-15 |
 | G-05 | Product goals | 자동 고아 회수 · ARC 소유권 근거가 충족된 테스트 고아를 일관되게 종료/삭제 | [§1.2, L141](ARC_SRS_2026-11-06.md#12-제품-목표) | SWP-001, SWP-002, SWP-003, SWP-004, SWP-005, SWP-006, SWP-007, SWP-008, SWP-009, SWP-010, SWP-011, SWP-012, SWP-013, SWP-014, SWP-015, SWP-016, SWP-017, SWP-018, SWP-019, SWP-020, SWP-021, SWP-022, SWP-023, SWP-024, SWP-025, SWP-026, SWP-027, SWP-028, SWP-029, SWP-030, SWP-031, SWP-032, SWP-033, SWP-034, SWP-035; AT-SWP-01, AT-SWP-04, AT-SWP-05, AT-SWP-08, AT-SWP-15, AT-SWP-17, AT-SWP-19 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
@@ -558,10 +627,10 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | Catalog ID | Catalog | SRS declaration | Source | Related IDs | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ADR-001 | Architecture decisions | OS·벤더 중립 Core + 벤더별 Native Adapter | [§4.4, L313](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | VND-004, VND-006; G-03 | Phase 2 | Partial | Partial | [46 native integration checks](.arc-verify/governor/integration.json#/task8/checks/desktop-native-verified); shared core and native direct clients execute; eleven native vendor adapters remain outstanding. | governor-2026-11-13 |
-| ADR-002 | Architecture decisions | Rust 사용자별 데몬 + 별도 React/Tauri GUI | [§4.4, L314](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DEC-003, DEC-005 | Phase 0 | Partial | Partial | [46 native integration checks](.arc-verify/governor/integration.json#/task8/checks/desktop-native-verified); Rust daemon/React-Tauri separation is retained; installed cross-platform lifecycle remains outstanding. | governor-2026-11-13 |
+| ADR-002 | Architecture decisions | Rust 사용자별 데몬 + 별도 React/Tauri GUI | [§4.4, L314](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DEC-003, DEC-005 | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#desktop-shell-rows) passes: in `close_request_hides_main_and_same_daemon_serves_bridge_and_cli` in [lifecycle](../../apps/desktop/src-tauri/tests/lifecycle.rs) the separate `arc-daemon` process is reached by the desktop only through registered bridge commands and keeps serving the CLI after the GUI window is hidden. Case 2, the installed cross-platform lifecycle, was not run. | phase-0-locality-desktop-2026-11-22 |
 | ADR-003 | Architecture decisions | SQLite WAL과 append-only event audit + 주기 집계 | [§4.4, L315](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | MTR-014; NFR-010, NFR-023 | Phase 1 | Partial | Partial | [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); SQLite/WAL committed state and receipts execute; complete audit/rollup policy remains outstanding. | governor-2026-11-13 |
 | ADR-004 | Architecture decisions | 정책 UI Switch-only, 임계값은 Self-Tuning 내부 결정 | [§4.4, L316](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DEC-020; POL-005; AT-GUI-02 | Phase 4 | Partial | Partial | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); Governor is switch-only; self-tuned internal thresholds and broader settings remain outstanding. | governor-2026-11-13 |
-| ADR-005 | Architecture decisions | 명령 이름보다 **실제 실행 위치**가 Traffic 대상 결정 | [§4.4, L317](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DET-005, DET-006, DET-011, DET-016; SAFE-008 | Phase 0 | Partial | Partial | [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); local/remote bypass boundaries are preserved; full endpoint/tool-family evidence remains outstanding. | governor-2026-11-13 |
+| ADR-005 | Architecture decisions | 명령 이름보다 **실제 실행 위치**가 Traffic 대상 결정 | [§4.4, L317](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DET-005, DET-006, DET-011, DET-016; SAFE-008 | Phase 0 | Blocked | Blocked | [HOST cases 1 and 3 to 5](closing.md#locality-rows) pass: the named DET-005 local, remote and UNKNOWN endpoint tests; `local_container_docker_build_via_exec`, `local_container_docker_build_via_hook_exec`, `local_container_buildx_via_exec` and `local_container_buildx_via_hook_exec` in [local_container](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_locality/local_container.rs) (macOS-only, injected listener inventory); and the four `mixed_*_stages_via_*` tests for the two named compounds. Case 2, live pod and WSL placement, was not run. | phase-0-locality-desktop-2026-11-22 |
 | ADR-006 | Architecture decisions | Hook 변경 불가면 Managed Launcher/Guard/Observe fallback | [§4.4, L318](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | VND-004; AT-PLG-04 | Phase 2 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | ADR-007 | Architecture decisions | GC: confirmed agent-owned disposable은 dirty 포함 삭제 | [§4.4, L319](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | SWP-010; SAFE-004, SAFE-005 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | ADR-008 | Architecture decisions | Delete fail-closed / non-destructive tool fail-open | [§4.4, L320](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | SAFE-010, SAFE-011; NFR-014, NFR-015 | Phase 3 | Partial | Partial | [GV-N14](.arc-verify/governor/integration.json#/nativeAcceptance/cases/13); non-destructive fail-open executes; destructive fail-closed acceptance remains outstanding. | governor-2026-11-13 |
@@ -817,17 +886,17 @@ These are row-level accounting totals. **No phase is declared finished**: the SR
 | --- | --- | --- | --- | --- | --- | --- |
 | Requirements | Phase 0 | 19 | 8 | 0 | 7 | 4 |
 | Requirements | Phase 1 | 34 | 10 | 20 | 4 | 0 |
-| Requirements | Phase 2 | 24 | 0 | 3 | 21 | 0 |
+| Requirements | Phase 2 | 24 | 1 | 3 | 19 | 1 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 52 | 0 |
 | Requirements | Phase 4 | 29 | 0 | 8 | 21 | 0 |
 | Requirements | Phase 5 | 4 | 0 | 1 | 3 | 0 |
-| Acceptance | Phase 0 | 4 | 2 | 2 | 0 | 0 |
+| Acceptance | Phase 0 | 4 | 2 | 0 | 0 | 2 |
 | Acceptance | Phase 1 | 10 | 1 | 8 | 1 | 0 |
-| Acceptance | Phase 2 | 7 | 1 | 1 | 5 | 0 |
+| Acceptance | Phase 2 | 7 | 3 | 1 | 3 | 0 |
 | Acceptance | Phase 3 | 22 | 0 | 0 | 22 | 0 |
 | Acceptance | Phase 4 | 4 | 0 | 2 | 2 | 0 |
 | Acceptance | Phase 5 | 0 | 0 | 0 | 0 | 0 |
-| Catalogs | Phase 0 | 17 | 8 | 8 | 1 | 0 |
+| Catalogs | Phase 0 | 17 | 8 | 1 | 1 | 7 |
 | Catalogs | Phase 1 | 27 | 2 | 18 | 7 | 0 |
 | Catalogs | Phase 2 | 12 | 0 | 4 | 8 | 0 |
 | Catalogs | Phase 3 | 31 | 0 | 2 | 29 | 0 |
@@ -842,17 +911,17 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Requirements | Phase 0 | 19 | 8 | 0 | 6 | 1 | 4 |
 | Requirements | Phase 1 | 34 | 10 | 20 | 4 | 0 | 0 |
-| Requirements | Phase 2 | 24 | 0 | 3 | 1 | 20 | 0 |
+| Requirements | Phase 2 | 24 | 1 | 3 | 1 | 18 | 1 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 0 | 52 | 0 |
 | Requirements | Phase 4 | 29 | 0 | 8 | 0 | 21 | 0 |
 | Requirements | Phase 5 | 4 | 0 | 1 | 0 | 3 | 0 |
-| Acceptance | Phase 0 | 4 | 2 | 2 | 0 | 0 | 0 |
+| Acceptance | Phase 0 | 4 | 2 | 0 | 0 | 0 | 2 |
 | Acceptance | Phase 1 | 10 | 1 | 8 | 1 | 0 | 0 |
-| Acceptance | Phase 2 | 7 | 1 | 1 | 0 | 5 | 0 |
+| Acceptance | Phase 2 | 7 | 3 | 1 | 0 | 3 | 0 |
 | Acceptance | Phase 3 | 22 | 0 | 0 | 0 | 22 | 0 |
 | Acceptance | Phase 4 | 4 | 0 | 2 | 0 | 2 | 0 |
 | Acceptance | Phase 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Catalogs | Phase 0 | 17 | 8 | 8 | 1 | 0 | 0 |
+| Catalogs | Phase 0 | 17 | 8 | 1 | 1 | 0 | 7 |
 | Catalogs | Phase 1 | 27 | 2 | 18 | 7 | 0 | 0 |
 | Catalogs | Phase 2 | 12 | 0 | 4 | 0 | 8 | 0 |
 | Catalogs | Phase 3 | 31 | 0 | 2 | 0 | 29 | 0 |
@@ -863,25 +932,27 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 
 | Primary inventory | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | 165 | 18 | 35 | 11 | 97 | 4 |
-| Acceptance | 47 | 4 | 13 | 1 | 29 | 0 |
-| Catalogs | 104 | 10 | 37 | 12 | 45 | 0 |
-| All primary rows | 316 | 32 | 85 | 24 | 171 | 4 |
+| Requirements | 165 | 19 | 35 | 11 | 95 | 5 |
+| Acceptance | 47 | 6 | 11 | 1 | 27 | 2 |
+| Catalogs | 104 | 10 | 30 | 12 | 45 | 7 |
+| All primary rows | 316 | 35 | 76 | 24 | 167 | 14 |
 
 | Acceptance family | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| TRF | 12 | 4 | 6 | 0 | 2 | 0 |
+| TRF | 12 | 6 | 6 | 0 | 0 | 0 |
 | MTR | 3 | 0 | 2 | 1 | 0 | 0 |
 | POL | 3 | 0 | 1 | 0 | 2 | 0 |
 | SWP | 21 | 0 | 0 | 0 | 21 | 0 |
-| GUI | 4 | 0 | 3 | 0 | 1 | 0 |
+| GUI | 4 | 0 | 1 | 0 | 1 | 2 |
 | PLG | 4 | 0 | 1 | 0 | 3 | 0 |
 
 Toggle supplement: 30 = 0 Complete + 1 Partial + 2 Unverified + 27 Outstanding. Governor native supplement: 15/15 focused groups Complete. Desktop experience supplement: 13/13 deterministic cases Complete. These supplements overlap evidence and are deliberately excluded from the 316-row sum.
 
 ### Current-cycle completion delta
 
-Phase 0 Reaper safety integration: SAFE-001, NFR-010 and R-007 move Partial → Complete, and SAFE-007 moves Partial → Blocked on its external cross-account case. Requirements Phase 0 is now 8 Complete, 0 Partial, 7 Pending and 4 Blocked; Catalogs Phase 0 is 8 Complete, 8 Partial and 1 Pending; Acceptance Phase 0 is unchanged. Phase 0 is 18 Complete, 10 Partial, 8 Pending and 4 Blocked of 40, and all primary rows are 32 Complete, 85 Partial, 24 Unverified, 171 Outstanding and 4 Blocked. No Pending row changed, and no row outside Phase 0 changed. See [current evidence](#phase-0-reaper-safety-integration-evidence).
+Phase 0 locality and desktop integration: DEC-003, DEC-004, DEC-012, DEC-022, G-02, ADR-002, ADR-005, AT-GUI-01 and AT-GUI-04 move Partial → Blocked on their recorded external cases; AT-TRF-03, AT-TRF-12 and DET-016 move Pending/Outstanding → Complete; DET-011 moves Pending/Outstanding → Blocked on its external WSL case. Catalogs Phase 0 is now 8 Complete, 1 Partial (R-018), 1 Pending and 7 Blocked; Acceptance Phase 0 is 2 Complete and 2 Blocked; Requirements Phase 0 is unchanged. Requirements Phase 2 is 1 Complete, 3 Partial, 19 Pending and 1 Blocked; Acceptance Phase 2 is 3 Complete, 1 Partial and 3 Pending. Phase 0 is 18 Complete, 1 Partial, 8 Pending and 13 Blocked of 40, Phase 2 is 4 Complete, 8 Partial, 30 Pending and 1 Blocked of 43, and all primary rows are 35 Complete, 76 Partial, 24 Unverified, 167 Outstanding and 14 Blocked. No Unverified row changed, and no row in Phases 1, 3, 4 or 5 changed. See [current evidence](#phase-0-locality-and-desktop-integration-evidence).
+
+Previous Phase 0 Reaper safety integration: SAFE-001, NFR-010 and R-007 moved Partial → Complete, and SAFE-007 moved Partial → Blocked on its external cross-account case. Requirements Phase 0 was then 8 Complete, 0 Partial, 7 Pending and 4 Blocked; Catalogs Phase 0 was 8 Complete, 8 Partial and 1 Pending. Phase 0 was 18 Complete, 10 Partial, 8 Pending and 4 Blocked of 40, and all primary rows were 32 Complete, 85 Partial, 24 Unverified, 171 Outstanding and 4 Blocked. See [that evidence](#phase-0-reaper-safety-integration-evidence).
 
 Previous Phase 0 closure integration: DET-001 and AT-TRF-02 became Complete; DET-005, SAFE-008 and NFR-007 became Blocked on their numbered external cases. AT-TRF-02 moved Partial → Complete under the operator's shell-state ruling; all primary rows were then 29 Complete, 89 Partial, 24 Unverified, 171 Outstanding and 3 Blocked. See [that evidence](#phase-0-closure-integration-evidence). The older endpoint-capture assessment is historical.
 

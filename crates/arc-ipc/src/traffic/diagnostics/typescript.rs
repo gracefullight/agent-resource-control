@@ -31,6 +31,9 @@ fn classifications() -> Vec<Classification> {
         GhRunWatch,
         GhRunView,
         SshRemoteCommand,
+        RemoteCiDispatch,
+        RemoteEndpointExec,
+        LocalEndpointBuild,
         CompoundLocal,
         CompoundRemote,
         CompoundMixed,
@@ -44,6 +47,7 @@ fn classifications() -> Vec<Classification> {
         SshForwarding,
         SshAmbiguous,
         DockerEndpointUnknown,
+        EndpointAmbiguous,
         InputLimit,
         TokenLimit,
         InvocationLimit,
@@ -185,6 +189,18 @@ fn fixture_values() -> Value {
         result["classification"] = json!(classification);
         results.push(result);
     }
+    // A local container build as every reader of this operation receives it:
+    // the HOST_LOCAL projection, never the negotiated LOCAL_CONTAINER location.
+    let container = Classification {
+        classification: JobClass::Build,
+        locality: Locality::LocalContainer,
+        reason: Reason::LocalEndpointBuild,
+        uncertainty: Uncertainty::None,
+    };
+    assert!(container.is_consistent());
+    let mut result = results[3].clone();
+    result["classification"] = json!(container.host_local_projection());
+    results.push(result);
     for value in &results {
         assert!(serde_json::from_value::<DiagnosticResult>(value.clone())
             .unwrap()

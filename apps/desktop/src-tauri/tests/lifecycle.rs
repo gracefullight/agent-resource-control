@@ -2,6 +2,27 @@
 //! commands. MockRuntime does not model OS visibility (is_visible is constant),
 //! so a recording port observes requests while delegating window calls to it.
 //! No native event loop, tray click or browser is started.
+// Contract seam for the desktop shell lane: the private real daemon, built
+// arcctl and held-job support of `daemon_bridge` are registered here so the
+// close-to-hide test can compose them with this target's `App`.
+#[cfg(unix)]
+#[allow(dead_code, unused_imports)]
+mod daemon_bridge_support;
+#[cfg(unix)]
+#[allow(dead_code)]
+#[path = "../../../../crates/arc-daemon/tests/support/native_exec.rs"]
+mod execution;
+#[cfg(unix)]
+mod lifecycle_support;
+#[cfg(unix)]
+#[allow(dead_code)]
+#[path = "../../../../crates/arc-daemon/tests/support/native_fixture.rs"]
+mod native;
+#[cfg(unix)]
+#[allow(dead_code)]
+#[path = "../../../../crates/arc-daemon/tests/support/mod.rs"]
+mod serialization;
+
 use arc_desktop::{
     bridge::DesktopBridge,
     configure_with_ports,
@@ -114,6 +135,14 @@ impl App {
 }
 
 fn invoke(window: &tauri::WebviewWindow<MockRuntime>, cmd: &str) -> Result<Value, Value> {
+    invoke_with(window, cmd, json!({}))
+}
+
+fn invoke_with(
+    window: &tauri::WebviewWindow<MockRuntime>,
+    cmd: &str,
+    body: Value,
+) -> Result<Value, Value> {
     tauri::test::get_ipc_response(
         window,
         InvokeRequest {
@@ -121,7 +150,7 @@ fn invoke(window: &tauri::WebviewWindow<MockRuntime>, cmd: &str) -> Result<Value
             callback: CallbackFn(0),
             error: CallbackFn(1),
             url: "tauri://localhost".parse().unwrap(),
-            body: InvokeBody::Json(json!({})),
+            body: InvokeBody::Json(body),
             headers: Default::default(),
             invoke_key: tauri::test::INVOKE_KEY.into(),
         },
@@ -162,6 +191,132 @@ fn close_request_hides_existing_window() {
         &tauri::WindowEvent::Focused(false),
     );
     assert_eq!(app.shell.observed.lock().unwrap().calls.len(), 2);
+}
+
+// Contract seam: the app built by `configure_with_ports` with the production
+// handlers reads a private real daemon through the registered bridge commands.
+#[test]
+#[cfg(unix)]
+fn registered_app_reads_private_real_daemon() {
+    let _serial = serialization::serial();
+    let mut case = daemon_bridge_support::RealDaemon::isolated("lifecycle-seam");
+    let daemon = case.identity();
+    let app = App::new(case.bridge.clone());
+    let window = app.window();
+    let health = invoke(&window, "daemon_health").unwrap();
+    assert_eq!(
+        health["data"],
+        json!({"daemon":"running","protocol_version":1,"sweeper":"off"})
+    );
+    let recent = invoke(&window, "recent_jobs").unwrap();
+    assert_eq!(recent["data"]["jobs"], json!([]));
+    assert_eq!(case.identity(), daemon);
+    assert!(!app.bridge.is_shutdown());
+    assert!(app.shell.observed.lock().unwrap().calls.is_empty());
+    let root = case.fixture.root.clone();
+    case.stop("lifecycle-seam");
+    drop(case);
+    assert!(
+        !root.exists(),
+        "a passing case removes its fixture directory"
+    );
+}
+
+// DEC-003, DEC-004, ADR-002 and AT-GUI-01: the application registered by
+// `configure_with_ports` hides its window on a close request while one private
+// real daemon keeps its process identity and goes on serving the registered
+// bridge commands and the built arcctl. The prevention port is injected as in
+// `close_request_hides_existing_window`; no native window, tray, menu bar or
+// screen is observed.
+#[test]
+#[cfg(unix)]
+fn close_request_hides_main_and_same_daemon_serves_bridge_and_cli() {
+    use arc_core::process_identity::{probe_live, IdentityStatus};
+    use daemon_bridge_support::{detail, HeldJob, RealDaemon};
+    let _serial = serialization::serial();
+    let mut case = RealDaemon::isolated("close-to-hide");
+    let daemon = case.identity();
+    let app = App::new(case.bridge.clone());
+    let window = app.window();
+    assert_eq!(invoke(&window, "open_dashboard"), Ok(Value::Null));
+    assert!(app.shell.observed.lock().unwrap().visible);
+
+    let prevented = AtomicUsize::new(0);
+    lifecycle::close_requested(&app.state(), window.label(), || {
+        prevented.fetch_add(1, Ordering::Relaxed);
+    })
+    .unwrap();
+    assert_eq!(prevented.load(Ordering::Relaxed), 1);
+    let same_window_stays_hidden = || {
+        let observed = app.shell.observed.lock().unwrap();
+        assert_eq!(observed.calls, ["show", "unminimize", "focus", "hide"]);
+        assert!(!observed.visible);
+        assert_eq!(observed.exits, 0);
+        assert_eq!(app.app.get_webview_window("main").unwrap(), window);
+        assert_eq!(app.app.webview_windows().len(), 1);
+        assert!(!app.state().is_quitting() && !app.bridge.is_shutdown());
+    };
+    same_window_stays_hidden();
+
+    // After the close, the same daemon process answers the registered bridge
+    // command and a request from the built CLI.
+    assert_eq!(probe_live(&daemon), IdentityStatus::VerifiedMatch);
+    assert_eq!(case.identity(), daemon);
+    assert_eq!(
+        invoke(&window, "daemon_health").unwrap()["data"],
+        json!({"daemon":"running","protocol_version":1,"sweeper":"off"})
+    );
+    let status = lifecycle_support::arcctl(&case, &["status"]);
+    assert!(status.status.success(), "{status:?}");
+    assert_eq!(
+        String::from_utf8(status.stdout).unwrap(),
+        format!(
+            "running. Socket: {}. Protocol: 1. Sweeper off.\n",
+            case.fixture.socket.display()
+        )
+    );
+    #[cfg(target_os = "macos")]
+    {
+        // Both replies state the answering daemon's own PID and start time.
+        let bridge = lifecycle_support::through_bridge(|| invoke(&window, "meter_snapshot"));
+        assert_eq!(bridge, daemon);
+        assert_eq!(lifecycle_support::through_cli(&case), daemon);
+    }
+
+    // A job started through the CLI is read back through the bridge.
+    let mut job = HeldJob::launch(&case, 17);
+    let id = detail(&case.wait_running(&job.identity))
+        .job_id
+        .as_str()
+        .to_owned();
+    let read = || invoke_with(&window, "job_by_id", json!({"job_id": id})).unwrap()["data"].clone();
+    let running = read();
+    assert_eq!(running["kind"], "found");
+    assert_eq!(running["job"]["job_id"], id);
+    assert_eq!(running["job"]["phase"], "RUNNING");
+    assert_eq!(running["job"]["outcome"], Value::Null);
+    let recent = invoke(&window, "recent_jobs").unwrap();
+    assert_eq!(recent["data"]["jobs"][0]["job_id"], id);
+    assert_eq!(job.release_and_wait().code(), Some(17));
+    let completed = read();
+    assert_eq!(completed["job"]["job_id"], id);
+    assert_eq!(completed["job"]["phase"], "COMPLETED");
+    assert_eq!(
+        completed["job"]["outcome"],
+        json!({"kind":"EXITED","code":17})
+    );
+    let launches = std::fs::read_to_string(case.fixture.root.join("launches")).unwrap();
+    assert_eq!(launches.lines().count(), 1);
+    assert_eq!(case.identity(), daemon);
+    same_window_stays_hidden();
+
+    let root = case.fixture.root.clone();
+    case.stop("close-to-hide");
+    drop(case);
+    assert!(
+        !root.exists(),
+        "a passing case removes its fixture directory"
+    );
 }
 
 #[test]

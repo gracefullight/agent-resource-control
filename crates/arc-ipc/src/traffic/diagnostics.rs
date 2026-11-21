@@ -211,7 +211,7 @@ impl DiagnosticResult {
             && self.admission.as_ref().is_none_or(|a| {
                 a.is_valid()
                     && self.classification.is_some_and(|c| {
-                        c.locality == crate::Locality::HostLocal
+                        c.locality.is_local_compute()
                             && matches!(
                                 c.classification,
                                 crate::JobClass::Build

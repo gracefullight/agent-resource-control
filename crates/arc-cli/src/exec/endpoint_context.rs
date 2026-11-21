@@ -154,8 +154,9 @@ fn capture_with(
 ) -> Option<EndpointContext> {
     let mut environment = BTreeMap::new();
     let mut bytes = 0usize;
-    let directly_local =
-        arc_detector::classify_argv(argv).locality == arc_detector::Locality::HostLocal;
+    let directly_local = arc_detector::classify_argv(argv)
+        .locality
+        .is_local_compute();
     for &key in CONTEXT_ENV_KEYS {
         if directly_local || !relevant(argv, key) {
             continue;

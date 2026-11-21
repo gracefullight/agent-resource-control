@@ -237,14 +237,23 @@ pub(super) fn docker_local_listener_controls_use_both_production_routes_and_admi
             matches!(listener.accept(), Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock),
             "classification contacted socket"
         );
-        let (job, _) = s.exec(&f, argv, &env);
+        let (job, id) = s.exec(&f, argv, &env);
         assert!(
             matches!(listener.accept(), Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock),
             "execution capture contacted socket"
         );
-        for result in [&inspection, &job["classification"]] {
+        // `arcctl classify` and the negotiated status reader name the Local
+        // Container; the locality-v1 reader `exec` used keeps HOST_LOCAL.
+        let negotiated =
+            local_container::recorded(&f, arc_ipc::compute_location::OPERATION_JOB_STATUS, &id);
+        for (result, locality) in [
+            (&inspection, "LOCAL_CONTAINER"),
+            (&negotiated, "LOCAL_CONTAINER"),
+            (&job["classification"], "HOST_LOCAL"),
+        ] {
             assert_eq!(result["classification"], "BUILD", "{name}: {result}");
-            assert_eq!(result["locality"], "HOST_LOCAL", "{name}: {result}");
+            assert_eq!(result["locality"], locality, "{name}: {result}");
+            assert_eq!(result["reason"], "LOCAL_ENDPOINT_BUILD", "{name}");
             assert_eq!(result["uncertainty"], "NONE", "{name}: {result}");
         }
         assert_recorded_fixture_child(&s, &job);
@@ -277,7 +286,7 @@ pub(super) fn docker_local_listener_controls_use_both_production_routes_and_admi
         );
     }
     assert_eq!(s.calls(), 11);
-    eprintln!("local engine controls: denominator 5, HOST_LOCAL 5 per route; unresolved listener controls: denominator 6, UNKNOWN 6 per route");
+    eprintln!("local engine controls: denominator 5, LOCAL_CONTAINER 5 per route; unresolved listener controls: denominator 6, UNKNOWN 6 per route");
     daemon.stop(libc::SIGTERM);
     f.report();
 }

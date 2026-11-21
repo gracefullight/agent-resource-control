@@ -166,7 +166,24 @@ async fn read_exact(
     Ok(())
 }
 
+/// The default reply path. A peer that did not negotiate `LOCAL_CONTAINER`
+/// receives the HOST_LOCAL projection, whichever handler built the reply.
 pub(crate) async fn write_response(
+    stream: &UnixStream,
+    response: &Response,
+    deadline: Instant,
+) -> io::Result<()> {
+    use arc_ipc::compute_location::{carries_container, project_reply};
+    if response.result.as_ref().is_some_and(carries_container) {
+        let mut projected = response.clone();
+        projected.result.iter_mut().for_each(project_reply);
+        return write_negotiated_response(stream, &projected, deadline).await;
+    }
+    write_negotiated_response(stream, response, deadline).await
+}
+
+/// Only for a reply to an `arc_ipc::compute_location::negotiated` operation.
+pub(crate) async fn write_negotiated_response(
     stream: &UnixStream,
     response: &Response,
     deadline: Instant,
@@ -307,4 +324,48 @@ pub(crate) fn check_deadline(deadline: Instant) -> io::Result<()> {
 
 fn timed_out() -> io::Error {
     io::Error::new(io::ErrorKind::TimedOut, "IPC absolute deadline expired")
+}
+
+#[cfg(test)]
+mod location_tests {
+    use super::*;
+    use serde_json::json;
+    use std::time::Duration;
+
+    async fn written(negotiated: bool, result: serde_json::Value) -> serde_json::Value {
+        let (server, client) = UnixStream::pair().unwrap();
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let response = Response::ok("location", result);
+        if negotiated {
+            write_negotiated_response(&server, &response, deadline).await
+        } else {
+            write_response(&server, &response, deadline).await
+        }
+        .unwrap();
+        let declared = read_header(&client, deadline).await.unwrap();
+        let body = read_body(&client, declared, deadline).await.unwrap();
+        serde_json::from_slice::<Response>(&body)
+            .unwrap()
+            .result
+            .unwrap()
+    }
+
+    #[tokio::test]
+    async fn only_a_negotiated_reply_names_local_container() {
+        let record = |locality: &str| {
+            json!({"job":{"classification":{"classification":"BUILD","locality":locality,
+                "reason":"LOCAL_ENDPOINT_BUILD","uncertainty":"NONE"}}})
+        };
+        assert_eq!(
+            written(false, record("LOCAL_CONTAINER")).await,
+            record("HOST_LOCAL")
+        );
+        assert_eq!(
+            written(true, record("LOCAL_CONTAINER")).await,
+            record("LOCAL_CONTAINER")
+        );
+        let remote = json!({"job":{"classification":{"classification":"REMOTE_EXEC",
+            "locality":"REMOTE","reason":"REMOTE_ENDPOINT_EXEC","uncertainty":"NONE"}}});
+        assert_eq!(written(false, remote.clone()).await, remote);
+    }
 }

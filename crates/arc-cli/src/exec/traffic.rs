@@ -84,6 +84,13 @@ pub(super) enum Mode {
 }
 
 impl Mode {
+    /// The daemon holds an authoritative job and child binding for this run.
+    pub(super) fn authoritative(&self) -> bool {
+        matches!(
+            self,
+            Self::Legacy(Tracking::Managed) | Self::Scheduled { .. } | Self::Unreserved { .. }
+        )
+    }
     pub(super) fn finish_unspawned(&self, socket: &Path, id: &JobId, observer: &ProcessIdentity) {
         match self {
             Self::Scheduled {

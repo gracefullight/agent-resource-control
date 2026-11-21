@@ -18,6 +18,22 @@ pub struct StartEvidence {
     meter: Option<Box<crate::job_meter::LineageEvidence>>,
 }
 impl StartEvidence {
+    /// Downgrade matching identity probes when the caller could not verify the
+    /// observer/child relationship for this same tuple. Missing and mismatch
+    /// observations are preserved as such.
+    pub fn with_child_ownership(mut self, verified: bool) -> Self {
+        if !verified {
+            if let Some((_, status)) = &mut self.child {
+                if *status == IdentityStatus::VerifiedMatch {
+                    *status = IdentityStatus::Indeterminate;
+                }
+            }
+            if self.child_identity_status == Some(IdentityStatus::VerifiedMatch) {
+                self.child_identity_status = Some(IdentityStatus::Indeterminate);
+            }
+        }
+        self
+    }
     pub fn with_meter_evidence(mut self, evidence: crate::job_meter::LineageEvidence) -> Self {
         self.meter = Some(Box::new(evidence));
         self

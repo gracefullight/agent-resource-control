@@ -8,9 +8,9 @@ use crate::{
 };
 use arc_ipc::{
     DoctorReport, FrameError, Request, Response, ERROR_FRAME_TOO_LARGE, ERROR_INTEGRITY_FAILED,
-    ERROR_INVALID_REQUEST, MAX_FRAME_BYTES, OPERATION_DOCTOR, PROTOCOL_VERSION,
+    ERROR_INVALID_REQUEST, OPERATION_DOCTOR, PROTOCOL_VERSION,
 };
-use std::{future::Future, io, sync::Arc};
+use std::{future::Future, sync::Arc};
 use tokio::{
     net::UnixStream,
     time::{timeout_at, Instant},
@@ -23,6 +23,15 @@ use legacy_projection::project_legacy_snapshot;
 #[path = "connection/classification.rs"]
 mod classification;
 use classification::classify_request;
+
+#[path = "connection/response.rs"]
+mod response;
+use response::{is_timeout, respond};
+
+#[path = "job_ownership.rs"]
+pub(crate) mod job_ownership;
+#[path = "connection/reaper_dispatch.rs"]
+pub(crate) mod reaper_dispatch;
 
 pub(crate) use arc_ipc::ERROR_DB_BUSY;
 #[path = "governor_dispatch.rs"]
@@ -85,6 +94,7 @@ pub(crate) async fn handle_with_jobs<D, F, J, G>(
             meter: None,
             meter_jobs: None,
             policy: None,
+            reaper: None,
         },
     )
     .await;
@@ -178,7 +188,8 @@ pub(crate) async fn handle_with_job_meter<D, F, J, G, T, H>(
 
 #[path = "policy_connection.rs"]
 mod policy_connection;
-pub(crate) use policy_connection::handle_with_policy;
+#[allow(unused_imports)] // Each target uses the adapter its supervisor needs.
+pub(crate) use policy_connection::{handle_with_policy, handle_with_reaper};
 
 struct TrafficHandler<T> {
     enabled: bool,
@@ -186,6 +197,7 @@ struct TrafficHandler<T> {
     meter: Option<arc_meter::SnapshotReader>,
     meter_jobs: Option<crate::job_meter_dispatch::Handler>,
     policy: Option<policy_dispatch::Handler>,
+    reaper: Option<reaper_dispatch::Handler>,
 }
 
 async fn handle_inner<D, F, J, G, T, H>(
@@ -206,28 +218,29 @@ async fn handle_inner<D, F, J, G, T, H>(
 {
     loop {
         let start = Instant::now();
-        let declared = match transport::read_header(&stream, start + limits.header_timeout).await {
-            Ok(declared) => declared,
-            Err(error @ (FrameError::EmptyFrame | FrameError::TooLarge { .. })) => {
-                let Some(_admission) = requests.try_admit() else {
+        let (declared, _relay) =
+            match transport::read_header_with_peer(&stream, start + limits.header_timeout).await {
+                Ok(header) => header,
+                Err(error @ (FrameError::EmptyFrame | FrameError::TooLarge { .. })) => {
+                    let Some(_admission) = requests.try_admit() else {
+                        return;
+                    };
+                    let code = if matches!(error, FrameError::TooLarge { .. }) {
+                        ERROR_FRAME_TOO_LARGE
+                    } else {
+                        ERROR_INVALID_REQUEST
+                    };
+                    let response = Response::error("", code);
+                    respond(&stream, &response, &limits, &metrics).await;
                     return;
-                };
-                let code = if matches!(error, FrameError::TooLarge { .. }) {
-                    ERROR_FRAME_TOO_LARGE
-                } else {
-                    ERROR_INVALID_REQUEST
-                };
-                let response = Response::error("", code);
-                respond(&stream, &response, &limits, &metrics).await;
-                return;
-            }
-            Err(error) => {
-                if is_timeout(&error) {
-                    metrics.increment(Counter::HeaderTimeouts);
                 }
-                return;
-            }
-        };
+                Err(error) => {
+                    if is_timeout(&error) {
+                        metrics.increment(Counter::HeaderTimeouts);
+                    }
+                    return;
+                }
+            };
         let Some(_admission) = requests.try_admit() else {
             return;
         };
@@ -269,6 +282,8 @@ async fn handle_inner<D, F, J, G, T, H>(
             &metrics,
         )
         .await
+            || reaper_dispatch::dispatch(&stream, &request, &limits, &traffic.reaper, &metrics)
+                .await
         {
             continue;
         }
@@ -301,7 +316,8 @@ async fn handle_inner<D, F, J, G, T, H>(
         } else {
             None
         };
-        // Neither the body nor payload enters the worker or survives an await.
+        // Meter payloads are resolved here; a validated lifecycle payload may
+        // remain until its observer has confirmed the complete relayed request.
         let metered = if request.protocol_version == PROTOCOL_VERSION
             && request.operation == arc_ipc::meter::OPERATION_METER_SNAPSHOT
         {
@@ -315,6 +331,16 @@ async fn handle_inner<D, F, J, G, T, H>(
             } else {
                 None
             };
+        let request_bound_to_observer = match &lifecycle {
+            Some(Ok(input)) => match job_ownership::observer(input) {
+                Some(observer) if crate::platform::peer_pid(&stream).ok() != Some(observer.pid) => {
+                    job_ownership::confirm_request(&request, observer, start + limits.frame_timeout)
+                        .await
+                }
+                _ => false,
+            },
+            _ => false,
+        };
         request.payload = serde_json::Value::Null;
         let response = if let Some(input) = job_meter {
             crate::job_meter_dispatch::response(
@@ -390,6 +416,12 @@ async fn handle_inner<D, F, J, G, T, H>(
         } else if let Some(input) = lifecycle {
             match input {
                 Err(code) => Response::error(&request.request_id, code),
+                Ok(input)
+                    if job_ownership::authorize(&input, &stream, request_bound_to_observer)
+                        .is_err() =>
+                {
+                    Response::error(&request.request_id, ERROR_INVALID_REQUEST)
+                }
                 Ok(input) => {
                     let deadline = std::time::Instant::now() + limits.db_response_timeout;
                     match timeout_at(Instant::from_std(deadline), jobs(input, deadline)).await {
@@ -450,43 +482,4 @@ fn drop_bun_grant_for_test(peer: u32) -> bool {
     assert_eq!(unsafe { libc::kill(peer as i32, libc::SIGSTOP) }, 0);
     std::fs::write(marker, b"GRANTED").expect("write committed-grant test marker");
     true
-}
-
-async fn respond(
-    stream: &UnixStream,
-    response: &Response,
-    limits: &RuntimeLimits,
-    metrics: &Arc<RuntimeMetrics>,
-) -> bool {
-    let deadline = Instant::now() + limits.write_timeout;
-    let _bytes = metrics.enter(Gauge::ResponseBytes, MAX_FRAME_BYTES as usize);
-    let result = transport::write_response(stream, response, deadline).await;
-    match result {
-        Ok(()) => {
-            metrics.increment(Counter::FramesCompleted);
-            true
-        }
-        Err(error) if error.kind() == io::ErrorKind::InvalidData => {
-            // Failed serialization has been dropped. The fallback shares its deadline.
-            let fallback = Response::error("", ERROR_FRAME_TOO_LARGE);
-            match transport::write_response(stream, &fallback, deadline).await {
-                Ok(()) => metrics.increment(Counter::FramesCompleted),
-                Err(error) if error.kind() == io::ErrorKind::TimedOut => {
-                    metrics.increment(Counter::WriteTimeouts)
-                }
-                Err(_) => {}
-            }
-            false
-        }
-        Err(error) => {
-            if error.kind() == io::ErrorKind::TimedOut {
-                metrics.increment(Counter::WriteTimeouts);
-            }
-            false
-        }
-    }
-}
-
-fn is_timeout(error: &FrameError) -> bool {
-    matches!(error, FrameError::Io(error) if error.kind() == io::ErrorKind::TimedOut)
 }

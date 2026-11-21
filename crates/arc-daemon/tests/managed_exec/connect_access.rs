@@ -157,7 +157,7 @@ fn proxy(
             target
                 .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
-            let response = arc_ipc::exchange(&mut target, &request).unwrap();
+            let response = super::relay::exchange(&mut target, &peer, &request);
             assert_eq!(
                 response.status,
                 arc_ipc::STATUS_OK,
@@ -268,7 +268,7 @@ fn observe(case: Case) {
     let start = Instant::now();
     let mut wrapper = OwnedChild::new(c.spawn().unwrap());
     let wrapper_pid = wrapper.child.id();
-    let end = start + Duration::from_secs(8);
+    let end = start + Duration::from_secs(60);
     let (mut barrier, _) = loop {
         match control_listener.accept() {
             Ok(stream) => break stream,

@@ -1,4 +1,42 @@
 use super::*;
+use std::sync::atomic::AtomicU8;
+
+// The resident binary never installs this callback. A separately selected
+// native fixture synchronizes with the real writer on both sides of one
+// lifecycle start COMMIT: once inside the commit hook, before SQLite commits,
+// and once more after that operation's SQL returned a committed start and
+// before its result is sent. No other transaction reaches the fixture.
+static FIXTURE_BEFORE_COMMIT: std::sync::OnceLock<fn()> = std::sync::OnceLock::new();
+static FIXTURE_STAGE: AtomicU8 = AtomicU8::new(STAGE_IDLE);
+const STAGE_IDLE: u8 = 0;
+const STAGE_ARMED: u8 = 1;
+const STAGE_REACHED: u8 = 2;
+
+#[allow(dead_code)] // Only the explicitly selected recovery fixture installs it.
+pub(super) fn install_fixture_before_commit(callback: fn()) {
+    assert!(FIXTURE_BEFORE_COMMIT.set(callback).is_ok());
+}
+
+/// Arm the fixture for the first write COMMIT of one lifecycle start.
+fn fixture_arm(operation: &jobs::Operation) -> Option<fn()> {
+    let callback = *FIXTURE_BEFORE_COMMIT.get()?;
+    matches!(operation, jobs::Operation::Start(..)).then(|| {
+        FIXTURE_STAGE.store(STAGE_ARMED, Ordering::Release);
+        callback
+    })
+}
+
+/// The second fixture call follows a commit the hook allowed and the start
+/// reported. A vetoed, failed or unchanged start never reaches it.
+fn fixture_committed(callback: Option<fn()>, value: &jobs::Value) {
+    let Some(callback) = callback else { return };
+    let reached = FIXTURE_STAGE.swap(STAGE_IDLE, Ordering::AcqRel) == STAGE_REACHED;
+    let wrote = matches!(value, jobs::Value::Start(Ok(result))
+        if result.disposition != arc_ipc::jobs::StartDisposition::Unchanged);
+    if reached && wrote {
+        callback();
+    }
+}
 
 pub(super) struct Active {
     cancelled: Arc<AtomicBool>,
@@ -59,13 +97,32 @@ pub(super) fn install_commit(
 ) -> Result<(), DbError> {
     connection
         .commit_hook(Some(move || {
-            shared.stopping.load(Ordering::Acquire)
-                || shared
-                    .active
-                    .lock()
-                    .unwrap_or_else(|e| e.into_inner())
-                    .as_ref()
-                    .is_some_and(|active| active.check(&shared).is_err())
+            let cancelled = || {
+                shared.stopping.load(Ordering::Acquire)
+                    || shared
+                        .active
+                        .lock()
+                        .unwrap_or_else(|e| e.into_inner())
+                        .as_ref()
+                        .is_some_and(|active| active.check(&shared).is_err())
+            };
+            if cancelled() {
+                return true;
+            }
+            if let Some(callback) = FIXTURE_BEFORE_COMMIT.get() {
+                let armed = FIXTURE_STAGE.compare_exchange(
+                    STAGE_ARMED,
+                    STAGE_REACHED,
+                    Ordering::AcqRel,
+                    Ordering::Acquire,
+                );
+                if armed.is_ok() {
+                    callback();
+                }
+            }
+            // A fixture can pause here while cancellation arrives. Never
+            // replace the existing cancellation check with the barrier.
+            cancelled()
         }))
         .map_err(DbError::Sql)
 }
@@ -138,11 +195,13 @@ pub(super) fn run(
                         .and_then(|()| hooks.before_sql(&shared))
                         .and_then(|()| {
                             check(&shared)?;
+                            let fixture = fixture_arm(&operation);
                             let value = jobs::execute_observed(
                                 &mut connection,
                                 operation,
                                 Some(&shared.observation),
                             );
+                            fixture_committed(fixture, &value);
                             hooks.after_operation(&shared)?;
                             // A deadline here can follow COMMIT. The stable key resolves ambiguity.
                             check(&shared)?;

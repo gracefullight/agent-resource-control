@@ -3,9 +3,13 @@ use arc_platform::child_wait::{wait_owned_child, TerminalUsage, WaitMode};
 use std::{
     io,
     os::unix::process::ExitStatusExt,
-    sync::atomic::{AtomicI32, AtomicU32, Ordering},
+    sync::{
+        atomic::{AtomicI32, AtomicU32, Ordering},
+        Mutex,
+    },
     time::Instant,
 };
+pub(super) mod reaper_action;
 
 pub(super) struct Termination {
     pub status: std::process::ExitStatus,
@@ -19,6 +23,11 @@ const SPAWNING: i32 = -2;
 static CHILD: AtomicI32 = AtomicI32::new(-1);
 static PENDING: AtomicU32 = AtomicU32::new(0);
 static CONTINUE_CHILD: AtomicI32 = AtomicI32::new(0);
+// Held by the supervising thread from each consuming wait until CHILD is
+// cleared, and by the Reaper action from its identity checks through its
+// signal. While CHILD names a PID under this gate, that PID is still this
+// wrapper's unreaped child and cannot have been recycled. Handlers never take it.
+static WAIT_GATE: Mutex<()> = Mutex::new(());
 const NONTERMINAL: [i32; 4] = [libc::SIGTERM, libc::SIGHUP, libc::SIGUSR1, libc::SIGUSR2];
 const TERMINAL: [i32; 2] = [libc::SIGINT, libc::SIGQUIT];
 extern "C" fn receive(signal: i32) {
@@ -82,6 +91,7 @@ pub(super) fn with_blocked_signals<T>(f: impl FnOnce() -> T) -> io::Result<T> {
 pub(crate) struct Signals {
     prior: Vec<(i32, libc::sigaction)>,
     shared_job: bool,
+    reclaim: std::cell::RefCell<Option<reaper_action::Service>>,
 }
 impl Signals {
     pub(crate) fn install(shared_job: bool) -> io::Result<Self> {
@@ -92,6 +102,7 @@ impl Signals {
         let mut guard = Self {
             prior: Vec::new(),
             shared_job,
+            reclaim: Default::default(),
         };
         for signal in NONTERMINAL
             .into_iter()
@@ -189,6 +200,18 @@ impl Signals {
             }
         }
     }
+    /// Offer the daemon an identity-bound way to reclaim this attached child.
+    /// Any failure leaves the job without a registration: unknown ownership.
+    pub(crate) fn offer_reclaim(
+        &self,
+        socket: &std::path::Path,
+        job_id: &arc_ipc::jobs::JobId,
+        observer: &arc_ipc::jobs::ProcessIdentity,
+        child: Option<&arc_ipc::jobs::ProcessIdentity>,
+    ) {
+        let service = child.and_then(|c| reaper_action::start(socket, job_id, observer, c).ok());
+        *self.reclaim.borrow_mut() = service;
+    }
     #[cfg(test)]
     pub(crate) fn wait(&self, child: &mut std::process::Child) -> io::Result<Termination> {
         self.wait_with(child, || {})
@@ -227,6 +250,7 @@ impl Signals {
         }
         loop {
             let mut stopped = None;
+            let gate = WAIT_GATE.lock().unwrap_or_else(|e| e.into_inner());
             loop {
                 // Consume every event with handlers blocked. Clearing ownership
                 // before unmasking closes the native reap/recycled-PID interval.
@@ -235,7 +259,7 @@ impl Signals {
                     Ok(None) => break,
                     Err(error) => {
                         if error.kind() != io::ErrorKind::Interrupted {
-                            self.reaped();
+                            self.clear();
                         }
                         return Err(error);
                     }
@@ -246,7 +270,7 @@ impl Signals {
                     // before any other observation work can delay delivery.
                     let delivery_observed_at = delivery_now();
                     let observed_at = now();
-                    self.reaped();
+                    self.clear();
                     return Ok(Termination {
                         status: event.status,
                         usage: event.terminal_usage.and_then(Result::ok),
@@ -261,6 +285,7 @@ impl Signals {
                     stopped = None;
                 }
             }
+            drop(gate);
             if let Some(signal) = stopped {
                 CONTINUE_CHILD.store(
                     i32::from(!self.shared_job || signal == libc::SIGSTOP),
@@ -281,6 +306,11 @@ impl Signals {
         }
     }
     pub(crate) fn reaped(&self) {
+        let _gate = WAIT_GATE.lock().unwrap_or_else(|e| e.into_inner());
+        self.clear();
+    }
+    // The caller holds WAIT_GATE: no Reaper action is between check and signal.
+    fn clear(&self) {
         let _mask = Mask::block();
         CHILD.store(-1, Ordering::SeqCst);
         CONTINUE_CHILD.store(PREPARING, Ordering::SeqCst);

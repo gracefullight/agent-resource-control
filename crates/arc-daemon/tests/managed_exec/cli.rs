@@ -20,7 +20,47 @@ mod native_exec;
 pub use native_exec::{accept, wait};
 
 pub fn binary(name: &str) -> PathBuf {
-    std::path::Path::new(env!("CARGO_BIN_EXE_arc-daemon")).with_file_name(name)
+    static BUILT: std::sync::OnceLock<()> = std::sync::OnceLock::new();
+    let daemon = std::path::Path::new(env!("CARGO_BIN_EXE_arc-daemon"));
+    BUILT.get_or_init(|| {
+        let profile_dir = daemon.parent().expect("daemon profile directory");
+        let target = profile_dir.parent().expect("Cargo target directory");
+        let mut build = Command::new(std::env::var_os("CARGO").unwrap_or_else(|| "cargo".into()));
+        build
+            .current_dir(env!("CARGO_MANIFEST_DIR"))
+            .args([
+                "build",
+                "--offline",
+                "-p",
+                "arc-cli",
+                "--bin",
+                "arcctl",
+                "--bin",
+                "arc-exec-fixture",
+                "--target-dir",
+            ])
+            .arg(target);
+        if profile_dir
+            .file_name()
+            .is_some_and(|name| name == "release")
+        {
+            build.arg("--release");
+        }
+        let output = super::runtime::child_watchdog::output_for(
+            &mut build,
+            "offline CLI fixture build",
+            Duration::from_secs(7200),
+        )
+        .unwrap();
+        assert!(
+            output.status.success(),
+            "offline CLI fixture build failed: {}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        assert!(daemon.with_file_name("arcctl").is_file());
+        assert!(daemon.with_file_name("arc-exec-fixture").is_file());
+    });
+    daemon.with_file_name(name)
 }
 pub fn command(f: &Fixture) -> Command {
     let mut c = Command::new(binary("arcctl"));

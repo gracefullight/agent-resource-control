@@ -3,10 +3,22 @@
 mod cli;
 #[path = "support/mod.rs"]
 mod coordination;
+#[path = "managed_exec/crash_recovery.rs"]
+mod crash_recovery;
+#[path = "managed_exec/current_user_ownership.rs"]
+mod current_user_ownership;
 #[path = "managed_exec/pipeline.rs"]
 mod pipeline;
 #[path = "managed_exec/protocol.rs"]
 mod protocol;
+#[path = "managed_exec/reaper_escalation.rs"]
+mod reaper_escalation;
+#[path = "managed_exec/reaper_fixture.rs"]
+mod reaper_fixture;
+#[path = "managed_exec/reaper_safety.rs"]
+mod reaper_safety;
+#[path = "managed_exec/relay.rs"]
+mod relay;
 #[allow(dead_code)] // Shared fixture helpers also serve older acceptance suites.
 #[path = "support/runtime.rs"]
 mod runtime;

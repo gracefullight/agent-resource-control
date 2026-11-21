@@ -403,6 +403,12 @@ fn main() {
             libc::signal(libc::SIGINT, observed as *const () as usize);
         }
     }
+    // A target that survives graceful termination, for escalation fixtures.
+    if mode == "ignored-term" {
+        unsafe {
+            libc::signal(libc::SIGTERM, libc::SIG_IGN);
+        }
+    }
     if let Some(control) = std::env::var_os("ARC_FIXTURE_CONTROL") {
         let mut stream = UnixStream::connect(control).unwrap();
         use std::os::fd::AsRawFd;

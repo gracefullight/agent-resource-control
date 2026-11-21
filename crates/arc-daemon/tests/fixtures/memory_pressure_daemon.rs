@@ -25,6 +25,8 @@ mod meter;
 mod native_fixture;
 #[path = "../../src/platform.rs"]
 mod platform;
+#[path = "../../src/reaper.rs"]
+mod reaper;
 #[path = "../../src/runtime_metrics.rs"]
 mod runtime_metrics;
 #[path = "../../src/runtime_report.rs"]

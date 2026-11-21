@@ -70,7 +70,7 @@ impl Proxy {
                 target
                     .set_read_timeout(Some(Duration::from_secs(60)))
                     .unwrap();
-                let response = arc_ipc::exchange(&mut target, &request).unwrap();
+                let response = super::relay::exchange(&mut target, &stream, &request);
                 if mode == "around-commit" && *count == 2 {
                     continue;
                 }

@@ -80,8 +80,14 @@ pub(crate) async fn supervise_with_source(
         let report = report?;
         let listener = server::bind_socket(&socket)?;
         let owned_socket = OwnedSocket::new(socket)?;
+        // The full Sweeper is always off. The bounded Reaper is named only
+        // when the operator explicitly selected it.
+        let reaper = match crate::reaper::Policy::current() {
+            Ok(Some(_)) => " Process Reaper on.",
+            _ => "",
+        };
         println!(
-            "arc-daemon ready. Socket: {}. Protocol: 1. Sweeper off.",
+            "arc-daemon ready. Socket: {}. Protocol: 1. Sweeper off.{reaper}",
             owned_socket.path.display()
         );
         io::stdout().flush()?;
@@ -119,6 +125,7 @@ pub(crate) async fn supervise_with_source(
         client.bind_observation(meter.reader());
     }
     let meter_reader = meter.as_ref().map(arc_meter::MeterWorker::reader);
+    let reaper = crate::reaper::start(&client);
     let (reason, accept_error) = loop {
         handlers.reap_ready();
         tokio::select! {
@@ -144,6 +151,7 @@ pub(crate) async fn supervise_with_source(
                         let meter_client = client.clone();
                         let policy_client = client.clone();
                         let meter_reader = meter_reader.clone();
+                        let reaper = reaper.as_ref().map(crate::reaper::Reaper::handler);
                         let job_meter: crate::job_meter_dispatch::Handler = Arc::new(move |input, peer, deadline| {
                             Box::pin(crate::db_worker::job_meter::handle(meter_client.clone(), input, peer, deadline))
                         });
@@ -151,11 +159,11 @@ pub(crate) async fn supervise_with_source(
                             Box::pin(crate::db_worker::policy::handle(policy_client.clone(), input, peer, deadline))
                         });
                         handlers.try_spawn(stream, move |stream| {
-                            connection::handle_with_policy(
+                            connection::handle_with_reaper(
                                 stream, limits, requests, metrics,
                                 move |deadline| doctor(client.clone(), deadline),
                                 move |input, deadline| crate::db_worker::jobs::handle(jobs_client.clone(), input, deadline),
-                                (move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline), meter_reader, Some(job_meter)), Some(policy),
+                                (move |input, peer, deadline| crate::db_worker::traffic::handle(traffic_client.clone(), input, peer, deadline), meter_reader, Some(job_meter)), Some(policy), reaper,
                             )
                         });
                     }
@@ -175,6 +183,9 @@ pub(crate) async fn supervise_with_source(
     drop(listener);
     if let Some(meter) = &meter {
         meter.begin_shutdown();
+    }
+    if let Some(reaper) = reaper {
+        reaper.shutdown().await;
     }
     worker.begin_shutdown();
     // Both resources use the same absolute deadline; no stage renews it.

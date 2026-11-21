@@ -25,8 +25,15 @@ pub struct ReconcileEvidence {
     target: T,
     status: IdentityStatus,
     observed_at_ms: u64,
+    child_ownership_verified: bool,
 }
 impl ReconcileEvidence {
+    /// The caller must re-establish ownership for this exact child and observer
+    /// before a previously unverified child may become actionable.
+    pub fn with_child_ownership(mut self, verified: bool) -> Self {
+        self.child_ownership_verified = verified;
+        self
+    }
     /// A recovery scan may skip live or uncertain entries without rewriting
     /// their lifecycle revisions. Applying a ready observation still rechecks
     /// the snapshot and Traffic state inside the write transaction.
@@ -73,6 +80,7 @@ pub fn observe(job: &JobSnapshot, now: u64) -> ReconcileEvidence {
         target,
         status,
         observed_at_ms: now,
+        child_ownership_verified: false,
     }
 }
 pub fn apply_observation(
@@ -102,12 +110,16 @@ pub fn apply_observation(
     }
     valid_now(evidence.observed_at_ms, Some(&job))?;
     let prior = job.clone();
-    update_observation(
-        &mut job,
-        evidence.target,
-        evidence.status,
-        evidence.observed_at_ms,
-    );
+    let status = if evidence.target == T::Child
+        && job.child_verified_at_ms.is_none()
+        && evidence.status == IdentityStatus::VerifiedMatch
+        && !evidence.child_ownership_verified
+    {
+        IdentityStatus::Indeterminate
+    } else {
+        evidence.status
+    };
+    update_observation(&mut job, evidence.target, status, evidence.observed_at_ms);
     let changed = job != prior;
     if changed {
         job.updated_at_ms = evidence.observed_at_ms;

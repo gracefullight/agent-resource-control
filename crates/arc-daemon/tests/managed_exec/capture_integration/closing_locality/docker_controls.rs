@@ -83,9 +83,20 @@ int main(int argc, char **argv) {
     // connection made before it would reach the target first (and deliver EOF
     // instead of the sentinel), even if the server was scheduled late.
     let barrier = || {
-        let mut probe = UnixStream::connect(&socket).unwrap();
-        probe.write_all(b"x").unwrap();
         let deadline = Instant::now() + Duration::from_secs(60);
+        // The socket file exists from bind(), before listen() accepts. A
+        // refused connect reaches nothing, so retrying keeps the barrier.
+        let mut probe = loop {
+            match UnixStream::connect(&socket) {
+                Ok(stream) => break stream,
+                Err(error) if error.kind() == std::io::ErrorKind::ConnectionRefused => {
+                    assert!(Instant::now() < deadline, "forwarder did not listen");
+                    std::thread::sleep(Duration::from_millis(10));
+                }
+                Err(error) => panic!("forwarder connect: {error}"),
+            }
+        };
+        probe.write_all(b"x").unwrap();
         let mut target_connection = loop {
             match target.accept() {
                 Ok((stream, _)) => break stream,
@@ -96,6 +107,9 @@ int main(int argc, char **argv) {
                 Err(error) => panic!("target accept: {error}"),
             }
         };
+        // Darwin lets an accepted socket inherit the listener's nonblocking
+        // mode; the forwarder writes the sentinel only after it connects.
+        target_connection.set_nonblocking(false).unwrap();
         target_connection
             .set_read_timeout(Some(Duration::from_secs(60)))
             .unwrap();

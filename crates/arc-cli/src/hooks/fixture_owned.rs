@@ -122,15 +122,34 @@ impl OwnedChild {
         self.wait_with_clock(Instant::now)
     }
     fn wait_with_clock(&mut self, now: impl Fn() -> Instant) -> ExitStatus {
+        self.wait_with_observer(now, Self::observe)
+    }
+    fn wait_with_observer(
+        &mut self,
+        now: impl Fn() -> Instant,
+        mut observe: impl FnMut(&mut Self) -> io::Result<bool>,
+    ) -> ExitStatus {
         let deadline = now() + WATCHDOG;
+        let mut last_transient = None;
         loop {
             if self.own_group {
                 let exited = self
                     .root_exited()
                     .unwrap_or_else(|e| panic!("{}: cannot observe root: {e}", self.label));
-                let descendants = self
-                    .observe()
-                    .unwrap_or_else(|e| panic!("{}: cannot observe descendants: {e}", self.label));
+                let descendants = match observe(self) {
+                    Ok(present) => {
+                        last_transient = None;
+                        present
+                    }
+                    // A process can exit between the marker enumeration and
+                    // native identity capture while its zombie PID still
+                    // exists. Keep waiting; uncertainty is never absence.
+                    Err(error) if error.to_string() == "process identity unavailable" => {
+                        last_transient = Some(error.to_string());
+                        true
+                    }
+                    Err(error) => panic!("{}: cannot observe descendants: {error}", self.label),
+                };
                 if exited && !descendants {
                     let status = self
                         .child_mut()
@@ -150,8 +169,9 @@ impl OwnedChild {
             }
             assert!(
                 now() < deadline,
-                "{}: fixture child or descendant did not exit",
-                self.label
+                "{}: fixture child or descendant did not exit; last observation: {:?}",
+                self.label,
+                last_transient
             );
             thread::yield_now();
         }

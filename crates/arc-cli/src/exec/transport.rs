@@ -8,6 +8,10 @@ use std::{
     time::{Duration, Instant},
 };
 mod negotiated;
+mod relay_proof;
+pub(super) fn relay_scope() -> relay_proof::Scope {
+    relay_proof::Scope::enter()
+}
 pub(crate) use negotiated::negotiated;
 
 // Read-only status and post-spawn metadata retain their existing bounded API.
@@ -142,6 +146,17 @@ pub(super) fn call_until_with_continuity(
     }
     let mut request = Request::new(crate::request_id(), operation);
     request.payload = payload;
+    // Legacy lifecycle messages may pass through a byte-forwarding local
+    // relay. The callback proves the exact request while preserving that wire
+    // route. Direct daemon connections remain usable if setup is unavailable.
+    if matches!(
+        operation,
+        arc_ipc::jobs::OPERATION_JOB_START
+            | arc_ipc::jobs::OPERATION_JOB_START_LOCALITY
+            | arc_ipc::jobs::OPERATION_JOB_COMPLETE
+    ) {
+        let _ = relay_proof::bind(&mut request);
+    }
     if matches!(
         operation,
         arc_ipc::jobs::OPERATION_JOB_START_LOCALITY

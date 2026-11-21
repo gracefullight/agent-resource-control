@@ -27,6 +27,8 @@ mod meter;
 mod meter_partial;
 #[path = "../src/platform.rs"]
 mod platform;
+#[path = "../src/reaper.rs"]
+mod reaper;
 #[path = "support/runtime.rs"]
 mod runtime;
 #[path = "../src/runtime_metrics.rs"]

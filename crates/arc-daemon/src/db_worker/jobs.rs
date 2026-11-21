@@ -20,6 +20,7 @@ pub(crate) enum Operation {
     Meter(super::job_meter::Operation),
     Policy(super::policy::Operation),
     Governor(super::governor::Operation),
+    Reaper(super::reaper_store::Operation),
 }
 pub(crate) enum Value {
     Start(Result<StartResult, JobError>),
@@ -31,6 +32,7 @@ pub(crate) enum Value {
     Meter(super::job_meter::Value),
     Policy(Result<super::policy::Value, JobError>),
     Governor(Result<super::governor::Value, JobError>),
+    Reaper(super::reaper_store::Value),
 }
 static TIME_SOURCE: OnceLock<fn() -> u64> = OnceLock::new();
 
@@ -83,6 +85,9 @@ pub(crate) fn execute_observed(
         Operation::Meter(operation) => {
             Value::Meter(super::job_meter::execute(connection, operation))
         }
+        Operation::Reaper(operation) => {
+            Value::Reaper(super::reaper_store::execute(connection, operation))
+        }
     };
     // Bounded opportunistic expiry shares this connection and its existing
     // cancellation/deadline. Failure never changes a committed request result.
@@ -124,7 +129,11 @@ pub(crate) async fn handle(
                 StartRequest::Attach { child, .. } => Some(child),
                 _ => None,
             };
+            let ownership = child.is_none_or(|child| {
+                crate::connection::job_ownership::managed_child(child, request.observer())
+            });
             let evidence = StartEvidence::gather(&request)
+                .with_child_ownership(ownership)
                 .with_meter_evidence(super::job_meter::evidence(request.observer(), child));
             match call(
                 &client,
@@ -163,7 +172,11 @@ pub(crate) async fn handle(
                 if job.outcome.is_some() {
                     return wire(Ok(StatusResult::Found { job: Box::new(job) }));
                 }
-                let evidence = jobs::observe(&job, now().max(job.updated_at_ms));
+                let ownership = job.child.as_ref().is_some_and(|child| {
+                    crate::connection::job_ownership::managed_child(child, &job.observer)
+                });
+                let evidence = jobs::observe(&job, now().max(job.updated_at_ms))
+                    .with_child_ownership(ownership);
                 let result = match call(&client, Operation::Reconcile(evidence), deadline).await? {
                     Value::Reconcile(value) => value.map_err(JobError::code)?,
                     _ => return Err(arc_ipc::ERROR_DB_BUSY),

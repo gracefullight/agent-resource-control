@@ -25,4 +25,8 @@ impl Continuity {
     pub fn confirmed(&self) -> bool {
         !self.ambiguous.get() && self.first.borrow().is_some()
     }
+    /// The single daemon instance behind every recorded exchange, if unambiguous.
+    pub fn identity(&self) -> Option<arc_core::process_identity::ProcessIdentity> {
+        self.first.borrow().clone().filter(|_| self.confirmed())
+    }
 }

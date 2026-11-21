@@ -38,6 +38,7 @@ pub(super) fn run_with_classifier_and_preparation_clock(
     classify: &dyn Fn(&[OsString]) -> arc_detector::Classification,
     preparation_now: &dyn Fn() -> Instant,
 ) -> ExitCode {
+    let _relay_scope = transport::relay_scope();
     if !preparation::valid_argv(&argv) {
         return invalid();
     }
@@ -377,6 +378,12 @@ pub(super) fn run_with_classifier_and_preparation_clock(
     };
     if !attached {
         preparation::uncertain(&mut diagnostics, &job_id);
+    } else if matches!(
+        tracking,
+        traffic::Mode::Legacy(preparation::Tracking::Managed)
+    ) {
+        // Only the directly managed lifecycle route registers a capability.
+        signals.offer_reclaim(&socket, &job_id, &observer, child_identity.as_ref());
     }
     let termination = loop {
         match signals.wait_with_clocks(&mut child, || {}, now, delivery_now) {
@@ -394,13 +401,7 @@ pub(super) fn run_with_classifier_and_preparation_clock(
     // system monotonic clock, so its delivery budget must use that clock too.
     let report_deadline = termination.delivery_observed_at + accounting::REPORT_WINDOW;
     // Registration-outage fallback has no authoritative child/terminal binding.
-    let meter_report = if attached
-        && matches!(
-            &tracking,
-            traffic::Mode::Legacy(preparation::Tracking::Managed)
-                | traffic::Mode::Scheduled { .. }
-                | traffic::Mode::Unreserved { .. }
-        ) {
+    let meter_report = if attached && tracking.authoritative() {
         accounting::report(
             &job_id,
             &observer,
@@ -488,6 +489,9 @@ pub(super) fn run_with_classifier_and_preparation_clock(
     drop(signals);
     drop(lineage_record);
     drop(accounting_record);
+    // Signal-compatible exit uses _exit after re-raising, so release the
+    // owned callback socket before destructors become unavailable.
+    drop(_relay_scope);
     if let Some(signal) = status.signal() {
         signals::reraise(signal);
     }

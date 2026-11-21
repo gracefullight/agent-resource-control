@@ -9,7 +9,61 @@ The authoritative [SRS](ARC_SRS_2026-11-06.md) SHA-256 is `a8ef945251f9f3fd7c3e3
 The frozen [task-5 interface contract](../../.arc-verify/governor/contract.md#amendment-13-traceability-format-and-counts), [task-8 integrated receipt](../../.arc-verify/governor/integration.json) and its `task13RepairAttempt2` correction are consumed without modification. The current format requires `Complete`, `Partial`, `Pending` or `Blocked`; each primary row carries Source, one primary Phase, Status, Evidence and Cycle. Requirements and acceptance cross-references use their respective inventories. `None` always explains the unmapped obligation. Catalog IDs retain their separate inventory and related mappings.
 
 
+## Phase 0 Reaper safety integration evidence
+
+Accepted committed baseline: `86fac84ec77e216f2d86b8c072140ccdf91564b7`,
+tree `27635eb500955608140eb71ba557adc5bf5ae371`. This integration inspected
+Actor snapshot `40d2ca1735e865da3ea24fb9ab512f5d912f7463`, tree
+`5a58415d96c44c0f4f3c5463a635bb99a76cb528`, which contains the shared Reaper
+route and the three lane deliveries. One test repair and these documentation
+edits are uncommitted on that snapshot. The focused checks described here are
+local receipts, not the runner's final verification. Independent QA writes
+`.arc-verify/phase-0-reaper-safety/qa.md` separately; it is not cited here.
+The numbered cases and exact test mapping are in
+[closing.md](closing.md#phase-0-reaper-safety-ownership-and-recovery).
+
+Row outcomes: SAFE-001, NFR-010 and R-007 move Partial → Complete against
+their numbered HOST cases. SAFE-007 moves Partial → Blocked: its HOST case
+passes and its only remaining case is the external cross-account case, which
+needs a real second account and was not run or claimed. AT-SWP-01, AT-SWP-10
+and AT-SWP-14 keep their Pending/Outstanding status: no browser-profile GC
+crash, confirmed-orphan scenario or operating-system PID reuse was
+demonstrated. The stale-identity tests pair a live child with a stale record.
+
+Boundaries of the evidence. The Reaper cases run the built CLI, a real child
+and `arc-reaper-daemon-fixture`, which shares production startup and adds an
+injected clock, a pass trigger and named faults; no test runs the resident
+`arc-daemon` with `ARC_REAPER=process` on its own interval, and the Reaper
+stays off unless that switch is set. Foreground protection is reached only
+through an injected fault, and the lease and protected conditions are written
+into the ownership tables by the test because no production writer exists
+yet. The crash tests lose an uncommitted transaction that is still in SQLite's
+page cache; a transaction large enough to spill uncommitted frames into the
+WAL is not exercised. Scheduled (Traffic, Governor) jobs are not registered
+with the Reaper.
+
+Prerequisites not established from this workspace: `av.yaml` and the global
+`settings.yaml` both return `Operation not permitted`, also through
+`av doctor`. The tracked `av.yaml` blob declares no container-observation
+target, but the configuration actually in effect cannot be read, so whether
+container targets are configured, and their health, availability and recent
+errors, remain unverified. Runner-owned workspace tests, desktop checks,
+per-crate coverage, the architecture harness and the final serial run are
+also not claimed here.
+
+| Primary phase | Total | Complete | Partial | Pending | Blocked |
+| --- | --- | --- | --- | --- | --- |
+| Phase 0 | 40 | 18 | 10 | 8 | 4 |
+| Phase 1 | 71 | 13 | 46 | 12 | 0 |
+| Phase 2 | 43 | 1 | 8 | 34 | 0 |
+| Phase 3 | 108 | 0 | 5 | 103 | 0 |
+| Phase 4 | 44 | 0 | 15 | 29 | 0 |
+| Phase 5 | 10 | 0 | 1 | 9 | 0 |
+
 ## Phase 0 closure integration evidence
+
+**Historical snapshot:** this section records the preceding Phase 0 closure
+cycle. SAFE-001, SAFE-007, NFR-010 and R-007 were still Partial at that stage.
 
 Accepted committed baseline: `566db287c54320a49692ac238220b180f21787fe`,
 tree `b7622ba1c876b8cc4680358acbd4857ac304cce8`. The first integration
@@ -55,14 +109,10 @@ stage-by-stage control or sweep protection. No live vendor or GitHub result is
 claimed. Runner-owned workspace, desktop, coverage, traceability and harness
 checks, independent reviews, and configured-container health remain unverified.
 
-| Primary phase | Total | Complete | Partial | Pending | Blocked |
-| --- | --- | --- | --- | --- | --- |
-| Phase 0 | 40 | 15 | 14 | 8 | 3 |
-| Phase 1 | 71 | 13 | 46 | 12 | 0 |
-| Phase 2 | 43 | 1 | 8 | 34 | 0 |
-| Phase 3 | 108 | 0 | 5 | 103 | 0 |
-| Phase 4 | 44 | 0 | 15 | 29 | 0 |
-| Phase 5 | 10 | 0 | 1 | 9 | 0 |
+At the end of that Phase 0 closure cycle the Phase 0 row counts were 40
+total: 15 Complete, 14 Partial, 8 Pending and 3 Blocked. The other phases have
+not changed since; the current table is in the
+[Reaper safety section](#phase-0-reaper-safety-integration-evidence) above.
 
 ## Endpoint-capture integration evidence, 2026-11-20
 
@@ -322,13 +372,13 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 
 | Requirement ID | SRS declaration | Source | Acceptance-test ID | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| SAFE-001 |  | [§17.3, L2363](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-01, AT-SWP-14 | Phase 0 | Partial | Partial | [GV-N12](.arc-verify/governor/integration.json#/nativeAcceptance/cases/11); native child ownership/identity is reconciled; no Process Reaper kill-safety acceptance is claimed. | governor-2026-11-13 |
+| SAFE-001 |  | [§17.3, L2363](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-01, AT-SWP-14 | Phase 0 | Complete | Complete | [Both numbered HOST cases](closing.md#safe-001--unknown-ownership-is-never-reaped) pass in [reaper_safety](../../crates/arc-daemon/tests/managed_exec/reaper_safety.rs): `managed_route_tracks_owned_child`, `owned_inactive_child_reclaimed_and_recorded` and `protected_candidates_receive_no_signal` use the built CLI, a daemon and a real child. Unknown ownership is recorded BLOCKED/UNKNOWN_OWNERSHIP and that child exits by its own code. The Reaper cases drive the Reaper fixture daemon (production startup with an injected clock, pass trigger and faults), not the resident daemon's interval. AT-SWP-01 and AT-SWP-14 keep their own Pending scope. | phase-0-reaper-safety-2026-11-21 |
 | SAFE-002 |  | [§17.3, L2364](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-01, AT-SWP-02, AT-SWP-13, AT-SWP-18 | Phase 3 | Partial | Partial | [GV-N02](.arc-verify/governor/integration.json#/nativeAcceptance/cases/1); running A survives pausing and B completion; active Agent/Tool/Browser protection during GC is outstanding. | governor-2026-11-13 |
 | SAFE-003 |  | [§17.3, L2365](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-03 | Phase 3 | Pending | Outstanding | Pending: No delivered personal browser/profile deletion protection acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
 | SAFE-004 |  | [§17.3, L2366](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-05, AT-SWP-07 | Phase 3 | Pending | Outstanding | Pending: No delivered main Worktree deletion protection acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
 | SAFE-005 |  | [§17.3, L2367](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-05, AT-SWP-06, AT-SWP-16 | Phase 3 | Pending | Outstanding | Pending: No delivered unproven user Worktree protection acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
 | SAFE-006 |  | [§17.3, L2368](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-04, AT-SWP-05, AT-SWP-09, AT-SWP-10, AT-SWP-15 | Phase 3 | Pending | Outstanding | Pending: No delivered deletion-time path identity/symlink revalidation acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
-| SAFE-007 |  | [§17.3, L2369](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Partial | Partial | [GV-N01](.arc-verify/governor/integration.json#/nativeAcceptance/cases/0); owner-authenticated controls and native job identity are enforced; complete cross-account filesystem/Reaper access acceptance remains outstanding. | governor-2026-11-13 |
+| SAFE-007 |  | [§17.3, L2369](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#safe-007--current-user-job-and-socket-ownership) passes in [current_user_ownership](../../crates/arc-daemon/tests/managed_exec/current_user_ownership.rs): `built_cli_current_user_socket_and_job_ownership` and `forged_or_mismatched_job_identity_is_rejected` use the built CLI and the real daemon as this host's current user. Case 2, another authenticated account's files and processes, needs a real second account and was not run; no synthetic identity stands in for it. | phase-0-reaper-safety-2026-11-21 |
 | SAFE-008 |  | [§17.3, L2370](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-TRF-02, AT-TRF-04, AT-SWP-20 | Phase 0 | Blocked | Blocked | [Numbered HOST cases](closing.md#safe-008--remote-work-is-not-forcibly-scheduled-locally) pass; genuine remote pod placement requires a live cluster. AT-SWP-20 retains its independent full scope. | phase-0-closure-2026-11-21 |
 | SAFE-009 |  | [§17.3, L2371](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | AT-SWP-08, AT-SWP-21 | Phase 3 | Pending | Outstanding | Pending: No delivered anonymous-telemetry/privacy acceptance; absence of a Governor upload path does not prove the full privacy requirement. | governor-2026-11-13 |
 | SAFE-010 |  | [§17.3, L2372](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 3 | Pending | Outstanding | Pending: No delivered GC Safety Validator fail-closed execution acceptance; no destructive operation is completed by this Governor slice. | governor-2026-11-13 |
@@ -351,7 +401,7 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 | NFR-007 | 원격 CI 제외 정확도 · 공식 트리거/remote fixtures의 **false local classification 0** | [§18, L2431](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-TRF-02, AT-TRF-04 | Phase 0 | Blocked | Blocked | [Finite remote cases](#phase-0-closure-integration-evidence) have zero false-local on both routes; proven remote pod placement requires a live cluster. | phase-0-closure-2026-11-21 |
 | NFR-008 | GC 잘못된 삭제 · 개인 브라우저/활성 세션/주 Worktree 사고 **0** | [§18, L2432](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-SWP-02, AT-SWP-03, AT-SWP-07, AT-SWP-18 | Phase 3 | Pending | Outstanding | Pending: No executed Sweeper safety suite establishing zero incorrect deletions. | governor-2026-11-13 |
 | NFR-009 | Permit 일관성 · 중복/유실 permit **0** (무작위 장애 테스트) | [§18, L2433](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-TRF-05, AT-TRF-09 | Phase 1 | Partial | Partial | [GV-N07](.arc-verify/governor/integration.json#/nativeAcceptance/cases/6); [GV-N09](.arc-verify/governor/integration.json#/nativeAcceptance/cases/8); [GV-N11](.arc-verify/governor/integration.json#/nativeAcceptance/cases/10); deterministic race/duplicate reconciliation passes; randomized fault coverage remains outstanding. | governor-2026-11-13 |
-| NFR-010 | 데이터 일관성 · 강제 종료 이후 DB integrity check 통과 | [§18, L2434](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-SWP-10 | Phase 0 | Partial | Partial | [GV-N01](.arc-verify/governor/integration.json#/nativeAcceptance/cases/0); [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); committed restart/migration integrity boundaries pass; a complete current forced-termination integrity suite is not supplied. | governor-2026-11-13 |
+| NFR-010 | 데이터 일관성 · 강제 종료 이후 DB integrity check 통과 | [§18, L2434](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-SWP-10 | Phase 0 | Complete | Complete | [Both numbered HOST cases](closing.md#nfr-010--database-integrity-after-forced-termination) pass in [crash_recovery](../../crates/arc-daemon/tests/managed_exec/crash_recovery.rs): `forced_daemon_death_before_commit_rolls_back_and_integrity_ok` and `forced_daemon_death_after_commit_survives_and_integrity_ok` SIGKILL the owned recovery fixture daemon while its real SQLite writer is held on either side of a lifecycle-start COMMIT, restart it on the same WAL database and read `ok` from the daemon's doctor report and from `PRAGMA integrity_check`; committed jobs survive and the uncommitted one is absent. AT-SWP-10's browser-GC crash scenario is not demonstrated and stays Pending. | phase-0-reaper-safety-2026-11-21 |
 | NFR-011 | Desktop 리소스 · 창 닫힌 상태에서 WebView/렌더링 작업 최소화 | [§18, L2435](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-GUI-01 | Phase 4 | Partial | Partial | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); hidden-window polling ownership is tested; native WebView idle resource minimization is unverified. | governor-2026-11-13 |
 | NFR-012 | Process Attribution · Proven/Estimated/Unattributed를 분리 표시 | [§18, L2436](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-MTR-03 | Phase 1 | Partial | Partial | [115 maintained desktop checks](.arc-verify/governor/integration.json#/task8/checks/desktop-existing); [synchronized observations](.arc-verify/governor/integration.json#/nativeAcceptance/primarySequence); unknown/completeness labels are preserved; full native Proven/Estimated/Unattributed attribution coverage is outstanding. | governor-2026-11-13 |
 | NFR-013 | Privacy · 대화·쿠키·토큰의 서버 전송 **0** | [§18, L2437](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) | AT-SWP-21 | Phase 3 | Pending | Outstanding | Pending: No complete privacy/telemetry acceptance establishes zero conversation/cookie/token upload in the full product. | governor-2026-11-13 |
@@ -570,7 +620,7 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | R-004 | Risk register | OS 자원 제어 차이 · hard cap 제공 범위 차이 · OS backend + Capability Matrix + admission fallback | [§25, L3385](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | NFR-017; ADR-012 | Phase 0 | Pending | Unverified | Pending: No current Windows/Linux capability/hard-limit platform acceptance; macOS fixture behavior alone cannot close the portability risk. | governor-2026-11-13 |
 | R-005 | Risk register | CPU/Memory 계측 편차 · 숫자 오해 · 정의·OS quality flag·unattributed 표시 | [§25, L3386](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | MTR-015; NFR-012 | Phase 1 | Partial | Partial | [synchronized observations](.arc-verify/governor/integration.json#/nativeAcceptance/primarySequence); incomplete descendants and CPU/RSS provenance stay explicit; all metric calibration remains unverified. | governor-2026-11-13 |
 | R-006 | Risk register | 원격 Docker Build 오분류 · 원격 CI 잘못 제어 · Builder endpoint 판정, 불명 시 observe | [§25, L3387](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | DET-011; AT-TRF-04 | Phase 2 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
-| R-007 | Risk register | PID 재사용 · 정상 프로세스 종료 위험 · PID+start time+handle 재검증 | [§25, L3388](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SWP-006; SAFE-014; AT-SWP-14 | Phase 0 | Partial | Partial | [GV-N12](.arc-verify/governor/integration.json#/nativeAcceptance/cases/11); native PID/start/boot witnesses are reconciled; Reaper PID-reuse kill prevention remains outstanding. | governor-2026-11-13 |
+| R-007 | Risk register | PID 재사용 · 정상 프로세스 종료 위험 · PID+start time+handle 재검증 | [§25, L3388](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SWP-006; SAFE-014; AT-SWP-14 | Phase 0 | Complete | Complete | [Both numbered HOST cases](closing.md#r-007--pid-reuse) pass: `reaper_safety::managed_route_tracks_owned_child` (PID, start-time and boot evidence; a record one tick earlier is a mismatch), `stale_recorded_identity_keeps_live_child_alive` and `revalidation_precedes_every_signal` in [reaper_safety](../../crates/arc-daemon/tests/managed_exec/reaper_safety.rs), over the wrapper gate tests in [reaper_action_tests](../../crates/arc-cli/src/exec/signals/reaper_action_tests.rs). A live child paired with a stale record stays alive; this is stale-identity behaviour, not an observed OS PID reuse. AT-SWP-14 stays Pending. | phase-0-reaper-safety-2026-11-21 |
 | R-008 | Risk register | 개인 브라우저 프로필 혼동 · 심각한 데이터 삭제 · dedicated profile provenance + personal root 보호 | [§25, L3389](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SWP-008; SAFE-003 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | R-009 | Risk register | Dirty Worktree 강제 삭제 · 사용자 작업 손실 가능 · **소유권 확인된 disposable만**, main/user-owned 제외 | [§25, L3390](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SWP-010; SAFE-004, SAFE-005 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | R-010 | Risk register | Conversation 포맷 변경 · 세션 DB 손상 · 공식 API 우선, 버전별 포맷 검사/compat tests | [§25, L3391](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SWP-014; VND-013 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
@@ -765,7 +815,7 @@ These are row-level accounting totals. **No phase is declared finished**: the SR
 
 | Inventory | Phase | Total | Complete | Partial | Pending | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | Phase 0 | 19 | 6 | 3 | 7 | 3 |
+| Requirements | Phase 0 | 19 | 8 | 0 | 7 | 4 |
 | Requirements | Phase 1 | 34 | 10 | 20 | 4 | 0 |
 | Requirements | Phase 2 | 24 | 0 | 3 | 21 | 0 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 52 | 0 |
@@ -777,7 +827,7 @@ These are row-level accounting totals. **No phase is declared finished**: the SR
 | Acceptance | Phase 3 | 22 | 0 | 0 | 22 | 0 |
 | Acceptance | Phase 4 | 4 | 0 | 2 | 2 | 0 |
 | Acceptance | Phase 5 | 0 | 0 | 0 | 0 | 0 |
-| Catalogs | Phase 0 | 17 | 7 | 9 | 1 | 0 |
+| Catalogs | Phase 0 | 17 | 8 | 8 | 1 | 0 |
 | Catalogs | Phase 1 | 27 | 2 | 18 | 7 | 0 |
 | Catalogs | Phase 2 | 12 | 0 | 4 | 8 | 0 |
 | Catalogs | Phase 3 | 31 | 0 | 2 | 29 | 0 |
@@ -790,7 +840,7 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 
 | Scope inventory | Primary phase | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | Phase 0 | 19 | 6 | 3 | 6 | 1 | 3 |
+| Requirements | Phase 0 | 19 | 8 | 0 | 6 | 1 | 4 |
 | Requirements | Phase 1 | 34 | 10 | 20 | 4 | 0 | 0 |
 | Requirements | Phase 2 | 24 | 0 | 3 | 1 | 20 | 0 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 0 | 52 | 0 |
@@ -802,7 +852,7 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 | Acceptance | Phase 3 | 22 | 0 | 0 | 0 | 22 | 0 |
 | Acceptance | Phase 4 | 4 | 0 | 2 | 0 | 2 | 0 |
 | Acceptance | Phase 5 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Catalogs | Phase 0 | 17 | 7 | 9 | 1 | 0 | 0 |
+| Catalogs | Phase 0 | 17 | 8 | 8 | 1 | 0 | 0 |
 | Catalogs | Phase 1 | 27 | 2 | 18 | 7 | 0 | 0 |
 | Catalogs | Phase 2 | 12 | 0 | 4 | 0 | 8 | 0 |
 | Catalogs | Phase 3 | 31 | 0 | 2 | 0 | 29 | 0 |
@@ -813,10 +863,10 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 
 | Primary inventory | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | 165 | 16 | 38 | 11 | 97 | 3 |
+| Requirements | 165 | 18 | 35 | 11 | 97 | 4 |
 | Acceptance | 47 | 4 | 13 | 1 | 29 | 0 |
-| Catalogs | 104 | 9 | 38 | 12 | 45 | 0 |
-| All primary rows | 316 | 29 | 89 | 24 | 171 | 3 |
+| Catalogs | 104 | 10 | 37 | 12 | 45 | 0 |
+| All primary rows | 316 | 32 | 85 | 24 | 171 | 4 |
 
 | Acceptance family | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -831,7 +881,9 @@ Toggle supplement: 30 = 0 Complete + 1 Partial + 2 Unverified + 27 Outstanding. 
 
 ### Current-cycle completion delta
 
-Phase 0 closure integration: DET-001 and AT-TRF-02 are Complete; DET-005, SAFE-008 and NFR-007 are Blocked on their numbered external cases. AT-TRF-02 moves Partial → Complete under the operator's shell-state ruling; all primary rows are 29 Complete, 89 Partial, 24 Unverified, 171 Outstanding and 3 Blocked. See [current evidence](#phase-0-closure-integration-evidence). The older endpoint-capture assessment is historical.
+Phase 0 Reaper safety integration: SAFE-001, NFR-010 and R-007 move Partial → Complete, and SAFE-007 moves Partial → Blocked on its external cross-account case. Requirements Phase 0 is now 8 Complete, 0 Partial, 7 Pending and 4 Blocked; Catalogs Phase 0 is 8 Complete, 8 Partial and 1 Pending; Acceptance Phase 0 is unchanged. Phase 0 is 18 Complete, 10 Partial, 8 Pending and 4 Blocked of 40, and all primary rows are 32 Complete, 85 Partial, 24 Unverified, 171 Outstanding and 4 Blocked. No Pending row changed, and no row outside Phase 0 changed. See [current evidence](#phase-0-reaper-safety-integration-evidence).
+
+Previous Phase 0 closure integration: DET-001 and AT-TRF-02 became Complete; DET-005, SAFE-008 and NFR-007 became Blocked on their numbered external cases. AT-TRF-02 moved Partial → Complete under the operator's shell-state ruling; all primary rows were then 29 Complete, 89 Partial, 24 Unverified, 171 Outstanding and 3 Blocked. See [that evidence](#phase-0-closure-integration-evidence). The older endpoint-capture assessment is historical.
 
 Previous remote-locality integration: **Selected rows Complete: 3 of 7** (DET-006, DET-007 and AT-TRF-11). The four retained Partial rows state their remaining gaps. The accepted committed baseline is `46255c67225a62c364e4bb1b53f92d7c57b34c9c` (tree `0847231c44f8ed20000c51a437a66a36b011187a`); this integration Actor inspected snapshot `f620f40a9194e0b3519368a7d64de1549873d4fd` (tree `283ba177db591ec812428c99e599bddee7656427`), which contains the lane overlay. Its test and documentation edits are uncommitted on that snapshot. The cited lane checks predate these edits. A prior runner full run reported failures in `cleared_child_environment_retains_the_coverage_destination` and `robustness::queued_cli_waits_through_real_sqlite_busy_then_starts_after_release`; each passed in isolation. Final-input runner checks and container health remain unverified.
 

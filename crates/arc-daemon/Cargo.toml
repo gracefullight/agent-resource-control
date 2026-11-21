@@ -25,3 +25,13 @@ tokio = { workspace = true, features = ["test-util"] }
 [[bin]]
 name = "arc-pressure-daemon-fixture"
 path = "tests/fixtures/memory_pressure_daemon.rs"
+
+[[bin]]
+name = "arc-recovery-daemon-fixture"
+path = "tests/fixtures/recovery_daemon.rs"
+
+# Injected clock, explicit pass trigger and named evidence faults for the
+# bounded Reaper. Shares resident startup; the seams live in src/reaper/.
+[[bin]]
+name = "arc-reaper-daemon-fixture"
+path = "tests/fixtures/reaper_daemon.rs"

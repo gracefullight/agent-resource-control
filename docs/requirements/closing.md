@@ -400,6 +400,9 @@ including one that has not yet been implemented or rerun. `EXTERNAL` identifies
 a case requiring the stated unavailable platform or installed environment.
 Historical evidence for each row is in its corresponding primary row in
 [traceability](traceability.md); a historical receipt is not a new check.
+SAFE-001, SAFE-007, NFR-010 and R-007 were assessed in the later Reaper
+safety cycle; their named tests are in
+[Phase 0 Reaper safety, ownership and recovery](#phase-0-reaper-safety-ownership-and-recovery).
 
 ### Requirements
 
@@ -407,15 +410,15 @@ Historical evidence for each row is in its corresponding primary row in
 - **DET-006** — 1. **HOST** the selected remote `gh workflow run` does not occupy a local slot. Complete in the existing row; this does not itself close AT-TRF-02's hook journey.
 - **DET-007** — 1. **HOST** an unverified command remains UNKNOWN/OBSERVE and executes without forced admission. Complete in the existing row.
 - **DET-008** — 1. **HOST** analysis of a fixture build and poisoned metadata does not execute the workload. Complete in the existing row.
-- **SAFE-001** — 1. **HOST** owned process identity is tracked; 2. **HOST** a process of unknown ownership is never automatically killed by the Reaper. Partial; the latter acceptance is outstanding.
-- **SAFE-007** — 1. **HOST** current-user job and socket ownership checks; 2. **EXTERNAL** another authenticated account's files and processes remain inaccessible. Partial; full cross-account acceptance is outstanding.
+- **SAFE-001** — 1. **HOST** owned process identity is tracked; 2. **HOST** a process of unknown ownership is never automatically killed by the Reaper. Complete.
+- **SAFE-007** — 1. **HOST** current-user job and socket ownership checks; 2. **EXTERNAL** another authenticated account's files and processes remain inaccessible. Blocked; only item 2 remains.
 - **SAFE-011** — 1. **HOST** genuine daemon failure does not indefinitely prevent an ordinary development command. Complete in the existing row.
 - **NFR-001** — 1. **HOST** measure long-run idle daemon CPU against the stated 0.5% target. Pending/Unverified.
 - **NFR-002** — 1. **HOST** measure settled idle daemon RSS against the stated 50 MB target; 2. **EXTERNAL** establish the result on each required platform. Pending/Unverified.
 - **NFR-003** — 1. **HOST** measure bypass-hook P95 against the stated 50 ms target. Pending/Unverified.
 - **NFR-004** — 1. **HOST** measure small local IPC round trips against the stated 20 ms P95 target. Pending/Unverified.
 - **NFR-005** — 1. **HOST** measure cached ordinary classification against the stated 50 ms P95 target. Pending/Unverified.
-- **NFR-010** — 1. **HOST** forced termination and restart preserve database integrity; 2. **HOST** run the integrity check on the recovered database. Partial.
+- **NFR-010** — 1. **HOST** forced termination and restart preserve database integrity; 2. **HOST** run the integrity check on the recovered database. Complete.
 - **NFR-014** — 1. **HOST** a new non-destructive job executes once when the daemon is unavailable. Complete in the existing row.
 - **NFR-022** — 1. **EXTERNAL** after real login, the installed daemon passes its health check; 2. **EXTERNAL** the installed tray passes its health check. Pending/Unverified.
 
@@ -442,5 +445,199 @@ Historical evidence for each row is in its corresponding primary row in
 - **ADR-005** — 1. **HOST** named endpoint-based local, remote and UNKNOWN decisions; 2. **EXTERNAL** live pod and WSL placement; 3. **HOST** remaining endpoint/tool-family cases. Partial.
 - **ADR-011** — 1. **HOST** the declared Bun, TS7, React19, Tailwind4, basecn, Phosphor and Biome stack is maintained. Complete.
 - **R-004** — 1. **HOST** macOS admission fallback; 2. **EXTERNAL** Windows and Linux capability/hard-limit behavior. Pending/Unverified.
-- **R-007** — 1. **HOST** PID/start-time identity evidence; 2. **HOST** Reaper revalidation before acting on a reused PID. Partial.
+- **R-007** — 1. **HOST** PID/start-time identity evidence; 2. **HOST** Reaper revalidation before acting on a reused PID. Complete.
 - **R-018** — 1. **HOST** pinned dependencies and Rust/TS agreement; 2. **HOST** native no-bundle build smoke; 3. **EXTERNAL** multi-OS smoke. Partial.
+
+## Phase 0 Reaper safety, ownership and recovery
+
+This cycle assessed four rows from the inventories above against their
+numbered cases: SAFE-001, SAFE-007, NFR-010 and R-007. Sources:
+[safety §17.3](ARC_SRS_2026-11-06.md#173-파일-삭제-안전-규칙),
+[NFR §18](ARC_SRS_2026-11-06.md#18-성능운영비기능-요구사항-nfrslo) and the
+[risk register §25](ARC_SRS_2026-11-06.md#25-위험제약대응-책임). The shared
+route, definitions and fixture seams are in the
+[cycle contract](../../.arc-verify/phase-0-reaper-safety/contract.md).
+
+Unless stated otherwise the tests below are in the `arc-daemon` target
+`managed_exec` and run the built `arcctl`, a daemon and a real fixture child
+with a cleared environment, a temporary HOME and explicit socket and database
+paths. Two kinds of daemon appear, and each case says which:
+
+- the **real daemon** is the `arc-daemon` binary, started isolated;
+- a **fixture daemon** (`arc-reaper-daemon-fixture`,
+  `arc-recovery-daemon-fixture`) compiles the production daemon sources and
+  runs the same startup, adding only the seams named in the contract: an
+  injected Reaper clock, a pass trigger and named faults, or a commit barrier.
+
+### SAFE-001 — unknown ownership is never reaped
+
+1. **HOST** — owned process identity is tracked.
+   `reaper_safety::managed_route_tracks_owned_child` (real daemon): the job
+   row names the wrapper and the child's PID, start time and boot, and a fresh
+   native capture of that PID is the same identity.
+   `reaper_safety::owned_inactive_child_reclaimed_and_recorded` (fixture
+   daemon): a verified registration is recorded `PROVEN`; after the owner
+   session is observed ended and the grace period has elapsed on the injected
+   clock, the wrapper signals its own child, and the decision rows and four
+   audit rows end in `RECLAIMED` / `TERMINATION_CONFIRMED`.
+2. **HOST** — a process of unknown ownership is never automatically killed by
+   the Reaper. `reaper_safety::protected_candidates_receive_no_signal`
+   (fixture daemon): a real child of a client that never registers is recorded
+   `BLOCKED` / `UNKNOWN_OWNERSHIP`; two forged registrations are rejected; a
+   live owner session gives `SESSION_ACTIVE`; a restart of the daemon on the
+   same database gives `INSUFFICIENT_AUTHORITY`. Both children stay alive and
+   then exit by their own code 17.
+   `reaper_safety::unconfirmed_actions_are_never_recorded_as_reclaimed`
+   shows that an unread reply or a lost capability is never recorded as a
+   reclaim. `reaper_escalation::injected_authority_and_stale_request_faults_send_no_signal_and_never_claim_reclaim`
+   and `reaper_escalation::indeterminate_identity_sends_nothing_and_ignored_sigterm_escalates_after_grace`
+   cover injected authority, stale-request and indeterminate-identity faults.
+
+The linked AT-SWP-01 and AT-SWP-14 keep their own Pending status.
+
+### SAFE-007 — current-user job and socket ownership
+
+1. **HOST** — current-user job and socket ownership checks (real daemon).
+   `current_user_ownership::built_cli_current_user_socket_and_job_ownership`:
+   the endpoint is a socket owned by the effective user with mode `0600`; the
+   daemon, CLI and child report this user's real and effective UID; the job is
+   bound to the CLI that registered it and to the child that CLI launched.
+   `current_user_ownership::forged_or_mismatched_job_identity_is_rejected`:
+   the live daemon named as observer, an unrelated live same-user process or
+   the observer itself named as child, and completion or attach as the CLI from
+   another same-user peer (with and without a forged proof callback) are all
+   rejected and leave the job unchanged; PID 1 never becomes a verified running
+   child. A relay that forwards requests unchanged is still accepted.
+2. **EXTERNAL** — another authenticated account's files and processes remain
+   inaccessible. This needs a real second account on the host. It was not run,
+   selected or claimed; every process above runs as the current user, and a
+   same-user forged identity is not a second-account test.
+
+### NFR-010 — database integrity after forced termination
+
+1. **HOST** — forced termination and restart preserve database integrity
+   (recovery fixture daemon, real SQLite writer).
+   `crash_recovery::forced_daemon_death_before_commit_rolls_back_and_integrity_ok`:
+   the writer is held inside the commit hook of one lifecycle start; an
+   independent connection sees the write lock held, job 700 committed and job
+   701 absent; the daemon gets SIGKILL there. After restart 700 is found, 701
+   is not, and 701 registers again as `Created`.
+   `crash_recovery::forced_daemon_death_after_commit_survives_and_integrity_ok`:
+   the writer is held after the commit and before the reply; job 702 is
+   visible, and a copy of the main file alone lacks it, so it exists only in
+   the WAL; the daemon gets SIGKILL there. After restart 702 and 703 are found
+   and the retry is `Unchanged`.
+2. **HOST** — run the integrity check on the recovered database. Both tests
+   restart the daemon on the same database and WAL, then read `ok` from the
+   daemon's doctor report and from `PRAGMA integrity_check` on an independent
+   connection, with `journal_mode` still `wal`.
+
+The barriers are socket announcements, not sleeps. The uncommitted change is
+lost from SQLite's page cache; a transaction large enough to spill
+uncommitted frames into the WAL is not exercised. The linked AT-SWP-10 stays
+Pending/Outstanding: its browser-profile GC crash scenario is not demonstrated.
+
+### R-007 — PID reuse
+
+1. **HOST** — PID/start-time identity evidence.
+   `reaper_safety::managed_route_tracks_owned_child` (real daemon): a record
+   with the live child's PID and a start time one tick earlier probes as
+   `Mismatch`, and the exited child probes as `Missing`. The `arc-platform`
+   unit test
+   `reaper_identity::tests::fresh_direct_child_evidence_rejects_stale_identity_and_changed_fields`
+   covers the parent, UID and executable fields of the same evidence.
+2. **HOST** — Reaper revalidation before acting on a reused PID (fixture
+   daemon). `reaper_safety::stale_recorded_identity_keeps_live_child_alive`: a
+   live child is paired with a stale recorded identity, first at the daemon
+   (`IDENTITY_MISMATCH`, nothing claimed) and then at the wrapper
+   (`WRAPPER_IDENTITY_MISMATCH`, the claim withdrawn); the child stays alive
+   and exits by its own code 17.
+   `reaper_safety::revalidation_precedes_every_signal`: ten failing
+   conditions and one wrapper refusal are each evaluated before SIGTERM and
+   again before SIGKILL; none delivers a signal, and the escalation happens
+   only after a separate, fully revalidated request. The wrapper-side gate is
+   covered by the `arc-cli` unit tests
+   `mismatched_identity_is_refused_and_each_accepted_request_sends_one_signal`
+   and `no_signal_is_sent_after_reaped_clears_supervision`.
+
+These are stale-identity tests. No test observes the operating system reusing
+a PID, and AT-SWP-14 keeps its Pending status. The identity-bound supervision
+is the wrapper itself: it is the child's direct parent and only reaper, and it
+checks PID, start time, parent, both UIDs and the executable's path, device
+and inode while holding the wait gate, so the PID cannot be reaped or reused
+between the check and the signal. The daemon never signals.
+
+### Row outcomes
+
+| Row | Status | Remaining item |
+| --- | --- | --- |
+| SAFE-001 | Complete | None in the numbered HOST list. |
+| SAFE-007 | Blocked | External cross-account case (item 2). |
+| NFR-010 | Complete | None in the numbered HOST list. |
+| R-007 | Complete | None in the numbered HOST list. |
+
+Phase 0 is now 18 Complete, 10 Partial, 8 Pending and 4 Blocked of 40; see
+[traceability](traceability.md#phase-0-reaper-safety-integration-evidence).
+
+### Integration checks and boundary
+
+This integration inspected Actor snapshot
+`40d2ca1735e865da3ea24fb9ab512f5d912f7463`, tree
+`5a58415d96c44c0f4f3c5463a635bb99a76cb528`; the accepted committed baseline is
+`86fac84ec77e216f2d86b8c072140ccdf91564b7`, tree
+`27635eb500955608140eb71ba557adc5bf5ae371`. One test repair and the
+documentation edits are uncommitted on that snapshot. These are focused local
+checks using `oma-backend` and offline Cargo, not the runner's final
+verification or the independent QA report.
+
+- Passed on the final source: `cargo fmt --all -- --check`; `cargo clippy
+  --workspace --all-targets -- -D warnings`; `cargo test -p arc-daemon --test
+  managed_exec` twice in succession, 163 of 163 each time; and the 17 Reaper,
+  ownership, recovery and forwarder tests again serially on their own.
+- Passed before the second forwarder fix below, which changed only that test
+  file: `arc-storage` 172 (116 unit tests and its integration targets,
+  including the four `nfr010` tests); `arc-platform` 15; `arc-ipc` 128; the
+  `arcctl` unit tests 184; and the unit tests of `arc-daemon` 142 and of the
+  Reaper and recovery fixture daemons 127 each.
+  `bun scripts/requirements/traceability.ts` reports the matrix valid with
+  the counts above.
+- Repaired, two causes in one test: the runner's integration check of
+  2026-11-21T12:12Z failed
+  `capture_integration::closing_locality::forwarded_docker_socket_is_not_contacted_or_treated_as_local`
+  in the full run (`ConnectionRefused` at the first probe) and passed it
+  alone. First cause: the test waited for the forwarder's socket file, which
+  exists from `bind` before `listen` accepts. The probe now retries a refused
+  connect within the existing 60-second deadline; a refused connect reaches
+  nothing, so the barrier is unchanged. With only that fix the test then
+  failed once alone, in the first of ten repeated runs, before any daemon had
+  started. Second cause: the target listener is nonblocking and on macOS an
+  accepted socket inherits that mode, so the sentinel read could return
+  `WouldBlock` between the forwarder's connect and its write. A temporary
+  300 ms delay before that write reproduced the failure every time; with the
+  accepted socket set to blocking the delayed test passed, and the delay was
+  removed. On the final source the test passed in 40 repeated runs alone and
+  in both full runs. Under the mission rule this test failed in a full run
+  and once alone; both failures have an identified cause and a repair.
+- Recorded, not reproduced: the recovery lane reported one full-run failure
+  of `current_user_ownership::relay_holding_upstream_cannot_change_the_observers_request`
+  on the earlier version of that file. The delivered version no longer
+  unwraps that read, and the test passed in the runner's check and in every
+  run above.
+- Not run here, by assignment: the workspace test command, coverage, the
+  architecture harness, SwiftPM-backed tests, desktop tests and any browser
+  or screen check.
+
+Gaps that the row statuses do not cover: no test runs the resident
+`arc-daemon` with `ARC_REAPER=process` on its own interval; foreground
+protection is reached only through an injected fault; the lease and protected
+conditions are written into the ownership tables by the test because no
+production writer exists yet; scheduled (Traffic, Governor) jobs are not
+registered with the Reaper.
+
+Unmet prerequisite: the working `av.yaml` and the global `settings.yaml`
+return `Operation not permitted`, directly and through `av doctor`. The
+tracked `av.yaml` blob declares no container-observation target, but the
+configuration in effect cannot be read from this workspace. Whether container
+targets are configured, and their health, availability and recent errors, is
+therefore not established, and this document does not claim mission
+completion.

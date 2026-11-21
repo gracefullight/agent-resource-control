@@ -60,6 +60,14 @@ pub(super) fn ensure_same_user(stream: &(impl AsRawFd + ?Sized)) -> io::Result<(
     }
 }
 
+/// Same-user peer of a connected or accepted socket, as a full identity.
+pub fn authenticated_identity(
+    stream: &(impl AsRawFd + ?Sized),
+) -> io::Result<arc_core::process_identity::ProcessIdentity> {
+    ensure_same_user(stream)?;
+    identity(stream)
+}
+
 /// Capture the process behind the authenticated socket. A PID alone is not
 /// enough: it may have been recycled between separate exchanges.
 pub(super) fn identity(

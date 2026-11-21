@@ -15,6 +15,8 @@ mod meter_tests;
 mod observation;
 #[path = "db_worker/policy.rs"]
 pub(crate) mod policy;
+#[path = "reaper/store.rs"]
+pub(crate) mod reaper_store;
 #[cfg(test)]
 #[path = "db_worker/tests.rs"]
 mod tests;
@@ -36,6 +38,11 @@ use std::{
 use tokio::sync::{mpsc, oneshot, OwnedSemaphorePermit, Semaphore};
 
 use crate::runtime_metrics::{Counter, Gauge, GaugeGuard, RuntimeMetrics};
+
+#[allow(dead_code)] // Called only from the explicit native recovery fixture.
+pub(crate) fn install_fixture_before_commit(callback: fn()) {
+    execution::install_fixture_before_commit(callback);
+}
 
 pub(crate) struct DbConfig {
     pub queue_capacity: NonZeroUsize,

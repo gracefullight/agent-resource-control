@@ -480,6 +480,7 @@ impl Write for DeadlineStream<'_> {
 }
 
 mod peer;
+pub use peer::authenticated_identity;
 #[cfg(test)]
 mod test_calls;
 #[cfg(test)]

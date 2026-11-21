@@ -1,6 +1,41 @@
 use super::*;
 use std::{fs, process::Stdio};
 
+#[path = "../../../arc-daemon/tests/support/instrumentation.rs"]
+mod instrumentation;
+
+#[test]
+fn transient_identity_unavailability_waits_without_treating_it_as_absence() {
+    let directory = std::env::temp_dir().join(format!(
+        "arc-hook-transient-{}",
+        arc_core::process_identity::random_job_id().unwrap()
+    ));
+    fs::create_dir(&directory).unwrap();
+    let mut command = Command::new("/usr/bin/true");
+    command
+        .env_clear()
+        .env("HOME", &directory)
+        .current_dir(&directory)
+        .stdin(Stdio::null())
+        .stdout(Stdio::null())
+        .stderr(Stdio::null());
+    instrumentation::forward(&mut command);
+    let mut child = OwnedChild::spawn(&mut command, "transient identity observation");
+    let mut calls = 0;
+    let status = child.wait_with_observer(Instant::now, |child| {
+        calls += 1;
+        if calls == 1 {
+            Err(io::Error::other("process identity unavailable"))
+        } else {
+            child.observe()
+        }
+    });
+    assert!(status.success());
+    assert!(calls >= 2, "unknown identity must not complete the wait");
+    drop(child);
+    fs::remove_dir_all(directory).unwrap();
+}
+
 #[test]
 fn failed_marker_observation_cleans_group_and_retains_evidence() {
     let directory = std::env::temp_dir().join(format!(

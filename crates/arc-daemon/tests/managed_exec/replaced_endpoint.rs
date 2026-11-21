@@ -59,7 +59,7 @@ fn proxy(
             daemon
                 .set_read_timeout(Some(Duration::from_secs(60)))
                 .unwrap();
-            let response = arc_ipc::exchange(&mut daemon, &request).unwrap();
+            let response = super::relay::exchange(&mut daemon, &stream, &request);
             assert_eq!(response.status, "ok", "real daemon commit barrier");
             let trigger = match fault {
                 Fault::RegisterAck | Fault::AfterRegister => action == "REGISTER",

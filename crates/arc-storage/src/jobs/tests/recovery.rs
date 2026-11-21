@@ -72,7 +72,9 @@ fn attached_identity_uncertainty_can_refine_without_rebinding_and_stale_updates_
     assert_eq!(unknown.child_verified_at_ms, None);
     assert_eq!(unknown.observation.status, ObservationStatus::Missing);
     let stale = observe(&unknown, 105);
-    let evidence = observe(&unknown, 104);
+    // This storage-level test supplies a simulated relationship proof; the
+    // daemon obtains it from the native observer/child ancestry checks.
+    let evidence = observe(&unknown, 104).with_child_ownership(true);
     let result = apply_observation(&mut c, &evidence).unwrap();
     let ReconcileResult::Applied(running) = result else {
         panic!("expected fresh observation");
@@ -108,6 +110,116 @@ fn attached_identity_uncertainty_can_refine_without_rebinding_and_stale_updates_
             .unwrap(),
         0
     );
+}
+
+#[test]
+fn indeterminate_then_matching_unrelated_identity_never_becomes_owned() {
+    let db = Database::new();
+    let mut c = db.open();
+    #[path = "../../../../arc-daemon/tests/support/instrumentation.rs"]
+    mod instrumentation;
+    #[path = "../../../../arc-daemon/tests/support/child_watchdog.rs"]
+    mod child_watchdog;
+    struct FixtureChild(std::process::Child);
+    impl Drop for FixtureChild {
+        fn drop(&mut self) {
+            if matches!(self.0.try_wait(), Ok(None)) {
+                self.0.kill().expect("terminate owned identity fixture");
+            }
+            child_watchdog::wait_child(&mut self.0, "owned identity fixture")
+                .expect("reap owned identity fixture");
+        }
+    }
+    let launch = || {
+        let mut command = std::process::Command::new("/bin/sleep");
+        command
+            .env_clear()
+            .env("HOME", db.0.parent().unwrap())
+            .arg("60")
+            .stdin(std::process::Stdio::null())
+            .stdout(std::process::Stdio::null())
+            .stderr(std::process::Stdio::null());
+        instrumentation::forward(&mut command);
+        FixtureChild(command.spawn().unwrap())
+    };
+    let observer_process = launch();
+    let unrelated_process = launch();
+    let observer = super::ProcessIdentity::capture(observer_process.0.id()).unwrap();
+    let unrelated = super::ProcessIdentity::capture(unrelated_process.0.id()).unwrap();
+    let mut registration = register(40);
+    if let StartRequest::Register {
+        observer: registered,
+        ..
+    } = &mut registration
+    {
+        *registered = observer.clone();
+    }
+    mutate(&mut c, &registration, 100);
+    mutate(
+        &mut c,
+        &StartRequest::Claim {
+            job_id: id(40),
+            observer: observer.clone(),
+        },
+        101,
+    );
+    // Both are live siblings owned by the test, not ancestors of each other.
+    let attach = StartRequest::Attach {
+        job_id: id(40),
+        observer: observer.clone(),
+        child: unrelated.clone(),
+    };
+    let evidence = StartEvidence::simulated(&attach, IdentityStatus::Indeterminate)
+        .with_child_ownership(false);
+    let unknown = start(&mut c, &attach, &evidence, 102).unwrap().job;
+    assert_eq!(unknown.phase, Phase::OutcomeUnknown);
+    assert_eq!(unknown.child_verified_at_ms, None);
+    // The later native probe matches a real live PID. Identity alone cannot
+    // manufacture an ownership relation or actionable running child.
+    let result = apply_observation(&mut c, &observe(&unknown, 103)).unwrap();
+    let job = match result {
+        ReconcileResult::Applied(job) | ReconcileResult::Unchanged(job) => job,
+        other => panic!("unexpected reconciliation: {other:?}"),
+    };
+    assert_eq!(job.phase, Phase::OutcomeUnknown);
+    assert_eq!(job.child_verified_at_ms, None);
+    assert_eq!(job.observation.status, ObservationStatus::Indeterminate);
+
+    // Also cover the other race: authorization saw uncertainty, but a fresh
+    // worker probe already matches the unrelated live process at attachment.
+    let mut registration = register(41);
+    if let StartRequest::Register {
+        observer: registered,
+        ..
+    } = &mut registration
+    {
+        *registered = observer.clone();
+    }
+    mutate(&mut c, &registration, 100);
+    mutate(
+        &mut c,
+        &StartRequest::Claim {
+            job_id: id(41),
+            observer: observer.clone(),
+        },
+        101,
+    );
+    let attach = StartRequest::Attach {
+        job_id: id(41),
+        observer,
+        child: unrelated,
+    };
+    let result = start(
+        &mut c,
+        &attach,
+        &StartEvidence::gather(&attach).with_child_ownership(false),
+        102,
+    )
+    .unwrap()
+    .job;
+    assert_eq!(result.phase, Phase::OutcomeUnknown);
+    assert_eq!(result.child_verified_at_ms, None);
+    assert_eq!(result.observation.status, ObservationStatus::Indeterminate);
 }
 #[test]
 fn concurrent_stable_key_registration_claim_and_completion_have_one_winner() {

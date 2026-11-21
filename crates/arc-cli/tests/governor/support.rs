@@ -68,9 +68,19 @@ pub fn accept(listener: &UnixListener) -> UnixStream {
     }
 }
 pub fn next(listener: &UnixListener) -> (UnixStream, Request) {
-    let mut stream = accept(listener);
-    let request = read(&mut stream);
-    (stream, request)
+    loop {
+        let mut stream = accept(listener);
+        let request = read(&mut stream);
+        if request.operation != arc_ipc::reaper::OPERATION_REGISTER {
+            return (stream, request);
+        }
+        // These scripted peers predate the additive Reaper registration, which
+        // a managed wrapper offers concurrently after Attach. Reject it as a
+        // protocol-1 daemon without it does; the request under test follows.
+        let unsupported =
+            Response::error(request.request_id, arc_ipc::ERROR_UNSUPPORTED_CAPABILITY);
+        let _ = arc_ipc::write_response(&mut stream, &unsupported);
+    }
 }
 pub fn read(stream: &mut UnixStream) -> Request {
     arc_ipc::read_message(stream).unwrap()

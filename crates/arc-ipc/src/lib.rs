@@ -11,6 +11,7 @@ pub mod jobs;
 pub mod locality;
 pub mod meter;
 pub mod policy;
+pub mod reaper;
 mod schema;
 pub mod traffic;
 pub use schema::{

@@ -12,6 +12,8 @@ mod accounting_tests;
 mod diagnostic_tests;
 #[path = "handoff.rs"]
 mod handoff;
+#[path = "reaper_action_tests.rs"]
+mod reaper_action_tests;
 static EVENTS: AtomicI32 = AtomicI32::new(-1);
 extern "C" fn event(signal: i32) {
     unsafe {

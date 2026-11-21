@@ -1,10 +1,10 @@
 //! Daemon-only CLI/storage assertions over the shared owned native fixtures.
 #[path = "child_watchdog.rs"]
 #[allow(clippy::duplicate_mod)] // Included by independently reusable fixture modules.
-mod child_watchdog;
+pub(crate) mod child_watchdog;
 #[path = "instrumentation.rs"]
 #[allow(clippy::duplicate_mod)]
-mod instrumentation;
+pub(crate) mod instrumentation;
 #[path = "native_fixture.rs"]
 mod native_fixture;
 pub use native_fixture::{assert_report, Fixture};
@@ -35,6 +35,14 @@ impl Fixture {
     /// instrumentation, independently of the test runner's user environment.
     #[allow(dead_code)] // Not every binary using the common fixture needs this seam.
     pub fn spawn_isolated(&self, profile: &str) -> OwnedChild {
+        let mut command = self.isolated_command(profile);
+        let mut child = OwnedChild::new(command.spawn().unwrap());
+        self.wait_for(&mut child, "arc-daemon ready.");
+        child
+    }
+
+    #[allow(dead_code)] // Some fixtures add an explicit binary-specific argument.
+    pub fn isolated_command(&self, profile: &str) -> Command {
         let home = self.root.join("daemon-home");
         fs::create_dir_all(&home).unwrap();
         let mut command = self.command();
@@ -46,9 +54,7 @@ impl Fixture {
             .env("PATH", "/usr/bin:/bin")
             .env("ARC_IPC_PROFILE", profile);
         instrumentation::forward(&mut command);
-        let mut child = OwnedChild::new(command.spawn().unwrap());
-        self.wait_for(&mut child, "arc-daemon ready.");
-        child
+        command
     }
 
     pub fn cli(&self, operation: &str) -> std::process::Output {

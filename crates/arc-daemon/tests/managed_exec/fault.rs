@@ -287,8 +287,12 @@ impl Fault {
                     target
                         .set_read_timeout(Some(Duration::from_secs(60)))
                         .unwrap();
-                    let response = arc_ipc::exchange(&mut target, &r).unwrap();
-                    assert_eq!(response.status, "ok", "real commit barrier");
+                    let response = super::relay::exchange(&mut target, &stream, &r);
+                    assert_eq!(
+                        response.status, "ok",
+                        "real commit barrier in {mode} for {action}: {:?}",
+                        response.error
+                    );
                     response
                 };
                 if mode == "committed-register" && action == "REGISTER"

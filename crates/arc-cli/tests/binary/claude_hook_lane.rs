@@ -2,7 +2,7 @@
 //!
 //! The two included files are unmodified, sanitized operator recordings. Any
 //! JSON changed inside a test is a mutation, not another vendor recording.
-use super::{hook_scheduled::FixtureChild, hooks};
+use super::{event_key, hook_scheduled::FixtureChild, hooks};
 use serde_json::{json, Value};
 use std::{
     fs,
@@ -94,10 +94,12 @@ fn production_hook_rewrites_recordings_and_passes_other_inputs_without_execution
         assert!(specific.get("permissionDecision").is_none());
         let mut input = specific["updatedInput"].clone();
         let literal = event["tool_input"]["command"].as_str().unwrap();
+        let route = event_key::route("claude", &event);
+        assert!(route.starts_with(" hook-exec --arc-event "), "{route}");
         assert!(input["command"]
             .as_str()
             .unwrap()
-            .ends_with(&format!(" hook-exec -- {literal}")));
+            .ends_with(&format!("{route}{literal}")));
         input["command"] = json!(literal);
         assert_eq!(input, event["tool_input"]);
         assert!(!fixture.0.join("executed").exists());
@@ -255,9 +257,13 @@ fn controlled_surface_worker() {
         assert_eq!(specific.as_object().unwrap().len(), 2);
         let mut updated = specific["updatedInput"].clone();
         let quoted = env!("CARGO_BIN_EXE_arcctl").replace('\'', "'\\''");
+        // The mutation keeps both ids, so it names the recorded event.
         assert_eq!(
             updated["command"],
-            format!("'{quoted}' hook-exec -- {literal}")
+            format!(
+                "'{quoted}'{}{literal}",
+                event_key::route("claude", &recorded)
+            )
         );
         let rewritten = updated["command"].clone();
         updated["command"] = json!(literal);

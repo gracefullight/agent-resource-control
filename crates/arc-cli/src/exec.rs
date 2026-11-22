@@ -5,6 +5,7 @@ mod ci_context;
 mod descriptors;
 mod endpoint_context;
 mod entry;
+mod event_key;
 mod governor;
 mod launch;
 mod lifecycle;

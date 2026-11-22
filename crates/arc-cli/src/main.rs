@@ -4,6 +4,7 @@
 
 mod classify;
 mod doctor;
+mod event_digest;
 mod exec;
 mod governor;
 mod hooks;
@@ -104,6 +105,9 @@ Desktop integration, native Windows acceptance, vendor hooks and other schedulin
     /// Internal execution route used by the agent hook adapters
     #[command(hide = true)]
     HookExec {
+        /// Vendor hook event this run delivers; consumed by arcctl, never by the child
+        #[arg(long = "arc-event", value_name = "KEY", hide = true)]
+        event: Option<String>,
         /// Request whose stage this is; consumed by arcctl, never by the child
         #[arg(long = "arc-request", value_name = "ID")]
         request: Option<String>,
@@ -200,7 +204,11 @@ fn main() -> ExitCode {
     };
     let command = match cli.command {
         Command::Exec { argv } => return exec::run(argv),
-        Command::HookExec { request, argv } => return exec::run_hook(argv, request),
+        Command::HookExec {
+            event,
+            request,
+            argv,
+        } => return exec::run_hook(argv, request, event),
         Command::Hooks { command } => return hooks::run(command),
         Command::Job {
             command: JobCommand::Status { job_id },

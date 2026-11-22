@@ -2,7 +2,7 @@
 //!
 //! The verified-dispatch tests below use a controlled fixture surface; the
 //! operator's separate execution-surface recording supports production wiring.
-use super::{hook_scheduled::FixtureChild, hooks};
+use super::{event_key, hook_scheduled::FixtureChild, hooks};
 use serde_json::{json, Value};
 use std::{
     fs,
@@ -200,10 +200,9 @@ fn cursor_fixture_seam_worker() {
             let mut expected = event["tool_input"].clone();
             let rewritten = response["updated_input"]["command"].as_str().unwrap();
             let binary = env!("CARGO_BIN_EXE_arcctl").replace('\'', "'\\''");
-            assert_eq!(
-                rewritten,
-                format!("'{binary}' hook-exec -- {}", case.literal)
-            );
+            let route = event_key::route("cursor", &event);
+            assert!(route.starts_with(" hook-exec --arc-event "), "{route}");
+            assert_eq!(rewritten, format!("'{binary}'{route}{}", case.literal));
             expected["command"] = json!(rewritten);
             assert_eq!(response["updated_input"], expected);
         }
@@ -258,10 +257,11 @@ fn built_cursor_hook_rewrites_both_recorded_literals_without_a_permission_decisi
         let response: Value = serde_json::from_slice(&output.stdout).unwrap();
         assert!(response.get("permission").is_none());
         let mut input = response["updated_input"].clone();
-        assert!(input["command"]
-            .as_str()
-            .unwrap()
-            .ends_with(&format!(" hook-exec -- {}", case.literal)));
+        assert!(input["command"].as_str().unwrap().ends_with(&format!(
+            "{}{}",
+            event_key::route("cursor", &event),
+            case.literal
+        )));
         input["command"] = json!(case.literal);
         assert_eq!(input, event["tool_input"]);
         let mutated = case.event.replacen(

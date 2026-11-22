@@ -109,6 +109,7 @@ pub(super) fn enqueue_governed(
         classification,
         lineage_context,
         project,
+        event,
     } = request
     else {
         return Err(E::InvalidRequest);
@@ -156,6 +157,10 @@ pub(super) fn enqueue_governed(
             Decision::Wait(_) => return Err(E::InvalidRequest),
         }
         evidence.verify(observer)?;
+        // A recorded hook event creates no job row, queue entry or reservation.
+        if let Some(job_id) = crate::hook_event::duplicate(tx, job_id, event.as_ref(), now)? {
+            return Ok(Reply::DuplicateDelivery { job_id });
+        }
         let switch = crate::governor::get_switch(tx)?;
         if !negotiated && !switch.enabled && proof.is_none() {
             return Ok(Reply::Bypassed {
@@ -185,6 +190,7 @@ pub(super) fn enqueue_governed(
             revision: 1,
         };
         codec::write(tx, &job, true)?;
+        crate::hook_event::record(tx, job_id, event.as_ref())?;
         tx.execute(
             "UPDATE jobs SET enforcement='SCHEDULED', queue_at=?2 WHERE id=?1",
             params![job_id.as_str(), now as i64],

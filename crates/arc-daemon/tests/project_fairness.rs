@@ -40,6 +40,36 @@ fn build(f: &Fixture, s: &Sandbox, project: &Path, marker: &Path, name: &str) ->
     command
 }
 
+/// The wrappers `of`, in the order the daemon granted their jobs, read from
+/// the queue entries. A grant is recorded in the admission transaction, so it
+/// exists for every job that ran, whether or not its child was attached. Each
+/// grant must follow the release of the one before it: with a window of one
+/// the grant order is the start order.
+fn granted_order(db: &rusqlite::Connection, of: &[u32]) -> Vec<u32> {
+    let grants: Vec<(u32, i64, Option<i64>)> = db
+        .prepare(
+            "SELECT l.observer_pid,t.granted_at_ms,p.released_at FROM traffic_entries t \
+             JOIN job_lifecycle l ON l.job_id=t.job_id JOIN permits p ON p.job_id=t.job_id \
+             WHERE t.granted_at_ms IS NOT NULL ORDER BY t.granted_at_ms,t.sequence",
+        )
+        .unwrap()
+        .query_map([], |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)))
+        .unwrap()
+        .map(Result::unwrap)
+        .filter(|(observer, _, _)| of.contains(observer))
+        .collect();
+    for pair in grants.windows(2) {
+        assert!(
+            pair[0].2.is_some_and(|released| released <= pair[1].1),
+            "a build was granted before the one ahead of it released: {pair:?}"
+        );
+    }
+    grants
+        .into_iter()
+        .map(|(observer, _, _)| observer)
+        .collect()
+}
+
 /// While a separate built CLI holds the one Build permit, queue `waiters`
 /// builds of one project, each enqueue confirmed from daemon state. None may
 /// start or leave the queue. After the release every build runs exactly once,
@@ -118,23 +148,13 @@ fn queued_builds_of_one_project_drain_in_queue_order(waiters: usize) {
     }
     // With a window of one the children start strictly one after another, so
     // the start order is the grant order: it must be the queue order.
-    let order: Vec<u32> = std::fs::read_to_string(&marker)
-        .unwrap()
-        .lines()
-        .map(|child| {
-            db.query_row(
-                "SELECT observer_pid FROM job_lifecycle WHERE child_pid=?1",
-                [child.parse::<u32>().unwrap()],
-                |r| r.get(0),
-            )
-            .unwrap()
-        })
-        .collect();
     let expected: Vec<u32> = queued.iter().map(|waiter| waiter.child.id()).collect();
     assert_eq!(
-        order, expected,
-        "each build runs exactly once, in queue order"
+        granted_order(&db, &expected),
+        expected,
+        "each build runs in queue order"
     );
+    assert_eq!(starts(&marker), waiters, "each build runs exactly once");
     eventually("all permits released", || {
         counts() == (0, 0, waiters as i64 + 1)
     });
@@ -424,20 +444,13 @@ fn at_trf_08_project_b_is_granted_after_at_most_one_project_a_job() {
         let status = waiter.wait(&format!("a-{index}")).unwrap();
         assert!(status.success(), "a-{index}: {status:?}");
     }
-    let order: Vec<u32> = std::fs::read_to_string(&a_starts)
-        .unwrap()
-        .lines()
-        .map(|child| {
-            db.query_row(
-                "SELECT observer_pid FROM job_lifecycle WHERE child_pid=?1",
-                [child.parse::<u32>().unwrap()],
-                |r| r.get(0),
-            )
-            .unwrap()
-        })
-        .collect();
     let ran: Vec<u32> = project_a[..keep].iter().map(|w| w.child.id()).collect();
-    assert_eq!(order, ran, "project A stays first in, first out");
+    assert_eq!(
+        granted_order(&db, &ran),
+        ran,
+        "project A stays first in, first out"
+    );
+    assert_eq!(starts(&a_starts), keep, "each project A build ran once");
     assert_eq!(starts(&b_starts), 1);
     assert_eq!(starts(&f.root.join("held-starts")), 1);
     let finished = keep as i64 + 2;

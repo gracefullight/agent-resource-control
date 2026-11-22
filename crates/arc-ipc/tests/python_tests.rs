@@ -23,6 +23,7 @@ fn enqueue(reason: Reason) -> serde_json::Value {
             classification: classification(reason),
             lineage_context: None,
             project: None,
+            event: None,
         }
     })
 }

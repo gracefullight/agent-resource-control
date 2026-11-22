@@ -26,8 +26,9 @@ pub(super) fn handle_verified(
         return None;
     }
     let input = event.get("tool_input")?.as_object()?;
-    let command = input.get("command")?.as_str()?;
-    let command = rewrite_literal(command, context, surface)?;
+    let source = input.get("command")?.as_str()?;
+    let command = rewrite_literal(source, context, surface)?;
+    let command = super::event_key::keyed(super::event_key::CURSOR, event, source, command);
     let mut updated = input.clone();
     updated.insert("command".into(), Value::String(command));
     // Cursor accepts this response without making a permission decision; the

@@ -37,7 +37,7 @@ impl Database {
                 .query_row("SELECT count(*) FROM schema_migrations", [], |row| row
                     .get::<_, i64>(0))
                 .unwrap(),
-            7
+            8
         );
         connection.close().unwrap();
     }
@@ -221,7 +221,7 @@ async fn queued_deadline_is_absolute_and_expired_job_is_not_started() {
     assert!(matches!(expired.receive().await, Err(DbError::Deadline)));
     release.send(()).unwrap();
     assert_eq!(active.receive().await.unwrap().integrity_check, "ok");
-    assert_eq!(recover(&client).await.schema_migrations, 7);
+    assert_eq!(recover(&client).await.schema_migrations, 8);
     assert!(matches!(
         client.try_doctor(Instant::now()),
         Err(DbError::Deadline)

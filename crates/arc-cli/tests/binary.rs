@@ -52,6 +52,10 @@ fn stderr_comparison_rejects_unrecognized_or_duplicated_output() {
 mod claude_hook_lane;
 #[path = "binary/cursor_hook_lane.rs"]
 mod cursor_hook_lane;
+#[path = "../src/event_digest.rs"]
+mod event_digest;
+#[path = "fixtures/agent_hooks/event_key.rs"]
+mod event_key;
 #[path = "binary/hook_resolution.rs"]
 mod hook_resolution;
 #[path = "binary/hook_scheduled.rs"]

@@ -138,6 +138,7 @@ fn negotiated_four_classes_preserve_original_argv_cwd_env_streams_exit_and_signa
                         classification,
                         lineage_context: Some(context),
                         project: _,
+                        event: _,
                     },
             } = traffic::scripts::decode_job(&request.operation, &request.payload).unwrap()
             else {

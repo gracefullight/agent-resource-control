@@ -174,6 +174,7 @@ impl Fixture {
             classification,
             lineage_context: None,
             project: None,
+            event: None,
         })
         .await
     }

@@ -15,6 +15,7 @@ use std::fmt;
 pub mod diagnostics;
 pub mod endpoint;
 pub mod fairness;
+pub mod hook_event;
 pub mod native;
 pub mod python;
 pub mod scripts;
@@ -207,6 +208,9 @@ pub enum JobRequest {
         /// Sent only after `fairness::CAPABILITY`; omitted when absent.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         project: Option<fairness::ProjectKey>,
+        /// Sent only after `hook_event::CAPABILITY`; omitted when absent.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        event: Option<hook_event::EventKey>,
     },
     Poll {
         job_id: JobId,
@@ -370,6 +374,10 @@ pub enum JobResult {
     Abandoned {},
     ReservationRetained {},
     NotFound {},
+    /// Only in reply to an enqueue that carried `hook_event::EventKey`.
+    DuplicateDelivery {
+        job_id: JobId,
+    },
 }
 
 impl JobResult {
@@ -406,6 +414,7 @@ impl JobResult {
             | Self::Cancelled {}
             | Self::Abandoned {}
             | Self::ReservationRetained {}
+            | Self::DuplicateDelivery { .. }
             | Self::NotFound {} => true,
         }
     }

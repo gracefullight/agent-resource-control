@@ -45,9 +45,17 @@ pub(crate) fn run(argv: Vec<OsString>) -> ExitCode {
 
 /// The hook route accepts supported literal argv and its silent gh path probe;
 /// execution preserves the caller's environment without a lineage variable.
-/// `request` links this stage's job record to its request and reaches no child.
-pub(crate) fn run_hook(argv: Vec<OsString>, request: Option<String>) -> ExitCode {
-    let Ok(request) = super::stages::parse_request(request) else {
+/// `request` links this stage's job record to its request and `event` names
+/// the vendor hook event this run delivers; neither reaches a child.
+pub(crate) fn run_hook(
+    argv: Vec<OsString>,
+    request: Option<String>,
+    event: Option<String>,
+) -> ExitCode {
+    let (Ok(request), Ok(event)) = (
+        super::stages::parse_request(request),
+        super::event_key::parse(event),
+    ) else {
         return super::invalid();
     };
     if let [option, selected] = argv.as_slice() {
@@ -62,7 +70,9 @@ pub(crate) fn run_hook(argv: Vec<OsString>, request: Option<String>) -> ExitCode
     if !crate::hooks::literal_argv(&argv) {
         return super::invalid();
     }
-    super::stages::with_request(request, || {
-        super::run_with_environment(argv, true, &Instant::now)
+    super::event_key::with_event(event, || {
+        super::stages::with_request(request, || {
+            super::run_with_environment(argv, true, &Instant::now)
+        })
     })
 }

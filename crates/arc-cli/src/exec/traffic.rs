@@ -83,6 +83,8 @@ pub(super) enum Mode {
         route: Route,
         continuity: Continuity,
     },
+    /// A redelivered hook event (`event_key`): one child, nothing recorded.
+    Duplicate,
 }
 
 impl Mode {
@@ -320,6 +322,7 @@ pub(super) fn prepare(
         // This route serves peers that declined the current admission route;
         // they are sent protocol-1 bytes only and keep sequence order.
         project: None,
+        event: None,
     };
     let mut possibly_committed = false;
     let continuity = Continuity::default();

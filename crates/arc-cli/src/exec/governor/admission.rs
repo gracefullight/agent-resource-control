@@ -11,6 +11,8 @@ pub(super) enum Admission {
     Unreserved {
         waited: bool,
     },
+    /// The daemon had already recorded this run's event key on another job.
+    Duplicate,
 }
 #[derive(Clone, Copy)]
 pub(super) struct AdmissionPeer<'a> {
@@ -187,6 +189,13 @@ where
                         }
                     };
                     deadline = now() + Duration::from_millis(1800);
+                }
+                // Only the first reply to an enqueue that carried a key.
+                JobResult::DuplicateDelivery { .. }
+                    if !waited
+                        && matches!(&request, JobRequest::Enqueue { event: Some(_), .. }) =>
+                {
+                    return Ok(Admission::Duplicate)
                 }
                 JobResult::Cancelled {} => return Err(Failure::Cancelled),
                 JobResult::NotFound {} if waited || matches!(initial, JobRequest::Poll { .. }) => {

@@ -16,7 +16,8 @@ fn enqueue(case: &Case, id: &JobId, observer: &ProcessIdentity) -> u64 {
             "reason":"CARGO_TEST","uncertainty":"NONE"})
             )
             .unwrap(),
-            project: None
+            project: None,
+            event: None,
         }),
     );
     assert_eq!(reply["state"], "GRANTED");
@@ -160,7 +161,7 @@ fn legacy_protocol_one_enqueue_poll_and_status_keep_their_original_shapes_under_
     let observer = ProcessIdentity::capture(std::process::id()).unwrap();
     let id = JobId::try_from(arc_core::process_identity::random_job_id().unwrap()).unwrap();
     let enqueue = JobRequest::Enqueue {job_id:id.clone(),observer:observer.clone(),lineage_context:None,
-        classification:serde_json::from_value(json!({"classification":"TEST","locality":"HOST_LOCAL","reason":"CARGO_TEST","uncertainty":"NONE"})).unwrap(), project: None };
+        classification:serde_json::from_value(json!({"classification":"TEST","locality":"HOST_LOCAL","reason":"CARGO_TEST","uncertainty":"NONE"})).unwrap(), project: None, event: None };
     let first = case.rpc("traffic.job", json!(enqueue));
     let typed: arc_ipc::traffic::JobResult = serde_json::from_value(first.clone()).unwrap();
     assert!(matches!(

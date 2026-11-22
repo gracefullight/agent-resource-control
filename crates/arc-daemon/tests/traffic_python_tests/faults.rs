@@ -44,6 +44,7 @@ pub fn acknowledgments(read: Read) {
         classification: class,
         lineage_context: None,
         project: None,
+        event: None,
     };
     let lost = lose(&case, &enqueue);
     eventually(|| case.active()["permits"] == 1);

@@ -65,6 +65,7 @@ fn request(n: u32, class: &str, inherited: Option<LineageContext>) -> Request {
         classification: classification(class),
         lineage_context: inherited,
         project: None,
+        event: None,
     }
 }
 fn add(c: &mut Connection, n: u32, class: &str, now: u64, policy: &Policy) -> Reply {
@@ -154,7 +155,9 @@ fn generation(reply: &Reply) -> u64 {
 }
 
 mod admission;
+mod event_key;
 mod fair_head;
+mod hook_event;
 mod identity;
 mod lineage;
 mod project_key;

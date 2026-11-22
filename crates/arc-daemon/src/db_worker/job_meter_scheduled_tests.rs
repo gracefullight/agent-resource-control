@@ -19,6 +19,7 @@ async fn scheduled_attachment_and_report_share_the_same_writer_and_queue_facts()
                 classification,
                 lineage_context: None,
                 project: None,
+                event: None,
             },
             observer.pid,
             deadline(),

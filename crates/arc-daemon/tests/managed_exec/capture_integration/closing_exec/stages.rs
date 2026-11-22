@@ -40,7 +40,11 @@ fn stage_seam_installed_hook_leaves_unseparable_compounds_unrewritten() {
         assert_eq!(installed_hook_rewrite(&s, &f, source), None, "{source}");
     }
     let literal = installed_hook_rewrite(&s, &f, "cargo build").unwrap();
-    assert!(literal.ends_with(" hook-exec -- cargo build"), "{literal}");
+    // Still one child; the recorded event's ids name it (AT-TRF-09).
+    assert!(
+        literal.contains(" hook-exec --arc-event ") && literal.ends_with(" -- cargo build"),
+        "{literal}"
+    );
     assert!(!literal.contains("--arc-request"), "{literal}");
     assert_eq!(s.calls(), 0);
 }

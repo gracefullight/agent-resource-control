@@ -51,7 +51,7 @@ fn enqueue(
     n: u32,
     provider: &dyn arc_policy::ObservationProvider,
 ) -> GovernorJobResult {
-    let request=JobRequest::Enqueue{job_id:id(n),observer:owner(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None, project: None };
+    let request=JobRequest::Enqueue{job_id:id(n),observer:owner(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None, project: None, event: None };
     execution::enqueue(
         c,
         &request,

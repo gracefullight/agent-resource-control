@@ -99,11 +99,11 @@ fn snapshot(c: &Connection) -> Snapshot {
 fn assert_current(c: &Connection) {
     let assessment = assess_schema(c).unwrap();
     assert_eq!(assessment.status, SchemaStatus::Compatible);
-    assert_eq!(assessment.applied_version, Some(7));
-    assert_eq!(assessment.supported_version, 7);
-    assert_eq!(assessment.schema_migrations, 7);
+    assert_eq!(assessment.applied_version, Some(8));
+    assert_eq!(assessment.supported_version, 8);
+    assert_eq!(assessment.schema_migrations, 8);
     assert!(assessment.history_verified);
-    assert_eq!(MIGRATIONS.len(), 7);
+    assert_eq!(MIGRATIONS.len(), 8);
     assert_eq!(MIGRATIONS[0].id, "0001_phase0");
     assert_eq!(MIGRATIONS[1].id, "0002_managed_exec");
     assert_eq!(MIGRATIONS[2].id, "0003_traffic");
@@ -112,7 +112,7 @@ fn assert_current(c: &Connection) {
     assert_eq!(MIGRATIONS[5].id, "0006_governor");
     assert_eq!(MIGRATIONS[6].id, "0007_traffic_project");
     let entries = history(c);
-    assert_eq!(entries.len(), 7);
+    assert_eq!(entries.len(), 8);
     for (entry, migration) in entries.iter().zip(MIGRATIONS) {
         assert_eq!(entry.0, migration.id);
         assert!(entry.1 > 0);
@@ -126,7 +126,7 @@ fn assert_current(c: &Connection) {
         entries[1].2,
         "464a1c88270f01a56ccab6610f87eff7648e0640f276ebce53b8a97026c50814"
     );
-    assert_eq!(snapshot(c).witness, 7);
+    assert_eq!(snapshot(c).witness, 8);
 }
 
 #[test]
@@ -230,7 +230,7 @@ fn legacy_v1_without_witness_is_read_only_then_upgrades_without_rewriting_histor
     let assessment = assess_schema(&c).unwrap();
     assert_eq!(assessment.status, SchemaStatus::UpgradeRequired);
     assert_eq!(assessment.applied_version, Some(1));
-    assert_eq!(assessment.supported_version, 7);
+    assert_eq!(assessment.supported_version, 8);
     assert_eq!(assessment.schema_migrations, 1);
     assert!(assessment.history_verified);
     assert_eq!(snapshot(&c), before);
@@ -262,14 +262,14 @@ fn current_schema_rejects_invalid_history_and_witness_without_mutation() {
         ("PRAGMA user_version=4", SchemaStatus::InvalidHistory),
         ("PRAGMA user_version=5", SchemaStatus::InvalidHistory),
         ("PRAGMA user_version=6", SchemaStatus::InvalidHistory),
-        ("PRAGMA user_version=8", SchemaStatus::UnsupportedNewer),
+        ("PRAGMA user_version=9", SchemaStatus::UnsupportedNewer),
         ("DELETE FROM schema_migrations WHERE id='0001_phase0'", SchemaStatus::MissingHistory),
         ("DELETE FROM schema_migrations", SchemaStatus::MissingHistory),
         ("UPDATE schema_migrations SET checksum='invalid' WHERE id='0002_managed_exec'", SchemaStatus::ChecksumMismatch),
         ("UPDATE schema_migrations SET id='invalid' WHERE id='0002_managed_exec'", SchemaStatus::InvalidHistory),
         ("UPDATE schema_migrations SET id='0002_other' WHERE id='0002_managed_exec'", SchemaStatus::InvalidHistory),
         ("INSERT INTO schema_migrations VALUES ('0002_duplicate', 123, 'untrusted')", SchemaStatus::InvalidHistory),
-        ("INSERT INTO schema_migrations VALUES ('0008_future', 123, 'untrusted'); PRAGMA user_version=8", SchemaStatus::UnsupportedNewer),
+        ("INSERT INTO schema_migrations VALUES ('0009_future', 123, 'untrusted'); PRAGMA user_version=9", SchemaStatus::UnsupportedNewer),
     ] {
         let database = Database::new();
         let c = database.open();
@@ -278,7 +278,7 @@ fn current_schema_rejects_invalid_history_and_witness_without_mutation() {
         let assessment = assess_schema(&c).unwrap();
         assert_eq!(assessment.status, expected, "{sql}");
         assert!(!assessment.history_verified, "{sql}");
-        assert_eq!(assessment.supported_version, 7);
+        assert_eq!(assessment.supported_version, 8);
         assert_eq!(snapshot(&c), before, "assessment changed database: {sql}");
         c.close().unwrap();
         let error = open_and_migrate(&database.0).unwrap_err();
@@ -293,7 +293,7 @@ fn current_schema_rejects_invalid_history_and_witness_without_mutation() {
             "{sql}"
         );
         if expected == SchemaStatus::UnsupportedNewer {
-            assert!(error.to_string().contains("schema version 8 (supported 7)"));
+            assert!(error.to_string().contains("schema version 9 (supported 8)"));
         }
         assert_eq!(
             snapshot(&Connection::open(&database.0).unwrap()),

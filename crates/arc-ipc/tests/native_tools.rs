@@ -35,6 +35,7 @@ fn enqueue(classification: Classification) -> Value {
             classification,
             lineage_context: None,
             project: None,
+            event: None,
         }
     })
 }

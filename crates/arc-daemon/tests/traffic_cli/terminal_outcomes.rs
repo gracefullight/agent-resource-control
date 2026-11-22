@@ -451,6 +451,7 @@ fn failed_completion_retry_releases_one_permit() {
         classification: cargo_class("BUILD", "CARGO_BUILD"),
         lineage_context: None,
         project: None,
+        event: None,
     };
     let arc_ipc::traffic::JobResult::Granted {
         permit_generation, ..

@@ -14,6 +14,7 @@ fn script_request(n: u32, class: JobClass, reason: Reason) -> Request {
             uncertainty: Uncertainty::None,
         },
         project: None,
+        event: None,
     }
 }
 fn submit(c: &mut Connection, n: u32, class: JobClass, reason: Reason, now: u64) -> Reply {

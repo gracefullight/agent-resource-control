@@ -168,10 +168,16 @@ fn exact_event_worker() {
             &response[field]
         };
         let mut original = updated.clone();
+        // Only an event with both ids names itself in the command.
+        let adapter = if matches!(vendor, Vendor::Claude) {
+            event_key::CLAUDE
+        } else {
+            event_key::CURSOR
+        };
         assert!(original["command"]
             .as_str()
             .unwrap()
-            .ends_with(&format!(" hook-exec -- {literal}")));
+            .ends_with(&format!("{}{literal}", event_key::route(adapter, &event))));
         original["command"] = serde_json::json!(literal);
         assert_eq!(original, event["tool_input"]);
         event["tool_input"] = updated.clone();

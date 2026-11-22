@@ -11,6 +11,14 @@ mod semantics;
 #[allow(dead_code)]
 #[path = "../../../arc-cli/src/hooks.rs"]
 mod hooks;
+/// The hook source compiled here serves only its process fixtures; every
+/// hook this suite runs is the built `arcctl`. This crate links no digest
+/// crate, so this copy names no event (see `arc-cli/src/event_digest.rs`).
+mod event_digest {
+    pub(super) fn sha256(_parts: &[&[u8]]) -> Option<[u8; 32]> {
+        None
+    }
+}
 
 fn node_executable(bun: &Path) -> PathBuf {
     let mut candidates = vec![
@@ -138,7 +146,9 @@ fn command_path(case: &Case) -> std::ffi::OsString {
 }
 
 fn transform(project: &Path, vendor: &str, literal: &str, _path: &OsStr) -> String {
-    // Only the cwd is changed from the sanitized recording for this fixture.
+    // Only the cwd and the tool call id are changed from the sanitized
+    // recording: each call here is another tool call, and one id used twice
+    // would be one redelivered event (AT-TRF-09).
     let source = match (vendor, literal) {
         ("claude", "cargo build") => include_str!("../../../arc-cli/tests/fixtures/agent_hooks/claude-recorded-2.1.327-cargo-build.json"),
         ("claude", "bun run build") => include_str!("../../../arc-cli/tests/fixtures/agent_hooks/claude-recorded-2.1.327-bun-run-build.json"),
@@ -148,6 +158,12 @@ fn transform(project: &Path, vendor: &str, literal: &str, _path: &OsStr) -> Stri
     };
     let mut event: Value = serde_json::from_str(source).unwrap();
     event["cwd"] = json!(project);
+    static CALLS: std::sync::atomic::AtomicUsize = std::sync::atomic::AtomicUsize::new(0);
+    event["tool_use_id"] = json!(format!(
+        "{}-{}",
+        event["tool_use_id"].as_str().unwrap(),
+        CALLS.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+    ));
     let input = project.join("event.json");
     write(&input, serde_json::to_vec(&event).unwrap());
     let mut hook = Command::new(binary("arcctl"));
@@ -185,7 +201,19 @@ fn transform(project: &Path, vendor: &str, literal: &str, _path: &OsStr) -> Stri
     let mut original = updated.clone();
     original["command"] = json!(literal);
     assert_eq!(original, event["tool_input"]);
-    assert!(command.ends_with(&format!(" hook-exec -- {literal}")));
+    // The event key sits directly after `hook-exec`; the literal is unchanged.
+    let key = command
+        .strip_suffix(&format!(" -- {literal}"))
+        .and_then(|rest| rest.split_once(" hook-exec --arc-event "))
+        .map(|(_, key)| key)
+        .unwrap_or_else(|| panic!("not the managed route: {command}"));
+    assert!(
+        key.len() == 64
+            && key
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+        "{command}"
+    );
     command
 }
 
@@ -208,7 +236,7 @@ fn production_hook_transforms_both_literals_for_both_vendors() {
         for literal in ["cargo build", "bun run build"] {
             assert!(
                 transform(&directory.0, vendor, literal, OsStr::new("/nonexistent"))
-                    .ends_with(&format!(" hook-exec -- {literal}"))
+                    .ends_with(&format!(" -- {literal}"))
             );
         }
     }

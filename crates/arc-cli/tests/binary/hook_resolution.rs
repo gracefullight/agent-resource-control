@@ -134,7 +134,9 @@ fn built_hooks_preserve_zsh_resolution_and_spawn_exit_codes() {
         ),
     ] {
         let rewritten = fixture.hook(vendor, source);
-        assert!(rewritten.ends_with(&format!(" hook-exec -- {literal}")));
+        let route = super::event_key::route(vendor, &serde_json::from_str(source).unwrap());
+        assert!(route.starts_with(" hook-exec --arc-event "), "{route}");
+        assert!(rewritten.ends_with(&format!("{route}{literal}")));
         for (label, path) in [
             ("relative", "bin:/usr/bin:/bin"),
             ("empty", ":/usr/bin:/bin"),

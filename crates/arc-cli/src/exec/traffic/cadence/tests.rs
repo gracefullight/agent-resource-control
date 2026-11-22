@@ -154,3 +154,47 @@ fn an_unusable_turn_file_leaves_the_plain_cadence() {
     assert_eq!(slept(&mut bare, WaitReason::Fifo), [40]);
     assert!(bare.held.is_none() && bare.turn.is_none());
 }
+
+#[test]
+fn held_turn_lock_cannot_stop_a_waiter() {
+    let directory = Directory::new("bound");
+    // A wrapper that took its turn and never polls again, as a stopped
+    // process would: it keeps the lock for the whole test.
+    let mut holder = Cadence::new(&directory.socket());
+    assert_eq!(slept(&mut holder, WaitReason::Fifo), [40]);
+    assert!(holder.held.is_some());
+
+    // The injected sleep fails the test instead of letting it spin, should
+    // the wait for the turn ever be unbounded again.
+    let waited = |cadence: &mut Cadence| -> u32 {
+        let slices = Cell::new(0u32);
+        cadence.pause(
+            WaitReason::Fifo,
+            &|slice| {
+                assert_eq!(slice, STEP);
+                slices.set(slices.get() + 1);
+                assert!(slices.get() <= 1024, "a held turn lock stopped the waiter");
+            },
+            &|| false,
+        );
+        slices.get()
+    };
+    const _: () = assert!(TURN_SLICES <= 64, "the bound is at most 64 slices");
+    let mut waiter = Cadence::new(&directory.socket());
+    // Each wait is its delay, 1 to 64 slices, plus at most TURN_SLICES
+    // slices for the turn. Then the waiter polls without the lock.
+    for delay in [1, 2, 4, 8, 16, 32, 64, 64, 64] {
+        assert_eq!(waited(&mut waiter), delay + TURN_SLICES);
+        assert!(waiter.held.is_none() && holder.held.is_some());
+    }
+    // The bound costs a signal nothing: still one slice.
+    let slices = Cell::new(0);
+    waiter.pause(WaitReason::Fifo, &|_| slices.set(slices.get() + 1), &|| {
+        slices.get() == 65
+    });
+    assert_eq!(slices.get(), 65, "64 delay slices and one lock retry");
+    // Once the holder lets go, the waiter takes turns as before.
+    drop(holder);
+    assert_eq!(waited(&mut waiter), 64);
+    assert!(waiter.held.is_some());
+}

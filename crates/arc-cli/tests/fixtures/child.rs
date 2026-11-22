@@ -17,6 +17,7 @@ mod exec {
     mod descriptors;
     mod endpoint_context;
     mod entry;
+    mod event_key;
     mod governor;
     mod launch;
     mod lifecycle;
@@ -106,6 +107,9 @@ mod exec {
         )
     }
 }
+#[cfg(not(test))]
+#[path = "../../src/event_digest.rs"]
+mod event_digest;
 #[cfg(not(test))]
 #[allow(dead_code)]
 #[path = "../../src/hooks.rs"]

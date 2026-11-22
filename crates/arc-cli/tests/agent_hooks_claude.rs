@@ -6,6 +6,10 @@ use hooks::fixture::claude;
 use hooks::{HookContext, InstallAction, Scope, VerifiedSurface};
 #[path = "fixtures/agent_hooks/claude/behavior.rs"]
 mod behavior;
+#[path = "../src/event_digest.rs"]
+mod event_digest;
+#[path = "fixtures/agent_hooks/event_key.rs"]
+mod event_key;
 #[path = "fixtures/agent_hooks/claude/installer_cases.rs"]
 mod installer_cases;
 #[path = "fixtures/agent_hooks/claude/installer_concurrency.rs"]
@@ -226,10 +230,13 @@ fn production_hook_rewrites_the_documented_event_without_execution() {
     );
     assert!(output.status.success());
     let response: Value = serde_json::from_slice(&output.stdout).unwrap();
+    // The documented event carries both ids, so its command names it.
+    let route = event_key::route("claude", &event());
+    assert!(route.starts_with(" hook-exec --arc-event "), "{route}");
     assert!(response["hookSpecificOutput"]["updatedInput"]["command"]
         .as_str()
         .unwrap()
-        .ends_with(" hook-exec -- cargo build"));
+        .ends_with(&format!("{route}cargo build")));
     assert!(!fixture.marker.exists());
 }
 
@@ -343,8 +350,9 @@ fn rewrite_cases(fixture: &Fixture) {
         let original = event.clone();
         let response = claude::handle_verified(&event, &context, Some(&surface)).unwrap();
         let expected = format!(
-            "'{}' hook-exec -- {literal}",
-            fixture.executable.to_str().unwrap().replace('\'', "'\\''")
+            "'{}'{}{literal}",
+            fixture.executable.to_str().unwrap().replace('\'', "'\\''"),
+            event_key::route("claude", &event)
         );
         let mut expected_input = event["tool_input"].clone();
         expected_input["command"] = json!(expected);

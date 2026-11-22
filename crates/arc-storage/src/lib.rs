@@ -5,6 +5,7 @@
 
 pub mod governor;
 mod history;
+pub mod hook_event;
 pub mod job_meter;
 pub mod jobs;
 mod migration;

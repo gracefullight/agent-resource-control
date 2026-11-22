@@ -47,15 +47,21 @@ pub(super) fn negotiated(socket: &Path, daemon: &Continuity) -> Option<ProjectKe
 }
 
 /// Whether process `daemon` holds the advertisement lock beside `socket`.
-/// The kernel names the holder; a file nobody locks advertises nothing.
 fn advertised(socket: &Path, daemon: u32) -> bool {
+    holds(socket, daemon, ADVERTISEMENT)
+}
+
+/// Whether process `daemon` holds the write lock on `advertisement` beside
+/// `socket`. The kernel names the holder; a file nobody locks advertises
+/// nothing. Shared by every capability the daemon advertises this way.
+pub(super) fn holds(socket: &Path, daemon: u32, advertisement: &str) -> bool {
     let Some(directory) = socket.parent().filter(|p| !p.as_os_str().is_empty()) else {
         return false;
     };
     let Ok(file) = OpenOptions::new()
         .read(true)
         .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC | libc::O_NONBLOCK)
-        .open(directory.join(ADVERTISEMENT))
+        .open(directory.join(advertisement))
     else {
         return false;
     };
@@ -99,4 +105,4 @@ fn derive(working_directory: &Path) -> Option<ProjectKey> {
 }
 
 #[cfg(test)]
-mod tests;
+pub(super) mod tests;

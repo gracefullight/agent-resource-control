@@ -159,8 +159,9 @@ fn nfr_003_installed_hook_bypass_p95_overhead_within_50_ms() {
     let rewritten = managed["hookSpecificOutput"]["updatedInput"]["command"]
         .as_str()
         .unwrap();
+    // The recorded event carries both ids, so the command names its event.
     assert!(
-        rewritten.ends_with(" hook-exec -- cargo build"),
+        rewritten.contains(" hook-exec --arc-event ") && rewritten.ends_with(" -- cargo build"),
         "{managed}"
     );
 

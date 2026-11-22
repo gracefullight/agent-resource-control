@@ -2,6 +2,9 @@
 //!
 //! Every process gets a cleared environment, a temporary HOME, an offline
 //! stub PATH and a socket path where no daemon listens.
+#[path = "fixtures/agent_hooks/event_key.rs"]
+mod event_key;
+
 use serde_json::{json, Value};
 use std::{
     fs::{self, File},
@@ -95,12 +98,11 @@ impl Fixture {
     /// The command the vendor would execute after the hook saw `command`:
     /// the update, or `None` when the hook leaves the tool input alone.
     fn hook(&self, vendor: &str, command: &str) -> Option<String> {
-        let mut event: Value = serde_json::from_str(if vendor == "claude" {
-            include_str!("fixtures/agent_hooks/claude-recorded-2.1.327-cargo-build.json")
-        } else {
-            include_str!("fixtures/agent_hooks/cursor/recorded/preToolUse-cargo-build-rewrite.json")
-        })
-        .unwrap();
+        self.hook_event(vendor, command, recorded(vendor))
+    }
+
+    /// `hook` for `event`, a recorded payload or a mutation derived from one.
+    fn hook_event(&self, vendor: &str, command: &str, mut event: Value) -> Option<String> {
         if vendor == "claude" {
             event["cwd"] = json!(self.root.join("project"));
         }
@@ -146,8 +148,28 @@ impl Drop for Fixture {
     }
 }
 
-fn managed(literal: &str) -> String {
-    format!("'{}' hook-exec -- {literal}", env!("CARGO_BIN_EXE_arcctl"))
+/// The recorded PreToolUse payload of `vendor`.
+fn recorded(vendor: &str) -> Value {
+    serde_json::from_str(if vendor == "claude" {
+        include_str!("fixtures/agent_hooks/claude-recorded-2.1.327-cargo-build.json")
+    } else {
+        include_str!("fixtures/agent_hooks/cursor/recorded/preToolUse-cargo-build-rewrite.json")
+    })
+    .unwrap()
+}
+
+/// The four whole commands whose managed rewrite names its event.
+const KEYED: [&str; 4] = ["cargo build", "bun run build", "cargo test", "bun run test"];
+
+/// The one-child managed command for `literal` as `vendor`'s recorded event
+/// asks for it: the four keyed literals name that event, nothing else does.
+fn managed(vendor: &str, literal: &str) -> String {
+    let route = if KEYED.contains(&literal) {
+        event_key::route(vendor, &recorded(vendor))
+    } else {
+        " hook-exec -- ".to_owned()
+    };
+    format!("'{}'{route}{literal}", env!("CARGO_BIN_EXE_arcctl"))
 }
 
 fn arcctl_path_is_plain() {
@@ -165,7 +187,7 @@ fn built_hook_rewrites_exactly_cargo_test_and_bun_run_test_for_both_vendors() {
         for literal in ["cargo test", "bun run test"] {
             assert_eq!(
                 fixture.hook(vendor, literal),
-                Some(managed(literal)),
+                Some(managed(vendor, literal)),
                 "{vendor}"
             );
         }
@@ -198,6 +220,88 @@ fn built_hook_rewrites_exactly_cargo_test_and_bun_run_test_for_both_vendors() {
     }
 }
 
+/// AT-TRF-09, ADR-014: the returned command names the event by a digest of
+/// the tuple, directly after `hook-exec`. The same event gives the same
+/// command, another tool call another key, and a payload without both ids
+/// exactly the command it had before. Neither raw id is ever written.
+#[test]
+fn built_hook_names_the_event_only_when_the_payload_carries_both_ids() {
+    arcctl_path_is_plain();
+    let fixture = Fixture::new();
+    let today =
+        |literal: &str| format!("'{}' hook-exec -- {literal}", env!("CARGO_BIN_EXE_arcctl"));
+    for vendor in ["claude", "cursor"] {
+        let event = recorded(vendor);
+        let key = event_key::expected(vendor, &event).unwrap();
+        // Pinned for the two recordings: another domain, framing or field
+        // order would give one event two keys across `arcctl` versions.
+        assert_eq!(
+            key,
+            if vendor == "claude" {
+                "d320d29c55508336cfbafff39151f2d0ca29bdcb9c09aaae34eca307278b1130"
+            } else {
+                "2e2eba146ea3c8b6691e3e5299d6d50598225287a0bf54454a81a8bf235786e0"
+            }
+        );
+        let (session, tool) = (
+            event["session_id"].as_str().unwrap(),
+            event["tool_use_id"].as_str().unwrap(),
+        );
+        for literal in KEYED {
+            let keyed = format!(
+                "'{}' hook-exec --arc-event {key} -- {literal}",
+                env!("CARGO_BIN_EXE_arcctl")
+            );
+            for _delivery in 0..2 {
+                let command = fixture.hook(vendor, literal).unwrap();
+                assert_eq!(command, keyed, "{vendor}");
+                assert!(!command.contains(session) && !command.contains(tool));
+            }
+            // Another tool call of the same session is another event.
+            let mut other = event.clone();
+            other["tool_use_id"] = json!(format!("{tool}-next"));
+            let other_key = event_key::expected(vendor, &other).unwrap();
+            assert_ne!(other_key, key);
+            assert_eq!(
+                fixture.hook_event(vendor, literal, other),
+                Some(keyed.replace(&key, &other_key)),
+                "{vendor}"
+            );
+            // No identity: exactly the command returned before.
+            for (field, value) in [
+                ("session_id", None),
+                ("tool_use_id", None),
+                ("session_id", Some(json!(""))),
+                ("tool_use_id", Some(json!(""))),
+                ("session_id", Some(json!(7))),
+                ("tool_use_id", Some(json!(null))),
+            ] {
+                let mut incomplete = event.clone();
+                match value {
+                    Some(value) => incomplete[field] = value,
+                    None => {
+                        incomplete.as_object_mut().unwrap().remove(field).unwrap();
+                    }
+                }
+                assert_eq!(
+                    fixture.hook_event(vendor, literal, incomplete),
+                    Some(today(literal)),
+                    "{vendor} {literal} {field}"
+                );
+            }
+        }
+    }
+    // The two adapters never share a key for the same ids.
+    let mut cursor = recorded("cursor");
+    let claude = recorded("claude");
+    cursor["session_id"] = claude["session_id"].clone();
+    cursor["tool_use_id"] = claude["tool_use_id"].clone();
+    assert_ne!(
+        event_key::expected("cursor", &cursor),
+        event_key::expected("claude", &claude)
+    );
+}
+
 #[test]
 fn built_hook_keeps_the_existing_rewrites_beside_the_test_literals() {
     arcctl_path_is_plain();
@@ -212,7 +316,7 @@ fn built_hook_keeps_the_existing_rewrites_beside_the_test_literals() {
         ] {
             assert_eq!(
                 fixture.hook(vendor, literal),
-                Some(managed(literal)),
+                Some(managed(vendor, literal)),
                 "{vendor}"
             );
         }

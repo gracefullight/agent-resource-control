@@ -7,6 +7,8 @@ mod container;
 mod cursor;
 #[path = "hooks/event.rs"]
 mod event;
+#[path = "hooks/event_key.rs"]
+mod event_key;
 #[cfg(test)]
 #[allow(dead_code)]
 #[path = "hooks/fixture.rs"]

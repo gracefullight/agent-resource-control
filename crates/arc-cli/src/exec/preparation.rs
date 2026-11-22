@@ -130,6 +130,8 @@ pub(super) fn started_for_mode(tracking: &traffic::Mode, job_id: &JobId) -> Diag
     match tracking {
         traffic::Mode::Legacy(mode) => started(*mode, job_id),
         traffic::Mode::Uncertain { .. } => started(Tracking::Uncertain, job_id),
+        // A duplicate delivery adds nothing to the child's streams.
+        traffic::Mode::Duplicate => Diagnostics::default(),
         traffic::Mode::Scheduled { waited, .. } | traffic::Mode::Unreserved { waited, .. } => {
             let mut diagnostics = Diagnostics::default();
             if *waited {

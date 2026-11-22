@@ -137,6 +137,7 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         classification,
         lineage_context: None,
         project: None,
+        event: None,
     };
     let JobResult::Granted {
         permit_generation, ..
@@ -182,7 +183,12 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
                 &response["updated_input"]
             };
             let rewritten = input["command"].as_str().unwrap();
-            assert!(rewritten.ends_with(&format!(" hook-exec -- {literal}")));
+            // Both recordings carry both ids, so a build names its event.
+            assert!(
+                rewritten.contains(" hook-exec --arc-event ")
+                    && rewritten.ends_with(&format!(" -- {literal}")),
+                "{rewritten}"
+            );
             let mut restored = input.clone();
             restored["command"] = json!(literal);
             assert_eq!(restored, event["tool_input"]);
@@ -237,6 +243,7 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         classification: serde_json::from_value(result).unwrap(),
         lineage_context: None,
         project: None,
+        event: None,
     };
     assert!(matches!(
         traffic(&fixture, &remote),

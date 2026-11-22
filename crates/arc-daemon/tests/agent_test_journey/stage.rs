@@ -244,12 +244,24 @@ pub fn vendor_command(reply: &[u8], event: &Value) -> String {
     command
 }
 
-/// The managed route for `literal`, and nothing else, through `arcctl`.
+/// The managed route for `literal`, and nothing else, through `arcctl`. The
+/// recorded event carries both ids, so the command names it by its event key
+/// directly after `hook-exec` (AT-TRF-09); the literal is unchanged.
 #[track_caller]
 pub fn assert_managed(command: &str, literal: &str) {
-    let arcctl = command
-        .strip_suffix(&format!(" hook-exec -- {literal}"))
-        .and_then(|quoted| quoted.strip_prefix('\''))
+    let (quoted, key) = command
+        .strip_suffix(&format!(" -- {literal}"))
+        .and_then(|rest| rest.split_once(" hook-exec --arc-event "))
+        .unwrap_or_else(|| panic!("not the managed route: {command}"));
+    assert!(
+        key.len() == 64
+            && key
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+        "not an event key: {command}"
+    );
+    let arcctl = quoted
+        .strip_prefix('\'')
         .and_then(|quoted| quoted.strip_suffix('\''))
         .unwrap_or_else(|| panic!("not the managed route: {command}"));
     assert_eq!(

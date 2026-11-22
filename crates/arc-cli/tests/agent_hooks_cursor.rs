@@ -6,6 +6,8 @@ use std::{
     process::{Command, Stdio},
 };
 
+#[path = "../src/event_digest.rs"]
+mod event_digest;
 // Exercise the Cursor adapter registered by the shared dispatcher.
 #[allow(dead_code)]
 #[path = "../src/hooks.rs"]

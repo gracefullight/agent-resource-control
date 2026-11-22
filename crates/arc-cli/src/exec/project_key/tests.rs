@@ -78,13 +78,18 @@ fn every_spelling_of_one_directory_gives_the_same_key() {
 
 /// A process holding the advertisement lock beside `socket`, as the daemon
 /// does. Dropping it ends the process, which releases the lock.
-struct Holder {
-    pid: libc::pid_t,
+pub(in crate::exec) struct Holder {
+    pub(in crate::exec) pid: libc::pid_t,
     release: libc::c_int,
 }
 impl Holder {
     fn lock(socket: &Path) -> Self {
-        let path = socket.parent().unwrap().join(ADVERTISEMENT);
+        Self::lock_named(socket, ADVERTISEMENT)
+    }
+
+    /// Hold the lock on the advertisement file `name` beside `socket`.
+    pub(in crate::exec) fn lock_named(socket: &Path, name: &str) -> Self {
+        let path = socket.parent().unwrap().join(name);
         let file = OpenOptions::new()
             .read(true)
             .write(true)
@@ -101,7 +106,14 @@ impl Holder {
         assert!(pid >= 0);
         if pid == 0 {
             unsafe {
-                libc::close(hold[1]);
+                // A forked copy of a sibling test's descriptor keeps that
+                // test's `flock` held (the cadence turn lock) until this
+                // process ends. Keep only what this holder needs.
+                for fd in 3..libc::getdtablesize().min(4096) {
+                    if fd != file.as_raw_fd() && fd != ready[1] && fd != hold[0] {
+                        libc::close(fd);
+                    }
+                }
                 let mut lock: libc::flock = std::mem::zeroed();
                 lock.l_type = libc::F_WRLCK as _;
                 lock.l_whence = libc::SEEK_SET as _;
@@ -136,7 +148,7 @@ impl Drop for Holder {
     }
 }
 
-fn peer(pids: &[u32]) -> Continuity {
+pub(in crate::exec) fn peer(pids: &[u32]) -> Continuity {
     let continuity = Continuity::default();
     for pid in pids {
         continuity.record(Some(

@@ -178,6 +178,7 @@ pub(super) fn prepare(
         classification,
         lineage_context: Some(claim.clone()),
         project: super::project_key::negotiated(socket, &prober),
+        event: super::event_key::negotiated(socket, &prober),
     };
     super::launch::before_enqueue(&json!({"request":enqueue}), &cancelled)?;
     let result = await_admission(
@@ -213,6 +214,12 @@ pub(super) fn prepare(
             continuity,
             release_id: None,
         }),
+        Ok(Admission::Duplicate) => {
+            // The daemon recorded nothing under this run's id: no job, queue
+            // entry or permit exists that the witness could ever recover.
+            witness.discard();
+            Ok(Mode::Duplicate)
+        }
         Err(Failure::Unavailable | Failure::Uncertain | Failure::InvalidEndpoint) => {
             Ok(Mode::Uncertain {
                 witness,
@@ -317,7 +324,8 @@ pub(super) fn repoll(
         _ => unreachable!(),
     };
     *mode = match admission {
-        Admission::Unconfirmed => {
+        // A poll carries no event key, so it is never a duplicate delivery.
+        Admission::Unconfirmed | Admission::Duplicate => {
             *mode = Mode::Unreserved {
                 waited: prior_waited,
                 witness,

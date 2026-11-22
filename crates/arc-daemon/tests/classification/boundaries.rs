@@ -5,7 +5,6 @@ fn detector_budgets_are_preserved_through_daemon_and_cli() {
     let _serial = support::serial();
     let fixture = Fixture::new();
     let mut child = fixture.spawn("");
-    let mut stream = fixture.connect();
     let max = format!("cargo test {}é", "x".repeat(16384 - 13));
     let mut cases = vec![
         (max.clone(), "CARGO_TEST"),
@@ -39,6 +38,9 @@ fn detector_budgets_are_preserved_through_daemon_and_cli() {
         cases.push((nested, reason));
     }
     for (index, (text, reason)) in cases.iter().enumerate() {
+        // A connection per case: the daemon closes one left idle past its
+        // header timeout while the two CLI processes of a case run.
+        let mut stream = fixture.connect();
         let response = exchange(&mut stream, json!({"command":text}));
         assert_eq!(response.status, "ok", "boundary-{index}");
         let expected = response.result.unwrap();
@@ -64,7 +66,6 @@ fn detector_budgets_are_preserved_through_daemon_and_cli() {
             }
         }
     }
-    drop(stream);
     child.stop(libc::SIGTERM);
     fixture.report();
 }

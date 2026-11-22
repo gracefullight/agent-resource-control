@@ -25,6 +25,12 @@ pub(super) struct Advertisement {
 
 /// Advertise beside `socket`. Failure only means no client sends a key.
 pub(super) fn advertise(socket: &Path) -> Option<Advertisement> {
+    advertise_named(socket, ADVERTISEMENT)
+}
+
+/// Hold the write lock on the file `name` beside `socket`: the same standing
+/// advertisement for every capability a client must learn without a request.
+pub(super) fn advertise_named(socket: &Path, name: &str) -> Option<Advertisement> {
     let directory = socket
         .parent()
         .filter(|parent| !parent.as_os_str().is_empty())?;
@@ -35,7 +41,7 @@ pub(super) fn advertise(socket: &Path) -> Option<Advertisement> {
         .truncate(false)
         .mode(0o600)
         .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC | libc::O_NONBLOCK)
-        .open(directory.join(ADVERTISEMENT))
+        .open(directory.join(name))
         .ok()?;
     let metadata = file.metadata().ok()?;
     // SAFETY: geteuid has no preconditions.
@@ -140,6 +146,35 @@ mod tests {
             Some(std::process::id())
         );
         drop(again);
+    }
+
+    /// Each capability is its own file and its own lock: holding or dropping
+    /// one says nothing about the other.
+    #[test]
+    fn the_hook_event_capability_is_advertised_by_its_own_lock() {
+        use arc_ipc::traffic::hook_event;
+        let directory = Directory::new("hook-event");
+        let socket = directory.0.join("arc.sock");
+        let (fairness, event) = (
+            directory.0.join(ADVERTISEMENT),
+            directory.0.join(hook_event::ADVERTISEMENT),
+        );
+        let hook_event = advertise_named(&socket, hook_event::ADVERTISEMENT).expect("advertised");
+        let metadata = fs::metadata(&event).unwrap();
+        assert_eq!((metadata.mode() & 0o7777, metadata.len()), (0o600, 0));
+        assert_eq!(
+            holder_seen_by_another_process(&event),
+            Some(std::process::id())
+        );
+        assert!(!fairness.exists());
+        let project = advertise(&socket).expect("advertised");
+        drop(hook_event);
+        assert_eq!(holder_seen_by_another_process(&event), None);
+        assert_eq!(
+            holder_seen_by_another_process(&fairness),
+            Some(std::process::id())
+        );
+        drop(project);
     }
 
     #[test]

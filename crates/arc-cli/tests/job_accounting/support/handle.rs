@@ -71,6 +71,7 @@ pub(super) fn handle(
                     classification,
                     lineage_context,
                     project: _,
+                    event: _,
                 } => {
                     if matches!(mode, PeerMode::UnsupportedBunThenUnavailable) {
                         return Some(Response::error(

@@ -152,8 +152,10 @@ fn exercise_privacy(tcp: bool) {
     let mut needles = vec![secret];
     needles.extend(cases.iter().map(|(text, _)| text.clone()));
     no_canaries(&fixture.root, &needles);
-    let mut stream = fixture.connect();
     for (index, (text, reason)) in cases.iter().enumerate() {
+        // A connection per case: the daemon closes one left idle past its
+        // header timeout while the two CLI processes of a case run.
+        let mut stream = fixture.connect();
         let response = exchange(&mut stream, json!({"command":text}));
         assert!(response.status == "ok", "privacy-{index}");
         assert!(
@@ -200,11 +202,10 @@ fn exercise_privacy(tcp: bool) {
     }
     // Invalid input also never echoes its synthetic secret through protocol errors.
     let response = exchange(
-        &mut stream,
+        &mut fixture.connect(),
         json!({"command":needles[0],"secret":needles[0]}),
     );
     assert_eq!(response.error.unwrap().code, arc_ipc::ERROR_INVALID_REQUEST);
-    drop(stream);
     reader.execute_batch("ROLLBACK").unwrap();
     reader.close().unwrap();
     child.stop(libc::SIGTERM);

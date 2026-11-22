@@ -92,15 +92,7 @@ fn seam_installed_hook_rewrites_cargo_build_to_the_managed_route() {
     let installed = install_hook(&f, &s, &project);
     let event = pre_tool_use(&project, "cargo build");
     let command = returned_command(&f, &s, &project, &installed, &event);
-    let arcctl = command
-        .strip_suffix(" hook-exec -- cargo build")
-        .and_then(|quoted| quoted.strip_prefix('\''))
-        .and_then(|quoted| quoted.strip_suffix('\''))
-        .unwrap_or_else(|| panic!("not the managed route: {command}"));
-    assert_eq!(
-        fs::canonicalize(arcctl).unwrap(),
-        fs::canonicalize(journey::binary("arcctl")).unwrap()
-    );
+    stage::assert_managed(&command, "cargo build");
     assert_eq!(
         journey::starts(&marker),
         0,
@@ -316,7 +308,10 @@ fn at_trf_05_nested_hook_test_shares_the_root_test_permit() {
 
     let installed = install_hook(&f, &s, &project);
     let root_event = pre_tool_use(&project, "bun run test");
-    let nested_event = pre_tool_use(&project, "cargo test");
+    // The nested command is another tool call, so the vendor gives it its own
+    // id: two commands of one id would be one redelivered event (AT-TRF-09).
+    let mut nested_event = pre_tool_use(&project, "cargo test");
+    nested_event["tool_use_id"] = json!("toolu_01NestedAgentCommandFixture");
     let root = returned_command(&f, &s, &project, &installed, &root_event);
     stage::assert_managed(&root, "bun run test");
     assert_eq!((tree.starts(), cargo.starts()), ((vec![], vec![]), 0));

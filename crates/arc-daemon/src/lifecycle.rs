@@ -70,8 +70,8 @@ pub(crate) async fn supervise_with_source(
     report: io::Result<RuntimeReport>,
     supplied_meter: Option<arc_meter::MeterWorker>,
 ) -> Result<(), Box<dyn Error>> {
-    // Held until this supervisor returns; see the module for its meaning.
-    let mut fairness = None;
+    // Held until this supervisor returns; see the module for their meaning.
+    let (mut fairness, mut hook_event) = (None, None);
     // Startup failures still close and join the worker before returning.
     let startup = (|| -> Result<_, Box<dyn Error>> {
         limits.validate()?;
@@ -83,6 +83,12 @@ pub(crate) async fn supervise_with_source(
         let listener = server::bind_socket(&socket)?;
         let owned_socket = OwnedSocket::new(socket)?;
         fairness = fairness_advertisement::advertise(&owned_socket.path);
+        // The duplicate reply of `arc_storage::hook_event` is sent only to an
+        // enqueue that carried a key, and a key only follows this lock.
+        hook_event = fairness_advertisement::advertise_named(
+            &owned_socket.path,
+            arc_ipc::traffic::hook_event::ADVERTISEMENT,
+        );
         // The full Sweeper is always off. The bounded Reaper is named only
         // when the operator explicitly selected it.
         let reaper = match crate::reaper::Policy::current() {
@@ -115,7 +121,7 @@ pub(crate) async fn supervise_with_source(
                 return Err(error);
             }
         };
-    let _fairness = fairness;
+    let _advertisements = (fairness, hook_event);
     let profile = match std::env::var_os("ARC_IPC_PROFILE").as_deref() {
         Some(value) if value == "test" => "test",
         _ => "default",

@@ -29,6 +29,7 @@ pub(super) fn handle_verified(
     let input = input_value.as_object()?;
     let command = input.get("command")?.as_str()?;
     let rewritten = rewrite_literal(command, context, surface)?;
+    let rewritten = super::event_key::keyed(super::event_key::CLAUDE, event, command, rewritten);
     let mut updated_input = input.clone();
     updated_input.insert("command".into(), Value::String(rewritten));
     Some(json!({

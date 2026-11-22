@@ -14,6 +14,7 @@ fn add_in(c: &mut Connection, n: u32, class: &str, project: Option<u32>, now: u6
         classification: classification(class),
         lineage_context: None,
         project: project.map(|p| ProjectKey::try_from(format!("{p:064x}")).unwrap()),
+        event: None,
     };
     enqueue(
         c,

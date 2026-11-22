@@ -175,8 +175,10 @@ fn daemon_and_cli_matrix(cases: Vec<Value>) {
         symlink(format!("/bin/{shell}"), fixture.root.join(shell)).unwrap();
     }
     let mut child = fixture.spawn_isolated("");
-    let mut stream = fixture.connect();
     for case in cases {
+        // A connection per case: the daemon closes one left idle past its
+        // header timeout while the two CLI processes of a case run.
+        let mut stream = fixture.connect();
         let response = exchange(&mut stream, case["payload"].clone());
         assert_eq!(response.status, "ok", "{}", case["id"]);
         assert_eq!(
@@ -246,9 +248,8 @@ fn daemon_and_cli_matrix(cases: Vec<Value>) {
     let doctor = cli(&fixture, &["doctor"]);
     assert!(doctor.status.success() && doctor.stderr.is_empty());
     let doctor = String::from_utf8(doctor.stdout).unwrap();
-    assert_eq!(doctor, "ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 7. Migration history verified.\n");
+    assert_eq!(doctor, "ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 8. Migration history verified.\n");
     assert!(!doctor.contains('\u{1b}'));
-    drop(stream);
     child.stop(libc::SIGTERM);
     let report = fixture.report();
     assert_eq!(report["metrics"]["db_outstanding"]["high_water"], 1); // only the explicit doctor
@@ -320,7 +321,6 @@ fn ssh_option_values_preserve_typed_daemon_and_cli_observations() {
     let _serial = support::serial();
     let fixture = Fixture::new();
     let mut child = fixture.spawn("");
-    let mut stream = fixture.connect();
     for (index, (command, reason)) in [
         ("ssh -lDora build01 make", "SSH_AMBIGUOUS"),
         ("ssh -oLogLevel=INFO build01 make", "SSH_AMBIGUOUS"),
@@ -337,6 +337,9 @@ fn ssh_option_values_preserve_typed_daemon_and_cli_observations() {
     {
         let expected = json!({"classification":"UNKNOWN","locality":"UNKNOWN",
             "reason":reason,"uncertainty":"OBSERVE"});
+        // A connection per case: the daemon closes one left idle past its
+        // header timeout while the two CLI processes of a case run.
+        let mut stream = fixture.connect();
         let response = exchange(&mut stream, json!({"command":command}));
         assert_eq!(response.status, "ok", "ssh-option-{index}");
         assert_eq!(
@@ -372,7 +375,6 @@ fn ssh_option_values_preserve_typed_daemon_and_cli_observations() {
             }
         }
     }
-    drop(stream);
     child.stop(libc::SIGTERM);
     assert_eq!(
         fixture.report()["metrics"]["db_outstanding"]["high_water"],

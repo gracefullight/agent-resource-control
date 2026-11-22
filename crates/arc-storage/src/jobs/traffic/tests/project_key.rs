@@ -18,6 +18,7 @@ fn add_with(c: &mut Connection, n: u32, project: Option<ProjectKey>, now: u64) -
         classification: classification("BUILD"),
         lineage_context: None,
         project,
+        event: None,
     };
     enqueue(
         c,
@@ -212,7 +213,7 @@ fn version_6_database_migrates_to_project_key_with_rows_intact() {
 
     let c = db.open();
     let schema = assess_schema(&c).unwrap();
-    assert_eq!(schema.applied_version, Some(7));
+    assert_eq!(schema.applied_version, Some(8));
     assert!(schema.history_verified);
     assert_eq!(rows(&c), before_rows);
     let after_history = history(&c);

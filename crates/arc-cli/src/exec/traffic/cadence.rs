@@ -10,11 +10,15 @@
 //!   cadence, so the job that can start next still starts promptly.
 //! - Waiters behind the head poll one at a time. Each takes an advisory lock
 //!   on one file beside the socket for the duration of its poll, so however
-//!   many wait and however long the daemon stalls, they add one request.
+//!   many wait, they add one request while the daemon answers.
 //!
 //! The lock is an optimisation only: when the file cannot be used the waiter
-//! polls on its cadence without it. Every delay and every lock attempt is
-//! taken in 40 ms slices, so a signal cancels within one slice as before.
+//! polls on its cadence without it, and it waits for the lock no longer than
+//! 64 slices (2.56 s, its longest delay) before it polls without it. A
+//! wrapper that is stopped while it holds the lock therefore cannot stop the
+//! others: a waiter polls at the latest 5.12 s after its previous reply.
+//! Every delay and every lock attempt is taken in 40 ms slices, so a signal
+//! cancels within one slice as before.
 use arc_ipc::traffic::WaitReason;
 use std::{
     fs::{File, OpenOptions},
@@ -29,6 +33,8 @@ use std::{
 const STEP: Duration = Duration::from_millis(40);
 const DOUBLINGS: u32 = 6;
 const TURN: &str = ".traffic-wait-turn";
+/// Slices a waiter spends on the turn lock before it polls without it.
+const TURN_SLICES: u32 = 1 << DOUBLINGS;
 
 pub(in crate::exec) struct Cadence {
     behind: u32,
@@ -84,12 +90,18 @@ impl Cadence {
         let Some(file) = self.turn.as_deref().and_then(open) else {
             return;
         };
+        let mut waited = 0;
         // SAFETY: flock receives a live descriptor owned by `file`.
         while unsafe { libc::flock(file.as_raw_fd(), libc::LOCK_EX | libc::LOCK_NB) } != 0 {
-            if std::io::Error::last_os_error().kind() != std::io::ErrorKind::WouldBlock {
+            // A holder that stopped, or whose own poll stalls, keeps the
+            // lock. After the bound this waiter polls without it.
+            if std::io::Error::last_os_error().kind() != std::io::ErrorKind::WouldBlock
+                || waited == TURN_SLICES
+            {
                 return;
             }
             sleep(STEP);
+            waited += 1;
             if cancelled() {
                 return;
             }

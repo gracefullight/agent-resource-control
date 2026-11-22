@@ -30,6 +30,7 @@ pub fn run() {
         classification,
         lineage_context: None,
         project: None,
+        event: None,
     });
     let JobResult::Granted {
         permit_generation, ..

@@ -12,7 +12,6 @@ Follow `.agents/skills/_shared/core/execution-policy.md` for authorization, clar
   - codex: Same-vendor native dispatch via Codex custom agents in `.codex/agents/{name}.toml`; cross-vendor fallback via `oma agent spawn`. A role file without `model` runs on your model: spawn `docs-curator` and `research-explorer` with the fastest model the spawn tool lists as available, and leave `model` unset otherwise. Never invent a model name
   - cursor: `@agent-name` (defined in `.cursor/agents/`)
   - qwen: Same-vendor native dispatch via Qwen Code subagents in `.qwen/agents/{name}.md`; cross-vendor fallback via `oma agent spawn`
-  - pi: pi has no native subagent API; use `oma agent spawn {agent} {prompt} {sessionId} --vendor pi` for CLI subprocess dispatch
   - antigravity: Same-vendor native dispatch via `invoke_subagent` tool (with `define_subagent` when needed); cross-vendor fallback via `oma agent spawn`
 - Write non-ASCII tool-call parameters as literal UTF-8, not Unicode escapes.
 
@@ -28,7 +27,7 @@ Follow `.agents/skills/_shared/core/execution-policy.md` for authorization, clar
 
 ## Per-Agent Dispatch
 
-Resolve each agent from `.agents/oma-config.cue` or `.agents/oma-config.yaml`, overlaid by `.agents/oma-config.local.cue` or `.agents/oma-config.local.yaml` when present. With `model_preset: free`, always use `oma agent spawn` so the subprocess receives the FreeLLMAPI route; `free.model` replaces per-agent model pins. Otherwise, explicit `agents:` overrides take priority. With `model_preset: auto`, follow the current vendor's native agent/model settings; use `default_cli` only when the runtime is unknown. Use native subagents when the target matches the current runtime; otherwise, or when native dispatch is unavailable, use `oma agent spawn`.
+Resolve each agent from `.agents/oma-config.cue` or `.agents/oma-config.yaml`, overlaid by `.agents/oma-config.local.cue` or `.agents/oma-config.local.yaml` when present. With `model_preset: free` (or another `providers.<name>` LLM provider), always use `oma agent spawn` so the subprocess receives that route; the provider's `default_model` replaces per-agent model pins. Otherwise, explicit `agents:` overrides take priority. With `model_preset: auto`, follow the current vendor's native agent/model settings; use `agents.default.cli` only when the runtime is unknown. Use native subagents when the target matches the current runtime; otherwise, or when native dispatch is unavailable, use `oma agent spawn`.
 
 ## Code Search
 
@@ -44,19 +43,12 @@ Read the relevant file from `.agents/rules/` when working on matching code.
 
 | Rule | File | Scope |
 |------|------|-------|
-| backend | `.agents/rules/backend.md` | on request |
-| commit | `.agents/rules/commit.md` | on request |
 | database | `.agents/rules/database.md` | **/*.{sql,prisma} |
-| debug | `.agents/rules/debug.md` | on request |
-| design | `.agents/rules/design.md` | on request |
-| dev-workflow | `.agents/rules/dev-workflow.md` | on request |
 | frontend | `.agents/rules/frontend.md` | **/*.{tsx,jsx,css,scss} |
 | i18n-arb | `.agents/rules/i18n-arb.md` | **/*.arb |
 | i18n-guide | `.agents/rules/i18n-guide.md` | always |
 | infrastructure | `.agents/rules/infrastructure.md` | **/*.{tf,tfvars,hcl} |
-| market | `.agents/rules/market.md` | on request |
 | mobile | `.agents/rules/mobile.md` | **/*.{dart,swift,kt} |
-| quality | `.agents/rules/quality.md` | on request |
 
 <!-- OMA:END -->
 

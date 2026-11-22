@@ -3,7 +3,7 @@
     "PreInvocation": [
       {
         "type": "command",
-        "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/keyword-detector.ts\"",
+        "command": "oma hook script --vendor antigravity --script keyword-detector.ts",
         "timeout": 5
       }
     ]
@@ -12,7 +12,7 @@
     "PreInvocation": [
       {
         "type": "command",
-        "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/state-boundary.ts\"",
+        "command": "oma hook script --vendor antigravity --script state-boundary.ts",
         "timeout": 5
       }
     ]
@@ -21,7 +21,7 @@
     "PreInvocation": [
       {
         "type": "command",
-        "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/skill-injector.ts\"",
+        "command": "oma hook script --vendor antigravity --script skill-injector.ts",
         "timeout": 3
       }
     ]
@@ -30,7 +30,7 @@
     "PreInvocation": [
       {
         "type": "command",
-        "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/code-intelligence-primer.ts\"",
+        "command": "oma hook script --vendor antigravity --script code-intelligence-primer.ts",
         "timeout": 3
       }
     ]
@@ -42,7 +42,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/scm-guard.ts\"",
+            "command": "oma hook script --vendor antigravity --script scm-guard.ts",
             "timeout": 5
           }
         ]
@@ -56,7 +56,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/code-intelligence-guard.ts\"",
+            "command": "oma hook script --vendor antigravity --script code-intelligence-guard.ts",
             "timeout": 5
           }
         ]
@@ -70,7 +70,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/test-filter.ts\"",
+            "command": "oma hook script --vendor antigravity --script test-filter.ts",
             "timeout": 5
           }
         ]
@@ -84,7 +84,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/refactor-guard.ts\"",
+            "command": "oma hook script --vendor antigravity --script refactor-guard.ts",
             "timeout": 5
           }
         ]
@@ -93,8 +93,22 @@
     "Stop": [
       {
         "type": "command",
-        "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/refactor-guard.ts\"",
+        "command": "oma hook script --vendor antigravity --script refactor-guard.ts",
         "timeout": 5
+      }
+    ]
+  },
+  "oma-skill-route": {
+    "PostToolUse": [
+      {
+        "matcher": "read_file|run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "oma hook script --vendor antigravity --script skill-route.ts",
+            "timeout": 3
+          }
+        ]
       }
     ]
   },
@@ -102,7 +116,7 @@
     "Stop": [
       {
         "type": "command",
-        "command": "bun \"/Users/gracefullight/.gemini/antigravity-cli/hooks/persistent-mode.ts\"",
+        "command": "oma hook script --vendor antigravity --script persistent-mode.ts",
         "timeout": 30
       }
     ]

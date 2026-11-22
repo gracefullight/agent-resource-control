@@ -160,7 +160,7 @@ async fn writer_backlog_reads_the_new_publication_and_native_sampling_continues(
     let owner = f.owner.clone();
     let id = f.id(1);
     let pending = tokio::spawn(async move {
-        traffic::handle(client,JobRequest::Enqueue {job_id:id,observer:owner.clone(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None},owner.pid,Instant::now()+Duration::from_secs(10)).await.unwrap()
+        traffic::handle(client,JobRequest::Enqueue {job_id:id,observer:owner.clone(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None, project: None },owner.pid,Instant::now()+Duration::from_secs(10)).await.unwrap()
     });
     f.level(1).await;
     release.send(()).unwrap();
@@ -349,6 +349,7 @@ async fn critical_preserves_native_verified_nested_reservation_but_not_a_claim_s
         observer: nested_owner.clone(),
         classification,
         lineage_context: Some(lineage_context.clone()),
+        project: None,
     };
     let nested: JobResult = serde_json::from_value(
         traffic::handle(
@@ -388,6 +389,7 @@ async fn critical_preserves_native_verified_nested_reservation_but_not_a_claim_s
         observer: f.owner.clone(),
         classification,
         lineage_context: Some(lineage_context),
+        project: None,
     };
     assert!(matches!(f.traffic(forged).await, JobResult::Queued { .. }));
     let c =

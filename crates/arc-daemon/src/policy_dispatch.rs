@@ -21,6 +21,7 @@ pub(crate) enum Input {
     Current,
     Job(arc_ipc::jobs::JobId),
     Diagnostics(arc_ipc::jobs::JobId),
+    Decision(arc_ipc::jobs::JobId),
     Launch(launch::LaunchRequest),
     Unspawned(launch::LaunchRequest),
 }
@@ -30,6 +31,7 @@ pub(crate) enum Value {
     Current(policy::EffectivePolicy),
     Job(Box<policy::JobPolicyResult>),
     Diagnostics(Box<arc_ipc::traffic::diagnostics::DiagnosticResult>),
+    Decision(Option<arc_policy::NegotiatedReason>),
     Acknowledged,
     Launch {
         result: launch::LaunchResult,
@@ -51,7 +53,9 @@ pub(crate) async fn dispatch(
     handler: Option<&Handler>,
     metrics: &Arc<RuntimeMetrics>,
 ) -> bool {
-    if diagnostics::dispatch(stream, request, limits, handler, metrics).await {
+    if diagnostics::dispatch(stream, request, limits, handler, metrics).await
+        || fairness::dispatch(stream, request, limits, handler, metrics).await
+    {
         return true;
     }
     if super::governor_dispatch::dispatch(stream, request, limits, handler, metrics).await {
@@ -131,7 +135,9 @@ pub(crate) async fn dispatch(
         .unwrap_or(Err(arc_ipc::ERROR_DB_BUSY)),
     };
     match result {
-        Ok(Value::Governor(_) | Value::Diagnostics(_)) => unreachable!("separate dispatcher"),
+        Ok(Value::Governor(_) | Value::Diagnostics(_) | Value::Decision(_)) => {
+            unreachable!("separate dispatcher")
+        }
         Err(code) => {
             let code = if launch_request.is_none() && code == arc_ipc::ERROR_DB_BUSY {
                 policy::ERROR_POLICY_UNAVAILABLE
@@ -258,3 +264,5 @@ mod tests;
 
 #[path = "traffic_diagnostics_dispatch.rs"]
 mod diagnostics;
+#[path = "traffic_fairness_dispatch.rs"]
+mod fairness;

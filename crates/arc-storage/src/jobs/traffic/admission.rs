@@ -108,6 +108,7 @@ pub(super) fn enqueue_governed(
         observer,
         classification,
         lineage_context,
+        project,
     } = request
     else {
         return Err(E::InvalidRequest);
@@ -188,7 +189,7 @@ pub(super) fn enqueue_governed(
             "UPDATE jobs SET enforcement='SCHEDULED', queue_at=?2 WHERE id=?1",
             params![job_id.as_str(), now as i64],
         )?;
-        tx.execute("INSERT INTO traffic_entries(job_id,state,queued_at_ms,inherited_context) VALUES (?1,'QUEUED',?2,?3)", params![job_id.as_str(), now as i64, lineage_context.as_ref().map(LineageContext::as_str)])?;
+        tx.execute("INSERT INTO traffic_entries(job_id,state,queued_at_ms,inherited_context,project_key) VALUES (?1,'QUEUED',?2,?3,?4)", params![job_id.as_str(), now as i64, lineage_context.as_ref().map(LineageContext::as_str), project.as_ref().map(|key| key.as_str())])?;
         if negotiated {
             tx.execute(
                 "INSERT INTO governor_jobs(job_id,mode,switch_revision) VALUES(?1,'SCHEDULED',?2)",
@@ -331,7 +332,7 @@ fn try_grant(
             } else {
                 (K::Admit, D::Admitted)
             };
-            crate::policy::record(
+            crate::policy::fairness::keep(
                 connection,
                 &job.job_id,
                 admission.effective,
@@ -374,32 +375,22 @@ fn try_grant(
         )?;
         return store::result(connection, &job.job_id, job, e, WaitReason::MemoryBudget);
     }
-    let head: i64 = connection.query_row(
-        "SELECT sequence FROM traffic_entries WHERE state='QUEUED' ORDER BY sequence LIMIT 1",
-        [],
-        |r| r.get(0),
-    )?;
+    let head = super::fair_head::select(connection)?;
     match decide(
         job.classification,
         store::active(connection)?,
         admission.policy,
-        head == e.sequence as i64,
+        head.sequence == e.sequence,
     )
     .map_err(|_| E::InvalidRequest)?
     {
         Decision::Wait(reason) => {
-            let decision = match reason {
-                WaitReason::Fifo => D::Fifo,
-                WaitReason::ClassWindow => D::ClassWindow,
-                WaitReason::CpuBudget => D::CpuBudget,
-                WaitReason::MemoryBudget => D::MemoryBudget,
-            };
             crate::policy::record(
                 connection,
                 &job.job_id,
                 admission.effective,
                 K::Wait,
-                decision,
+                head.recorded(e.sequence, reason),
                 None,
                 admission.now,
             )?;
@@ -430,15 +421,26 @@ fn try_grant(
             let mut claimed = job.clone();
             claim(connection, &mut claimed, admission.now)?;
             let granted = store::entry(connection, &job.job_id)?.ok_or(E::StorageFailure)?;
-            crate::policy::record(
-                connection,
-                &job.job_id,
-                admission.effective,
-                K::Admit,
-                D::Admitted,
-                Some(generation),
-                admission.now,
-            )?;
+            if head.fair_turn() {
+                crate::policy::fairness::record(
+                    connection,
+                    &job.job_id,
+                    admission.effective,
+                    arc_policy::FairnessReason::ProjectFairTurn,
+                    generation,
+                    admission.now,
+                )?;
+            } else {
+                crate::policy::record(
+                    connection,
+                    &job.job_id,
+                    admission.effective,
+                    K::Admit,
+                    D::Admitted,
+                    Some(generation),
+                    admission.now,
+                )?;
+            }
             store::result(
                 connection,
                 &job.job_id,

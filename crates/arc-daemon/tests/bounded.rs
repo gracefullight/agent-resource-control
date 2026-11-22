@@ -3,6 +3,8 @@
 mod measurements;
 #[path = "support/native.rs"]
 mod native;
+#[path = "support/percentile.rs"]
+mod percentile;
 #[path = "support/runtime.rs"]
 mod runtime;
 mod support;

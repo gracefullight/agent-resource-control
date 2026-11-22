@@ -36,7 +36,7 @@ async fn set(f: &Fixture, q: SetGovernorSwitchRequest) -> GovernorMutationResult
     }
 }
 fn enqueue(f: &Fixture, n: u32) -> Input {
-    Input::Job(GovernorJobRequest::Traffic{request:JobRequest::Enqueue{job_id:f.id(n),observer:f.owner.clone(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None}})
+    Input::Job(GovernorJobRequest::Traffic{request:JobRequest::Enqueue{job_id:f.id(n),observer:f.owner.clone(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None, project: None }})
 }
 async fn poll(f: &Fixture, n: u32) -> GovernorJobResult {
     match f

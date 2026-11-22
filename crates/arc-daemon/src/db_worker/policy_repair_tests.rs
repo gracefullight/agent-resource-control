@@ -103,6 +103,7 @@ async fn replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch() 
                         "classification":"BUILD","locality":"HOST_LOCAL",
                         "reason":"CARGO_BUILD","uncertainty":"NONE"}))
                         .unwrap(),
+                        project: None,
                     },
                     owner.pid,
                     Instant::now() + Duration::from_secs(10),

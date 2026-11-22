@@ -418,6 +418,7 @@ fn queued_cli_waits_through_real_sqlite_busy_then_starts_after_release() {
         observer: ProcessIdentity::capture(std::process::id()).unwrap(),
         classification: cargo_class("BUILD", "CARGO_BUILD"),
         lineage_context: None,
+        project: None,
     };
     let response = traffic(&f, &probe);
     assert_eq!(response.error.unwrap().code, arc_ipc::ERROR_DB_BUSY);

@@ -450,6 +450,7 @@ fn failed_completion_retry_releases_one_permit() {
         observer: observer.clone(),
         classification: cargo_class("BUILD", "CARGO_BUILD"),
         lineage_context: None,
+        project: None,
     };
     let arc_ipc::traffic::JobResult::Granted {
         permit_generation, ..

@@ -193,6 +193,7 @@ fn synthetic_proven_local_endpoint_uses_negotiated_build_admission() {
             observer: observer.clone(),
             classification,
             lineage_context: None,
+            project: None,
         },
     };
     let legacy = protocol::call(&fixture, arc_ipc::governor::OPERATION_JOB, json!(request));
@@ -377,6 +378,7 @@ fn synthetic_remote_facts_follow_the_actual_execution_path_once_while_build_is_h
         observer: observer.clone(),
         classification: local,
         lineage_context: None,
+        project: None,
     };
     let granted = protocol::call(&fixture, OPERATION_TRAFFIC_JOB, json!(hold))
         .result

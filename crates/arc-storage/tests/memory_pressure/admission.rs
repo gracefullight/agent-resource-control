@@ -36,7 +36,7 @@ pub fn request(n: u32, reason: &str) -> JobRequest {
         _ => "LINT",
     };
     JobRequest::Enqueue{job_id:id(n),observer:owner(),lineage_context:None,
-        classification:serde_json::from_value(serde_json::json!({"classification":class,"locality":"HOST_LOCAL","reason":reason,"uncertainty":"NONE"})).unwrap()}
+        classification:serde_json::from_value(serde_json::json!({"classification":class,"locality":"HOST_LOCAL","reason":reason,"uncertainty":"NONE"})).unwrap(), project: None }
 }
 pub fn add(c: &mut Connection, n: u32, source: &dyn ObservationProvider) -> Reply {
     enqueue_observed(
@@ -410,7 +410,7 @@ fn remote_unknown_and_unsupported_do_not_create_queue_permits_or_pressure_holds(
         (3, "BUILD", "HOST_LOCAL", "COMPOUND_LOCAL", "NONE"),
     ] {
         let input=JobRequest::Enqueue{job_id:id(n),observer:owner(),lineage_context:None,
-            classification:serde_json::from_value(serde_json::json!({"classification":class,"locality":locality,"reason":reason,"uncertainty":uncertainty})).unwrap()};
+            classification:serde_json::from_value(serde_json::json!({"classification":class,"locality":locality,"reason":reason,"uncertainty":uncertainty})).unwrap(), project: None };
         assert!(matches!(
             enqueue_observed(
                 &mut c,

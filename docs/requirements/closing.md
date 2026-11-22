@@ -424,24 +424,28 @@ safety cycle; their named tests are in
 AT-GUI-01, AT-GUI-04, DEC-003, DEC-004, DEC-012, DEC-022, G-02, ADR-002 and
 ADR-005 were assessed in the locality and desktop cycle; their named tests are
 in [Phase 0 locality and desktop](#phase-0-locality-and-desktop).
+NFR-001 to NFR-005, R-004, DET-002 and NFR-022 were assessed in the Phase 1
+entry cycle; the measured values, the conditions of each test and the two
+rows that hold external items only are in
+[Phase 1 entry: assessment](#phase-1-entry-assessment).
 
 ### Requirements
 
-- **DET-002** — 1. **EXTERNAL** PowerShell direct command and quoting on Windows; 2. **EXTERNAL** Windows cmd direct command and quoting. Pending.
+- **DET-002** — 1. **EXTERNAL** PowerShell direct command and quoting on Windows; 2. **EXTERNAL** Windows cmd direct command and quoting. Blocked; items 1 and 2 remain, both need a Windows host, and neither was run or claimed.
 - **DET-006** — 1. **HOST** the selected remote `gh workflow run` does not occupy a local slot. Complete in the existing row; this does not itself close AT-TRF-02's hook journey.
 - **DET-007** — 1. **HOST** an unverified command remains UNKNOWN/OBSERVE and executes without forced admission. Complete in the existing row.
 - **DET-008** — 1. **HOST** analysis of a fixture build and poisoned metadata does not execute the workload. Complete in the existing row.
 - **SAFE-001** — 1. **HOST** owned process identity is tracked; 2. **HOST** a process of unknown ownership is never automatically killed by the Reaper. Complete.
 - **SAFE-007** — 1. **HOST** current-user job and socket ownership checks; 2. **EXTERNAL** another authenticated account's files and processes remain inaccessible. Blocked; only item 2 remains.
 - **SAFE-011** — 1. **HOST** genuine daemon failure does not indefinitely prevent an ordinary development command. Complete in the existing row.
-- **NFR-001** — 1. **HOST** measure long-run idle daemon CPU against the stated 0.5% target. Pending/Unverified.
-- **NFR-002** — 1. **HOST** measure settled idle daemon RSS against the stated 50 MB target; 2. **EXTERNAL** establish the result on each required platform. Pending/Unverified.
-- **NFR-003** — 1. **HOST** measure bypass-hook P95 against the stated 50 ms target. Pending/Unverified.
-- **NFR-004** — 1. **HOST** measure small local IPC round trips against the stated 20 ms P95 target. Pending/Unverified.
-- **NFR-005** — 1. **HOST** measure cached ordinary classification against the stated 50 ms P95 target. Pending/Unverified.
+- **NFR-001** — 1. **HOST** measure long-run idle daemon CPU against the stated 0.5% target. Complete; `phase0_targets::nfr_001_idle_daemon_cpu_below_half_percent_of_one_core`.
+- **NFR-002** — 1. **HOST** measure settled idle daemon RSS against the stated 50 MB target; 2. **EXTERNAL** establish the result on each required platform. Blocked; only item 2 remains. Item 1: `bounded::native_probe_then_full_100000_attempt_workload`.
+- **NFR-003** — 1. **HOST** measure bypass-hook P95 against the stated 50 ms target. Complete; `phase0_targets::nfr_003_installed_hook_bypass_p95_overhead_within_50_ms`.
+- **NFR-004** — 1. **HOST** measure small local IPC round trips against the stated 20 ms P95 target. Complete; `bounded::native_probe_then_full_100000_attempt_workload`.
+- **NFR-005** — 1. **HOST** measure cached ordinary classification against the stated 50 ms P95 target. Complete; `phase0_targets::nfr_005_cached_ordinary_classification_p95_within_50_ms`.
 - **NFR-010** — 1. **HOST** forced termination and restart preserve database integrity; 2. **HOST** run the integrity check on the recovered database. Complete.
 - **NFR-014** — 1. **HOST** a new non-destructive job executes once when the daemon is unavailable. Complete in the existing row.
-- **NFR-022** — 1. **EXTERNAL** after real login, the installed daemon passes its health check; 2. **EXTERNAL** the installed tray passes its health check. Pending/Unverified.
+- **NFR-022** — 1. **EXTERNAL** after real login, the installed daemon passes its health check; 2. **EXTERNAL** the installed tray passes its health check. Blocked; items 1 and 2 remain, both need an installed login service and tray, and neither was run or claimed.
 
 ### Acceptance tests
 
@@ -465,7 +469,7 @@ in [Phase 0 locality and desktop](#phase-0-locality-and-desktop).
 - **ADR-002** — 1. **HOST** separated Rust daemon and React/Tauri GUI; 2. **EXTERNAL** installed cross-platform lifecycle. Blocked; only item 2 remains.
 - **ADR-005** — 1. **HOST** named endpoint-based local, remote and UNKNOWN decisions; 2. **EXTERNAL** live pod and WSL placement; 3. **HOST** a local Docker engine is placed as Local Container ([DET-011](#det-011--local-dockerwsl-detection) item 1); 4. **HOST** a local Buildx builder is placed as Local Container (DET-011 item 2); 5. **HOST** stage-by-stage permits for the two named mixed compounds ([DET-016](#det-016--stage-by-stage-permits-for-mixed-commands) items 1 and 2). Blocked; only item 2 remains. Items 3 to 5 are the cases its related IDs DET-011 and DET-016 and the §8.5 table give, and replace the former open item; WSL placement stays in item 2.
 - **ADR-011** — 1. **HOST** the declared Bun, TS7, React19, Tailwind4, basecn, Phosphor and Biome stack is maintained. Complete.
-- **R-004** — 1. **HOST** macOS admission fallback; 2. **EXTERNAL** Windows and Linux capability/hard-limit behavior. Pending/Unverified.
+- **R-004** — 1. **HOST** macOS admission fallback; 2. **EXTERNAL** Windows and Linux capability/hard-limit behavior. Blocked; only item 2 remains. Item 1: `traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`.
 - **R-007** — 1. **HOST** PID/start-time identity evidence; 2. **HOST** Reaper revalidation before acting on a reused PID. Complete.
 - **R-018** — 1. **HOST** pinned dependencies and Rust/TS agreement; 2. **HOST** native no-bundle build smoke; 3. **EXTERNAL** multi-OS smoke. Partial.
 
@@ -601,7 +605,7 @@ At the end of this cycle Phase 0 was 18 Complete, 10 Partial, 8 Pending and
 4 Blocked of 40; see
 [traceability](traceability.md#phase-0-reaper-safety-integration-evidence).
 The current counts are under
-[Phase 0 locality and desktop](#phase-0-locality-and-desktop).
+[Phase 1 entry: assessment](#phase-1-entry-assessment).
 
 ### Integration checks and boundary
 
@@ -1068,13 +1072,15 @@ container build in the dashboard.
 | DET-016 | Complete | None in the numbered HOST list. |
 | DET-011 | Blocked | External Windows WSL placement (item 7). |
 
-Phase 0 is now 18 Complete, 1 Partial, 8 Pending and 13 Blocked of 40; R-018
-is the remaining Partial row and was not selected. Phase 2 is 4 Complete,
-8 Partial, 30 Pending and 1 Blocked of 43. Phases 1, 3, 4 and 5 are unchanged:
-13/46/12/0 of 71, 0/5/103/0 of 108, 0/15/29/0 of 44 and 0/1/9/0 of 10 in the
-same order. See
+At the end of this cycle Phase 0 was 18 Complete, 1 Partial, 8 Pending and
+13 Blocked of 40; R-018 was the remaining Partial row and was not selected.
+Phase 2 was 4 Complete, 8 Partial, 30 Pending and 1 Blocked of 43. Phases 1,
+3, 4 and 5 were unchanged: 13/46/12/0 of 71, 0/5/103/0 of 108, 0/15/29/0 of
+44 and 0/1/9/0 of 10 in the same order. See
 [traceability](traceability.md#phase-0-locality-and-desktop-integration-evidence).
-These are row counts; no phase is declared finished.
+The current counts are under
+[Phase 1 entry: assessment](#phase-1-entry-assessment). These are row counts; no phase
+is declared finished.
 
 Not claimed by any row: a live Docker engine, a live GitHub dispatch, a live
 vendor runtime, a native tray click, an installed menu bar, a real browser or
@@ -1163,3 +1169,479 @@ from this workspace, so the runner configuration in effect, and whether any
 container targets are configured and healthy, is not established here. This
 document does not claim mission completion; the runner's four commands and
 the final review decide that.
+
+## Phase 1 entry: Traffic journey lists
+
+These are the first Phase 1 closing lists. They fix the finite cases of three
+acceptance rows before any lane starts; the interfaces, the lane test names
+and the file ownership are in the
+[cycle contract](../../.arc-verify/phase-1-entry/contract.md). Sources:
+[fairness §9.6](ARC_SRS_2026-11-06.md#96-공정성-정책),
+[nested jobs §9.7](ARC_SRS_2026-11-06.md#97-중첩-작업과-이중-permit-방지),
+[hook timeout §9.8](ARC_SRS_2026-11-06.md#98-hook-timeout과-비동기-큐-문제) and
+[traffic acceptance §21.2](ARC_SRS_2026-11-06.md#212-gherkin-기반-acceptance-tests--traffic),
+SRS lines 2657-2665, 2667-2675 and 2687-2695.
+
+The rules of the lists above apply. An item counts only when the path a
+user's command takes (the installed hook, `hook-exec` or `arcctl exec`, then a
+real daemon) produces the behaviour with offline stubs; an injected fact
+proves the classifier only. As in [AT-TRF-02](#at-trf-02--agent-triggered-github-actions-bypass),
+the installed hook fed a Claude Code PreToolUse payload derived from the
+versioned vendor contract stands for the vendor, and the command the hook
+returns is the one executed. The hook manages exactly the whole commands
+`cargo test` and `bun run test` in addition to today's literals; a Test
+command with an argument, such as `cargo test -p x`, is outside these lists
+and keeps today's pass-through.
+
+Every case below is HOST: the SRS text of these three tests forces no
+EXTERNAL case. This section records obligations only. Each item is assessed
+against its named passing test in
+[Phase 1 entry: assessment](#phase-1-entry-assessment).
+
+### AT-TRF-05 — nested execution without a second permit
+
+Source: [AT-TRF-05](ARC_SRS_2026-11-06.md#at-trf-05-중첩-실행-이중-permit-방지),
+§9.7 and §9.8. Root literal `bun run test`, whose package script is `vitest`,
+an offline stub; nested literal `cargo test`. Lane test:
+`at_trf_05_nested_hook_test_shares_the_root_test_permit`.
+
+1. **HOST** — with a real daemon and TEST window 1, the agent command
+   `bun run test` passes through the installed hook, the returned command is
+   the one executed, and it holds exactly one TEST permit.
+2. **HOST** — its `vitest` child calls the ARC hook again: it executes the
+   command the installed hook returns for the nested literal `cargo test`.
+3. **HOST** — that nested execution is recorded on the existing job lineage:
+   the daemon attributes it to the root's permit from the job identity and
+   process ancestry it verifies, not from an environment value alone (§9.7).
+4. **HOST** — it requests no new permit and never waits on itself: TEST
+   permit high-water is 1, no QUEUED notice is written, and the nested
+   command runs exactly once.
+5. **HOST** — the one permit is the root's: it is released only after the
+   root exits (§9.7, the same permit).
+6. **HOST** — for `bun run test` and for the nested `cargo test`, the hook
+   only replaces the command and returns without waiting in a queue (§9.8):
+   every other field of the tool input is unchanged, no approval decision is
+   emitted, and the nested command's arguments, working directory,
+   environment, streams and exit status are unchanged.
+
+### AT-TRF-06 — fail-open
+
+Source: [AT-TRF-06](ARC_SRS_2026-11-06.md#at-trf-06-fail-open) and §9.8.
+Literal `cargo test`. Lane test:
+`at_trf_06_installed_hook_cargo_test_fails_open_exactly_once`.
+
+1. **HOST** — with no daemon reachable, a Claude Code PreToolUse payload for
+   the literal `cargo test` passes through the installed hook, and the
+   returned command is the one executed with an offline cargo stub.
+2. **HOST** — the internal error is recorded: exactly one ARC notice,
+   `TRACKING_UNAVAILABLE`, is written to the stderr of the executed command
+   and nothing is added to its stdout (§9.8, the diagnostic channel).
+3. **HOST** — the original command is not blocked: the stub runs exactly once
+   with unchanged arguments, working directory, environment, streams and exit
+   status.
+4. **HOST** — no destructive GC runs: no Reaper or GC action is started,
+   recorded or signalled.
+5. **HOST** — a failure of the hook itself blocks nothing: when the hook
+   cannot produce its rewrite it emits no decision and the vendor runs the
+   literal `cargo test` unchanged.
+
+### AT-TRF-08 — fairness between projects
+
+Source: [AT-TRF-08](ARC_SRS_2026-11-06.md#at-trf-08-공정성) and §9.6. Lane
+test: `at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`.
+
+1. **HOST** — one coordinator holds both projects' requests in one queue:
+   with built `arcctl exec`, a real daemon, offline stubs and Build window 1,
+   while a separate Build permit is held, project A queues 100 Build requests
+   and then project B queues 1, each enqueue confirmed from daemon state. The
+   project of each job is recorded without user input, as an opaque key
+   derived locally from the working directory without running a tool.
+2. **HOST** — project B is not starved: as the slot frees one job at a time
+   after the release, at most one project A job is granted between B's
+   enqueue and B's grant. Every job runs exactly once or is cancelled with
+   zero starts, and all permits are released.
+3. **HOST** — the decision reason is recorded: project B's record carries the
+   fairness reason, readable through SQLite and through `arcctl job
+   diagnostics`.
+
+The other §9.6 statements (interactive priority, fairness between vendors,
+short-job preference with aging, bounded backfilling) are not cases of
+AT-TRF-08; they belong to TRF-013 and its related rows, which this cycle did
+not select. Two conditions hold for the items above and are checked by
+existing tests rather than counted as cases: a request without a project key
+is ordered exactly as today, and order within one project stays first in,
+first out.
+
+Not a case of any list above and not claimed: a live vendor session, and a
+queued wait measured against a vendor's tool timeout (§9.8). In AT-TRF-05 the
+nested command does not wait, and in AT-TRF-06 there is no daemon to queue on.
+
+## Phase 1 entry: assessment
+
+This cycle assessed eight Phase 0 rows of the
+[inventories above](#remaining-phase-0-inventories) (NFR-001 to NFR-005,
+R-004, DET-002 and NFR-022) and the three acceptance rows of the
+[Traffic journey lists](#phase-1-entry-traffic-journey-lists) (AT-TRF-05,
+AT-TRF-06 and AT-TRF-08), and wrote a closing list for every other Phase 1
+row under [Remaining Phase 1 inventories](#remaining-phase-1-inventories).
+The decisions, the fixed test names and the file ownership are in the
+[cycle contract](../../.arc-verify/phase-1-entry/contract.md).
+
+The tests named in the next two subsections are `arc-daemon` test targets.
+Each starts built binaries (the real `arc-daemon`, built `arcctl`, the hook as
+`arcctl hooks install` writes it) with a cleared environment, a temporary HOME
+and explicit socket and database paths, and uses offline stubs for Cargo, Bun
+and Vitest. The one exception is the R-004 test, which predates this cycle and
+inherits the runner's environment with a real Cargo.
+
+### Performance targets (NFR-001 to NFR-005)
+
+Each target is asserted at the SRS number by one named test. The values below
+were printed by one run of this integration: `cargo test -p arc-daemon --test
+phase0_targets -- --nocapture` once, and the named `bounded` test once. They
+are from one macOS host, fixture workload (Apple M1 Pro, 8 cores, Darwin
+27.2.0 arm64, debug build). They are measurements of this run, not benchmarks
+or field results.
+
+| Row | Bound the test asserts | Measured in this run | Samples and window |
+| --- | --- | --- | --- |
+| NFR-001 | idle daemon CPU below 0.5% of one core | 0.021% (6.29 ms of CPU) | one 30.0 s window after a 3 s settle, holding 2 idle Meter ticks (15 s cadence) |
+| NFR-002 | settled idle RSS below 50 MB | 8.04 MB maximum; lifetime peak 9.85 MB | 100 samples in a 10 s window after a 5 s settle |
+| NFR-003 | P95(hook) minus P95(reference) at most 50 ms | hook P95 10.34 ms absolute, reference P95 7.96 ms, difference 2.39 ms | 300 hook, 300 reference and 300 bare-spawn runs, interleaved |
+| NFR-004 | small IPC round trip P95 at most 20 ms | P95 0.080 ms (P50 0.066 ms, maximum 0.246 ms) | 10,000 exchanges after 200 warm-up |
+| NFR-005 | classification P95 at most 50 ms | P95 0.094 ms (`job.classify`) and 0.124 ms (`job.classify.locality.v1`) | 1,000 round trips per request form after 200 warm-up, on one connection |
+
+Tests: NFR-001 `phase0_targets::nfr_001_idle_daemon_cpu_below_half_percent_of_one_core`;
+NFR-003 `phase0_targets::nfr_003_installed_hook_bypass_p95_overhead_within_50_ms`;
+NFR-005 `phase0_targets::nfr_005_cached_ordinary_classification_p95_within_50_ms`;
+NFR-002 and NFR-004 `bounded::native_probe_then_full_100000_attempt_workload`,
+an existing test named as evidence, not duplicated.
+
+- **NFR-001.** The numerator is the daemon's user plus system CPU time from
+  the OS (`proc_pidinfo`, converted with the Mach timebase), so host load
+  cannot inflate it. The test first checks the reader against a child that
+  burns CPU: 293.19 ms from the counters against 293.20 ms from `wait4`, and
+  it requires agreement within 10%. It also requires at least one Meter tick
+  inside the window with the Meter in idle mode. The window is 30 s. The SRS
+  says long-run average; no longer window was measured.
+- **NFR-003.** The payload is the recorded Claude Code 2.1.327 PreToolUse
+  event carrying `git status`, which the hook passes through. The reference is
+  a no-op (`/usr/bin/true`) started through the same `/bin/sh -c` as the
+  installed hook command, so the difference is what the hook adds to starting
+  a process that way. The absolute hook P95 in this run, 10.34 ms, is below
+  50 ms. Against a bare no-op spawn (P95 1.89 ms) the difference is 8.45 ms;
+  that figure is printed, not asserted. The reference is fixed in contract
+  D11; if the bare spawn were the intended reference, the asserted bound
+  would lack the margin described below and the row would be Partial.
+- **NFR-005.** The timed requests are classification round trips for the
+  ordinary local command `cargo build` on one connection to the real daemon.
+  Three untimed runs of built `arcctl classify --json "cargo build"` against
+  the same daemon come first and prove the path.
+- **Margins.** An elapsed-time bound is kept only at five times the worst
+  value of five consecutive runs made while another test binary ran. Those
+  runs are lane A's and were not repeated here: worst difference 5.4 ms for
+  NFR-003 (9.3 times), worst P95 0.115 ms for NFR-004 (174 times) and
+  0.304 ms for NFR-005 (164 times). In the same loaded runs lane A saw an
+  absolute hook P95 of 34.3 ms and a bare-spawn difference of 27.2 ms: both
+  below 50 ms, neither with a fivefold margin, and neither asserted. NFR-001
+  and NFR-002 are not elapsed-time bounds.
+
+**R-004.** Item 1, the macOS admission fallback, is
+`traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`
+(macOS-only): macOS gives no hard cap to enforce, and admission holds the
+second real `cargo build` at zero launches, with a QUEUED entry, until the
+first releases. Item 2, Windows and Linux capability and hard-limit
+behaviour, is external and was not run.
+
+**DET-002 and NFR-022.** Both rows hold external items only: PowerShell and
+Windows cmd on a Windows host, and the installed daemon and tray after a real
+login. They are Blocked on those items. Nothing was run for them and nothing
+is claimed.
+
+### Agent Test journey and project fairness
+
+The installed hook, fed a Claude Code PreToolUse payload derived from the
+recorded 2.1.327 event, stands for the vendor, and the command it returns is
+the one executed. No live vendor session ran.
+
+**AT-TRF-05**, items 1 to 6:
+`agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`.
+With a real daemon and the default TEST window of 1, `bun run test` goes
+through the installed hook and is recorded TEST/`BUN_SCRIPT_TEST`, RUNNING,
+with one ACTIVE permit (item 1). Its `vitest` stub passes a `cargo test` event
+through the installed hook and executes what it returns (item 2). The nested
+entry is TEST/`CARGO_TEST` with the root's job ID and no permit row, the
+diagnostics read `reuse`/`existing_reservation`, and the nested tool's
+environment carries no lineage value, so ancestry attributed it (item 3).
+Held permits peak at 1, stderr equals the run without a hook (no QUEUED
+notice) and the nested stub starts once (item 4). The permit is ACTIVE while
+the root lives after the nested exit and RELEASED after the root exits
+(item 5). Each hook reply changes only the command and carries no permission
+decision; arguments, working directory, standard input, streams and exit
+status equal the direct run (item 6).
+
+**AT-TRF-06**, items 1 to 5:
+`agent_test_journey::at_trf_06_installed_hook_cargo_test_fails_open_exactly_once`.
+With the daemon stopped, the returned command for `cargo test` is executed
+(item 1). Stderr is the three-line `TRACKING_UNAVAILABLE` notice followed by
+the stub's bytes, and stdout is the stub's (item 2). The stub runs once with
+the same arguments, working directory, standard input, environment and exit
+status 17 as a direct run (item 3). No socket appears, the database files
+and `runtime.json` are byte-identical afterwards, ARC leaves nothing in its
+runtime directory and a bystander process of the same user stays alive
+(item 4, shown by absence). A truncated event, an oversized event and a
+removed hook executable each produce no decision, and the literal then runs
+unchanged (item 5).
+
+**AT-TRF-08**, items 1 to 3:
+`project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`.
+While a separate Build permit is held, project A queues 100 builds from two
+of its directories and project B then queues one; each enqueue is confirmed
+QUEUED from SQLite, and the stored keys are three 64-hex digests, one for all
+of A (item 1). After the release at most one A build is granted before B; 97
+queued A builds are cancelled with zero starts, the rest run once in queue
+order, and all permits are released (item 2). B's record reads
+`project_fair_turn` in SQLite, in `arcctl job diagnostics --json` as
+`last_recorded_reason` beside the unchanged `admit`/`admitted` object, and in
+the rendered `Last recorded decision:` line; the passed-over A build reads
+`class_window` (item 3). The daemon reports zero connection, request and
+database rejections.
+
+Also passing and named, outside the item counts: `arc-cli`
+`agent_hooks_test_literals::built_hook_rewrites_exactly_cargo_test_and_bun_run_test_for_both_vendors`,
+`built_hook_keeps_the_existing_rewrites_beside_the_test_literals` and
+`hook_exec_accepts_exactly_the_two_test_argv_forms`; `arc-storage`
+`jobs::traffic::tests::project_key::null_project_keys_keep_sequence_order`
+and `fair_head::a_keyless_entry_passes_nothing_and_is_passed_by_nothing` (a
+request without a project key is ordered as before); `arc-ipc`
+`traffic::fairness::tests::v1_projection_serializes_only_existing_vocabulary`.
+
+### Row outcomes
+
+| Row | Status | Remaining item |
+| --- | --- | --- |
+| NFR-001 | Complete | None in the numbered HOST list. |
+| NFR-002 | Blocked | External result on each other required platform (item 2). |
+| NFR-003 | Complete | None in the numbered HOST list, with the reference of contract D11. |
+| NFR-004 | Complete | None in the numbered HOST list. |
+| NFR-005 | Complete | None in the numbered HOST list. |
+| R-004 | Blocked | External Windows and Linux capability and hard-limit behaviour (item 2). |
+| DET-002 | Blocked | External PowerShell and Windows cmd cases (items 1 and 2); no HOST item. |
+| NFR-022 | Blocked | External installed daemon and tray health after login (items 1 and 2); no HOST item. |
+| AT-TRF-05 | Complete | None in the numbered HOST list. |
+| AT-TRF-06 | Complete | None in the numbered HOST list. |
+| AT-TRF-08 | Complete | None in the numbered HOST list. |
+
+Phase 0 is now 22 Complete, 1 Partial, 0 Pending and 17 Blocked of 40; R-018 is the remaining Partial row and was not selected.
+Phase 1 is 19 Complete, 39 Partial, 12 Pending and 1 Blocked of 71. It was
+13, 46, 12 and 0: the three acceptance rows above, TRF-001, TRF-006 and
+AT-MTR-01 moved Partial → Complete and R-003 moved Partial → Blocked, each
+for the reason given under
+[Remaining Phase 1 inventories](#remaining-phase-1-inventories). Phases 2, 3,
+4 and 5 are unchanged: 4/8/30/1 of 43, 0/5/103/0 of 108, 0/15/29/0 of 44 and
+0/1/9/0 of 10 in the same order. See
+[traceability](traceability.md#phase-1-entry-integration-evidence). These are
+row counts; no phase is declared finished.
+
+Not claimed by any row: a live vendor session, a queued wait measured against
+a vendor's tool timeout, any EXTERNAL item, a real Bun, Vitest or Cargo
+toolchain in the two journeys, or a long-run idle average. No customer or
+revenue effect is claimed.
+
+### Integration checks and boundary
+
+This integration inspected Actor snapshot
+`f23f16a46d40edb1a42e09738004e847c2439087`, tree
+`03b3c4de923eab9bb86e8855c35d5980a6181c63`, which holds the contract seam and
+the three lane deliveries; the accepted committed baseline is
+`393f2a3f5fc9eec4a33c6ed1c6867dffa0a86a54`, tree
+`f425c30b91ae9700a108b04b62dd5a1b7ed86c6b`. The integration edits are
+uncommitted on that snapshot. These are focused local checks using
+`oma-backend`, not the runner's final verification. The independent QA report
+(`.arc-verify/phase-1-entry/qa.md`) is written separately for the snapshot it
+reviewed and is not cited here.
+
+- Passed on the final source: `cargo fmt --all -- --check`; `cargo clippy -p`
+  with `--all-targets -- -D warnings` for each of the ten crates under
+  `crates/`, and the same for the whole workspace; `cargo test -p` for
+  `arc-ipc`, `arc-policy`, `arc-traffic`, `arc-storage`, `arc-detector`,
+  `arc-cli` and `arc-daemon`, every target except the SwiftPM-backed
+  `traffic_native_tools`: 78 test binaries, 2,294 tests, none failed and none
+  ignored.
+- One repair, in shared test support. Cause, reproduced: a failed test keeps
+  its fixture directory `b<pid>-<n>` in the per-user runtime root (580 were
+  present), and a later test process that reuses the pid fails with
+  `AlreadyExists` when it creates the same name; this is the failure
+  `registered_python_lifecycle_and_compatibility` showed once in the runner's
+  earlier full run and not when run alone. Fix:
+  `crates/arc-daemon/tests/support/native_root.rs` takes the next counter
+  value when the name exists. Regression test:
+  `traffic_python_tests::native_fixture_root_skips_a_leftover_directory_under_a_reused_pid`,
+  which failed with that error before the fix. `startup.rs` builds its
+  `d<pid>-<n>` directory the same way and was left unchanged: it removes the
+  directory on failure too.
+- No test failed in a crate run and passed alone in these checks.
+- Wall time of the new test binaries in the `arc-daemon` crate run:
+  `agent_test_journey` 4.21 s, `phase0_targets` 34.85 s (45.62 s in the
+  separate `--nocapture` run) and `project_fairness` 9.71 s; `arc-cli`
+  `agent_hooks_test_literals` 0.54 s. None exceeds 60 s. `managed_exec` took
+  130.46 s for 181 tests, as before this cycle. The test binaries of the seven
+  crates summed to 375 s, compilation excluded. The workspace run was not made
+  here, so against the 900 s budget of
+  `.arc-verify/test-performance/contract.md` this establishes only that 525 s
+  remain for what was not measured: the `arc-core`, `arc-meter`,
+  `arc-platform` and `arc-desktop` targets and the SwiftPM-backed targets.
+- Desktop: every file under `apps/desktop` equals the base tree except one
+  Rust test, `src-tauri/tests/memory_pressure/native_reserved.rs`, where the
+  contract task added the new optional request field. No TypeScript, generated
+  binding or wire fixture differs, and no Bun test file was added.
+- `docs/managed-exec.md` said local commands enter a FIFO queue. It now states
+  the order lane C delivered (first in, first out within a project, fair
+  across projects within a class, arrival order without a key), the project
+  key, the two files beside the socket and the poll cadence.
+- Not run here, by assignment: the workspace test command, coverage, the
+  architecture harness, any browser or screen check, the SwiftPM-backed
+  targets and the `arc-desktop` tests. Tests of `arc-desktop` named in the
+  Phase 1 lists were read, not run.
+
+Gaps that the row statuses do not cover:
+
+- `Sandbox::shell` runs commands through `/bin/sh`, which drops the injected
+  interface inventory; the two journeys were not shown to read no network
+  interface on that path.
+- A script body of bare `vitest`, started from an interactive terminal,
+  watches and holds its TEST permit until it exits. Under an agent's shell
+  tool it runs once. Only the stub was exercised.
+- A waiter behind the queue head learns that it became the head at its next
+  poll, up to 2.56 s later. Under a memory hold every waiter keeps the 40 ms
+  cadence, so the saturation repaired for the class-window wait can recur at
+  depth; that case has no test.
+- Fair turns count a project by its earliest queued entry of any class, and a
+  directory outside any repository is its own project. Both are recorded as
+  open questions in contract D1 and D5.
+- The measurement record of the `bounded` test no longer carries the `rustc`,
+  `cargo` and `local_head` host keys. Readers of those keys could not be
+  searched for, because the code-search server was unavailable; the two
+  evidence readers that were read do not use them.
+- `managed_exec` still exceeds the 60-second rule, as recorded in the
+  previous cycle.
+
+Unmet prerequisite: the working `av.yaml` returns `Operation not permitted`
+from this workspace, so the runner configuration in effect is not established
+here. This document does not claim mission completion; the runner's four
+commands and the final review decide that.
+
+## Remaining Phase 1 inventories
+
+These lists give every other Phase 1 row its finite cases, in the style of the
+[Phase 0 inventories](#remaining-phase-0-inventories). The three acceptance
+rows of this cycle have their lists
+[above](#phase-1-entry-traffic-journey-lists). `HOST` and `EXTERNAL` mean what
+they mean there, and a missing HOST test is work remaining, not Blocked.
+
+A case counts only with the named passing test beside it. Unless a crate is
+named, a test is an `arc-daemon` target that runs built binaries against a
+real daemon; `arc-cli` targets run built `arcctl`, mostly against scripted peers, and
+`arc-storage`, `arc-traffic` and `arc-detector` tests are named only as
+support beside a production-path test. Every `arc-daemon`, `arc-cli`,
+`arc-storage`, `arc-traffic` and `arc-detector` test named here passed in this
+integration's crate runs. The `arc-desktop` tests named here were read in the
+source and are run by the runner's workspace check, not here.
+
+The statuses are lower bounds. The sources could not be searched in this
+integration, so "no test identified here" means that no test was found by
+reading the test targets and their passing names; such a case counts as
+remaining. Four rows changed, each because every HOST case now has a named
+passing test:
+
+- **TRF-001** Partial → Complete: the project case is AT-TRF-08 and the vendor
+  case is the pair of recorded Claude Code and Cursor events through the built
+  hook, which no longer passes commands through.
+- **TRF-006** Partial → Complete: its cases are the finite remote triggers
+  already closed under DET-005, AT-TRF-02, AT-TRF-04 and AT-TRF-12.
+- **AT-MTR-01** Partial → Complete: the earlier assessment named no missing
+  case, only final gates that were pending then; the calibration test is run
+  by the runner's workspace check.
+- **R-003** Partial → Blocked: the three HOST cases of the response the SRS
+  assigns to ARC are tested, and what remains is an observation against a
+  live vendor's tool timeout.
+
+Every other row keeps its status. A row that stays Partial or Pending lists
+its open cases after "Remaining:".
+
+### Requirements
+
+- **DET-004** — 1. **HOST** the leaf commands of a script, not its name, decide BUILD, TEST, LINT or TYPECHECK: arc-detector `script_resolution::leaf_commands_not_script_names_determine_all_four_classes_and_same_class_chains`; 2. **HOST** on the execution route each class is admitted as itself: BUILD `traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`, TEST and LINT `traffic_cli::semantics::scheduled_test_and_lint_preserve_native_streams_and_admission`, TYPECHECK arc-desktop `traffic_bun_scripts::registered_bridge_two_typechecks_one_typecheck_slot`. Complete.
+- **DET-009** — 1. **HOST** nested scripts, lifecycle scripts, forwarded arguments and explicit `--cwd` delegations resolve to their leaf commands: arc-detector `script_resolution::root_desktop_delegations_explicit_cwd_and_parent_package_execution_context`, arc-detector `script_resolution::lifecycle_is_once_in_order_without_recursive_hooks_or_forwarded_flags`, executed in `traffic_bun_scripts::real_installed_tools_and_original_bun_scripts`; 2. **HOST** workspace analysis: a workspace filter or fan-out resolves the member packages' scripts. Not implemented; such graphs bypass admission. Partial. Remaining: 2.
+- **DET-012** — 1. **HOST** a managed child that re-enters ARC is linked to the root job by verified ancestry: `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`, `traffic_cli::semantics::cargo_and_bun_nested_jobs_reuse_the_parent_permit_in_both_directions`, `traffic_cli::recovery::queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage`; 2. **HOST** child runtime processes that never re-enter ARC (test workers, compilers) are linked to the managed job. No test; Meter reports mark them `unobserved_descendants`. Partial. Remaining: 2.
+- **DET-014** — 1. **HOST** the analysis of a project is cached and reused by the next classification in that project; 2. **HOST** a changed manifest or script invalidates it. No named test establishes a cache; the NFR-005 test times repeated classification and makes no assertion about a cache. Pending. Remaining: 1, 2.
+- **TRF-001** — 1. **HOST** jobs of different projects pass one coordinator queue: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`, `traffic_python_tests::python_then_cargo_one_test_slot`; 2. **HOST** jobs of two vendors pass the same queue: recorded Claude Code and Cursor events through the built hook, one Build slot, both arrival orders, `traffic_bun_scripts::agent_hooks_claude_first_one_build_slot` and `traffic_bun_scripts::agent_hooks_cursor_first_one_build_slot`. The queue carries no vendor identity. A Codex adapter is AT-TRF-01 item 2, and fairness between vendors is TRF-013 item 2; neither is claimed here. Complete.
+- **TRF-002** — 1. **HOST** each class has its own window: arc-traffic `policy::direct_classes_have_independent_windows_and_fixed_reservations`, arc-traffic `script_policy::all_script_classes_use_their_existing_or_distinct_windows`, and against a real daemon `traffic_cli::protocol::protocol_admission_enforces_windows_budget_fifo_and_bypass`; 2. **HOST** of two real commands of one class one runs and the other waits: BUILD `traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`, TEST `traffic_python_tests::python_then_cargo_one_test_slot`, TYPECHECK arc-desktop `traffic_bun_scripts::registered_bridge_two_typechecks_one_typecheck_slot`. Complete.
+- **TRF-003** — 1. **HOST** classes with free windows still wait on the shared CPU budget; 2. **HOST** and on the shared memory budget. Both: `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`; policy arithmetic in arc-traffic `script_policy::typecheck_window_is_independent_but_cpu_and_memory_are_global`. Complete.
+- **TRF-004** — 1. **HOST** a grant and its queue, permit and audit rows commit or roll back together (arc-storage `memory_pressure::admission::audit_failure_rolls_back_permit_queue_and_policy_state_together`), and a forced daemon death before a commit leaves no partial state (`managed_exec::crash_recovery::forced_daemon_death_before_commit_rolls_back_and_integrity_ok`); 2. **HOST** a repeated or retried request for one job never reserves twice: `traffic_cli::protocol::lost_grant_and_completion_acknowledgements_are_idempotent`, `managed_exec::protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent`, `traffic_cli::semantics::bun_lost_grant_attach_and_completion_replies_reuse_one_permit`. Complete.
+- **TRF-005** — 1. **HOST** stdout and stderr bytes of a managed job are passed through unchanged; 2. **HOST** its exit code is the wrapper's. Both: `managed_exec::cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution`, `traffic_cli::semantics::scheduled_test_and_lint_preserve_native_streams_and_admission`, `traffic_python_tests::native_python_execution_semantics`. Complete.
+- **TRF-006** — 1. **HOST** `gh workflow run build.yml` through the installed hook is REMOTE_CI and takes no queue entry or reservation while a Build permit is held: `managed_exec::capture_integration::closing_exec::installed_claude_hook_executes_same_remote_child_with_held_build_permit`; 2. **HOST** the other named remote triggers (git push, GitLab dispatch, gh queries) take none: `managed_exec::capture_integration::closing_locality::proven_remote_cases_never_classify_local_on_either_route`, `managed_exec::capture_integration::closing_locality::gitlab_explicit_public_endpoint_and_unresolved_controls_on_both_routes`; 3. **HOST** in a mixed command only the local stage is admitted: `managed_exec::capture_integration::closing_exec::stages::mixed_bun_stages_via_hook`, `managed_exec::capture_integration::closing_shell::stages::mixed_bun_stages_via_exec`; 4. **HOST** a build on a remote Docker builder takes no local permit: `managed_exec::capture_endpoints::held::selected_remote_buildx_bypasses_held_build_permit_and_runs_once`. This is the finite set of DET-005, AT-TRF-02, AT-TRF-04 and AT-TRF-12, with offline stubs; no live dispatch is claimed. Complete.
+- **TRF-007** — 1. **HOST** with no daemon reachable a new command runs once, unchanged: `agent_test_journey::at_trf_06_installed_hook_cargo_test_fails_open_exactly_once`, `managed_exec::fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay`; 2. **HOST** a daemon stop or kill leaves a running managed child running, and the restart reconciles it without replay: `managed_exec::cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay`. Complete.
+- **TRF-008** — 1. **HOST** a wrapper started inside a managed job takes no second reservation: `traffic_cli::semantics::cargo_and_bun_nested_jobs_reuse_the_parent_permit_in_both_directions`, `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`, arc-cli `job_accounting::lineage::nested_wrappers_resolve_one_canonical_root_across_scheduled_and_lifecycle_modes`. Complete.
+- **TRF-009** — 1. **HOST** a running job is re-identified after a restart and not run again: `managed_exec::cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay`, `traffic_cli::recovery::nested_real_cargo_reuses_lineage_and_restart_keeps_the_active_child`; 2. **HOST** a queued job survives a restart and starts once: `traffic_cli::recovery::bun_restart::real_bun_queued_and_running_jobs_survive_daemon_restart`; 3. **HOST** the grant of a gone owner or child is reconciled: `traffic_cli::recovery::restart_recovers_gone_owner_and_child_without_replaying_work`, `traffic_cli::unattached::restart_retains_unknown_child_until_configured_grace_then_logs_release`; 4. **HOST** a restart into a newer daemon that migrates the schema keeps an active permit and its running job (§9.9, daemon upgrade). No test. Partial. Remaining: 4.
+- **TRF-013** — 1. **HOST** one project's 100 queued jobs do not starve another project's one: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 2. **HOST** the same bound between vendors (§9.6). Not implemented: job records carry no vendor identity; 3. **HOST** a developer's interactive command generally precedes agent background work; 4. **HOST** bounded short-job preference with aging; 5. **HOST** bounded backfilling behind an oversized request. Items 3 to 5 are not implemented. Not selected in this cycle. Partial. Remaining: 2, 3, 4, 5.
+- **TRF-015** — 1. **HOST** each job's queue, grant and terminal facts are recorded and read through SQLite and the CLI: `traffic_cli::terminal_outcomes::scheduled_exit_17_persists_failed_across_restart`, `traffic_cli::status::status_identifies_a_retained_live_child_as_running`; 2. **HOST** the reason of the last decision is recorded and readable: budget waits `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`, reuse `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`, fair turn `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 3. **HOST** the sequence of a job's decisions, not only the last one, and its expected schedule are readable. No test; `job diagnostics` reads the last recorded decision. Partial. Remaining: 3.
+- **TRF-018** — 1. **HOST** cancelling a queued job leaves zero starts and no permit: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` (97 cancelled), `traffic_cli::robustness::killed_queued_wrapper_does_not_leave_notice_pipe_open`; 2. **HOST** a signal to the wrapper reaches the child and the native signal status is returned: `traffic_cli::semantics::scheduled_child_signal_is_returned_as_native_signal_status`, `managed_exec::cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child`; 3. **HOST** terminal stop, continue and foreground signals match a direct child: `managed_exec::pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17`, `managed_exec::terminal::native_pty_foreground_input_modes_and_terminal_signals_match_direct_child`. Complete.
+- **MTR-001** — 1. **HOST** the running daemon samples memory pressure and the free space of its filesystem, read through built `arcctl meter snapshot`: `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`; 2. **HOST** host CPU utilization and available memory are read as values from the real daemon through the CLI. No test identified here; 3. **HOST** disk pressure is judged under a pressure workload. No test. Partial. Remaining: 2, 3.
+- **MTR-002** — 1. **HOST** a managed job's child is bound by PID, start token and boot identity: `managed_exec::protocol::identity_mismatch_missing_and_restart_never_invent_an_exit`, `managed_exec::current_user_ownership::built_cli_current_user_socket_and_job_ownership`; 2. **HOST** the job's process group and descendants are attributed to it. No test; reports mark `unobserved_descendants`. Partial. Remaining: 2.
+- **MTR-003** — 1. **HOST** a job's CPU core-seconds, run duration and exit status are recorded and agree across SQLite, CLI and the registered bridge: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`, arc-cli `job_summary::summary_json_correlates_the_job_and_preserves_queue_zero_and_unknown_states`; 2. **HOST** CPU time of descendants the wrapper does not wait for is included. Not implemented; 3. **EXTERNAL** the same on other platforms. Partial. Remaining: 2.
+- **MTR-004** — 1. **HOST** usage is aggregated by vendor from recorded jobs; 2. **HOST** usage is aggregated by project. Neither has a production-path test; the row is Partial on the desktop projection fixtures recorded in traceability. Partial. Remaining: 1, 2.
+- **MTR-005** — 1. **HOST** queue wait and run time are separate recorded values, and waiting does not lengthen the run interval: arc-desktop `job_meter_acceptance::lifecycle::real_queue_wait_is_separate_from_monotonic_running_duration`, arc-cli `job_accounting::queued_wait_does_not_inflate_the_native_run_interval`, arc-cli `job_summary::summary_json_correlates_the_job_and_preserves_queue_zero_and_unknown_states`. Complete.
+- **MTR-006** — 1. **HOST** the daemon's own CPU time is measured: `phase0_targets::nfr_001_idle_daemon_cpu_below_half_percent_of_one_core`; 2. **HOST** its own RSS is measured, externally in `bounded::native_probe_then_full_100000_attempt_workload` and by the daemon in its Meter snapshot in `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`. Complete.
+- **MTR-007** — 1. **HOST** CPU used by a process whose agent ownership cannot be established is counted as Unattributed, not under a vendor. No production-path test; the row is Partial on desktop presentation fixtures. Partial. Remaining: 1.
+- **MTR-008** — 1. **HOST** a remote job takes no local reservation and only its local CLI is metered: `managed_exec::capture_integration::held::gh_and_buildx_same_execution_bypass_held_permit_and_buildx_cli_is_metered`; 2. **HOST** remote runner usage is excluded from local usage totals. No aggregation exists to test. Partial. Remaining: 2.
+- **MTR-009** — 1. **HOST** read and write I/O bytes of a job's processes are recorded; 2. **HOST** cumulative disk bytes written are recorded. No test. Pending. Remaining: 1, 2.
+- **MTR-014** — 1. **HOST** raw samples are rolled up to minute, hour and day aggregates and then deleted; 2. **HOST** stored Meter records expire on the daemon's own schedule. No production-path test; storage-level only: arc-storage `job_meter_native_retention::real_native_measurement_obeys_ninety_day_boundary_without_resurrection`. Pending. Remaining: 1, 2.
+- **MTR-015** — 1. **HOST** job reports carry completeness and missing-coverage flags: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`, arc-cli `job_accounting::lineage::unverified_lineage_is_non_additive_and_caller_environment_does_not_create_ownership`; 2. **HOST** host readings carry availability, never a silent zero: `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`; 3. **HOST** quality flags on the metrics not yet recorded (I/O, disk written, per-vendor totals). Partial. Remaining: 3.
+- **MTR-018** — 1. **HOST** `arcctl meter summary --job <ID> --json`: arc-cli `job_summary::summary_json_correlates_the_job_and_preserves_queue_zero_and_unknown_states`; 2. **HOST** `arcctl meter snapshot --json`: arc-cli `meter::successful_json_snapshot_and_old_daemon_errors_are_typed_and_private`, `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`; 3. **HOST** JSON summaries by vendor, project and period. Not implemented. Partial. Remaining: 3.
+- **POL-001** — 1. **HOST** the default policy is conservative: one slot per class and fixed CPU and memory budgets, `traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`, `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`; 2. **HOST** the remaining initial policy (start-rate limit, per-class estimates) starts conservative. No test. Partial. Remaining: 2.
+- **POL-003** — 1. **HOST** a fresh Critical memory reading holds every supported class although slots are free (arc-storage `memory_pressure::admission::every_supported_class_holds_with_free_slots_and_duplicate_polls_do_not_append`), and the CLI tells current pressure from the last recorded decision (arc-cli `memory_pressure::status_reads::cli_status_distinguishes_current_pressure_from_last_recorded_decision_and_l0`); the reading is injected, at storage and CLI level; 2. **HOST** a Critical event raised by the OS itself holds admission. Not exercised; 3. **EXTERNAL** pressure sources of other platforms. Partial. Remaining: 2.
+- **POL-004** — 1. **HOST** memory-admission decisions are stored with the grant in one transaction and read back as the last recorded decision: arc-storage `memory_pressure::admission::audit_failure_rolls_back_permit_queue_and_policy_state_together`, arc-cli `memory_pressure::status_reads::cli_status_distinguishes_current_pressure_from_last_recorded_decision_and_l0`; 2. **HOST** window, budget and fairness decisions are stored with their reason: `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`, `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 3. **HOST** every other policy change (windows, learned values) is audited. Not implemented. Partial. Remaining: 3.
+- **NFR-009** — 1. **HOST** deterministic faults (lost replies, retries, forged lineage, failed spawn) never duplicate or lose a permit: `traffic_cli::protocol::lost_grant_and_completion_acknowledgements_are_idempotent`, `traffic_cli::recovery::replay_forged_lineage_cancellation_and_spawn_failure_preserve_one_permit`, `traffic_cli::terminal_outcomes::failed_completion_retry_releases_one_permit`; 2. **HOST** the randomized fault test the SRS names. No test. Partial. Remaining: 2.
+- **NFR-012** — 1. **HOST** measured values carry completeness labels: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** Proven, Estimated and Unattributed usage of native processes are shown separately. No production-path test. Partial. Remaining: 2.
+- **NFR-023** — 1. **HOST** over a long run raw metric sampling does not grow the database without bound. No test. Pending. Remaining: 1.
+
+### Acceptance tests
+
+- **AT-TRF-01** — 1. **HOST** two vendors' hook events (recorded Claude Code and Cursor events for `cargo build` and `bun run build`, through the built hook) pass one coordinator; at most one Build runs and the later one starts after the release: `traffic_bun_scripts::agent_hooks_claude_first_one_build_slot`, `traffic_bun_scripts::agent_hooks_cursor_first_one_build_slot`; 2. **HOST** the Codex hook the SRS names. No Codex adapter exists. Partial. Remaining: 2.
+- **AT-TRF-07** — 1. **HOST** a real Test command that exits 17 with stderr keeps its stderr and the wrapper exits 17: `traffic_python_tests::native_python_execution_semantics`, `managed_exec::cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution`; 2. **HOST** the job is recorded FAILED: `traffic_cli::terminal_outcomes::scheduled_exit_17_persists_failed_across_restart`. Complete.
+- **AT-TRF-09** — 1. **HOST** a vendor adapter redelivers a PreToolUse event with the same `tool_call_id` and one job is created. Not implemented: the hook keeps no event identity; 2. **HOST** a repeated request for one job identity reserves once: `managed_exec::protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent`, `traffic_cli::protocol::lost_grant_and_completion_acknowledgements_are_idempotent`. Partial. Remaining: 1.
+- **AT-TRF-10** — 1. **HOST** a managed job runs through a daemon kill and restart; its PID and start time are checked, it is not run again and it is RUNNING afterwards: `managed_exec::cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay`; 2. **HOST** a scheduled job holding its permit keeps one ACTIVE permit and one start through a daemon stop and restart: `traffic_cli::recovery::nested_real_cargo_reuses_lineage_and_restart_keeps_the_active_child`; 3. **HOST** item 2 across a forced kill of the daemon. No test identified here. Partial. Remaining: 3.
+- **AT-MTR-01** — 1. **HOST** a managed job of two workers for about ten seconds is recorded in CPU core-seconds, within tolerance of an independent `getrusage` reference, on SQLite, CLI and the registered bridge; 2. **HOST** core-seconds are a metric of the job, distinct from the host CPU percentage of the separate snapshot read. Both: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`. The rendered dashboard is not part of this evidence. Complete.
+- **AT-MTR-02** — 1. **HOST** after a build writes and deletes a large file, Disk Written shows the cumulative bytes; 2. **HOST** Current Footprint shows what remains, as a different value. Not implemented. Pending. Remaining: 1, 2.
+- **AT-MTR-03** — 1. **HOST** CPU used by a process of unknown agent ownership is not counted under a vendor and is shown as Unattributed. No production-path test; Partial on desktop fixtures. Partial. Remaining: 1.
+
+### Product decisions, goals, architecture, metrics and risks
+
+- **DEC-010** — 1. **HOST** current and cumulative usage are distinct values: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** cost per vendor; 3. **HOST** savings estimates labelled as estimates. Items 2 and 3 are not implemented. Partial. Remaining: 2, 3.
+- **DEC-013** — 1. **HOST** class windows: `traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`; 2. **HOST** resource reservation: `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`; 3. **HOST** fairness between projects: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 4. **HOST** start-rate control (§9.4). Not implemented. Fairness beyond projects is TRF-013. Partial. Remaining: 4.
+- **G-01** — 1. **HOST** CPU, duration and outcome per job: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** uncertain values are marked: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces` (`partial`, `unobserved_descendants`); 3. **HOST** usage per vendor, session and project; 4. **HOST** RAM and disk per job. Items 3 and 4 are not implemented. Partial. Remaining: 3, 4.
+- **ADR-003** — 1. **HOST** SQLite WAL state survives a forced daemon death: `managed_exec::crash_recovery::forced_daemon_death_after_commit_survives_and_integrity_ok`; 2. **HOST** every event class is in an append-only audit; 3. **HOST** periodic aggregation. No test for 2 or 3. Partial. Remaining: 2, 3.
+- **ADR-014** — 1. **HOST** a retried request with one job identity is idempotent: `managed_exec::protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent`; 2. **HOST** a redelivered vendor hook event is deduplicated by its event key (AT-TRF-09 item 1). Not implemented. Partial. Remaining: 2.
+- **MET-001** — 1. **HOST** `host.cpu.utilization` is read as a value from the real daemon. No test identified here. Pending. Remaining: 1.
+- **MET-002** — 1. **HOST** a root process's CPU is observed: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** `proc.cpu.utilization` in core-percent per process. No test. Partial. Remaining: 2.
+- **MET-003** — 1. **HOST** `job.cpu.core_seconds` of the waited root and descendants: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** descendants that are not waited for. Not implemented. Partial. Remaining: 2.
+- **MET-004** — 1. **HOST** the daemon's RSS is read: `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`, `bounded::native_probe_then_full_100000_attempt_workload`; 2. **HOST** `proc.memory.rss_bytes` of a job's processes. No test. Partial. Remaining: 2.
+- **MET-005** — 1. **HOST** `job.memory.peak_bytes` of a job. Not implemented. Pending. Remaining: 1.
+- **MET-006** — 1. **HOST** `host.memory.available_bytes` as a value from the real daemon. No test identified here; the named Meter test forces this field to be denied. Pending. Remaining: 1.
+- **MET-007** — 1. **HOST** `host.memory.pressure` is read from the OS by the daemon: `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`; 2. **HOST** a Warning or Critical level raised by the OS. Not exercised. Partial. Remaining: 2.
+- **MET-008** — 1. **HOST** `host.swap.used_bytes` as a value from the real daemon. No test identified here; the named Meter test forces this field to fail. Pending. Remaining: 1.
+- **MET-009** — 1. **HOST** `proc.io.read_bytes`. Not implemented. Pending. Remaining: 1.
+- **MET-010** — 1. **HOST** `proc.io.write_bytes`. Not implemented. Pending. Remaining: 1.
+- **MET-013** — 1. **HOST** a job's run time is recorded in seconds on every surface: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** the named `job.duration_ms` projection. No test. Partial. Remaining: 2.
+- **MET-014** — 1. **HOST** `job.queue_wait`, QUEUED to RESERVED, is recorded apart from run time: arc-desktop `job_meter_acceptance::lifecycle::real_queue_wait_is_separate_from_monotonic_running_duration`, arc-desktop `job_meter_acceptance::queue::production_queue_accounting_reconciles_all_surfaces`. Complete.
+- **MET-015** — 1. **HOST** a job's class and outcome are recorded: `traffic_cli::terminal_outcomes::scheduled_exit_17_persists_failed_across_restart`; 2. **HOST** `job.count` by class and outcome. Not implemented. Partial. Remaining: 2.
+- **MET-016** — 1. **HOST** the number of active permits is recorded and returns to zero: high-water 1 then 0 in `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`, and 1 held, then 0, in `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`. Complete.
+- **MET-017** — 1. **HOST** queued entries are recorded and counted from daemon state: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` (101 queued); 2. **HOST** `traffic.queue.depth` as a reported metric. Not implemented. Partial. Remaining: 2.
+- **MET-024** — 1. **HOST** the daemon's CPU time is measured from the OS: `phase0_targets::nfr_001_idle_daemon_cpu_below_half_percent_of_one_core`; 2. **HOST** `arc.daemon.cpu.core_seconds` as reported by the daemon is checked against it. No test identified here. Partial. Remaining: 2.
+- **MET-025** — 1. **HOST** the daemon's RSS and lifetime peak are measured from the OS: `bounded::native_probe_then_full_100000_attempt_workload`; 2. **HOST** `arc.daemon.memory.peak_bytes` as reported by the daemon is checked against it. No test identified here. Partial. Remaining: 2.
+- **MET-026** — 1. **HOST** `arc.hook.overhead_ms` is recorded by the product. Not implemented; `phase0_targets::nfr_003_installed_hook_bypass_p95_overhead_within_50_ms` measures the hook from outside. Pending. Remaining: 1.
+- **MET-027** — 1. **HOST** `attribution.unattributed_ratio` is computed from native processes. No production-path test; Partial on the desktop completeness fixtures. Partial. Remaining: 1.
+- **R-003** — 1. **HOST** the hook answers at once and never waits in a queue, also while the window is full: `phase0_targets::nfr_003_installed_hook_bypass_p95_overhead_within_50_ms`, `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`; 2. **HOST** the wait happens in the managed process the hook returned: `managed_exec::capture_integration::closing_exec::stages::mixed_bun_stages_via_hook`, `managed_exec::capture_integration::closing_locality::local_container::local_container_buildx_via_hook_exec`; 3. **HOST** a failed hook or an unreachable daemon blocks nothing: `agent_test_journey::at_trf_06_installed_hook_cargo_test_fails_open_exactly_once`; 4. **EXTERNAL** a queued wait observed against a live vendor's tool timeout. Blocked; only item 4 remains.
+- **R-005** — 1. **HOST** job CPU reports state their basis, scope and completeness: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** Unattributed usage is shown; 3. **HOST** every other metric is calibrated. No test for 2 or 3. Partial. Remaining: 2, 3.
+- **R-014** — 1. **HOST** one writer stays correct under backlog and a busy database: `traffic_cli::robustness::queued_cli_waits_through_real_sqlite_busy_then_starts_after_release`, `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` (101 waiters, zero DB rejections); 2. **HOST** event coalescing; 3. **HOST** rollups under sustained load. No test for 2 or 3. Partial. Remaining: 2, 3.

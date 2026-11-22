@@ -3,7 +3,7 @@ use crate::exec::transport::Failure;
 use arc_ipc::{
     client::Session,
     jobs::JobId,
-    traffic::{diagnostics::*, Capabilities},
+    traffic::{diagnostics::*, fairness::FairnessReason, Capabilities},
     Request,
 };
 use serde_json::json;
@@ -19,13 +19,13 @@ pub(crate) fn run(id: String, json_output: bool) -> ExitCode {
     };
     let result = arc_core::socket_path()
         .map_err(|_| Failure::Unavailable)
-        .and_then(|socket| read(&socket, &job));
+        .and_then(|socket| inspect(&socket, &job));
     match result {
-        Ok(result) => {
+        Ok((result, fair)) => {
             if json_output {
-                println!("{}", json!(result));
+                println!("{}", decision::document(&result, fair));
             } else {
-                print!("{}", render(&result));
+                print!("{}{}", render(&result), decision::line(&result, fair));
             }
             ExitCode::SUCCESS
         }
@@ -39,7 +39,14 @@ pub(crate) fn run(id: String, json_output: bool) -> ExitCode {
         ),
     }
 }
+#[cfg(test)]
 fn read(socket: &Path, job: &JobId) -> Result<DiagnosticResult, Failure> {
+    inspect(socket, job).map(|(result, _)| result)
+}
+fn inspect(
+    socket: &Path,
+    job: &JobId,
+) -> Result<(DiagnosticResult, Option<FairnessReason>), Failure> {
     let deadline = Instant::now() + Duration::from_secs(2);
     let probe = |operation| {
         Session::connect_until(socket, deadline, &|| false, None)?
@@ -90,8 +97,12 @@ fn read(socket: &Path, job: &JobId) -> Result<DiagnosticResult, Failure> {
     }) {
         return Err(Failure::InvalidReply);
     }
-    Ok(result)
+    let fair = decision::fair_turn(&mut session, job, &result);
+    Ok((result, fair))
 }
+
+#[path = "diagnostics/decision.rs"]
+mod decision;
 
 #[cfg(test)]
 #[path = "diagnostics/tests.rs"]

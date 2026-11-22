@@ -29,6 +29,7 @@ pub fn run() {
         observer: observer.clone(),
         classification,
         lineage_context: None,
+        project: None,
     });
     let JobResult::Granted {
         permit_generation, ..

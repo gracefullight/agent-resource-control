@@ -123,6 +123,7 @@ pub(super) fn local_container_projection_for_earlier_peers() {
             lineage_context: Some(
                 LineageContext::try_from(format!("{}{}", random_id(), random_id())).unwrap(),
             ),
+            project: None,
         },
     };
     let granted = ok(

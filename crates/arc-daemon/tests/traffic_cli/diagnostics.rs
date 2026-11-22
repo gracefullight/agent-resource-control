@@ -180,12 +180,14 @@ fn persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets() {
                 observer: observer.clone(),
                 classification: cargo_class("TEST", first_reason),
                 lineage_context: None,
+                project: None,
             };
             let second = JobRequest::Enqueue {
                 job_id: id2.clone(),
                 observer: observer.clone(),
                 classification: cargo_class("TEST", second_reason),
                 lineage_context: None,
+                project: None,
             };
             let context1 = LineageContext::try_from("a".repeat(64)).unwrap();
             let context2 = LineageContext::try_from("b".repeat(64)).unwrap();

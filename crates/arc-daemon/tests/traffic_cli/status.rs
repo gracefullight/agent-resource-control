@@ -64,6 +64,7 @@ fn status_reports_unattached_grant_as_unconfirmed_and_keeps_the_permit() {
         observer: observer.clone(),
         classification: cargo_class("BUILD", "CARGO_BUILD"),
         lineage_context: None,
+        project: None,
     };
     let JobResult::Granted {
         permit_generation, ..
@@ -159,6 +160,7 @@ fn status_identifies_a_retained_live_child_as_running() {
         observer: observer.clone(),
         classification: cargo_class("BUILD", "CARGO_BUILD"),
         lineage_context: None,
+        project: None,
     };
     let JobResult::Granted {
         permit_generation, ..

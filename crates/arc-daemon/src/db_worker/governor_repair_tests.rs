@@ -215,6 +215,7 @@ async fn governor_enqueue_refreshes_lineage_after_anchor_attaches() {
         observer: nested_owner.clone(),
         classification,
         lineage_context: None,
+        project: None,
     };
     let attachment = JobRequest::Attach {
         job_id: f.id(1),
@@ -319,6 +320,7 @@ async fn governor_poll_refreshes_lineage_after_root_permit_releases() {
                 observer: nested_owner.clone(),
                 classification,
                 lineage_context: None,
+                project: None,
             },
             &repository::OwnerEvidence::gather(&nested_owner),
             &arc_traffic::Policy::default(),

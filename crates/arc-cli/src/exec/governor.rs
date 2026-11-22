@@ -96,6 +96,8 @@ pub(super) fn prepare(
         )),
         _ => None,
     };
+    // Records which daemon answered the probe; it gates the project key.
+    let prober = Continuity::default();
     let probe = if let Some((probe_operation, _)) = negotiated {
         super::transport::call_until_with_continuity(
             socket,
@@ -104,15 +106,17 @@ pub(super) fn prepare(
             deadline,
             &cancelled,
             &mut false,
-            None,
+            Some(&prober),
         )
     } else {
-        Session::connect_until(socket, deadline, &cancelled, None).and_then(|mut session| {
-            session.exchange(
-                &Request::new(crate::request_id(), OPERATION_CAPABILITIES),
-                &cancelled,
-            )
-        })
+        Session::connect_until(socket, deadline, &cancelled, Some(&prober)).and_then(
+            |mut session| {
+                session.exchange(
+                    &Request::new(crate::request_id(), OPERATION_CAPABILITIES),
+                    &cancelled,
+                )
+            },
+        )
     };
     match probe {
         Err(Failure::Unsupported) => {
@@ -173,6 +177,7 @@ pub(super) fn prepare(
         observer: observer.clone(),
         classification,
         lineage_context: Some(claim.clone()),
+        project: super::project_key::negotiated(socket, &prober),
     };
     super::launch::before_enqueue(&json!({"request":enqueue}), &cancelled)?;
     let result = await_admission(

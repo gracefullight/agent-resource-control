@@ -173,6 +173,7 @@ impl Fixture {
             observer: self.owner.clone(),
             classification,
             lineage_context: None,
+            project: None,
         })
         .await
     }

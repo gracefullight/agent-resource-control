@@ -1,7 +1,10 @@
 use super::{get, JobError, JobResult};
 use arc_ipc::{
     jobs::{JobId, JobSnapshot, ProcessIdentity},
-    traffic::{JobResult as Reply, LineageContext, Resources, StatusResult, WaitReason},
+    traffic::{
+        fairness::ProjectKey, JobResult as Reply, LineageContext, Resources, StatusResult,
+        WaitReason,
+    },
 };
 use arc_traffic::{Active, Policy, TrafficClass};
 use rusqlite::{Connection, OptionalExtension};
@@ -16,6 +19,9 @@ pub(super) struct Entry {
     pub root: Option<JobId>,
     pub context: Option<LineageContext>,
     pub inherited: Option<LineageContext>,
+    /// NULL for protocol-1 clients and every entry stored before migration 7.
+    #[allow(dead_code)] // Fair head selection reads the column in SQL (`fair_head.rs`).
+    pub project: Option<ProjectKey>,
 }
 
 pub(super) fn tombstone(
@@ -84,11 +90,11 @@ fn terminal_reply(state: &str) -> JobResult<Reply> {
 
 pub(super) fn entry(connection: &Connection, id: &JobId) -> JobResult<Option<Entry>> {
     let raw = connection.query_row(
-        "SELECT sequence,state,queued_at_ms,granted_at_ms,generation,root_job_id,context,inherited_context FROM traffic_entries WHERE job_id=?1",
-        [id.as_str()], |row| Ok((row.get::<_, i64>(0)?, row.get::<_, String>(1)?, row.get::<_, i64>(2)?, row.get::<_, Option<i64>>(3)?, row.get::<_, Option<i64>>(4)?, row.get::<_, Option<String>>(5)?, row.get::<_, Option<String>>(6)?, row.get::<_, Option<String>>(7)?)),
+        "SELECT sequence,state,queued_at_ms,granted_at_ms,generation,root_job_id,context,inherited_context,project_key FROM traffic_entries WHERE job_id=?1",
+        [id.as_str()], |row| Ok((row.get::<_, i64>(0)?, row.get::<_, String>(1)?, row.get::<_, i64>(2)?, row.get::<_, Option<i64>>(3)?, row.get::<_, Option<i64>>(4)?, row.get::<_, Option<String>>(5)?, row.get::<_, Option<String>>(6)?, row.get::<_, Option<String>>(7)?, row.get::<_, Option<String>>(8)?)),
     ).optional()?;
     raw.map(
-        |(seq, state, queued, granted, generation, root, context, inherited)| {
+        |(seq, state, queued, granted, generation, root, context, inherited, project)| {
             let convert = |n: i64| u64::try_from(n).map_err(|_| JobError::StorageFailure);
             Ok(Entry {
                 sequence: convert(seq)?,
@@ -104,6 +110,9 @@ pub(super) fn entry(connection: &Connection, id: &JobId) -> JobResult<Option<Ent
                     .transpose()?,
                 inherited: inherited
                     .map(|v| LineageContext::try_from(v).map_err(|_| JobError::StorageFailure))
+                    .transpose()?,
+                project: project
+                    .map(|v| ProjectKey::try_from(v).map_err(|_| JobError::StorageFailure))
                     .transpose()?,
             })
         },

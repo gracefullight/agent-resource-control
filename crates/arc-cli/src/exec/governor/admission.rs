@@ -130,6 +130,7 @@ where
     let mut request = initial.clone();
     let mut waited = false;
     let mut possibly_committed = false;
+    let mut cadence = traffic::Cadence::new(peer.socket);
     loop {
         if cancelled() {
             return Err(Failure::Cancelled);
@@ -167,7 +168,7 @@ where
                         waited,
                     })
                 }
-                JobResult::Queued { .. } => {
+                JobResult::Queued { reason, .. } => {
                     if !waited {
                         write_notice(&format!(
                             "QUEUED\nWaiting to start.\nReference: {}\n",
@@ -176,7 +177,7 @@ where
                         waited = true;
                         super::super::launch::after_queue(&json!({"request":request}), cancelled)?;
                     }
-                    sleep(Duration::from_millis(40));
+                    cadence.pause(reason, sleep, cancelled);
                     request = if inherited {
                         initial.clone()
                     } else {

@@ -63,6 +63,18 @@ pub(crate) fn execute_observed(
     op: Operation,
     reader: Option<&super::observation::Observations>,
 ) -> Value {
+    // Queue recovery probes and the lineage lookup are steps of one admission
+    // request; its own operation follows on this writer and runs the expiry.
+    let step = matches!(
+        &op,
+        Operation::Traffic(
+            super::traffic::Operation::Head
+                | super::traffic::Operation::ReconcileQueue(_)
+                | super::traffic::Operation::Candidates(_)
+                | super::traffic::Operation::Lineage(_)
+                | super::traffic::Operation::RecoverUncertain(_)
+        )
+    );
     let value = match op {
         Operation::Governor(operation) => {
             Value::Governor(super::governor::execute(connection, operation, reader))
@@ -96,8 +108,10 @@ pub(crate) fn execute_observed(
     };
     // Bounded opportunistic expiry shares this connection and its existing
     // cancellation/deadline. Failure never changes a committed request result.
-    let _ = arc_storage::job_meter::expire(connection, now());
-    let _ = arc_storage::policy::expire(connection, now());
+    if !step {
+        let _ = arc_storage::job_meter::expire(connection, now());
+        let _ = arc_storage::policy::expire(connection, now());
+    }
     value
 }
 pub(super) async fn call(

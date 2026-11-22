@@ -101,7 +101,7 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
             row.get(0)
         })
         .unwrap();
-    assert_eq!(count, 6);
+    assert_eq!(count, 7);
     let (id, applied_at, checksum): (String, i64, String) = connection
         .query_row(
             "SELECT id, applied_at, checksum FROM schema_migrations WHERE id='0001_phase0'",
@@ -173,7 +173,7 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
             .query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| row
                 .get::<_, i64>(0))
             .unwrap(),
-        6
+        7
     );
     let recorded: (String, i64, String) = reopened
         .query_row(

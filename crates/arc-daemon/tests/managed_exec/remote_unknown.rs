@@ -151,6 +151,7 @@ fn custom_shell_bypasses_held_build_and_preserves_native_execution_on_fail_open(
         observer: observer.clone(),
         classification: build,
         lineage_context: None,
+        project: None,
     };
     let JobResult::Granted {
         permit_generation, ..

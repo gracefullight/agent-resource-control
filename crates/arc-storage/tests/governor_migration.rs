@@ -37,7 +37,7 @@ fn original_five_migration_bytes_are_immutable() {
         "e4c40db876032d858667e2af5d6be524c2f0bd204a7c6b97ba878e082496c540",
         "6396adb0918a1bacfea16945caa866b12e91d322454ec64a00d316b0bccf0326",
     ];
-    assert_eq!(MIGRATIONS.len(), 6);
+    assert_eq!(MIGRATIONS.len(), 7);
     for (m, hash) in MIGRATIONS[..5].iter().zip(hashes) {
         assert_eq!(checksum(m.sql), hash);
     }
@@ -152,7 +152,7 @@ fn production_migrator_commits_v6_atomically_and_reopens_without_rewriting_histo
     job(&c);
     c.close().unwrap();
     let c = open_and_migrate(&path).unwrap();
-    assert_eq!(assess_schema(&c).unwrap().applied_version, Some(6));
+    assert_eq!(assess_schema(&c).unwrap().applied_version, Some(7));
     assert!(assess_schema(&c).unwrap().history_verified);
     for m in &MIGRATIONS[..5] {
         let row: (i64, String) = c

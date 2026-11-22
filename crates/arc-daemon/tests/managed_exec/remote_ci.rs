@@ -136,6 +136,7 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         observer: observer.clone(),
         classification,
         lineage_context: None,
+        project: None,
     };
     let JobResult::Granted {
         permit_generation, ..
@@ -235,6 +236,7 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         observer: observer.clone(),
         classification: serde_json::from_value(result).unwrap(),
         lineage_context: None,
+        project: None,
     };
     assert!(matches!(
         traffic(&fixture, &remote),

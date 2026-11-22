@@ -14,6 +14,7 @@ use std::fmt;
 
 pub mod diagnostics;
 pub mod endpoint;
+pub mod fairness;
 pub mod native;
 pub mod python;
 pub mod scripts;
@@ -110,6 +111,7 @@ pub fn interpret_probe_for(
                 native::DIAGNOSTICS_CAPABILITY
             )
             | (diagnostics::OPERATION_CAPABILITIES, diagnostics::CAPABILITY)
+            | (fairness::OPERATION_CAPABILITIES, fairness::CAPABILITY)
             | (
                 diagnostics::OPERATION_PYTHON_CAPABILITIES,
                 diagnostics::PYTHON_CAPABILITY
@@ -202,6 +204,9 @@ pub enum JobRequest {
         classification: crate::Classification,
         #[serde(default)]
         lineage_context: Option<LineageContext>,
+        /// Sent only after `fairness::CAPABILITY`; omitted when absent.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        project: Option<fairness::ProjectKey>,
     },
     Poll {
         job_id: JobId,

@@ -19,6 +19,8 @@ use std::{
     time::{Duration, Instant},
 };
 
+mod cadence;
+pub(super) use cadence::Cadence;
 mod lifecycle;
 pub(super) use lifecycle::{attach, cancel, complete, complete_or_warn, fallback};
 mod notice;
@@ -315,6 +317,9 @@ pub(super) fn prepare(
         observer: observer.clone(),
         classification,
         lineage_context: Some(claim.clone()),
+        // This route serves peers that declined the current admission route;
+        // they are sent protocol-1 bytes only and keep sequence order.
+        project: None,
     };
     let mut possibly_committed = false;
     let continuity = Continuity::default();
@@ -358,6 +363,7 @@ pub(super) fn prepare(
     };
     let mut waited = false;
     let mut pressure_notice = NoticeState::default();
+    let mut cadence = Cadence::new(socket);
     loop {
         match result {
             JobResult::Granted {
@@ -405,7 +411,7 @@ pub(super) fn prepare(
                 )
                 .map(Mode::Legacy);
             }
-            JobResult::Queued { .. } => {
+            JobResult::Queued { reason, .. } => {
                 possibly_committed = true;
                 let pressure = super::policy::job(
                     socket,
@@ -419,7 +425,7 @@ pub(super) fn prepare(
                 });
                 waited = true;
                 // The request and SQLite ticket have both been released here.
-                std::thread::sleep(Duration::from_millis(40));
+                cadence.pause(reason, &|slice| std::thread::sleep(slice), &cancelled);
                 if cancelled() {
                     witness.finish_unspawned(|| {
                         cancel(socket, id, observer, None, route, &continuity)

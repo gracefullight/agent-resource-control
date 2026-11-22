@@ -341,6 +341,7 @@ async fn exercise(point: FailurePoint) {
         observer: owner.clone(),
         classification,
         lineage_context: None,
+        project: None,
     };
     let context = LineageContext::try_from("a".repeat(64)).unwrap();
     let next = traffic::enqueue(

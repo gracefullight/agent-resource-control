@@ -13,6 +13,8 @@ mod event;
 pub(super) mod fixture;
 #[path = "hooks/stages.rs"]
 mod stages;
+#[path = "hooks/test_literals.rs"]
+mod test_literals;
 
 use clap::{Subcommand, ValueEnum};
 use serde_json::Value;
@@ -224,7 +226,10 @@ pub(crate) fn literal_argv(argv: &[OsString]) -> bool {
         }
         _ => false,
     };
-    literal || stages::literal_argv(argv) || container::literal_argv(argv)
+    literal
+        || stages::literal_argv(argv)
+        || container::literal_argv(argv)
+        || test_literals::literal_argv(argv)
 }
 
 /// The hook does not resolve or launch the requested executable.
@@ -238,6 +243,7 @@ pub(super) fn rewrite_literal(
         _ => {
             return stages::rewrite(command, context, surface)
                 .or_else(|| container::rewrite(command, context, surface))
+                .or_else(|| test_literals::rewrite(command, context, surface))
         }
     }
     surface?;

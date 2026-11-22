@@ -34,6 +34,7 @@ fn enqueue(classification: Classification) -> Value {
             observer: ProcessIdentity::capture(std::process::id()).unwrap(),
             classification,
             lineage_context: None,
+            project: None,
         }
     })
 }

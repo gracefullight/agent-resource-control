@@ -8,6 +8,7 @@
 mod admission;
 mod diagnostics;
 pub use diagnostics::diagnostics;
+mod fair_head;
 pub mod governor;
 mod pressure;
 pub use pressure::{

@@ -25,6 +25,7 @@ mod exec {
     mod native_environment;
     pub(crate) mod policy;
     mod preparation;
+    mod project_key;
     mod proof;
     mod run;
     mod signals;

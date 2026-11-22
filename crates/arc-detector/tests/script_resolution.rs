@@ -457,3 +457,33 @@ fn no_metadata_or_native_non_utf8_inputs_do_not_guess_a_script() {
         );
     }
 }
+
+#[test]
+fn a_test_script_whose_body_is_one_shot_vitest_resolves_to_a_test_script() {
+    for body in ["vitest", "vitest run", "vitest run && bun test"] {
+        supported(body, JobClass::Test, Reason::BunScriptTest);
+    }
+    let mut metadata = Memory::default();
+    metadata.add("/project", &[("test", "vitest")]);
+    let result = metadata.resolve(&["bun", "run", "test"]);
+    assert_eq!(result.classification.classification, JobClass::Test);
+    assert_eq!(result.classification.reason, Reason::BunScriptTest);
+    assert_eq!(result.classification.uncertainty, Uncertainty::None);
+    assert!(result.classification.is_bun_script());
+    // Forwarded arguments are appended to the body and still decide the leaf.
+    for forwarded in ["--watch", "watch", "--ui"] {
+        let result = metadata.resolve(&["bun", "run", "test", forwarded]);
+        assert_eq!(
+            result.classification.classification,
+            JobClass::Unknown,
+            "{forwarded}: {result:?}"
+        );
+        assert_eq!(result.issue, Some(ScriptIssue::Unsupported));
+    }
+    let mut mixed = Memory::default();
+    mixed.add("/project", &[("test", "vitest && vite build")]);
+    assert_eq!(
+        mixed.resolve(&["bun", "run", "test"]).issue,
+        Some(ScriptIssue::Mixed)
+    );
+}

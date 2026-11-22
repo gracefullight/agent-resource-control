@@ -22,6 +22,7 @@ fn enqueue(reason: Reason) -> serde_json::Value {
             observer: ProcessIdentity::capture(std::process::id()).unwrap(),
             classification: classification(reason),
             lineage_context: None,
+            project: None,
         }
     })
 }

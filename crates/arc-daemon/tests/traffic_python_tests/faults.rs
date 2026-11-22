@@ -43,6 +43,7 @@ pub fn acknowledgments(read: Read) {
         observer: observer.clone(),
         classification: class,
         lineage_context: None,
+        project: None,
     };
     let lost = lose(&case, &enqueue);
     eventually(|| case.active()["permits"] == 1);

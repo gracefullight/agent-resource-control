@@ -39,6 +39,7 @@ async fn unreaped_terminated_child_can_bind_before_attach_in_both_execution_mode
                         observer: observer.clone(),
                         classification,
                         lineage_context: None,
+                        project: None,
                     },
                     observer.pid,
                     deadline(),

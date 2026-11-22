@@ -70,6 +70,8 @@ pub(crate) async fn supervise_with_source(
     report: io::Result<RuntimeReport>,
     supplied_meter: Option<arc_meter::MeterWorker>,
 ) -> Result<(), Box<dyn Error>> {
+    // Held until this supervisor returns; see the module for its meaning.
+    let mut fairness = None;
     // Startup failures still close and join the worker before returning.
     let startup = (|| -> Result<_, Box<dyn Error>> {
         limits.validate()?;
@@ -80,6 +82,7 @@ pub(crate) async fn supervise_with_source(
         let report = report?;
         let listener = server::bind_socket(&socket)?;
         let owned_socket = OwnedSocket::new(socket)?;
+        fairness = fairness_advertisement::advertise(&owned_socket.path);
         // The full Sweeper is always off. The bounded Reaper is named only
         // when the operator explicitly selected it.
         let reaper = match crate::reaper::Policy::current() {
@@ -112,6 +115,7 @@ pub(crate) async fn supervise_with_source(
                 return Err(error);
             }
         };
+    let _fairness = fairness;
     let profile = match std::env::var_os("ARC_IPC_PROFILE").as_deref() {
         Some(value) if value == "test" => "test",
         _ => "default",
@@ -308,6 +312,9 @@ impl Drop for OwnedSocket {
         }
     }
 }
+
+#[path = "traffic_fairness_advertisement.rs"]
+mod fairness_advertisement;
 
 #[cfg(test)]
 #[path = "database_failure_tests.rs"]

@@ -139,7 +139,7 @@ pub fn launch(
     if current.revision != job.revision {
         return Err(E::Conflict);
     }
-    crate::policy::record(
+    crate::policy::fairness::keep(
         connection,
         &job.job_id,
         effective,

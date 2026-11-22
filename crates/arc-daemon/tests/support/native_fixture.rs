@@ -6,17 +6,19 @@ use std::{
     io::{self, Read},
     os::{
         fd::AsRawFd,
-        unix::{fs::DirBuilderExt, net::UnixStream, process::CommandExt},
+        unix::{net::UnixStream, process::CommandExt},
     },
     path::PathBuf,
     process::{Child, Command, Output, Stdio},
-    sync::atomic::{AtomicU64, Ordering},
+    sync::atomic::AtomicU64,
     thread,
     time::{Duration, Instant},
 };
 
 #[path = "native_readiness.rs"]
 pub mod native_readiness;
+#[path = "native_root.rs"]
+pub mod native_root;
 
 pub struct Fixture {
     pub root: PathBuf,
@@ -28,12 +30,7 @@ pub struct Fixture {
 impl Fixture {
     pub fn with_binary(daemon_binary: PathBuf) -> Self {
         static NEXT: AtomicU64 = AtomicU64::new(0);
-        let root = arc_core::runtime_root().unwrap().join(format!(
-            "b{:x}-{:x}",
-            std::process::id(),
-            NEXT.fetch_add(1, Ordering::Relaxed)
-        ));
-        fs::DirBuilder::new().mode(0o700).create(&root).unwrap();
+        let root = native_root::fresh(&arc_core::runtime_root().unwrap(), &NEXT);
         Self {
             socket: root.join("arc.sock"),
             database: root.join("arc.sqlite3"),

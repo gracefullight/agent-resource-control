@@ -27,7 +27,7 @@ fn converted_reservation_requires_owner_cancellation_not_a_retired_permit_genera
     let id = JobId::try_from("a".repeat(32)).unwrap();
     let context = LineageContext::try_from("b".repeat(64)).unwrap();
     let provider = arc_policy::evaluator::MissingObservation;
-    let request=JobRequest::Enqueue {job_id:id.clone(),observer:owner.clone(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None};
+    let request=JobRequest::Enqueue {job_id:id.clone(),observer:owner.clone(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None, project: None };
     let GovernorJobResult::Traffic {
         result: JobResult::Granted {
             permit_generation, ..

@@ -14,6 +14,7 @@ pub(crate) enum Operation {
     Current,
     Job(JobId),
     Diagnostics(JobId),
+    Decision(JobId),
     Unspawned {
         request: LaunchRequest,
         owner: repository::OwnerEvidence,
@@ -67,6 +68,11 @@ fn execute_with_clock(
             jobs::now(),
         )
         .map(|value| Value::Diagnostics(Box::new(value))),
+        // One read snapshot for the retention check and the reason itself.
+        Operation::Decision(id) => {
+            let tx = connection.transaction()?;
+            arc_storage::policy::fairness::negotiated(&tx, &id, jobs::now()).map(Value::Decision)
+        }
         Operation::Launch {
             request,
             owner,
@@ -176,6 +182,7 @@ pub(crate) async fn handle(
         Input::Current => Operation::Current,
         Input::Job(id) => Operation::Job(id),
         Input::Diagnostics(id) => Operation::Diagnostics(id),
+        Input::Decision(id) => Operation::Decision(id),
         Input::Launch(request) | Input::Unspawned(request) => {
             use arc_core::process_identity::{probe_live, IdentityStatus};
             if request.observer.pid != peer

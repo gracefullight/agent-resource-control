@@ -100,6 +100,23 @@ fn native_fixture_cleanup_is_owned_on_success_and_unwind() {
 
 #[cfg(target_os = "macos")]
 #[test]
+fn native_fixture_root_skips_a_leftover_directory_under_a_reused_pid() {
+    use std::{fs, sync::atomic::AtomicU64};
+
+    let parent = native::Fixture::with_binary(std::env::current_exe().unwrap());
+    let name = |counter: u8| {
+        parent
+            .root
+            .join(format!("b{:x}-{counter:x}", std::process::id()))
+    };
+    fs::create_dir(name(0)).unwrap();
+    let root = native::native_root::fresh(&parent.root, &AtomicU64::new(0));
+    assert_eq!(root, name(1));
+    assert!(name(0).is_dir() && root.is_dir());
+}
+
+#[cfg(target_os = "macos")]
+#[test]
 fn native_fixture_readiness_observes_marker_and_early_exit() {
     use std::{io::Write, panic::AssertUnwindSafe, path::PathBuf, time::Duration};
 

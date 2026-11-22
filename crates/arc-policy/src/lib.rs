@@ -3,9 +3,11 @@
 //! Task 1 supplies validated types; task 2 implements the evaluator and adapter.
 mod decision;
 pub mod evaluator;
+mod fairness;
 mod observation;
 mod scripts;
 
 pub use decision::*;
+pub use fairness::{FairnessReason, NegotiatedReason};
 pub use observation::*;
 pub use scripts::ScriptPolicyLimits;

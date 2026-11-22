@@ -7,6 +7,7 @@ use arc_ipc::{
 use arc_policy::*;
 use rusqlite::{params, Connection, OptionalExtension, TransactionBehavior};
 
+pub mod fairness;
 mod retention;
 pub use arc_policy::{RecordedDecision, DECISION_RETENTION_MS, MAX_EXPIRY_BATCH, POLICY_STATE_KEY};
 pub use retention::expire;
@@ -268,8 +269,7 @@ pub fn job(
         policy_version: version,
         kind: serde_json::from_value(serde_json::Value::String(kind))
             .map_err(|_| E::StorageFailure)?,
-        reason: serde_json::from_value(serde_json::Value::String(reason))
-            .map_err(|_| E::StorageFailure)?,
+        reason: fairness::projected(reason)?,
         decided_at_ms: time,
         permit_generation: generation,
         observation: serde_json::from_str(&observation).map_err(|_| E::StorageFailure)?,

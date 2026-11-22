@@ -25,6 +25,7 @@ fn seed_lifecycle_records(f: &Fixture, outcomes: &[Option<arc_ipc::jobs::Outcome
                 job_id: id.clone(),
                 observer: observer.clone(),
                 classification,
+                usage: None,
             },
             StartRequest::Claim {
                 job_id: id.clone(),

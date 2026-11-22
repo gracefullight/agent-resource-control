@@ -56,6 +56,7 @@ fn synthetic_endpoint_classification_is_bound_to_the_one_executed_child() {
         job_id: id.clone(),
         observer: observer.clone(),
         classification,
+        usage: None,
     };
     let old = protocol::call(&fixture, OPERATION_JOB_START, json!(register));
     assert_eq!(old.error.unwrap().code, arc_ipc::ERROR_INVALID_REQUEST);
@@ -195,6 +196,7 @@ fn synthetic_proven_local_endpoint_uses_negotiated_build_admission() {
             lineage_context: None,
             project: None,
             event: None,
+            usage: None,
         },
     };
     let legacy = protocol::call(&fixture, arc_ipc::governor::OPERATION_JOB, json!(request));
@@ -374,14 +376,9 @@ fn synthetic_remote_facts_follow_the_actual_execution_path_once_while_build_is_h
     let id = JobId::try_from("d".repeat(32)).unwrap();
     let observer = ProcessIdentity::capture(std::process::id()).unwrap();
     let local: arc_ipc::Classification = serde_json::from_value(json!({"classification":"BUILD", "locality":"HOST_LOCAL", "reason":"CARGO_BUILD", "uncertainty":"NONE"})).unwrap();
-    let hold = JobRequest::Enqueue {
-        job_id: id.clone(),
-        observer: observer.clone(),
-        classification: local,
-        lineage_context: None,
-        project: None,
-        event: None,
-    };
+    let hold: JobRequest = serde_json::from_value(json!({"action":"ENQUEUE","job_id":id,
+        "observer":observer,"classification":local,"lineage_context":null}))
+    .unwrap();
     let granted = protocol::call(&fixture, OPERATION_TRAFFIC_JOB, json!(hold))
         .result
         .unwrap();

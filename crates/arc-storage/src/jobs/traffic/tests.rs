@@ -66,6 +66,7 @@ fn request(n: u32, class: &str, inherited: Option<LineageContext>) -> Request {
         lineage_context: inherited,
         project: None,
         event: None,
+        usage: None,
     }
 }
 fn add(c: &mut Connection, n: u32, class: &str, now: u64, policy: &Policy) -> Reply {

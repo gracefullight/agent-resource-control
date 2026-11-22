@@ -47,6 +47,7 @@ async fn lifecycle_cancellation_before_commit_releases_shared_capacity_and_never
             reason: arc_ipc::Reason::UnresolvedCommand,
             uncertainty: arc_ipc::Uncertainty::Observe,
         },
+        usage: None,
     };
     let evidence = arc_storage::jobs::StartEvidence::gather(&request);
     let ticket = client
@@ -126,7 +127,7 @@ fn worker_records_native_observation_time_instead_of_queue_execution_time() {
         arc_core::process_identity::random_job_id().unwrap()
     ));
     let mut connection = arc_storage::open_and_migrate(root.join("arc.sqlite3")).unwrap();
-    let request=StartRequest::Register{job_id:JobId::try_from("00000000000000000000000000000002".to_string()).unwrap(),observer:ProcessIdentity::capture(std::process::id()).unwrap(),classification:serde_json::from_value(serde_json::json!({"classification":"UNKNOWN","locality":"UNKNOWN","reason":"UNRESOLVED_COMMAND","uncertainty":"OBSERVE"})).unwrap()};
+    let request=StartRequest::Register{job_id:JobId::try_from("00000000000000000000000000000002".to_string()).unwrap(),observer:ProcessIdentity::capture(std::process::id()).unwrap(),classification:serde_json::from_value(serde_json::json!({"classification":"UNKNOWN","locality":"UNKNOWN","reason":"UNRESOLVED_COMMAND","uncertainty":"OBSERVE"})).unwrap(), usage: None};
     let evidence = arc_storage::jobs::StartEvidence::gather(&request);
     // Fixed caller-clock fixture: changing worker execution to stamp current
     // wall time would falsely move the prior native observation by one second.

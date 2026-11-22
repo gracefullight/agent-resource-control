@@ -53,6 +53,7 @@ pub(super) fn prepare_with(
             job_id: job_id.clone(),
             observer: observer.clone(),
             classification,
+            usage: super::usage_fields::registration(),
         },
         deadline,
         cancelled,

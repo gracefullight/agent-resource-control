@@ -6,6 +6,7 @@
 //! operation is keyed by the original job ID and never launches a child.
 
 mod admission;
+pub mod decision_history;
 mod diagnostics;
 pub use diagnostics::diagnostics;
 mod fair_head;
@@ -15,6 +16,7 @@ pub use pressure::{
     acknowledge_unspawned_launch, discard_unreleased_launch, enqueue, launch, poll_with_proof,
 };
 mod lifecycle;
+pub(crate) mod start_rate;
 mod store;
 #[cfg(test)]
 mod tests;

@@ -25,6 +25,7 @@ pub(super) fn handle(
                     job_id,
                     observer,
                     classification,
+                    ..
                 } => {
                     state
                         .jobs
@@ -72,6 +73,7 @@ pub(super) fn handle(
                     lineage_context,
                     project: _,
                     event: _,
+                    usage: _,
                 } => {
                     if matches!(mode, PeerMode::UnsupportedBunThenUnavailable) {
                         return Some(Response::error(

@@ -14,6 +14,7 @@ struct FakeOps {
     replace_after_signal: bool,
     replace_after_enumeration: bool,
     reject_signal: bool,
+    exec_after_signal: bool,
 }
 
 impl FakeOps {
@@ -33,6 +34,7 @@ impl FakeOps {
             replace_after_signal: false,
             replace_after_enumeration: false,
             reject_signal: false,
+            exec_after_signal: false,
         }
     }
 }
@@ -48,10 +50,23 @@ impl ProcessOps for FakeOps {
         self.observations.set(self.observations.get() + 1);
         let replaced = (self.replace_after_signal && self.signals.get() > 0)
             || (self.replace_after_enumeration && self.enumerations.get() > 0);
+        // The same kernel process completes an exec after the first stop was
+        // accepted: a new PID version, and running until it is signalled again.
+        let execed = self.exec_after_signal && self.signals.get() > 0;
+        let mut bsd = self.state;
+        if execed && self.signals.get() < 2 {
+            bsd.pbi_status = libc::SRUN;
+        }
         Ok(ObservedProcess {
-            bsd: self.state,
+            bsd,
             unique_id: if replaced { 502 } else { 501 },
-            pid_version: if replaced { 8 } else { 7 },
+            pid_version: if replaced {
+                8
+            } else if execed {
+                9
+            } else {
+                7
+            },
         })
     }
     fn signal(&self, _: &OwnedProcess, _: i32) -> io::Result<()> {
@@ -95,6 +110,41 @@ fn owned_tree_live_mismatch_or_indeterminate_never_signals_or_enumerates() {
         assert_eq!(ops.signals.get(), 0);
         assert_eq!(ops.enumerations.get(), 0);
     }
+}
+
+#[test]
+fn owned_tree_restops_a_process_whose_stop_was_lost_to_an_exec() {
+    let identity = identity();
+    let mut ops = FakeOps::new(&identity, IdentityStatus::VerifiedMatch);
+    ops.exec_after_signal = true;
+    let mut owned = Vec::new();
+    let read_info = |_| {
+        let mut state = ops.state;
+        if ops.signals.get() < 2 {
+            state.pbi_status = libc::SRUN;
+        }
+        Some(state)
+    };
+    freeze_tree_with_ops(
+        identity,
+        &mut owned,
+        &|_| panic!("the listed child is not a child of the fixture"),
+        &read_info,
+        &ops,
+    )
+    .unwrap();
+    assert_eq!(
+        ops.signals.get(),
+        2,
+        "the exec'd generation is stopped again"
+    );
+    assert_eq!(
+        ops.enumerations.get(),
+        1,
+        "children are listed once it stops"
+    );
+    assert_eq!(owned.len(), 1);
+    assert_eq!((owned[0].unique_id, owned[0].pid_version), (501, 9));
 }
 
 #[test]

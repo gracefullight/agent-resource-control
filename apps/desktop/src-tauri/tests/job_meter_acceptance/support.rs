@@ -150,7 +150,14 @@ pub fn reconcile(case: &RealDaemon, id: &str) -> Value {
     let cli = output(command, "arcctl meter summary");
     assert!(cli.status.success(), "{cli:?}");
     assert!(cli.stderr.is_empty());
-    let cli: Value = serde_json::from_slice(&cli.stdout).unwrap();
+    let mut cli: Value = serde_json::from_slice(&cli.stdout).unwrap();
+    // The CLI adds the job's process tree beside the v1 summary (MTR-002).
+    let tree = cli
+        .as_object_mut()
+        .unwrap()
+        .remove(arc_ipc::meter::job_tree::SUMMARY_KEY)
+        .expect("the daemon advertises meter.job-tree.v1");
+    assert!(tree.is_object() || tree.is_null(), "{tree}");
     let desktop = Router::new(case.bridge.clone())
         .call("meter_summary", json!({"job_id":id}))
         .unwrap();

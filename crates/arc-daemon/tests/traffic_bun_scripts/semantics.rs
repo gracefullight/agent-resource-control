@@ -121,7 +121,10 @@ pub fn signals(read: Read) {
     assert_eq!(case.active()["permits"], 0);
     let meter = case.cli(&["meter", "summary", "--job", id, "--json"]);
     assert!(meter.status.success());
-    let meter: Value = serde_json::from_slice(&meter.stdout).unwrap();
+    let mut meter: Value = serde_json::from_slice(&meter.stdout).unwrap();
+    // The CLI adds the job's process tree beside the v1 summary (MTR-002).
+    let tree = meter.as_object_mut().unwrap().remove("process_tree");
+    assert!(tree.is_some_and(|t| t.is_object() || t.is_null()));
     assert_eq!(
         meter,
         (case.read)(&case.fixture.socket, "meter_summary", json!({"job_id":id}))

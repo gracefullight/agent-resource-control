@@ -109,6 +109,7 @@ pub fn acknowledgments(read: Read) {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let lost = lose(&case, &enqueue);
     eventually(|| case.active()["permits"] == 1);

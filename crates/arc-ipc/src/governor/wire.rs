@@ -17,6 +17,7 @@ pub const OPERATION_LAUNCH: &str = "governor.launch";
 pub const OPERATION_LAUNCH_ACK: &str = "governor.launch.ack";
 pub const MAX_LAUNCH_VALID_FOR_MS: u64 = 2000;
 pub const SWITCH_KEY: &str = "governor.enabled";
+pub const START_RATE_SWITCH_KEY: &str = "traffic.start_rate_control";
 pub const MAX_SAFE_INTEGER: u64 = 9_007_199_254_740_991;
 pub const MAX_SWITCH_BYTES: usize = 2048;
 pub const MAX_EXECUTION_BYTES: usize = 16384;

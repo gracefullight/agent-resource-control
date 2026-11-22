@@ -360,6 +360,7 @@ fn acknowledged_preparation_cancellation_never_launches() {
                         job_id,
                         observer,
                         classification,
+                        ..
                     } = request
                     else {
                         panic!("expected REGISTER")

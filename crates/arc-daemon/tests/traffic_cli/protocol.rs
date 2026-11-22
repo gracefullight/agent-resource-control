@@ -17,6 +17,7 @@ fn protocol_admission_enforces_windows_budget_fifo_and_bypass() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let test = enqueue(1, cargo_class("TEST", "CARGO_TEST"));
     let lint = enqueue(2, cargo_class("LINT", "CARGO_CLIPPY"));
@@ -122,6 +123,7 @@ fn lost_grant_and_completion_acknowledgements_are_idempotent() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     // A disconnected partial frame cannot commit an enqueue.
     let mut partial = f.connect();

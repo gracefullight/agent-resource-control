@@ -90,10 +90,19 @@ fn recorded_after_exit(w: &World, mode: &str, marker: &Path, name: &str) -> (u32
     let spawned: serde_json::Value = serde_json::from_str(&spawned).unwrap();
     let pid = u32::try_from(spawned["child_pid"].as_u64().unwrap()).unwrap();
     // The child has exited and is not yet reaped: its identity is still
-    // there, but it is no longer a running process.
-    let child = ProcessIdentity::capture(pid).unwrap();
+    // there, but it is no longer a running process. While it exits, Darwin
+    // can briefly refuse the capture itself; the unreaped pid is not reused.
+    let mut captured = None;
+    eventually("the exiting child's identity was captured", || {
+        captured = ProcessIdentity::capture(pid).ok();
+        captured.is_some()
+    });
+    let child = captured.unwrap();
+    // While it exits, Darwin briefly reports the child as neither live nor a
+    // zombie, which `probe` reports as indeterminate; wait for that to settle.
     eventually("the child exited before it was recorded", || {
         probe_live(&child) != IdentityStatus::VerifiedMatch
+            && probe(&child) != IdentityStatus::Indeterminate
     });
     assert_eq!(probe(&child), IdentityStatus::VerifiedMatch);
     assert_eq!(starts(marker), 1);

@@ -26,6 +26,7 @@ pub fn register(n: u32) -> StartRequest {
         job_id: id(n),
         observer: observer(),
         classification: serde_json::from_value(json!({"classification":"UNKNOWN","locality":"UNKNOWN","reason":"UNRESOLVED_COMMAND","uncertainty":"OBSERVE"})).unwrap(),
+        usage: None,
     }
 }
 pub fn start(f: &Fixture, request: &StartRequest) -> StartResult {

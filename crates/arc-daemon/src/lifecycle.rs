@@ -71,7 +71,7 @@ pub(crate) async fn supervise_with_source(
     supplied_meter: Option<arc_meter::MeterWorker>,
 ) -> Result<(), Box<dyn Error>> {
     // Held until this supervisor returns; see the module for their meaning.
-    let (mut fairness, mut hook_event) = (None, None);
+    let (mut fairness, mut hook_event, mut capabilities) = (None, None, Vec::new());
     // Startup failures still close and join the worker before returning.
     let startup = (|| -> Result<_, Box<dyn Error>> {
         limits.validate()?;
@@ -89,6 +89,7 @@ pub(crate) async fn supervise_with_source(
             &owned_socket.path,
             arc_ipc::traffic::hook_event::ADVERTISEMENT,
         );
+        capabilities = capability_advertisement::advertise(&owned_socket.path);
         // The full Sweeper is always off. The bounded Reaper is named only
         // when the operator explicitly selected it.
         let reaper = match crate::reaper::Policy::current() {
@@ -121,7 +122,7 @@ pub(crate) async fn supervise_with_source(
                 return Err(error);
             }
         };
-    let _advertisements = (fairness, hook_event);
+    let _advertisements = (fairness, hook_event, capabilities);
     let profile = match std::env::var_os("ARC_IPC_PROFILE").as_deref() {
         Some(value) if value == "test" => "test",
         _ => "default",
@@ -133,7 +134,9 @@ pub(crate) async fn supervise_with_source(
     if let Some(meter) = &meter {
         client.bind_meter(meter.activity());
         client.bind_observation(meter.reader());
+        job_process_meter::bind(meter, &client);
     }
+    let _retention = crate::db_worker::retention::start(&client);
     let meter_reader = meter.as_ref().map(arc_meter::MeterWorker::reader);
     let reaper = crate::reaper::start(&client);
     let (reason, accept_error) = loop {
@@ -319,8 +322,12 @@ impl Drop for OwnedSocket {
     }
 }
 
+#[path = "capability_advertisement.rs"]
+mod capability_advertisement;
 #[path = "traffic_fairness_advertisement.rs"]
 mod fairness_advertisement;
+#[path = "job_process_meter.rs"]
+mod job_process_meter;
 
 #[cfg(test)]
 #[path = "database_failure_tests.rs"]

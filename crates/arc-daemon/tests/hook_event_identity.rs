@@ -232,7 +232,21 @@ fn redelivered_event_creates_one_job_and_one_permit(vendor: Vendor) {
     let first = vendor.returned_command(&w.f, &w.s, &w.project, &installed, &event);
     let second = vendor.returned_command(&w.f, &w.s, &w.project, &installed, &event);
     let key = hook::event_key(&first, "cargo build");
-    assert_eq!(second, first, "one event names one key");
+    assert_eq!(
+        hook::event_key(&second, "cargo build"),
+        key,
+        "one event names one key"
+    );
+    // The hook's measured overhead (MET-026) is the only part that may differ
+    // between two deliveries; the rest of the command is identical.
+    let without_overhead = |command: &str| match command.split_once(" --arc-hook-overhead-ms ") {
+        Some((head, tail)) => format!(
+            "{head}{}",
+            tail.trim_start_matches(|c: char| c.is_ascii_digit())
+        ),
+        None => command.to_owned(),
+    };
+    assert_eq!(without_overhead(&second), without_overhead(&first));
     for id in ["session_id", "tool_use_id"] {
         assert!(!first.contains(event[id].as_str().unwrap()), "{first}");
     }
@@ -253,6 +267,9 @@ fn redelivered_event_creates_one_job_and_one_permit(vendor: Vendor) {
     let recorded_key = [(job.clone(), Some(key.clone()))];
     assert_eq!(record::keys(&db), recorded_key);
     assert_eq!(record::rows(&db), [1; 5]);
+    // RUNNING is recorded when the child is attached, which can precede the
+    // stub writing its start marker: wait for the marker, never assume it.
+    journey::eventually("the first delivery's tool start", || w.cargo.starts() >= 2);
     assert_eq!(w.cargo.starts(), 2);
 
     // Redelivery: it runs to its end while the window is full, so it was

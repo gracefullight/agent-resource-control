@@ -100,7 +100,7 @@ fn version_7_database_migrates_to_event_key_with_rows_intact() {
 
     let c = db.open();
     let schema = assess_schema(&c).unwrap();
-    assert_eq!(schema.applied_version, Some(8));
+    assert_eq!(schema.applied_version, Some(9));
     assert!(schema.history_verified);
     assert_eq!(rows(&c), before_rows);
     let after_history = history(&c);

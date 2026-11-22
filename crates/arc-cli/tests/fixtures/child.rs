@@ -34,6 +34,7 @@ mod exec {
     mod terminal;
     mod traffic;
     pub(crate) mod transport;
+    mod usage_fields;
     mod witness;
     pub(crate) use capture::capture_argv;
     pub(crate) use entry::{run, run_hook, run_with_environment, run_with_environment_and_notice};

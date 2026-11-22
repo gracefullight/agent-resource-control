@@ -125,6 +125,7 @@ pub(super) fn local_container_projection_for_earlier_peers() {
             ),
             project: None,
             event: None,
+            usage: None,
         },
     };
     let granted = ok(

@@ -33,6 +33,7 @@ fn selected_remote_buildx_bypasses_held_build_permit_and_runs_once() {
             lineage_context: None,
             project: None,
             event: None,
+            usage: None,
         },
     };
     let grant = protocol::call(&f, OPERATION_JOB, json!(request));
@@ -53,6 +54,7 @@ fn selected_remote_buildx_bypasses_held_build_permit_and_runs_once() {
             lineage_context: None,
             project: None,
             event: None,
+            usage: None,
         },
     };
     let queued = protocol::call(&f, OPERATION_JOB, json!(probe));

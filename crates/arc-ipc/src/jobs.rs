@@ -1,5 +1,6 @@
 //! Protocol-1 lifecycle payloads. No execution arguments cross this boundary.
 mod types;
+pub mod usage;
 mod validation;
 use crate::Classification;
 pub use arc_core::process_identity::ProcessIdentity;
@@ -33,6 +34,9 @@ pub enum StartRequest {
         observer: ProcessIdentity,
         #[serde(deserialize_with = "object")]
         classification: Classification,
+        /// Sent only after `meter::usage::CAPABILITY`; omitted when absent.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        usage: Option<usage::UsageFields>,
     },
     Claim {
         job_id: JobId,

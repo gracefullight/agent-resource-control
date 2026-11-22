@@ -117,6 +117,7 @@ fn contextual_registration_negotiates_once_and_never_falls_back_after_a_lost_ack
             job_id: id,
             observer: ProcessIdentity::capture(std::process::id()).unwrap(),
             classification: remote_classification(),
+            usage: None,
         };
         let outcome = start_until(
             &socket,
@@ -258,6 +259,7 @@ fn proven_gh_and_ssh_keep_protocol_one_reasons_and_uncertainty_is_conservative()
             job_id: JobId::try_from("e".repeat(32)).unwrap(),
             observer: ProcessIdentity::capture(std::process::id()).unwrap(),
             classification,
+            usage: None,
         };
         let result = start_until(
             &socket,

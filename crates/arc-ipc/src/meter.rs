@@ -7,6 +7,8 @@ use serde_json::Value;
 
 pub mod job;
 pub use job::*;
+pub mod job_tree;
+pub mod usage;
 
 pub const OPERATION_METER_SNAPSHOT: &str = "meter.snapshot";
 pub const ERROR_METER_UNAVAILABLE: &str = "METER_UNAVAILABLE";
@@ -17,7 +19,8 @@ pub fn snapshot_request(request_id: impl Into<String>) -> Request {
 
 /// No path, PID, rate, history or attribution query is accepted from a client.
 pub fn decode_request(payload: &Value) -> Result<(), &'static str> {
-    payload.is_null().then_some(()).ok_or(ERROR_INVALID_REQUEST)
+    // Protocol-1 peers send null; `usage::SnapshotRequest` is the only addition.
+    usage::decode_snapshot_request(payload).map(|_| ())
 }
 
 fn object_tree(value: &Value) -> bool {

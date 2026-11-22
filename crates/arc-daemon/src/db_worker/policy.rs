@@ -24,7 +24,11 @@ pub(crate) enum Operation {
         owner: repository::OwnerEvidence,
         proof: Option<Box<repository::LineageProof>>,
     },
+    JobTree(lanes::job_tree::Query),
+    UsageSummary(lanes::usage_summary::Query),
+    DecisionHistory(lanes::decision_history::Query),
 }
+use crate::connection::policy_dispatch as lanes;
 pub(crate) fn execute(
     connection: &mut Connection,
     operation: Operation,
@@ -44,6 +48,21 @@ fn execute_with_clock(
         .map(|r| r as &dyn ObservationProvider)
         .unwrap_or(&arc_policy::evaluator::MissingObservation);
     match operation {
+        Operation::JobTree(query) => {
+            let snapshot = reader.and_then(|r| r.reader().clone());
+            lanes::job_tree::read(connection, query, snapshot.as_ref(), jobs::now())
+                .map(Value::Read)
+        }
+        Operation::UsageSummary(query) => {
+            let snapshot = reader.and_then(|r| r.reader().clone());
+            lanes::usage_summary::read(connection, query, snapshot.as_ref(), jobs::now())
+                .map(Value::Read)
+        }
+        Operation::DecisionHistory(query) => {
+            let snapshot = reader.and_then(|r| r.reader().clone());
+            lanes::decision_history::read(connection, query, snapshot.as_ref(), jobs::now())
+                .map(Value::Read)
+        }
         Operation::Unspawned { request, owner } => {
             repository::acknowledge_unspawned_launch(connection, &request, &owner)?;
             Ok(Value::Acknowledged)
@@ -183,6 +202,9 @@ pub(crate) async fn handle(
         Input::Job(id) => Operation::Job(id),
         Input::Diagnostics(id) => Operation::Diagnostics(id),
         Input::Decision(id) => Operation::Decision(id),
+        Input::JobTree(query) => Operation::JobTree(query),
+        Input::UsageSummary(query) => Operation::UsageSummary(query),
+        Input::DecisionHistory(query) => Operation::DecisionHistory(query),
         Input::Launch(request) | Input::Unspawned(request) => {
             use arc_core::process_identity::{probe_live, IdentityStatus};
             if request.observer.pid != peer

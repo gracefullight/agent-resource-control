@@ -129,13 +129,32 @@ pub fn quoted_arcctl<'a>(command: &'a str, rest: &str) -> &'a str {
 
 /// The event key of a returned command, which must be exactly
 /// `'<arcctl>' hook-exec --arc-event <64 lowercase hex> -- <literal>`: the
-/// option directly after `hook-exec` and the literal unchanged.
+/// option directly after `hook-exec` and the literal unchanged. A daemon that
+/// advertises usage fields also receives `--arc-vendor <claude-code|cursor>
+/// --arc-hook-overhead-ms <u64>` between the key and `--` (MTR-004, MET-026).
 #[track_caller]
 pub fn event_key(command: &str, literal: &str) -> String {
-    let (quoted, key) = command
+    let (quoted, keyed) = command
         .strip_suffix(&format!(" -- {literal}"))
         .and_then(|rest| rest.split_once(" hook-exec --arc-event "))
         .unwrap_or_else(|| panic!("not the keyed managed route: {command}"));
+    let key = match keyed.split_once(" --arc-vendor ") {
+        Some((key, fields)) => {
+            let (vendor, overhead) = fields
+                .split_once(" --arc-hook-overhead-ms ")
+                .unwrap_or_else(|| panic!("no hook overhead: {command}"));
+            assert!(
+                matches!(vendor, "claude-code" | "cursor"),
+                "not a vendor: {command}"
+            );
+            assert!(
+                overhead.parse::<u64>().is_ok(),
+                "not an overhead: {command}"
+            );
+            key
+        }
+        None => keyed,
+    };
     assert!(
         key.len() == 64
             && key

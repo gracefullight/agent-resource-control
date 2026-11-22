@@ -48,10 +48,15 @@ fn partial_native_failures_preserve_available_fields_cli_health_and_jobs() {
         .unwrap();
         if output.status.success() {
             assert!(output.stderr.is_empty());
-            break arc_ipc::meter::decode_snapshot(
-                &serde_json::from_slice(&output.stdout).unwrap(),
-            )
-            .unwrap();
+            let mut value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+            // `traffic` (MET-017) sits beside the strictly decoded v1 fields.
+            if let Some(traffic) = value
+                .as_object_mut()
+                .and_then(|object| object.remove(arc_ipc::meter::usage::SNAPSHOT_TRAFFIC_KEY))
+            {
+                serde_json::from_value::<arc_ipc::meter::usage::SnapshotTraffic>(traffic).unwrap();
+            }
+            break arc_ipc::meter::decode_snapshot(&value).unwrap();
         }
         assert!(String::from_utf8_lossy(&output.stderr).starts_with("METER_UNAVAILABLE"));
         assert!(Instant::now() < deadline);

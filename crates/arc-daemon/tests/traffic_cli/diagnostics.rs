@@ -182,6 +182,7 @@ fn persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets() {
                 lineage_context: None,
                 project: None,
                 event: None,
+                usage: None,
             };
             let second = JobRequest::Enqueue {
                 job_id: id2.clone(),
@@ -190,6 +191,7 @@ fn persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets() {
                 lineage_context: None,
                 project: None,
                 event: None,
+                usage: None,
             };
             let context1 = LineageContext::try_from("a".repeat(64)).unwrap();
             let context2 = LineageContext::try_from("b".repeat(64)).unwrap();

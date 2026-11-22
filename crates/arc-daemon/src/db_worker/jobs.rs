@@ -22,6 +22,10 @@ pub(crate) enum Operation {
     Policy(super::policy::Operation),
     Governor(super::governor::Operation),
     Reaper(super::reaper_store::Operation),
+    #[allow(dead_code)] // Lane A.
+    ResourceSamples(super::resource_samples::Operation),
+    #[allow(dead_code)] // Lane C.
+    Retention(super::retention::Operation),
 }
 pub(crate) enum Value {
     Start(Result<StartResult, JobError>),
@@ -35,6 +39,10 @@ pub(crate) enum Value {
     Policy(Result<super::policy::Value, JobError>),
     Governor(Result<super::governor::Value, JobError>),
     Reaper(super::reaper_store::Value),
+    #[allow(dead_code)] // Lane A.
+    ResourceSamples(super::resource_samples::Value),
+    #[allow(dead_code)] // Lane C.
+    Retention(super::retention::Value),
 }
 static TIME_SOURCE: OnceLock<fn() -> u64> = OnceLock::new();
 
@@ -105,12 +113,19 @@ pub(crate) fn execute_observed(
         Operation::Reaper(operation) => {
             Value::Reaper(super::reaper_store::execute(connection, operation))
         }
+        Operation::ResourceSamples(operation) => {
+            Value::ResourceSamples(super::resource_samples::execute(connection, operation))
+        }
+        Operation::Retention(operation) => {
+            Value::Retention(super::retention::execute(connection, operation))
+        }
     };
     // Bounded opportunistic expiry shares this connection and its existing
     // cancellation/deadline. Failure never changes a committed request result.
     if !step {
         let _ = arc_storage::job_meter::expire(connection, now());
         let _ = arc_storage::policy::expire(connection, now());
+        super::start_rate::after_operation(connection, now());
     }
     value
 }

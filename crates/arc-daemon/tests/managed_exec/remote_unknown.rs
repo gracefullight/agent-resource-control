@@ -153,6 +153,7 @@ fn custom_shell_bypasses_held_build_and_preserves_native_execution_on_fail_open(
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let JobResult::Granted {
         permit_generation, ..

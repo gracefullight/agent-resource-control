@@ -110,7 +110,7 @@ fn missing_invalid_and_newer_schema_startup_reject_without_data_or_history_chang
     for (sql, reason) in [
         ("DELETE FROM schema_migrations", "missing migration history; preserve the database and investigate against a trusted copy"),
         ("UPDATE schema_migrations SET id='0001_other' WHERE id='0001_phase0'", "invalid migration history; preserve the database and investigate against a trusted copy"),
-        ("INSERT INTO schema_migrations VALUES ('0009_future',42,'future-checksum'); PRAGMA user_version=9", "unsupported newer schema version 9 (supported 8); use a binary supporting that version; downgrade execution is not supported"),
+        ("INSERT INTO schema_migrations VALUES ('0010_future',42,'future-checksum'); PRAGMA user_version=10", "unsupported newer schema version 10 (supported 9); use a binary supporting that version; downgrade execution is not supported"),
     ] {
         let database = TempDatabase::new();
         let socket = database.0.parent().unwrap().join("arc.sock");

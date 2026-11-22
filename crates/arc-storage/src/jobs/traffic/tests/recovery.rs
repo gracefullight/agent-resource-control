@@ -43,6 +43,7 @@ fn lost_owner_and_exited_attached_child_release_on_observation_after_reopen() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let grant = enqueue(
         &mut c,

@@ -3,6 +3,8 @@
 use arc_detector::{Classification, JobClass, Locality, Reason};
 use serde::{Deserialize, Serialize};
 
+pub mod start_rate;
+
 /// Largest value representable by the SQLite integer columns used by storage.
 pub const MAX_RESOURCE_VALUE: u64 = i64::MAX as u64;
 
@@ -45,6 +47,8 @@ pub struct Policy {
     pub lint: ClassPolicy,
     pub typecheck: ClassPolicy,
     pub budget: Resources,
+    /// Start-rate control under the windows and reservations above.
+    pub start_rate: start_rate::StartRatePolicy,
 }
 
 impl Default for Policy {
@@ -83,6 +87,7 @@ impl Default for Policy {
                 cpu_millis: 2_000,
                 memory_bytes: 4 * gib,
             },
+            start_rate: start_rate::StartRatePolicy::default(),
         }
     }
 }

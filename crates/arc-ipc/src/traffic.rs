@@ -12,6 +12,7 @@ pub use arc_traffic::{BypassReason, Resources, WaitReason};
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
+pub mod decision_history;
 pub mod diagnostics;
 pub mod endpoint;
 pub mod fairness;
@@ -211,6 +212,9 @@ pub enum JobRequest {
         /// Sent only after `hook_event::CAPABILITY`; omitted when absent.
         #[serde(default, skip_serializing_if = "Option::is_none")]
         event: Option<hook_event::EventKey>,
+        /// Sent only after `meter::usage::CAPABILITY`; omitted when absent.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        usage: Option<crate::jobs::usage::UsageFields>,
     },
     Poll {
         job_id: JobId,

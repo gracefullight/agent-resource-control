@@ -51,10 +51,12 @@ pub(crate) fn run_hook(
     argv: Vec<OsString>,
     request: Option<String>,
     event: Option<String>,
+    usage: (Option<String>, Option<String>),
 ) -> ExitCode {
-    let (Ok(request), Ok(event)) = (
+    let (Ok(request), Ok(event), Ok(usage)) = (
         super::stages::parse_request(request),
         super::event_key::parse(event),
+        super::usage_fields::parse(usage.0, usage.1),
     ) else {
         return super::invalid();
     };
@@ -71,8 +73,10 @@ pub(crate) fn run_hook(
         return super::invalid();
     }
     super::event_key::with_event(event, || {
-        super::stages::with_request(request, || {
-            super::run_with_environment(argv, true, &Instant::now)
+        super::usage_fields::with_usage(usage, || {
+            super::stages::with_request(request, || {
+                super::run_with_environment(argv, true, &Instant::now)
+            })
         })
     })
 }

@@ -181,7 +181,7 @@ fn freeze_tree_with_ops(
             Err(error) => return Err(error),
         }
     }
-    let process =
+    let mut process =
         frozen.ok_or_else(|| io::Error::other("fixture process generation kept changing"))?;
     let watchdog = Instant::now() + Duration::from_secs(60);
     loop {
@@ -196,17 +196,19 @@ fn freeze_tree_with_ops(
                 }
                 break;
             }
-            None => {
-                let Some((current, _)) = owned_tree_process::acquire(&identity, ops)? else {
+            // Not yet stopped, or unreadable: an exec may have dropped the stop.
+            _ => {
+                let Some(current) = owned_tree_process::restop(&process, ops)? else {
                     return Ok(());
                 };
-                if current.unique_id != process.unique_id
-                    || current.pid_version != process.pid_version
-                {
-                    return Ok(());
+                if current.pid_version != process.pid_version {
+                    let unique_id = process.unique_id;
+                    if let Some(item) = owned.iter_mut().find(|item| item.unique_id == unique_id) {
+                        *item = current.clone();
+                    }
+                    process = current;
                 }
             }
-            _ => (),
         }
         // The signal was sent to the verified generation. Wait for the
         // kernel's stopped state, rather than treating scheduler delay as a

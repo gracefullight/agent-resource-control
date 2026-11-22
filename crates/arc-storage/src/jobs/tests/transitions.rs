@@ -205,6 +205,7 @@ fn native_zombie_identity_is_not_accepted_as_a_live_observer() {
         job_id: id(1),
         observer,
         classification: super::arc_detector_classification(),
+        usage: None,
     });
     let evidence = request.as_ref().ok().map(StartEvidence::gather);
     child.wait().unwrap();

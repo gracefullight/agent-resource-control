@@ -88,6 +88,7 @@ pub fn start(
                 job_id,
                 observer,
                 classification,
+                ..
             } = request
             else {
                 return Err(JobError::InvalidTransition);
@@ -200,6 +201,9 @@ pub fn start(
         }
     };
     codec::write(&tx, &job, disposition == D::Created)?;
+    if let (D::Created, StartRequest::Register { usage, .. }) = (disposition, request) {
+        super::usage_fields::record(&tx, &job.job_id, usage.as_ref(), None)?;
+    }
     if let Some(proof) = &evidence.meter {
         crate::job_meter::bind(&tx, &job, proof)?;
     }

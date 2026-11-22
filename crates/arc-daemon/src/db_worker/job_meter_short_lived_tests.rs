@@ -41,6 +41,7 @@ async fn unreaped_terminated_child_can_bind_before_attach_in_both_execution_mode
                         lineage_context: None,
                         project: None,
                         event: None,
+                        usage: None,
                     },
                     observer.pid,
                     deadline(),
@@ -75,6 +76,7 @@ async fn unreaped_terminated_child_can_bind_before_attach_in_both_execution_mode
                     job_id: job_id.clone(),
                     observer: observer.clone(),
                     classification,
+                    usage: None,
                 },
                 StartRequest::Claim {
                     job_id: job_id.clone(),

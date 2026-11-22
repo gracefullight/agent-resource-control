@@ -323,6 +323,7 @@ pub(super) fn prepare(
         // they are sent protocol-1 bytes only and keep sequence order.
         project: None,
         event: None,
+        usage: None,
     };
     let mut possibly_committed = false;
     let continuity = Continuity::default();

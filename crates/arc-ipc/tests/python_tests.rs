@@ -24,6 +24,7 @@ fn enqueue(reason: Reason) -> serde_json::Value {
             lineage_context: None,
             project: None,
             event: None,
+            usage: None,
         }
     })
 }

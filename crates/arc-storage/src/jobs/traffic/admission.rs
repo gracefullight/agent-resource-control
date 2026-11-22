@@ -110,6 +110,7 @@ pub(super) fn enqueue_governed(
         lineage_context,
         project,
         event,
+        usage,
     } = request
     else {
         return Err(E::InvalidRequest);
@@ -191,6 +192,7 @@ pub(super) fn enqueue_governed(
         };
         codec::write(tx, &job, true)?;
         crate::hook_event::record(tx, job_id, event.as_ref())?;
+        crate::jobs::usage_fields::record(tx, job_id, usage.as_ref(), project.as_ref())?;
         tx.execute(
             "UPDATE jobs SET enforcement='SCHEDULED', queue_at=?2 WHERE id=?1",
             params![job_id.as_str(), now as i64],
@@ -407,6 +409,18 @@ fn try_grant(
             let (_, config) = store::policy_class(class, admission.policy);
             if config.reservation != reservation {
                 return Err(E::StorageFailure);
+            }
+            let candidate = super::start_rate::Candidate {
+                job,
+                sequence: e.sequence,
+                queued_at_ms: e.queued_at,
+                class,
+                policy: admission.policy,
+                effective: admission.effective,
+                now_ms: admission.now,
+            };
+            if let Some(held) = super::start_rate::hold(connection, &candidate)? {
+                return Ok(held);
             }
             let previous: Option<i64> = connection
                 .query_row(

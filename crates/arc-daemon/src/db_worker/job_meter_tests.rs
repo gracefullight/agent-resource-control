@@ -97,6 +97,7 @@ async fn terminal_job(client: &DbClient) -> JobMeterReport {
             job_id: id.clone(),
             observer: observer.clone(),
             classification,
+            usage: None,
         },
         StartRequest::Claim {
             job_id: id.clone(),

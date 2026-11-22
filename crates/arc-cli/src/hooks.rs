@@ -17,6 +17,8 @@ pub(super) mod fixture;
 mod stages;
 #[path = "hooks/test_literals.rs"]
 mod test_literals;
+#[path = "hooks/usage_fields.rs"]
+mod usage_fields;
 
 use clap::{Subcommand, ValueEnum};
 use serde_json::Value;
@@ -85,6 +87,7 @@ pub(crate) fn run(command: HooksCommand) -> ExitCode {
     };
     match command {
         HooksCommand::Run { vendor } => {
+            let started = std::time::Instant::now();
             let mut bytes = Vec::new();
             let event = io::stdin()
                 .lock()
@@ -95,6 +98,7 @@ pub(crate) fn run(command: HooksCommand) -> ExitCode {
                 .and_then(|_| event::decode(&bytes));
             let response = event
                 .and_then(|event| dispatch(vendor, &event, &context))
+                .map(|response| usage_fields::annotate(vendor, started, response))
                 .and_then(|response| event::wire_response(vendor, &bytes, &response));
             match response {
                 Some(value) => {

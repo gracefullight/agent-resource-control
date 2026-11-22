@@ -174,6 +174,7 @@ fn bun_watch_hot_unresolved_scripts_and_remote_bypass_a_full_test_window() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let JobResult::Granted {
         permit_generation, ..
@@ -245,6 +246,7 @@ fn bun_lost_grant_attach_and_completion_replies_reuse_one_permit() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let send = |input: &JobRequest| {
         let mut request = arc_ipc::Request::new("bun-retry", OPERATION_BUN_JOB);

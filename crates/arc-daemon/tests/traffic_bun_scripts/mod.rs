@@ -261,6 +261,15 @@ impl<T> Case<T> {
         );
         let mut a = cli.clone();
         let mut b = bridge.clone();
+        // The CLI adds the recorded decisions (TRF-015); the last is v1's, projected.
+        if let Some(h) = a.as_object_mut().unwrap().remove("decision_history") {
+            let last = &h["decisions"][h["decisions"].as_array().unwrap().len().wrapping_sub(1)];
+            let (v1, r) = (&cli["admission"]["last_decision"], &last["reason"]);
+            let projected = json!({"start_rate":"fifo","project_fair_turn":"admitted"});
+            let reason = r.as_str().and_then(|r| projected.get(r)).unwrap_or(r);
+            let p = |kind: &Value, reason: &Value| v1.is_object().then(|| json!([kind, reason]));
+            assert_eq!(p(&last["kind"], reason), p(&v1["kind"], &v1["reason"]));
+        }
         a.as_object_mut().unwrap().remove("recorded_at_ms");
         b.as_object_mut().unwrap().remove("recorded_at_ms");
         assert_eq!(
@@ -318,7 +327,9 @@ impl<T> Case<T> {
         assert_eq!(result["diagnostic"]["admission"]["permit_active"], false);
         let meter = self.cli(&["meter", "summary", "--job", &id, "--json"]);
         assert!(meter.status.success(), "{meter:?}");
-        let meter: Value = serde_json::from_slice(&meter.stdout).unwrap();
+        let mut meter: Value = serde_json::from_slice(&meter.stdout).unwrap();
+        let tree = meter.as_object_mut().unwrap().remove("process_tree"); // MTR-002
+        assert!(tree.is_some_and(|t| t.is_object() || t.is_null()));
         let bridge = (self.read)(&self.fixture.socket, "meter_summary", json!({"job_id":id}));
         assert_eq!(meter, bridge);
         let report = &meter["accounting"]["report"];

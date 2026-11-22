@@ -72,6 +72,7 @@ pub fn job(
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let send = |request: &JobRequest, committed: &dyn Fn() -> bool, label: &str| {
         if lose_replies {

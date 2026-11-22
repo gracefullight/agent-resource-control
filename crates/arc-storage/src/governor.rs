@@ -79,6 +79,9 @@ pub fn read_switch(
     connection: &Connection,
     query: &GetGovernorSwitchRequest,
 ) -> JobResult<GovernorSwitchReadResult> {
+    if let Some(result) = crate::jobs::traffic::start_rate::read_switch(connection, query) {
+        return result;
+    }
     let value = GovernorSwitchReadResult {
         switch: get_switch(connection)?,
         mutation_result: query
@@ -104,6 +107,9 @@ pub fn set_switch(
 ) -> JobResult<Mutation> {
     if !request.is_valid() || now_ms > MAX_SAFE_INTEGER {
         return Err(JobError::InvalidRequest);
+    }
+    if let Some(result) = crate::jobs::traffic::start_rate::set_switch(tx, request, now_ms) {
+        return result;
     }
     let switch = get_switch(tx)?;
     if let Some((previous, result)) = receipt(tx, &request.mutation_id)? {
@@ -155,9 +161,10 @@ pub fn set_switch(
     let switch = if changed {
         let at = now_ms.max(switch.updated_at_ms.unwrap_or(0));
         tx.execute("INSERT INTO policy_states(key,enabled,policy_revision,policy_version,updated_at) VALUES(?1,?2,?3,'governor.v1',?4) ON CONFLICT(key) DO UPDATE SET enabled=excluded.enabled,policy_revision=excluded.policy_revision,policy_version=excluded.policy_version,updated_at=excluded.updated_at",params![SWITCH_KEY,request.enabled,revision as i64,at as i64])?;
-        let switch = get_switch(tx)?;
-        crate::jobs::traffic::governor::reconcile_switch(tx, &switch, at)?;
-        switch
+        let after = get_switch(tx)?;
+        crate::jobs::traffic::governor::reconcile_switch(tx, &after, at)?;
+        crate::policy::change_audit::switch(tx, &switch, &after, at)?;
+        after
     } else {
         switch
     };

@@ -78,7 +78,7 @@ fn inspect(
         assert!(listener.accept().is_err());
         operations
     });
-    let (read, fair) = super::super::inspect(&socket, &result.job_id).unwrap();
+    let (read, fair, _) = super::super::inspect(&socket, &result.job_id).unwrap();
     let operations = server.join().unwrap();
     std::fs::remove_dir_all(&directory).unwrap();
     (read, fair, operations)

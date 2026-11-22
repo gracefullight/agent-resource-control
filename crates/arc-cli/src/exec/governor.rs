@@ -179,6 +179,7 @@ pub(super) fn prepare(
         lineage_context: Some(claim.clone()),
         project: super::project_key::negotiated(socket, &prober),
         event: super::event_key::negotiated(socket, &prober),
+        usage: super::usage_fields::negotiated(socket, &prober),
     };
     super::launch::before_enqueue(&json!({"request":enqueue}), &cancelled)?;
     let result = await_admission(

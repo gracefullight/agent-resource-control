@@ -7,6 +7,7 @@ use arc_ipc::{
 use arc_policy::*;
 use rusqlite::{params, Connection, OptionalExtension, TransactionBehavior};
 
+pub mod change_audit;
 pub mod fairness;
 mod retention;
 pub use arc_policy::{RecordedDecision, DECISION_RETENTION_MS, MAX_EXPIRY_BATCH, POLICY_STATE_KEY};

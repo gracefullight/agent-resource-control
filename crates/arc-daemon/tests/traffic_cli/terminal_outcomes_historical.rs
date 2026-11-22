@@ -102,6 +102,7 @@ fn historical_unknown_preserves_verified_child_in_cli_and_protocol() {
                 job_id: id.clone(),
                 observer: observer.clone(),
                 classification,
+                usage: None,
             },
             StartRequest::Claim {
                 job_id: id.clone(),

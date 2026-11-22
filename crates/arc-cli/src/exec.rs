@@ -22,6 +22,7 @@ mod stages;
 mod terminal;
 mod traffic;
 pub(crate) mod transport;
+mod usage_fields;
 mod witness;
 pub(crate) use capture::{capture_argv, capture_shell};
 #[cfg(test)]

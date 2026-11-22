@@ -23,6 +23,12 @@ pub(crate) async fn run(meter: Option<arc_meter::MeterWorker>) -> ExitCode {
         Ok(connection) => connection,
         Err(error) => return fail_database(&error),
     };
+    // POL-004: audit a startup configuration that differs from the last one.
+    // An audit failure never blocks startup.
+    if let Ok(policy) = crate::db_worker::traffic::configuration::current() {
+        let now = crate::db_worker::jobs::now();
+        let _ = arc_storage::policy::change_audit::configuration(&connection, policy, now);
+    }
 
     match server::serve_with_source(connection, socket, meter).await {
         Ok(()) => ExitCode::SUCCESS,

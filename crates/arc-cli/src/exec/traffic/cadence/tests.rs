@@ -1,6 +1,28 @@
-//! Virtual sleeps only: no assertion here depends on elapsed time.
+//! Virtual sleeps until a lock holder lets go: no assertion here depends on
+//! elapsed time.
+//!
+//! A `flock` belongs to the open file description, and `fork` duplicates
+//! every descriptor of the process; `O_CLOEXEC` closes the copy only at
+//! `exec`. Sibling tests of this unit binary spawn children, so for the short
+//! window between a sibling's `fork` and its `exec` a released turn can still
+//! be held by that copy. With virtual sleeps a waiter spends its whole bounded
+//! retry budget inside that window, which is how a release used to show up as
+//! 87 slices instead of 64. After a release the retries here therefore sleep
+//! for real, so the window ends within a slice or two, and the assertions
+//! name the lock outcome rather than an exact retry count.
+//!
+//! The product path is not affected:
+//! `the_turn_descriptor_is_closed_on_exec` proves the descriptor carries
+//! `FD_CLOEXEC`, so no managed child keeps it past `exec`, and the wrapper
+//! drops its `Cadence`, closing the descriptor, when admission returns, before
+//! it spawns the managed child (`exec/traffic.rs`).
 use super::*;
 use std::cell::{Cell, RefCell};
+
+/// The sleep of a lock retry after the holder has let go: a real slice.
+fn settle(slice: Duration) {
+    std::thread::sleep(slice);
+}
 
 struct Directory(PathBuf);
 impl Directory {
@@ -85,12 +107,18 @@ fn waiters_behind_the_head_poll_one_at_a_time() {
             retries.set(retries.get() + 1);
             if retries.get() == 4 {
                 first.borrow_mut().take();
+            } else if retries.get() > 4 {
+                settle(slice);
             }
         },
         &|| false,
     );
-    assert_eq!(retries.get(), 4, "one delay slice and three lock retries");
-    assert!(second.held.is_some());
+    assert!(
+        (4..=1 + TURN_SLICES).contains(&retries.get()),
+        "one delay slice and three lock retries while held, then the turn: {}",
+        retries.get()
+    );
+    assert!(second.held.is_some(), "the released turn is taken");
 
     // The head never waits for a turn, even while one is taken.
     let mut head = Cadence::new(&directory.socket());
@@ -101,9 +129,11 @@ fn waiters_behind_the_head_poll_one_at_a_time() {
     let second = RefCell::new(second);
     third.pause(
         WaitReason::Fifo,
-        &|_| {
+        &|slice| {
             if !released.replace(true) {
                 slept(&mut second.borrow_mut(), WaitReason::ClassWindow);
+            } else {
+                settle(slice);
             }
         },
         &|| false,
@@ -193,8 +223,33 @@ fn held_turn_lock_cannot_stop_a_waiter() {
         slices.get() == 65
     });
     assert_eq!(slices.get(), 65, "64 delay slices and one lock retry");
-    // Once the holder lets go, the waiter takes turns as before.
+    // Once the holder lets go, the waiter takes turns as before: its 64
+    // delay slices, then the turn, after at most a few real retry slices.
     drop(holder);
-    assert_eq!(waited(&mut waiter), 64);
-    assert!(waiter.held.is_some());
+    let slices = Cell::new(0u32);
+    waiter.pause(
+        WaitReason::Fifo,
+        &|slice| {
+            slices.set(slices.get() + 1);
+            if slices.get() > 64 {
+                settle(slice);
+            }
+        },
+        &|| false,
+    );
+    assert!(
+        (64..=64 + TURN_SLICES).contains(&slices.get()),
+        "{}",
+        slices.get()
+    );
+    assert!(waiter.held.is_some(), "the released turn is taken");
+}
+
+#[test]
+fn the_turn_descriptor_is_closed_on_exec() {
+    let directory = Directory::new("cloexec");
+    let file = open(&directory.0.join(TURN)).unwrap();
+    // SAFETY: F_GETFD reads the flags of a live descriptor owned by `file`.
+    let flags = unsafe { libc::fcntl(file.as_raw_fd(), libc::F_GETFD) };
+    assert!(flags >= 0 && flags & libc::FD_CLOEXEC != 0, "{flags}");
 }

@@ -66,6 +66,7 @@ fn status_reports_unattached_grant_as_unconfirmed_and_keeps_the_permit() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let JobResult::Granted {
         permit_generation, ..
@@ -163,6 +164,7 @@ fn status_identifies_a_retained_live_child_as_running() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let JobResult::Granted {
         permit_generation, ..

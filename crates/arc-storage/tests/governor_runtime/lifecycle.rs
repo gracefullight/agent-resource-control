@@ -95,7 +95,7 @@ fn converted_queue_cancel_and_legacy_off_projection_preserve_owned_work() {
         GovernorLaunchResult::Cancelled {}
     );
     tx.commit().unwrap();
-    let new=JobRequest::Enqueue{job_id:id(3),observer:owner(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None, project: None, event: None };
+    let new=JobRequest::Enqueue{job_id:id(3),observer:owner(),classification:serde_json::from_value(serde_json::json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(),lineage_context:None, project: None, event: None, usage: None };
     assert!(matches!(
         traffic::enqueue(
             &mut c,

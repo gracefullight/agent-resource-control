@@ -17,6 +17,7 @@ fn keyed(n: u32, class: &str, event: Option<EventKey>) -> Request {
         lineage_context: None,
         project: None,
         event,
+        usage: None,
     }
 }
 

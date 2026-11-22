@@ -45,6 +45,7 @@ pub fn acknowledgments(read: Read) {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let lost = lose(&case, &enqueue);
     eventually(|| case.active()["permits"] == 1);
@@ -158,7 +159,10 @@ pub fn acknowledgments(read: Read) {
     let terminal = case.reconcile(id.as_str(), "TEST", "PYTHON_PYTEST");
     let meter_cli = case.cli(&["meter", "summary", "--job", id.as_str(), "--json"]);
     assert!(meter_cli.status.success());
-    let meter: Value = serde_json::from_slice(&meter_cli.stdout).unwrap();
+    let mut meter: Value = serde_json::from_slice(&meter_cli.stdout).unwrap();
+    // The CLI adds the job's process tree beside the v1 summary (MTR-002).
+    let tree = meter.as_object_mut().unwrap().remove("process_tree");
+    assert!(tree.is_some_and(|t| t.is_object() || t.is_null()));
     assert_eq!(
         meter,
         (case.read)(&case.fixture.socket, "meter_summary", json!({"job_id":id}))

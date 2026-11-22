@@ -105,6 +105,7 @@ async fn replacement_during_sqlite_backlog_fences_enqueue_and_reserved_launch() 
                         .unwrap(),
                         project: None,
                         event: None,
+                        usage: None,
                     },
                     owner.pid,
                     Instant::now() + Duration::from_secs(10),

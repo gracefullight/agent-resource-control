@@ -63,6 +63,7 @@ fn replay_forged_lineage_cancellation_and_spawn_failure_preserve_one_permit() {
         lineage_context: Some(LineageContext::try_from(context).unwrap()),
         project: None,
         event: None,
+        usage: None,
     };
     // Lose the acknowledgement after sending a complete frame, then retry by ID.
     let mut wire = arc_ipc::Request::new("lost", arc_ipc::traffic::OPERATION_TRAFFIC_JOB);
@@ -80,6 +81,7 @@ fn replay_forged_lineage_cancellation_and_spawn_failure_preserve_one_permit() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     assert_eq!(traffic(&f, &conflict).status, arc_ipc::STATUS_ERROR);
     let cancel = JobRequest::Cancel {
@@ -130,6 +132,7 @@ fn replay_forged_lineage_cancellation_and_spawn_failure_preserve_one_permit() {
         lineage_context: Some(LineageContext::try_from(stale_context).unwrap()),
         project: None,
         event: None,
+        usage: None,
     };
     let JobResult::Granted {
         permit_generation, ..
@@ -190,6 +193,7 @@ fn queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let JobResult::Granted {
         permit_generation, ..

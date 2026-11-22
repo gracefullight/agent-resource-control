@@ -151,7 +151,14 @@ pub fn job(case: &Case, id: &str, run: &Run, child: &ProcessIdentity, terminal: 
         .unwrap();
     let cli_meter = case.cli(&["meter", "summary", "--job", id, "--json"]);
     assert!(cli_meter.status.success(), "{cli_meter:?}");
-    let cli_meter: Value = serde_json::from_slice(&cli_meter.stdout).unwrap();
+    let mut cli_meter: Value = serde_json::from_slice(&cli_meter.stdout).unwrap();
+    // The CLI adds the job's process tree beside the v1 summary (MTR-002).
+    let tree = cli_meter
+        .as_object_mut()
+        .unwrap()
+        .remove(arc_ipc::meter::job_tree::SUMMARY_KEY)
+        .expect("the daemon advertises meter.job-tree.v1");
+    assert!(tree.is_object() || tree.is_null(), "{tree}");
     assert_eq!(cli_meter, meter["data"]);
     if terminal {
         assert_eq!(row["state"], "COMPLETED");

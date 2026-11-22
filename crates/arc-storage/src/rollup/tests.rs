@@ -1,0 +1,200 @@
+use super::*;
+
+/// A migrated database in its own directory, removed on drop.
+struct TempDb(std::path::PathBuf, Option<Connection>);
+impl TempDb {
+    fn new() -> Self {
+        static NEXT: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+        let dir = std::env::temp_dir().join(format!(
+            "arc-rollup-{}-{}",
+            std::process::id(),
+            NEXT.fetch_add(1, std::sync::atomic::Ordering::Relaxed)
+        ));
+        let connection = crate::open_and_migrate(dir.join("db")).unwrap();
+        Self(dir, Some(connection))
+    }
+    fn connection(&mut self) -> &mut Connection {
+        self.1.as_mut().unwrap()
+    }
+}
+impl Drop for TempDb {
+    fn drop(&mut self) {
+        drop(self.1.take());
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
+}
+
+const NOW: u64 = 1_800_000_000_000;
+
+/// Two processes of two jobs sampled every 10 s over two whole minutes,
+/// starting at `base`: cumulative CPU grows 1 s and 2 s per interval, the
+/// first process writes 100 bytes per interval, the second reports no writes.
+fn seed(connection: &Connection, batch: u32, base: u64) {
+    for (index, (cpu_step, rss, writes)) in [(1_u64, 1_000_i64, true), (2, 500, false)]
+        .into_iter()
+        .enumerate()
+    {
+        let job = format!("job-{batch}-{index}");
+        connection
+            .execute(
+                "INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at)
+                 VALUES(?1,'BUILD','LOCAL','OBSERVE','COMPLETED',0)",
+                [&job],
+            )
+            .unwrap();
+        for k in 0..12_u64 {
+            connection
+                .execute(
+                    "INSERT INTO resource_samples(timestamp_ns,job_id,process_identity,cpu_time_ns,
+                     rss_bytes,disk_write_bytes,attribution_confidence) VALUES(?1,?2,?3,?4,?5,?6,'A')",
+                    params![
+                        text_ns(base + k * 10_000),
+                        job,
+                        format!("{job}:pid"),
+                        (k * cpu_step * 1_000_000_000).to_string(),
+                        rss,
+                        writes.then_some((k * 100) as i64)
+                    ],
+                )
+                .unwrap();
+        }
+    }
+}
+
+fn rollup(
+    connection: &Connection,
+    granularity: &str,
+    bucket: u64,
+) -> (Option<f64>, Option<i64>, Option<i64>, i64, Option<i64>) {
+    connection
+        .query_row(
+            "SELECT cpu_core_seconds,peak_rss_bytes,disk_write_bytes,job_count,reclaimed_bytes
+             FROM resource_rollups WHERE granularity=?1 AND bucket_start_ms=?2",
+            params![granularity, bucket as i64],
+            |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?, r.get(3)?, r.get(4)?)),
+        )
+        .unwrap()
+}
+
+fn count(connection: &Connection, table: &str) -> i64 {
+    connection
+        .query_row(&format!("SELECT count(*) FROM {table}"), [], |r| r.get(0))
+        .unwrap()
+}
+
+#[test]
+fn old_samples_roll_up_once_into_every_granularity_and_are_deleted() {
+    let mut db = TempDb::new();
+    let old = NOW - 80 * 60 * 60 * 1000;
+    let base = old - old % (60 * MINUTE_MS);
+    for batch in 0..3_u32 {
+        let connection = db.connection();
+        seed(connection, batch, base);
+        // One recent sample per batch stays raw.
+        connection
+            .execute(
+                "INSERT INTO resource_samples(timestamp_ns,job_id,cpu_time_ns,attribution_confidence)
+                 VALUES(?1,'job-0-0','5','A')",
+                [text_ns(NOW - 60 * 60 * 1000 + u64::from(batch))],
+            )
+            .unwrap();
+        let report = roll_up(connection, NOW).unwrap();
+        assert_eq!(report.raw_rolled_up, 24, "batch {batch}");
+        assert!(!report.more);
+        // Rolling up again adds nothing: each raw row counted once.
+        assert_eq!(roll_up(connection, NOW).unwrap().raw_rolled_up, 0);
+        let n = f64::from(batch + 1);
+        let jobs = 2 * i64::from(batch + 1);
+        assert_eq!(
+            rollup(connection, "minute", base),
+            (
+                Some(18.0 * n),
+                Some(1_500),
+                Some(600 * jobs / 2),
+                jobs,
+                None
+            )
+        );
+        assert_eq!(
+            rollup(connection, "minute", base + MINUTE_MS),
+            (
+                Some(15.0 * n),
+                Some(1_500),
+                Some(500 * jobs / 2),
+                jobs,
+                None
+            )
+        );
+        let day = base - base % (24 * 60 * MINUTE_MS);
+        for (granularity, bucket) in [("hour", base), ("day", day)] {
+            assert_eq!(
+                rollup(connection, granularity, bucket),
+                (
+                    Some(33.0 * n),
+                    Some(1_500),
+                    Some(1_100 * jobs / 2),
+                    jobs,
+                    None
+                )
+            );
+        }
+        assert_eq!(
+            count(connection, "resource_rollups"),
+            4,
+            "bounded by buckets"
+        );
+        assert_eq!(count(connection, "resource_samples"), i64::from(batch + 1));
+    }
+}
+
+#[test]
+fn expired_buckets_are_deleted_by_granularity() {
+    let mut db = TempDb::new();
+    let connection = db.connection();
+    let day = 24 * 60 * MINUTE_MS;
+    for (granularity, age) in [
+        ("minute", 31 * day),
+        ("minute", 29 * day),
+        ("hour", 366 * day),
+        ("hour", 300 * day),
+        ("day", 366 * day),
+        ("day", 364 * day),
+    ] {
+        connection
+            .execute(
+                "INSERT INTO resource_rollups(granularity,bucket_start_ms,job_count) VALUES(?1,?2,0)",
+                params![granularity, (NOW - age) as i64],
+            )
+            .unwrap();
+    }
+    assert_eq!(roll_up(connection, NOW).unwrap().buckets_expired, 3);
+    assert_eq!(count(connection, "resource_rollups"), 3);
+}
+
+#[test]
+fn a_pass_is_bounded_to_whole_minutes() {
+    let mut db = TempDb::new();
+    let connection = db.connection();
+    let first = (NOW - 100 * 60 * 60 * 1000) / MINUTE_MS * MINUTE_MS;
+    let tx = connection.transaction().unwrap();
+    for i in 0..(MAX_RAW_BATCH as u64 + 10) {
+        tx.execute(
+            "INSERT INTO resource_samples(timestamp_ns,attribution_confidence) VALUES(?1,'A')",
+            [text_ns(first + i)],
+        )
+        .unwrap();
+        tx.execute(
+            "INSERT INTO resource_samples(timestamp_ns,attribution_confidence) VALUES(?1,'A')",
+            [text_ns(first + MINUTE_MS + i % 1000)],
+        )
+        .unwrap();
+    }
+    tx.commit().unwrap();
+    let report = roll_up(connection, NOW).unwrap();
+    assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64 + 10);
+    assert!(report.more);
+    let report = roll_up(connection, NOW).unwrap();
+    assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64 + 10);
+    assert!(!report.more);
+    assert_eq!(count(connection, "resource_samples"), 0);
+}

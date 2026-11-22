@@ -343,6 +343,7 @@ async fn exercise(point: FailurePoint) {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let context = LineageContext::try_from("a".repeat(64)).unwrap();
     let next = traffic::enqueue(

@@ -51,6 +51,7 @@ fn register(n: u32) -> StartRequest {
         job_id: id(n),
         observer: observer(),
         classification: arc_detector_classification(),
+        usage: None,
     }
 }
 fn arc_detector_classification() -> arc_ipc::Classification {

@@ -4,6 +4,7 @@ mod codec;
 mod reconcile;
 pub mod traffic;
 mod transitions;
+pub(crate) mod usage_fields;
 use arc_ipc::jobs::{JobId, JobSnapshot, MAX_TIMESTAMP};
 pub use reconcile::{apply_observation, observe, recent, ReconcileEvidence, ReconcileResult};
 use rusqlite::{Connection, OptionalExtension};

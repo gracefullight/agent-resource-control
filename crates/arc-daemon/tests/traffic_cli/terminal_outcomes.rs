@@ -202,6 +202,7 @@ fn recent_fifty_lifecycle_exits_are_resolved_with_the_shared_deadline() {
                 job_id: job_id.clone(),
                 observer: observer.clone(),
                 classification,
+                usage: None,
             },
             StartRequest::Claim {
                 job_id: job_id.clone(),
@@ -452,6 +453,7 @@ fn failed_completion_retry_releases_one_permit() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let arc_ipc::traffic::JobResult::Granted {
         permit_generation, ..

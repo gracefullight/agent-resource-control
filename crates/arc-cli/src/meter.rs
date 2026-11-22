@@ -1,6 +1,9 @@
 //! One bounded authenticated read; never launches work or fabricates a snapshot.
 use arc_core::meter::{MeterSnapshot, MAX_SNAPSHOT_BYTES};
-use arc_ipc::client::Failure;
+use arc_ipc::{
+    client::Failure,
+    meter::usage::{self as wire, GroupBy, UsageQuery},
+};
 use clap::Subcommand;
 use std::{
     io::{self, Write},
@@ -22,13 +25,84 @@ pub(crate) enum MeterCommand {
     )]
     Summary {
         /// Durable ID from arcctl job status or a queue notice
-        #[arg(long, required = true, value_name = "JOB_ID", value_parser = parse_job_id)]
-        job: String,
+        #[arg(long, value_name = "JOB_ID", value_parser = parse_job_id,
+            required_unless_present = "by", conflicts_with_all = ["by", "from", "to", "bucket"])]
+        job: Option<String>,
+        /// Aggregate recorded jobs by vendor, project or period instead of one job
+        #[arg(long, value_enum, requires_all = ["from", "to", "bucket"])]
+        by: Option<By>,
+        /// Range start, inclusive (Unix milliseconds)
+        #[arg(long, value_name = "UNIX_MS", requires = "by")]
+        from: Option<u64>,
+        /// Range end, exclusive (Unix milliseconds)
+        #[arg(long, value_name = "UNIX_MS", requires = "by")]
+        to: Option<u64>,
+        /// Period bucket of the aggregates
+        #[arg(long, value_enum, requires = "by")]
+        bucket: Option<Bucket>,
         /// Emit one typed summary, preserving unknown values as null
         #[arg(long, required = true)]
         json: bool,
     },
 }
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub(crate) enum By {
+    Vendor,
+    Project,
+    Period,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
+pub(crate) enum Bucket {
+    Hour,
+    Day,
+}
+
+#[path = "meter/job_tree.rs"]
+mod job_tree;
+#[path = "meter/snapshot_traffic.rs"]
+mod snapshot_traffic;
+#[path = "meter/usage.rs"]
+mod usage;
+
+/// One validated usage-summary query from the command line.
+pub(crate) fn usage_query(by: By, from: u64, to: u64, bucket: Bucket) -> Option<UsageQuery> {
+    let query = UsageQuery {
+        by: match by {
+            By::Vendor => GroupBy::Vendor,
+            By::Project => GroupBy::Project,
+            By::Period => GroupBy::Period,
+        },
+        from_ms: from,
+        to_ms: to,
+        bucket: match bucket {
+            Bucket::Hour => wire::Bucket::Hour,
+            Bucket::Day => wire::Bucket::Day,
+        },
+    };
+    query.is_valid().then_some(query)
+}
+
+pub(crate) fn dispatch(socket: &Path, command: MeterCommand) -> Result<(), String> {
+    match command {
+        MeterCommand::Snapshot { .. } => run(socket),
+        MeterCommand::Summary { job: Some(job), .. } => summary(socket, &job),
+        MeterCommand::Summary {
+            by: Some(by),
+            from: Some(from),
+            to: Some(to),
+            bucket: Some(bucket),
+            ..
+        } => match usage_query(by, from, to, bucket) {
+            Some(query) => usage::run(socket, query),
+            None => Err(INVALID_RANGE.to_owned()),
+        },
+        MeterCommand::Summary { .. } => Err(INVALID_RANGE.to_owned()),
+    }
+}
+
+const INVALID_RANGE: &str = "INVALID_REQUEST\nUse a range with --from below --to, for example arcctl meter summary --by vendor --from 1767225600000 --to 1767312000000 --bucket hour --json.";
 
 fn parse_job_id(value: &str) -> Result<String, &'static str> {
     arc_core::job_meter::valid_id(value)
@@ -37,10 +111,10 @@ fn parse_job_id(value: &str) -> Result<String, &'static str> {
 }
 
 pub(crate) fn invalid() -> std::process::ExitCode {
-    eprintln!("INVALID_REQUEST\nUse arcctl meter snapshot --json or arcctl meter summary --job <JOB_ID> --json.");
+    eprintln!("INVALID_REQUEST\nUse arcctl meter snapshot --json, arcctl meter summary --job <JOB_ID> --json or arcctl meter summary --by vendor --from 1767225600000 --to 1767312000000 --bucket hour --json.");
     std::process::ExitCode::from(2)
 }
-pub(crate) fn summary(socket: &Path, job: &str) -> Result<(), String> {
+fn summary(socket: &Path, job: &str) -> Result<(), String> {
     let summary = arc_ipc::meter::summary_until(
         socket,
         super::request_id(),
@@ -50,6 +124,7 @@ pub(crate) fn summary(socket: &Path, job: &str) -> Result<(), String> {
     )
     .map_err(|error| summary_failure(error).to_owned())?;
     let bytes = render_summary(&summary, job).map_err(str::to_owned)?;
+    let bytes = job_tree::extend(socket, job, bytes)?;
     let stdout = io::stdout();
     let mut output = stdout.lock();
     output
@@ -80,7 +155,7 @@ fn summary_failure(error: Failure) -> &'static str {
         _ => "IPC_ERROR\nThe daemon did not return a valid job Meter summary.",
     }
 }
-pub(crate) fn run(socket: &Path) -> Result<(), String> {
+fn run(socket: &Path) -> Result<(), String> {
     let snapshot = arc_ipc::meter::snapshot_until(
         socket,
         super::request_id(),
@@ -89,6 +164,7 @@ pub(crate) fn run(socket: &Path) -> Result<(), String> {
     )
     .map_err(|error| failure(error).to_owned())?;
     let bytes = render(&snapshot).map_err(str::to_owned)?;
+    let bytes = snapshot_traffic::extend(socket, bytes)?;
     let stdout = io::stdout();
     let mut output = stdout.lock();
     output

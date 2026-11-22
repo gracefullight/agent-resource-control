@@ -2,6 +2,7 @@
 use arc_core::meter::{SamplingCadence, SamplingMode};
 
 mod cpu;
+pub mod job_tree;
 mod snapshot;
 mod worker;
 pub use arc_platform::{NativeSource, SystemSource};
@@ -9,7 +10,7 @@ pub use arc_platform::{NativeSource, SystemSource};
 #[cfg(unix)]
 pub use arc_platform::job_lineage;
 pub use snapshot::Sampler;
-pub use worker::{Activity, MeterWorker, SnapshotReader};
+pub use worker::{Activity, MeterWorker, SampleHook, SnapshotReader};
 
 #[cfg(test)]
 mod fixtures;

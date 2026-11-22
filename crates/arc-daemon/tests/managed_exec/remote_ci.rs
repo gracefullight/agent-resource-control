@@ -138,6 +138,7 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let JobResult::Granted {
         permit_generation, ..
@@ -244,6 +245,7 @@ fn derived_hooks_and_real_daemon_bypass_a_held_build_permit_with_one_offline_gh_
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     assert!(matches!(
         traffic(&fixture, &remote),

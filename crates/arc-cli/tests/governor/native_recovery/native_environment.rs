@@ -424,6 +424,7 @@ fn legacy_peer(listener: &UnixListener) {
         job_id,
         observer,
         classification,
+        ..
     } = arc_ipc::jobs::decode_start(&request.payload).unwrap()
     else {
         panic!("legacy register")

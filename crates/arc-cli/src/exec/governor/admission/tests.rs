@@ -14,6 +14,7 @@ fn native_busy_deadline_is_fixed_until_a_healthy_queue_renews_it() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let continuity = Continuity::default();
     let peer = AdmissionPeer {

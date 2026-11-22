@@ -22,6 +22,7 @@ fn reader(pressure: MemoryPressure) -> SnapshotReader {
         published: Condvar::new(),
         epoch,
         fence_clock: Box::new(move || epoch),
+        sample_hook: Mutex::new(None),
     }))
 }
 fn policy(reader: &SnapshotReader) -> arc_policy::EffectivePolicy {

@@ -25,6 +25,15 @@ struct Shared {
     published: Condvar,
     epoch: Instant,
     fence_clock: Box<dyn Fn() -> Instant + Send + Sync>,
+    sample_hook: Mutex<Option<SampleHook>>,
+}
+/// Called on the Meter thread after each publication, outside the cache lock
+/// (job process-tree metering, `arc_meter::job_tree`). Never on a request path.
+pub type SampleHook = Box<dyn FnMut(&MeterSnapshot) + Send>;
+impl Shared {
+    fn hook(&self) -> std::sync::MutexGuard<'_, Option<SampleHook>> {
+        self.sample_hook.lock().unwrap_or_else(|e| e.into_inner())
+    }
 }
 #[derive(Clone)]
 pub struct Activity(Arc<Shared>);
@@ -91,6 +100,7 @@ impl MeterWorker {
             published: Condvar::new(),
             epoch,
             fence_clock: Box::new(fence_clock),
+            sample_hook: Mutex::new(None),
         });
         let owned = Arc::clone(&shared);
         let thread = thread::Builder::new()
@@ -116,6 +126,10 @@ impl MeterWorker {
     }
     pub fn activity(&self) -> Activity {
         Activity(Arc::clone(&self.shared))
+    }
+    /// Install the one post-publication hook, replacing any earlier one.
+    pub fn set_sample_hook(&self, hook: SampleHook) {
+        *self.shared.hook() = Some(hook);
     }
     pub fn begin_shutdown(&self) {
         self.shared
@@ -205,7 +219,16 @@ fn run<S: NativeSource>(
             Some(MemoryPressure::Warning | MemoryPressure::Critical)
         );
         let cadence = snapshot.cadence;
+        // The hook runs unlocked; a hook installed meanwhile replaces it.
+        let mut hook = shared.hook().take();
+        let observed = hook.is_some().then(|| snapshot.clone());
         shared.publication().publish(snapshot);
+        if let (Some(run), Some(snapshot)) = (hook.as_mut(), observed.as_ref()) {
+            run(snapshot);
+        }
+        if let Some(hook) = hook {
+            shared.hook().get_or_insert(hook);
+        }
         let completed = Instant::now();
         let mut control = shared.control.lock().unwrap_or_else(|e| e.into_inner());
         loop {

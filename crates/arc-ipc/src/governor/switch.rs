@@ -6,6 +6,11 @@ use serde::{Deserialize, Serialize};
 pub enum GovernorSwitchKey {
     #[serde(rename = "governor.enabled")]
     GovernorEnabled,
+    /// Start-rate control (lane C, DEC-013), default ON. Not part of the
+    /// desktop contract: it is never sent by the desktop or exported to TypeScript.
+    #[serde(rename = "traffic.start_rate_control")]
+    #[cfg_attr(test, ts(skip))]
+    StartRateControl,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

@@ -51,6 +51,7 @@ fn running(c: &mut Connection, n: u32) {
             job_id: id(n),
             observer: observer(),
             classification: serde_json::from_str(r#"{"classification":"UNKNOWN","locality":"UNKNOWN","reason":"UNSUPPORTED_SYNTAX","uncertainty":"OBSERVE"}"#).unwrap(),
+            usage: None,
         },
         StartRequest::Claim {
             job_id: id(n),

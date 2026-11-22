@@ -24,6 +24,13 @@ pub(crate) enum Input {
     Decision(arc_ipc::jobs::JobId),
     Launch(launch::LaunchRequest),
     Unspawned(launch::LaunchRequest),
+    // Constructed by the lane dispatchers declared at the end of this file.
+    #[allow(dead_code)]
+    JobTree(job_tree::Query),
+    #[allow(dead_code)]
+    UsageSummary(usage_summary::Query),
+    #[allow(dead_code)]
+    DecisionHistory(decision_history::Query),
 }
 pub(crate) type Fence = (Instant, Box<dyn Send>);
 pub(crate) enum Value {
@@ -33,6 +40,9 @@ pub(crate) enum Value {
     Diagnostics(Box<arc_ipc::traffic::diagnostics::DiagnosticResult>),
     Decision(Option<arc_policy::NegotiatedReason>),
     Acknowledged,
+    /// The reply of a lane read, sent unchanged by its dispatcher.
+    #[allow(dead_code)]
+    Read(serde_json::Value),
     Launch {
         result: launch::LaunchResult,
         fence: Option<Fence>,
@@ -55,6 +65,9 @@ pub(crate) async fn dispatch(
 ) -> bool {
     if diagnostics::dispatch(stream, request, limits, handler, metrics).await
         || fairness::dispatch(stream, request, limits, handler, metrics).await
+        || job_tree::dispatch(stream, request, limits, handler, metrics).await
+        || usage_summary::dispatch(stream, request, limits, handler, metrics).await
+        || decision_history::dispatch(stream, request, limits, handler, metrics).await
     {
         return true;
     }
@@ -135,7 +148,7 @@ pub(crate) async fn dispatch(
         .unwrap_or(Err(arc_ipc::ERROR_DB_BUSY)),
     };
     match result {
-        Ok(Value::Governor(_) | Value::Diagnostics(_) | Value::Decision(_)) => {
+        Ok(Value::Governor(_) | Value::Diagnostics(_) | Value::Decision(_) | Value::Read(_)) => {
             unreachable!("separate dispatcher")
         }
         Err(code) => {
@@ -262,7 +275,13 @@ pub(super) async fn write(
 #[path = "policy_dispatch_tests.rs"]
 mod tests;
 
+#[path = "decision_history_dispatch.rs"]
+pub(crate) mod decision_history;
 #[path = "traffic_diagnostics_dispatch.rs"]
 mod diagnostics;
 #[path = "traffic_fairness_dispatch.rs"]
 mod fairness;
+#[path = "job_tree_dispatch.rs"]
+pub(crate) mod job_tree;
+#[path = "usage_summary_dispatch.rs"]
+pub(crate) mod usage_summary;

@@ -49,7 +49,16 @@ mod answering_daemon {
         published("arcctl meter snapshot", || {
             let output = arcctl(case, &["meter", "snapshot", "--json"]);
             if output.status.success() {
-                return Some(serde_json::from_slice(&output.stdout).unwrap());
+                let mut value: Value = serde_json::from_slice(&output.stdout).unwrap();
+                // `traffic` (MET-017) sits beside the strictly decoded v1 fields.
+                if let Some(traffic) = value
+                    .as_object_mut()
+                    .and_then(|object| object.remove(arc_ipc::meter::usage::SNAPSHOT_TRAFFIC_KEY))
+                {
+                    serde_json::from_value::<arc_ipc::meter::usage::SnapshotTraffic>(traffic)
+                        .unwrap();
+                }
+                return Some(value);
             }
             assert!(
                 String::from_utf8_lossy(&output.stderr).starts_with("METER_UNAVAILABLE"),

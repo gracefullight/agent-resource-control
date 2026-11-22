@@ -4,6 +4,8 @@ pub mod child_wait;
 #[cfg(unix)]
 pub mod job_lineage;
 #[cfg(unix)]
+pub mod process_tree;
+#[cfg(unix)]
 pub mod reaper_identity;
 use arc_core::meter::{FilesystemIdentity, MemoryPressure, Reading};
 

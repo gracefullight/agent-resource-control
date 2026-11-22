@@ -136,8 +136,22 @@ fn admission_and_native_readiness_are_observed_as_separate_states() {
 pub fn queued<T>(case: &Case<T>, run: &mut Run, form: Form) -> QueueWitness {
     let id = case.job(run.wrapper.child.id());
     eventually(|| {
-        case.row(&id)["state"] == "QUEUED"
-            && log(&run.project.join("stderr")).contains("QUEUED\nWaiting to start.")
+        // A wrapper whose enqueue the daemon did not confirm within its
+        // preparation budget starts the tool untracked (fail-open). It can
+        // never become QUEUED, so report it now instead of at the watchdog.
+        let stderr = log(&run.project.join("stderr"));
+        assert!(
+            !stderr.contains("TRACKING_UNCERTAIN"),
+            "the second {} request started untracked instead of queueing: {stderr}",
+            form.id()
+        );
+        assert_eq!(
+            log(&run.project.join("launches")).lines().count(),
+            0,
+            "the second {} request launched instead of queueing: {stderr}",
+            form.id()
+        );
+        case.row(&id)["state"] == "QUEUED" && stderr.contains("QUEUED\nWaiting to start.")
     });
     assert_eq!(log(&run.project.join("launches")).lines().count(), 0);
     assert_eq!(log(&run.project.join("bodies")).lines().count(), 0);

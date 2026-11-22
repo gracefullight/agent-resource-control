@@ -70,6 +70,8 @@ The child inherits cwd, streams and environment, including `ARC_TRAFFIC_LINEAGE`
 
 For `cargo build`, `bun run build`, `cargo test` and `bun run test`, when the vendor's event carries both a session ID and a tool-call ID (`session_id` and `tool_use_id` in the recorded Claude Code and Cursor events), the returned command is `hook-exec --arc-event <key> -- <command>`. The key is 64 hexadecimal digits: a SHA-256 digest of the adapter, the session ID, the tool-call ID and the event phase. The raw IDs are not in the command, are not sent to the daemon, are not stored and are not printed. An event without both IDs, and the stage, container and gh rewrites, return the same command as before. `hook-exec` consumes the option, so the child never sees it, and sends the key only to a daemon that advertises it by holding a lock on `.traffic-hook-event-v1` beside its socket. An older daemon or a protocol-1 peer receives no key and behaves as before.
 
+While a daemon also holds `.meter-usage-summary-v1` beside the socket, a keyed command carries two more options between the key and `--`: `hook-exec --arc-event <key> --arc-vendor <claude-code|cursor> --arc-hook-overhead-ms <n> -- <command>`. The adapter `claude` is recorded as the vendor `claude-code`; the event-key digest still uses `claude`, so redelivery identity is unchanged. `<n>` is `arc.hook.overhead_ms`: the hook process's own time, in whole milliseconds, from the start of `hooks run` (before it reads the event) until its response is built. It excludes the vendor's spawn of the hook, process start-up, writing the response and the later managed command, so it is not the NFR-003 end-to-end overhead. Because it is measured on each call, two deliveries of one event can differ only in `<n>`. `hook-exec` consumes both options and sends them only to a daemon that holds the same advertisement; the job records the vendor and the overhead. Unkeyed, stage, container and gh rewrites carry neither, and a direct `arcctl exec` job records neither. The rest of the response and the vendor's permission evaluation are unchanged.
+
 If the vendor delivers the same event twice and runs both returned commands, the first is admitted as usual. The second runs its command once, unchanged and at once: it takes no permit and no queue entry, writes no `QUEUED` notice and does not wait. The daemon records it as a duplicate delivery on the first job; it creates no job of its own, so `arcctl job status` lists only the first job. The duplicate sends no accounting report, so its CPU is not in the first job's summary, and a build that ran twice cost more than that summary shows. ARC never suppresses a command the vendor runs.
 
 A copied managed command carries the key of the event it came from. Re-running it, for example from a transcript, also runs as a duplicate without a permit for as long as ARC keeps the first job's record; the key has no separate expiry and is deleted with that record. Do not re-run a copied managed command; run the plain command, such as `cargo build`, instead.
@@ -187,6 +189,18 @@ The current daemon uses these fixed class windows and reservation estimates for 
 
 Commands in each class share its one-slot window and the global budget, which defaults to 2 CPU cores and 4 GiB. Admission requires both a class window and enough shared budget. These are estimates for admission, not operating-system resource limits. `ARC_TRAFFIC_CPU_BUDGET_MILLIS` can configure the daemon's CPU budget at startup as described above; the class windows, reservation estimates and memory budget have no corresponding setting in this slice.
 
+#### Start-rate control
+
+Under the windows and budgets, each class also has a start-rate token bucket (SRS §9.4). It is checked only after a window and the budgets have admitted a job, so it can delay a start but never admits a job they would hold. The default is 120 starts per minute with a burst of 120 for every class. With a window of one this never allows more concurrent jobs than before; it only bounds a start storm to two starts per second per class after the first 120, and no ordinary queue meets it. Tokens are counted from the recorded grant times of recent permits, so the bucket survives a daemon restart and a rolled-back grant spends no token.
+
+Two daemon settings, read once at startup, tighten it: `ARC_TRAFFIC_START_RATE_PER_MINUTE` (1 to 60000) and `ARC_TRAFFIC_START_BURST` (1 to 10000). Each value is either one decimal for every class, such as `12`, or a comma-separated list of `class=decimal`, such as `build=6,test=30`; an unlisted class keeps its default. A burst below its class window, or any other value, stops the daemon at startup with an `invalid ARC_TRAFFIC_START_RATE_PER_MINUTE or ARC_TRAFFIC_START_BURST` error. The policy switch `traffic.start_rate_control` is on by default and is changed through `policy.set_switch`; while it is off no bucket applies.
+
+A job held by the bucket stays `QUEUED` and keeps its queue entry; its own next poll is granted once a token is due, with one permit and one start. Readers that did not ask for it, including protocol-1 peers, `arcctl job diagnostics --json` v1 fields and the desktop, see the existing pair `wait`/`fifo`; only the decision history below reports the reason `start_rate`. Because a held job polls with the `fifo` back-off, its grant can trail the token time by up to about 2.6 s plus the turn-lock wait.
+
+#### Policy-change audit
+
+Each change the daemon makes to its policy writes one `audit_events` row with before and after values: `POLICY_SWITCH_CHANGED` for `policy.set_switch`, `daemon.pause` and `daemon.resume` (key, enabled, revision and update time), and `POLICY_CONFIGURATION_CHANGED` when a daemon starts with a Traffic configuration that differs from the last recorded one (per-class windows, CPU and memory estimates and start-rate settings, and the CPU and memory budgets). The built-in default is the first baseline, so an unconfigured daemon writes no row. Windows, estimates and the memory budget are recorded but have no setting that changes them in this slice, and ARC has no learned policy value yet.
+
 Python jobs use the existing Governor controls. `arcctl daemon pause` lets supported waiting jobs proceed without resubmitting; running children and usage measurement continue. `arcctl daemon resume` restores admission rules, so waiting work starts when those rules permit.
 
 When the daemon confirms that a scheduled command is waiting, ARC attempts this notice once on stderr before starting the child:
@@ -248,15 +262,17 @@ arcctl job diagnostics <JOB_ID> --json
 arcctl meter summary --job <JOB_ID> --json
 ```
 
-An immediately admitted command normally prints no ID. The recent list contains at most 50 records and identifies truncation; an earlier known ID can still be queried directly. The summary is a point lookup through the authenticated daemon, with a two-second read budget. It never launches work or retries execution. `meter snapshot --json` retains the separate host snapshot contract. In that snapshot, host CPU utilization is a share of an interval between two samples, so it has no value until the daemon's second sample: the first reading is `first_interval`, never a zero. The daemon samples every 15 s when idle, every 2 s while a managed job runs and every second under memory pressure.
+An immediately admitted command normally prints no ID. The recent list contains at most 50 records and identifies truncation; an earlier known ID can still be queried directly. The summary is a point lookup through the authenticated daemon, with a two-second read budget. It never launches work or retries execution. `meter snapshot --json` retains the separate host snapshot contract. In that snapshot, host CPU utilization is a share of an interval between two samples, so it has no value until the daemon's second sample: the first reading is `first_interval`, never a zero. The daemon samples every 15 s when idle, every 2 s while a managed job runs and every second under memory pressure. With a daemon that holds `.meter-snapshot-traffic-v1`, `arcctl meter snapshot --json` appends `"traffic":{"queue_depth":<n>,"observed_at_ms":<ms>}` after the unchanged v1 fields: `traffic.queue.depth`, the number of Traffic entries in state `QUEUED` in daemon state at that time. A script that strictly decodes the earlier CLI output must ignore or remove that key; protocol-1 peers and the desktop still receive the v1 reply.
 
-`job diagnostics` reads last-recorded classification, admission and permit facts without refreshing process liveness. When a decision is recorded it prints `Last recorded decision: <reason>`; with `--json`, a job that received a fair turn additionally carries the top-level `last_recorded_reason`, and every other job's document is unchanged. Its last recorded queue cause can describe an earlier wait rather than a current condition. An unsupported or unavailable diagnostics read leaves those facts unconfirmed. Optional desktop job detail presents the supported scheduling and Meter reads; refreshing it does not launch or replay a command.
+`job diagnostics` reads last-recorded classification, admission and permit facts without refreshing process liveness. When a decision is recorded it prints `Last recorded decision: <reason>`; with `--json`, a job that received a fair turn additionally carries the top-level `last_recorded_reason`, and every other job's document is unchanged. Its last recorded queue cause can describe an earlier wait rather than a current condition. An unsupported or unavailable diagnostics read leaves those facts unconfirmed.
+
+With a daemon that holds `.traffic-decision-history-v1`, the text output keeps those lines and adds a `Decision history:` block listing every recorded decision of the job in recorded order (index, decision time in Unix ms, kind and reason; a start-rate hold reads `start_rate`), then one current-state line: `Queue position: N of M` while the job is queued, `Queue position: not queued` once it has left the queue, and `Expected schedule: start-rate token at <ms> (Unix ms)` only when a start-rate hold makes the time derivable, otherwise `Expected schedule: unknown`. No other start time is estimated. The position counts queued entries in arrival order, which can differ from the fair-turn order across projects. With `--json` the document gains the one top-level key `decision_history`, which also carries the effective start-rate settings and per-class estimates; every v1 field is unchanged. An older daemon gives the earlier output. Optional desktop job detail presents the supported scheduling and Meter reads; refreshing it does not launch or replay a command.
 
 `cpu_core_seconds` records cumulative user CPU plus system CPU, in CPU core-seconds. Parallel workers can consume more core-seconds than the wall duration. This is CPU used, independent of the host CPU utilization percentage. `run_elapsed.seconds` is the CLI's monotonic interval immediately around its sole native spawn attempt through terminal observation. It includes stopped time and excludes queue wait and post-terminal completion/report traffic. It is never derived by subtracting wall timestamps. Native terminal observation can lag actual exit while the supervisor is handling metadata or scheduling.
 
 `queue_wait` is separate: scheduled jobs use durable QUEUED-to-RESERVED wall timestamps, with their clock and basis identified. Affirmatively measurement-aware lifecycle-only jobs have an established zero with basis `lifecycle_only`. Missing, reversed or legacy queue facts stay null/Unknown; an absent measurement is never converted to zero.
 
-The existing sole waiter captures the owned child's native terminal user/system usage with PID-specific `wait4`. The `native_waited_descendants` scope includes usage propagated through explicit child waits, including short-lived reaped descendants. It excludes unrelated pipeline/process-group peers. It does not establish coverage of escaped, detached or unwaited work. Generic commands therefore retain Partial quality with `unobserved_descendants` even when they exit successfully. CPU-unavailable reports retain null values and Unknown quality; zero is a valid native reading. Exit 17 and signal termination retain their actual CPU measurements and original command status.
+The existing sole waiter captures the owned child's native terminal user/system usage with PID-specific `wait4`. The `native_waited_descendants` scope includes usage propagated through explicit child waits, including short-lived reaped descendants. It excludes unrelated pipeline/process-group peers. It does not establish coverage of escaped, detached or unwaited work; the separate [process-tree report](#process-tree-metering) estimates that work from samples. Generic commands therefore retain Partial quality with `unobserved_descendants` even when they exit successfully. CPU-unavailable reports retain null values and Unknown quality; zero is a valid native reading. Exit 17 and signal termination retain their actual CPU measurements and original command status.
 
 Reports identify the observer and child by PID, process birth token and boot identity, alongside attribution basis, scope, completeness and missing-coverage reasons. Private identity-keyed native ancestry records cover scheduled and lifecycle-only wrappers; inherited environment values alone cannot establish accounting ownership. A verified nested report is `included_in_root` with its canonical root job ID and is non-additive. Uncertain ancestry remains `unverified` and non-additive. Do not sum inclusive nested reports, add samples to a terminal total, or interpret Partial as a complete process-tree total.
 
@@ -264,7 +280,85 @@ Reports identify the observer and child by PID, process birth token and boot ide
 
 After terminal observation the CLI freezes one 500 ms accounting-report deadline. Existing bounded lifecycle completion runs first and consumes that window; a slow completion can leave no report budget. Accounting sends only additive `meter.report` metadata, preserving protocol-1 start/complete payloads. Lost acknowledgements use the same immutable report identity and bytes, with a bounded summary read and identical retry inside the original window. Unsupported peers, outages, conflicts and exhausted budgets do not change child streams, exit status, signals or the number of executions. One accepted summary per job remains immutable and is subject to the SRS 90-day metadata retention policy; client wall time and retries cannot extend retention.
 
-Vendor/project aggregation, live process-tree metering, Windows and full Meter acceptance remain outstanding.
+### Process-tree metering
+
+The waited report above cannot see work the wrapper does not wait for. On its own Meter cadence the daemon therefore also samples the process tree of each RUNNING managed job on macOS. The tree starts from the job's recorded child identity (PID, start token and boot identity) and covers the child's process group and its parent-PID descendants, read with `proc_pidinfo` and `proc_pid_rusage`. Each process is revalidated against its own PID, start token and boot identity before it counts, so a process outside the tree, or a recycled PID, is never attributed; a sample is written only while the job is still RUNNING under exactly that child identity. Each sample writes one `resource_samples` row per process: cumulative CPU time, RSS, cumulative disk read and write bytes, `cpu_core_percent` and `attribution_confidence` (`A` for the recorded child, `C`, Estimated, for its descendants). `cpu_core_percent` is the CPU-time growth between two consecutive samples of one process divided by the wall interval, where 100 is one full core; a process's first sample has none.
+
+With a daemon that holds `.meter-job-tree-v1`, `arcctl meter summary --job <JOB_ID> --json` adds the job's tree report under the one top-level key `process_tree` beside the unchanged v1 summary. The value is `null` when no tree was sampled, and an older daemon or a failed optional read leaves the v1 output unchanged. The shape, with placeholders only:
+
+```text
+{
+  ...the v1 summary fields described above...,
+  "process_tree": {
+    "schema_version": 1,
+    "job_id": "<JOB_ID>",
+    "terminal": <true|false>,
+    "cpu_core_seconds":              {"value": <f64|null>, "basis": "tree_samples|unobserved"},
+    "waited_cpu_core_seconds":       {"value": <f64|null>, "basis": "waited_rusage|unobserved"},
+    "root_sampled_cpu_core_seconds": {"value": <f64|null>, "basis": "tree_samples|unobserved"},
+    "unwaited_cpu_core_seconds":     {"value": <f64|null>, "basis": "tree_samples|unobserved"},
+    "memory_peak_bytes":             {"value": <u64|null>, "basis": "tree_samples|unobserved"},
+    "disk_read_bytes":               {"value": <u64|null>, "basis": "tree_samples|unobserved"},
+    "disk_write_bytes":              {"value": <u64|null>, "basis": "tree_samples|unobserved"},
+    "completeness": "complete|partial|unknown",
+    "missing_coverage": ["unobserved_descendants", "native_usage_unavailable"],
+    "samples": <u64>,
+    "processes": <u64>
+  }
+}
+```
+
+- `cpu_core_seconds` is the job's CPU including descendants it does not wait for: `waited_cpu_core_seconds` (the v1 waited rusage) plus `unwaited_cpu_core_seconds` (the last sampled CPU of descendants no tree process can reap). Until the waited report is recorded the root's last sample, `root_sampled_cpu_core_seconds`, stands in for it, and `missing_coverage` names `native_usage_unavailable`. Its basis is `tree_samples`, an estimate, unlike the waited total.
+- `memory_peak_bytes` is `job.memory.peak_bytes`: the highest RSS summed over one sample of the job.
+- `disk_read_bytes` and `disk_write_bytes` sum each sampled process's last cumulative reading.
+- A value that was not observed is `null` with basis `unobserved`, never 0. A descendant can start and exit between two samples, so a sampled report stays `partial` with `unobserved_descendants`.
+- A read right after the job ends can still show `"terminal": false`: the report becomes terminal on the daemon's next Meter pass, and the waited usage is added once the v1 report is recorded.
+
+### Usage summaries
+
+`arcctl meter summary --by vendor|project|period --from <UNIX_MS> --to <UNIX_MS> --bucket hour|day --json` aggregates recorded jobs whose registration time is in `[from, to)`, split into UTC hour or day buckets. It is one bounded read of the `meter.usage_summary` operation, which an older daemon reports as unsupported; an invalid range exits with `INVALID_REQUEST` and a copyable example. The shape of `--by vendor`, with placeholders only:
+
+```text
+{
+  "schema_version": 1,
+  "query": {"by": "vendor", "from_ms": <UNIX_MS>, "to_ms": <UNIX_MS>, "bucket": "day"},
+  "generated_at_ms": <UNIX_MS>,
+  "groups": [
+    {
+      "vendor": "claude-code|cursor|none",
+      "bucket_start_ms": <UNIX_MS>,
+      "bucket_end_ms": <UNIX_MS>,
+      "local": {
+        "job.count": {"total": <n>, "by_class_outcome": [{"class": "<CLASS>", "outcome": "<STATE>", "count": <n>}]},
+        "job.duration_ms": {"value": <f64|null>, "measured_jobs": <n>, "basis": "canonical_root_run_elapsed", "reason": <null|"no_recorded_report">},
+        "cpu_core_seconds": {"value": <f64|null>, "measured_jobs": <n>, "basis": "canonical_root_waited_rusage", "reason": <null|"no_recorded_report">},
+        "arc.hook.overhead_ms": {"sum": <u64|null>, "max": <u64|null>, "jobs": <n>}
+      },
+      "remote": {
+        "job.count": {"total": <n>, "by_class_outcome": [...]},
+        "job.duration_ms": {...},
+        "cpu_core_seconds": {"value": null, "measured_jobs": 0, "reason": "not_metered_locally"},
+        "arc.hook.overhead_ms": {...}
+      }
+    }
+  ]
+}
+```
+
+- `--by project` replaces `vendor` with `project`, the opaque project key described under [Scheduling](#scheduling); `--by period` has neither key, one group per bucket.
+- `vendor` is the agent whose installed hook started the job. `none` means a direct command with no agent hook, such as `arcctl exec`, and is not Unattributed. A job without a project key also groups under `none`.
+- `job.count` counts every registered job in the bucket by class and stored outcome. A queue entry that never registered, for example one cancelled while queued, is not counted.
+- `job.duration_ms` sums the recorded run duration (`run_elapsed`) of the jobs' Meter reports, and `cpu_core_seconds` their waited CPU. Both sum only `canonical_root` reports, so a nested job is counted but its usage is not added twice; `measured_jobs` says how many reports contributed. A bucket with no recorded report has `null` with reason `no_recorded_report`, never 0. The report is sent best effort within the 500 ms window above, so `measured_jobs` can be lower than the job count.
+- REMOTE_CI and REMOTE_EXEC jobs are counted only under `remote`. Their runners' usage is not metered locally, so `remote` CPU is always `null` with reason `not_metered_locally`, and they add nothing to `local`.
+- `arc.hook.overhead_ms` is the hook's own measured time described under [Redelivered hook events](#redelivered-hook-events); direct jobs have none, so their group reads `{"sum":null,"max":null,"jobs":0}`.
+
+The summary never contains session IDs, tool-call IDs, command text or paths.
+
+### Sample rollup and retention
+
+On its own schedule (first about 2 s after startup, then every 10 minutes, postponed while the database writer has outstanding requests) the daemon rolls raw `resource_samples` older than 72 hours into `resource_rollups` minute, hour and day buckets and deletes those raw rows in the same transaction, so each row counts once. A bucket holds CPU core-seconds and disk bytes written (the growth between consecutive samples of one process), peak RSS (the largest summed RSS of one sample) and the number of distinct jobs; `reclaimed_bytes` stays null until a Sweeper exists. An hour or day bucket that spans two rollup passes counts a job once per pass. Minute buckets are kept 30 days and hour and day buckets one year (SRS 14.5). The same pass expires stored Meter records on the 90-day policy above. Raw sampling therefore does not grow the database without bound.
+
+Windows and full Meter acceptance remain outstanding.
 
 ## Timing and protocol errors
 

@@ -21,11 +21,18 @@ pub(crate) fn run(id: String, json_output: bool) -> ExitCode {
         .map_err(|_| Failure::Unavailable)
         .and_then(|socket| inspect(&socket, &job));
     match result {
-        Ok((result, fair)) => {
+        Ok((result, fair, history)) => {
+            let history = history.as_ref();
             if json_output {
-                println!("{}", decision::document(&result, fair));
+                let document = decision::document(&result, fair);
+                println!("{}", history::document(document, history));
             } else {
-                print!("{}{}", render(&result), decision::line(&result, fair));
+                print!(
+                    "{}{}{}",
+                    render(&result),
+                    decision::line(&result, fair),
+                    history::lines(history)
+                );
             }
             ExitCode::SUCCESS
         }
@@ -41,12 +48,14 @@ pub(crate) fn run(id: String, json_output: bool) -> ExitCode {
 }
 #[cfg(test)]
 fn read(socket: &Path, job: &JobId) -> Result<DiagnosticResult, Failure> {
-    inspect(socket, job).map(|(result, _)| result)
+    inspect(socket, job).map(|(result, _, _)| result)
 }
-fn inspect(
-    socket: &Path,
-    job: &JobId,
-) -> Result<(DiagnosticResult, Option<FairnessReason>), Failure> {
+type Inspected = (
+    DiagnosticResult,
+    Option<FairnessReason>,
+    Option<arc_ipc::traffic::decision_history::DecisionHistory>,
+);
+fn inspect(socket: &Path, job: &JobId) -> Result<Inspected, Failure> {
     let deadline = Instant::now() + Duration::from_secs(2);
     let probe = |operation| {
         Session::connect_until(socket, deadline, &|| false, None)?
@@ -88,7 +97,8 @@ fn inspect(
     query.payload = json!(DiagnosticRequest {
         job_id: job.clone()
     });
-    let mut session = Session::connect_until(socket, deadline, &|| false, None)?;
+    let continuity = arc_ipc::client::Continuity::default();
+    let mut session = Session::connect_until(socket, deadline, &|| false, Some(&continuity))?;
     let value = session.exchange(&query, &|| false)?;
     let result = decode_result(&value, job).map_err(|_| Failure::InvalidReply)?;
     if result.classification.is_some_and(|c| {
@@ -98,11 +108,15 @@ fn inspect(
         return Err(Failure::InvalidReply);
     }
     let fair = decision::fair_turn(&mut session, job, &result);
-    Ok((result, fair))
+    let daemon = continuity.identity().map(|identity| identity.pid);
+    let history = history::read(&mut session, socket, daemon, job);
+    Ok((result, fair, history))
 }
 
 #[path = "diagnostics/decision.rs"]
 mod decision;
+#[path = "diagnostics/history.rs"]
+mod history;
 
 #[cfg(test)]
 #[path = "diagnostics/tests.rs"]

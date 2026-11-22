@@ -48,6 +48,7 @@ async fn attachment_between_snapshot_and_transaction_refreshes_lineage_proof() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let deadline = Instant::now() + Duration::from_secs(5);
     let root_reply: JobResult = serde_json::from_value(
@@ -71,6 +72,7 @@ async fn attachment_between_snapshot_and_transaction_refreshes_lineage_proof() {
         lineage_context: Some(lineage_context),
         project: None,
         event: None,
+        usage: None,
     };
     let attachment = JobRequest::Attach {
         job_id: root_id,
@@ -169,6 +171,7 @@ async fn sibling_claim_and_stale_identity_cannot_reuse_an_active_permit() {
                 lineage_context: None,
                 project: None,
                 event: None,
+                usage: None,
             },
             left_id.pid,
             deadline,
@@ -190,6 +193,7 @@ async fn sibling_claim_and_stale_identity_cannot_reuse_an_active_permit() {
         lineage_context: Some(lineage_context),
         project: None,
         event: None,
+        usage: None,
     };
     let reply: JobResult = serde_json::from_value(
         handle(client.clone(), forged.clone(), right_id.pid, deadline)
@@ -260,6 +264,7 @@ async fn released_permit_between_ancestry_proof_and_commit_is_not_reused() {
                 lineage_context: None,
                 project: None,
                 event: None,
+                usage: None,
             },
             owner.pid,
             deadline,
@@ -283,6 +288,7 @@ async fn released_permit_between_ancestry_proof_and_commit_is_not_reused() {
         lineage_context: None,
         project: None,
         event: None,
+        usage: None,
     };
     let reply: JobResult = serde_json::from_value(
         handle_inner(client, request, nested_owner.pid, deadline, |has_proof| {

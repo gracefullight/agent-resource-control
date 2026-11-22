@@ -40,6 +40,7 @@ impl ScriptPolicyLimits {
             lint: class(self.lint),
             typecheck: class(self.typecheck),
             budget: self.budget,
+            start_rate: Default::default(),
         };
         policy.validate().is_ok()
             && [

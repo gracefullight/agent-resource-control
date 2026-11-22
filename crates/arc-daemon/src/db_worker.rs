@@ -17,6 +17,12 @@ mod observation;
 pub(crate) mod policy;
 #[path = "reaper/store.rs"]
 pub(crate) mod reaper_store;
+#[path = "db_worker/resource_samples.rs"]
+pub(crate) mod resource_samples;
+#[path = "retention.rs"]
+pub(crate) mod retention;
+#[path = "db_worker/start_rate.rs"]
+mod start_rate;
 #[cfg(test)]
 #[path = "db_worker/tests.rs"]
 mod tests;

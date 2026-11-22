@@ -45,6 +45,7 @@ async fn queued_recovery_status_and_cancellation_survive_utc_backstep_across_res
                 .unwrap(),
                 project: None,
                 event: None,
+                usage: None,
             },
             &repository::OwnerEvidence::gather(&f.owner),
             &arc_traffic::Policy::default(),

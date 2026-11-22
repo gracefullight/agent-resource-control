@@ -426,16 +426,20 @@ fn go_owned_child_counts_are_isolated_between_parallel_cases() {
         workers.push(thread::spawn(move || {
             // Keep the default counter contract under test alongside the
             // explicitly scoped case, even when both share one worker thread.
+            // The children open no pipe. On macOS std creates a pipe with
+            // pipe() and sets close-on-exec afterwards, so a concurrent fork
+            // can keep one case's stdin open in the other case's child; an
+            // EOF-driven child then waits on the other case's release.
             let before = super::counts();
-            let mut default_command = Command::new("/bin/cat");
+            let mut default_command = Command::new("/usr/bin/true");
             default_command
-                .stdin(Stdio::piped())
+                .stdin(Stdio::null())
                 .stdout(Stdio::null())
                 .stderr(Stdio::null());
             let mut default_child = GoChild::spawn(&mut default_command).unwrap();
-            let mut command = Command::new("/bin/cat");
+            let mut command = Command::new("/usr/bin/true");
             command
-                .stdin(Stdio::piped())
+                .stdin(Stdio::null())
                 .stdout(Stdio::null())
                 .stderr(Stdio::null());
             let mut child = GoChild::spawn_counted(&mut command, Arc::clone(&counts)).unwrap();

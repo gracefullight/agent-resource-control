@@ -50,7 +50,10 @@ pub fn signals(read: Read) {
     assert_eq!(result["sqlite"]["signal"], libc::SIGTERM);
     let meter_cli = case.cli(&["meter", "summary", "--job", id, "--json"]);
     assert!(meter_cli.status.success());
-    let meter: Value = serde_json::from_slice(&meter_cli.stdout).unwrap();
+    let mut meter: Value = serde_json::from_slice(&meter_cli.stdout).unwrap();
+    // The CLI adds the job's process tree beside the v1 summary (MTR-002).
+    let tree = meter.as_object_mut().unwrap().remove("process_tree");
+    assert!(tree.is_some_and(|t| t.is_object() || t.is_null()));
     assert_eq!(
         meter,
         (case.read)(&case.fixture.socket, "meter_summary", json!({"job_id":id}))
@@ -175,7 +178,11 @@ pub fn nested(read: Read) {
     );
     let cli = case.cli(&["meter", "summary", "--job", &nested, "--json"]);
     assert!(cli.status.success());
-    assert_eq!(serde_json::from_slice::<Value>(&cli.stdout).unwrap(), meter);
+    let mut cli: Value = serde_json::from_slice(&cli.stdout).unwrap();
+    // The CLI adds the job's process tree beside the v1 summary (MTR-002).
+    let tree = cli.as_object_mut().unwrap().remove("process_tree");
+    assert!(tree.is_some_and(|t| t.is_object() || t.is_null()));
+    assert_eq!(cli, meter);
     assert_eq!(
         meter["accounting"]["report"]["accounting_relation"],
         json!({"kind":"included_in_root","root_job_id":root})

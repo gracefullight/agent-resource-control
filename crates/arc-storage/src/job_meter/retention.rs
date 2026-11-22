@@ -38,7 +38,7 @@ pub(super) fn is_expired(
 }
 pub(super) fn clear(connection: &Connection, id: &str, now: u64) -> MeterResult<()> {
     connection.execute(
-        "UPDATE job_meter_summaries SET report_id=NULL,report_json=NULL,
+        "UPDATE job_meter_summaries SET report_id=NULL,report_json=NULL,process_tree_json=NULL,
         expired_at_ms=COALESCE(expired_at_ms,?2) WHERE job_id=?1",
         params![id, now as i64],
     )?;
@@ -54,8 +54,8 @@ pub fn expire(connection: &mut Connection, now: u64) -> MeterResult<usize> {
     };
     let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
     let changed = tx.execute(
-        "UPDATE job_meter_summaries SET report_id=NULL,report_json=NULL,expired_at_ms=?2
-         WHERE job_id IN (SELECT m.job_id FROM job_meter_summaries m
+        "UPDATE job_meter_summaries SET report_id=NULL,report_json=NULL,process_tree_json=NULL,
+         expired_at_ms=?2 WHERE job_id IN (SELECT m.job_id FROM job_meter_summaries m
          WHERE m.expired_at_ms IS NULL AND m.terminal_at_ms<=?1
           AND NOT EXISTS(SELECT 1 FROM jobs j WHERE j.id IN (m.job_id,m.root_job_id)
             AND j.state IN ('REGISTERED','LAUNCHING','RUNNING'))

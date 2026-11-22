@@ -356,7 +356,7 @@ fn same_gh_exec_is_recorded_remote_and_runs_once_without_local_reservation() {
     s.config("[remote \"origin\"]\n url = https://github.com/example/app.git\n");
     let id = JobId::try_from("d123456789abcdef0123456789abcdef".to_owned()).unwrap();
     let observer = ProcessIdentity::capture(std::process::id()).unwrap();
-    let hold = JobRequest::Enqueue { job_id: id.clone(), observer: observer.clone(), classification: serde_json::from_value(json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(), lineage_context: None, project: None, event: None  };
+    let hold = JobRequest::Enqueue { job_id: id.clone(), observer: observer.clone(), classification: serde_json::from_value(json!({"classification":"BUILD","locality":"HOST_LOCAL","reason":"CARGO_BUILD","uncertainty":"NONE"})).unwrap(), lineage_context: None, project: None, event: None, usage: None  };
     let JobResult::Granted {
         permit_generation, ..
     } = serde_json::from_value(

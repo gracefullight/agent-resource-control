@@ -128,6 +128,7 @@ mod tests {
                 r#"{"classification":"UNKNOWN","locality":"UNKNOWN","reason":"UNSUPPORTED_SYNTAX","uncertainty":"OBSERVE"}"#,
             )
             .unwrap(),
+            usage: None,
         };
         start(connection, &request, &StartEvidence::gather(&request), 100).unwrap();
     }

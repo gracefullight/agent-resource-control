@@ -108,6 +108,12 @@ Desktop integration, native Windows acceptance, vendor hooks and other schedulin
         /// Vendor hook event this run delivers; consumed by arcctl, never by the child
         #[arg(long = "arc-event", value_name = "KEY", hide = true)]
         event: Option<String>,
+        /// Vendor adapter that rewrote this run; consumed by arcctl, never by the child
+        #[arg(long = "arc-vendor", value_name = "ID", hide = true)]
+        vendor: Option<String>,
+        /// The hook process's own measured time; consumed by arcctl, never by the child
+        #[arg(long = "arc-hook-overhead-ms", value_name = "MS", hide = true)]
+        hook_overhead_ms: Option<String>,
         /// Request whose stage this is; consumed by arcctl, never by the child
         #[arg(long = "arc-request", value_name = "ID")]
         request: Option<String>,
@@ -206,9 +212,11 @@ fn main() -> ExitCode {
         Command::Exec { argv } => return exec::run(argv),
         Command::HookExec {
             event,
+            vendor,
+            hook_overhead_ms,
             request,
             argv,
-        } => return exec::run_hook(argv, request, event),
+        } => return exec::run_hook(argv, request, event, (vendor, hook_overhead_ms)),
         Command::Hooks { command } => return hooks::run(command),
         Command::Job {
             command: JobCommand::Status { job_id },
@@ -240,12 +248,7 @@ fn run(command: Command) -> Result<(), String> {
         | Command::Job { .. } => unreachable!("handled before diagnostics"),
         Command::Daemon { command } => governor::run(&socket, command),
         Command::Status => status(&socket).map_err(str::to_owned),
-        Command::Meter {
-            command: meter::MeterCommand::Snapshot { .. },
-        } => meter::run(&socket),
-        Command::Meter {
-            command: meter::MeterCommand::Summary { job, .. },
-        } => meter::summary(&socket, &job),
+        Command::Meter { command } => meter::dispatch(&socket, command),
         Command::Doctor => doctor::run(&socket),
         Command::Classify {
             command,

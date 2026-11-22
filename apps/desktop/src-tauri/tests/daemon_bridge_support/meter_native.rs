@@ -28,7 +28,14 @@ fn next(case: &RealDaemon, previous: u64) -> MeterSnapshot {
     loop {
         let output = cli(case);
         if output.status.success() {
-            let value = serde_json::from_slice(&output.stdout).unwrap();
+            let mut value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+            // `traffic` (MET-017) sits beside the strictly decoded v1 fields.
+            if let Some(traffic) = value
+                .as_object_mut()
+                .and_then(|object| object.remove(arc_ipc::meter::usage::SNAPSHOT_TRAFFIC_KEY))
+            {
+                serde_json::from_value::<arc_ipc::meter::usage::SnapshotTraffic>(traffic).unwrap();
+            }
             let sample = arc_ipc::meter::decode_snapshot(&value).unwrap();
             if sample.sequence > previous {
                 return sample;

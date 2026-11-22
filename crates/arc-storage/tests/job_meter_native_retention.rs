@@ -54,6 +54,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
             job_id: job_id.clone(),
             observer: observer.clone(),
             classification: class,
+            usage: None,
         },
         StartRequest::Claim {
             job_id: job_id.clone(),
@@ -137,7 +138,13 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     let legacy = rusqlite::Connection::open(&legacy_path).unwrap();
     legacy
         .execute_batch(
-            "DROP INDEX idx_job_lifecycle_event_key;
+            "DROP TABLE resource_rollups;
+        ALTER TABLE job_meter_summaries DROP COLUMN process_tree_json;
+        DROP INDEX idx_resource_samples_job_time; DROP INDEX idx_resource_samples_time;
+        ALTER TABLE resource_samples DROP COLUMN cpu_core_percent;
+        ALTER TABLE jobs DROP COLUMN project_key; ALTER TABLE jobs DROP COLUMN hook_overhead_ms;
+        ALTER TABLE jobs DROP COLUMN vendor;
+        DROP INDEX idx_job_lifecycle_event_key;
         ALTER TABLE job_lifecycle DROP COLUMN event_key;
         DROP INDEX idx_traffic_project_grant;
         ALTER TABLE traffic_entries DROP COLUMN project_key;
@@ -156,7 +163,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
         ALTER TABLE policy_decisions DROP COLUMN expires_at_ms;
         DROP TABLE job_meter_summaries;
         DROP INDEX idx_lifecycle_observer_identity; DROP INDEX idx_lifecycle_child_identity;
-        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure','0006_governor','0007_traffic_project','0008_hook_event');
+        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure','0006_governor','0007_traffic_project','0008_hook_event','0009_meter_policy');
         PRAGMA user_version=3;",
         )
         .unwrap();
@@ -172,7 +179,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     assert_eq!(legacy_summary.queue_wait, QueueWait::unknown());
     let schema = arc_storage::assess_schema(&upgraded).unwrap();
     assert!(schema.history_verified);
-    assert_eq!(schema.applied_version, Some(8));
+    assert_eq!(schema.applied_version, Some(9));
     upgraded.close().unwrap();
     let observed = json!({"test":"real_native_measurement_obeys_ninety_day_boundary_without_resurrection",
         "controlledClock":{"terminalAtMs":200,"retentionMs":JOB_METADATA_RETENTION_MS,"beforeMs":boundary-1,"boundaryMs":boundary},

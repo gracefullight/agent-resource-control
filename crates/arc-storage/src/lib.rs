@@ -12,6 +12,8 @@ mod migration;
 pub mod policy;
 pub mod reaper;
 pub mod request;
+pub mod rollup;
+pub mod usage_summary;
 
 pub use migration::{
     assess_schema, Migration, MigrationError, SchemaCompatibility, SchemaStatus, MIGRATIONS,

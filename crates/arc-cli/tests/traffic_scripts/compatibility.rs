@@ -52,6 +52,7 @@ fn unsupported_before_submission_projects_observation_without_changing_original_
                     job_id,
                     observer,
                     classification,
+                    ..
                 } = serde_json::from_value(request.payload).unwrap()
                 else {
                     panic!("legacy registration")

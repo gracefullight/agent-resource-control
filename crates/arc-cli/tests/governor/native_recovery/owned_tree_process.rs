@@ -1,6 +1,9 @@
 //! macOS process-generation checks for fixture cleanup.
 use arc_core::process_identity::{probe, probe_live, IdentityStatus, ProcessIdentity};
-use std::io;
+use std::{
+    io, thread,
+    time::{Duration, Instant},
+};
 
 // XNU's PROC_PIDT_BSDINFOWITHUNIQID (flavor 18) returns both fields from one
 // process reference. Its exported ABI is described in proc_info_private.h.
@@ -54,13 +57,35 @@ pub(super) trait ProcessOps {
 }
 
 pub(super) struct NativeOps;
+// While a process exits, Darwin briefly reports it as neither live nor a
+// zombie (proc_pidinfo ESRCH, sysctl state not SZOMB), which the identity
+// probe reports as indeterminate. Re-observe while signal zero still finds the
+// PID, until the kernel settles; never infer absence or a match. A permission
+// denial ends the retry at once. The deadline only diagnoses a hang.
+fn settled(
+    identity: &ProcessIdentity,
+    read: impl Fn(&ProcessIdentity) -> IdentityStatus,
+) -> IdentityStatus {
+    let watchdog = Instant::now() + Duration::from_secs(60);
+    loop {
+        let status = read(identity);
+        if status != IdentityStatus::Indeterminate
+            || unsafe { libc::kill(identity.pid as i32, 0) } != 0
+            || Instant::now() >= watchdog
+        {
+            return status;
+        }
+        thread::yield_now();
+    }
+}
+
 impl ProcessOps for NativeOps {
     fn probe(&self, identity: &ProcessIdentity) -> IdentityStatus {
-        probe(identity)
+        settled(identity, probe)
     }
 
     fn probe_live(&self, identity: &ProcessIdentity) -> IdentityStatus {
-        probe_live(identity)
+        settled(identity, probe_live)
     }
 
     fn observe(&self, pid: u32) -> io::Result<ObservedProcess> {
@@ -160,6 +185,30 @@ pub(super) fn still_stopped(process: &OwnedProcess, ops: &impl ProcessOps) -> io
     Ok(current.unique_id == process.unique_id
         && current.pid_version == process.pid_version
         && observed.bsd.pbi_status == libc::SSTOP)
+}
+
+/// A stop accepted for one PID generation is lost when that generation
+/// completes an exec before delivery: the PID version changes and the new
+/// image keeps running. Re-signal the same kernel process (same unique ID) at
+/// its current generation and return it; `None` means it is gone or replaced.
+pub(super) fn restop(
+    process: &OwnedProcess,
+    ops: &impl ProcessOps,
+) -> io::Result<Option<OwnedProcess>> {
+    let Some((current, _)) = acquire(&process.identity, ops)? else {
+        return Ok(None);
+    };
+    if current.unique_id != process.unique_id {
+        return Ok(None);
+    }
+    if current.pid_version != process.pid_version {
+        match ops.signal(&current, libc::SIGSTOP) {
+            // Another exec or an exit; the next observation decides.
+            Err(error) if error.raw_os_error() != Some(libc::ESRCH) => return Err(error),
+            _ => (),
+        }
+    }
+    Ok(Some(current))
 }
 
 /// Reacquire a generation only for the same kernel unique ID. An exec may

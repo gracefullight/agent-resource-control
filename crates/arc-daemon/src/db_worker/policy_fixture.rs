@@ -175,6 +175,7 @@ impl Fixture {
             lineage_context: None,
             project: None,
             event: None,
+            usage: None,
         })
         .await
     }

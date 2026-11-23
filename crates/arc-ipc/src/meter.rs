@@ -7,7 +7,11 @@ use serde_json::Value;
 
 pub mod job;
 pub use job::*;
+pub mod attribution;
+pub mod footprint;
 pub mod job_tree;
+pub mod job_tree_quality;
+pub mod quality;
 pub mod usage;
 
 pub const OPERATION_METER_SNAPSHOT: &str = "meter.snapshot";

@@ -2,7 +2,11 @@
 #[cfg(unix)]
 pub mod child_wait;
 #[cfg(unix)]
+pub mod footprint;
+#[cfg(unix)]
 pub mod job_lineage;
+#[cfg(unix)]
+pub mod process_scan;
 #[cfg(unix)]
 pub mod process_tree;
 #[cfg(unix)]

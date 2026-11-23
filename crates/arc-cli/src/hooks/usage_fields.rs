@@ -15,8 +15,16 @@
 //! `arc_ipc::meter::usage::ADVERTISEMENT` beside this hook's socket, so with
 //! an older daemon, or none, the rewrite is exactly today's. `hook-exec`
 //! checks that the daemon it reaches holds it before sending anything.
+//!
+//! While the daemon also holds `arc_ipc::meter::usage::ADVERTISEMENT_V2`, the
+//! session digest of `super::session_key::digest` (lane B) follows as
+//! `--arc-session <64 hex>` after the overhead. The raw session id is read
+//! only there and never leaves this process.
 use super::{event_key, Vendor};
-use arc_ipc::{jobs::usage, meter::usage::ADVERTISEMENT};
+use arc_ipc::{
+    jobs::usage,
+    meter::usage::{ADVERTISEMENT, ADVERTISEMENT_V2},
+};
 use serde_json::Value;
 use std::time::Instant;
 
@@ -27,19 +35,25 @@ const KEY_LEN: usize = 64;
 #[path = "../meter/usage/advertiser.rs"]
 mod advertiser;
 
-pub(super) fn annotate(vendor: Vendor, started: Instant, response: Value) -> Value {
-    let advertised = arc_core::socket_path()
-        .ok()
-        .and_then(|socket| advertiser::holder(&socket, ADVERTISEMENT))
-        .is_some();
-    if advertised {
-        annotated(vendor, started, response)
-    } else {
-        response
-    }
+pub(super) fn annotate(vendor: Vendor, event: &Value, started: Instant, response: Value) -> Value {
+    let Some(socket) = arc_core::socket_path().ok() else {
+        return response;
+    };
+    let Some(daemon) = advertiser::holder(&socket, ADVERTISEMENT) else {
+        return response;
+    };
+    let session = (advertiser::holder(&socket, ADVERTISEMENT_V2) == Some(daemon))
+        .then(|| super::session_key::digest(vendor, event))
+        .flatten();
+    annotated(vendor, started, session.as_ref(), response)
 }
 
-fn annotated(vendor: Vendor, started: Instant, mut response: Value) -> Value {
+fn annotated(
+    vendor: Vendor,
+    started: Instant,
+    session: Option<&usage::SessionKey>,
+    mut response: Value,
+) -> Value {
     let adapter = match vendor {
         Vendor::Claude => event_key::CLAUDE,
         Vendor::Cursor => event_key::CURSOR,
@@ -58,15 +72,20 @@ fn annotated(vendor: Vendor, started: Instant, mut response: Value) -> Value {
         return response;
     };
     let overhead = u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX);
-    if let Some(annotated) = with_fields(command, stored, overhead) {
+    if let Some(annotated) = with_fields(command, stored, overhead, session) {
         *command = annotated;
     }
     response
 }
 
-/// `command` with the two options after its event key, or `None` when it is
+/// `command` with the options after its event key, or `None` when it is
 /// not exactly `<arcctl> hook-exec --arc-event <64 hex> -- <literal>`.
-fn with_fields(command: &str, vendor: usage::Vendor, overhead_ms: u64) -> Option<String> {
+fn with_fields(
+    command: &str,
+    vendor: usage::Vendor,
+    overhead_ms: u64,
+    session: Option<&usage::SessionKey>,
+) -> Option<String> {
     let start = command.rfind(KEYED)? + KEYED.len();
     let key = command.get(start..start + KEY_LEN)?;
     if !key
@@ -80,8 +99,11 @@ fn with_fields(command: &str, vendor: usage::Vendor, overhead_ms: u64) -> Option
         return None;
     }
     let overhead = usage::HookOverheadMs::try_from(overhead_ms).ok()?;
+    let session = session.map_or_else(String::new, |key| {
+        format!(" --arc-session {}", key.as_str())
+    });
     Some(format!(
-        "{} --arc-vendor {} --arc-hook-overhead-ms {}{rest}",
+        "{} --arc-vendor {} --arc-hook-overhead-ms {}{session}{rest}",
         &command[..start + KEY_LEN],
         vendor.as_str(),
         overhead.get()
@@ -99,10 +121,19 @@ mod tests {
     fn only_a_keyed_rewrite_gains_the_vendor_and_overhead_before_the_separator() {
         let keyed = format!("'/opt/arc/arc ctl' hook-exec --arc-event {KEY} -- cargo build");
         assert_eq!(
-            with_fields(&keyed, usage::Vendor::ClaudeCode, 7).unwrap(),
+            with_fields(&keyed, usage::Vendor::ClaudeCode, 7, None).unwrap(),
             format!(
                 "'/opt/arc/arc ctl' hook-exec --arc-event {KEY} --arc-vendor claude-code \
                  --arc-hook-overhead-ms 7 -- cargo build"
+            )
+        );
+        let session = usage::SessionKey::try_from("cd".repeat(32)).unwrap();
+        assert_eq!(
+            with_fields(&keyed, usage::Vendor::Cursor, 2, Some(&session)).unwrap(),
+            format!(
+                "'/opt/arc/arc ctl' hook-exec --arc-event {KEY} --arc-vendor cursor \
+                 --arc-hook-overhead-ms 2 --arc-session {} -- cargo build",
+                "cd".repeat(32)
             )
         );
         for unchanged in [
@@ -114,7 +145,7 @@ mod tests {
             format!("'/a' hook-exec --arc-event {KEY} cargo build"),
         ] {
             assert_eq!(
-                with_fields(&unchanged, usage::Vendor::Cursor, 1),
+                with_fields(&unchanged, usage::Vendor::Cursor, 1, None),
                 None,
                 "{unchanged}"
             );
@@ -127,7 +158,7 @@ mod tests {
         let command = format!("'/a' hook-exec --arc-event {KEY} -- cargo test");
         let claude = json!({"hookSpecificOutput":{"hookEventName":"PreToolUse",
             "updatedInput":{"command":command,"description":"d"}}});
-        let out = annotated(Vendor::Claude, started, claude.clone());
+        let out = annotated(Vendor::Claude, started, None, claude.clone());
         let mut restored = out.clone();
         restored["hookSpecificOutput"]["updatedInput"]["command"] = json!(command);
         assert_eq!(restored, claude);
@@ -142,15 +173,21 @@ mod tests {
             .unwrap();
         assert!(options.parse::<u64>().is_ok(), "{rewritten}");
         let cursor = json!({"updated_input":{"command":command}});
-        let out = annotated(Vendor::Cursor, started, cursor);
+        let out = annotated(Vendor::Cursor, started, None, cursor);
         assert!(out["updated_input"]["command"]
             .as_str()
             .unwrap()
             .contains(" --arc-vendor cursor --arc-hook-overhead-ms "));
         // A response without a keyed command, or another shape, is untouched.
         let plain = json!({"updated_input":{"command":"'/a' hook-exec -- cargo build"}});
-        assert_eq!(annotated(Vendor::Cursor, started, plain.clone()), plain);
+        assert_eq!(
+            annotated(Vendor::Cursor, started, None, plain.clone()),
+            plain
+        );
         let other = json!({"permission":"allow"});
-        assert_eq!(annotated(Vendor::Claude, started, other.clone()), other);
+        assert_eq!(
+            annotated(Vendor::Claude, started, None, other.clone()),
+            other
+        );
     }
 }

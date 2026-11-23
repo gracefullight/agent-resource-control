@@ -24,6 +24,7 @@ mod traffic;
 pub(crate) mod transport;
 mod usage_fields;
 mod witness;
+pub(crate) mod workspace_compound;
 pub(crate) use capture::{capture_argv, capture_shell};
 #[cfg(test)]
 use entry::run_with_clocks;

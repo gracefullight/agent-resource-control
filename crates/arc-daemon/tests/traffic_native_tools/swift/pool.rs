@@ -16,6 +16,11 @@ static ROOT: OnceLock<PathBuf> = OnceLock::new();
 static RETAIN_ROOT: AtomicBool = AtomicBool::new(false);
 static POOL: OnceLock<Arc<Pool>> = OnceLock::new();
 
+/// Populate private, path-bound trees before contending for the daemon.
+pub(super) fn prewarm(tools: &Tools) {
+    let _ = POOL.get_or_init(|| Pool::new(tools));
+}
+
 extern "C" fn remove_root() {
     if RETAIN_ROOT.load(Ordering::SeqCst) {
         eprintln!("retaining SwiftPM pool because diagnostic preservation failed");

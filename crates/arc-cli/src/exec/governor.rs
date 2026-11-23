@@ -34,8 +34,13 @@ pub(super) fn prepare(
     signals: &Signals,
 ) -> Result<Mode, Failure> {
     use arc_detector::Reason;
-    // Requests always carry the projection; the daemon stores the canonical form.
-    let classification = classification.host_local_projection();
+    // A compound's negotiated record is job-scoped; its conservative admission
+    // and every existing request retain the protocol-1 projection.
+    let classification =
+        super::workspace_compound::publish(socket, id, classification, deadline, &|| {
+            signals.interrupted()
+        })
+        .host_local_projection();
     let route = if classification.reason == Reason::LocalEndpointBuild {
         Route::Endpoint
     } else if classification.is_bun_script() {

@@ -148,6 +148,35 @@ fn old_samples_roll_up_once_into_every_granularity_and_are_deleted() {
 }
 
 #[test]
+fn upgrade_preserves_old_bucket_count_and_marks_its_membership_unknown() {
+    let mut db = Connection::open_in_memory().unwrap();
+    crate::migration::migrate(&mut db, &crate::migration::MIGRATIONS[..9]).unwrap();
+    let old = NOW - 80 * 60 * 60 * 1000;
+    let base = old - old % (60 * MINUTE_MS);
+    db.execute(
+        "INSERT INTO resource_rollups(granularity,bucket_start_ms,job_count) VALUES('hour',?1,4)",
+        [base as i64],
+    )
+    .unwrap();
+    seed(&db, 0, base);
+    crate::migration::migrate(&mut db, crate::migration::MIGRATIONS).unwrap();
+    assert_eq!(db.query_row(
+        "SELECT job_count,job_count_completeness FROM resource_rollups WHERE granularity='hour' AND bucket_start_ms=?1",
+        [base as i64], |r| Ok((r.get::<_, i64>(0)?, r.get::<_, String>(1)?)),
+    ).unwrap(), (4, "unknown".to_owned()));
+    roll_up(&mut db, NOW).unwrap();
+    assert_eq!(db.query_row(
+        "SELECT job_count,job_count_completeness FROM resource_rollups WHERE granularity='hour' AND bucket_start_ms=?1",
+        [base as i64], |r| Ok((r.get::<_, i64>(0)?, r.get::<_, String>(1)?)),
+    ).unwrap(), (6, "unknown".to_owned()));
+    assert_eq!(db.query_row(
+        "SELECT job_count_completeness FROM resource_rollups WHERE granularity='minute' AND bucket_start_ms=?1",
+        [base as i64], |r| r.get::<_, String>(0),
+    ).unwrap(), "complete");
+    assert_eq!(roll_up(&mut db, NOW).unwrap().raw_rolled_up, 0);
+}
+
+#[test]
 fn expired_buckets_are_deleted_by_granularity() {
     let mut db = TempDb::new();
     let connection = db.connection();
@@ -197,4 +226,77 @@ fn a_pass_is_bounded_to_whole_minutes() {
     assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64 + 10);
     assert!(!report.more);
     assert_eq!(count(connection, "resource_samples"), 0);
+}
+
+/// Cycle 35 F2: one job sampled across two nonempty passes into the same
+/// hour and day, beside another job, counts once there; the minute buckets
+/// of each pass count it once each, and repeating a pass changes nothing.
+#[test]
+fn a_job_rolled_up_by_two_passes_counts_once_per_hour_and_day() {
+    let mut db = TempDb::new();
+    let connection = db.connection();
+    let hour = 60 * MINUTE_MS;
+    let old = NOW - 80 * hour;
+    let base = old - old % hour;
+    let day = base - base % (24 * hour);
+    for job in ["same", "other"] {
+        connection
+            .execute(
+                "INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at)
+                 VALUES(?1,'BUILD','LOCAL','OBSERVE','COMPLETED',0)",
+                [job],
+            )
+            .unwrap();
+    }
+    let sample = |connection: &Connection, job: &str, at: u64| {
+        connection
+            .execute(
+                "INSERT INTO resource_samples(timestamp_ns,job_id,process_identity,cpu_time_ns,
+                 rss_bytes,attribution_confidence) VALUES(?1,?2,?3,'0',1,'A')",
+                params![text_ns(at), job, format!("{job}:pid")],
+            )
+            .unwrap();
+    };
+    let counts = |connection: &Connection| -> Vec<i64> {
+        [
+            ("minute", base),
+            ("minute", base + 30 * MINUTE_MS),
+            ("hour", base),
+            ("day", day),
+        ]
+        .iter()
+        .map(|(g, b)| rollup(connection, g, *b).3)
+        .collect()
+    };
+    // Pass one: `same` and `other` in the first minute.
+    sample(connection, "same", base);
+    sample(connection, "other", base + 1);
+    assert_eq!(
+        roll_up(connection, NOW - 40 * MINUTE_MS)
+            .unwrap()
+            .raw_rolled_up,
+        2
+    );
+    assert_eq!(rollup(connection, "hour", base).3, 2);
+    // Pass two: `same` again, 30 minutes later, in the same hour and day.
+    sample(connection, "same", base + 30 * MINUTE_MS);
+    assert_eq!(roll_up(connection, NOW).unwrap().raw_rolled_up, 1);
+    assert_eq!(counts(connection), [2, 1, 2, 2]);
+    // Repeated passes leave every count unchanged.
+    for _ in 0..2 {
+        assert_eq!(roll_up(connection, NOW).unwrap().raw_rolled_up, 0);
+        assert_eq!(counts(connection), [2, 1, 2, 2]);
+    }
+    assert_eq!(count(connection, "resource_rollup_jobs"), 2 + 1 + 2 + 2);
+    // A bucket rolled before membership existed keeps its stored count.
+    connection
+        .execute("DELETE FROM resource_rollup_jobs", [])
+        .unwrap();
+    sample(connection, "same", base + 31 * MINUTE_MS);
+    roll_up(connection, NOW).unwrap();
+    assert_eq!(
+        rollup(connection, "hour", base).3,
+        3,
+        "stored count kept, not rebuilt"
+    );
 }

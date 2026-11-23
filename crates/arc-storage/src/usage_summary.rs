@@ -21,8 +21,8 @@
 //! unmeasured value is `null` with a reason, never 0.
 use crate::jobs::{JobError, JobResult};
 use arc_ipc::meter::usage::{
-    Bucket, GroupBy, SnapshotTraffic, UsageQuery, UsageSummary, MAX_USAGE_SUMMARY_BYTES,
-    SCHEMA_VERSION,
+    Bucket, GroupBy, SnapshotTraffic, UsageQuery, UsageQueryV2, UsageSummary, UsageSummaryV2,
+    MAX_USAGE_SUMMARY_BYTES, SCHEMA_VERSION,
 };
 use rusqlite::{params, Connection};
 use serde_json::{json, Map, Value};
@@ -46,6 +46,8 @@ struct JobRow {
     hook_overhead_ms: Option<u64>,
     /// `canonical_root` with a stored report: eligible for sums.
     additive: bool,
+    /// Recorded as the canonical root of its own usage.
+    canonical_root: bool,
     cpu_core_seconds: Option<f64>,
     run_seconds: Option<f64>,
 }
@@ -144,7 +146,8 @@ fn rows(connection: &Connection, query: &UsageQuery) -> JobResult<Vec<JobRow>> {
         "SELECT j.job_class,j.state,j.vendor,j.project_key,l.registered_at_ms,j.hook_overhead_ms,
          COALESCE(m.relation='canonical_root' AND m.report_json IS NOT NULL,0),
          json_extract(m.report_json,'$.cpu_core_seconds.total'),
-         json_extract(m.report_json,'$.run_elapsed.seconds')
+         json_extract(m.report_json,'$.run_elapsed.seconds'),
+         COALESCE(m.relation='canonical_root',0)
          FROM job_lifecycle l JOIN jobs j ON j.id=l.job_id
          LEFT JOIN job_meter_summaries m ON m.job_id=j.id
          WHERE l.registered_at_ms>=?1 AND l.registered_at_ms<?2",
@@ -162,6 +165,7 @@ fn rows(connection: &Connection, query: &UsageQuery) -> JobResult<Vec<JobRow>> {
             additive: r.get(6)?,
             cpu_core_seconds: r.get::<_, Option<f64>>(7)?.filter(|v| v.is_finite()),
             run_seconds: r.get::<_, Option<f64>>(8)?.filter(|v| v.is_finite()),
+            canonical_root: r.get(9)?,
         })
     })?;
     Ok(rows.collect::<Result<_, _>>()?)
@@ -222,6 +226,22 @@ pub fn summarize(
     }
 }
 
+/// The `meter.usage_summary.v2` groups: `--by session`, quality flags on
+/// every value, F3 tree CPU and F4 partial completeness (`usage_summary/v2.rs`).
+/// The `attribution` section is added by the dispatch, not here.
+pub fn summarize_v2(
+    connection: &Connection,
+    query: &UsageQueryV2,
+    now_ms: u64,
+) -> JobResult<UsageSummaryV2> {
+    let summary = v2::summarize(connection, query, now_ms)?;
+    // A range too wide to answer within the bound is refused, not truncated.
+    match serde_json::to_vec(&summary) {
+        Ok(bytes) if bytes.len() <= MAX_USAGE_SUMMARY_BYTES => Ok(summary),
+        _ => Err(JobError::InvalidRequest),
+    }
+}
+
 /// `traffic.queue.depth`: Traffic entries waiting for a permit right now.
 pub fn queue_depth(connection: &Connection, now_ms: u64) -> JobResult<SnapshotTraffic> {
     if now_ms > arc_ipc::jobs::MAX_TIMESTAMP {
@@ -237,6 +257,9 @@ pub fn queue_depth(connection: &Connection, now_ms: u64) -> JobResult<SnapshotTr
         observed_at_ms: now_ms,
     })
 }
+
+#[path = "usage_summary/v2.rs"]
+mod v2;
 
 #[cfg(test)]
 #[path = "usage_summary/tests.rs"]

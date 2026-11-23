@@ -22,6 +22,26 @@ use serde_json::{json, Value};
 use stage::{Run, Tool};
 use std::{fs, os::unix::ffi::OsStrExt, path::Path};
 
+#[test]
+fn daemon_record_skips_a_database_prefixed_directory() {
+    let _serial = support::serial();
+    let f = Fixture::new();
+    fs::write(&f.database, b"database").unwrap();
+    fs::write(f.root.join("runtime.json"), b"report").unwrap();
+    let database = f.database.file_name().unwrap().to_str().unwrap();
+    fs::create_dir(f.root.join(format!("{database}.attribution"))).unwrap();
+    let record = stage::daemon_record(&f);
+    assert_eq!(
+        record.get(database).map(Vec::as_slice),
+        Some(&b"database"[..])
+    );
+    assert_eq!(
+        record.get("runtime.json").map(Vec::as_slice),
+        Some(&b"report"[..])
+    );
+    assert_eq!(record.len(), 2);
+}
+
 /// The recorded Claude Code 2.1.327 PreToolUse event, re-addressed to the
 /// fixture project and carrying `command`.
 fn pre_tool_use(project: &Path, command: &str) -> Value {

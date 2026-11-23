@@ -407,7 +407,8 @@ impl GoChild {
                     });
                 }
             }
-            if now() >= end {
+            let current = now();
+            if current >= end {
                 let cleanup = self.stop().err();
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,
@@ -423,7 +424,15 @@ impl GoChild {
                 // exposes exit. Re-observe that state rather than missing it.
                 thread::yield_now();
             } else {
-                wait(&events, end)?;
+                // A child can exit while native notifications are being
+                // registered. Recheck owned identities and pipe state even
+                // if that notification was missed; keep the original
+                // absolute failure watchdog unchanged.
+                let recheck = current
+                    .checked_add(Duration::from_millis(100))
+                    .unwrap_or(end)
+                    .min(end);
+                wait(&events, recheck)?;
             }
         }
     }
@@ -454,3 +463,7 @@ mod tests;
 #[cfg(test)]
 #[path = "owned_descriptor_tests.rs"]
 mod descriptor_tests;
+
+#[cfg(test)]
+#[path = "owned_race_tests.rs"]
+mod race_tests;

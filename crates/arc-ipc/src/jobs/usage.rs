@@ -56,6 +56,43 @@ impl From<HookOverheadMs> for u64 {
     }
 }
 
+/// An opaque agent-session identity: 64 lowercase hexadecimal digits of the
+/// hook's domain-separated SHA-256 digest of the vendor and the raw vendor
+/// session id (lane B). Never the raw id or reversible text. Sent only to a
+/// daemon holding `meter::usage::ADVERTISEMENT_V2`.
+#[derive(Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+#[serde(try_from = "String", into = "String")]
+pub struct SessionKey(String);
+impl SessionKey {
+    pub fn as_str(&self) -> &str {
+        &self.0
+    }
+}
+impl std::fmt::Debug for SessionKey {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter.write_str("SessionKey([OPAQUE])")
+    }
+}
+impl TryFrom<String> for SessionKey {
+    type Error = &'static str;
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        if value.len() == 64
+            && value
+                .bytes()
+                .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+        {
+            Ok(Self(value))
+        } else {
+            Err("invalid session key")
+        }
+    }
+}
+impl From<SessionKey> for String {
+    fn from(value: SessionKey) -> Self {
+        value.0
+    }
+}
+
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct UsageFields {
@@ -66,4 +103,7 @@ pub struct UsageFields {
     /// For a registration; an enqueue also carries `project` (fairness).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub project_key: Option<ProjectKey>,
+    /// Only after `meter::usage::ADVERTISEMENT_V2`; omitted when absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub session_key: Option<SessionKey>,
 }

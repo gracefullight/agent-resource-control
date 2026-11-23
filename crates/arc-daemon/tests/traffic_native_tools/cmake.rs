@@ -10,6 +10,15 @@ mod tools;
 
 use tools::Tools;
 
+/// Prepare the validated immutable CMake seed without holding a daemon lock.
+pub fn prewarm() {
+    static READY: std::sync::OnceLock<()> = std::sync::OnceLock::new();
+    READY.get_or_init(|| {
+        let tools = Tools::installed();
+        project::prewarm(&tools);
+    });
+}
+
 fn case(name: &str, read: Read) -> Case<Tools> {
     let tools = Tools::installed();
     let receipt = tools.receipt();

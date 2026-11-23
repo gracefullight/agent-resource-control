@@ -465,6 +465,7 @@ pub(in crate::jobs) fn reconcile_exited_child(
     if !matches!(entry.state.as_str(), "RUNNING" | "RETAINED") {
         return Ok(false);
     }
+    super::recovery_footprint::bind(connection, &job.job_id, &entry)?;
     connection_state(connection, &job.job_id, "ABANDONED")?;
     release_if_done(connection, &job.job_id, &entry, now)?;
     Ok(true)

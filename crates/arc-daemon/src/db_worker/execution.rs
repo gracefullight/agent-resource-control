@@ -20,6 +20,11 @@ pub(super) fn install_fixture_before_commit(callback: fn()) {
 /// Arm the fixture for the first write COMMIT of one lifecycle start.
 fn fixture_arm(operation: &jobs::Operation) -> Option<fn()> {
     let callback = *FIXTURE_BEFORE_COMMIT.get()?;
+    // A start watched for its footprint reading is still that start.
+    let operation = match operation {
+        jobs::Operation::Watched(inner, ..) => inner.as_ref(),
+        operation => operation,
+    };
     matches!(operation, jobs::Operation::Start(..)).then(|| {
         FIXTURE_STAGE.store(STAGE_ARMED, Ordering::Release);
         callback
@@ -31,6 +36,10 @@ fn fixture_arm(operation: &jobs::Operation) -> Option<fn()> {
 fn fixture_committed(callback: Option<fn()>, value: &jobs::Value) {
     let Some(callback) = callback else { return };
     let reached = FIXTURE_STAGE.swap(STAGE_IDLE, Ordering::AcqRel) == STAGE_REACHED;
+    let value = match value {
+        jobs::Value::Watched(inner, _) => inner.as_ref(),
+        value => value,
+    };
     let wrote = matches!(value, jobs::Value::Start(Ok(result))
         if result.disposition != arc_ipc::jobs::StartDisposition::Unchanged);
     if reached && wrote {

@@ -18,7 +18,13 @@ const PROJECTED: &str = "HOST_LOCAL";
 
 /// Only these operations opt in to the unprojected vocabulary.
 pub fn negotiated(operation: &str) -> bool {
-    matches!(operation, OPERATION_CLASSIFY | OPERATION_JOB_STATUS)
+    matches!(
+        operation,
+        OPERATION_CLASSIFY
+            | OPERATION_JOB_STATUS
+            | crate::workspace_cache::OPERATION
+            | crate::workspace_compound::OPERATION
+    )
 }
 
 /// The one typed projection for a peer that did not negotiate.

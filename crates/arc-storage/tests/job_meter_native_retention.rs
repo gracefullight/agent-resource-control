@@ -138,7 +138,14 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     let legacy = rusqlite::Connection::open(&legacy_path).unwrap();
     legacy
         .execute_batch(
-            "DROP TABLE resource_rollups;
+            "DROP TABLE process_attribution_scans; DROP TABLE process_attribution;
+        DROP TABLE resource_rollup_jobs;
+        ALTER TABLE jobs DROP COLUMN footprint_end_completeness;
+        ALTER TABLE jobs DROP COLUMN footprint_end_bytes;
+        ALTER TABLE jobs DROP COLUMN footprint_start_completeness;
+        ALTER TABLE jobs DROP COLUMN footprint_start_bytes;
+        ALTER TABLE jobs DROP COLUMN session_key;
+        DROP TABLE resource_rollups;
         ALTER TABLE job_meter_summaries DROP COLUMN process_tree_json;
         DROP INDEX idx_resource_samples_job_time; DROP INDEX idx_resource_samples_time;
         ALTER TABLE resource_samples DROP COLUMN cpu_core_percent;
@@ -163,7 +170,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
         ALTER TABLE policy_decisions DROP COLUMN expires_at_ms;
         DROP TABLE job_meter_summaries;
         DROP INDEX idx_lifecycle_observer_identity; DROP INDEX idx_lifecycle_child_identity;
-        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure','0006_governor','0007_traffic_project','0008_hook_event','0009_meter_policy');
+        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure','0006_governor','0007_traffic_project','0008_hook_event','0009_meter_policy','0010_attribution');
         PRAGMA user_version=3;",
         )
         .unwrap();
@@ -179,7 +186,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     assert_eq!(legacy_summary.queue_wait, QueueWait::unknown());
     let schema = arc_storage::assess_schema(&upgraded).unwrap();
     assert!(schema.history_verified);
-    assert_eq!(schema.applied_version, Some(9));
+    assert_eq!(schema.applied_version, Some(10));
     upgraded.close().unwrap();
     let observed = json!({"test":"real_native_measurement_obeys_ninety_day_boundary_without_resurrection",
         "controlledClock":{"terminalAtMs":200,"retentionMs":JOB_METADATA_RETENTION_MS,"beforeMs":boundary-1,"boundaryMs":boundary},

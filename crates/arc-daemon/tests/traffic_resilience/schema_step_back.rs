@@ -17,6 +17,18 @@ pub const EARLIEST: u32 = 6;
 /// exactly what it added. Extend this list with every new migration.
 const UNDO: &[(u32, &str)] = &[
     (
+        10,
+        "DROP TABLE process_attribution_scans;
+         DROP TABLE process_attribution;
+         DROP TABLE resource_rollup_jobs;
+         ALTER TABLE resource_rollups DROP COLUMN job_count_completeness;
+         ALTER TABLE jobs DROP COLUMN footprint_end_completeness;
+         ALTER TABLE jobs DROP COLUMN footprint_end_bytes;
+         ALTER TABLE jobs DROP COLUMN footprint_start_completeness;
+         ALTER TABLE jobs DROP COLUMN footprint_start_bytes;
+         ALTER TABLE jobs DROP COLUMN session_key;",
+    ),
+    (
         9,
         "DROP TABLE resource_rollups;
          ALTER TABLE job_meter_summaries DROP COLUMN process_tree_json;

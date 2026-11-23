@@ -209,6 +209,7 @@ fn exchange_with_clock<S: TrackedStream>(
                                 | crate::meter::OPERATION_METER_SNAPSHOT
                                 | crate::meter::OPERATION_METER_REPORT
                                 | crate::meter::OPERATION_METER_SUMMARY
+                                | crate::meter::usage::OPERATION_USAGE_SUMMARY_V2
                         ) && e.code == crate::ERROR_UNSUPPORTED_CAPABILITY =>
                     {
                         return Err(Failure::Unsupported)

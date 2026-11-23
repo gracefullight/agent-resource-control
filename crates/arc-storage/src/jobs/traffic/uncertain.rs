@@ -96,6 +96,7 @@ pub fn reconcile_uncertain(
     codec::write(&tx, &job, false)?;
     let elapsed = now.saturating_sub(u64::try_from(began).unwrap_or(now));
     let result = if elapsed >= evidence.grace_ms {
+        super::recovery_footprint::bind(&tx, &job.job_id, &entry)?;
         super::lifecycle::connection_state(&tx, &job.job_id, "ABANDONED")?;
         super::lifecycle::release_if_done(&tx, &job.job_id, &entry, now)?;
         let expired = format!("traffic-unknown-expired-{}", job.job_id.as_str());

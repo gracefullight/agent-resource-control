@@ -16,6 +16,8 @@ pub mod reaper;
 pub mod request;
 mod schema;
 pub mod traffic;
+pub mod workspace_cache;
+pub mod workspace_compound;
 pub use schema::{
     SchemaReport, SchemaStatus, ERROR_SCHEMA_DETAILS_UNAVAILABLE, ERROR_SCHEMA_INCOMPATIBLE,
 };

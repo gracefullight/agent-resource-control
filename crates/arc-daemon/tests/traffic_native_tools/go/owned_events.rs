@@ -1,7 +1,8 @@
 use super::*;
 
-// Pipe readiness and native process fork/exit notifications wake the owner;
-// no fixed polling interval is part of a successful fixture run.
+// Pipe readiness and native process fork/exit notifications wake the owner.
+// The caller also periodically rechecks native state in case an exit races
+// registration; the absolute child watchdog remains unchanged.
 pub(super) struct OutputEvents {
     queue: OwnedFd,
     watched: Vec<ProcessIdentity>,

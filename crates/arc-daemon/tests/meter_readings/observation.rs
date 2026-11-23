@@ -43,13 +43,22 @@ impl Held {
             .stdin(Stdio::null())
             .stdout(Stdio::null())
             .stderr(std::fs::File::create(f.root.join("held-stderr")).unwrap());
-        let wrapper = Owned::spawn(&mut command).unwrap();
-        // The stub reaches the barrier only after admission and native spawn.
+        let mut wrapper = Owned::spawn(&mut command).unwrap();
+        // Spawn precedes the wrapper's attachment request, so the stub can
+        // reach the barrier while the daemon still records RESERVED.
         let (release, _) = native_exec::accept(&listener);
-        assert_eq!(
-            journey::queue_state(&journey::database(f), wrapper.child.id()).as_deref(),
-            Some("RUNNING")
-        );
+        let db = journey::database(f);
+        journey::eventually("daemon attaches the held build", || {
+            assert!(
+                wrapper.child.try_wait().unwrap().is_none(),
+                "held wrapper exited before attachment"
+            );
+            match journey::queue_state(&db, wrapper.child.id()).as_deref() {
+                Some("RUNNING") => true,
+                Some("RESERVED") | None => false,
+                other => panic!("unexpected held-build state before attachment: {other:?}"),
+            }
+        });
         Self { wrapper, release }
     }
 

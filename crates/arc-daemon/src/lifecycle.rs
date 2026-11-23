@@ -134,7 +134,7 @@ pub(crate) async fn supervise_with_source(
     if let Some(meter) = &meter {
         client.bind_meter(meter.activity());
         client.bind_observation(meter.reader());
-        job_process_meter::bind(meter, &client);
+        meter_cadence::bind(meter, &client);
     }
     let _retention = crate::db_worker::retention::start(&client);
     let meter_reader = meter.as_ref().map(arc_meter::MeterWorker::reader);
@@ -328,6 +328,10 @@ mod capability_advertisement;
 mod fairness_advertisement;
 #[path = "job_process_meter.rs"]
 mod job_process_meter;
+#[path = "meter_cadence.rs"]
+mod meter_cadence;
+#[path = "process_attribution.rs"]
+mod process_attribution;
 
 #[cfg(test)]
 #[path = "database_failure_tests.rs"]

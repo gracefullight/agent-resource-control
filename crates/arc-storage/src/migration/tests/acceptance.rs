@@ -83,23 +83,23 @@ fn production_legacy_history_is_read_only_then_stamped_atomically() {
     let report = assess_schema(&connection).unwrap();
     assert_eq!(report.status, SchemaStatus::UpgradeRequired);
     assert_eq!(report.applied_version, Some(1));
-    assert_eq!(report.supported_version, 9);
+    assert_eq!(report.supported_version, 10);
     assert_eq!(report.schema_migrations, 1);
     assert!(report.history_verified);
     assert_eq!(snapshot(&connection), legacy);
     migrate(&mut connection, MIGRATIONS).unwrap();
     let stamped = snapshot(&connection);
-    assert_eq!(stamped.tables.len(), legacy.tables.len() + 8);
+    assert_eq!(stamped.tables.len(), legacy.tables.len() + 11);
     for (name, rows) in &legacy.tables {
         let updated = &stamped.tables.iter().find(|(n, _)| n == name).unwrap().1;
         if name == "schema_migrations" {
-            assert_eq!(updated.len(), 9);
+            assert_eq!(updated.len(), 10);
             assert_eq!(updated.first(), rows.first());
         } else {
             assert_eq!(updated, rows);
         }
     }
-    assert_eq!(stamped.schema.len(), legacy.schema.len() + 33);
+    assert_eq!(stamped.schema.len(), legacy.schema.len() + 38);
     for object in &legacy.schema {
         if ![
             "permits",
@@ -170,7 +170,7 @@ fn production_legacy_history_is_read_only_then_stamped_atomically() {
         .execute_batch("ROLLBACK TO permit_uniqueness; RELEASE permit_uniqueness;")
         .unwrap();
     assert_eq!(history(&connection)[0], original_history[0]);
-    assert_eq!(stamped.witness, 9);
+    assert_eq!(stamped.witness, 10);
     connection.close().unwrap();
     assert_eq!(
         snapshot(&crate::open_and_migrate(&database.0).unwrap()),

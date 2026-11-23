@@ -3,6 +3,7 @@
 //! The CLI owns bounded fresh reads; the resolver consumes literal script maps.
 //! None of these paths, script bodies or fingerprints is sent over IPC or stored.
 use crate::{AnalysisStats, Classification};
+pub mod cache;
 mod commands;
 pub(crate) mod resolver;
 use std::{
@@ -127,6 +128,59 @@ pub trait PackageMetadata {
         packages: &[PackageSnapshot],
         budget: &mut MetadataStats,
     ) -> Result<(), MetadataError>;
+    /// Members named by the workspace globs of the root manifest in `root`
+    /// (`package.json` `workspaces`, or `pnpm-workspace.yaml`), sorted by
+    /// directory. Only manifests matched by the declared globs are read; no
+    /// source scan. `Ok(None)`: this adapter has no workspace analysis, so a
+    /// fan-out stays UNKNOWN/OBSERVE. Revalidation must re-evaluate the
+    /// same glob membership (lane C).
+    fn workspace_members(
+        &mut self,
+        _root: &Path,
+        _budget: &mut MetadataStats,
+    ) -> Result<Option<Vec<WorkspaceMember>>, MetadataError> {
+        Ok(None)
+    }
+}
+
+/// One member package named by a workspace root's declared globs.
+#[derive(Clone, PartialEq, Eq)]
+pub struct WorkspaceMember {
+    /// Canonical member directory (holding its package.json).
+    pub dir: PathBuf,
+    /// The member manifest's `name`, used by name selectors.
+    pub name: Option<String>,
+}
+impl fmt::Debug for WorkspaceMember {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str("WorkspaceMember([REDACTED])")
+    }
+}
+
+/// The classification of one selected workspace member's script (lane C,
+/// DET-009 item 2). Kept beside the projected result; the negotiated workspace
+/// compound operation can carry these records to the daemon.
+#[derive(Clone, PartialEq, Eq)]
+pub struct MemberClassification {
+    /// Member directory relative to the workspace root.
+    pub member: PathBuf,
+    pub script: String,
+    /// The member's own aggregate: its class and true locality.
+    pub classification: Classification,
+}
+impl fmt::Debug for MemberClassification {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("MemberClassification")
+            .field("classification", &self.classification)
+            .finish_non_exhaustive()
+    }
+}
+
+/// Whether `program` (an executable basename) names a package runner whose
+/// invocations the script resolver analyzes: `bun`, plus the workspace
+/// runners lane C adds (`npm`, `pnpm`, `yarn`).
+pub fn resolves_scripts(program: &str) -> bool {
+    program == "bun" || resolver::workspace::is_runner(program)
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -148,4 +202,9 @@ pub struct ScriptResolution {
     pub graph_edges: usize,
     pub packages: Vec<PackageSnapshot>,
     pub issue: Option<ScriptIssue>,
+    /// Per-member results of a workspace fan-out, in member order; empty
+    /// for a single-package script. `classification` stays the existing
+    /// compound projection that admission uses: one class when every member
+    /// agrees, MIXED for local plus remote, otherwise UNKNOWN/OBSERVE.
+    pub members: Vec<MemberClassification>,
 }

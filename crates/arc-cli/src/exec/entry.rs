@@ -51,12 +51,12 @@ pub(crate) fn run_hook(
     argv: Vec<OsString>,
     request: Option<String>,
     event: Option<String>,
-    usage: (Option<String>, Option<String>),
+    usage: (Option<String>, Option<String>, Option<String>),
 ) -> ExitCode {
     let (Ok(request), Ok(event), Ok(usage)) = (
         super::stages::parse_request(request),
         super::event_key::parse(event),
-        super::usage_fields::parse(usage.0, usage.1),
+        super::usage_fields::parse(usage.0, usage.1, usage.2),
     ) else {
         return super::invalid();
     };

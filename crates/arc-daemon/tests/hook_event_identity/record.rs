@@ -77,6 +77,14 @@ fn files(directory: &Path, found: &mut Vec<std::path::PathBuf>) {
 /// test itself never writes the event to disk.
 #[track_caller]
 pub fn assert_no_raw_ids(f: &Fixture, event: &serde_json::Value) {
+    assert_no_raw_ids_of_any(f, std::slice::from_ref(event));
+}
+
+/// [`assert_no_raw_ids`] for every event at once: each fixture file is read
+/// once and searched for every raw id in one pass over its bytes, so a
+/// fixture holding several MiB of workload files is not reread per id.
+#[track_caller]
+pub fn assert_no_raw_ids_of_any(f: &Fixture, events: &[serde_json::Value]) {
     let mut found = Vec::new();
     files(&f.root, &mut found);
     let database = f.database.file_name().unwrap().to_str().unwrap();
@@ -84,16 +92,30 @@ pub fn assert_no_raw_ids(f: &Fixture, event: &serde_json::Value) {
         found.iter().any(|path| path.ends_with(database)),
         "{found:?}"
     );
-    for name in ["session_id", "tool_use_id"] {
-        let raw = event[name].as_str().unwrap().as_bytes();
-        assert!(raw.len() >= 8, "{name}");
-        for path in &found {
-            let bytes = fs::read(path).unwrap();
-            assert!(
-                !bytes.windows(raw.len()).any(|window| window == raw),
-                "{name} is in {}",
-                path.display()
-            );
+    let mut raws: Vec<(&str, &[u8])> = Vec::new();
+    for event in events {
+        for name in ["session_id", "tool_use_id"] {
+            let raw = event[name].as_str().unwrap().as_bytes();
+            assert!(raw.len() >= 8, "{name}");
+            raws.push((name, raw));
+        }
+    }
+    // The raw ids that begin with each byte value.
+    let mut starting: Vec<Vec<usize>> = vec![Vec::new(); 256];
+    for (index, (_, raw)) in raws.iter().enumerate() {
+        starting[usize::from(raw[0])].push(index);
+    }
+    for path in &found {
+        let bytes = fs::read(path).unwrap();
+        for at in 0..bytes.len() {
+            for &index in &starting[usize::from(bytes[at])] {
+                let (name, raw) = raws[index];
+                assert!(
+                    !bytes[at..].starts_with(raw),
+                    "{name} is in {}",
+                    path.display()
+                );
+            }
         }
     }
 }

@@ -378,3 +378,88 @@ fn lost_owner_without_attached_child_cannot_release_uncertain_grant() {
     assert_eq!(candidates.len(), 1);
     assert_eq!(candidates[0].job.job_id, id(1));
 }
+
+#[test]
+fn recovery_binds_footprint_atomically_and_preserves_existing_readings() {
+    use crate::footprint::{record, Point, Reading};
+    let db = Database::new();
+    let mut c = db.open();
+    let policy = Policy::default();
+    let child = identity();
+    add(&mut c, 1, "BUILD", 10, &policy);
+    attach(
+        &mut c,
+        &Request::Attach {
+            job_id: id(1),
+            observer: identity(),
+            child: child.clone(),
+            permit_generation: 1,
+        },
+        &ChildEvidence::gather(&child),
+        11,
+    )
+    .unwrap();
+    let snapshot = get(&c, &id(1)).unwrap().unwrap();
+    let live = simulated_pair(
+        &snapshot,
+        IdentityStatus::VerifiedMatch,
+        IdentityStatus::Missing,
+        12,
+    );
+    crate::jobs::apply_observation(&mut c, &live).unwrap();
+    let current = get(&c, &id(1)).unwrap().unwrap();
+    let end = |c: &Connection, job: JobId| -> (Option<i64>, Option<String>) {
+        c.query_row(
+            "SELECT footprint_end_bytes,footprint_end_completeness FROM jobs WHERE id=?1",
+            [job.as_str()],
+            |r| Ok((r.get(0)?, r.get(1)?)),
+        )
+        .unwrap()
+    };
+    assert_eq!(end(&c, id(1)), (None, None));
+    let gone = simulated_pair(
+        &current,
+        IdentityStatus::Missing,
+        IdentityStatus::Missing,
+        13,
+    );
+    c.execute_batch("CREATE TRIGGER fail_recovery_footprint BEFORE UPDATE OF footprint_end_completeness ON jobs BEGIN SELECT RAISE(ABORT, 'fixture storage failure'); END;").unwrap();
+    assert!(crate::jobs::apply_observation(&mut c, &gone).is_err());
+    assert_eq!(get(&c, &id(1)).unwrap().unwrap(), current);
+    assert_eq!(permit_counts(&c), (1, 1));
+    assert_eq!(end(&c, id(1)), (None, None));
+    c.execute_batch("DROP TRIGGER fail_recovery_footprint")
+        .unwrap();
+    crate::jobs::apply_observation(&mut c, &gone).unwrap();
+    assert_eq!(permit_counts(&c), (1, 0));
+    assert_eq!(end(&c, id(1)), (None, Some("unavailable".into())));
+    record(&c, &id(1), Point::End, Reading::Complete(4096)).unwrap();
+    assert_eq!(end(&c, id(1)), (None, Some("unavailable".into())));
+    drop(c);
+    let mut c = db.open();
+    assert_eq!(end(&c, id(1)), (None, Some("unavailable".into())));
+
+    add(&mut c, 2, "BUILD", 14, &policy);
+    attach(
+        &mut c,
+        &Request::Attach {
+            job_id: id(2),
+            observer: identity(),
+            child: child.clone(),
+            permit_generation: 2,
+        },
+        &ChildEvidence::gather(&child),
+        15,
+    )
+    .unwrap();
+    record(&c, &id(2), Point::End, Reading::Complete(8192)).unwrap();
+    let snapshot = get(&c, &id(2)).unwrap().unwrap();
+    let gone = simulated_pair(
+        &snapshot,
+        IdentityStatus::Missing,
+        IdentityStatus::Missing,
+        16,
+    );
+    crate::jobs::apply_observation(&mut c, &gone).unwrap();
+    assert_eq!(end(&c, id(2)), (Some(8192), Some("complete".into())));
+}

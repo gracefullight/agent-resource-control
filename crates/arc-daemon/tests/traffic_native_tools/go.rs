@@ -6,6 +6,12 @@ mod execution;
 pub(super) mod owned;
 mod projects;
 
+/// Build the immutable Go seed before acquiring the single-daemon fixture lock.
+pub fn prewarm() {
+    static READY: std::sync::OnceLock<()> = std::sync::OnceLock::new();
+    READY.get_or_init(|| drop(projects::Tools::installed()));
+}
+
 pub fn semantics(read: Read) {
     execution::semantics(read);
 }

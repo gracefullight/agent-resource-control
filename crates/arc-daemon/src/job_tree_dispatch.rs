@@ -23,7 +23,9 @@ pub(super) async fn dispatch(
     handler: Option<&Handler>,
     metrics: &Arc<RuntimeMetrics>,
 ) -> bool {
-    if request.protocol_version != PROTOCOL_VERSION || request.operation != wire::OPERATION_JOB_TREE
+    let quality = request.operation == arc_ipc::meter::job_tree_quality::OPERATION;
+    if request.protocol_version != PROTOCOL_VERSION
+        || !(request.operation == wire::OPERATION_JOB_TREE || quality)
     {
         return false;
     }
@@ -50,6 +52,7 @@ pub(super) async fn dispatch(
         (Err(code), _) => error(code),
         (_, Err(_)) => error(arc_ipc::ERROR_INVALID_REQUEST),
         (Ok(query), Ok(peer)) => {
+            let job_id = query.job_id.clone();
             let read = tokio::time::timeout_at(
                 tokio::time::Instant::from_std(work_end),
                 handler(Input::JobTree(query), peer, work_end),
@@ -57,6 +60,18 @@ pub(super) async fn dispatch(
             .await
             .unwrap_or(Err(arc_ipc::ERROR_DB_BUSY));
             match read {
+                Ok(Value::Read(value)) if quality => {
+                    match wire::decode_reply(&value, &job_id).ok().and_then(|reply| {
+                        serde_json::to_value(arc_ipc::meter::job_tree_quality::Reply::from_report(
+                            job_id,
+                            reply.process_tree.as_ref(),
+                        ))
+                        .ok()
+                    }) {
+                        Some(value) => Response::ok(&request.request_id, value),
+                        None => error(arc_ipc::ERROR_DB_BUSY),
+                    }
+                }
                 Ok(Value::Read(value)) => Response::ok(&request.request_id, value),
                 Err(code) => error(code),
                 Ok(_) => error(arc_ipc::ERROR_DB_BUSY),

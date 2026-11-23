@@ -15,6 +15,12 @@
 //! that snapshot into the terminal report, with the root's waited usage from
 //! the v1 report when recorded. Finalization reads only stored facts, so it
 //! survives a daemon restart.
+//!
+//! A report is `complete` only when no descendant may have been missed. A
+//! waited rusage above the root's last sampled CPU (cycle 35 F4) means the
+//! tree ran unobserved after or between samples, so an unwaited descendant
+//! could have lived there unseen: the report is then `partial` with
+//! `unobserved_descendants`, never `complete` with unwaited 0.
 use super::jobs;
 use crate::db_worker::DbClient;
 use arc_core::{job_meter::MissingCoverageReason as Reason, process_identity::ProcessIdentity};
@@ -308,6 +314,14 @@ fn sampled<T>(value: Option<T>) -> TreeValue<T> {
     TreeValue { value, basis }
 }
 
+/// Whether the waited rusage exceeds what the samples saw of the root.
+fn waited_exceeds_samples(parts: &Parts, waited: Option<f64>) -> bool {
+    match waited {
+        Some(waited) if parts.samples > 0 => waited > parts.root_sampled.unwrap_or(0.0),
+        _ => false,
+    }
+}
+
 /// Every value states its basis; an unobserved value is `null`, never 0.
 pub(crate) fn build(
     job_id: &str,
@@ -320,7 +334,7 @@ pub(crate) fn build(
         .zip(parts.unwaited)
         .map(|(base, unwaited)| base + unwaited);
     let mut missing_coverage = Vec::new();
-    if parts.partial {
+    if parts.partial || waited_exceeds_samples(parts, waited) {
         missing_coverage.push(Reason::UnobservedDescendants);
     }
     if waited.is_none() {

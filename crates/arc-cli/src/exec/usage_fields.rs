@@ -12,10 +12,15 @@
 //! admit, such as REMOTE_CI) also carries the project key the fairness gate
 //! derives, so every recorded job of a project groups under it. A direct
 //! `arcctl exec` run has no vendor or overhead and sends only that key.
+//!
+//! The hidden `--arc-session <digest>` (lane B's hook session digest) is
+//! parsed here as 64 lowercase hex digits and sent as `session_key` only to
+//! a daemon that also holds `arc_ipc::meter::usage::ADVERTISEMENT_V2`;
+//! otherwise it is dropped and the other fields go out as before.
 use arc_ipc::{
     client::Continuity,
-    jobs::usage::{HookOverheadMs, UsageFields, Vendor},
-    meter::usage::ADVERTISEMENT,
+    jobs::usage::{HookOverheadMs, SessionKey, UsageFields, Vendor},
+    meter::usage::{ADVERTISEMENT, ADVERTISEMENT_V2},
 };
 use std::{cell::RefCell, path::Path};
 
@@ -28,7 +33,11 @@ thread_local! {
 pub(super) fn parse(
     vendor: Option<String>,
     overhead_ms: Option<String>,
+    session: Option<String>,
 ) -> Result<Option<UsageFields>, ()> {
+    let session_key = session
+        .map(|text| SessionKey::try_from(text).map_err(|_| ()))
+        .transpose()?;
     let vendor = vendor
         .map(|v| serde_json::from_value::<Vendor>(serde_json::Value::String(v)).map_err(|_| ()))
         .transpose()?;
@@ -44,11 +53,14 @@ pub(super) fn parse(
         })
         .transpose()?;
     Ok(
-        (vendor.is_some() || hook_overhead_ms.is_some()).then_some(UsageFields {
-            vendor,
-            hook_overhead_ms,
-            project_key: None,
-        }),
+        (vendor.is_some() || hook_overhead_ms.is_some() || session_key.is_some()).then_some(
+            UsageFields {
+                vendor,
+                hook_overhead_ms,
+                project_key: None,
+                session_key,
+            },
+        ),
     )
 }
 
@@ -73,8 +85,11 @@ fn scoped() -> Option<UsageFields> {
 /// `daemon` is the peer that answered this run's capability probe; without
 /// the advertisement held by that very process nothing is sent.
 pub(super) fn negotiated(socket: &Path, daemon: &Continuity) -> Option<UsageFields> {
-    let usage = scoped()?;
+    let mut usage = scoped()?;
     let daemon = daemon.identity()?;
+    if !super::project_key::holds(socket, daemon.pid, ADVERTISEMENT_V2) {
+        usage.session_key = None;
+    }
     super::project_key::holds(socket, daemon.pid, ADVERTISEMENT).then_some(usage)
 }
 
@@ -92,6 +107,9 @@ fn registration_at(socket: &Path, scoped: Option<UsageFields>) -> Option<UsageFi
     let continuity = Continuity::default();
     continuity.record(arc_core::process_identity::ProcessIdentity::capture(daemon).ok());
     let mut usage = scoped.unwrap_or_default();
+    if holder(socket, ADVERTISEMENT_V2) != Some(daemon) {
+        usage.session_key = None;
+    }
     usage.project_key = super::project_key::negotiated(socket, &continuity);
     (usage != UsageFields::default()).then_some(usage)
 }
@@ -107,19 +125,33 @@ mod tests {
 
     #[test]
     fn hook_options_parse_strictly_and_absent_options_are_todays_route() {
-        assert_eq!(parse(None, None), Ok(None));
-        let parsed = parse(Some("claude-code".into()), Some("12".into()))
+        assert_eq!(parse(None, None, None), Ok(None));
+        let parsed = parse(Some("claude-code".into()), Some("12".into()), None)
             .unwrap()
             .unwrap();
         assert_eq!(parsed.vendor, Some(Vendor::ClaudeCode));
         assert_eq!(parsed.hook_overhead_ms.map(HookOverheadMs::get), Some(12));
         assert_eq!(parsed.project_key, None);
+        assert_eq!(parsed.session_key, None);
+        let key = "ab".repeat(32);
+        let session = parse(None, None, Some(key.clone())).unwrap().unwrap();
+        assert_eq!(session.session_key.map(String::from), Some(key));
+        for invalid in ["AB".repeat(32), "ab".repeat(31), String::new()] {
+            assert_eq!(
+                parse(None, None, Some(invalid.clone())),
+                Err(()),
+                "{invalid}"
+            );
+        }
         assert_eq!(
-            parse(Some("cursor".into()), None).unwrap().unwrap().vendor,
+            parse(Some("cursor".into()), None, None)
+                .unwrap()
+                .unwrap()
+                .vendor,
             Some(Vendor::Cursor)
         );
         assert_eq!(
-            parse(None, Some("0".into()))
+            parse(None, Some("0".into()), None)
                 .unwrap()
                 .unwrap()
                 .hook_overhead_ms
@@ -139,7 +171,7 @@ mod tests {
             (None, Some("99999999999999999")),
         ] {
             assert_eq!(
-                parse(vendor.map(str::to_owned), overhead.map(str::to_owned)),
+                parse(vendor.map(str::to_owned), overhead.map(str::to_owned), None),
                 Err(()),
                 "{vendor:?} {overhead:?}"
             );
@@ -148,7 +180,7 @@ mod tests {
 
     #[test]
     fn scoped_fields_reset_after_the_run_and_nothing_is_sent_without_an_advertisement() {
-        let fields = parse(Some("cursor".into()), Some("3".into())).unwrap();
+        let fields = parse(Some("cursor".into()), Some("3".into()), None).unwrap();
         let inside = with_usage(fields.clone(), scoped);
         assert_eq!(inside, fields);
         assert_eq!(scoped(), None);

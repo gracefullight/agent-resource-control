@@ -114,6 +114,9 @@ Desktop integration, native Windows acceptance, vendor hooks and other schedulin
         /// The hook process's own measured time; consumed by arcctl, never by the child
         #[arg(long = "arc-hook-overhead-ms", value_name = "MS", hide = true)]
         hook_overhead_ms: Option<String>,
+        /// The hook's opaque session digest; consumed by arcctl, never by the child
+        #[arg(long = "arc-session", value_name = "DIGEST", hide = true)]
+        session: Option<String>,
         /// Request whose stage this is; consumed by arcctl, never by the child
         #[arg(long = "arc-request", value_name = "ID")]
         request: Option<String>,
@@ -152,6 +155,9 @@ Examples:
         /// Emit only the typed four-field JSON result
         #[arg(long)]
         json: bool,
+        /// With --json, add the workspace analysis: cache hit or miss and per-member classes
+        #[arg(long, requires = "json")]
+        diagnostics: bool,
         /// Entire command as one literal UTF-8 argument
         command: String,
     },
@@ -214,9 +220,10 @@ fn main() -> ExitCode {
             event,
             vendor,
             hook_overhead_ms,
+            session,
             request,
             argv,
-        } => return exec::run_hook(argv, request, event, (vendor, hook_overhead_ms)),
+        } => return exec::run_hook(argv, request, event, (vendor, hook_overhead_ms, session)),
         Command::Hooks { command } => return hooks::run(command),
         Command::Job {
             command: JobCommand::Status { job_id },
@@ -254,7 +261,8 @@ fn run(command: Command) -> Result<(), String> {
             command,
             shell,
             json,
-        } => classify::run(&socket, command, shell, json).map_err(str::to_owned),
+            diagnostics,
+        } => classify::run(&socket, command, shell, json, diagnostics).map_err(str::to_owned),
     }
 }
 

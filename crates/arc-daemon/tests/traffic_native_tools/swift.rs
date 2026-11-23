@@ -11,6 +11,15 @@ mod semantics;
 mod streams;
 mod tools;
 
+/// Prepare independent SwiftPM trees before acquiring the daemon fixture lock.
+pub fn prewarm() {
+    static READY: std::sync::OnceLock<()> = std::sync::OnceLock::new();
+    READY.get_or_init(|| {
+        let tools = tools::Tools::installed();
+        pool::prewarm(&tools);
+    });
+}
+
 pub fn semantics(read: Read) {
     semantics::managed(read);
 }

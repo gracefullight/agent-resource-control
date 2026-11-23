@@ -1,6 +1,7 @@
 //! Daemon-owned sampling policy. Native observations are supplied by arc-platform.
 use arc_core::meter::{SamplingCadence, SamplingMode};
 
+pub mod attribution;
 mod cpu;
 pub mod job_tree;
 mod snapshot;

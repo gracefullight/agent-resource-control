@@ -264,6 +264,18 @@ pub fn assert_managed(command: &str, literal: &str) {
                 matches!(vendor, "claude-code" | "cursor"),
                 "not a vendor: {command}"
             );
+            let (overhead, session) = overhead
+                .split_once(" --arc-session ")
+                .map_or((overhead, None), |(value, digest)| (value, Some(digest)));
+            if let Some(digest) = session {
+                assert!(
+                    digest.len() == 64
+                        && digest
+                            .bytes()
+                            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+                    "not a session digest: {command}"
+                );
+            }
             assert!(
                 overhead.parse::<u64>().is_ok(),
                 "not an overhead: {command}"
@@ -334,8 +346,9 @@ pub fn daemon_record(f: &Fixture) -> BTreeMap<String, Vec<u8>> {
         .map(|entry| entry.unwrap())
         .filter_map(|entry| {
             let name = entry.file_name().into_string().unwrap();
-            (name.starts_with(database) || name == "runtime.json")
-                .then(|| (name, fs::read(entry.path()).unwrap()))
+            ((name.starts_with(database) || name == "runtime.json")
+                && entry.file_type().unwrap().is_file())
+            .then(|| (name, fs::read(entry.path()).unwrap()))
         })
         .collect()
 }

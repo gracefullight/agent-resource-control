@@ -13,6 +13,8 @@ mod event_key;
 #[allow(dead_code)]
 #[path = "hooks/fixture.rs"]
 pub(super) mod fixture;
+#[path = "hooks/session_key.rs"]
+mod session_key;
 #[path = "hooks/stages.rs"]
 mod stages;
 #[path = "hooks/test_literals.rs"]
@@ -97,8 +99,10 @@ pub(crate) fn run(command: HooksCommand) -> ExitCode {
                 .filter(|_| bytes.len() <= MAX_EVENT_BYTES as usize)
                 .and_then(|_| event::decode(&bytes));
             let response = event
-                .and_then(|event| dispatch(vendor, &event, &context))
-                .map(|response| usage_fields::annotate(vendor, started, response))
+                .and_then(|event| {
+                    dispatch(vendor, &event, &context)
+                        .map(|response| usage_fields::annotate(vendor, &event, started, response))
+                })
                 .and_then(|response| event::wire_response(vendor, &bytes, &response));
             match response {
                 Some(value) => {

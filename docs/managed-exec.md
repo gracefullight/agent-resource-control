@@ -25,6 +25,10 @@ The finite `act -j build` form can use an explicitly selected, proven-local Dock
 
 `arcctl classify -- 'gh workflow run build.yml'` is an optional inspection of literal shell text using the same endpoint capture. It does not run the command or provide a receipt for an execution. The actual command may have different arguments, environment, working directory or configuration. The inspection route can report `UNRESOLVED_COMMAND` where native execution records `ENDPOINT_AMBIGUOUS`; both retain `UNKNOWN`/`OBSERVE`. For a supported remote execution, inspect an available job status or Meter summary for recorded results; missing tracking does not prove the command did or did not run.
 
+Supported package scripts and workspace fan-outs use the same bounded project analysis as `arcctl exec`, without executing scripts. `arcctl classify --json --diagnostics -- 'bun run build'` adds an `analysis` object with a cache hit or miss and any member classifications. Without `--diagnostics`, JSON retains its four classification fields. Cached entries are revalidated against the files read, their content and declared workspace membership. The cache uses a user-owned state directory independent of `ARC_DB_PATH`, or bounded daemon memory if that directory is unavailable or falls under a temporary directory; an older daemon can leave the cache unavailable. A dynamic or unresolved graph remains `UNKNOWN`/`OBSERVE`; inspect the package manifests and scripts before deciding how to run it.
+
+When the daemon supports `detector.workspace-compound.v1`, diagnostics for a fully resolved fan-out with different local classes include a `WORKSPACE_COMPOUND` with each member's class and locality. The CLI probes for support before sending member details on the same connection. The daemon keeps up to 64 negotiated job results in memory, discarding them on restart or eviction. Its admission remains `UNKNOWN`/`OBSERVE` with no Traffic reservation: the existing scheduler has separate class windows and cannot safely reduce the fan-out to one class. The legacy four-field result and v1 job record retain their existing projection; an older daemon receives no compound. A local-plus-remote fan-out continues to report `MIXED`.
+
 The endpoint-aware classify and lifecycle operations are additive to protocol 1. Older peers retain their existing requests and responses; when they cannot establish endpoint-aware classification, ARC falls back conservatively. A build on a proven local Docker engine or Buildx builder, including the proven-local `act -j build` form, is recorded BUILD with compute location `LOCAL_CONTAINER` and takes a BUILD reservation. That location is additive vocabulary as well: `arcctl classify` and the negotiated `job.status.container.v1` reader name it, every other reader of the same record, including Traffic diagnostics and the desktop, receives `HOST_LOCAL`, and a protocol-1 reader keeps its UNKNOWN result. The desktop therefore shows such a build as an ordinary local build. The CLI's own native CPU accounting can be read separately with `arcctl meter summary --job <JOB_ID> --json` when a report was recorded; it is not a measurement of remote-builder computation.
 
 ## Agent hook setup and recovery
@@ -311,52 +315,37 @@ With a daemon that holds `.meter-job-tree-v1`, `arcctl meter summary --job <JOB_
 - `cpu_core_seconds` is the job's CPU including descendants it does not wait for: `waited_cpu_core_seconds` (the v1 waited rusage) plus `unwaited_cpu_core_seconds` (the last sampled CPU of descendants no tree process can reap). Until the waited report is recorded the root's last sample, `root_sampled_cpu_core_seconds`, stands in for it, and `missing_coverage` names `native_usage_unavailable`. Its basis is `tree_samples`, an estimate, unlike the waited total.
 - `memory_peak_bytes` is `job.memory.peak_bytes`: the highest RSS summed over one sample of the job.
 - `disk_read_bytes` and `disk_write_bytes` sum each sampled process's last cumulative reading.
-- A value that was not observed is `null` with basis `unobserved`, never 0. A descendant can start and exit between two samples, so a sampled report stays `partial` with `unobserved_descendants`.
+- A value that was not observed is `null` with basis `unobserved`, never 0. A descendant can start and exit between samples. The legacy tree's `complete` label alone cannot exclude that gap; use the separately negotiated quality flags for a conservative value-by-value assessment.
 - A read right after the job ends can still show `"terminal": false`: the report becomes terminal on the daemon's next Meter pass, and the waited usage is added once the v1 report is recorded.
+
+`arcctl meter summary --job <JOB_ID> --quality --json` requests the separately advertised `meter.job-tree-quality.v1` operation. Its `process_tree_quality` object has an individual `value`, `availability` and `basis` for each CPU, memory, disk-read and disk-written value. A partial value is a lower bound; an unavailable value is null with a reason. The reply carries its own `process_tree` report from the same read, and the CLI prints that report beside the flags, so a sample published between two reads can never pair one tree's values with another's flags. Sampled CPU, including the total and unwaited values, is partial because an unwaited descendant can run and exit between scans without reaching the waited usage. Sampled memory and disk values are also partial at best. A daemon without the extension leaves the existing job output unchanged, and the CLI falls back to the v1 `meter.job_tree` read. The original `meter.job_tree` request and reply retain their v1 schema and bytes.
+
+`arcctl meter summary --job <JOB_ID> --footprint --json` requests the separately advertised allocated footprint. The start walk precedes a lifecycle-only registration, or follows a committed Traffic grant or unreserved Governor release before its reply lets the child run. The end walk runs after the child exits and before the completion is committed, while the job still holds its Traffic permit or Governor release. If the owner disappears during that walk, recovery binds an unavailable end reading in the same transaction that abandons the job and releases its permit; a late completion cannot replace that reading after a successor changes the directory. An already stored reading is retained. `footprint.end_bytes` is Current Footprint: allocated bytes remaining under the job's working directory at completion. `footprint.delta_bytes` is the signed end-minus-start change, available only when both bounded walks completed; a partial or unavailable walk is labelled. Neither value is derived from `process_tree.disk_write_bytes`, which is cumulative Disk Written. The walk stays on one device and follows no symlinks. Walks run outside the SQLite writer. Only the request whose own commit made a reading due stores it: a completion without a reading is bound as `unavailable` when that write succeeds, while a failed reading write or cancelled grant remains `not_measured`; replays and later requests never substitute a later directory state. Concurrent requests for the same job wait for a pending grant reading.
 
 ### Usage summaries
 
-`arcctl meter summary --by vendor|project|period --from <UNIX_MS> --to <UNIX_MS> --bucket hour|day --json` aggregates recorded jobs whose registration time is in `[from, to)`, split into UTC hour or day buckets. It is one bounded read of the `meter.usage_summary` operation, which an older daemon reports as unsupported; an invalid range exits with `INVALID_REQUEST` and a copyable example. The shape of `--by vendor`, with placeholders only:
+These reads aggregate jobs by registration time in the inclusive start and exclusive end window, split into UTC hour or day buckets:
 
-```text
-{
-  "schema_version": 1,
-  "query": {"by": "vendor", "from_ms": <UNIX_MS>, "to_ms": <UNIX_MS>, "bucket": "day"},
-  "generated_at_ms": <UNIX_MS>,
-  "groups": [
-    {
-      "vendor": "claude-code|cursor|none",
-      "bucket_start_ms": <UNIX_MS>,
-      "bucket_end_ms": <UNIX_MS>,
-      "local": {
-        "job.count": {"total": <n>, "by_class_outcome": [{"class": "<CLASS>", "outcome": "<STATE>", "count": <n>}]},
-        "job.duration_ms": {"value": <f64|null>, "measured_jobs": <n>, "basis": "canonical_root_run_elapsed", "reason": <null|"no_recorded_report">},
-        "cpu_core_seconds": {"value": <f64|null>, "measured_jobs": <n>, "basis": "canonical_root_waited_rusage", "reason": <null|"no_recorded_report">},
-        "arc.hook.overhead_ms": {"sum": <u64|null>, "max": <u64|null>, "jobs": <n>}
-      },
-      "remote": {
-        "job.count": {"total": <n>, "by_class_outcome": [...]},
-        "job.duration_ms": {...},
-        "cpu_core_seconds": {"value": null, "measured_jobs": 0, "reason": "not_metered_locally"},
-        "arc.hook.overhead_ms": {...}
-      }
-    }
-  ]
-}
+```sh
+arcctl meter summary --by vendor --json
+arcctl meter summary --by vendor --from 1767225600000 --to 1767312000000 --bucket hour --json
+arcctl meter summary --by project --from 1767225600000 --to 1767312000000 --bucket day --json
+arcctl meter summary --by session --from 1767225600000 --to 1767312000000 --bucket hour --json
 ```
 
-- `--by project` replaces `vendor` with `project`, the opaque project key described under [Scheduling](#scheduling); `--by period` has neither key, one group per bucket.
-- `vendor` is the agent whose installed hook started the job. `none` means a direct command with no agent hook, such as `arcctl exec`, and is not Unattributed. A job without a project key also groups under `none`.
-- `job.count` counts every registered job in the bucket by class and stored outcome. A queue entry that never registered, for example one cancelled while queued, is not counted.
-- `job.duration_ms` sums the recorded run duration (`run_elapsed`) of the jobs' Meter reports, and `cpu_core_seconds` their waited CPU. Both sum only `canonical_root` reports, so a nested job is counted but its usage is not added twice; `measured_jobs` says how many reports contributed. A bucket with no recorded report has `null` with reason `no_recorded_report`, never 0. The report is sent best effort within the 500 ms window above, so `measured_jobs` can be lower than the job count.
-- REMOTE_CI and REMOTE_EXEC jobs are counted only under `remote`. Their runners' usage is not metered locally, so `remote` CPU is always `null` with reason `not_metered_locally`, and they add nothing to `local`.
-- `arc.hook.overhead_ms` is the hook's own measured time described under [Redelivered hook events](#redelivered-hook-events); direct jobs have none, so their group reads `{"sum":null,"max":null,"jobs":0}`.
+When no bounds or bucket are supplied, the CLI captures the current time once as the exclusive end, uses the preceding 24 hours as the inclusive start, and uses hourly buckets. The reply's `query` contains those actual bounds. If any range option is supplied, all three (`--from`, `--to`, and `--bucket`) are required. Use `--by period` for one group per bucket without a vendor or project key.
 
-The summary never contains session IDs, tool-call IDs, command text or paths.
+A daemon advertising `meter.usage-summary.v2` returns per-value availability and basis for CPU, memory, disk I/O, footprint delta and duration. Tree-sampled CPU is used where available; otherwise waited CPU is used. Both are partial lower bounds. The memory value is the largest per-job peak, while disk values are sums; both are sampled lower bounds, so they are `partial` whenever measured, never `complete`. Nested jobs are counted but their inclusive usage is not added twice. Remote usage is unavailable locally. `vendor: none` means a direct job without a known hook vendor; it is distinct from native-process Unattributed usage. Session groups use a stable, vendor-separated opaque digest; `none` identifies a missing session. Raw session IDs do not cross the wire or enter the database. Older peers receive the unchanged v1 request and reply; session grouping requires v2.
+
+`job.count` includes registered jobs by class and outcome. The per-value `measured_jobs` and `eligible_jobs` counts show how much of a group contributed; a group with no recorded measurement is null with a reason. `job.duration_ms` sums recorded run durations. `arc.hook.overhead_ms` reports the hook's own sum, maximum and job count; a direct job has no hook measurement. Project grouping uses the opaque project key described under [Scheduling](#scheduling).
+
+When the same daemon also advertises `meter.attribution.v1`, a vendor summary adds `attribution`, separate from the job groups. It describes native current-user process CPU deltas whose measured scan envelopes lie wholly inside the requested window. Do not add these totals to the job totals: their scopes overlap. Proven means the process belonged to a managed job with matching ownership and lease evidence at both reads around the native scan. That ownership label is distinct from the job-tree report's C/Estimated label for a sampled descendant. Estimated groups processes whose revalidated ancestry reaches a supported agent executable; Unattributed contains the remaining processes, never under a vendor or `none`. The ratio is 100 times Unattributed divided by Proven plus Estimated plus Unattributed for the same included intervals. It is unavailable for no interval, a zero total, unresolved or failed coverage, or a gap in the included envelopes. Values can also be partial when individual process readings were skipped.
+
+A lease can be released after the scan's second ownership read and before its aggregate is published. The scan classifies from the two reads; it does not claim that the lease remained held until publication. A later scan after release no longer treats that process as Proven under the released job.
 
 ### Sample rollup and retention
 
-On its own schedule (first about 2 s after startup, then every 10 minutes, postponed while the database writer has outstanding requests) the daemon rolls raw `resource_samples` older than 72 hours into `resource_rollups` minute, hour and day buckets and deletes those raw rows in the same transaction, so each row counts once. A bucket holds CPU core-seconds and disk bytes written (the growth between consecutive samples of one process), peak RSS (the largest summed RSS of one sample) and the number of distinct jobs; `reclaimed_bytes` stays null until a Sweeper exists. An hour or day bucket that spans two rollup passes counts a job once per pass. Minute buckets are kept 30 days and hour and day buckets one year (SRS 14.5). The same pass expires stored Meter records on the 90-day policy above. Raw sampling therefore does not grow the database without bound.
+On its own schedule (first about 2 s after startup, then every 10 minutes, postponed while the database writer has outstanding requests) the daemon rolls raw `resource_samples` older than 72 hours into `resource_rollups` minute, hour and day buckets and deletes those raw rows in the same transaction, so each row counts once. A bucket holds CPU core-seconds and disk bytes written (the growth between consecutive samples of one process), peak RSS (the largest summed RSS of one sample) and the number of distinct jobs; `reclaimed_bytes` stays null until a Sweeper exists. New buckets count each job once across rollup passes. Counts from before migration 0010 retain their existing value with `job_count_completeness: unknown`: historical membership cannot be reconstructed, and a job appearing on both sides of the migration may be counted again. Minute buckets are kept 30 days and hour and day buckets one year (SRS 14.5). The same pass expires stored Meter records on the 90-day policy above. Raw sampling therefore does not grow the database without bound.
 
 Windows and full Meter acceptance remain outstanding.
 

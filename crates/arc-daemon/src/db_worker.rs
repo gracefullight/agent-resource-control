@@ -1,7 +1,11 @@
 //! One owned SQLite thread, a finite queue, and cancellation tied to tickets.
 
+#[path = "db_worker/attribution.rs"]
+pub(crate) mod attribution;
 #[path = "db_worker/execution.rs"]
 mod execution;
+#[path = "db_worker/footprint.rs"]
+pub(crate) mod footprint;
 #[path = "db_worker/governor.rs"]
 pub(crate) mod governor;
 #[path = "db_worker/job_meter.rs"]

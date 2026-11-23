@@ -4,9 +4,11 @@
 //! from lifecycle registration (`transitions::start`) and from Traffic
 //! admission. Writes `jobs.vendor`, `jobs.hook_overhead_ms` and
 //! `jobs.project_key` (migration 0009); `project` is the fairness key an
-//! enqueue already carries, used when the usage fields name no project. A
-//! job without any of them keeps NULL columns: a direct command records no
-//! vendor or overhead, and no value is ever invented.
+//! enqueue already carries, used when the usage fields name no project, and
+//! `jobs.session_key` (migration 0010): the hook's opaque session digest,
+//! never a raw vendor session id. A job without any of them keeps NULL
+//! columns: a direct command records no vendor, overhead or session, and no
+//! value is ever invented.
 use super::JobResult;
 use arc_ipc::{
     jobs::{usage::UsageFields, JobId},
@@ -30,12 +32,15 @@ pub(crate) fn record(
         .and_then(|u| u.project_key.as_ref())
         .or(project)
         .map(ProjectKey::as_str);
-    if vendor.is_none() && overhead.is_none() && project.is_none() {
+    let session = usage
+        .and_then(|u| u.session_key.as_ref())
+        .map(|key| key.as_str());
+    if vendor.is_none() && overhead.is_none() && project.is_none() && session.is_none() {
         return Ok(());
     }
     let changed = connection.execute(
-        "UPDATE jobs SET vendor=?2,hook_overhead_ms=?3,project_key=?4 WHERE id=?1",
-        params![job_id.as_str(), vendor, overhead, project],
+        "UPDATE jobs SET vendor=?2,hook_overhead_ms=?3,project_key=?4,session_key=?5 WHERE id=?1",
+        params![job_id.as_str(), vendor, overhead, project, session],
     )?;
     if changed == 1 {
         Ok(())
@@ -47,7 +52,7 @@ pub(crate) fn record(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use arc_ipc::jobs::usage::{HookOverheadMs, Vendor};
+    use arc_ipc::jobs::usage::{HookOverheadMs, SessionKey, Vendor};
 
     const A: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     const B: &str = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
@@ -59,7 +64,7 @@ mod tests {
         connection
             .execute_batch(
                 "CREATE TABLE jobs(id TEXT PRIMARY KEY, vendor TEXT, hook_overhead_ms INTEGER,
-                 project_key TEXT);",
+                 project_key TEXT, session_key TEXT);",
             )
             .unwrap();
         for id in [A, B, C] {
@@ -80,6 +85,14 @@ mod tests {
             .unwrap()
     }
 
+    fn session(connection: &Connection, id: &str) -> Option<String> {
+        connection
+            .query_row("SELECT session_key FROM jobs WHERE id=?1", [id], |r| {
+                r.get(0)
+            })
+            .unwrap()
+    }
+
     fn id(text: &str) -> JobId {
         JobId::try_from(text.to_owned()).unwrap()
     }
@@ -89,16 +102,19 @@ mod tests {
         let connection = database();
         let key = ProjectKey::try_from("ab".repeat(32)).unwrap();
         let other = ProjectKey::try_from("cd".repeat(32)).unwrap();
+        let digest = SessionKey::try_from("ef".repeat(32)).unwrap();
         let usage = UsageFields {
             vendor: Some(Vendor::ClaudeCode),
             hook_overhead_ms: Some(HookOverheadMs::try_from(0).unwrap()),
             project_key: None,
+            session_key: Some(digest),
         };
         record(&connection, &id(A), Some(&usage), Some(&key)).unwrap();
         assert_eq!(
             row(&connection, A),
             (Some("claude-code".into()), Some(0), Some("ab".repeat(32)))
         );
+        assert_eq!(session(&connection, A), Some("ef".repeat(32)));
         // The registration's own project key wins over a fairness key.
         let usage = UsageFields {
             project_key: Some(other),
@@ -110,6 +126,8 @@ mod tests {
         record(&connection, &id(C), None, None).unwrap();
         record(&connection, &id(C), Some(&UsageFields::default()), None).unwrap();
         assert_eq!(row(&connection, C), (None, None, None));
+        assert_eq!(session(&connection, B), None);
+        assert_eq!(session(&connection, C), None);
         // A row that does not exist is a storage failure, never a silent loss.
         assert_eq!(
             record(&connection, &id(X), Some(&usage), None),

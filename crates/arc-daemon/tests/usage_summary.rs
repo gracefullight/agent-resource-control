@@ -93,6 +93,8 @@ fn hook_overhead(command: &str, vendor: &str) -> u64 {
         .and_then(|rest| rest.split_once(" -- "))
         .unwrap_or_else(|| panic!("no usage options: {command}"));
     assert_eq!(literal, "cargo build", "{command}");
+    // A daemon advertising the v2 summary also gets the session digest.
+    let overhead = overhead.split(" --arc-session ").next().unwrap();
     overhead.parse().unwrap()
 }
 
@@ -277,6 +279,9 @@ fn mtr_004_vendor_project_and_period_summaries_match_recorded_jobs() {
     // must exist; the wrapper sends each one once, right after its child.
     assert!(reports > 0, "no job Meter report was recorded");
 
+    // F3 CPU reads the tree reports, which the daemon completes on its own
+    // cadence after each job: compare only once none can change.
+    recompute::settle(&db);
     let (first, last): (i64, i64) = db
         .query_row(
             "SELECT min(registered_at_ms),max(registered_at_ms) FROM job_lifecycle",
@@ -326,14 +331,17 @@ fn mtr_004_vendor_project_and_period_summaries_match_recorded_jobs() {
         "not_metered_locally"
     );
     // MET-013 and the local CPU of each group: the recorded values of that
-    // job alone, `null` with a reason when its report was not recorded.
+    // job alone, `null` with a reason when nothing was recorded. CPU is the
+    // job's sampled tree CPU where sampled, else its waited rusage (F3).
     for (vendor, sql) in local_jobs {
         let local = aggregate(&by_vendor, "vendor", vendor, "local");
-        for (metric, path, scale) in [
-            ("job.duration_ms", "$.run_elapsed.seconds", 1000.0),
-            ("cpu_core_seconds", "$.cpu_core_seconds.total", 1.0),
-        ] {
-            let expected = recorded(sql, path).map(|value| value * scale);
+        for metric in ["job.duration_ms", "cpu_core_seconds"] {
+            let expected = match metric {
+                "job.duration_ms" => {
+                    recorded(sql, "$.run_elapsed.seconds").map(|value| value * 1000.0)
+                }
+                _ => recompute::job_cpu(&db, sql),
+            };
             let printed = &local[metric];
             recompute::same(
                 &format!("{vendor} {metric}"),
@@ -358,7 +366,7 @@ fn mtr_004_vendor_project_and_period_summaries_match_recorded_jobs() {
     assert_eq!(by_period["groups"][0]["remote"]["job.count"]["total"], 1);
     let local_cpu = local_jobs
         .iter()
-        .filter_map(|(_, sql)| recorded(sql, "$.cpu_core_seconds.total"))
+        .filter_map(|(_, sql)| recompute::job_cpu(&db, sql))
         .reduce(|a, b| a + b);
     recompute::same(
         "local cpu",

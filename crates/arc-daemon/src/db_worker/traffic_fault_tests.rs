@@ -408,11 +408,17 @@ async fn cancel_after_lost_grant(program: &'static str) {
     assert!(matches!(receipt.proof(), super::witness::Proof::Unspawned));
     let evidence = traffic::UnspawnedEvidence::gather(&candidate.job, receipt.key(), jobs::now());
     drop(receipt);
+    // Diagnostics only: the owner probe and the stored snapshot that recovery
+    // compares, so an unrecovered grant names which precondition was unmet.
+    let owner = probe_live(&candidate.job.observer);
     super::recovery::recover_at_start_on(&mut db, &socket).unwrap();
+    let stored = arc_storage::jobs::get(&db, &candidate.job.job_id).unwrap();
     assert!(!traffic::recover_unspawned(&mut db, &evidence).unwrap());
     assert_eq!(
         traffic::status(&db, &candidate.job.job_id).unwrap(),
-        arc_ipc::traffic::StatusResult::Cancelled {}
+        arc_ipc::traffic::StatusResult::Cancelled {},
+        "owner {owner:?}; candidate revision {}; stored {stored:?}",
+        candidate.job.revision
     );
     assert!(!root
         .join(format!(

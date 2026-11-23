@@ -30,6 +30,7 @@ fn dead_owner_unknown_child_is_retained_then_released_once_after_durable_grace()
         arc_ipc::jobs::Phase::OutcomeUnknown
     );
     assert_eq!(permit_counts(&c), (1, 1));
+    assert_eq!(end_footprint(&c, 1), None);
     drop(c);
     let mut c = db.open();
     let job = get(&c, &id(1)).unwrap().unwrap();
@@ -53,6 +54,7 @@ fn dead_owner_unknown_child_is_retained_then_released_once_after_durable_grace()
         UncertainResult::Unchanged
     );
     assert_eq!(permit_counts(&c), (1, 0));
+    assert_eq!(end_footprint(&c, 1).as_deref(), Some("unavailable"));
     assert_eq!(status(&c, &id(1)).unwrap(), StatusResult::Abandoned {});
     let events: Vec<(String, i64)> = c
         .prepare("SELECT event_type,created_at FROM audit_events ORDER BY created_at,id")

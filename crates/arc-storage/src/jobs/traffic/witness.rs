@@ -86,6 +86,7 @@ pub fn recover_unspawned(
         return Ok(false);
     }
     let now = ordered_now(evidence.observed_at_ms, &job)?;
+    super::recovery_footprint::bind(&tx, &job.job_id, &entry)?;
     if let Some(outcome @ Outcome::SpawnFailed { .. }) = &evidence.spawn_failure {
         if !outcome.is_valid() {
             return Err(super::JobError::InvalidRequest);

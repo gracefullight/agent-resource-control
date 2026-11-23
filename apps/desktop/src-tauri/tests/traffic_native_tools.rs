@@ -41,11 +41,13 @@ macro_rules! family {
     ($semantics:ident, $pairs:ident, $family:ident) => {
         #[test]
         fn $semantics() {
+            suite::$family::prewarm();
             let _serial = serialization::serial();
             suite::$family::semantics(registered);
         }
         #[test]
         fn $pairs() {
+            suite::$family::prewarm();
             let _serial = serialization::serial();
             suite::$family::pairs(registered);
         }

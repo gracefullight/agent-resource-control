@@ -212,9 +212,9 @@ fn unobserved_values_are_null_with_their_basis_never_zero() {
     }
     assert_eq!(report.memory_peak_bytes.value, None);
     assert_eq!(report.disk_write_bytes.basis, TreeBasis::Unobserved);
-    // A root-only tree with its waited usage is complete.
+    // A root-only tree whose samples saw all of its waited usage is complete.
     let totals = TreeTotals {
-        root_cpu_ns: Some(1),
+        root_cpu_ns: Some(500_000_000),
         samples: 1,
         processes: 1,
         peak_rss_bytes: Some(1),
@@ -224,8 +224,49 @@ fn unobserved_values_are_null_with_their_basis_never_zero() {
     };
     let report = build(JOB, &Parts::from_totals(&totals), true, Some(0.5));
     assert_eq!(report.completeness, Completeness::Complete);
+    assert!(report.missing_coverage.is_empty());
     assert_eq!(report.cpu_core_seconds.value, Some(0.5));
     assert_eq!(report.disk_read_bytes.value, Some(0));
+}
+
+/// Cycle 35 F4: a root-only tree whose waited rusage exceeds its sampled
+/// root ran unobserved, so an unwaited descendant could have been missed.
+#[test]
+fn waited_usage_above_the_sampled_root_is_partial_not_complete_with_unwaited_zero() {
+    let totals = TreeTotals {
+        root_cpu_ns: Some(1),
+        samples: 1,
+        processes: 1,
+        ..TreeTotals::default()
+    };
+    let parts = Parts::from_totals(&totals);
+    assert_eq!(parts.unwaited, Some(0.0));
+    assert!(!parts.partial);
+    let report = build(JOB, &parts, true, Some(0.5));
+    assert_eq!(report.completeness, Completeness::Partial);
+    assert_eq!(report.missing_coverage, [Reason::UnobservedDescendants]);
+    assert_eq!(report.unwaited_cpu_core_seconds.value, Some(0.0));
+    // Even a sub-microsecond positive excess is unobserved usage.
+    let boundary = Parts {
+        root_sampled: Some(1.0),
+        ..parts.clone()
+    };
+    let report = build(JOB, &boundary, true, Some(1.0000005));
+    assert_eq!(report.completeness, Completeness::Partial);
+    assert_eq!(report.missing_coverage, [Reason::UnobservedDescendants]);
+    // Without a sample or without the waited usage the F4 test does not apply.
+    let report = build(
+        JOB,
+        &Parts {
+            samples: 0,
+            ..parts.clone()
+        },
+        true,
+        Some(0.5),
+    );
+    assert_eq!(report.completeness, Completeness::Unknown);
+    let report = build(JOB, &parts, false, None);
+    assert_eq!(report.missing_coverage, [Reason::NativeUsageUnavailable]);
 }
 
 /// Integration of lanes A and C: rows written by this writer (cumulative

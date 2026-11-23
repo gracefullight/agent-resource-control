@@ -6,11 +6,15 @@ use arc_ipc::{
 };
 use std::{os::unix::net::UnixStream, path::Path};
 
+#[path = "classify/workspace.rs"]
+mod workspace;
+
 pub(crate) fn run(
     socket: &Path,
     command: String,
     shell: Option<String>,
     json: bool,
+    diagnostics: bool,
 ) -> Result<(), &'static str> {
     let input = ClassifyRequest {
         command,
@@ -18,7 +22,13 @@ pub(crate) fn run(
     };
     let context = super::exec::capture_shell(&input);
     let result = classify(socket, &input, context, arc_ipc::locality::now_ms)?;
-    let value = serde_json::to_value(result).map_err(|_| super::IPC_ERROR)?;
+    // Supported script invocations use the same bounded project analysis as exec.
+    let (result, analysis) = workspace::refine(socket, &input, result, diagnostics);
+    let mut value = serde_json::to_value(result).map_err(|_| super::IPC_ERROR)?;
+    if json && diagnostics {
+        // Explicitly requested only; ordinary output keeps its four fields.
+        value[workspace::DIAGNOSTICS_KEY] = analysis.unwrap_or(serde_json::Value::Null);
+    }
     if json {
         println!("{value}");
     } else {

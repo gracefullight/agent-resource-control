@@ -19,9 +19,15 @@
 //!   value, contributes nothing; a bucket with no known value stays NULL.
 //! - `peak_rss_bytes`: the largest sum of `rss_bytes` over the rows of one
 //!   sample time (one sampling sweep) in the bucket.
-//! - `job_count`: distinct jobs with a sample in the bucket. A pass covers
-//!   whole minutes, so a minute bucket is counted once; an hour or day bucket
-//!   that straddles two passes counts a job once per pass.
+//! - `job_count`: distinct jobs with a sample in the bucket, however many
+//!   passes add to it (cycle 35 F2). Each pass records the bucket's jobs in
+//!   `resource_rollup_jobs` (migration 0010) and adds only jobs not yet
+//!   recorded there, so an hour or day bucket that straddles two passes
+//!   counts a job once. A bucket rolled before migration 0010 keeps its
+//!   stored count with `job_count_completeness = unknown`; its earlier
+//!   members are not known, so a job sampled on both sides of the upgrade
+//!   may count once more there, and no membership is invented. Newly created
+//!   buckets are `complete`. Membership rows are deleted with their bucket.
 //!
 //! One pass rolls at most [`MAX_RAW_BATCH`] rows (rounded to whole minutes),
 //! so the writer is never held for an unbounded time; [`RollupReport::more`]
@@ -100,7 +106,8 @@ pub fn roll_up(connection: &mut Connection, now_ms: u64) -> JobResult<RollupRepo
         "CREATE TEMP TABLE IF NOT EXISTS rollup_batch(
            ms INTEGER NOT NULL, ts TEXT NOT NULL, job_id TEXT, rss INTEGER,
            cpu_ns INTEGER, write_bytes INTEGER);
-         DELETE FROM temp.rollup_batch;",
+         DELETE FROM temp.rollup_batch;
+         CREATE TEMP TABLE IF NOT EXISTS rollup_new_jobs(bucket INTEGER NOT NULL, job_id TEXT NOT NULL);",
     )?;
     tx.execute(
         "INSERT INTO temp.rollup_batch(ms,ts,job_id,rss,cpu_ns,write_bytes)
@@ -119,16 +126,31 @@ pub fn roll_up(connection: &mut Connection, now_ms: u64) -> JobResult<RollupRepo
         r.get::<_, i64>(0)
     })?;
     for (granularity, width) in GRANULARITIES {
+        // The jobs of this pass not yet counted in their bucket.
+        tx.execute("DELETE FROM temp.rollup_new_jobs", [])?;
+        tx.execute(
+            "INSERT INTO temp.rollup_new_jobs(bucket,job_id)
+             SELECT DISTINCT (b.ms/?2)*?2, b.job_id FROM temp.rollup_batch b
+             WHERE b.job_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM resource_rollup_jobs m
+               WHERE m.granularity=?1 AND m.bucket_start_ms=(b.ms/?2)*?2 AND m.job_id=b.job_id)",
+            params![granularity, width as i64],
+        )?;
+        tx.execute(
+            "INSERT INTO resource_rollup_jobs(granularity,bucket_start_ms,job_id)
+             SELECT ?1, bucket, job_id FROM temp.rollup_new_jobs",
+            [granularity],
+        )?;
         tx.execute(
             "WITH rows AS (SELECT (ms/?2)*?2 AS bucket, ts, job_id, rss, cpu_ns, write_bytes
                FROM temp.rollup_batch),
              peaks AS (SELECT bucket, max(total) AS peak FROM
                (SELECT bucket, ts, sum(rss) AS total FROM rows GROUP BY bucket, ts) GROUP BY bucket),
-             sums AS (SELECT bucket, sum(cpu_ns) AS cpu, sum(write_bytes) AS written,
-               count(DISTINCT job_id) AS jobs FROM rows GROUP BY bucket)
+             sums AS (SELECT r.bucket, sum(r.cpu_ns) AS cpu, sum(r.write_bytes) AS written,
+               (SELECT count(*) FROM temp.rollup_new_jobs n WHERE n.bucket=r.bucket) AS jobs
+               FROM rows r GROUP BY r.bucket)
              INSERT INTO resource_rollups(granularity,bucket_start_ms,cpu_core_seconds,
-               peak_rss_bytes,disk_write_bytes,job_count,reclaimed_bytes)
-             SELECT ?1, s.bucket, s.cpu/1e9, p.peak, s.written, s.jobs, NULL
+               peak_rss_bytes,disk_write_bytes,job_count,reclaimed_bytes,job_count_completeness)
+             SELECT ?1, s.bucket, s.cpu/1e9, p.peak, s.written, s.jobs, NULL, 'complete'
                FROM sums s JOIN peaks p ON p.bucket=s.bucket WHERE true
              ON CONFLICT(granularity,bucket_start_ms) DO UPDATE SET
                cpu_core_seconds=CASE WHEN excluded.cpu_core_seconds IS NULL THEN cpu_core_seconds
@@ -150,6 +172,16 @@ pub fn roll_up(connection: &mut Connection, now_ms: u64) -> JobResult<RollupRepo
         return Err(crate::jobs::JobError::StorageFailure);
     }
     tx.execute("DELETE FROM temp.rollup_batch", [])?;
+    tx.execute("DELETE FROM temp.rollup_new_jobs", [])?;
+    tx.execute(
+        "DELETE FROM resource_rollup_jobs WHERE
+           (granularity='minute' AND bucket_start_ms<?1)
+           OR (granularity IN ('hour','day') AND bucket_start_ms<?2)",
+        params![
+            now_ms.saturating_sub(MINUTE_RETENTION_MS) as i64,
+            now_ms.saturating_sub(HOUR_DAY_RETENTION_MS) as i64
+        ],
+    )?;
     let expired = tx.execute(
         "DELETE FROM resource_rollups WHERE
            (granularity='minute' AND bucket_start_ms<?1)

@@ -26,6 +26,17 @@ pub(crate) enum Operation {
     ResourceSamples(super::resource_samples::Operation),
     #[allow(dead_code)] // Lane C.
     Retention(super::retention::Operation),
+    #[allow(dead_code)] // Lane A.
+    Attribution(super::attribution::Operation),
+    #[allow(dead_code)] // Lane B.
+    Footprint(super::footprint::Operation),
+    /// An operation whose own commit may make a footprint reading due,
+    /// with the readings taken before it was submitted.
+    Watched(
+        Box<Operation>,
+        arc_ipc::jobs::JobId,
+        super::footprint::Bound,
+    ),
 }
 pub(crate) enum Value {
     Start(Result<StartResult, JobError>),
@@ -43,6 +54,11 @@ pub(crate) enum Value {
     ResourceSamples(super::resource_samples::Value),
     #[allow(dead_code)] // Lane C.
     Retention(super::retention::Value),
+    #[allow(dead_code)] // Lane A.
+    Attribution(super::attribution::Value),
+    #[allow(dead_code)] // Lane B.
+    Footprint(super::footprint::Value),
+    Watched(Box<Value>, Option<arc_storage::footprint::Point>),
 }
 static TIME_SOURCE: OnceLock<fn() -> u64> = OnceLock::new();
 
@@ -71,6 +87,16 @@ pub(crate) fn execute_observed(
     op: Operation,
     reader: Option<&super::observation::Observations>,
 ) -> Value {
+    // The marks are read and the readings bound on this writer immediately
+    // around the operation, so no other request can commit between them.
+    if let Operation::Watched(operation, job, bound) = op {
+        let before = super::footprint::marks(connection, &job);
+        let value = execute_observed(connection, *operation, reader);
+        let after = super::footprint::marks(connection, &job);
+        let due = super::footprint::transition(before, after);
+        let point = super::footprint::bind(connection, &job, due, bound);
+        return Value::Watched(Box::new(value), point);
+    }
     // Queue recovery probes and the lineage lookup are steps of one admission
     // request; its own operation follows on this writer and runs the expiry.
     let step = matches!(
@@ -119,6 +145,10 @@ pub(crate) fn execute_observed(
         Operation::Retention(operation) => {
             Value::Retention(super::retention::execute(connection, operation))
         }
+        // Each leaf wraps its own reply in `Value::Attribution`/`Value::Footprint`.
+        Operation::Attribution(operation) => super::attribution::execute(connection, operation),
+        Operation::Footprint(operation) => super::footprint::execute(connection, operation),
+        Operation::Watched(..) => unreachable!("unwrapped above"),
     };
     // Bounded opportunistic expiry shares this connection and its existing
     // cancellation/deadline. Failure never changes a committed request result.
@@ -157,6 +187,11 @@ pub(crate) async fn handle(
 ) -> Result<serde_json::Value, &'static str> {
     match input {
         LifecycleRequest::Start(request) => {
+            let _footprint_guard = super::footprint::guard(request.job_id(), deadline).await?;
+            // A registration's start reading precedes its evidence and its
+            // admission; the writer binds it to the call that creates the job.
+            let bound = super::footprint::before_registration(&request, deadline).await?;
+            let job_id = request.job_id().clone();
             // Native probes occur before admission; no SQLite ticket is held.
             let observed_at_ms = now();
             let child = match &request {
@@ -169,20 +204,22 @@ pub(crate) async fn handle(
             let evidence = StartEvidence::gather(&request)
                 .with_child_ownership(ownership)
                 .with_meter_evidence(super::job_meter::evidence(request.observer(), child));
-            match call(
-                &client,
-                Operation::Start(request, evidence, observed_at_ms),
-                deadline,
-            )
-            .await?
-            {
-                Value::Start(value) => wire(value),
+            let operation = Operation::Start(request, evidence, observed_at_ms);
+            match super::footprint::watched(&client, operation, &job_id, bound, deadline).await? {
+                (Value::Start(value), _) => wire(value),
                 _ => Err(arc_ipc::ERROR_DB_BUSY),
             }
         }
         LifecycleRequest::Complete(request) => {
-            match call(&client, Operation::Complete(request), deadline).await? {
-                Value::Complete(value) => wire(value),
+            let _footprint_guard = super::footprint::guard(&request.job_id, deadline).await?;
+            // The end reading precedes the completion that records the
+            // outcome; the writer binds it to that commit.
+            let bound =
+                super::footprint::before_end(&request.job_id, &request.observer, deadline).await?;
+            let job_id = request.job_id.clone();
+            let operation = Operation::Complete(request);
+            match super::footprint::watched(&client, operation, &job_id, bound, deadline).await? {
+                (Value::Complete(value), _) => wire(value),
                 _ => Err(arc_ipc::ERROR_DB_BUSY),
             }
         }

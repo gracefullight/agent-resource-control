@@ -49,6 +49,11 @@ pub const MIGRATIONS: &[Migration] = &[
         id: "0009_meter_policy",
         sql: include_str!("../migrations/0009_meter_policy.sql"),
     },
+    Migration {
+        version: 10,
+        id: "0010_attribution",
+        sql: include_str!("../migrations/0010_attribution.sql"),
+    },
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

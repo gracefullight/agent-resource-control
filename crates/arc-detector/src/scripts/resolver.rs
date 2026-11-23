@@ -3,6 +3,9 @@ use super::*;
 use crate::{budget::Budget, parser::Parser, JobClass, Locality, Reason, MAX_INPUT_BYTES};
 use std::ffi::OsString;
 
+#[path = "workspace.rs"]
+pub(crate) mod workspace;
+
 type Result<T> = std::result::Result<T, (Reason, ScriptIssue)>;
 fn syntax(reason: Reason) -> (Reason, ScriptIssue) {
     (
@@ -57,9 +60,14 @@ fn analyze_script(
             graph_edges: 0,
             packages: Vec::new(),
             issue: None,
+            members: Vec::new(),
         },
         active: Vec::new(),
         leaves: Vec::new(),
+        runner: argv
+            .first()
+            .and_then(|p| p.to_str())
+            .and_then(workspace::Runner::of),
     };
     let result = if context.is_some_and(|(ctx, now)| !ctx.is_valid_at(now)) {
         Err(syntax(Reason::EndpointAmbiguous))
@@ -83,6 +91,8 @@ struct Graph<'a, M> {
     result: ScriptResolution,
     active: Vec<(PathBuf, String)>,
     leaves: Vec<Classification>,
+    /// The outermost runner: workspace membership is read for its family.
+    runner: Option<workspace::Runner>,
 }
 impl<M: PackageMetadata> Graph<'_, M> {
     fn native(&mut self, argv: &[OsString], cwd: &Path) -> Result<Classification> {
@@ -102,14 +112,20 @@ impl<M: PackageMetadata> Graph<'_, M> {
                 .ok_or_else(|| syntax(Reason::UnsupportedSyntax))?;
             words.push(word.to_owned());
         }
-        if !super::commands::is_bun(words.first().map(String::as_str).unwrap_or("")) {
-            return Ok(self.classify_native(argv));
+        // Workspace fan-out (lane C, `workspace.rs`) of any supported runner.
+        if let Some(fan_out) = workspace::parse(&words, cwd, b).map_err(syntax)? {
+            b.invocation().map_err(syntax)?;
+            self.workspace(cwd, &fan_out, 0)?;
+        } else {
+            if !super::commands::is_bun(words.first().map(String::as_str).unwrap_or("")) {
+                return Ok(self.classify_native(argv));
+            }
+            let Some(call) = super::commands::script_call(&words, cwd, b).map_err(syntax)? else {
+                return Ok(self.classify_native(argv));
+            };
+            b.invocation().map_err(syntax)?;
+            self.script(&call.cwd, &call.name, &call.args, 0)?;
         }
-        let Some(call) = super::commands::script_call(&words, cwd, b).map_err(syntax)? else {
-            return Ok(self.classify_native(argv));
-        };
-        b.invocation().map_err(syntax)?;
-        self.script(&call.cwd, &call.name, &call.args, 0)?;
         let class = crate::aggregate(&self.leaves, &mut self.result.analysis).map_err(syntax)?;
         if class.locality == Locality::Remote {
             return Ok(class);
@@ -207,6 +223,13 @@ impl<M: PackageMetadata> Graph<'_, M> {
             return Err(unsupported());
         }
         for invocation in invocations {
+            if let Some(fan_out) =
+                workspace::parse(&invocation.words, cwd, &mut self.result.analysis)
+                    .map_err(syntax)?
+            {
+                self.workspace(cwd, &fan_out, invocation.depth + 1)?;
+                continue;
+            }
             if let Some(call) =
                 super::commands::script_call(&invocation.words, cwd, &mut self.result.analysis)
                     .map_err(syntax)?
@@ -279,9 +302,11 @@ mod tests {
                 graph_edges: 0,
                 packages: vec![],
                 issue: None,
+                members: vec![],
             },
             active: vec![],
             leaves: vec![],
+            runner: None,
         };
         for _ in 0..MAX_GRAPH_EDGES {
             graph.edge(0).unwrap();

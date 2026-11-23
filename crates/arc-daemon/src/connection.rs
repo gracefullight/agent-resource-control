@@ -24,6 +24,11 @@ use legacy_projection::project_legacy_snapshot;
 mod classification;
 use classification::classify_request;
 
+#[path = "connection/workspace_cache.rs"]
+mod workspace_cache;
+#[path = "connection/workspace_compound.rs"]
+mod workspace_compound;
+
 #[path = "connection/response.rs"]
 mod response;
 use response::{is_timeout, respond};
@@ -290,7 +295,9 @@ async fn handle_inner<D, F, J, G, T, H>(
         }
         // Classification consumes the payload synchronously under request admission.
         // Version rejection in dispatch precedes all typed payload decoding.
-        let classified = classify_request(&request, arc_ipc::locality::now_ms().unwrap_or(0));
+        let classified = workspace_cache::handle(&request)
+            .or_else(|| workspace_compound::handle(&request))
+            .or_else(|| classify_request(&request, arc_ipc::locality::now_ms().unwrap_or(0)));
         let lifecycle = if request.protocol_version == PROTOCOL_VERSION {
             arc_ipc::jobs::LifecycleRequest::decode(&request.operation, &request.payload)
         } else {

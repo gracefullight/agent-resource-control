@@ -35,10 +35,12 @@ struct State {
     awaiting: u32,
 }
 
-pub(super) fn bind(meter: &arc_meter::MeterWorker, client: &DbClient) {
+/// The job-tree sampler; `meter_cadence::bind` composes it into the one
+/// post-publication hook, first, beside lane A's attribution scan.
+pub(super) fn sampler(client: &DbClient) -> arc_meter::SampleHook {
     let client = client.clone();
     let mut state = State::default();
-    meter.set_sample_hook(Box::new(move |_snapshot| {
+    Box::new(move |_snapshot| {
         if !resource_samples::jobs_active(&client) && state.jobs.is_empty() && state.awaiting == 0 {
             return;
         }
@@ -51,7 +53,7 @@ pub(super) fn bind(meter: &arc_meter::MeterWorker, client: &DbClient) {
             return;
         };
         runtime.block_on(pass(&client, &mut state));
-    }));
+    })
 }
 
 fn wall_ns() -> Option<u64> {

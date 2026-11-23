@@ -62,6 +62,7 @@ fn witness_recovery_requires_matching_key_and_definitive_owner_evidence() {
     );
     assert!(recover_witness(&mut connection, &live).unwrap());
     assert_eq!(permit_counts(&connection), (1, 1));
+    assert_eq!(end_footprint(&connection, 1), None);
     assert_eq!(
         get(&connection, &id(1)).unwrap().unwrap().child,
         Some(child)
@@ -162,6 +163,10 @@ fn witness_for_an_exited_child_releases_once_and_records_unknown() {
     assert!(!recover_witness(&mut connection, &proof).unwrap());
     assert_eq!(permit_counts(&connection), (1, 0));
     assert_eq!(
+        end_footprint(&connection, 1).as_deref(),
+        Some("unavailable")
+    );
+    assert_eq!(
         status(&connection, &id(1)).unwrap(),
         StatusResult::Abandoned {}
     );
@@ -202,6 +207,10 @@ fn unspawned_witness_releases_only_for_the_original_dead_owner_and_key() {
         StatusResult::Cancelled {}
     );
     assert_eq!(permit_counts(&connection), (1, 0));
+    assert_eq!(
+        end_footprint(&connection, 1).as_deref(),
+        Some("unavailable")
+    );
 
     enqueue(
         &mut connection,

@@ -118,6 +118,10 @@ fn seed(tools: &Tools) -> &Path {
     })
 }
 
+pub(super) fn prewarm(tools: &Tools) {
+    let _ = seed(tools);
+}
+
 /// CMake's Makefiles and CTest manifests contain absolute source/build paths.
 /// Clone the prepared tree and relocate only text files, retaining binary bytes
 /// and private writable inodes. The real build and test commands exercise it.

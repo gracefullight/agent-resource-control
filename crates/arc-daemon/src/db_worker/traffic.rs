@@ -197,6 +197,7 @@ async fn handle_inner(
     #[cfg(test)] mut after_proof: impl FnMut(bool),
 ) -> Result<serde_json::Value, &'static str> {
     if let JobRequest::Status { job_id } | JobRequest::StatusV2 { job_id } = &request {
+        let _footprint_guard = super::footprint::guard(job_id, deadline).await?;
         return status(
             &client,
             job_id,
@@ -219,6 +220,19 @@ async fn handle_inner(
             return Err(arc_ipc::ERROR_INVALID_REQUEST);
         }
     }
+    let job = match &request {
+        JobRequest::Enqueue { job_id, .. }
+        | JobRequest::Poll { job_id, .. }
+        | JobRequest::Attach { job_id, .. }
+        | JobRequest::Complete { job_id, .. }
+        | JobRequest::Cancel { job_id, .. }
+        | JobRequest::Fallback { job_id, .. } => job_id,
+        JobRequest::Status { .. } | JobRequest::StatusV2 { .. } => unreachable!(),
+    };
+    let _footprint_guard = super::footprint::guard(job, deadline).await?;
+    // A completion's end reading precedes its commit, while the permit it
+    // releases is still held; the writer binds it to that commit.
+    let bound = super::footprint::before_traffic(&request, deadline).await?;
     if matches!(
         request,
         JobRequest::Enqueue { .. } | JobRequest::Poll { .. }
@@ -257,22 +271,21 @@ async fn handle_inner(
                 .with_meter_evidence(super::job_meter::evidence(observer, None))
         });
         let context = context().map_err(|_| arc_ipc::ERROR_DB_BUSY)?;
-        match call(
-            &client,
-            Operation::Request(Box::new(RequestOperation {
-                request: request.clone(),
-                owner,
-                child: child.clone(),
-                context,
-                proof,
-                now: jobs::now(),
-            })),
-            deadline,
-        )
-        .await?
-        {
-            Value::Reply(Err(JobError::IdentityUnavailable)) if had_proof => continue,
-            Value::Reply(value) => return value.map_err(JobError::code),
+        let operation = Operation::Request(Box::new(RequestOperation {
+            request: request.clone(),
+            owner,
+            child: child.clone(),
+            context,
+            proof,
+            now: jobs::now(),
+        }));
+        match super::footprint::traffic(&client, &request, operation, bound, deadline).await? {
+            (Value::Reply(Err(JobError::IdentityUnavailable)), _) if had_proof => continue,
+            (Value::Reply(value), point) => {
+                let value = value.map_err(JobError::code)?;
+                super::footprint::after_traffic(&client, &request, point, deadline).await;
+                return Ok(value);
+            }
             _ => return Err(arc_ipc::ERROR_DB_BUSY),
         }
     }

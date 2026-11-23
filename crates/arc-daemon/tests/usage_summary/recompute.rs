@@ -1,14 +1,55 @@
 //! The usage aggregates recomputed from the daemon's SQLite with one SQL
 //! `GROUP BY` per query, independently of `arc_storage::usage_summary`, and
 //! compared with what built `arcctl` printed. The additive rule is the same:
-//! duration and CPU sum only `canonical_root` job Meter reports, and REMOTE_CI
-//! and REMOTE_EXEC jobs add no CPU and are compared against `remote`.
+//! duration and CPU sum only `canonical_root` jobs, and REMOTE_CI and
+//! REMOTE_EXEC jobs add no CPU and are compared against `remote`. CPU is the
+//! negotiated (v2) value (cycle 35 F3): the job's sampled process-tree CPU
+//! where its tree was sampled, else the waited rusage of its Meter report.
 use rusqlite::{params, Connection};
 use serde_json::Value;
 use std::collections::BTreeMap;
 
 pub const HOUR_MS: u64 = 3_600_000;
 pub const DAY_MS: u64 = 86_400_000;
+
+/// The F3 CPU of one job row `m` of `job_meter_summaries`: its sampled tree
+/// CPU, else its waited rusage; `NULL` unless it is a `canonical_root`.
+pub const JOB_CPU: &str = "CASE WHEN m.relation='canonical_root' THEN COALESCE(
+      CASE WHEN json_extract(m.process_tree_json,'$.cpu_core_seconds.basis')='tree_samples'
+        THEN json_extract(m.process_tree_json,'$.cpu_core_seconds.value') END,
+      CASE WHEN m.report_json IS NOT NULL
+        THEN json_extract(m.report_json,'$.cpu_core_seconds.total') END) END";
+
+/// The F3 CPU of the one job `filter` selects from `jobs j`.
+pub fn job_cpu(db: &Connection, filter: &str) -> Option<f64> {
+    db.query_row(
+        &format!(
+            "SELECT {JOB_CPU} FROM jobs j JOIN job_meter_summaries m ON m.job_id=j.id \
+             WHERE {filter}"
+        ),
+        [],
+        |r| r.get(0),
+    )
+    .unwrap()
+}
+
+/// Wait until no stored tree report can still change: every tree is
+/// terminal, and completed with the waited usage when a report exists.
+pub fn settle(db: &Connection) {
+    crate::journey::eventually("settled process-tree reports", || {
+        db.query_row(
+            "SELECT count(*) FROM job_meter_summaries m JOIN jobs j ON j.id=m.job_id
+             WHERE m.process_tree_json IS NOT NULL
+               AND (json_extract(m.process_tree_json,'$.terminal')=0
+                 OR (m.report_json IS NOT NULL AND
+                   json_extract(m.process_tree_json,'$.waited_cpu_core_seconds.basis')!='waited_rusage'))",
+            [],
+            |r| r.get::<_, i64>(0),
+        )
+        .unwrap()
+            == 0
+    });
+}
 
 /// One recomputed (group, bucket, remote) aggregate.
 #[derive(Debug, Default, PartialEq)]
@@ -40,8 +81,7 @@ fn expected(
     let remote = "j.job_class IN ('REMOTE_CI','REMOTE_EXEC')";
     let sql = format!(
         "SELECT {key},(l.registered_at_ms/?3)*?3,{remote},j.job_class,j.state,count(*),
-         SUM(CASE WHEN {additive} AND NOT {remote}
-             THEN json_extract(m.report_json,'$.cpu_core_seconds.total') END),
+         SUM(CASE WHEN NOT {remote} THEN {JOB_CPU} END),
          SUM(CASE WHEN {additive}
              THEN json_extract(m.report_json,'$.run_elapsed.seconds')*1000.0 END),
          SUM(j.hook_overhead_ms),MAX(j.hook_overhead_ms),count(j.hook_overhead_ms)

@@ -8,19 +8,39 @@
 //! the v1 Meter handler, so its reply bytes are unchanged. Only a request
 //! with `include_traffic:true`, sent by a client that saw the daemon's
 //! advertisement, gets the v1 snapshot fields plus `traffic`.
+//!
+//! The negotiated `meter.usage_summary.v2` (lane B groups,
+//! `arc_storage::usage_summary::summarize_v2`) carries the attribution
+//! section of `arc_storage::attribution::section` (lane A's call site) only
+//! while this daemon holds `meter::attribution::ADVERTISEMENT`.
+//! `meter.job_footprint` reads `arc_storage::footprint::read` (lane B). Both
+//! run on the writer like the v1 summary.
 use super::{write, Handler, Input, RuntimeLimits, Value};
 use crate::runtime_metrics::RuntimeMetrics;
 use arc_ipc::{
     meter::{self as wire, usage},
     Request, Response, PROTOCOL_VERSION,
 };
-use std::{sync::Arc, time::Instant};
+use std::{
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc,
+    },
+    time::Instant,
+};
 use tokio::net::UnixStream;
 
+/// Set by `lifecycle::capability_advertisement` while this daemon holds
+/// `meter::attribution::ADVERTISEMENT`; only then does a v2 reply carry the
+/// attribution section.
+pub(crate) static ATTRIBUTION_ADVERTISED: AtomicBool = AtomicBool::new(false);
+
 /// One lane B read on the writer.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum Query {
     Summary(usage::UsageQuery),
+    SummaryV2(usage::UsageQueryV2),
+    JobFootprint(arc_ipc::jobs::JobId),
     /// The cached Meter snapshot with `traffic.queue.depth` from committed state.
     SnapshotTraffic,
 }
@@ -34,6 +54,13 @@ fn classify(request: &Request) -> Option<Result<Query, &'static str>> {
         usage::OPERATION_USAGE_SUMMARY => {
             Some(usage::decode_query(&request.payload).map(Query::Summary))
         }
+        usage::OPERATION_USAGE_SUMMARY_V2 => {
+            Some(usage::decode_query_v2(&request.payload).map(Query::SummaryV2))
+        }
+        wire::footprint::OPERATION_JOB_FOOTPRINT => Some(
+            wire::footprint::decode_request(&request.payload)
+                .map(|request| Query::JobFootprint(request.job_id)),
+        ),
         wire::OPERATION_METER_SNAPSHOT => match usage::decode_snapshot_request(&request.payload) {
             Ok(usage::SnapshotRequest {
                 include_traffic: true,
@@ -105,13 +132,35 @@ pub(crate) fn read(
     snapshot: Option<&arc_meter::SnapshotReader>,
     now_ms: u64,
 ) -> Result<serde_json::Value, arc_storage::jobs::JobError> {
-    use arc_storage::{jobs::JobError, usage_summary};
+    use arc_storage::{attribution, footprint, jobs::JobError, usage_summary};
+    let json = |value: Result<serde_json::Value, _>| value.map_err(|_| JobError::StorageFailure);
     match query {
-        Query::Summary(query) => {
-            usage_summary::summarize(connection, &query, now_ms).and_then(|summary| {
-                serde_json::to_value(summary).map_err(|_| JobError::StorageFailure)
-            })
+        Query::Summary(query) => usage_summary::summarize(connection, &query, now_ms)
+            .and_then(|summary| json(serde_json::to_value(summary))),
+        Query::SummaryV2(query) => {
+            // One read snapshot for the groups and the attribution section.
+            let tx = connection.transaction()?;
+            let mut summary = usage_summary::summarize_v2(&tx, &query, now_ms)?;
+            if ATTRIBUTION_ADVERTISED.load(Ordering::Acquire) {
+                summary.attribution = Some(attribution::section(
+                    &tx,
+                    query.from_ms,
+                    query.to_ms,
+                    now_ms,
+                )?);
+            }
+            drop(tx);
+            match serde_json::to_vec(&summary) {
+                Ok(bytes) if bytes.len() <= usage::MAX_USAGE_SUMMARY_BYTES => {
+                    json(serde_json::to_value(summary))
+                }
+                _ => Err(JobError::InvalidRequest),
+            }
         }
+        Query::JobFootprint(job) => match footprint::read(connection, &job)? {
+            Some(reply) => json(serde_json::to_value(reply)),
+            None => Err(JobError::InvalidRequest),
+        },
         Query::SnapshotTraffic => {
             let Some(meter) = snapshot.and_then(arc_meter::SnapshotReader::snapshot) else {
                 return Ok(serde_json::Value::Null);

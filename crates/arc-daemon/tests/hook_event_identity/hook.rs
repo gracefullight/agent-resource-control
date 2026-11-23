@@ -147,6 +147,18 @@ pub fn event_key(command: &str, literal: &str) -> String {
                 matches!(vendor, "claude-code" | "cursor"),
                 "not a vendor: {command}"
             );
+            let (overhead, session) = overhead
+                .split_once(" --arc-session ")
+                .map_or((overhead, None), |(value, digest)| (value, Some(digest)));
+            if let Some(digest) = session {
+                assert!(
+                    digest.len() == 64
+                        && digest
+                            .bytes()
+                            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b)),
+                    "not a session digest: {command}"
+                );
+            }
             assert!(
                 overhead.parse::<u64>().is_ok(),
                 "not an overhead: {command}"

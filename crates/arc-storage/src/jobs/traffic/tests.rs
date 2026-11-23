@@ -143,6 +143,14 @@ fn permit_counts(c: &Connection) -> (i64, i64) {
     )
     .unwrap()
 }
+fn end_footprint(c: &Connection, n: u32) -> Option<String> {
+    c.query_row(
+        "SELECT footprint_end_completeness FROM jobs WHERE id=?1",
+        [id(n).as_str()],
+        |row| row.get(0),
+    )
+    .unwrap()
+}
 fn generation(reply: &Reply) -> u64 {
     match reply {
         Reply::Granted {

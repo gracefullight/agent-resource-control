@@ -25,11 +25,13 @@ macro_rules! family {
     ($semantics:ident, $pairs:ident, $family:ident) => {
         #[test]
         fn $semantics() {
+            suite::$family::prewarm();
             let _serial = serialization::serial();
             suite::$family::semantics(suite::direct_read);
         }
         #[test]
         fn $pairs() {
+            suite::$family::prewarm();
             let _serial = serialization::serial();
             suite::$family::pairs(suite::direct_read);
         }
@@ -47,3 +49,21 @@ fn synthetic_swift_stream_forwarding() {
 }
 #[cfg(target_os = "macos")]
 family!(cmake_execution_semantics, cmake_ordered_pairs, cmake);
+
+#[cfg(target_os = "macos")]
+#[test]
+fn go_seed_preparation_does_not_wait_for_the_daemon_fixture_lock() {
+    use std::{sync::mpsc, time::Duration};
+
+    let serial = serialization::serial();
+    let (done, completion) = mpsc::channel();
+    let worker = std::thread::spawn(move || {
+        suite::go::prewarm();
+        done.send(()).unwrap();
+    });
+    let result = completion.recv_timeout(Duration::from_secs(300));
+    // Release even on failure so an accidentally blocked worker can finish.
+    drop(serial);
+    worker.join().unwrap();
+    result.expect("Go seed preparation waited for the daemon fixture lock");
+}

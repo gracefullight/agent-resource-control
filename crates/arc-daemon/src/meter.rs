@@ -14,13 +14,23 @@ pub(crate) fn start() -> Option<MeterWorker> {
     let epoch = std::time::Instant::now();
     // Measurement/identity/thread failures must leave execution and admission
     // working. A missing sampler yields an explicit METER_UNAVAILABLE reply.
-    MeterWorker::start(
-        arc_meter_source(epoch),
-        identity,
-        epoch,
-        SamplingPolicy::default(),
-    )
-    .ok()
+    MeterWorker::start(arc_meter_source(epoch), identity, epoch, policy()).ok()
+}
+
+/// **Test seam.** The daemon's sampling policy: the fixed default, unless
+/// `ARC_METER_ACTIVE_1S` is exactly `1`, which selects the policy's fastest
+/// valid active cadence (1 s, equal to its pressure cadence) so scan-bound
+/// fixtures wait fewer seconds per observed scan. Idle and pressure cadences
+/// are unchanged, so an idle daemon still samples slowly; any other value is
+/// ignored. Read once per process.
+pub(crate) fn policy() -> SamplingPolicy {
+    static POLICY: std::sync::OnceLock<SamplingPolicy> = std::sync::OnceLock::new();
+    *POLICY.get_or_init(|| {
+        std::env::var_os("ARC_METER_ACTIVE_1S")
+            .filter(|value| value == "1")
+            .and_then(|_| SamplingPolicy::new(15_000, 1000, 1000).ok())
+            .unwrap_or_default()
+    })
 }
 
 fn arc_meter_source(epoch: std::time::Instant) -> impl arc_meter::NativeSource {

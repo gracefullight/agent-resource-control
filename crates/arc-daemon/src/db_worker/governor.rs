@@ -23,6 +23,21 @@ async fn call(client: &DbClient, op: Operation, end: Instant) -> Result<Value, &
         _ => Err(arc_ipc::ERROR_DB_BUSY),
     }
 }
+/// [`call`], also returning the footprint reading its own commit made due.
+async fn watched(
+    client: &DbClient,
+    op: Operation,
+    job: &arc_ipc::jobs::JobId,
+    bound: super::footprint::Bound,
+    end: Instant,
+) -> Result<(Value, Option<arc_storage::footprint::Point>), &'static str> {
+    let (value, point) =
+        super::footprint::watched(client, jobs::Operation::Governor(op), job, bound, end).await?;
+    match value {
+        jobs::Value::Governor(r) => Ok((r.map_err(E::code)?, point)),
+        _ => Err(arc_ipc::ERROR_DB_BUSY),
+    }
+}
 fn authenticate(observer: &arc_ipc::jobs::ProcessIdentity, peer: u32) -> Result<(), &'static str> {
     if observer.pid != peer
         || arc_core::process_identity::probe_live(observer)
@@ -59,13 +74,11 @@ async fn handle_inner(
                 request,
                 JobRequest::Enqueue { .. } | JobRequest::Poll { .. }
             ) {
-                let observer = match &request {
-                    JobRequest::Enqueue { observer, .. } | JobRequest::Poll { observer, .. } => {
-                        observer
-                    }
-                    _ => unreachable!(),
+                let Some((job_id, observer)) = super::footprint::traffic_job(&request) else {
+                    unreachable!()
                 };
                 authenticate(observer, peer)?;
+                let _footprint_guard = super::footprint::guard(job_id, end).await?;
                 traffic::recover_for_governor(&client, end).await?;
                 // Match the legacy route's bounded stale-proof recovery.
                 // Native ancestry/owner evidence is refreshed outside SQLite;
@@ -96,11 +109,16 @@ async fn handle_inner(
                             proof,
                         }
                     };
-                    match call(&client, op, end).await {
+                    match watched(&client, op, job_id, Default::default(), end).await {
                         Err(code) if had_proof && code == E::IdentityUnavailable.code() => {
                             continue;
                         }
-                        result => return result,
+                        result => {
+                            let (value, point) = result?;
+                            super::footprint::after_commit(&client, job_id, observer, point, end)
+                                .await;
+                            return Ok(value);
+                        }
                     }
                 }
                 return Err(arc_ipc::ERROR_DB_BUSY);
@@ -126,12 +144,16 @@ async fn handle_inner(
         }
         Input::Job(request @ GovernorJobRequest::Attach { .. }) => {
             let GovernorJobRequest::Attach {
-                observer, child, ..
+                job_id,
+                observer,
+                child,
+                ..
             } = &request
             else {
                 unreachable!()
             };
             authenticate(observer, peer)?;
+            let _footprint_guard = super::footprint::guard(job_id, end).await?;
             if !traffic::is_descendant(child, observer)
                 && !super::job_meter::owned_child(child, observer)
             {
@@ -139,17 +161,28 @@ async fn handle_inner(
             }
             let evidence = repository::ChildEvidence::gather(child)
                 .with_meter_evidence(super::job_meter::evidence(observer, Some(child)));
-            Operation::Attach(request, evidence)
+            return call(&client, Operation::Attach(request, evidence), end).await;
         }
         Input::Job(request @ GovernorJobRequest::Complete { .. }) => {
-            let GovernorJobRequest::Complete { observer, .. } = &request else {
+            let GovernorJobRequest::Complete {
+                job_id, observer, ..
+            } = &request
+            else {
                 unreachable!()
             };
             authenticate(observer, peer)?;
-            Operation::Complete(request)
+            let (job_id, observer) = (job_id.clone(), observer.clone());
+            let _footprint_guard = super::footprint::guard(&job_id, end).await?;
+            // The end reading precedes the completion that ends the release.
+            let bound = super::footprint::before_end(&job_id, &observer, end).await?;
+            let (value, _) =
+                watched(&client, Operation::Complete(request), &job_id, bound, end).await?;
+            return Ok(value);
         }
         Input::Launch(request) => {
             authenticate(request.observer(), peer)?;
+            let (job_id, observer) = (request.job_id().clone(), request.observer().clone());
+            let _footprint_guard = super::footprint::guard(&job_id, end).await?;
             let proof = traffic::lineage_proof(
                 &client,
                 &JobRequest::Poll {
@@ -162,7 +195,7 @@ async fn handle_inner(
             .and_then(|p| p.observe_before_write(request.observer()))
             .map(Box::new);
             let owner = repository::OwnerEvidence::gather(request.observer());
-            Operation::Launch {
+            let operation = Operation::Launch {
                 request,
                 owner,
                 proof,
@@ -171,17 +204,37 @@ async fn handle_inner(
                     client.shared.observation.now()
                         + Duration::from_millis(MAX_LAUNCH_VALID_FOR_MS),
                 ),
+            };
+            let (value, point) =
+                watched(&client, operation, &job_id, Default::default(), end).await?;
+            // The walk ends within the launch lease the reply holds.
+            if let Value::Launch {
+                result: GovernorLaunchResult::Unreserved { .. },
+                fence: Some((until, _)),
+            } = &value
+            {
+                let walk_end = end.min(*until);
+                super::footprint::after_commit(&client, &job_id, &observer, point, walk_end).await;
             }
+            return Ok(value);
         }
         Input::Unspawned { request, result } => {
             authenticate(request.observer(), peer)?;
+            let _footprint_guard = super::footprint::guard(request.job_id(), end).await?;
             match result {
-                GovernorLaunchResult::Unreserved { release_id, .. } => Operation::Unspawned {
-                    id: request.job_id().clone(),
-                    observer: request.observer().clone(),
-                    token: release_id,
-                    owner: repository::OwnerEvidence::gather(request.observer()),
-                },
+                GovernorLaunchResult::Unreserved { release_id, .. } => {
+                    return call(
+                        &client,
+                        Operation::Unspawned {
+                            id: request.job_id().clone(),
+                            observer: request.observer().clone(),
+                            token: release_id,
+                            owner: repository::OwnerEvidence::gather(request.observer()),
+                        },
+                        end,
+                    )
+                    .await;
+                }
                 GovernorLaunchResult::Reserved { .. } => {
                     let GovernorLaunchRequest::Reserved { request } = request else {
                         return Err(arc_ipc::ERROR_INVALID_REQUEST);

@@ -16,6 +16,7 @@ pub use pressure::{
     acknowledge_unspawned_launch, discard_unreleased_launch, enqueue, launch, poll_with_proof,
 };
 mod lifecycle;
+mod recovery_footprint;
 pub(crate) mod start_rate;
 mod store;
 #[cfg(test)]

@@ -2,7 +2,7 @@
 use arc_core::meter::{MeterSnapshot, MAX_SNAPSHOT_BYTES};
 use arc_ipc::{
     client::Failure,
-    meter::usage::{self as wire, GroupBy, UsageQuery},
+    meter::usage::{self as wire, GroupByV2, UsageQueryV2},
 };
 use clap::Subcommand;
 use std::{
@@ -28,18 +28,24 @@ pub(crate) enum MeterCommand {
         #[arg(long, value_name = "JOB_ID", value_parser = parse_job_id,
             required_unless_present = "by", conflicts_with_all = ["by", "from", "to", "bucket"])]
         job: Option<String>,
-        /// Aggregate recorded jobs by vendor, project or period instead of one job
-        #[arg(long, value_enum, requires_all = ["from", "to", "bucket"])]
+        /// Aggregate recorded jobs by vendor, project, period or agent session instead of one job
+        #[arg(long, value_enum)]
         by: Option<By>,
-        /// Range start, inclusive (Unix milliseconds)
-        #[arg(long, value_name = "UNIX_MS", requires = "by")]
+        /// Range start, inclusive (Unix milliseconds); defaults to 24 hours ago
+        #[arg(long, value_name = "UNIX_MS", requires_all = ["by", "to", "bucket"])]
         from: Option<u64>,
-        /// Range end, exclusive (Unix milliseconds)
-        #[arg(long, value_name = "UNIX_MS", requires = "by")]
+        /// Range end, exclusive (Unix milliseconds); defaults to now
+        #[arg(long, value_name = "UNIX_MS", requires_all = ["by", "from", "bucket"])]
         to: Option<u64>,
-        /// Period bucket of the aggregates
-        #[arg(long, value_enum, requires = "by")]
+        /// Period bucket of the aggregates; defaults to hour
+        #[arg(long, value_enum, requires_all = ["by", "from", "to"])]
         bucket: Option<Bucket>,
+        /// With --job, add the allocated footprint (start, Current Footprint, delta)
+        #[arg(long, requires = "job")]
+        footprint: bool,
+        /// With --job, add individually flagged process-tree values when supported
+        #[arg(long, requires = "job")]
+        quality: bool,
         /// Emit one typed summary, preserving unknown values as null
         #[arg(long, required = true)]
         json: bool,
@@ -51,6 +57,8 @@ pub(crate) enum By {
     Vendor,
     Project,
     Period,
+    /// Agent session digest; needs a daemon advertising meter.usage-summary.v2
+    Session,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, clap::ValueEnum)]
@@ -59,20 +67,25 @@ pub(crate) enum Bucket {
     Day,
 }
 
+#[path = "meter/footprint.rs"]
+mod footprint;
 #[path = "meter/job_tree.rs"]
 mod job_tree;
+#[path = "meter/job_tree_quality.rs"]
+mod job_tree_quality;
 #[path = "meter/snapshot_traffic.rs"]
 mod snapshot_traffic;
 #[path = "meter/usage.rs"]
 mod usage;
 
 /// One validated usage-summary query from the command line.
-pub(crate) fn usage_query(by: By, from: u64, to: u64, bucket: Bucket) -> Option<UsageQuery> {
-    let query = UsageQuery {
+pub(crate) fn usage_query(by: By, from: u64, to: u64, bucket: Bucket) -> Option<UsageQueryV2> {
+    let query = UsageQueryV2 {
         by: match by {
-            By::Vendor => GroupBy::Vendor,
-            By::Project => GroupBy::Project,
-            By::Period => GroupBy::Period,
+            By::Vendor => GroupByV2::Vendor,
+            By::Project => GroupByV2::Project,
+            By::Period => GroupByV2::Period,
+            By::Session => GroupByV2::Session,
         },
         from_ms: from,
         to_ms: to,
@@ -87,7 +100,12 @@ pub(crate) fn usage_query(by: By, from: u64, to: u64, bucket: Bucket) -> Option<
 pub(crate) fn dispatch(socket: &Path, command: MeterCommand) -> Result<(), String> {
     match command {
         MeterCommand::Snapshot { .. } => run(socket),
-        MeterCommand::Summary { job: Some(job), .. } => summary(socket, &job),
+        MeterCommand::Summary {
+            job: Some(job),
+            footprint,
+            quality,
+            ..
+        } => summary(socket, &job, footprint, quality),
         MeterCommand::Summary {
             by: Some(by),
             from: Some(from),
@@ -98,6 +116,21 @@ pub(crate) fn dispatch(socket: &Path, command: MeterCommand) -> Result<(), Strin
             Some(query) => usage::run(socket, query),
             None => Err(INVALID_RANGE.to_owned()),
         },
+        MeterCommand::Summary {
+            by: Some(by),
+            from: None,
+            to: None,
+            bucket: None,
+            ..
+        } => {
+            let to = arc_ipc::locality::now_ms().ok_or_else(|| INVALID_RANGE.to_owned())?;
+            let from = to
+                .checked_sub(24 * 60 * 60 * 1000)
+                .ok_or_else(|| INVALID_RANGE.to_owned())?;
+            let query =
+                usage_query(by, from, to, Bucket::Hour).ok_or_else(|| INVALID_RANGE.to_owned())?;
+            usage::run(socket, query)
+        }
         MeterCommand::Summary { .. } => Err(INVALID_RANGE.to_owned()),
     }
 }
@@ -114,7 +147,7 @@ pub(crate) fn invalid() -> std::process::ExitCode {
     eprintln!("INVALID_REQUEST\nUse arcctl meter snapshot --json, arcctl meter summary --job <JOB_ID> --json or arcctl meter summary --by vendor --from 1767225600000 --to 1767312000000 --bucket hour --json.");
     std::process::ExitCode::from(2)
 }
-fn summary(socket: &Path, job: &str) -> Result<(), String> {
+fn summary(socket: &Path, job: &str, footprint: bool, quality: bool) -> Result<(), String> {
     let summary = arc_ipc::meter::summary_until(
         socket,
         super::request_id(),
@@ -124,7 +157,21 @@ fn summary(socket: &Path, job: &str) -> Result<(), String> {
     )
     .map_err(|error| summary_failure(error).to_owned())?;
     let bytes = render_summary(&summary, job).map_err(str::to_owned)?;
-    let bytes = job_tree::extend(socket, job, bytes)?;
+    // Quality comes with its own tree snapshot; otherwise the v1 tree read.
+    let bytes = match quality
+        .then(|| job_tree_quality::extend(socket, job, &bytes))
+        .transpose()?
+        .flatten()
+    {
+        Some(bytes) => bytes,
+        None => job_tree::extend(socket, job, bytes)?,
+    };
+    // Explicitly requested only, so the default job report keeps its bytes.
+    let bytes = if footprint {
+        footprint::extend(socket, job, bytes)?
+    } else {
+        bytes
+    };
     let stdout = io::stdout();
     let mut output = stdout.lock();
     output

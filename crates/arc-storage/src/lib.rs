@@ -3,6 +3,8 @@
 //! Callers own the single writer; no pool, background worker, or cleanup starts
 //! here. Store resource metadata, never credentials or original chat text.
 
+pub mod attribution;
+pub mod footprint;
 pub mod governor;
 mod history;
 pub mod hook_event;

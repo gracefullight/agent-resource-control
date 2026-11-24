@@ -39,8 +39,8 @@ pub(crate) fn record(
         return Ok(());
     }
     let changed = connection.execute(
-        "UPDATE jobs SET vendor=?2,hook_overhead_ms=?3,project_key=?4,session_key=?5 WHERE id=?1",
-        params![job_id.as_str(), vendor, overhead, project, session],
+        "UPDATE jobs SET vendor=?2,hook_overhead_ms=?3,project_key=?4,session_key=?5,vendor_codex=?6 WHERE id=?1",
+        params![job_id.as_str(), vendor.filter(|v| *v != "codex"), overhead, project, session, vendor.filter(|v| *v == "codex")],
     )?;
     if changed == 1 {
         Ok(())
@@ -63,7 +63,7 @@ mod tests {
         let connection = Connection::open_in_memory().unwrap();
         connection
             .execute_batch(
-                "CREATE TABLE jobs(id TEXT PRIMARY KEY, vendor TEXT, hook_overhead_ms INTEGER,
+                "CREATE TABLE jobs(id TEXT PRIMARY KEY, vendor TEXT, vendor_codex TEXT, hook_overhead_ms INTEGER,
                  project_key TEXT, session_key TEXT);",
             )
             .unwrap();
@@ -95,6 +95,24 @@ mod tests {
 
     fn id(text: &str) -> JobId {
         JobId::try_from(text.to_owned()).unwrap()
+    }
+
+    #[test]
+    fn codex_uses_only_the_additive_column() {
+        let connection = database();
+        let usage = UsageFields {
+            vendor: Some(Vendor::Codex),
+            ..UsageFields::default()
+        };
+        record(&connection, &id(A), Some(&usage), None).unwrap();
+        let values: (Option<String>, Option<String>) = connection
+            .query_row(
+                "SELECT vendor,vendor_codex FROM jobs WHERE id=?1",
+                [A],
+                |r| Ok((r.get(0)?, r.get(1)?)),
+            )
+            .unwrap();
+        assert_eq!(values, (None, Some("codex".into())));
     }
 
     #[test]

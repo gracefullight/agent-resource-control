@@ -17,6 +17,8 @@ pub(crate) mod jobs;
 mod meter_tests;
 #[path = "db_worker/observation.rs"]
 mod observation;
+#[path = "db_worker/outstanding.rs"]
+mod outstanding;
 #[path = "db_worker/policy.rs"]
 pub(crate) mod policy;
 #[path = "reaper/store.rs"]
@@ -133,6 +135,7 @@ struct Shared {
     active: Mutex<Option<execution::Active>>,
     meter: Mutex<MeterActivity>,
     observation: observation::Observations,
+    outstanding: Arc<outstanding::Tracker>,
 }
 
 struct MeterActivity {
@@ -152,7 +155,7 @@ struct Job {
     reply: oneshot::Sender<Result<DbValue, DbError>>,
     queued: Option<GaugeGuard>,
     queue_slot: Option<OwnedSemaphorePermit>,
-    _outstanding: GaugeGuard,
+    _outstanding: Option<outstanding::Guard>,
 }
 
 impl DbWorker {
@@ -187,6 +190,7 @@ impl DbWorker {
             stopping: AtomicBool::new(false),
             active: Mutex::new(None),
             observation: observation::Observations::default(),
+            outstanding: Arc::new(outstanding::Tracker::default()),
             meter: Mutex::new(MeterActivity {
                 active: crate::meter::active_jobs(&connection),
                 sink: None,
@@ -206,7 +210,13 @@ impl DbWorker {
         )?;
         let interrupt = connection.get_interrupt_handle();
         let capacity = config.queue_capacity.get();
-        let (sender, receiver) = mpsc::channel(capacity);
+        // Reserve one additional FIFO position for the daemon's retention
+        // schedule. Client admission remains bounded by queue_slots.
+        let (sender, receiver) = mpsc::channel(
+            capacity
+                .saturating_add(1)
+                .min(tokio::sync::Semaphore::MAX_PERMITS),
+        );
         let worker_shared = Arc::clone(&shared);
         let worker_metrics = Arc::clone(&metrics);
         let thread = thread::Builder::new()
@@ -327,6 +337,23 @@ impl DbClient {
         deadline: Instant,
         operation: Option<jobs::Operation>,
     ) -> Result<DbTicket, DbError> {
+        self.admit_inner(deadline, operation, false)
+    }
+
+    fn admit_retention(
+        &self,
+        deadline: Instant,
+        operation: jobs::Operation,
+    ) -> Result<DbTicket, DbError> {
+        self.admit_inner(deadline, Some(operation), true)
+    }
+
+    fn admit_inner(
+        &self,
+        deadline: Instant,
+        operation: Option<jobs::Operation>,
+        internal: bool,
+    ) -> Result<DbTicket, DbError> {
         if self.shared.stopping.load(Ordering::Acquire) {
             return Err(DbError::Stopping);
         }
@@ -335,9 +362,15 @@ impl DbClient {
         }
         // Keep queue ownership through dequeue accounting: mpsc releases its
         // slot before the received job's queue gauge can be dropped.
-        let queue_slot = Arc::clone(&self.queue_slots)
-            .try_acquire_owned()
-            .map_err(|_| DbError::Busy)?;
+        let queue_slot = if internal {
+            None
+        } else {
+            Some(
+                Arc::clone(&self.queue_slots)
+                    .try_acquire_owned()
+                    .map_err(|_| DbError::Busy)?,
+            )
+        };
         if self.shared.stopping.load(Ordering::Acquire) {
             return Err(DbError::Stopping);
         }
@@ -347,14 +380,17 @@ impl DbClient {
         })?;
         let (reply, receiver) = oneshot::channel();
         let cancelled = Arc::new(AtomicBool::new(false));
+        // Queue and outstanding gauges count client requests against their
+        // configured slots. Maintenance uses the extra position and is still
+        // counted by DbExecuting while its SQL runs.
         permit.send(Job {
             operation,
             deadline,
             cancelled: Arc::clone(&cancelled),
             reply,
-            queued: Some(self.metrics.enter(Gauge::DbQueued, 1)),
-            queue_slot: Some(queue_slot),
-            _outstanding: self.metrics.enter(Gauge::DbOutstanding, 1),
+            queued: (!internal).then(|| self.metrics.enter(Gauge::DbQueued, 1)),
+            queue_slot,
+            _outstanding: (!internal).then(|| self.shared.outstanding.enter(&self.metrics)),
         });
         self.thread.unpark();
         Ok(DbTicket {

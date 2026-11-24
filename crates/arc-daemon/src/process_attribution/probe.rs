@@ -21,6 +21,7 @@ use std::{
 
 const MAX_CLIENTS: usize = 16;
 const ENV_PATH: &str = "ARC_ATTRIBUTION_SELF_OBSERVE";
+const SCAN_BARRIER: &str = "ARC_ATTRIBUTION_AFTER_BASELINE_BARRIER";
 
 struct Client {
     identity: ProcessIdentity,
@@ -30,6 +31,7 @@ struct Client {
 pub(super) struct Probes {
     listener: Option<UnixListener>,
     socket: Option<(PathBuf, u64, u64)>,
+    scan_barrier: Option<PathBuf>,
     clients: Vec<Client>,
 }
 
@@ -38,6 +40,7 @@ impl Probes {
         let mut result = Self {
             listener: None,
             socket: None,
+            scan_barrier: None,
             clients: Vec::new(),
         };
         let Some(path) = std::env::var_os(ENV_PATH).map(PathBuf::from) else {
@@ -66,9 +69,21 @@ impl Probes {
             let _ = fs::remove_file(&path);
             return result;
         }
+        // An isolated self-observation fixture may hold scans after the
+        // initial baseline until its new processes have connected. It changes
+        // no readings and requires the owner-only observer socket.
+        result.scan_barrier = std::env::var_os(SCAN_BARRIER)
+            .map(PathBuf::from)
+            .filter(|barrier| barrier.is_absolute() && barrier.parent() == Some(parent));
         result.socket = Some((path, metadata.dev(), metadata.ino()));
         result.listener = Some(listener);
         result
+    }
+
+    pub(super) fn scan_held(&self) -> bool {
+        self.scan_barrier
+            .as_ref()
+            .is_some_and(|path| path.try_exists().unwrap_or(true))
     }
 
     /// Accept before either a successful or failed first baseline is reported.

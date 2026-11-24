@@ -3,6 +3,13 @@
 //! The installed hook, fed a Claude Code PreToolUse payload derived from the
 //! versioned vendor contract, stands for the vendor; the command it returns
 //! is the one executed. No live vendor session is run or claimed.
+#[path = "agent_test_journey/codex_journey.rs"]
+mod codex_journey;
+#[path = "agent_test_journey/guard.rs"]
+mod guard;
+#[allow(dead_code)]
+#[path = "hook_event_identity/record.rs"]
+mod hook_record;
 #[path = "support/journey.rs"]
 mod journey;
 #[path = "agent_test_journey/ledger.rs"]
@@ -455,4 +462,22 @@ fn at_trf_05_nested_hook_test_shares_the_root_test_permit() {
     drop(db);
     daemon.stop(libc::SIGTERM);
     f.report();
+}
+
+#[test]
+fn at_trf_01_codex_claude_installed_hooks_share_one_build_slot() {
+    let _serial = support::serial();
+    codex_journey::run();
+}
+
+#[test]
+fn journey_run_drop_kills_a_separately_grouped_target_that_survives_eof_and_sigterm() {
+    let _serial = support::serial();
+    guard::run();
+}
+
+#[test]
+fn journey_watchdog_kills_a_separately_grouped_target_before_reaping_wrapper() {
+    let _serial = support::serial();
+    guard::timeout();
 }

@@ -150,10 +150,13 @@ fn shared_hook_dispatch_and_exec_preserve_literal_child_behavior() {
         "arc-hook-semantics-worker-{}",
         arc_core::process_identity::random_job_id().unwrap()
     ));
+    let temporary_home = output_path.with_extension("home");
+    std::fs::create_dir(&temporary_home).unwrap();
     let mut command = Command::new(env::current_exe().unwrap());
     command
         .args(["--exact", "vendor_event_semantics_worker", "--nocapture"])
         .env_clear()
+        .env("HOME", &temporary_home)
         .stdout(Stdio::from(std::fs::File::create(&output_path).unwrap()));
     if let Some(profile) = env::var_os("LLVM_PROFILE_FILE") {
         command.env("LLVM_PROFILE_FILE", profile);
@@ -174,6 +177,7 @@ fn shared_hook_dispatch_and_exec_preserve_literal_child_behavior() {
         "fixture worker did not execute: {output}"
     );
     std::fs::remove_file(output_path).unwrap();
+    std::fs::remove_dir_all(temporary_home).unwrap();
 }
 
 #[test]
@@ -315,6 +319,10 @@ fn vendor_event_semantics_worker() {
         |program: &OsStr, args: &[&str], lineage: Option<&OsStr>, input: &[u8]| -> Output {
             let mut cmd = Command::new(program);
             cmd.env_clear()
+                .env("HOME", &fixture.0)
+                .env("XDG_CONFIG_HOME", fixture.0.join("xdg"))
+                .env("GIT_CONFIG_GLOBAL", fixture.0.join("gitconfig"))
+                .env("GIT_CONFIG_NOSYSTEM", "1")
                 .args(args)
                 .current_dir(&fixture.0)
                 .env("PATH", &fixture.0)
@@ -348,6 +356,10 @@ fn vendor_event_semantics_worker() {
             "cursor",
             include_bytes!("fixtures/agent_hooks/cursor-pre-tool-use.json").as_slice(),
         ),
+        (
+            "codex",
+            include_bytes!("fixtures/agent_hooks/codex-pre-tool-use.json").as_slice(),
+        ),
     ] {
         let output = execute(cli, &["hooks", "run", vendor], None, event);
         assert_eq!(output.status.code(), Some(0));
@@ -378,6 +390,10 @@ fn vendor_event_semantics_worker() {
             hooks::Vendor::Cursor,
             include_str!("fixtures/agent_hooks/cursor-pre-tool-use.json"),
         ),
+        (
+            hooks::Vendor::Codex,
+            include_str!("fixtures/agent_hooks/codex-pre-tool-use.json"),
+        ),
     ] {
         for literal in ["cargo build", "bun run build"] {
             let mut event: serde_json::Value = serde_json::from_str(fixture_event).unwrap();
@@ -385,6 +401,7 @@ fn vendor_event_semantics_worker() {
             event["tool_input"]["command"] = serde_json::json!(literal);
             let vendor_name = match vendor {
                 hooks::Vendor::Claude => "claude",
+                hooks::Vendor::Codex => "codex",
                 hooks::Vendor::Cursor => "cursor",
             };
             let hook = execute(
@@ -395,8 +412,16 @@ fn vendor_event_semantics_worker() {
             );
             assert_eq!(hook.status.code(), Some(0));
             let response: serde_json::Value = serde_json::from_slice(&hook.stdout).unwrap();
+            if matches!(vendor, hooks::Vendor::Codex) {
+                assert_eq!(
+                    response["hookSpecificOutput"]["permissionDecision"],
+                    "allow"
+                );
+            }
             let input = match vendor {
-                hooks::Vendor::Claude => &response["hookSpecificOutput"]["updatedInput"],
+                hooks::Vendor::Claude | hooks::Vendor::Codex => {
+                    &response["hookSpecificOutput"]["updatedInput"]
+                }
                 hooks::Vendor::Cursor => &response["updated_input"],
             };
             let rewritten = input["command"].as_str().unwrap();
@@ -445,7 +470,7 @@ fn vendor_event_semantics_worker() {
     }
     assert_eq!(
         fs::read_to_string(marker).unwrap().lines().count(),
-        32 * shells.len()
+        48 * shells.len()
     );
     println!("ARC_VENDOR_SEMANTICS_WORKER_COMPLETE");
 }

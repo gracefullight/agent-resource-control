@@ -8,16 +8,20 @@
 //! left older raw rows is followed by another, up to a bound, yielding to
 //! request handlers between passes. Dropping the handle stops it.
 //!
-//! The schedule is low priority. The first pass starts [`FIRST_DELAY`] after
-//! startup, and a pass runs only while the writer has no outstanding request:
-//! a busy writer postpones it by [`BUSY_RETRY`]. It never waits for a queue
-//! slot, and a full or stopping writer skips the pass without counting a
-//! rejected request, so it never takes a client's slot or changes the
-//! accounting of client requests.
+//! The first pass starts [`FIRST_DELAY`] after startup. One reserved FIFO
+//! position lets bounded passes progress under sustained client load without
+//! taking a client's queue slot. Client requests ahead of a pass run first.
+//!
+//! The final runtime report counts passes and raw rows from schedule runs
+//! during which client `DbOutstanding` never reached zero. The worker tracks
+//! every zero transition, including any between two passes. The largest such
+//! run's raw-row count makes one uninterrupted multi-pass run observable.
 use super::{jobs, DbClient, DbValue};
-use crate::runtime_metrics::Gauge;
 use std::{
-    sync::atomic::Ordering,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc,
+    },
     time::{Duration, Instant},
 };
 
@@ -31,6 +35,31 @@ const MAX_METER_EXPIRY_BATCHES: usize = 8;
 
 pub(crate) struct Retention {
     task: tokio::task::JoinHandle<()>,
+    stats: Arc<Stats>,
+}
+
+/// Lifetime counts. "Loaded" covers whole runs with no client-idle gap.
+#[derive(Default)]
+struct Stats {
+    passes: AtomicU64,
+    loaded_passes: AtomicU64,
+    raw_rolled_up: AtomicU64,
+    loaded_raw_rolled_up: AtomicU64,
+    max_loaded_run_raw_rolled_up: AtomicU64,
+}
+
+impl Retention {
+    /// Fixed keys and integer values for the final runtime report.
+    pub(crate) fn json(&self) -> serde_json::Value {
+        let read = |value: &AtomicU64| value.load(Ordering::Acquire);
+        serde_json::json!({
+            "passes": read(&self.stats.passes),
+            "loaded_passes": read(&self.stats.loaded_passes),
+            "raw_rolled_up": read(&self.stats.raw_rolled_up),
+            "loaded_raw_rolled_up": read(&self.stats.loaded_raw_rolled_up),
+            "max_loaded_run_raw_rolled_up": read(&self.stats.max_loaded_run_raw_rolled_up),
+        })
+    }
 }
 
 impl Drop for Retention {
@@ -41,53 +70,69 @@ impl Drop for Retention {
 
 pub(crate) fn start(client: &DbClient) -> Option<Retention> {
     let client = client.clone();
+    let stats = Arc::new(Stats::default());
+    let task_stats = Arc::clone(&stats);
     let task = tokio::spawn(async move {
         let mut delay = FIRST_DELAY;
         loop {
             tokio::time::sleep(delay).await;
-            delay = if idle(&client) {
-                run(&client).await;
-                INTERVAL
-            } else {
+            delay = if run(&client, &task_stats).await {
                 BUSY_RETRY
+            } else {
+                INTERVAL
             };
         }
     });
-    Some(Retention { task })
+    Some(Retention { task, stats })
 }
 
-/// No client request is queued or executing on the writer.
-fn idle(client: &DbClient) -> bool {
-    client
-        .metrics
-        .snapshot()
-        .gauge(Gauge::DbOutstanding)
-        .current
-        == 0
-}
-
-async fn run(client: &DbClient) {
-    for pass in 0..MAX_PASSES {
-        // Later passes follow this task's own just-answered request.
-        if client.shared.stopping.load(Ordering::Acquire) || (pass == 0 && !idle(client)) {
-            return;
+async fn run(client: &DbClient, stats: &Stats) -> bool {
+    let start = client.shared.outstanding.snapshot();
+    let mut run_passes = 0_u64;
+    let mut run_raw = 0_u64;
+    let mut retry = true;
+    for _ in 0..MAX_PASSES {
+        if client.shared.stopping.load(Ordering::Acquire) {
+            retry = false;
+            break;
         }
         let operation = jobs::Operation::Retention(Operation::Run {
             now_ms: jobs::now(),
         });
-        // `admit` directly: a skipped low-priority pass is not a rejection.
-        let Ok(ticket) = client.admit(Instant::now() + PASS_DEADLINE, Some(operation)) else {
-            return;
+        let Ok(ticket) = client.admit_retention(Instant::now() + PASS_DEADLINE, operation) else {
+            break;
         };
-        match ticket.receive_value().await {
+        let value = ticket.receive_value().await;
+        stats.passes.fetch_add(1, Ordering::AcqRel);
+        run_passes += 1;
+        match value {
             Ok(DbValue::Lifecycle(value)) => match *value {
-                jobs::Value::Retention(Value::Run(Ok(report))) if report.more => {}
-                _ => return,
+                jobs::Value::Retention(Value::Run(Ok(report))) => {
+                    stats
+                        .raw_rolled_up
+                        .fetch_add(report.raw_rolled_up, Ordering::AcqRel);
+                    run_raw += report.raw_rolled_up;
+                    if !report.more {
+                        retry = false;
+                        break;
+                    }
+                }
+                _ => break,
             },
-            _ => return,
+            _ => break,
         }
         tokio::task::yield_now().await;
     }
+    if start.continuous_until(client.shared.outstanding.snapshot()) {
+        stats.loaded_passes.fetch_add(run_passes, Ordering::AcqRel);
+        stats
+            .loaded_raw_rolled_up
+            .fetch_add(run_raw, Ordering::AcqRel);
+        stats
+            .max_loaded_run_raw_rolled_up
+            .fetch_max(run_raw, Ordering::AcqRel);
+    }
+    retry
 }
 
 pub(crate) enum Operation {

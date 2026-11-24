@@ -139,6 +139,67 @@ pub fn wall_shift(f: &Fixture) -> PathBuf {
     f.root.join("wall-shift")
 }
 
+fn scan_barrier(f: &Fixture) -> PathBuf {
+    f.root.join("attribution-after-baseline.hold")
+}
+
+/// Hold subsequent real scans after the initial native baseline.
+pub fn hold_after_baseline(f: &Fixture) {
+    fs::write(scan_barrier(f), b"hold").unwrap();
+}
+
+pub fn store_with_held_baseline(f: &Fixture) -> (arc_storage::attribution::IntervalStore, i64) {
+    let store = arc_storage::attribution::IntervalStore::beside(&f.database).unwrap();
+    let mut baseline = None;
+    journey::eventually("the initial native attribution baseline", || {
+        if !store.path().is_file() {
+            return false;
+        }
+        baseline = rusqlite::Connection::open_with_flags(
+            store.path(),
+            rusqlite::OpenFlags::SQLITE_OPEN_READ_ONLY,
+        )
+        .ok()
+        .and_then(|db| {
+            db.query_row("SELECT seq FROM attribution_frontier", [], |row| {
+                row.get::<_, i64>(0)
+            })
+            .ok()
+        });
+        baseline.is_some()
+    });
+    (store, baseline.unwrap())
+}
+
+pub fn release_scan(
+    f: &Fixture,
+    store: &arc_storage::attribution::IntervalStore,
+    requests: &[PathBuf],
+    respawn: &Path,
+    baseline_seq: i64,
+) {
+    let respawn_observation = observation(respawn, "respawn-1");
+    journey::eventually("every first-sighting observer connected", || {
+        requests
+            .iter()
+            .chain([&respawn_observation])
+            .all(|path| path.is_file())
+    });
+    let frontiers: (i64, i64) = crate::summary::store_db(store)
+        .query_row(
+            "SELECT count(*), max(seq) FROM attribution_frontier",
+            [],
+            |row| Ok((row.get(0)?, row.get(1)?)),
+        )
+        .unwrap();
+    assert_eq!(
+        frontiers,
+        (1, baseline_seq),
+        "only the initial native baseline passed the barrier"
+    );
+    fs::remove_file(scan_barrier(f)).unwrap();
+}
+
 /// Start the production daemon with an opt-in self-observer socket, the
 /// opt-in wall-clock shift of its attribution scanner ([`wall_shift`]) and
 /// the policy's fastest valid active cadence (`ARC_METER_ACTIVE_1S`).
@@ -149,6 +210,10 @@ pub fn daemon(f: &Fixture, socket: &str) -> crate::runtime::OwnedChild {
         .env("ARC_ATTRIBUTION_WALL_SHIFT_FILE", wall_shift(f))
         // The policy's 1 s active cadence: half the wait per observed scan.
         .env("ARC_METER_ACTIVE_1S", "1");
+    let scan_barrier = scan_barrier(f);
+    if scan_barrier.exists() {
+        command.env("ARC_ATTRIBUTION_AFTER_BASELINE_BARRIER", scan_barrier);
+    }
     let mut daemon = crate::runtime::OwnedChild::new(command.spawn().unwrap());
     f.wait_for(&mut daemon, "arc-daemon ready.");
     journey::eventually("self-observer socket ready", || {

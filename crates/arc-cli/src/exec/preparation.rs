@@ -4,12 +4,15 @@ use arc_ipc::jobs::{JobId, Outcome, Phase, ProcessIdentity, StartRequest, StartR
 use std::{
     fmt,
     io::{self, Write},
-    os::unix::process::ExitStatusExt,
+    os::{fd::AsRawFd, unix::process::ExitStatusExt},
     path::Path,
     process::{ExitCode, ExitStatus},
     sync::mpsc::{self, Sender},
     time::{Duration, Instant},
 };
+
+mod notice_marker;
+use notice_marker::{resolve_notice, NoticeMarker, NoticeWait};
 
 pub(super) fn deadline(now: Instant) -> Instant {
     now + Duration::from_millis(1800)
@@ -290,13 +293,20 @@ fn write_notice_controlled(
 fn write_notice_with_wait(
     message: &str,
     timeout_seconds: libc::c_uint,
-    wait: impl FnOnce(libc::pid_t) -> NoticeWrite,
+    wait: impl FnOnce(libc::pid_t) -> NoticeWait,
 ) -> NoticeWrite {
     // A duplicate descriptor shares O_NONBLOCK with the caller and siblings.
     // A short-lived writer instead performs one blocking write; it is reaped
     // before returning, so a delayed notice cannot follow the target spawn.
     // The helper also owns a timeout in case its parent is killed mid-write.
     unsafe {
+        // Do not let a marker pipe occupy a closed stderr descriptor.
+        if libc::fcntl(libc::STDERR_FILENO, libc::F_GETFD) < 0
+            && io::Error::last_os_error().raw_os_error() == Some(libc::EBADF)
+        {
+            return NoticeWrite::NotWritten;
+        }
+        let marker = NoticeMarker::new();
         let mut all = std::mem::zeroed();
         let mut original = std::mem::zeroed();
         libc::sigfillset(&mut all);
@@ -320,6 +330,13 @@ fn write_notice_with_wait(
                 libc::_exit(1);
             }
             libc::alarm(timeout_seconds);
+            if let Some(marker) = &marker {
+                libc::close(marker.read.as_raw_fd());
+                if libc::write(marker.write.as_raw_fd(), b"!".as_ptr().cast(), 1) != 1 {
+                    libc::_exit(1);
+                }
+                libc::close(marker.write.as_raw_fd());
+            }
             let written = libc::write(libc::STDERR_FILENO, message.as_ptr().cast(), message.len());
             libc::_exit(if written == message.len() as isize {
                 0
@@ -333,7 +350,9 @@ fn write_notice_with_wait(
         if pid < 0 {
             return NoticeWrite::NotWritten;
         }
-        wait(pid)
+        let result = wait(pid);
+        let intent = marker.as_ref().and_then(NoticeMarker::intent_seen);
+        resolve_notice(result, intent)
     }
 }
 
@@ -360,14 +379,22 @@ fn wait_notice_with(
     mut wait: impl FnMut(libc::pid_t, &mut i32, i32) -> io::Result<i32>,
     mut kill: impl FnMut(libc::pid_t),
     mut pause: impl FnMut(),
-) -> NoticeWrite {
+) -> NoticeWait {
     let deadline = now() + Duration::from_millis(50);
     let mut status = 0;
     loop {
         match wait(pid, &mut status, libc::WNOHANG) {
-            Ok(result) if result == pid => return notice_writer_exit(status),
+            Ok(result) if result == pid => {
+                return NoticeWait {
+                    outcome: notice_writer_exit(status),
+                    reaped: true,
+                }
+            }
             Err(error) if error.raw_os_error() != Some(libc::EINTR) => {
-                return NoticeWrite::Uncertain
+                return NoticeWait {
+                    outcome: NoticeWrite::Uncertain,
+                    reaped: false,
+                }
             }
             _ => (),
         }
@@ -375,9 +402,17 @@ fn wait_notice_with(
             kill(pid);
             loop {
                 match wait(pid, &mut status, 0) {
-                    Ok(result) if result == pid => return notice_writer_exit(status),
+                    Ok(result) if result == pid => {
+                        return NoticeWait {
+                            outcome: notice_writer_exit(status),
+                            reaped: true,
+                        }
+                    }
                     Err(error) if error.raw_os_error() != Some(libc::EINTR) => {
-                        return NoticeWrite::Uncertain
+                        return NoticeWait {
+                            outcome: NoticeWrite::Uncertain,
+                            reaped: false,
+                        }
                     }
                     _ => (),
                 }

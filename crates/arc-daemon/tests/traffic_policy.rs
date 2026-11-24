@@ -4,6 +4,8 @@
 //! MTR-014, NFR-023). Correctness never comes from elapsed time.
 #[path = "traffic_policy/audit.rs"]
 mod audit;
+#[path = "traffic_policy/coalescing.rs"]
+mod coalescing;
 #[path = "traffic_policy/fixture.rs"]
 mod fixture;
 #[path = "traffic_policy/history.rs"]
@@ -111,4 +113,16 @@ fn pol_004_every_policy_change_writes_before_and_after_audit() {
 fn mtr_014_raw_samples_roll_up_then_delete_and_rows_stay_bounded() {
     let _serial = support::serial();
     retention::raw_samples_roll_up_then_delete_and_rows_stay_bounded();
+}
+
+#[test]
+fn r_014_slow_consumer_coalesces_latest_and_retains_audit() {
+    let _serial = support::serial();
+    coalescing::slow_consumer_coalesces_latest_and_retains_audit();
+}
+
+#[test]
+fn r_014_scheduled_rollups_progress_during_sustained_load() {
+    let _serial = support::serial();
+    retention::scheduled_rollups_progress_during_sustained_load();
 }

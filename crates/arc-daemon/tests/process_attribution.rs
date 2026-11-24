@@ -1,6 +1,8 @@
 //! Native process attribution through a real daemon, built `arcctl exec`,
 //! the installed hook with a recorded Claude Code payload and offline fixtures.
 //! Every wait is on observed state; the 60 s deadlines are watchdogs only.
+#[path = "process_attribution/codex.rs"]
+mod codex;
 #[path = "process_attribution/first_baseline.rs"]
 mod first_baseline;
 #[path = "process_attribution/fixture.rs"]
@@ -29,7 +31,6 @@ mod tree;
 
 use arc_core::process_identity::{probe_live, IdentityStatus};
 use arc_ipc::meter::quality::Availability;
-use arc_storage::attribution::IntervalStore;
 use journey::Sandbox;
 use runtime::{child_watchdog, Fixture};
 use std::{path::Path, process::Stdio, time::Duration};
@@ -79,13 +80,14 @@ fn native_process_attribution_separates_proven_estimated_and_unattributed() {
     let reuse_deadline = std::time::Instant::now() + Duration::from_secs(35);
     let started_ms = now_ms();
     let f = Fixture::new();
-    let s = Sandbox::new(&f);
+    let s = Sandbox::provisioned(&f);
     let project = s.project("project");
     let programs = fixture::compile(&f, &s);
+    fixture::hold_after_baseline(&f);
     let mut daemon = fixture::daemon(&f, "self.sock");
     let mut db = journey::database(&f);
     db.busy_timeout(Duration::from_secs(60)).unwrap();
-    let store = IntervalStore::beside(&f.database).unwrap();
+    let (store, baseline_seq) = fixture::store_with_held_baseline(&f);
     let mut lifeline = fixture::Lifeline::new(&f);
     // (d) first: its PID cycle runs while the other phases proceed.
     let respawn_dir = tree::directory(&f, "respawn");
@@ -153,49 +155,42 @@ fn native_process_attribution_separates_proven_estimated_and_unattributed() {
         &outside_args,
     );
     let outside = identity(tree::published(&outside_dir, "outside.pid"));
+    // (e) An owned Codex agent outside ARC starts a burner.
+    let codex = codex::start(&f, &s, &project, &programs, &lifeline);
     let mut reaped: Vec<_> = [&root, &child, &agent, &agent_burner, &outside, &respawner]
         .into_iter()
-        .chain([&first_life])
+        .chain([&first_life, &codex.agent, &codex.burner])
         .map(|id| tree::Reaped(id.clone()))
         .collect();
 
-    let fixtures = [&root, &child, &agent_burner, &outside];
+    let fixtures = [&root, &child, &agent_burner, &outside, &codex.burner];
     let requests = [
         fixture::observation(&managed_dir, "root"),
         fixture::observation(&managed_dir, "child"),
         fixture::observation(&agent_dir, "agent-burner"),
         fixture::observation(&outside_dir, "outside"),
+        fixture::observation(&codex.dir, "agent-burner"),
     ];
+    fixture::release_scan(&f, &store, &requests, &respawn_dir, baseline_seq);
     // At least two counted scans of each, observed while the job is RUNNING.
     let observed: Vec<_> = requests.iter().map(|r| fixture::scanned(r, 2)).collect();
     let state: String = db
         .query_row("SELECT state FROM jobs WHERE id=?1", [&job], |r| r.get(0))
         .unwrap();
     assert_eq!(state, "RUNNING", "the active cadence held throughout");
-    assert_eq!(
-        observed[0].only(),
-        ("proven", "claude-code"),
-        "managed root"
-    );
-    assert_eq!(
-        observed[1].only(),
-        ("proven", "claude-code"),
-        "managed descendant"
-    );
-    assert_eq!(
-        observed[2].only(),
-        ("estimated", "claude-code"),
-        "agent descendant"
-    );
-    assert_eq!(
-        observed[3].only(),
-        ("unattributed", ""),
-        "unknown outside process"
-    );
-    for (probe, role) in observed
-        .iter()
-        .zip(["root", "child", "agent-burner", "outside"])
-    {
+    let expected = [
+        (("proven", "claude-code"), "root", "managed root"),
+        (("proven", "claude-code"), "child", "managed descendant"),
+        (
+            ("estimated", "claude-code"),
+            "agent-burner",
+            "agent descendant",
+        ),
+        (("unattributed", ""), "outside", "unknown outside process"),
+        (("estimated", "codex"), "codex-burner", "Codex descendant"),
+    ];
+    for (probe, (class, role, label)) in observed.iter().zip(expected) {
+        assert_eq!(probe.only(), class, "{label}");
         assert_counted_only_after_first_sighting(probe, role);
     }
 
@@ -256,10 +251,12 @@ fn native_process_attribution_separates_proven_estimated_and_unattributed() {
     assert_eq!(vendors(&run.proven), ["claude-code"]);
     let run_proven = group(&run.proven, "claude-code");
     assert!(run_proven + ROUNDING >= proven(&probes[0]) + proven(&probes[1]));
+    // Ambient agent descendants may add Estimated groups of any agent vendor.
     assert!(vendors(&run.estimated)
         .iter()
-        .all(|v| v == "claude-code" || v == "cursor"));
+        .all(|v| matches!(v.as_str(), "claude-code" | "cursor" | "codex")));
     assert!(group(&run.estimated, "claude-code") + ROUNDING >= probes[2].total());
+    assert!(group(&run.estimated, "codex") + ROUNDING >= probes[4].total());
     assert!(run.unattributed.value.unwrap() + ROUNDING >= probes[3].total());
     assert_own_ratio(&run);
     assert_matches_store(&run, &store);
@@ -432,14 +429,14 @@ fn native_process_attribution_separates_proven_estimated_and_unattributed() {
     });
     let waited = waited + waited_cpu(&f, &s, &project, &second_job);
 
-    for directory in [&agent_dir, &outside_dir, &respawn_dir] {
+    for directory in [&agent_dir, &outside_dir, &respawn_dir, &codex.dir] {
         tree::release(directory);
     }
     journey::eventually("detached fixtures exited", || {
         [&agent, &agent_burner, &outside, &respawner, &first_life]
             .iter()
             .copied()
-            .chain(std::iter::once(&second_life))
+            .chain([&second_life, &codex.agent, &codex.burner])
             .all(|id| probe_live(id) != IdentityStatus::VerifiedMatch)
     });
     let finals: Vec<_> = requests
@@ -451,6 +448,7 @@ fn native_process_attribution_separates_proven_estimated_and_unattributed() {
     }
     assert_eq!(finals[2].only(), ("estimated", "claude-code"));
     assert_eq!(finals[3].only(), ("unattributed", ""));
+    assert_eq!(finals[4].only(), ("estimated", "codex"));
 
     // The whole run including the gap: values are lower bounds of every
     // measured interval, the ratio is unavailable, and Proven is at most
@@ -477,6 +475,7 @@ fn native_process_attribution_separates_proven_estimated_and_unattributed() {
         "{whole_proven} > waited {waited} plus unwaited child {child_proven}"
     );
     assert!(group(&whole.estimated, "claude-code") + ROUNDING >= finals[2].total());
+    assert!(group(&whole.estimated, "codex") + ROUNDING >= finals[4].total());
     assert!(whole.unattributed.value.unwrap() + ROUNDING >= finals[3].total());
     assert_matches_store(&whole, &store);
 

@@ -91,6 +91,22 @@ struct ClaudeSpecific {
 }
 
 #[derive(serde::Serialize)]
+struct CodexOutput {
+    #[serde(rename = "hookSpecificOutput")]
+    specific: CodexSpecific,
+}
+
+#[derive(serde::Serialize)]
+struct CodexSpecific {
+    #[serde(rename = "hookEventName")]
+    event: &'static str,
+    #[serde(rename = "permissionDecision")]
+    decision: &'static str,
+    #[serde(rename = "updatedInput")]
+    input: BTreeMap<String, Box<RawValue>>,
+}
+
+#[derive(serde::Serialize)]
 struct CursorOutput {
     updated_input: BTreeMap<String, Box<RawValue>>,
 }
@@ -101,7 +117,9 @@ pub(super) fn wire_response(vendor: Vendor, bytes: &[u8], response: &Value) -> O
     let mut input: BTreeMap<String, Box<RawValue>> =
         serde_json::from_str(raw.tool_input.get()).ok()?;
     let command = match vendor {
-        Vendor::Claude => response["hookSpecificOutput"]["updatedInput"]["command"].as_str()?,
+        Vendor::Claude | Vendor::Codex => {
+            response["hookSpecificOutput"]["updatedInput"]["command"].as_str()?
+        }
         Vendor::Cursor => response["updated_input"]["command"].as_str()?,
     };
     input.insert(
@@ -112,6 +130,14 @@ pub(super) fn wire_response(vendor: Vendor, bytes: &[u8], response: &Value) -> O
         Vendor::Claude => serde_json::to_vec(&ClaudeOutput {
             specific: ClaudeSpecific {
                 event: "PreToolUse",
+                input,
+            },
+        })
+        .ok(),
+        Vendor::Codex => serde_json::to_vec(&CodexOutput {
+            specific: CodexSpecific {
+                event: "PreToolUse",
+                decision: "allow",
                 input,
             },
         })

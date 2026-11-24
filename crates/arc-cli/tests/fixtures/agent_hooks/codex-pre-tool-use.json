@@ -1,0 +1,1 @@
+{"session_id":"codex-private-session-fixture","turn_id":"turn-fixture","tool_use_id":"codex-private-tool-fixture","cwd":"/fixture","hook_event_name":"PreToolUse","permission_mode":"default","tool_name":"Bash","tool_input": {"command":"bun run build","workdir":"/fixture","timeout_ms":9000,"extra":{"flag":true}}}

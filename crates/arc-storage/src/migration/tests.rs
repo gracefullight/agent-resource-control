@@ -10,6 +10,7 @@ use std::{
 mod acceptance;
 mod concurrency;
 mod rejection;
+mod rollup_sweeps;
 
 const FIXTURES: &[Migration] = &[
     Migration {

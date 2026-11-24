@@ -45,7 +45,7 @@ pub(super) fn frontiers(connection: &Connection) -> JobResult<Vec<Frontier>> {
                CASE WHEN boot_ns>={capped} THEN NULL ELSE boot_ns END
              FROM attribution_frontier"
         ),
-        schema::SCHEMA_VERSION => {
+        4 | schema::SCHEMA_VERSION => {
             "SELECT start_ms,low_ms,boot_id,boot_ns FROM attribution_frontier".to_owned()
         }
         _ => return Err(JobError::StorageFailure),
@@ -78,7 +78,7 @@ pub(super) fn read(connection: &mut Connection, from_ms: u64, to_ms: u64) -> Job
             raw.uncertain = true;
             return Ok(raw);
         }
-        2 | 3 | schema::SCHEMA_VERSION => (),
+        2 | 3 | 4 | schema::SCHEMA_VERSION => (),
         _ => return Err(JobError::StorageFailure),
     }
     let tx = connection.transaction()?;
@@ -141,7 +141,7 @@ pub(super) fn read(connection: &mut Connection, from_ms: u64, to_ms: u64) -> Job
     // same-identity frontier ambiguous even when its own floor is outside
     // this particular window.
     let (low, sealed, boot_id, boot_ns) = match version {
-        schema::SCHEMA_VERSION => (
+        4 | schema::SCHEMA_VERSION => (
             "i.low_ms",
             "i.sealed",
             "i.boot_id".to_owned(),

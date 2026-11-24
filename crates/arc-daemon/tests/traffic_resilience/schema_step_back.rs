@@ -17,6 +17,12 @@ pub const EARLIEST: u32 = 6;
 /// exactly what it added. Extend this list with every new migration.
 const UNDO: &[(u32, &str)] = &[
     (
+        12,
+        "DROP INDEX idx_resource_samples_rollup_next; DROP TABLE resource_rollup_pending_sweeps;",
+    ),
+    // The Codex column's CHECK names `vendor`, so it is removed first.
+    (11, "ALTER TABLE jobs DROP COLUMN vendor_codex;"),
+    (
         10,
         "DROP TABLE process_attribution_scans;
          DROP TABLE process_attribution;
@@ -141,4 +147,37 @@ pub fn step_back(database: &Path, version: u32) {
         .unwrap();
     assert_eq!(integrity, "ok");
     connection.close().unwrap();
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn schema_twelve_step_back_preserves_jobs_and_upgrades_again() {
+        let fixture = crate::runtime::Fixture::new();
+        let connection = arc_storage::open_and_migrate(&fixture.database).unwrap();
+        connection
+            .execute(
+                "INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at)
+             VALUES('kept','BUILD','LOCAL','OBSERVE','NEW',1)",
+                [],
+            )
+            .unwrap();
+        connection.close().unwrap();
+        step_back(&fixture.database, 11);
+        let connection = arc_storage::open_and_migrate(&fixture.database).unwrap();
+        let schema = assess_schema(&connection).unwrap();
+        assert_eq!(
+            (schema.status, schema.applied_version),
+            (SchemaStatus::Compatible, Some(12))
+        );
+        assert_eq!(
+            connection
+                .query_row("SELECT count(*) FROM jobs WHERE id='kept'", [], |r| r
+                    .get::<_, i64>(0))
+                .unwrap(),
+            1
+        );
+    }
 }

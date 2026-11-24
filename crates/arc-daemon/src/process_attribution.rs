@@ -44,7 +44,9 @@
 //! only its own readings over an authenticated, ephemeral socket.
 use crate::db_worker::{attribution, resource_samples, DbClient};
 use arc_core::meter::MeterSnapshot;
-use arc_ipc::meter::attribution::vendor_for_executable;
+use arc_ipc::{
+    jobs::usage::Vendor, meter::attribution::vendor_for_executable as legacy_vendor_for_executable,
+};
 use arc_meter::attribution::{Attributor, ManagedRoot, ScanTotals};
 use arc_storage::attribution::{
     self as store, floor_of, BootClock, Frontier, Interval, IntervalStore, LifecycleGuard,
@@ -61,6 +63,16 @@ use std::{
 mod clock;
 #[path = "process_attribution/probe.rs"]
 mod probe;
+
+/// Extend the legacy executable mapping locally while keeping its old wire
+/// vocabulary unchanged for peers that predate Codex.
+fn vendor_for_executable(name: &str) -> Option<Vendor> {
+    if name == "codex" {
+        Some(Vendor::Codex)
+    } else {
+        legacy_vendor_for_executable(name)
+    }
+}
 
 /// One pass's budget across its writer requests.
 const PASS_BUDGET: Duration = Duration::from_secs(2);
@@ -176,6 +188,9 @@ pub(super) fn sampler(client: &DbClient) -> arc_meter::SampleHook {
             return;
         }
         let state = &mut *state;
+        if state.baseline.is_some() && state.probes.scan_held() {
+            return;
+        }
         let active = resource_samples::jobs_active(&client);
         if !due(state, snapshot, active) {
             return;
@@ -477,3 +492,7 @@ async fn pass(client: &DbClient, state: &mut State, active: bool) {
         },
     );
 }
+
+#[cfg(test)]
+#[path = "process_attribution/codex_mapping_tests.rs"]
+mod codex_mapping_tests;

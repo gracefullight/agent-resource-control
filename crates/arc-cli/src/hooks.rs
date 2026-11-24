@@ -1,6 +1,8 @@
 //! Shared dispatcher and bounded hook contract. Vendor adapters own their files.
 #[path = "agent_hooks/claude.rs"]
 mod claude;
+#[path = "agent_hooks/codex.rs"]
+mod codex;
 #[path = "hooks/container.rs"]
 mod container;
 #[path = "agent_hooks/cursor.rs"]
@@ -37,6 +39,7 @@ const MAX_EVENT_BYTES: u64 = 1024 * 1024;
 #[derive(Clone, Copy, Debug, ValueEnum)]
 pub(crate) enum Vendor {
     Claude,
+    Codex,
     Cursor,
 }
 
@@ -144,6 +147,7 @@ fn dispatch_with(
 ) -> Option<Value> {
     match vendor {
         Vendor::Claude => claude(event, context),
+        Vendor::Codex => codex::handle(event, context),
         Vendor::Cursor => cursor(event, context),
     }
 }
@@ -158,6 +162,7 @@ pub(super) fn dispatch_verified(
 ) -> Option<Value> {
     match vendor {
         Vendor::Claude => claude::handle_verified(event, context, Some(surface)),
+        Vendor::Codex => codex::handle_verified(event, context, Some(surface)),
         Vendor::Cursor => cursor::handle_verified(event, context, Some(surface)),
     }
 }
@@ -216,6 +221,7 @@ fn configure_with(
     }
     let result = match vendor {
         Vendor::Claude => claude(action, scope, workspace.as_deref(), context),
+        Vendor::Codex => codex::configure(action, scope, workspace.as_deref(), context),
         Vendor::Cursor => cursor(action, scope, workspace.as_deref(), context),
     };
     match result {

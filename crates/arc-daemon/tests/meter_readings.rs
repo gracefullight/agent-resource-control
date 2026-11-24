@@ -2,6 +2,12 @@
 //! --json` (MET-001, MET-006, MET-008, MET-024, MET-025).
 #[path = "meter_readings/daemon.rs"]
 mod daemon;
+#[path = "meter_readings/disk.rs"]
+mod disk;
+#[path = "meter_readings/disk_held.rs"]
+mod disk_held;
+#[path = "meter_readings/disk_native.rs"]
+mod disk_native;
 #[path = "meter_readings/host.rs"]
 mod host;
 #[path = "support/journey.rs"]
@@ -89,4 +95,11 @@ fn met_host_cpu_memory_and_swap_values_agree_with_os_readings() {
 #[test]
 fn met_daemon_cpu_seconds_and_peak_memory_agree_with_os_readings() {
     daemon::run();
+}
+
+/// MTR-001 item 3: real, allocated writes span published daemon samples,
+/// whose filesystem values and derived judgment are checked independently.
+#[test]
+fn mtr_001_disk_pressure_during_real_write_workload() {
+    disk::run();
 }

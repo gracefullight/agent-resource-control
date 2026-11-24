@@ -3,10 +3,22 @@
 //! expires stored Meter records, and keeps row counts bounded across repeated
 //! batches. Samples are seeded into the database while the daemon is stopped;
 //! every observation afterwards is daemon state, with no client request.
+//!
+//! R-014 item 3: the same schedule advances several bounded passes over the
+//! same jobs while real client requests stay outstanding on the writer, as
+//! the daemon's own final runtime report records for an uninterrupted run.
 use super::fixture::*;
 use crate::{journey::Sandbox, runtime::Fixture};
 use rusqlite::params;
+use std::sync::{
+    atomic::{AtomicBool, AtomicUsize, Ordering},
+    Arc,
+};
 use std::time::{SystemTime, UNIX_EPOCH};
+use std::{
+    thread,
+    time::{Duration, Instant},
+};
 
 const MINUTE: u64 = 60_000;
 const HOUR: u64 = 60 * MINUTE;
@@ -148,4 +160,276 @@ pub fn raw_samples_roll_up_then_delete_and_rows_stay_bounded() {
         });
     }
     stop(&f, daemon.take().unwrap());
+}
+
+/// Each worker keeps a real doctor request in flight on its own connection.
+/// The guard joins all threads on unwind, including when a watchdog or
+/// assertion fails.
+struct Load {
+    stop: Arc<AtomicBool>,
+    go: Arc<AtomicBool>,
+    connected: Arc<AtomicUsize>,
+    progress: Arc<AtomicUsize>,
+    failures: Arc<AtomicUsize>,
+    threads: Vec<thread::JoinHandle<()>>,
+}
+impl Load {
+    const CLIENTS: usize = 8;
+
+    fn start(f: &Fixture) -> Self {
+        let stop = Arc::new(AtomicBool::new(false));
+        let go = Arc::new(AtomicBool::new(false));
+        let connected = Arc::new(AtomicUsize::new(0));
+        let progress = Arc::new(AtomicUsize::new(0));
+        let failures = Arc::new(AtomicUsize::new(0));
+        let mut threads = Vec::new();
+        for _ in 0..Self::CLIENTS {
+            let (stop, go, connected, progress, failures) = (
+                stop.clone(),
+                go.clone(),
+                connected.clone(),
+                progress.clone(),
+                failures.clone(),
+            );
+            let socket = f.socket.clone();
+            threads.push(thread::spawn(move || {
+                let mut session = arc_ipc::client::Session::connect_until(
+                    &socket,
+                    Instant::now() + Duration::from_secs(90),
+                    &|| false,
+                    None,
+                )
+                .unwrap();
+                connected.fetch_add(1, Ordering::SeqCst);
+                while !go.load(Ordering::SeqCst) && !stop.load(Ordering::SeqCst) {
+                    thread::yield_now();
+                }
+                let request = arc_ipc::Request::new("load", arc_ipc::OPERATION_DOCTOR);
+                while !stop.load(Ordering::SeqCst) {
+                    let result = session.exchange(&request, &|| stop.load(Ordering::SeqCst));
+                    if stop.load(Ordering::SeqCst) {
+                        break;
+                    }
+                    if result.is_ok() {
+                        progress.fetch_add(1, Ordering::SeqCst);
+                    } else if !matches!(result, Err(arc_ipc::client::Failure::Busy)) {
+                        failures.fetch_add(1, Ordering::SeqCst);
+                        break;
+                    }
+                }
+            }));
+        }
+        let load = Self {
+            stop,
+            go,
+            connected,
+            progress,
+            failures,
+            threads,
+        };
+        crate::journey::eventually("load clients connected", || {
+            load.connected.load(Ordering::SeqCst) == Self::CLIENTS
+        });
+        load.go.store(true, Ordering::SeqCst);
+        crate::journey::eventually("load clients making progress", || {
+            load.progress.load(Ordering::SeqCst) >= Self::CLIENTS
+        });
+        load
+    }
+}
+impl Drop for Load {
+    fn drop(&mut self) {
+        self.stop.store(true, Ordering::SeqCst);
+        self.go.store(true, Ordering::SeqCst);
+        for thread in self.threads.drain(..) {
+            let _ = thread.join();
+        }
+    }
+}
+
+/// Processes per job in each dense sweep, sweeps and their spacing. Two jobs
+/// give 14 rows per sweep and 42,000 rows over two minutes: three bounded
+/// passes of `MAX_RAW_BATCH`, 20,000 and 2,000 rows. Both batch boundaries
+/// split a sweep (row 20,000 is in sweep 1428, row 40,000 in sweep 2857), and
+/// both jobs are measurable in every pass and in more than one pass of each
+/// bucket.
+const PROCESSES: u64 = 7;
+const SWEEPS: u64 = 3_000;
+const SPACING_MS: u64 = 40;
+const DENSE_ROWS: i64 = (2 * PROCESSES * SWEEPS) as i64;
+
+/// Job `a` adds 1 core-second and writes 100 bytes per interval with 1000
+/// bytes RSS per process; job `b` adds 2 core-seconds, reports no writes and
+/// 500 bytes RSS. RSS doubles in sweep 1428 and triples in sweep 2857, the
+/// two split sweeps, so only whole-sweep peaks give the expected values. One
+/// recent sample per job stays inside the 72 h window.
+fn seed_dense(db: &rusqlite::Connection, base: u64, now: u64) {
+    let mut insert = db
+        .prepare(
+            "INSERT INTO resource_samples(timestamp_ns,job_id,process_identity,cpu_time_ns,
+             rss_bytes,disk_write_bytes,attribution_confidence) VALUES(?1,?2,?3,?4,?5,?6,'A')",
+        )
+        .unwrap();
+    for k in 0..SWEEPS {
+        let scale = match k {
+            1428 => 2,
+            2857 => 3,
+            _ => 1,
+        };
+        for (job, cpu_step, rss, writes) in [
+            ("load-seed-a", 1_u64, 1_000_i64, true),
+            ("load-seed-b", 2, 500, false),
+        ] {
+            for process in 0..PROCESSES {
+                insert
+                    .execute(params![
+                        ns(base + k * SPACING_MS),
+                        job,
+                        format!("{job}-{process}"),
+                        (k * cpu_step * 1_000_000_000).to_string(),
+                        rss * scale,
+                        writes.then_some((k * 100) as i64)
+                    ])
+                    .unwrap();
+            }
+        }
+    }
+    for job in ["load-seed-a", "load-seed-b"] {
+        db.execute(
+            "INSERT INTO resource_samples(timestamp_ns,job_id,process_identity,cpu_time_ns,
+             attribution_confidence) VALUES(?1,?2,?3,'0','A')",
+            params![ns(now - HOUR), job, format!("{job}-recent")],
+        )
+        .unwrap();
+    }
+}
+
+fn policy_audit(db: &rusqlite::Connection) -> Vec<(String, String)> {
+    db.prepare(
+        "SELECT entity_id,payload_redacted_json FROM audit_events
+         WHERE event_type='POLICY_SWITCH_CHANGED' ORDER BY rowid",
+    )
+    .unwrap()
+    .query_map([], |r| Ok((r.get(0)?, r.get(1)?)))
+    .unwrap()
+    .map(Result::unwrap)
+    .collect()
+}
+
+pub fn scheduled_rollups_progress_during_sustained_load() {
+    use arc_ipc::governor::*;
+    let f = Fixture::new();
+    let daemon_first = daemon(&f, &[]);
+    let key = GovernorSwitchKey::StartRateControl;
+    set(&f, OPERATION_SET_SWITCH, key, false, 0, 11);
+    set(&f, OPERATION_SET_SWITCH, key, true, 1, 12);
+    let before = policy_audit(&database(&f));
+    assert_eq!(before.len(), 2);
+    stop(&f, daemon_first);
+
+    let now = now_ms();
+    let old = now - 80 * HOUR;
+    let base = old - old % HOUR;
+    let day = base - base % DAY;
+    const { assert!(SWEEPS * SPACING_MS <= 2 * MINUTE) };
+    let mut db = arc_storage::open_and_migrate(&f.database).unwrap();
+    let tx = db.transaction().unwrap();
+    for job in ["load-seed-a", "load-seed-b"] {
+        tx.execute(
+            "INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at)
+             VALUES(?1,'BUILD','LOCAL','OBSERVE','COMPLETED',0)",
+            [job],
+        )
+        .unwrap();
+    }
+    seed_dense(&tx, base, now);
+    tx.commit().unwrap();
+    drop(db);
+
+    let daemon = daemon(&f, &[]);
+    // Hold SQLite's write lock until the load runs: a scheduled pass admitted
+    // before then fails busy and rolls nothing.
+    let gate = database(&f);
+    gate.execute_batch("BEGIN IMMEDIATE").unwrap();
+    let db = database(&f);
+    let older = format!(
+        "SELECT count(*) FROM resource_samples WHERE timestamp_ns<'{}'",
+        ns(now - 72 * HOUR)
+    );
+    assert_eq!(count(&db, &older), DENSE_ROWS);
+    let load = Load::start(&f);
+    gate.execute_batch("ROLLBACK").unwrap();
+    drop(gate);
+    let started = load.progress.load(Ordering::SeqCst);
+    crate::journey::eventually("scheduled bounded passes during client load", || {
+        assert_eq!(load.failures.load(Ordering::SeqCst), 0);
+        count(&db, &older) == 0
+    });
+    let after_rollup = load.progress.load(Ordering::SeqCst);
+    assert!(
+        after_rollup > started,
+        "clients progressed during retention"
+    );
+    let expected = |db: &rusqlite::Connection| {
+        // CPU: 1500 sweeps with a successor in the first minute, 1499 in the
+        // second; writes likewise for job a only; peaks are the split sweeps.
+        let (a, b) = (PROCESSES as f64, PROCESSES as f64 * 2.0);
+        let cpu = |sweeps: f64| (a + b) * sweeps;
+        let writes = |sweeps: i64| PROCESSES as i64 * sweeps * 100;
+        assert_eq!(
+            bucket(db, "minute", base),
+            (Some(cpu(1500.0)), Some(21_000), Some(writes(1500)), 2, None)
+        );
+        assert_eq!(
+            bucket(db, "minute", base + MINUTE),
+            (Some(cpu(1499.0)), Some(31_500), Some(writes(1499)), 2, None)
+        );
+        for (g, at) in [("hour", base), ("day", day)] {
+            assert_eq!(
+                bucket(db, g, at),
+                (Some(cpu(2999.0)), Some(31_500), Some(writes(2999)), 2, None)
+            );
+        }
+        assert_eq!(count(db, "SELECT count(*) FROM resource_rollups"), 4);
+        assert_eq!(
+            count(
+                db,
+                "SELECT count(*) FROM resource_rollup_jobs WHERE job_id LIKE 'load-seed-%'"
+            ),
+            8
+        );
+        assert_eq!(
+            count(
+                db,
+                "SELECT count(*) FROM resource_samples WHERE job_id LIKE 'load-seed-%'"
+            ),
+            2
+        );
+    };
+    expected(&db);
+    crate::journey::eventually("clients continue after rollup", || {
+        load.progress.load(Ordering::SeqCst) >= after_rollup + 20
+    });
+    expected(&db);
+    assert_eq!(policy_audit(&db), before);
+    assert_eq!(load.failures.load(Ordering::SeqCst), 0);
+    drop(load);
+    drop(db);
+    let report = stop(&f, daemon);
+    // The daemon tracks every DbOutstanding transition to zero, from before
+    // admission of the first pass until after the final pass returns. All
+    // rows must be rolled in one run without any such transition; the batch
+    // bound requires at least three passes in that uninterrupted interval.
+    let retention = &report["retention"];
+    eprintln!("r-014 retention: {retention}");
+    assert_eq!(retention["raw_rolled_up"], DENSE_ROWS, "{report}");
+    assert_eq!(retention["loaded_raw_rolled_up"], DENSE_ROWS, "{report}");
+    assert_eq!(
+        retention["max_loaded_run_raw_rolled_up"], DENSE_ROWS,
+        "{report}"
+    );
+    assert!(
+        retention["loaded_passes"].as_u64().unwrap() >= 3,
+        "{report}"
+    );
 }

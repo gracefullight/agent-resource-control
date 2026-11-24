@@ -113,7 +113,7 @@ pub struct ManagedRootEvidence {
 /// the identity. A RUNNING row alone is not a lease.
 pub fn managed_roots(connection: &Connection) -> JobResult<Vec<ManagedRootEvidence>> {
     let mut statement = connection.prepare(
-        "SELECT l.child_pid,l.child_start_token,l.child_boot_id,j.vendor,j.id,e.generation
+        "SELECT l.child_pid,l.child_start_token,l.child_boot_id,COALESCE(j.vendor_codex,j.vendor),j.id,e.generation
          FROM jobs j JOIN job_lifecycle l ON l.job_id=j.id
          JOIN traffic_entries e ON e.job_id=j.id
          JOIN permits p ON p.job_id=COALESCE(e.root_job_id,e.job_id)

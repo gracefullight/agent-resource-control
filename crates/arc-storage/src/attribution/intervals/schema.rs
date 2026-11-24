@@ -17,7 +17,7 @@
 use crate::jobs::{JobError, JobResult};
 use rusqlite::{params, Transaction};
 
-pub(super) const SCHEMA_VERSION: i64 = 4;
+pub(super) const SCHEMA_VERSION: i64 = 5;
 /// The cap version 3 applied to boot-clock nanoseconds.
 pub(super) const CAPPED_BOOT_NS: i64 = 9_007_199_254_740_991;
 /// The reason stored with an uncertain range of version-1 bounds.
@@ -44,8 +44,8 @@ CREATE TABLE attribution_interval_cpu (
   confidence TEXT NOT NULL CHECK(confidence IN ('proven','estimated','unattributed')),
   vendor TEXT NOT NULL CHECK(
     (confidence='unattributed' AND vendor='') OR
-    (confidence='proven' AND vendor IN ('claude-code','cursor','none')) OR
-    (confidence='estimated' AND vendor IN ('claude-code','cursor'))),
+    (confidence='proven' AND vendor IN ('claude-code','cursor','codex','none')) OR
+    (confidence='estimated' AND vendor IN ('claude-code','cursor','codex'))),
   cpu_core_seconds REAL NOT NULL CHECK(cpu_core_seconds >= 0),
   PRIMARY KEY(interval_id, confidence, vendor)
 ) WITHOUT ROWID;
@@ -111,6 +111,7 @@ pub(super) fn upgrade(tx: &Transaction<'_>, now_ms: u64) -> JobResult<()> {
                  {UNCERTAIN}"
             )))?;
         }
+        4 => (),
         3 => tx.execute_batch(&format!(
             "ALTER TABLE attribution_frontier
                ADD COLUMN sealed INTEGER NOT NULL DEFAULT 0 CHECK(sealed IN (0,1));
@@ -118,6 +119,24 @@ pub(super) fn upgrade(tx: &Transaction<'_>, now_ms: u64) -> JobResult<()> {
                WHERE boot_ns>={CAPPED_BOOT_NS};"
         ))?,
         _ => return Err(JobError::StorageFailure),
+    }
+    // SQLite cannot alter a CHECK constraint. Rebuild only the private CPU
+    // child table inside this transaction, copying every existing row.
+    if (2..=4).contains(&version) {
+        tx.execute_batch(
+            "ALTER TABLE attribution_interval_cpu RENAME TO attribution_interval_cpu_v4;
+            CREATE TABLE attribution_interval_cpu (
+              interval_id INTEGER NOT NULL REFERENCES attribution_intervals(id) ON DELETE CASCADE,
+              confidence TEXT NOT NULL CHECK(confidence IN ('proven','estimated','unattributed')),
+              vendor TEXT NOT NULL CHECK(
+                (confidence='unattributed' AND vendor='') OR
+                (confidence='proven' AND vendor IN ('claude-code','cursor','codex','none')) OR
+                (confidence='estimated' AND vendor IN ('claude-code','cursor','codex'))),
+              cpu_core_seconds REAL NOT NULL CHECK(cpu_core_seconds >= 0),
+              PRIMARY KEY(interval_id,confidence,vendor)) WITHOUT ROWID;
+            INSERT INTO attribution_interval_cpu SELECT * FROM attribution_interval_cpu_v4;
+            DROP TABLE attribution_interval_cpu_v4;",
+        )?;
     }
     tx.pragma_update(None, "user_version", SCHEMA_VERSION)?;
     Ok(())

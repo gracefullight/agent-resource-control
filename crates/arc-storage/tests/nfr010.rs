@@ -36,7 +36,12 @@ impl Drop for TempDatabase {
 fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
     if env::var_os("ARC_STORAGE_CHILD").is_none() {
         let database = TempDatabase::new();
-        let output = std::process::Command::new(env::current_exe().unwrap())
+        let mut child = std::process::Command::new(env::current_exe().unwrap());
+        child.env_clear().env("HOME", database.0.parent().unwrap());
+        if let Some(profile) = env::var_os("LLVM_PROFILE_FILE") {
+            child.env("LLVM_PROFILE_FILE", profile);
+        }
+        let output = child
             .args([
                 "--exact",
                 "nfr010_wal_migration_survives_close_and_reopen_without_cleanup",
@@ -79,6 +84,7 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
         "resource_samples",
         "resource_rollups",
         "resource_rollup_jobs",
+        "resource_rollup_pending_sweeps",
         "process_attribution",
         "process_attribution_scans",
         "policy_states",
@@ -105,7 +111,7 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
             row.get(0)
         })
         .unwrap();
-    assert_eq!(count, 10);
+    assert_eq!(count, 12);
     let (id, applied_at, checksum): (String, i64, String) = connection
         .query_row(
             "SELECT id, applied_at, checksum FROM schema_migrations WHERE id='0001_phase0'",
@@ -177,7 +183,7 @@ fn nfr010_wal_migration_survives_close_and_reopen_without_cleanup() {
             .query_row("SELECT COUNT(*) FROM schema_migrations", [], |row| row
                 .get::<_, i64>(0))
             .unwrap(),
-        10
+        12
     );
     let recorded: (String, i64, String) = reopened
         .query_row(

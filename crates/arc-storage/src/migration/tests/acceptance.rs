@@ -83,23 +83,23 @@ fn production_legacy_history_is_read_only_then_stamped_atomically() {
     let report = assess_schema(&connection).unwrap();
     assert_eq!(report.status, SchemaStatus::UpgradeRequired);
     assert_eq!(report.applied_version, Some(1));
-    assert_eq!(report.supported_version, 10);
+    assert_eq!(report.supported_version, 12);
     assert_eq!(report.schema_migrations, 1);
     assert!(report.history_verified);
     assert_eq!(snapshot(&connection), legacy);
     migrate(&mut connection, MIGRATIONS).unwrap();
     let stamped = snapshot(&connection);
-    assert_eq!(stamped.tables.len(), legacy.tables.len() + 11);
+    assert_eq!(stamped.tables.len(), legacy.tables.len() + 12);
     for (name, rows) in &legacy.tables {
         let updated = &stamped.tables.iter().find(|(n, _)| n == name).unwrap().1;
         if name == "schema_migrations" {
-            assert_eq!(updated.len(), 10);
+            assert_eq!(updated.len(), 12);
             assert_eq!(updated.first(), rows.first());
         } else {
             assert_eq!(updated, rows);
         }
     }
-    assert_eq!(stamped.schema.len(), legacy.schema.len() + 38);
+    assert_eq!(stamped.schema.len(), legacy.schema.len() + 41);
     for object in &legacy.schema {
         if ![
             "permits",
@@ -170,7 +170,7 @@ fn production_legacy_history_is_read_only_then_stamped_atomically() {
         .execute_batch("ROLLBACK TO permit_uniqueness; RELEASE permit_uniqueness;")
         .unwrap();
     assert_eq!(history(&connection)[0], original_history[0]);
-    assert_eq!(stamped.witness, 10);
+    assert_eq!(stamped.witness, 12);
     connection.close().unwrap();
     assert_eq!(
         snapshot(&crate::open_and_migrate(&database.0).unwrap()),
@@ -378,4 +378,30 @@ fn fixed_schema1_registry_stamps_legacy_witness_without_upgrading() {
     let mut connection = database.connect();
     migrate(&mut connection, &MIGRATIONS[..1]).unwrap();
     assert_eq!(snapshot(&connection), stamped);
+}
+
+#[test]
+fn codex_column_upgrade_preserves_history_and_existing_vendors() {
+    let database = Database::new();
+    let mut connection = database.connect();
+    migrate(&mut connection, &MIGRATIONS[..10]).unwrap();
+    connection.execute("INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at,vendor) VALUES('old','BUILD','HOST_LOCAL','OBSERVE','NEW',1,'cursor')", []).unwrap();
+    let before = history(&connection);
+    migrate(&mut connection, MIGRATIONS).unwrap();
+    assert_eq!(&history(&connection)[..10], before.as_slice());
+    let old: (Option<String>, Option<String>) = connection
+        .query_row(
+            "SELECT vendor,vendor_codex FROM jobs WHERE id='old'",
+            [],
+            |r| Ok((r.get(0)?, r.get(1)?)),
+        )
+        .unwrap();
+    assert_eq!(old, (Some("cursor".into()), None));
+    connection.execute("INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at,vendor_codex) VALUES('new','BUILD','HOST_LOCAL','OBSERVE','NEW',2,'codex')", []).unwrap();
+    assert!(connection
+        .execute("UPDATE jobs SET vendor='cursor' WHERE id='new'", [])
+        .is_err());
+    assert!(connection
+        .execute("UPDATE jobs SET vendor_codex='other' WHERE id='new'", [])
+        .is_err());
 }

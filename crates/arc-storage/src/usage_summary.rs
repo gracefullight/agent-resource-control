@@ -234,7 +234,21 @@ pub fn summarize_v2(
     query: &UsageQueryV2,
     now_ms: u64,
 ) -> JobResult<UsageSummaryV2> {
-    let summary = v2::summarize(connection, query, now_ms)?;
+    summarize_v2_with_codex(connection, query, now_ms, false)
+}
+
+/// A negotiated v3 response can use the Codex vendor vocabulary.
+pub fn summarize_v2_with_codex(
+    connection: &Connection,
+    query: &UsageQueryV2,
+    now_ms: u64,
+    codex: bool,
+) -> JobResult<UsageSummaryV2> {
+    let summary = if codex {
+        v2::summarize_codex(connection, query, now_ms, true)?
+    } else {
+        v2::summarize(connection, query, now_ms)?
+    };
     // A range too wide to answer within the bound is refused, not truncated.
     match serde_json::to_vec(&summary) {
         Ok(bytes) if bytes.len() <= MAX_USAGE_SUMMARY_BYTES => Ok(summary),

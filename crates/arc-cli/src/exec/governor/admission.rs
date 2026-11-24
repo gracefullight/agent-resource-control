@@ -133,6 +133,7 @@ where
     let mut waited = false;
     let mut possibly_committed = false;
     let mut cadence = traffic::Cadence::new(peer.socket);
+    let mut queue_notice = traffic::NoticeState::default();
     loop {
         if cancelled() {
             return Err(Failure::Cancelled);
@@ -171,11 +172,10 @@ where
                     })
                 }
                 JobResult::Queued { reason, .. } => {
+                    traffic::announce_if_needed(&mut queue_notice, false, |pressure| {
+                        traffic::queued_notice(id, pressure)
+                    });
                     if !waited {
-                        write_notice(&format!(
-                            "QUEUED\nWaiting to start.\nReference: {}\n",
-                            id.as_str()
-                        ));
                         waited = true;
                         super::super::launch::after_queue(&json!({"request":request}), cancelled)?;
                     }

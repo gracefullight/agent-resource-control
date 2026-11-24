@@ -248,7 +248,7 @@ fn daemon_and_cli_matrix(cases: Vec<Value>) {
     let doctor = cli(&fixture, &["doctor"]);
     assert!(doctor.status.success() && doctor.stderr.is_empty());
     let doctor = String::from_utf8(doctor.stdout).unwrap();
-    assert_eq!(doctor, "ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 10. Migration history verified.\n");
+    assert_eq!(doctor, "ok. IPC owner-only. Tray not connected. Vendors not detected. Command classification not checked. Sweeper off. Schema compatible. Version 12. Migration history verified.\n");
     assert!(!doctor.contains('\u{1b}'));
     child.stop(libc::SIGTERM);
     let report = fixture.report();

@@ -65,6 +65,35 @@ fn confirmed_failures_are_bounded_per_pressure_and_retry_after_a_change() {
 }
 
 #[test]
+fn repeated_confirmed_non_writes_retry_with_backoff_and_stop_after_success() {
+    let mut state = NoticeState::default();
+    let calls = Cell::new(0);
+    for _ in 0..40 {
+        announce_if_needed(&mut state, false, |_| {
+            calls.set(calls.get() + 1);
+            if calls.get() < 4 {
+                NoticeWrite::NotWritten
+            } else {
+                NoticeWrite::Complete
+            }
+        });
+    }
+    assert_eq!(calls.get(), 4);
+    assert_eq!(state.last, Some(false));
+
+    let mut bounded = NoticeState::default();
+    let failures = Cell::new(0);
+    for _ in 0..200 {
+        announce_if_needed(&mut bounded, false, |_| {
+            failures.set(failures.get() + 1);
+            NoticeWrite::NotWritten
+        });
+    }
+    assert_eq!(failures.get(), 8);
+    assert_eq!(bounded.last, None);
+}
+
+#[test]
 fn responsive_busy_admission_retries_without_becoming_outage_or_spawning() {
     let calls = Cell::new(0);
     let result = admission_with(

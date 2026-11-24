@@ -224,11 +224,11 @@ fn remote(aggregate: &mut Map<String, Value>, duration: &Metric<f64>) {
     );
 }
 
-fn rows(connection: &Connection, query: &UsageQueryV2) -> JobResult<Vec<Row>> {
+fn rows(connection: &Connection, query: &UsageQueryV2, codex: bool) -> JobResult<Vec<Row>> {
     let from = i64::try_from(query.from_ms).map_err(|_| JobError::InvalidRequest)?;
     let to = i64::try_from(query.to_ms).map_err(|_| JobError::InvalidRequest)?;
     let mut statement = connection.prepare(
-        "SELECT j.job_class,j.state,j.vendor,j.project_key,l.registered_at_ms,j.hook_overhead_ms,
+        "SELECT j.job_class,j.state,CASE WHEN ?3 THEN COALESCE(j.vendor_codex,j.vendor) ELSE j.vendor END,j.project_key,l.registered_at_ms,j.hook_overhead_ms,
          COALESCE(m.relation='canonical_root' AND m.report_json IS NOT NULL,0),
          json_extract(m.report_json,'$.cpu_core_seconds.total'),
          json_extract(m.report_json,'$.run_elapsed.seconds'),
@@ -245,7 +245,7 @@ fn rows(connection: &Connection, query: &UsageQueryV2) -> JobResult<Vec<Row>> {
          WHERE l.registered_at_ms>=?1 AND l.registered_at_ms<?2",
     )?;
     let count = |n: Option<i64>| n.and_then(|n| u64::try_from(n).ok());
-    let rows = statement.query_map(params![from, to], |r| {
+    let rows = statement.query_map(params![from, to, codex], |r| {
         let relation: String = r.get(10)?;
         let waited_cpu = r.get::<_, Option<f64>>(7)?.filter(|v| v.is_finite());
         Ok(Row {
@@ -289,12 +289,21 @@ pub fn summarize(
     query: &UsageQueryV2,
     now_ms: u64,
 ) -> JobResult<UsageSummaryV2> {
+    summarize_codex(connection, query, now_ms, false)
+}
+
+pub fn summarize_codex(
+    connection: &Connection,
+    query: &UsageQueryV2,
+    now_ms: u64,
+    codex: bool,
+) -> JobResult<UsageSummaryV2> {
     if !query.is_valid() || now_ms > arc_ipc::jobs::MAX_TIMESTAMP {
         return Err(JobError::InvalidRequest);
     }
     let width = bucket_ms(query.bucket);
     let mut groups: BTreeMap<(String, String, u64), Group> = BTreeMap::new();
-    for row in rows(connection, query)? {
+    for row in rows(connection, query, codex)? {
         let job = &row.base;
         let vendor = || job.vendor.clone().unwrap_or_else(|| NONE.to_owned());
         let key = match query.by {

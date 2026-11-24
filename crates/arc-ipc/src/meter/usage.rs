@@ -42,6 +42,9 @@ pub const MAX_USAGE_SUMMARY_BYTES: usize = 262_144;
 pub const CAPABILITY_V2: &str = "meter.usage-summary.v2";
 pub const OPERATION_USAGE_SUMMARY_V2: &str = "meter.usage_summary.v2";
 pub const ADVERTISEMENT_V2: &str = ".meter-usage-summary-v2";
+/// Gates Codex registration vocabulary and the v3 summary response.
+pub const CODEX_ADVERTISEMENT: &str = ".meter-usage-codex-v1";
+pub const OPERATION_USAGE_SUMMARY_V3: &str = "meter.usage_summary.v3";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]

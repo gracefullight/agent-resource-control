@@ -3,6 +3,25 @@ use super::admit;
 
 const WRITER_HELLO: &[u8] = b"arc-notice-writer-test-v1";
 
+struct TempHome(std::path::PathBuf);
+
+impl TempHome {
+    fn new() -> Self {
+        let home = Self(std::env::temp_dir().join(format!(
+            "arc-notice-home-{}",
+            arc_core::process_identity::random_job_id().unwrap()
+        )));
+        std::fs::create_dir(&home.0).unwrap();
+        home
+    }
+}
+
+impl Drop for TempHome {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
+}
+
 #[test]
 fn bounded_notice_waiter_uses_controlled_deadline_and_reaps_before_returning() {
     use std::{
@@ -33,7 +52,8 @@ fn bounded_notice_waiter_uses_controlled_deadline_and_reaps_before_returning() {
         },
         || current.set(start + Duration::from_millis(50)),
     );
-    assert_eq!(result, super::NoticeWrite::Uncertain);
+    assert_eq!(result.outcome, super::NoticeWrite::Uncertain);
+    assert!(result.reaped);
     assert_eq!(polls.get(), 2);
     assert!(killed.get());
 
@@ -53,7 +73,104 @@ fn bounded_notice_waiter_uses_controlled_deadline_and_reaps_before_returning() {
             |_| panic!("completed writer must not be killed"),
             || panic!("completed writer must not wait"),
         );
-        assert_eq!(result, expected);
+        assert_eq!(result.outcome, expected);
+        assert!(result.reaped);
+    }
+}
+
+#[test]
+fn reaped_notice_helper_marker_distinguishes_no_write_from_uncertain_write() {
+    use std::{
+        io::{Read, Write},
+        os::{
+            fd::{AsRawFd, FromRawFd, OwnedFd},
+            unix::{net::UnixStream, process::CommandExt},
+        },
+        process::{Command, Stdio},
+        time::Duration,
+    };
+
+    let home = TempHome::new();
+    for intent in [false, true] {
+        let marker = super::NoticeMarker::new().unwrap();
+        let (mut parent, peer) = UnixStream::pair().unwrap();
+        parent
+            .set_read_timeout(Some(Duration::from_secs(60)))
+            .unwrap();
+        parent.write_all(WRITER_HELLO).unwrap();
+        // Keep both source descriptors away from the two destination numbers.
+        let duplicate = |fd| {
+            let copy = unsafe { libc::fcntl(fd, libc::F_DUPFD_CLOEXEC, 20) };
+            assert!(copy >= 0);
+            // SAFETY: fcntl returned a new owned descriptor.
+            unsafe { OwnedFd::from_raw_fd(copy) }
+        };
+        let peer_copy = duplicate(peer.as_raw_fd());
+        let marker_copy = duplicate(marker.write.as_raw_fd());
+        let (peer_fd, marker_fd) = (peer_copy.as_raw_fd(), marker_copy.as_raw_fd());
+        let mut command = Command::new(std::env::current_exe().unwrap());
+        command
+            .env_clear()
+            .env("HOME", &home.0)
+            .env(
+                "ARC_NOTICE_WRITER_FIXTURE",
+                if intent {
+                    "marker-after"
+                } else {
+                    "marker-before"
+                },
+            )
+            .args(["--exact", "exec::preparation::tests::notice_writer_fixture"])
+            .stdin(Stdio::null())
+            .stdout(Stdio::null())
+            .stderr(Stdio::null());
+        if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+            command.env("LLVM_PROFILE_FILE", profile);
+        }
+        // SAFETY: only descriptor syscalls execute after fork.
+        unsafe {
+            command.pre_exec(move || {
+                for (source, destination) in [(peer_fd, 9), (marker_fd, 10)] {
+                    if libc::dup2(source, destination) < 0
+                        || libc::fcntl(destination, libc::F_SETFD, 0) < 0
+                    {
+                        return Err(std::io::Error::last_os_error());
+                    }
+                }
+                Ok(())
+            });
+        }
+        let mut child = crate::native_fixture::OwnedChild::new(command.spawn().unwrap());
+        drop(peer);
+        drop(peer_copy);
+        drop(marker_copy);
+        let mut ready = [0; 5];
+        parent.read_exact(&mut ready).unwrap();
+        assert_eq!(&ready, b"ready");
+        child.child.kill().unwrap();
+        assert!(!child.wait_with_output().unwrap().status.success());
+        let wait = super::NoticeWait {
+            outcome: super::NoticeWrite::Uncertain,
+            reaped: true,
+        };
+        assert_eq!(
+            super::resolve_notice(wait, marker.intent_seen()),
+            if intent {
+                super::NoticeWrite::Uncertain
+            } else {
+                super::NoticeWrite::NotWritten
+            }
+        );
+        assert_eq!(
+            super::resolve_notice(
+                super::NoticeWait {
+                    reaped: false,
+                    ..wait
+                },
+                Some(false)
+            ),
+            super::NoticeWrite::Uncertain
+        );
     }
 }
 
@@ -91,6 +208,22 @@ fn notice_writer_fixture() {
             socket.write_all(b"closed").unwrap();
             std::process::exit(0);
         }
+        "written" => {
+            assert_eq!(
+                super::write_notice_for_fixture("queued"),
+                super::NoticeWrite::Complete
+            );
+            socket.write_all(b"written").unwrap();
+            std::process::exit(0);
+        }
+        "marker-before" | "marker-after" => {
+            if mode == "marker-after" {
+                assert_eq!(unsafe { libc::write(10, b"!".as_ptr().cast(), 1) }, 1);
+            }
+            socket.write_all(b"ready").unwrap();
+            let _ = socket.read_exact(&mut [0]);
+            std::process::exit(0);
+        }
         "none" => std::process::exit(1),
         "partial" => {
             socket.write_all(b"part").unwrap();
@@ -110,6 +243,55 @@ fn notice_writer_fixture() {
 }
 
 #[test]
+fn marked_notice_helper_preserves_the_exact_stderr_bytes() {
+    use std::{
+        io::{Read, Write},
+        os::{
+            fd::AsRawFd,
+            unix::{net::UnixStream, process::CommandExt},
+        },
+        process::{Command, Stdio},
+        time::Duration,
+    };
+
+    let home = TempHome::new();
+    let (mut controller, peer) = UnixStream::pair().unwrap();
+    controller
+        .set_read_timeout(Some(Duration::from_secs(60)))
+        .unwrap();
+    controller.write_all(WRITER_HELLO).unwrap();
+    let fd = peer.as_raw_fd();
+    let mut command = Command::new(std::env::current_exe().unwrap());
+    command
+        .env_clear()
+        .env("HOME", &home.0)
+        .env("ARC_NOTICE_WRITER_FIXTURE", "written")
+        .args(["--exact", "exec::preparation::tests::notice_writer_fixture"])
+        .stdout(Stdio::null())
+        .stderr(Stdio::piped());
+    if let Some(profile) = std::env::var_os("LLVM_PROFILE_FILE") {
+        command.env("LLVM_PROFILE_FILE", profile);
+    }
+    // SAFETY: only descriptor syscalls execute after fork.
+    unsafe {
+        command.pre_exec(move || {
+            if libc::dup2(fd, 9) < 0 || libc::fcntl(9, libc::F_SETFD, 0) < 0 {
+                return Err(std::io::Error::last_os_error());
+            }
+            Ok(())
+        });
+    }
+    let mut child = crate::native_fixture::OwnedChild::new(command.spawn().unwrap());
+    drop(peer);
+    let mut ack = [0; 7];
+    controller.read_exact(&mut ack).unwrap();
+    assert_eq!(&ack, b"written");
+    let output = child.wait_with_output().unwrap();
+    assert!(output.status.success());
+    assert_eq!(output.stderr, b"queued");
+}
+
+#[test]
 fn closed_stderr_is_a_confirmed_non_emission() {
     use std::{
         io::{Read, Write},
@@ -119,6 +301,7 @@ fn closed_stderr_is_a_confirmed_non_emission() {
         },
         process::{Command, Stdio},
     };
+    let home = TempHome::new();
     let (mut controller, peer) = UnixStream::pair().unwrap();
     controller
         .set_read_timeout(Some(std::time::Duration::from_secs(60)))
@@ -128,6 +311,7 @@ fn closed_stderr_is_a_confirmed_non_emission() {
     let mut command = Command::new(std::env::current_exe().unwrap());
     command
         .env_clear()
+        .env("HOME", &home.0)
         .env("ARC_NOTICE_WRITER_FIXTURE", "closed")
         .args(["--exact", "exec::preparation::tests::notice_writer_fixture"])
         .stdout(Stdio::null())
@@ -165,6 +349,7 @@ fn notice_writer_classifies_synchronized_full_partial_and_killed_outputs() {
         process::{Command, Stdio},
         time::Duration,
     };
+    let home = TempHome::new();
     for (mode, bytes, expected) in [
         ("none", &b""[..], super::NoticeWrite::NotWritten),
         ("partial", &b"part"[..], super::NoticeWrite::Uncertain),
@@ -180,6 +365,7 @@ fn notice_writer_classifies_synchronized_full_partial_and_killed_outputs() {
         let mut command = Command::new(std::env::current_exe().unwrap());
         command
             .env_clear()
+            .env("HOME", &home.0)
             .env("ARC_NOTICE_WRITER_FIXTURE", mode)
             .args(["--exact", "exec::preparation::tests::notice_writer_fixture"])
             .stdout(Stdio::null())

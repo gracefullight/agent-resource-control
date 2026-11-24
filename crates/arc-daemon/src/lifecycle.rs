@@ -136,7 +136,7 @@ pub(crate) async fn supervise_with_source(
         client.bind_observation(meter.reader());
         meter_cadence::bind(meter, &client);
     }
-    let _retention = crate::db_worker::retention::start(&client);
+    let retention = crate::db_worker::retention::start(&client);
     let meter_reader = meter.as_ref().map(arc_meter::MeterWorker::reader);
     let reaper = crate::reaper::start(&client);
     let (reason, accept_error) = loop {
@@ -240,6 +240,7 @@ pub(crate) async fn supervise_with_source(
         "accept_error_os_code": accept_error.as_ref().and_then(io::Error::raw_os_error),
         "meter": { "started": meter_started, "shutdown_ok": meter_result.is_ok() },
         "metrics": snapshot.json(), "supervisor": supervisor,
+        "retention": retention.as_ref().map(crate::db_worker::retention::Retention::json),
     });
     // Serialization and I/O failures cannot bypass cancellation, join or cleanup.
     let report_result = report.finish(&final_report, deadline);

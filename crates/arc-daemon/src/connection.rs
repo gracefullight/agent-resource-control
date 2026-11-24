@@ -22,6 +22,8 @@ use legacy_projection::project_legacy_snapshot;
 
 #[path = "connection/classification.rs"]
 mod classification;
+#[path = "connection/coalescing.rs"]
+mod coalescing;
 use classification::classify_request;
 
 #[path = "connection/workspace_cache.rs"]
@@ -326,6 +328,13 @@ async fn handle_inner<D, F, J, G, T, H>(
         };
         // Meter payloads are resolved here; a validated lifecycle payload may
         // remain until its observer has confirmed the complete relayed request.
+        let latest_event = if request.protocol_version == PROTOCOL_VERSION
+            && request.operation == arc_ipc::coalescing::OPERATION
+        {
+            Some(coalescing::response(&request, traffic.meter.as_ref()))
+        } else {
+            None
+        };
         let metered = if request.protocol_version == PROTOCOL_VERSION
             && request.operation == arc_ipc::meter::OPERATION_METER_SNAPSHOT
         {
@@ -360,7 +369,7 @@ async fn handle_inner<D, F, J, G, T, H>(
                 &metrics,
             )
             .await
-        } else if let Some(response) = metered {
+        } else if let Some(response) = latest_event.or(metered) {
             response
         } else if traffic_probe {
             if probe_valid {

@@ -109,7 +109,7 @@ fn a_version_1_store_is_preserved_and_its_windows_stay_uncertain_after_reopening
         (0.0, 0.0, 1.0),
     );
     let check = |store: &IntervalStore| {
-        assert_eq!(count(store, "PRAGMA user_version"), 4);
+        assert_eq!(count(store, "PRAGMA user_version"), 5);
         assert_eq!(
             count(store, "SELECT count(*) FROM attribution_v1_intervals"),
             1
@@ -473,4 +473,12 @@ fn a_reversed_range_is_unresolved_live_and_durably_then_failed() {
         reason(&fresh.read(T0, T0 + 1, Some(&live(&lone, None)))),
         Some(REASON_FAILED_SCAN)
     );
+}
+
+#[path = "upgrade_tests/codex.rs"]
+mod codex;
+
+#[test]
+fn version_four_cpu_rows_survive_codex_vocabulary_upgrade() {
+    codex::run();
 }

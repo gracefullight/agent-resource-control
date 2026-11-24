@@ -138,7 +138,10 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     let legacy = rusqlite::Connection::open(&legacy_path).unwrap();
     legacy
         .execute_batch(
-            "DROP TABLE process_attribution_scans; DROP TABLE process_attribution;
+            "DROP INDEX idx_resource_samples_rollup_next;
+        DROP TABLE resource_rollup_pending_sweeps;
+        ALTER TABLE jobs DROP COLUMN vendor_codex;
+        DROP TABLE process_attribution_scans; DROP TABLE process_attribution;
         DROP TABLE resource_rollup_jobs;
         ALTER TABLE jobs DROP COLUMN footprint_end_completeness;
         ALTER TABLE jobs DROP COLUMN footprint_end_bytes;
@@ -170,7 +173,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
         ALTER TABLE policy_decisions DROP COLUMN expires_at_ms;
         DROP TABLE job_meter_summaries;
         DROP INDEX idx_lifecycle_observer_identity; DROP INDEX idx_lifecycle_child_identity;
-        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure','0006_governor','0007_traffic_project','0008_hook_event','0009_meter_policy','0010_attribution');
+        DELETE FROM schema_migrations WHERE id IN ('0004_job_meter','0005_memory_pressure','0006_governor','0007_traffic_project','0008_hook_event','0009_meter_policy','0010_attribution','0011_codex_attribution','0012_rollup_sweeps');
         PRAGMA user_version=3;",
         )
         .unwrap();
@@ -186,7 +189,7 @@ fn real_native_measurement_obeys_ninety_day_boundary_without_resurrection() {
     assert_eq!(legacy_summary.queue_wait, QueueWait::unknown());
     let schema = arc_storage::assess_schema(&upgraded).unwrap();
     assert!(schema.history_verified);
-    assert_eq!(schema.applied_version, Some(10));
+    assert_eq!(schema.applied_version, Some(12));
     upgraded.close().unwrap();
     let observed = json!({"test":"real_native_measurement_obeys_ninety_day_boundary_without_resurrection",
         "controlledClock":{"terminalAtMs":200,"retentionMs":JOB_METADATA_RETENTION_MS,"beforeMs":boundary-1,"boundaryMs":boundary},

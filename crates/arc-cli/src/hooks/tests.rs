@@ -151,6 +151,12 @@ fn exact_event_worker() {
             "updated_input",
             "bun run build",
         ),
+        (
+            Vendor::Codex,
+            include_str!("../../tests/fixtures/agent_hooks/codex-pre-tool-use.json"),
+            "updatedInput",
+            "bun run build",
+        ),
     ] {
         let mut event: Value = serde_json::from_str(source).unwrap();
         event["tool_input"]["max_integer"] = serde_json::json!(u64::MAX);
@@ -159,9 +165,16 @@ fn exact_event_worker() {
         assert!(dispatch(vendor, &event, &context).is_some());
         let response = dispatch_verified_event(vendor, &input, &context, &surface).unwrap();
         let updated = if field == "updatedInput" {
-            assert!(response["hookSpecificOutput"]
-                .get("permissionDecision")
-                .is_none());
+            if matches!(vendor, Vendor::Codex) {
+                assert_eq!(
+                    response["hookSpecificOutput"]["permissionDecision"],
+                    "allow"
+                );
+            } else {
+                assert!(response["hookSpecificOutput"]
+                    .get("permissionDecision")
+                    .is_none());
+            }
             &response["hookSpecificOutput"][field]
         } else {
             assert!(response.get("permission").is_none());
@@ -169,10 +182,10 @@ fn exact_event_worker() {
         };
         let mut original = updated.clone();
         // Only an event with both ids names itself in the command.
-        let adapter = if matches!(vendor, Vendor::Claude) {
-            event_key::CLAUDE
-        } else {
-            event_key::CURSOR
+        let adapter = match vendor {
+            Vendor::Claude => event_key::CLAUDE,
+            Vendor::Cursor => event_key::CURSOR,
+            Vendor::Codex => event_key::CODEX,
         };
         assert!(original["command"]
             .as_str()
@@ -218,6 +231,11 @@ fn exact_event_worker() {
             let expected: Value = serde_json::from_str(&raw).unwrap();
             let response =
                 dispatch_verified_event(vendor, raw.as_bytes(), &context, &surface).unwrap();
+            let wire = event::wire_response(vendor, raw.as_bytes(), &response).unwrap();
+            assert!(
+                String::from_utf8(wire).unwrap().contains(extra),
+                "raw number changed: {extra}"
+            );
             let mut actual = if field == "updatedInput" {
                 response["hookSpecificOutput"][field].clone()
             } else {

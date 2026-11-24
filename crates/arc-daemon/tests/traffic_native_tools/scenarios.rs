@@ -116,8 +116,32 @@ pub fn cargo_peer<T>(case: &Case<T>, name: &str, form: Form, cargo: &Path) -> Pr
 fn configure_cargo(project: &Path, command: &mut Command) {
     let cache = project.join("cargo-home");
     fs::create_dir_all(&cache).unwrap();
+    let rustc = Path::new(env!("CARGO"))
+        .canonicalize()
+        .unwrap()
+        .with_file_name("rustc");
+    let rustdoc = rustc.with_file_name("rustdoc");
+    assert!(
+        rustc.is_file() && rustdoc.is_file(),
+        "the provisioned Cargo toolchain needs rustc and rustdoc"
+    );
+    let configured_path = command
+        .get_envs()
+        .find_map(|(key, value)| (key == "PATH").then_some(value).flatten())
+        .expect("the native observer PATH is configured");
+    let mut paths = std::env::split_paths(configured_path);
+    let observer = paths.next().expect("the native observer PATH is nonempty");
+    let path = std::env::join_paths(
+        std::iter::once(observer)
+            .chain(std::iter::once(rustc.parent().unwrap().to_path_buf()))
+            .chain(paths),
+    )
+    .unwrap();
     command
         .env("CARGO_NET_OFFLINE", "true")
         .env("CARGO_HOME", cache)
+        .env("RUSTC", rustc)
+        .env("RUSTDOC", rustdoc)
+        .env("PATH", path)
         .env("CARGO_TARGET_DIR", project.join("target"));
 }

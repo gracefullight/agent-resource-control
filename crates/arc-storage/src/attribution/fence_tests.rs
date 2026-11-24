@@ -248,7 +248,7 @@ fn boot_readings_past_104_days_stay_exact_and_capped_ones_imply_nothing() {
             |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
         )
         .unwrap();
-    assert_eq!((version, boot, sealed), (4, None, 0));
+    assert_eq!((version, boot, sealed), (5, None, 0));
     check();
 }
 

@@ -16,13 +16,14 @@ use crate::connection::policy_dispatch::usage_summary::ATTRIBUTION_ADVERTISED;
 use arc_ipc::{meter, traffic::decision_history};
 use std::{path::Path, sync::atomic::Ordering};
 
-pub(super) const NAMES: [&str; 8] = [
+pub(super) const NAMES: [&str; 9] = [
     meter::job_tree::ADVERTISEMENT,
     meter::job_tree_quality::ADVERTISEMENT,
     meter::usage::ADVERTISEMENT,
     meter::usage::SNAPSHOT_TRAFFIC_ADVERTISEMENT,
     decision_history::ADVERTISEMENT,
     meter::usage::ADVERTISEMENT_V2,
+    meter::usage::CODEX_ADVERTISEMENT,
     meter::attribution::ADVERTISEMENT,
     meter::footprint::ADVERTISEMENT,
 ];

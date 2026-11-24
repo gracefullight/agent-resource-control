@@ -40,6 +40,7 @@ pub(crate) static ATTRIBUTION_ADVERTISED: AtomicBool = AtomicBool::new(false);
 pub(crate) enum Query {
     Summary(usage::UsageQuery),
     SummaryV2(usage::UsageQueryV2),
+    SummaryV3(usage::UsageQueryV2),
     JobFootprint(arc_ipc::jobs::JobId),
     /// The cached Meter snapshot with `traffic.queue.depth` from committed state.
     SnapshotTraffic,
@@ -56,6 +57,9 @@ fn classify(request: &Request) -> Option<Result<Query, &'static str>> {
         }
         usage::OPERATION_USAGE_SUMMARY_V2 => {
             Some(usage::decode_query_v2(&request.payload).map(Query::SummaryV2))
+        }
+        usage::OPERATION_USAGE_SUMMARY_V3 => {
+            Some(usage::decode_query_v2(&request.payload).map(Query::SummaryV3))
         }
         wire::footprint::OPERATION_JOB_FOOTPRINT => Some(
             wire::footprint::decode_request(&request.payload)
@@ -132,31 +136,13 @@ pub(crate) fn read(
     snapshot: Option<&arc_meter::SnapshotReader>,
     now_ms: u64,
 ) -> Result<serde_json::Value, arc_storage::jobs::JobError> {
-    use arc_storage::{attribution, footprint, jobs::JobError, usage_summary};
+    use arc_storage::{footprint, jobs::JobError, usage_summary};
     let json = |value: Result<serde_json::Value, _>| value.map_err(|_| JobError::StorageFailure);
     match query {
         Query::Summary(query) => usage_summary::summarize(connection, &query, now_ms)
             .and_then(|summary| json(serde_json::to_value(summary))),
-        Query::SummaryV2(query) => {
-            // One read snapshot for the groups and the attribution section.
-            let tx = connection.transaction()?;
-            let mut summary = usage_summary::summarize_v2(&tx, &query, now_ms)?;
-            if ATTRIBUTION_ADVERTISED.load(Ordering::Acquire) {
-                summary.attribution = Some(attribution::section(
-                    &tx,
-                    query.from_ms,
-                    query.to_ms,
-                    now_ms,
-                )?);
-            }
-            drop(tx);
-            match serde_json::to_vec(&summary) {
-                Ok(bytes) if bytes.len() <= usage::MAX_USAGE_SUMMARY_BYTES => {
-                    json(serde_json::to_value(summary))
-                }
-                _ => Err(JobError::InvalidRequest),
-            }
-        }
+        Query::SummaryV2(query) => read_v2(connection, query, now_ms, false),
+        Query::SummaryV3(query) => read_v2(connection, query, now_ms, true),
         Query::JobFootprint(job) => match footprint::read(connection, &job)? {
             Some(reply) => json(serde_json::to_value(reply)),
             None => Err(JobError::InvalidRequest),
@@ -176,6 +162,40 @@ pub(crate) fn read(
                 serde_json::to_value(traffic).map_err(|_| JobError::StorageFailure)?,
             );
             Ok(value)
+        }
+    }
+}
+
+fn read_v2(
+    connection: &mut rusqlite::Connection,
+    query: usage::UsageQueryV2,
+    now_ms: u64,
+    codex: bool,
+) -> Result<serde_json::Value, arc_storage::jobs::JobError> {
+    use arc_storage::{attribution, jobs::JobError, usage_summary};
+    let json = |value: Result<serde_json::Value, _>| value.map_err(|_| JobError::StorageFailure);
+    {
+        // One read snapshot for the groups and the attribution section.
+        let tx = connection.transaction()?;
+        let mut summary = usage_summary::summarize_v2_with_codex(&tx, &query, now_ms, codex)?;
+        if ATTRIBUTION_ADVERTISED.load(Ordering::Acquire) {
+            let section = attribution::section(&tx, query.from_ms, query.to_ms, now_ms)?;
+            if codex
+                || !section
+                    .proven
+                    .iter()
+                    .chain(&section.estimated)
+                    .any(|g| g.vendor == "codex")
+            {
+                summary.attribution = Some(section);
+            }
+        }
+        drop(tx);
+        match serde_json::to_vec(&summary) {
+            Ok(bytes) if bytes.len() <= usage::MAX_USAGE_SUMMARY_BYTES => {
+                json(serde_json::to_value(summary))
+            }
+            _ => Err(JobError::InvalidRequest),
         }
     }
 }

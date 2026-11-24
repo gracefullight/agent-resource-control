@@ -29,11 +29,11 @@
 //!   may count once more there, and no membership is invented. Newly created
 //!   buckets are `complete`. Membership rows are deleted with their bucket.
 //!
-//! One pass rolls at most [`MAX_RAW_BATCH`] rows (rounded to whole minutes),
-//! so the writer is never held for an unbounded time; [`RollupReport::more`]
-//! asks the caller for another pass.
+//! One pass rolls at most [`MAX_RAW_BATCH`] rows. A durable partial sweep
+//! records RSS across a batch boundary, so a dense sample time has the same
+//! peak after restart as it would in one transaction.
 use crate::jobs::JobResult;
-use rusqlite::{params, Connection, OptionalExtension, TransactionBehavior};
+use rusqlite::{params, Connection, TransactionBehavior};
 
 pub const RAW_RETENTION_MS: u64 = 72 * 60 * 60 * 1000;
 pub const MINUTE_RETENTION_MS: u64 = 30 * 24 * 60 * 60 * 1000;
@@ -51,7 +51,7 @@ const GRANULARITIES: [(&str, u64); 3] = [
 pub struct RollupReport {
     pub raw_rolled_up: u64,
     pub buckets_expired: u64,
-    /// Raw rows older than the cutoff remain beyond this pass's batch.
+    /// Older raw rows or expired buckets/members remain beyond this pass.
     pub more: bool,
 }
 
@@ -59,59 +59,22 @@ fn text_ns(ms: u64) -> String {
     format!("{:019}", ms.saturating_mul(NS_PER_MS))
 }
 
-fn floor_minute_ns(text: &str) -> Option<u64> {
-    let ms = text.parse::<u64>().ok()? / NS_PER_MS;
-    Some(ms - ms % MINUTE_MS)
-}
-
-/// The exclusive end of this pass, as a whole minute at or before `cutoff`.
-fn batch_end(connection: &Connection, cutoff: u64) -> JobResult<(u64, bool)> {
-    let row = |offset: i64| -> JobResult<Option<String>> {
-        Ok(connection
-            .query_row(
-                "SELECT timestamp_ns FROM resource_samples WHERE timestamp_ns<?1
-                 AND length(timestamp_ns)=19 ORDER BY timestamp_ns LIMIT 1 OFFSET ?2",
-                params![text_ns(cutoff), offset],
-                |r| r.get(0),
-            )
-            .optional()?)
-    };
-    let Some(limit) = row(MAX_RAW_BATCH)? else {
-        return Ok((cutoff, false));
-    };
-    let first = row(0)?.as_deref().and_then(floor_minute_ns).unwrap_or(0);
-    let limit = floor_minute_ns(&limit).unwrap_or(cutoff);
-    // A single minute holding more rows than the batch is rolled whole.
-    let end = if limit > first {
-        limit
-    } else {
-        first + MINUTE_MS
-    }
-    .min(cutoff);
-    let more = connection.query_row(
-        "SELECT EXISTS(SELECT 1 FROM resource_samples WHERE timestamp_ns>=?1
-         AND timestamp_ns<?2 AND length(timestamp_ns)=19)",
-        params![text_ns(end), text_ns(cutoff)],
-        |r| r.get(0),
-    )?;
-    Ok((end, more))
-}
-
 pub fn roll_up(connection: &mut Connection, now_ms: u64) -> JobResult<RollupReport> {
     let raw_cutoff = now_ms.saturating_sub(RAW_RETENTION_MS);
     let cutoff = raw_cutoff - raw_cutoff % MINUTE_MS;
     let tx = connection.transaction_with_behavior(TransactionBehavior::Immediate)?;
-    let (end, more) = batch_end(&tx, cutoff)?;
     tx.execute_batch(
         "CREATE TEMP TABLE IF NOT EXISTS rollup_batch(
-           ms INTEGER NOT NULL, ts TEXT NOT NULL, job_id TEXT, rss INTEGER,
+           id INTEGER PRIMARY KEY, ms INTEGER NOT NULL, ts TEXT NOT NULL, job_id TEXT, rss INTEGER,
            cpu_ns INTEGER, write_bytes INTEGER);
          DELETE FROM temp.rollup_batch;
-         CREATE TEMP TABLE IF NOT EXISTS rollup_new_jobs(bucket INTEGER NOT NULL, job_id TEXT NOT NULL);",
+         CREATE TEMP TABLE IF NOT EXISTS rollup_new_jobs(bucket INTEGER NOT NULL, job_id TEXT NOT NULL);
+         CREATE TEMP TABLE IF NOT EXISTS rollup_complete_sweeps(ts TEXT PRIMARY KEY, rss INTEGER NOT NULL);
+         DELETE FROM temp.rollup_complete_sweeps;",
     )?;
     tx.execute(
-        "INSERT INTO temp.rollup_batch(ms,ts,job_id,rss,cpu_ns,write_bytes)
-         SELECT CAST(s.timestamp_ns AS INTEGER)/1000000, s.timestamp_ns, s.job_id, s.rss_bytes,
+        "INSERT INTO temp.rollup_batch(id,ms,ts,job_id,rss,cpu_ns,write_bytes)
+         SELECT s.id, CAST(s.timestamp_ns AS INTEGER)/1000000, s.timestamp_ns, s.job_id, s.rss_bytes,
            max(CAST(n.cpu_time_ns AS INTEGER)-CAST(s.cpu_time_ns AS INTEGER),0),
            max(n.disk_write_bytes-s.disk_write_bytes,0)
          FROM resource_samples s LEFT JOIN resource_samples n ON n.id=(
@@ -119,12 +82,19 @@ pub fn roll_up(connection: &mut Connection, now_ms: u64) -> JobResult<RollupRepo
              SELECT x.id FROM resource_samples x WHERE x.job_id IS s.job_id
                AND x.process_identity=s.process_identity AND x.timestamp_ns>s.timestamp_ns
                AND length(x.timestamp_ns)=19 ORDER BY x.timestamp_ns LIMIT 1) END)
-         WHERE s.timestamp_ns<?1 AND length(s.timestamp_ns)=19",
-        [text_ns(end)],
+         WHERE s.id IN (SELECT id FROM resource_samples WHERE timestamp_ns<?1
+           AND length(timestamp_ns)=19 ORDER BY timestamp_ns,id LIMIT ?2)",
+        params![text_ns(cutoff), MAX_RAW_BATCH],
     )?;
     let raw = tx.query_row("SELECT count(*) FROM temp.rollup_batch", [], |r| {
         r.get::<_, i64>(0)
     })?;
+    tx.execute(
+        "INSERT INTO resource_rollup_pending_sweeps(ts,rss)
+         SELECT ts,sum(rss) FROM temp.rollup_batch WHERE rss IS NOT NULL GROUP BY ts
+         ON CONFLICT(ts) DO UPDATE SET rss=rss+excluded.rss",
+        [],
+    )?;
     for (granularity, width) in GRANULARITIES {
         // The jobs of this pass not yet counted in their bucket.
         tx.execute("DELETE FROM temp.rollup_new_jobs", [])?;
@@ -143,15 +113,13 @@ pub fn roll_up(connection: &mut Connection, now_ms: u64) -> JobResult<RollupRepo
         tx.execute(
             "WITH rows AS (SELECT (ms/?2)*?2 AS bucket, ts, job_id, rss, cpu_ns, write_bytes
                FROM temp.rollup_batch),
-             peaks AS (SELECT bucket, max(total) AS peak FROM
-               (SELECT bucket, ts, sum(rss) AS total FROM rows GROUP BY bucket, ts) GROUP BY bucket),
              sums AS (SELECT r.bucket, sum(r.cpu_ns) AS cpu, sum(r.write_bytes) AS written,
                (SELECT count(*) FROM temp.rollup_new_jobs n WHERE n.bucket=r.bucket) AS jobs
                FROM rows r GROUP BY r.bucket)
              INSERT INTO resource_rollups(granularity,bucket_start_ms,cpu_core_seconds,
                peak_rss_bytes,disk_write_bytes,job_count,reclaimed_bytes,job_count_completeness)
-             SELECT ?1, s.bucket, s.cpu/1e9, p.peak, s.written, s.jobs, NULL, 'complete'
-               FROM sums s JOIN peaks p ON p.bucket=s.bucket WHERE true
+             SELECT ?1, s.bucket, s.cpu/1e9, NULL, s.written, s.jobs, NULL, 'complete'
+               FROM sums s WHERE true
              ON CONFLICT(granularity,bucket_start_ms) DO UPDATE SET
                cpu_core_seconds=CASE WHEN excluded.cpu_core_seconds IS NULL THEN cpu_core_seconds
                  ELSE coalesce(cpu_core_seconds,0)+excluded.cpu_core_seconds END,
@@ -165,31 +133,69 @@ pub fn roll_up(connection: &mut Connection, now_ms: u64) -> JobResult<RollupRepo
         )?;
     }
     let deleted = tx.execute(
-        "DELETE FROM resource_samples WHERE timestamp_ns<?1 AND length(timestamp_ns)=19",
-        [text_ns(end)],
+        "DELETE FROM resource_samples WHERE id IN (SELECT id FROM temp.rollup_batch)",
+        [],
     )?;
     if deleted as i64 != raw {
         return Err(crate::jobs::JobError::StorageFailure);
     }
+    // A sweep becomes a peak only after its last raw row has been consumed.
+    tx.execute(
+        "INSERT INTO temp.rollup_complete_sweeps(ts,rss)
+         SELECT p.ts,p.rss FROM resource_rollup_pending_sweeps p
+         WHERE NOT EXISTS (SELECT 1 FROM resource_samples s WHERE s.timestamp_ns=p.ts)",
+        [],
+    )?;
+    for (granularity, width) in GRANULARITIES {
+        tx.execute(
+            "UPDATE resource_rollups AS r SET peak_rss_bytes = CASE
+               WHEN r.peak_rss_bytes IS NULL THEN p.peak
+               ELSE max(r.peak_rss_bytes,p.peak) END
+             FROM (SELECT (CAST(ts AS INTEGER)/1000000/?2)*?2 AS bucket, max(rss) AS peak
+               FROM temp.rollup_complete_sweeps GROUP BY bucket) AS p
+             WHERE r.granularity=?1 AND r.bucket_start_ms=p.bucket",
+            params![granularity, width as i64],
+        )?;
+    }
+    tx.execute("DELETE FROM resource_rollup_pending_sweeps WHERE ts IN (SELECT ts FROM temp.rollup_complete_sweeps)", [])?;
     tx.execute("DELETE FROM temp.rollup_batch", [])?;
     tx.execute("DELETE FROM temp.rollup_new_jobs", [])?;
     tx.execute(
-        "DELETE FROM resource_rollup_jobs WHERE
-           (granularity='minute' AND bucket_start_ms<?1)
-           OR (granularity IN ('hour','day') AND bucket_start_ms<?2)",
+        "DELETE FROM resource_rollup_jobs WHERE rowid IN (
+           SELECT rowid FROM resource_rollup_jobs WHERE
+             (granularity='minute' AND bucket_start_ms<?1)
+             OR (granularity IN ('hour','day') AND bucket_start_ms<?2)
+           LIMIT ?3)",
         params![
             now_ms.saturating_sub(MINUTE_RETENTION_MS) as i64,
-            now_ms.saturating_sub(HOUR_DAY_RETENTION_MS) as i64
+            now_ms.saturating_sub(HOUR_DAY_RETENTION_MS) as i64,
+            MAX_RAW_BATCH
         ],
     )?;
     let expired = tx.execute(
-        "DELETE FROM resource_rollups WHERE
-           (granularity='minute' AND bucket_start_ms<?1)
-           OR (granularity IN ('hour','day') AND bucket_start_ms<?2)",
+        "DELETE FROM resource_rollups WHERE rowid IN (
+           SELECT r.rowid FROM resource_rollups r WHERE
+             ((r.granularity='minute' AND r.bucket_start_ms<?1)
+              OR (r.granularity IN ('hour','day') AND r.bucket_start_ms<?2))
+             AND NOT EXISTS (SELECT 1 FROM resource_rollup_jobs j
+               WHERE j.granularity=r.granularity AND j.bucket_start_ms=r.bucket_start_ms)
+           LIMIT ?3)",
         params![
             now_ms.saturating_sub(MINUTE_RETENTION_MS) as i64,
-            now_ms.saturating_sub(HOUR_DAY_RETENTION_MS) as i64
+            now_ms.saturating_sub(HOUR_DAY_RETENTION_MS) as i64,
+            MAX_RAW_BATCH
         ],
+    )?;
+    let more = tx.query_row(
+        "SELECT EXISTS(SELECT 1 FROM resource_samples WHERE timestamp_ns<?1 AND length(timestamp_ns)=19)
+         OR EXISTS(SELECT 1 FROM resource_rollups WHERE
+           (granularity='minute' AND bucket_start_ms<?2)
+           OR (granularity IN ('hour','day') AND bucket_start_ms<?3))
+         OR EXISTS(SELECT 1 FROM resource_rollup_jobs WHERE
+           (granularity='minute' AND bucket_start_ms<?2)
+           OR (granularity IN ('hour','day') AND bucket_start_ms<?3))",
+        params![text_ns(cutoff), now_ms.saturating_sub(MINUTE_RETENTION_MS) as i64,
+            now_ms.saturating_sub(HOUR_DAY_RETENTION_MS) as i64], |r| r.get(0),
     )?;
     tx.commit()?;
     Ok(RollupReport {

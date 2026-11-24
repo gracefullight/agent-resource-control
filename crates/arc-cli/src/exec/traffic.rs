@@ -24,7 +24,7 @@ pub(super) use cadence::Cadence;
 mod lifecycle;
 pub(super) use lifecycle::{attach, cancel, complete, complete_or_warn, fallback};
 mod notice;
-use notice::{announce_if_needed, queued_notice, NoticeState};
+pub(super) use notice::{announce_if_needed, queued_notice, NoticeState};
 
 pub(super) const CONTEXT_ENV: &str = "ARC_TRAFFIC_LINEAGE";
 

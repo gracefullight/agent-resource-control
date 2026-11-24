@@ -6,6 +6,7 @@
 
 #[cfg(unix)]
 pub mod client;
+pub mod coalescing;
 pub mod compute_location;
 pub mod governor;
 pub mod jobs;

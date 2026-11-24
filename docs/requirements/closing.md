@@ -1890,6 +1890,201 @@ separately and is not cited here.
   architecture harness, the SwiftPM-backed targets, the desktop Bun checks and
   any browser or screen check.
 
+## Phase 1 hook, disk and writer integration
+
+The accepted baseline is commit `257e4ad1c05956727900296ecae87df693b41842`
+(tree `e68c481795bb551c20703dfb309ac3274e4aae45`). This integration inspected
+snapshot commit `45dbbec198be1ac5cc817d1c8661a5a0498f5cd0` (tree
+`6d75d8008cfa68e60c3baec6d848a008ff448e20`), which contains the lane overlay;
+the integration migration, tests and record edits are worktree changes on that
+snapshot. The lane overlay is not claimed as part of the accepted baseline.
+
+AT-TRF-01: Complete; item 2: agent_test_journey::at_trf_01_codex_claude_installed_hooks_share_one_build_slot
+
+MTR-001: Complete; item 3: meter_readings::mtr_001_disk_pressure_during_real_write_workload
+
+R-014: Complete; item 2: traffic_policy::r_014_slow_consumer_coalesces_latest_and_retains_audit; item 3: traffic_policy::r_014_scheduled_rollups_progress_during_sustained_load
+
+The installed-hook fixture executes both arrival orders against one real daemon,
+with offline children. It does not establish a live trusted vendor session. The
+disk fixture observed advancing writes across samples and independently
+bracketed the sampled root filesystem: the two APFS volumes shared a container.
+The later retry reported Normal at 84,787,200,000 available of 494,384,795,648
+bytes, with zero observed statfs deviation. The coalescing test observed three
+new samples and retained four distinct policy audits; the sustained-load test
+rolled 42,000 rows in three passes while admitted requests stayed continuously
+outstanding, checked bucket sums and audit retention, and observed client
+progress in aggregate. The load test permits `Busy` responses and does not
+establish progress by every individual client.
+
+The focused tests passed after additive migration 0012 registered the partial
+sweep table and successor index without replacing prior objects or pending data.
+The upgrade regression checks both absent and existing objects, retained RSS,
+repeated rollup and unchanged migration history. ADR-003 remains Partial for its
+separate all-event audit item 2. These local checks and earlier lane receipts do
+not establish the current snapshot's runner-owned workspace, Bun, coverage,
+traceability, architecture or prewarmed-duration gates. Independent QA is a
+separate concurrent delivery. Phase 1 is 64 Complete, 5 Partial, 0 Pending and
+2 Blocked of 71.
+
+### Verification retry: CMake queue notice
+
+The later runner verification reported `registered_cmake_ordered_pairs` failing
+in two workspace runs at its queue-wait loop. A retained fixture from one
+failure records the second CTest job as `QUEUED`, the first permit as active,
+and an empty second-job stderr file. The supplied failure output does not show
+why that notice was absent. The same registered test passed alone in 8.95 s
+before the repair and in 7.44 s afterward with the updated CLI, an isolated
+temporary HOME, explicit paths and offline CMake/Cargo fixtures.
+
+The governed admission path discarded a confirmed non-write from its notice
+helper and never retried it. It now uses the existing bounded retry policy:
+retry a confirmed non-write while still queued, but never retry a completed or
+uncertain write. When its marker is available, the helper records write intent
+before touching stderr, so a reaped helper that never reached the write can be
+distinguished from a partial or otherwise uncertain write. The queue and permit
+assertions were retained.
+The exact cause of the runner's absent notice is not established by the
+retained fixture, so a new runner check remains necessary.
+
+Focused retry checks:
+
+- `cargo test --offline -p arc-cli --bin arcctl exec::governor::admission::tests::governed_queue_notice_retries_only_a_confirmed_non_write -- --exact` — one passed; the new test failed before the repair with one attempt instead of two.
+- `cargo test --offline -p arc-cli --bin arcctl exec::preparation::tests::` — ten passed, including synchronized helper termination before and after write intent, exact stderr bytes and closed-stderr handling.
+- `cargo test --offline -p arc-daemon --test agent_test_journey at_trf_01_codex_claude_installed_hooks_share_one_build_slot -- --exact` — one passed against the updated CLI.
+- `cargo test --offline -p arc-daemon --test meter_readings mtr_001_disk_pressure_during_real_write_workload -- --exact` — one passed; writes advanced across samples 4 and 6 and the observed judgment was Normal.
+- `cargo test --offline -p arc-daemon --test traffic_policy r_014_ -- --nocapture` — three passed, including both R-014 tests; the sustained run rolled all 42,000 rows in three continuously loaded passes.
+- `cargo test --offline -p arc-storage --lib rollup_sweeps_upgrade_handles_absent_and_existing_objects_without_losing_pending_data` — one passed; `cargo test --offline -p arc-storage --lib rollup::tests::` — nine passed.
+- `cargo test --offline -p arc-cli --test binary arcctl_binary_is_built_next_to_the_test_harness -- --exact` — one passed and provisioned the updated CLI. Scoped Clippy and rustfmt passed. A separate invocation using the short test name with `--exact` matched zero tests and is not evidence.
+
+The later integration runner passed the four named tests and the workspace run
+in 969.548 s, below the 1,200 s limit. It also passed the specified Bun tests,
+traceability and architecture checks; coverage exceeded 80% in each of the
+eleven reported crates. Subsequent framework verification recorded passing
+formatting, Clippy, workspace and Bun commands. That verification recorded one
+earlier `registered_go_execution_semantics` failure (`NOT_STARTED`) followed by
+a pass on the unchanged inputs, and classified it as nondeterministic under the
+mission policy. The independent QA report remains frozen for its earlier
+snapshot; the [ownership contract](../../.arc-verify/phase-1-hook-disk-writer/contract.md#correction-to-the-frozen-qa-snapshot)
+records a correction to its load-test description. Independent acceptance of
+the combined evidence must be recorded against the reviewed snapshot and both
+artifact hashes. These later record edits still need the runner's delivery check.
+
+The later framework verification failed its workspace test command twice;
+its reported failures included
+`native_process_attribution_separates_proven_estimated_and_unattributed` and
+`registered_go_ordered_pairs`. Formatting, Clippy and the specified Bun command
+passed in that verification. The earlier 969.548-second pass is historical
+evidence, not a passing receipt for this repair.
+
+The retained attribution fixture shows a counted Claude descendant without its
+first self-observer record: the scanner had read the child before the observer
+connected. An opt-in, owner-scoped fixture barrier now holds further real scans
+after the initial baseline until newly started fixture observers connect. The
+test checks that the baseline frontier did not advance before release and
+retains the original first-sighting and CPU assertions. Queue
+notices now retry up to eight confirmed non-writes with bounded backoff, while
+completed or uncertain writes are never retried. Six focused notice tests
+passed. The retained Go fixture shows a queued second job and an empty stderr,
+but does not establish why that particular notice was absent. A Go-only rerun
+also exposed `mise` Rust shims trying a denied installation; the fixture now
+selects rustc, rustdoc and cargo-clippy from its provisioned Cargo toolchain
+while keeping the native observer first on PATH. The focused
+`arc-desktop --test traffic_native_tools registered_go_ordered_pairs` rerun
+passed with those settings and the existing shell PATH, and the provisioned
+test binary passed again from a cleared environment with a temporary HOME and
+forwarded `LLVM_PROFILE_FILE` when present. The runner must verify the final
+repaired tree before mission completion is claimed.
+
+On the repair input, the installed Claude/Codex hook journey and both R-014
+tests passed again; the sustained-load run rolled all 42,000 rows over three
+continuously loaded passes. The real-write disk test also passed: available
+space was 77,414,400,000 of 494,384,795,648 bytes, its native comparison
+deviation was zero, and the observed judgment was Normal.
+
+Focused repair checks also passed:
+
+- `cargo test --offline -p arc-daemon --test process_attribution native_process_attribution_separates_proven_estimated_and_unattributed -- --exact --nocapture` — one test after moving the barrier helper.
+- `cargo test --offline -p arc-cli --bin arcctl exec::traffic::admission_tests:: -- --nocapture` — six tests, including repeated confirmed failures and the uncertain-write control.
+- `cargo test --offline -p arc-desktop --test traffic_native_tools registered_go_ordered_pairs -- --exact` — one test after selecting the provisioned toolchain.
+- `cargo test --offline -p arc-storage --lib rollup -- --nocapture` — ten tests, including upgrades with absent and already-existing sweep objects and retained pending data.
+- Scoped Clippy with `-D warnings` passed for the `arcctl` binary, the `arc-daemon` binary and process-attribution test, and the desktop native-tools test target.
+
+A direct count of the primary Phase 1 tables found 71 distinct rows: 64
+Complete, five Partial, zero Pending and two Blocked. ADR-003 remains Partial.
+
+Integration checks used `CARGO_NET_OFFLINE=true` and `AV_WORKSPACE_SCRATCH=target/debug/incremental`:
+
+- `cargo test -p arc-daemon --test agent_test_journey at_trf_01_codex_claude_installed_hooks_share_one_build_slot -- --exact --nocapture` — passed, one test.
+- `cargo test -p arc-daemon --test meter_readings mtr_001_disk_pressure_during_real_write_workload -- --exact --nocapture` — passed, one test.
+- `cargo test -p arc-daemon --test traffic_policy r_014_ -- --nocapture` — passed, three tests including both R-014 items.
+- `cargo test -p arc-daemon --test traffic_resilience schema_twelve_step_back_preserves_jobs_and_upgrades_again -- --nocapture` — passed, one test without the older nested-build fixture.
+- `cargo test -p arc-storage --tests` — passed, including 185 library tests and the migration, rollup and retention fixtures. Two preceding attempts exposed outdated table inventories in `managed_exec_migration` and `nfr010`; both expectations were corrected and the full scoped retry passed.
+- `cargo test -p arc-daemon --bin arc-daemon db_worker::tests:: -- --nocapture` — passed, 15 tests; the separate `detects_an_idle_gap_even_when_both_snapshots_are_busy` tracker regression also passed.
+- `cargo test -p arc-cli --test binary shared_hook_dispatch_and_exec_preserve_literal_child_behavior -- --exact` and `cargo test -p arc-cli --bin arcctl codex_vocabulary_is_gated_for_older_peers -- --nocapture` — passed, one test each. An earlier `cargo test -p arc-cli --test binary codex` matched zero tests and is not execution evidence.
+- Scoped Clippy passed for `arc-storage --tests` and for the affected `arc-daemon` binary and test targets with `-D warnings`; scoped rustfmt and `git diff --check` passed. A direct count of the matrix found 316 unique primary rows and the Phase 1 counts above.
+
+The corrected tracked ownership contract is below 8,000 bytes. A comparison of the
+86 lane-overlay paths against its scopes found exactly one owner for every path:
+66 Lane A, four Lane B and 16 Lane C. The comparison is against the accepted
+baseline and this task's initial snapshot, not the later integration edits.
+Skills used: `oma-backend`, `oma-db`, `oma-debug` and OpenAI Docs (the [official hook reference](https://learn.chatgpt.com/docs/hooks)).
+
+The current integration attempt repeated the ownership comparison against the
+86 paths in QA snapshot `63e554fd39de354b149078cb36d42fd4a22d1051` with the
+same result. The provisioned storage test binary from the runner workspace
+passed the migration upgrade regression and nine rollup tests with a cleared
+environment and temporary HOME. The earlier runner receipt records all four
+named production-path tests passing in a 914.256-second workspace run. Its
+first coverage collection failed in the desktop native-tools target; the
+subsequent collection passed all eleven crate floors. The later framework
+verification recorded an earlier attribution-test failure followed by a pass
+on unchanged inputs. These receipts predate this attempt's record edits.
+
+A separate read-only reviewer accepted the frozen QA report and its correction
+for that snapshot. The concurrent mission QA task must record its own decision;
+the read-only review alone does not establish an entry in the mission review.
+
+Integration-owned changed paths (relative to the snapshot above):
+
+- `.arc-verify/phase-1-hook-disk-writer/contract.md`
+- `crates/arc-cli/src/exec/governor.rs`
+- `crates/arc-cli/src/exec/governor/admission.rs`
+- `crates/arc-cli/src/exec/governor/admission/tests.rs`
+- `crates/arc-cli/src/exec/preparation.rs`
+- `crates/arc-cli/src/exec/preparation/notice_marker.rs`
+- `crates/arc-cli/src/exec/preparation/tests.rs`
+- `crates/arc-cli/src/exec/traffic.rs`
+- `crates/arc-cli/src/exec/traffic/notice.rs`
+- `crates/arc-daemon/src/database_failure_tests.rs`
+- `crates/arc-daemon/src/db_worker/tests.rs`
+- `crates/arc-daemon/src/server_tests.rs`
+- `crates/arc-daemon/tests/classification.rs`
+- `crates/arc-daemon/tests/resident/lifecycle.rs`
+- `crates/arc-daemon/tests/resident/schema.rs`
+- `crates/arc-daemon/tests/startup.rs`
+- `crates/arc-daemon/tests/support/measurements.rs`
+- `crates/arc-daemon/tests/support/runtime.rs`
+- `crates/arc-daemon/tests/traffic_resilience/schema_step_back.rs`
+- `crates/arc-storage/migrations/0012_rollup_sweeps.sql`
+- `crates/arc-storage/src/job_meter/tests/migration.rs`
+- `crates/arc-storage/src/jobs/tests/migration.rs`
+- `crates/arc-storage/src/jobs/traffic/tests/event_key.rs`
+- `crates/arc-storage/src/jobs/traffic/tests/project_key.rs`
+- `crates/arc-storage/src/migration.rs`
+- `crates/arc-storage/src/migration/tests.rs`
+- `crates/arc-storage/src/migration/tests/acceptance.rs`
+- `crates/arc-storage/src/migration/tests/rollup_sweeps.rs`
+- `crates/arc-storage/src/rollup.rs`
+- `crates/arc-storage/tests/governor_migration.rs`
+- `crates/arc-storage/tests/job_meter_native_retention.rs`
+- `crates/arc-storage/tests/managed_exec_migration.rs`
+- `crates/arc-storage/tests/memory_pressure.rs`
+- `crates/arc-storage/tests/nfr010.rs`
+- `docs/managed-exec.md`
+- `docs/requirements/closing.md`
+- `docs/requirements/traceability.md`
+
 ## Remaining Phase 1 inventories
 
 These lists give every other Phase 1 row its finite cases, in the style of the
@@ -1941,7 +2136,7 @@ completion counts per phase are listed there.
 - **DET-009** — 1. **HOST** nested scripts, lifecycle scripts, forwarded arguments and explicit `--cwd` delegations resolve to their leaf commands: arc-detector `script_resolution::root_desktop_delegations_explicit_cwd_and_parent_package_execution_context`, arc-detector `script_resolution::lifecycle_is_once_in_order_without_recursive_hooks_or_forwarded_flags`, executed in `traffic_bun_scripts::real_installed_tools_and_original_bun_scripts`; 2. **HOST** workspace analysis: a workspace filter or fan-out resolves the member packages' scripts. `detector_workspace::workspace_fanout_and_cache_follow_production_paths` resolves each declared workspace member through classify and exec and checks the daemon's negotiated local compound and its conservative admission. Complete.
 - **DET-012** — 1. **HOST** a managed child that re-enters ARC is linked to the root job by verified ancestry: `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`, `traffic_cli::semantics::cargo_and_bun_nested_jobs_reuse_the_parent_permit_in_both_directions`, `traffic_cli::recovery::queued_nested_cli_rechecks_ancestry_and_reuses_active_lineage`; 2. **HOST** child runtime processes that never re-enter ARC (test workers, compilers) are linked to the managed job: `job_process_meter::mtr_002_unwaited_grandchild_cpu_memory_and_io_are_attributed_to_the_job` (a compiled grandchild that never runs `arcctl` is sampled under the job from its process group, each sample revalidated by PID, start token and boot identity, confidence C). Complete.
 - **DET-014** — 1. **HOST** the analysis of a project is cached and reused by the next classification in that project; 2. **HOST** a changed manifest or script invalidates it. `detector_workspace::workspace_fanout_and_cache_follow_production_paths` exercises cache reuse and invalidation through ordinary and diagnostic classification, including a temporary database override and a TMPDIR covering the usual state directory. Complete.
-- **TRF-001** — 1. **HOST** jobs of different projects pass one coordinator queue: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`, `traffic_python_tests::python_then_cargo_one_test_slot`; 2. **HOST** jobs of two vendors pass the same queue: recorded Claude Code and Cursor events through the built hook, one Build slot, both arrival orders, `traffic_bun_scripts::agent_hooks_claude_first_one_build_slot` and `traffic_bun_scripts::agent_hooks_cursor_first_one_build_slot`. The queue carries no vendor identity. A Codex adapter is AT-TRF-01 item 2, and fairness between vendors is TRF-013 item 2; neither is claimed here. Complete.
+- **TRF-001** — 1. **HOST** jobs of different projects pass one coordinator queue: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`, `traffic_python_tests::python_then_cargo_one_test_slot`; 2. **HOST** jobs of two vendors pass the same queue: recorded Claude Code and Cursor events through the built hook, one Build slot, both arrival orders, `traffic_bun_scripts::agent_hooks_claude_first_one_build_slot` and `traffic_bun_scripts::agent_hooks_cursor_first_one_build_slot`. The queue does not use vendor identity for fairness. The Codex adapter is tested separately under AT-TRF-01 item 2; vendor fairness remains TRF-013 item 2. Complete.
 - **TRF-002** — 1. **HOST** each class has its own window: arc-traffic `policy::direct_classes_have_independent_windows_and_fixed_reservations`, arc-traffic `script_policy::all_script_classes_use_their_existing_or_distinct_windows`, and against a real daemon `traffic_cli::protocol::protocol_admission_enforces_windows_budget_fifo_and_bypass`; 2. **HOST** of two real commands of one class one runs and the other waits: BUILD `traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`, TEST `traffic_python_tests::python_then_cargo_one_test_slot`, TYPECHECK arc-desktop `traffic_bun_scripts::registered_bridge_two_typechecks_one_typecheck_slot`. Complete.
 - **TRF-003** — 1. **HOST** classes with free windows still wait on the shared CPU budget; 2. **HOST** and on the shared memory budget. Both: `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`; policy arithmetic in arc-traffic `script_policy::typecheck_window_is_independent_but_cpu_and_memory_are_global`. Complete.
 - **TRF-004** — 1. **HOST** a grant and its queue, permit and audit rows commit or roll back together (arc-storage `memory_pressure::admission::audit_failure_rolls_back_permit_queue_and_policy_state_together`), and a forced daemon death before a commit leaves no partial state (`managed_exec::crash_recovery::forced_daemon_death_before_commit_rolls_back_and_integrity_ok`); 2. **HOST** a repeated or retried request for one job never reserves twice: `traffic_cli::protocol::lost_grant_and_completion_acknowledgements_are_idempotent`, `managed_exec::protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent`, `traffic_cli::semantics::bun_lost_grant_attach_and_completion_replies_reuse_one_permit`. Complete.
@@ -1950,10 +2145,10 @@ completion counts per phase are listed there.
 - **TRF-007** — 1. **HOST** with no daemon reachable a new command runs once, unchanged: `agent_test_journey::at_trf_06_installed_hook_cargo_test_fails_open_exactly_once`, `managed_exec::fail_open::outages_preserve_native_bytes_exit17_one_invocation_budget_and_no_replay`; 2. **HOST** a daemon stop or kill leaves a running managed child running, and the restart reconciles it without replay: `managed_exec::cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay`. Complete.
 - **TRF-008** — 1. **HOST** a wrapper started inside a managed job takes no second reservation: `traffic_cli::semantics::cargo_and_bun_nested_jobs_reuse_the_parent_permit_in_both_directions`, `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`, arc-cli `job_accounting::lineage::nested_wrappers_resolve_one_canonical_root_across_scheduled_and_lifecycle_modes`. Complete.
 - **TRF-009** — 1. **HOST** a running job is re-identified after a restart and not run again: `managed_exec::cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay`, `traffic_cli::recovery::nested_real_cargo_reuses_lineage_and_restart_keeps_the_active_child`; 2. **HOST** a queued job survives a restart and starts once: `traffic_cli::recovery::bun_restart::real_bun_queued_and_running_jobs_survive_daemon_restart`; 3. **HOST** the grant of a gone owner or child is reconciled: `traffic_cli::recovery::restart_recovers_gone_owner_and_child_without_replaying_work`, `traffic_cli::unattached::restart_retains_unknown_child_until_configured_grace_then_logs_release`; 4. **HOST** a restart into a newer daemon that migrates the schema keeps an active permit and its running job (§9.9, daemon upgrade): `traffic_resilience::restart::trf_009_schema_migrating_restart_keeps_the_active_permit_and_running_job`. The daemon stops with `arcctl exec -- cargo build` RUNNING and holding the one Build permit; the database is stepped back to schema version 7 (migration 0008 undone, read as `UpgradeRequired`); the current daemon binary migrates it to 8 at start. The same permit stays ACTIVE, the job is RUNNING with the same PID and start time and `arcctl job status` shows `running`, the stub started once, and the permit is released once when the child exits. Complete.
-- **TRF-013** — 1. **HOST** one project's 100 queued jobs do not starve another project's one: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 2. **HOST** the same bound between vendors (§9.6). Not implemented: job records carry no vendor identity; 3. **HOST** a developer's interactive command generally precedes agent background work; 4. **HOST** bounded short-job preference with aging; 5. **HOST** bounded backfilling behind an oversized request. Items 3 to 5 are not implemented. Not selected in this cycle. Partial. Remaining: 2, 3, 4, 5.
+- **TRF-013** — 1. **HOST** one project's 100 queued jobs do not starve another project's one: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 2. **HOST** the same bound between vendors (§9.6). Not implemented: recorded vendor attribution does not establish vendor-fair scheduling; 3. **HOST** a developer's interactive command generally precedes agent background work; 4. **HOST** bounded short-job preference with aging; 5. **HOST** bounded backfilling behind an oversized request. Items 3 to 5 are not implemented. Not selected in this cycle. Partial. Remaining: 2, 3, 4, 5.
 - **TRF-015** — 1. **HOST** each job's queue, grant and terminal facts are recorded and read through SQLite and the CLI: `traffic_cli::terminal_outcomes::scheduled_exit_17_persists_failed_across_restart`, `traffic_cli::status::status_identifies_a_retained_live_child_as_running`; 2. **HOST** the reason of the last decision is recorded and readable: budget waits `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`, reuse `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`, fair turn `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 3. **HOST** the sequence of a job's decisions, not only the last one, and its expected schedule are readable: `traffic_policy::trf_015_job_diagnostics_reads_every_decision_in_order_and_schedule` (every recorded decision in order, `Queue position: N of M` while queued, `Expected schedule: unknown` when no time is derivable), `traffic_policy::dec_013_start_rate_bucket_queues_then_grants_without_lost_or_duplicated_permit` (a start-rate hold reads `start_rate` with `Expected schedule: start-rate token at <ms>`, and the grant follows that time in daemon state). Complete.
 - **TRF-018** — 1. **HOST** cancelling a queued job leaves zero starts and no permit: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` (97 cancelled), `traffic_cli::robustness::killed_queued_wrapper_does_not_leave_notice_pipe_open`; 2. **HOST** a signal to the wrapper reaches the child and the native signal status is returned: `traffic_cli::semantics::scheduled_child_signal_is_returned_as_native_signal_status`, `managed_exec::cli::wrapper_directed_signal_preserves_native_signal_status_and_no_second_child`; 3. **HOST** terminal stop, continue and foreground signals match a direct child: `managed_exec::pipeline::native_foreground_pipeline_input_signals_stop_resume_and_exit17`, `managed_exec::terminal::native_pty_foreground_input_modes_and_terminal_signals_match_direct_child`. Complete.
-- **MTR-001** — 1. **HOST** the running daemon samples memory pressure and the free space of its filesystem, read through built `arcctl meter snapshot`: `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`; 2. **HOST** host CPU utilization and available memory are read as values from the real daemon through the CLI: `meter_readings::met_host_cpu_memory_and_swap_values_agree_with_os_readings`; 3. **HOST** disk pressure is judged under a pressure workload. No test. Partial. Remaining: 3.
+- **MTR-001** — 1. **HOST** the running daemon samples memory pressure and the free space of its filesystem, read through built `arcctl meter snapshot`: `worker_runtime::meter_partial::partial_native_failures_preserve_available_fields_cli_health_and_jobs`; 2. **HOST** host CPU utilization and available memory are read as values from the real daemon through the CLI: `meter_readings::met_host_cpu_memory_and_swap_values_agree_with_os_readings`; 3. **HOST** disk pressure is judged during real writes and bracketed against native filesystem observations: `meter_readings::mtr_001_disk_pressure_during_real_write_workload` (observed Normal, not a low-capacity condition). Complete.
 - **MTR-002** — 1. **HOST** a managed job's child is bound by PID, start token and boot identity: `managed_exec::protocol::identity_mismatch_missing_and_restart_never_invent_an_exit`, `managed_exec::current_user_ownership::built_cli_current_user_socket_and_job_ownership`; 2. **HOST** the job's process group and descendants are attributed to it: `job_process_meter::mtr_002_unwaited_grandchild_cpu_memory_and_io_are_attributed_to_the_job` (an unwaited grandchild in the job's process group is in `resource_samples` under the job across at least two samples; a process outside the tree and a recycled identity are never attributed). Complete.
 - **MTR-003** — 1. **HOST** a job's CPU core-seconds, run duration and exit status are recorded and agree across SQLite, CLI and the registered bridge: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`, arc-cli `job_summary::summary_json_correlates_the_job_and_preserves_queue_zero_and_unknown_states`; 2. **HOST** CPU time of descendants the wrapper does not wait for is included: `job_process_meter::mtr_002_unwaited_grandchild_cpu_memory_and_io_are_attributed_to_the_job` (`process_tree.cpu_core_seconds` is the waited rusage plus the unwaited grandchild's sampled CPU and exceeds the waited total); 3. **EXTERNAL** the same on other platforms. Blocked; only item 3 remains.
 - **MTR-004** — 1. **HOST** usage is aggregated by vendor from recorded jobs; 2. **HOST** usage is aggregated by project: `usage_summary::mtr_004_vendor_project_and_period_summaries_match_recorded_jobs` (recorded Claude Code and Cursor events through the installed hook, a direct `arcctl exec` job and a gh REMOTE_CI job in two projects; `arcctl meter summary --by vendor` and `--by project` equal an independent SQLite recompute). Complete.
@@ -1974,7 +2169,7 @@ completion counts per phase are listed there.
 
 ### Acceptance tests
 
-- **AT-TRF-01** — 1. **HOST** two vendors' hook events (recorded Claude Code and Cursor events for `cargo build` and `bun run build`, through the built hook) pass one coordinator; at most one Build runs and the later one starts after the release: `traffic_bun_scripts::agent_hooks_claude_first_one_build_slot`, `traffic_bun_scripts::agent_hooks_cursor_first_one_build_slot`; 2. **HOST** the Codex hook the SRS names. No Codex adapter exists. Partial. Remaining: 2.
+- **AT-TRF-01** — 1. **HOST** two vendors' hook events (recorded Claude Code and Cursor events for `cargo build` and `bun run build`, through the built hook) pass one coordinator; at most one Build runs and the later one starts after the release: `traffic_bun_scripts::agent_hooks_claude_first_one_build_slot`, `traffic_bun_scripts::agent_hooks_cursor_first_one_build_slot`; 2. **HOST** the Codex hook the SRS names: `agent_test_journey::at_trf_01_codex_claude_installed_hooks_share_one_build_slot` (installed Claude/Codex hooks, both orders, one real daemon and offline children; no live vendor session). Complete.
 - **AT-TRF-07** — 1. **HOST** a real Test command that exits 17 with stderr keeps its stderr and the wrapper exits 17: `traffic_python_tests::native_python_execution_semantics`, `managed_exec::cli::exact_native_argv_environment_cwd_streams_and_exit17_match_direct_execution`; 2. **HOST** the job is recorded FAILED: `traffic_cli::terminal_outcomes::scheduled_exit_17_persists_failed_across_restart`. Complete.
 - **AT-TRF-09** — 1. **HOST** a vendor adapter redelivers a PreToolUse event with the same `tool_call_id` and one job is created: `hook_event_identity::at_trf_09_redelivered_claude_event_creates_one_job_and_one_permit` and `hook_event_identity::at_trf_09_redelivered_cursor_event_creates_one_job_and_one_permit`. For the recorded Claude Code 2.1.327 payload and the recorded Cursor preToolUse payload, the installed hook receives the event twice and returns the same keyed command (`hook-exec --arc-event <key> -- cargo build`) both times; neither raw id appears in the command, SQLite or any stream. Both commands run against a real daemon with Build window 1 and an offline stub: SQLite holds one job, one queue entry and one permit for the key, permit high-water is 1, the redelivery runs to its end while the first holds the permit, with no `QUEUED` notice, no other ARC text and no admission decision of its own, each execution ran its stub once with unchanged arguments, cwd, environment, streams and exit status, the redelivery is recorded on the existing job, and the permit is released once. Controls: `hook_event_identity::at_trf_09_distinct_tool_use_ids_create_two_jobs`, `hook_event_identity::at_trf_09_redelivered_event_fails_open_without_a_daemon` and `hook_event_identity::at_trf_09_a_daemon_that_does_not_advertise_receives_no_key`. A live vendor redelivery is not claimed; 2. **HOST** a repeated request for one job identity reserves once: `managed_exec::protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent`, `traffic_cli::protocol::lost_grant_and_completion_acknowledgements_are_idempotent`. Complete.
 - **AT-TRF-10** — 1. **HOST** a managed job runs through a daemon kill and restart; its PID and start time are checked, it is not run again and it is RUNNING afterwards: `managed_exec::cli::daemon_shutdown_and_crash_preserve_child_and_restart_reconciles_without_replay`; 2. **HOST** a scheduled job holding its permit keeps one ACTIVE permit and one start through a daemon stop and restart: `traffic_cli::recovery::nested_real_cargo_reuses_lineage_and_restart_keeps_the_active_child`; 3. **HOST** item 2 across a forced kill of the daemon: `traffic_resilience::restart::at_trf_10_forced_daemon_kill_keeps_one_active_permit_and_one_start`, the TRF-009 item 4 fixture with `SIGKILL` instead of the schema step: one ACTIVE permit, one start, PID and start time rechecked, no replay. Every earlier scheduled restart test used `SIGTERM`. Complete.
@@ -1987,7 +2182,7 @@ completion counts per phase are listed there.
 - **DEC-010** — 1. **HOST** current and cumulative usage are distinct values: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** cost per vendor; 3. **HOST** savings estimates labelled as estimates. Items 2 and 3 are not implemented. Partial. Remaining: 2, 3.
 - **DEC-013** — 1. **HOST** class windows: `traffic_cli::measurement::two_real_builds_queue_fifo_and_bypass_remote_and_unknown_while_full`; 2. **HOST** resource reservation: `traffic_cli::diagnostics::persisted_mixed_tests_wait_for_independent_cpu_and_memory_budgets`; 3. **HOST** fairness between projects: `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job`; 4. **HOST** start-rate control (§9.4): `traffic_policy::dec_013_start_rate_bucket_queues_then_grants_without_lost_or_duplicated_permit` (a Build bucket of one token per 10 s set through the startup Traffic configuration holds the next build QUEUED with a free window, then its own poll is granted once after the token time with one permit and one start; no elapsed-time assertion). Fairness beyond projects is TRF-013. Complete.
 - **G-01** — 1. **HOST** CPU, duration and outcome per job: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** uncertain values are marked: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces` (`partial`, `unobserved_descendants`); 3. **HOST** usage per vendor, session and project: `meter_quality::meter_quality_footprint_sessions_and_rollups_use_production_paths`, `usage_summary::mtr_004_vendor_project_and_period_summaries_match_recorded_jobs`; 4. **HOST** RAM and disk per job: `job_process_meter::mtr_002_unwaited_grandchild_cpu_memory_and_io_are_attributed_to_the_job`. Complete.
-- **ADR-003** — 1. **HOST** SQLite WAL state survives a forced daemon death: `managed_exec::crash_recovery::forced_daemon_death_after_commit_survives_and_integrity_ok`; 2. **HOST** every event class is in an append-only audit; 3. **HOST** periodic aggregation. No test for 2 or 3. Partial. Remaining: 2, 3.
+- **ADR-003** — 1. **HOST** SQLite WAL state survives a forced daemon death: `managed_exec::crash_recovery::forced_daemon_death_after_commit_survives_and_integrity_ok`; 2. **HOST** every event class is in an append-only audit; 3. **HOST** periodic aggregation: `traffic_policy::r_014_scheduled_rollups_progress_during_sustained_load` and `traffic_policy::mtr_014_raw_samples_roll_up_then_delete_and_rows_stay_bounded`. Partial. Remaining: 2.
 - **ADR-014** — 1. **HOST** a retried request with one job identity is idempotent: `managed_exec::protocol::retries_response_loss_concurrent_claim_and_completion_are_idempotent`; 2. **HOST** a redelivered vendor hook event is deduplicated by its event key (AT-TRF-09 item 1): `hook_event_identity::at_trf_09_redelivered_claude_event_creates_one_job_and_one_permit`, `hook_event_identity::at_trf_09_redelivered_cursor_event_creates_one_job_and_one_permit`. The key is the domain-separated SHA-256 of (adapter, `session_id`, `tool_use_id`, phase), stored in `job_lifecycle.event_key` under a partial UNIQUE index (migration 0008); each duplicate is one `HOOK_EVENT_DUPLICATE` audit row on the existing job. Complete.
 - **MET-001** — 1. **HOST** `host.cpu.utilization` is read as a value from the real daemon: `meter_readings::met_host_cpu_memory_and_swap_values_agree_with_os_readings`. Built `arcctl meter snapshot --json` is read from a real daemon while one `arcctl exec -- cargo build` stub is held RUNNING. The value is read at least three samples after the test's first read (from `sequence`, not a sleep), is Available in percent, lies in 0 to 100, and its busy and idle shares of the reported interval do not exceed the busy and idle ticks the test counts over a window that contains that interval. Tolerance 8 ticks per logical CPU; worst deviation 0 ticks; observed 59.3% to 97.8% (Actor-measured, 5 runs, one macOS arm64 host, debug build). Complete.
 - **MET-002** — 1. **HOST** a root process's CPU is observed: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** `proc.cpu.utilization` in core-percent per process: `job_process_meter::mtr_002_unwaited_grandchild_cpu_memory_and_io_are_attributed_to_the_job` (`resource_samples.cpu_core_percent` equals the CPU-time growth over the wall interval of consecutive samples of one process, 100 = one core, null on a first sample). Complete.
@@ -2010,4 +2205,4 @@ completion counts per phase are listed there.
 - **MET-027** — 1. **HOST** `attribution.unattributed_ratio` is computed from native processes. `process_attribution::native_process_attribution_separates_proven_estimated_and_unattributed` compares the ratio with the native snapshot's own total. Complete.
 - **R-003** — 1. **HOST** the hook answers at once and never waits in a queue, also while the window is full: `phase0_targets::nfr_003_installed_hook_bypass_p95_overhead_within_50_ms`, `agent_test_journey::at_trf_05_nested_hook_test_shares_the_root_test_permit`; 2. **HOST** the wait happens in the managed process the hook returned: `managed_exec::capture_integration::closing_exec::stages::mixed_bun_stages_via_hook`, `managed_exec::capture_integration::closing_locality::local_container::local_container_buildx_via_hook_exec`; 3. **HOST** a failed hook or an unreachable daemon blocks nothing: `agent_test_journey::at_trf_06_installed_hook_cargo_test_fails_open_exactly_once`; 4. **EXTERNAL** a queued wait observed against a live vendor's tool timeout. Blocked; only item 4 remains.
 - **R-005** — 1. **HOST** job CPU reports state their basis, scope and completeness: arc-desktop `job_meter_acceptance::calibration::at_mtr_01_two_workers_ten_seconds_reaped_descendants_persist_on_all_surfaces`; 2. **HOST** Unattributed usage is shown: `process_attribution::native_process_attribution_separates_proven_estimated_and_unattributed`; 3. **HOST** each CPU, memory, I/O and disk-written value carries its OS quality flag: `meter_quality::meter_quality_footprint_sessions_and_rollups_use_production_paths`. Complete.
-- **R-014** — 1. **HOST** one writer stays correct under backlog and a busy database: `traffic_cli::robustness::queued_cli_waits_through_real_sqlite_busy_then_starts_after_release`, `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` (101 waiters, zero DB rejections); 2. **HOST** event coalescing; 3. **HOST** rollups under sustained load. No test for 2 or 3. Partial. Remaining: 2, 3.
+- **R-014** — 1. **HOST** one writer stays correct under backlog and a busy database: `traffic_cli::robustness::queued_cli_waits_through_real_sqlite_busy_then_starts_after_release`, `project_fairness::at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` (101 waiters, zero DB rejections); 2. **HOST** event coalescing: `traffic_policy::r_014_slow_consumer_coalesces_latest_and_retains_audit`; 3. **HOST** rollups under sustained load: `traffic_policy::r_014_scheduled_rollups_progress_during_sustained_load`. Complete.

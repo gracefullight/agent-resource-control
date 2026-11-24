@@ -54,6 +54,16 @@ pub const MIGRATIONS: &[Migration] = &[
         id: "0010_attribution",
         sql: include_str!("../migrations/0010_attribution.sql"),
     },
+    Migration {
+        version: 11,
+        id: "0011_codex_attribution",
+        sql: include_str!("../migrations/0011_codex_attribution.sql"),
+    },
+    Migration {
+        version: 12,
+        id: "0012_rollup_sweeps",
+        sql: include_str!("../migrations/0012_rollup_sweeps.sql"),
+    },
 ];
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

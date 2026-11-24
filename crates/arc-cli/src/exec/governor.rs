@@ -2,7 +2,6 @@
 mod admission;
 mod lifecycle;
 use super::{
-    preparation::write_notice,
     signals::Signals,
     traffic::{self, Mode, Route},
     transport::{Continuity, Failure},

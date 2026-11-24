@@ -443,6 +443,7 @@ mod race_tests {
         let mut connection = Connection::open_in_memory().unwrap();
         let shared = Arc::new(Shared {
             observation: observation::Observations::default(),
+            outstanding: Arc::new(outstanding::Tracker::default()),
             stopping: AtomicBool::new(false),
             active: Mutex::new(Some(Active {
                 cancelled: Arc::new(AtomicBool::new(false)),

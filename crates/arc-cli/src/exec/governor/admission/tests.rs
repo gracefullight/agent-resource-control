@@ -124,3 +124,94 @@ fn native_busy_deadline_is_fixed_until_a_healthy_queue_renews_it() {
         }
     }
 }
+
+#[test]
+fn governed_queue_notice_retries_only_a_confirmed_non_write() {
+    use crate::exec::preparation::{with_notice_writer, NoticeWrite};
+    use std::collections::VecDeque;
+
+    thread_local! {
+        static WRITES: RefCell<(usize, VecDeque<NoticeWrite>)> = const {
+            RefCell::new((0, VecDeque::new()))
+        };
+    }
+    fn write(message: &str) -> NoticeWrite {
+        assert!(message.starts_with("QUEUED\nWaiting to start.\nReference: "));
+        WRITES.with(|writes| {
+            let mut writes = writes.borrow_mut();
+            writes.0 += 1;
+            writes.1.pop_front().expect("unexpected duplicate notice")
+        })
+    }
+
+    for (outcomes, expected_calls) in [
+        (vec![NoticeWrite::NotWritten, NoticeWrite::Complete], 2),
+        (vec![NoticeWrite::NotWritten, NoticeWrite::NotWritten], 2),
+        (vec![NoticeWrite::Complete], 1),
+        (vec![NoticeWrite::Uncertain], 1),
+    ] {
+        WRITES.with(|writes| *writes.borrow_mut() = (0, outcomes.into()));
+        let id = JobId::try_from("a".repeat(32)).unwrap();
+        let observer = ProcessIdentity::capture(std::process::id()).unwrap();
+        let initial = JobRequest::Enqueue {
+            job_id: id.clone(),
+            observer: observer.clone(),
+            classification: arc_detector::classify_argv(&["ctest".into()]),
+            lineage_context: None,
+            project: None,
+            event: None,
+            usage: None,
+        };
+        let continuity = Continuity::default();
+        let peer = AdmissionPeer {
+            socket: Path::new("unused"),
+            id: &id,
+            observer: &observer,
+            continuity: &continuity,
+            route: Route::NativeTools,
+        };
+        let origin = Instant::now();
+        let clock = Cell::new(origin);
+        let calls = Cell::new(0);
+        let transport = |_: &GovernorJobRequest, _: Instant, _: &mut bool| {
+            let count = calls.get();
+            calls.set(count + 1);
+            let result = if count < 3 {
+                json!({"state":"QUEUED", "sequence":1, "queued_at_ms":1, "reason":"CLASS_WINDOW"})
+            } else {
+                json!({"state":"GRANTED", "sequence":1, "queued_at_ms":1,
+                    "granted_at_ms":2, "permit_generation":1,
+                    "reservation":{"cpu_millis":1000,"memory_bytes":1024},
+                    "lineage_context":"b".repeat(64)})
+            };
+            Ok(
+                arc_ipc::governor::decode_job_result(&json!({"state":"TRAFFIC", "result":result}))
+                    .unwrap(),
+            )
+        };
+        let now = || clock.get();
+        let sleep = |duration| clock.set(clock.get() + duration);
+        let result = with_notice_writer(write, || {
+            await_admission_with(
+                peer,
+                &initial,
+                false,
+                None,
+                origin + Duration::from_secs(1),
+                &|| false,
+                Runtime {
+                    timing: Timing {
+                        now: &now,
+                        sleep: &sleep,
+                    },
+                    transport,
+                },
+            )
+        });
+        assert!(matches!(
+            result,
+            Ok(Admission::Reserved { waited: true, .. })
+        ));
+        WRITES.with(|writes| assert_eq!(writes.borrow().0, expected_calls));
+    }
+}

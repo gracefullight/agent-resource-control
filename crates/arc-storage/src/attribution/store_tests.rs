@@ -133,3 +133,36 @@ fn the_store_is_beside_the_database_and_names_one_file_for_either_path_form() {
         .ends_with(Path::new(".arc.sqlite3.attribution/intervals.sqlite3")));
     assert_eq!(IntervalStore::beside(Path::new("/")), None);
 }
+
+#[test]
+fn codex_process_attribution_is_stored_and_read_with_existing_groups() {
+    let files = Files::new();
+    let id = scanner();
+    files.store.begin(&id, 1, T0, T0 + 1, T0).unwrap();
+    let mut values = interval(T0, T0 + 1000, 1.0, 0.0, 2.0);
+    values.proven.push(("codex".into(), 3.0));
+    values.estimated.push(("codex".into(), 4.0));
+    files.store.close(&id, 1, 2, &values, T0 + 999, T0).unwrap();
+    let section = files.read(T0, T0 + 1000, Some(&live(&id, None)));
+    assert_eq!(
+        section
+            .proven
+            .iter()
+            .find(|g| g.vendor == "codex")
+            .unwrap()
+            .cpu_core_seconds
+            .value,
+        Some(3.0)
+    );
+    assert_eq!(
+        section
+            .estimated
+            .iter()
+            .find(|g| g.vendor == "codex")
+            .unwrap()
+            .cpu_core_seconds
+            .value,
+        Some(4.0)
+    );
+    assert_eq!(section.unattributed.value, Some(2.0));
+}

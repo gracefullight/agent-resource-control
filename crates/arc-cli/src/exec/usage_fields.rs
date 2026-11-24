@@ -20,7 +20,7 @@
 use arc_ipc::{
     client::Continuity,
     jobs::usage::{HookOverheadMs, SessionKey, UsageFields, Vendor},
-    meter::usage::{ADVERTISEMENT, ADVERTISEMENT_V2},
+    meter::usage::{ADVERTISEMENT, ADVERTISEMENT_V2, CODEX_ADVERTISEMENT},
 };
 use std::{cell::RefCell, path::Path};
 
@@ -87,10 +87,23 @@ fn scoped() -> Option<UsageFields> {
 pub(super) fn negotiated(socket: &Path, daemon: &Continuity) -> Option<UsageFields> {
     let mut usage = scoped()?;
     let daemon = daemon.identity()?;
+    usage = compatible_codex(
+        usage,
+        super::project_key::holds(socket, daemon.pid, CODEX_ADVERTISEMENT),
+    );
     if !super::project_key::holds(socket, daemon.pid, ADVERTISEMENT_V2) {
         usage.session_key = None;
     }
     super::project_key::holds(socket, daemon.pid, ADVERTISEMENT).then_some(usage)
+}
+
+/// An older peer must never deserialize the new vendor vocabulary.
+fn compatible_codex(mut usage: UsageFields, supported: bool) -> UsageFields {
+    if usage.vendor == Some(Vendor::Codex) && !supported {
+        usage.vendor = None;
+        usage.session_key = None;
+    }
+    usage
 }
 
 /// The fields to send with this run's lifecycle registration, or `None`.
@@ -107,6 +120,7 @@ fn registration_at(socket: &Path, scoped: Option<UsageFields>) -> Option<UsageFi
     let continuity = Continuity::default();
     continuity.record(arc_core::process_identity::ProcessIdentity::capture(daemon).ok());
     let mut usage = scoped.unwrap_or_default();
+    usage = compatible_codex(usage, holder(socket, CODEX_ADVERTISEMENT) == Some(daemon));
     if holder(socket, ADVERTISEMENT_V2) != Some(daemon) {
         usage.session_key = None;
     }
@@ -122,6 +136,35 @@ use advertiser::holder;
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn codex_vocabulary_is_gated_for_older_peers() {
+        #[derive(serde::Deserialize)]
+        #[serde(rename_all = "kebab-case")]
+        enum OldVendor {
+            ClaudeCode,
+            Cursor,
+        }
+        #[derive(serde::Deserialize)]
+        struct OldFields {
+            vendor: Option<OldVendor>,
+        }
+        let fields = UsageFields {
+            vendor: Some(Vendor::Codex),
+            session_key: Some(SessionKey::try_from("ab".repeat(32)).unwrap()),
+            ..UsageFields::default()
+        };
+        let legacy = compatible_codex(fields.clone(), false);
+        assert_eq!(legacy.vendor, None);
+        assert_eq!(legacy.session_key, None);
+        let decoded: OldFields =
+            serde_json::from_value(serde_json::to_value(legacy).unwrap()).unwrap();
+        assert!(decoded.vendor.is_none());
+        assert_eq!(compatible_codex(fields.clone(), true), fields);
+        assert!(
+            serde_json::from_value::<OldFields>(serde_json::to_value(fields).unwrap()).is_err()
+        );
+    }
 
     #[test]
     fn hook_options_parse_strictly_and_absent_options_are_todays_route() {

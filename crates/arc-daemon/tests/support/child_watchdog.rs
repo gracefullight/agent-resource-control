@@ -8,7 +8,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-const WATCHDOG: Duration = Duration::from_secs(60);
+pub(crate) const WATCHDOG: Duration = Duration::from_secs(60);
 const CLEANUP: Duration = Duration::from_secs(5);
 
 /// The caller owns the child from spawn through reaping, including on unwind.
@@ -33,6 +33,17 @@ impl Owned {
     }
 
     pub(crate) fn wait_for(&mut self, label: &str, limit: Duration) -> io::Result<ExitStatus> {
+        self.wait_for_with_cleanup(label, limit, || {})
+    }
+
+    /// Run owner-specific cleanup before the wrapper group is killed and
+    /// reaped, while separately grouped descendants can still be identified.
+    pub(crate) fn wait_for_with_cleanup(
+        &mut self,
+        label: &str,
+        limit: Duration,
+        before_cleanup: impl FnOnce(),
+    ) -> io::Result<ExitStatus> {
         let deadline = Instant::now() + limit;
         loop {
             if let Some(status) = self.child.try_wait()? {
@@ -40,6 +51,7 @@ impl Owned {
                 return Ok(status);
             }
             if Instant::now() >= deadline {
+                before_cleanup();
                 self.cleanup();
                 return Err(io::Error::new(
                     io::ErrorKind::TimedOut,

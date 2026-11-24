@@ -5,16 +5,17 @@
 //! is on observed state; the 60 s deadlines are diagnostic watchdogs.
 use crate::{
     journey::{self, eventually, Sandbox},
-    runtime::{child_watchdog::Owned, instrumentation, Fixture},
+    runtime::{child_watchdog, child_watchdog::Owned, instrumentation, Fixture},
 };
 use serde_json::Value;
 use std::{
     collections::BTreeMap,
     fs::{self, File, OpenOptions},
-    io::Write,
+    io::{self, Write},
     os::unix::fs::OpenOptionsExt,
     path::{Path, PathBuf},
     process::{Command, ExitStatus, Stdio},
+    time::Duration,
 };
 
 /// The one internal-error record of a fail-open run (contract D8).
@@ -44,13 +45,30 @@ pub struct Observed {
 
 impl Tool {
     pub fn cargo(f: &Fixture, s: &Sandbox) -> Self {
-        s.stub("cargo");
-        let key = f.root.join("capture-key");
+        Self::named(f, s, "cargo")
+    }
+
+    /// A separately observed offline tool.
+    pub fn named(f: &Fixture, s: &Sandbox, name: &str) -> Self {
+        s.stub(name);
+        let key = f.root.join(if name == "cargo" {
+            "capture-key".to_owned()
+        } else {
+            format!("capture-{name}-key")
+        });
         fs::write(&key, b"arc-hook-fixture-capture-v1").unwrap();
         Self {
             key,
-            record: f.root.join("capture-record"),
-            marker: f.root.join("capture-starts"),
+            record: f.root.join(if name == "cargo" {
+                "capture-record".to_owned()
+            } else {
+                format!("capture-{name}-record")
+            }),
+            marker: f.root.join(if name == "cargo" {
+                "capture-starts".to_owned()
+            } else {
+                format!("capture-{name}-starts")
+            }),
         }
     }
 
@@ -171,6 +189,18 @@ impl Run {
         }
     }
 
+    /// The write end is close-on-exec, so another child cannot retain it.
+    pub fn assert_stdin_cloexec(&self) {
+        use std::os::fd::AsRawFd;
+        let fd = self.child.child.stdin.as_ref().unwrap().as_raw_fd();
+        let flags = unsafe { libc::fcntl(fd, libc::F_GETFD) };
+        assert!(flags >= 0 && flags & libc::FD_CLOEXEC != 0);
+    }
+
+    pub fn pid(&self) -> u32 {
+        self.child.child.id()
+    }
+
     pub fn stderr(&self) -> Vec<u8> {
         fs::read(&self.stderr).unwrap()
     }
@@ -213,14 +243,59 @@ impl Run {
         stdin.write_all(bytes).unwrap();
     }
 
-    pub fn finish(mut self, label: &str) -> Finished {
+    pub fn finish(self, label: &str) -> Finished {
+        self.finish_for(label, child_watchdog::WATCHDOG).unwrap()
+    }
+
+    pub(crate) fn finish_for(mut self, label: &str, limit: Duration) -> io::Result<Finished> {
         drop(self.child.child.stdin.take());
-        let status = self.child.wait(label).unwrap();
-        Finished {
+        let pid = self.pid();
+        let status = self
+            .child
+            .wait_for_with_cleanup(label, limit, || cleanup_tree(pid))?;
+        Ok(Finished {
             status,
             stdout: fs::read(&self.stdout).unwrap(),
             stderr: fs::read(&self.stderr).unwrap(),
+        })
+    }
+}
+
+// Tree cleanup verifies each native identity before signalling it.
+#[cfg(target_os = "macos")]
+#[allow(dead_code)] // Only the identity-checked tree cleanup is used here.
+#[path = "../traffic_cli/process_cleanup.rs"]
+mod process_cleanup;
+
+fn cleanup_tree(pid: u32) {
+    #[cfg(target_os = "macos")]
+    match process_cleanup::capture(pid) {
+        Ok(Some(wrapper)) => {
+            let errors = process_cleanup::kill_tree(&wrapper, 0);
+            if !errors.is_empty() {
+                eprintln!("journey cleanup: {}", errors.join("; "));
+            }
         }
+        Ok(None) => {}
+        Err(error) => eprintln!("journey cleanup: {error}"),
+    }
+    #[cfg(not(target_os = "macos"))]
+    let _ = pid;
+}
+
+// The managed target runs in its own process group, which neither EOF nor a
+// signal to the wrapper's group is guaranteed to end: it may ignore both, and
+// the wrapper keeps waiting for it. A run still going when dropped therefore
+// kills the wrapper's whole descendant tree, target first, each process only
+// after its current identity matches; the owned group is then reaped.
+impl Drop for Run {
+    fn drop(&mut self) {
+        drop(self.child.child.stdin.take());
+        if !matches!(self.child.child.try_wait(), Ok(None)) {
+            return;
+        }
+        cleanup_tree(self.pid());
+        // `Owned` kills what remains of the wrapper's group and reaps it.
     }
 }
 
@@ -261,7 +336,7 @@ pub fn assert_managed(command: &str, literal: &str) {
                 .split_once(" --arc-hook-overhead-ms ")
                 .unwrap_or_else(|| panic!("no hook overhead: {command}"));
             assert!(
-                matches!(vendor, "claude-code" | "cursor"),
+                matches!(vendor, "claude-code" | "cursor" | "codex"),
                 "not a vendor: {command}"
             );
             let (overhead, session) = overhead

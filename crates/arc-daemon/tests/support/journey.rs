@@ -1,8 +1,11 @@
 //! Isolated built-CLI fixtures shared by the Phase 1 journey targets.
 //!
 //! Every process started here gets a cleared environment, a temporary HOME,
-//! explicit configuration paths, a synthetic interface inventory and only the
-//! coverage destination of the test runner. Tools are offline stubs.
+//! explicit configuration paths and only the coverage destination of the
+//! test runner. Tools are offline stubs. [`Sandbox::new`] also interposes a
+//! synthetic interface inventory compiled for it; [`Sandbox::provisioned`]
+//! launches no build or compiler and serves journeys whose commands never
+//! reach endpoint discovery, the CLI's only interface reader.
 #![allow(dead_code)] // Each journey target uses the subset it needs.
 use crate::runtime::{child_watchdog, instrumentation, Fixture};
 use std::{
@@ -49,21 +52,68 @@ pub fn binary(name: &str) -> PathBuf {
     path
 }
 
+/// An already provisioned binary beside the daemon under test. Nothing is
+/// built here: a missing binary is a prerequisite failure naming its fix.
+pub fn provisioned(name: &str) -> PathBuf {
+    let daemon = Path::new(env!("CARGO_BIN_EXE_arc-daemon"));
+    let path = daemon.with_file_name(name);
+    assert!(
+        path.is_file(),
+        "prerequisite missing: {} is not provisioned beside {}. Build the workspace \
+         test binaries first (`cargo test --workspace --no-run` builds arc-cli's \
+         arcctl and arc-exec-fixture); this test launches no build or compiler.",
+        path.display(),
+        daemon.display()
+    );
+    path
+}
+
 pub struct Sandbox {
     pub home: PathBuf,
     pub bin: PathBuf,
     root: PathBuf,
-    interfaces: PathBuf,
+    interfaces: Option<PathBuf>,
+    provisioned: bool,
 }
 
 impl Sandbox {
-    pub fn new(f: &Fixture) -> Self {
+    fn directories(f: &Fixture) -> (PathBuf, PathBuf, PathBuf) {
         let root = f.root.join("journey");
         let (home, bin) = (root.join("home"), root.join("bin"));
         for directory in [home.join("gh"), home.join("xdg"), bin.clone()] {
             fs::create_dir_all(directory).unwrap();
         }
         fs::write(home.join("global"), "").unwrap();
+        (root, home, bin)
+    }
+
+    /// Already provisioned `arcctl` and offline fixture, with no loader
+    /// injection: no nested build, no compiler. Its journeys run commands
+    /// (Cargo, Bun, hook installation, summaries) that do not enter endpoint
+    /// discovery, so the CLI never reads a host interface inventory.
+    pub fn provisioned(f: &Fixture) -> Self {
+        let (root, home, bin) = Self::directories(f);
+        provisioned("arcctl");
+        provisioned("arc-exec-fixture");
+        Self {
+            home,
+            bin,
+            root,
+            interfaces: None,
+            provisioned: true,
+        }
+    }
+
+    fn program(&self, name: &str) -> PathBuf {
+        if self.provisioned {
+            provisioned(name)
+        } else {
+            binary(name)
+        }
+    }
+
+    pub fn new(f: &Fixture) -> Self {
+        let (root, home, bin) = Self::directories(f);
         let source = root.join("interfaces.c");
         let interfaces = root.join("interfaces-library");
         fs::write(
@@ -89,7 +139,8 @@ impl Sandbox {
             home,
             bin,
             root,
-            interfaces,
+            interfaces: Some(interfaces),
+            provisioned: false,
         }
     }
 
@@ -106,7 +157,7 @@ impl Sandbox {
 
     /// Make `program` on the sandbox PATH the offline fixture child.
     pub fn stub(&self, program: &str) {
-        symlink(binary("arc-exec-fixture"), self.bin.join(program)).unwrap();
+        symlink(self.program("arc-exec-fixture"), self.bin.join(program)).unwrap();
     }
 
     /// Any program with the isolated environment, started in `cwd`.
@@ -122,24 +173,26 @@ impl Sandbox {
             .env("GIT_CONFIG_NOSYSTEM", "1")
             .env("PATH", &self.bin)
             .env(
+                "ARC_TEST_INTERFACE_MARKER",
+                self.home.join("interface-calls"),
+            )
+            .current_dir(cwd);
+        if let Some(interfaces) = &self.interfaces {
+            command.env(
                 if cfg!(target_os = "macos") {
                     "DYLD_INSERT_LIBRARIES"
                 } else {
                     "LD_PRELOAD"
                 },
-                &self.interfaces,
-            )
-            .env(
-                "ARC_TEST_INTERFACE_MARKER",
-                self.home.join("interface-calls"),
-            )
-            .current_dir(cwd);
+                interfaces,
+            );
+        }
         instrumentation::forward(&mut command);
         command
     }
 
     pub fn arcctl(&self, f: &Fixture, cwd: &Path) -> Command {
-        self.command(f, binary("arcctl"), cwd)
+        self.command(f, self.program("arcctl"), cwd)
     }
 
     /// The vendor's shell tool: `/bin/sh -c <source>` in `cwd`.

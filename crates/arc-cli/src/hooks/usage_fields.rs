@@ -23,7 +23,7 @@
 use super::{event_key, Vendor};
 use arc_ipc::{
     jobs::usage,
-    meter::usage::{ADVERTISEMENT, ADVERTISEMENT_V2},
+    meter::usage::{ADVERTISEMENT, ADVERTISEMENT_V2, CODEX_ADVERTISEMENT},
 };
 use serde_json::Value;
 use std::time::Instant;
@@ -42,6 +42,11 @@ pub(super) fn annotate(vendor: Vendor, event: &Value, started: Instant, response
     let Some(daemon) = advertiser::holder(&socket, ADVERTISEMENT) else {
         return response;
     };
+    if matches!(vendor, Vendor::Codex)
+        && advertiser::holder(&socket, CODEX_ADVERTISEMENT) != Some(daemon)
+    {
+        return response;
+    }
     let session = (advertiser::holder(&socket, ADVERTISEMENT_V2) == Some(daemon))
         .then(|| super::session_key::digest(vendor, event))
         .flatten();
@@ -56,13 +61,14 @@ fn annotated(
 ) -> Value {
     let adapter = match vendor {
         Vendor::Claude => event_key::CLAUDE,
+        Vendor::Codex => event_key::CODEX,
         Vendor::Cursor => event_key::CURSOR,
     };
     let Some(stored) = usage::Vendor::from_adapter(adapter) else {
         return response;
     };
     let slot = match vendor {
-        Vendor::Claude => response
+        Vendor::Claude | Vendor::Codex => response
             .get_mut("hookSpecificOutput")
             .and_then(|v| v.get_mut("updatedInput")),
         Vendor::Cursor => response.get_mut("updated_input"),

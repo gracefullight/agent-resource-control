@@ -23,6 +23,7 @@ use serde_json::Value;
 
 /// Adapter ids of the event tuple.
 pub(super) const CLAUDE: &str = "claude";
+pub(super) const CODEX: &str = "codex";
 pub(super) const CURSOR: &str = "cursor";
 /// Both adapters deliver the event before the tool runs.
 const PHASE: &str = "pre_tool_use";

@@ -13,7 +13,7 @@ fn database() -> Connection {
             "CREATE TABLE jobs(id TEXT PRIMARY KEY, job_class TEXT, state TEXT, vendor TEXT,
                project_key TEXT, hook_overhead_ms INTEGER, session_key TEXT,
                footprint_start_bytes INTEGER, footprint_start_completeness TEXT,
-               footprint_end_bytes INTEGER, footprint_end_completeness TEXT);
+               footprint_end_bytes INTEGER, footprint_end_completeness TEXT, vendor_codex TEXT);
              CREATE TABLE job_lifecycle(job_id TEXT PRIMARY KEY, registered_at_ms INTEGER);
              CREATE TABLE job_meter_summaries(job_id TEXT PRIMARY KEY, relation TEXT,
                report_json TEXT, process_tree_json TEXT);",
@@ -55,7 +55,7 @@ fn insert(c: &Connection, job: &Job) {
     let id = format!("{:032x}", job.id);
     let (start, end) = job.footprint.unzip();
     c.execute(
-        "INSERT INTO jobs VALUES(?1,?2,'SUCCEEDED',?3,NULL,NULL,?4,?5,?6,?7,?8)",
+        "INSERT INTO jobs VALUES(?1,?2,'SUCCEEDED',?3,NULL,NULL,?4,?5,?6,?7,?8,NULL)",
         params![
             id,
             job.class,
@@ -331,4 +331,28 @@ fn a_local_side_without_jobs_or_measurements_is_unavailable_with_a_reason() {
         REASON_NOT_MEASURED
     );
     assert_eq!(unmeasured["cpu_core_seconds"]["eligible_jobs"], 1);
+}
+
+#[test]
+fn old_summary_projection_and_negotiated_codex_summary_preserve_counts() {
+    let c = database();
+    let mut codex = job(41);
+    codex.vendor = None;
+    insert(&c, &codex);
+    c.execute(
+        "UPDATE jobs SET vendor_codex='codex' WHERE id=?1",
+        [format!("{:032x}", codex.id)],
+    )
+    .unwrap();
+    let old = summarize(&c, &query(GroupByV2::Vendor), T0).unwrap();
+    assert_eq!(
+        group(&old, "vendor", "none")["local"]["job.count"]["total"],
+        json!(1)
+    );
+    assert!(!old.groups.iter().any(|g| g["vendor"] == "codex"));
+    let new = summarize_codex(&c, &query(GroupByV2::Vendor), T0, true).unwrap();
+    assert_eq!(
+        group(&new, "vendor", "codex")["local"]["job.count"]["total"],
+        json!(1)
+    );
 }

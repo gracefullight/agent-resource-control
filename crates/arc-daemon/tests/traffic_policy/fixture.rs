@@ -29,10 +29,12 @@ pub fn daemon(f: &Fixture, env: &[(&str, &str)]) -> OwnedChild {
 }
 
 /// Stop, check the runtime report and database, and make room for a restart.
-pub fn stop(f: &Fixture, mut daemon: OwnedChild) {
+/// Returns the checked runtime report.
+pub fn stop(f: &Fixture, mut daemon: OwnedChild) -> Value {
     daemon.stop(libc::SIGTERM);
-    f.report();
+    let report = f.report();
     std::fs::remove_file(f.root.join("runtime.json")).unwrap();
+    report
 }
 
 /// `arcctl exec -- cargo <verb>` in `project`; the offline stub records each

@@ -15,6 +15,8 @@ pub enum Vendor {
     ClaudeCode,
     #[serde(rename = "cursor")]
     Cursor,
+    #[serde(rename = "codex")]
+    Codex,
 }
 impl Vendor {
     /// The single adapter-id mapping.
@@ -22,6 +24,7 @@ impl Vendor {
         match adapter {
             "claude" => Some(Self::ClaudeCode),
             "cursor" => Some(Self::Cursor),
+            "codex" => Some(Self::Codex),
             _ => None,
         }
     }
@@ -29,6 +32,7 @@ impl Vendor {
         match self {
             Self::ClaudeCode => "claude-code",
             Self::Cursor => "cursor",
+            Self::Codex => "codex",
         }
     }
 }

@@ -41,6 +41,7 @@ fn key(vendor: usage::Vendor, session: &str) -> Option<SessionKey> {
 pub(super) fn digest(vendor: Vendor, event: &Value) -> Option<SessionKey> {
     let adapter = match vendor {
         Vendor::Claude => event_key::CLAUDE,
+        Vendor::Codex => event_key::CODEX,
         Vendor::Cursor => event_key::CURSOR,
     };
     let stored = usage::Vendor::from_adapter(adapter)?;

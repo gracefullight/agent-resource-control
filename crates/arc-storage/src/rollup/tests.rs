@@ -201,7 +201,32 @@ fn expired_buckets_are_deleted_by_granularity() {
 }
 
 #[test]
-fn a_pass_is_bounded_to_whole_minutes() {
+fn expiry_removes_dense_membership_in_bounded_passes_before_its_bucket() {
+    let mut db = TempDb::new();
+    let connection = db.connection();
+    let expired = NOW - 31 * 24 * 60 * MINUTE_MS;
+    connection.execute("INSERT INTO resource_rollups(granularity,bucket_start_ms,job_count) VALUES('minute',?1,?2)",
+        params![expired as i64, MAX_RAW_BATCH + 1]).unwrap();
+    let tx = connection.transaction().unwrap();
+    for i in 0..=MAX_RAW_BATCH {
+        tx.execute("INSERT INTO resource_rollup_jobs(granularity,bucket_start_ms,job_id) VALUES('minute',?1,?2)",
+            params![expired as i64, format!("expiry-{i}")]).unwrap();
+    }
+    tx.commit().unwrap();
+    let first = roll_up(connection, NOW).unwrap();
+    assert!(first.more);
+    assert_eq!(first.buckets_expired, 0);
+    assert_eq!(count(connection, "resource_rollup_jobs"), 1);
+    assert_eq!(count(connection, "resource_rollups"), 1);
+    let second = roll_up(connection, NOW).unwrap();
+    assert!(!second.more);
+    assert_eq!(second.buckets_expired, 1);
+    assert_eq!(count(connection, "resource_rollup_jobs"), 0);
+    assert_eq!(count(connection, "resource_rollups"), 0);
+}
+
+#[test]
+fn a_pass_is_bounded_even_inside_a_dense_minute() {
     let mut db = TempDb::new();
     let connection = db.connection();
     let first = (NOW - 100 * 60 * 60 * 1000) / MINUTE_MS * MINUTE_MS;
@@ -220,12 +245,151 @@ fn a_pass_is_bounded_to_whole_minutes() {
     }
     tx.commit().unwrap();
     let report = roll_up(connection, NOW).unwrap();
-    assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64 + 10);
+    assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64);
     assert!(report.more);
     let report = roll_up(connection, NOW).unwrap();
-    assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64 + 10);
+    assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64);
+    assert!(report.more);
+    let report = roll_up(connection, NOW).unwrap();
+    assert_eq!(report.raw_rolled_up, 20);
     assert!(!report.more);
     assert_eq!(count(connection, "resource_samples"), 0);
+}
+
+#[test]
+fn dense_sweep_resumes_after_reopen_without_losing_peak_or_double_counting() {
+    let mut db = TempDb::new();
+    let hour = 60 * MINUTE_MS;
+    let base = (NOW - 80 * hour) / hour * hour;
+    let day = base / (24 * hour) * (24 * hour);
+    for job in ["dense-a", "dense-b"] {
+        db.connection()
+            .execute(
+                "INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at)
+             VALUES(?1,'BUILD','LOCAL','OBSERVE','COMPLETED',0)",
+                [job],
+            )
+            .unwrap();
+    }
+    let tx = db.connection().transaction().unwrap();
+    for i in 0..MAX_RAW_BATCH + 7 {
+        tx.execute(
+            "INSERT INTO resource_samples(timestamp_ns,job_id,rss_bytes,attribution_confidence)
+                    VALUES(?1,?2,1,'A')",
+            params![
+                text_ns(base),
+                if i % 2 == 0 { "dense-a" } else { "dense-b" }
+            ],
+        )
+        .unwrap();
+    }
+    for (at, cpu, writes) in [(base + 1000, "0", 0), (base + 2000, "5000000000", 7)] {
+        tx.execute("INSERT INTO resource_samples(timestamp_ns,job_id,process_identity,cpu_time_ns,rss_bytes,disk_write_bytes,attribution_confidence)
+                    VALUES(?1,'dense-a','one',?2,10,?3,'A')", params![text_ns(at),cpu,writes]).unwrap();
+    }
+    tx.commit().unwrap();
+    let report = roll_up(db.connection(), NOW).unwrap();
+    assert_eq!(report.raw_rolled_up, MAX_RAW_BATCH as u64);
+    assert!(report.more);
+    assert_eq!(rollup(db.connection(), "minute", base).1, None);
+    drop(db.1.take());
+    db.1 = Some(crate::open_and_migrate(db.0.join("db")).unwrap());
+    let report = roll_up(db.connection(), NOW).unwrap();
+    assert_eq!(report.raw_rolled_up, 9);
+    assert!(!report.more);
+    for (g, at) in [("minute", base), ("hour", base), ("day", day)] {
+        assert_eq!(
+            rollup(db.connection(), g, at),
+            (Some(5.0), Some(MAX_RAW_BATCH + 7), Some(7), 2, None)
+        );
+    }
+    assert_eq!(roll_up(db.connection(), NOW).unwrap().raw_rolled_up, 0);
+    assert_eq!(count(db.connection(), "resource_rollup_pending_sweeps"), 0);
+}
+
+#[test]
+fn dense_multi_process_successors_use_index_across_bounded_passes() {
+    let mut db = TempDb::new();
+    let connection = db.connection();
+    let hour = 60 * MINUTE_MS;
+    let base = (NOW - 80 * hour) / hour * hour;
+    connection
+        .execute(
+            "INSERT INTO jobs(id,job_class,locality,enforcement,state,created_at)
+         VALUES('dense-job','BUILD','LOCAL','OBSERVE','COMPLETED',0)",
+            [],
+        )
+        .unwrap();
+    let tx = connection.transaction().unwrap();
+    for i in 0..=MAX_RAW_BATCH {
+        for (offset, cpu, written) in [(0, "0", 0), (1000, "1", 1)] {
+            tx.execute(
+                "INSERT INTO resource_samples(timestamp_ns,job_id,process_identity,cpu_time_ns,rss_bytes,disk_write_bytes,attribution_confidence)
+                 VALUES(?1,'dense-job',?2,?3,1,?4,'A')",
+                params![text_ns(base + offset), format!("process-{i}"), cpu, written],
+            ).unwrap();
+        }
+    }
+    tx.commit().unwrap();
+    let first = roll_up(connection, NOW).unwrap();
+    assert_eq!(first.raw_rolled_up, MAX_RAW_BATCH as u64);
+    assert!(first.more);
+    let plan: String = connection
+        .query_row(
+            "EXPLAIN QUERY PLAN SELECT x.id FROM resource_samples x WHERE x.job_id IS ?1
+         AND x.process_identity=?2 AND x.timestamp_ns>?3 AND length(x.timestamp_ns)=19
+         ORDER BY x.timestamp_ns LIMIT 1",
+            params!["dense-job", "process-1", text_ns(base)],
+            |row| row.get(3),
+        )
+        .unwrap();
+    assert!(plan.contains("idx_resource_samples_rollup_next"), "{plan}");
+    let second = roll_up(connection, NOW).unwrap();
+    assert_eq!(second.raw_rolled_up, MAX_RAW_BATCH as u64);
+    assert!(second.more);
+    let third = roll_up(connection, NOW).unwrap();
+    assert_eq!(third.raw_rolled_up, 2);
+    assert!(!third.more);
+    let actual = rollup(connection, "hour", base);
+    assert!((actual.0.unwrap() - (MAX_RAW_BATCH + 1) as f64 / 1e9).abs() < 1e-12);
+    assert_eq!(
+        (actual.1, actual.2, actual.3),
+        (Some(MAX_RAW_BATCH + 1), Some(MAX_RAW_BATCH + 1), 1)
+    );
+    assert_eq!(roll_up(connection, NOW).unwrap().raw_rolled_up, 0);
+    assert_eq!(rollup(connection, "hour", base), actual);
+}
+
+#[test]
+fn failed_delete_rolls_back_partial_aggregates_and_replay_counts_once() {
+    let mut db = TempDb::new();
+    let connection = db.connection();
+    let hour = 60 * MINUTE_MS;
+    let base = (NOW - 80 * hour) / hour * hour;
+    seed(connection, 0, base);
+    connection
+        .execute_batch(
+            "CREATE TRIGGER fixture_abort BEFORE DELETE ON resource_samples
+         BEGIN SELECT RAISE(ABORT,'fixture rollback'); END;",
+        )
+        .unwrap();
+    assert!(roll_up(connection, NOW).is_err());
+    assert_eq!(count(connection, "resource_samples"), 24);
+    assert_eq!(count(connection, "resource_rollups"), 0);
+    assert_eq!(count(connection, "resource_rollup_jobs"), 0);
+    connection
+        .execute_batch("DROP TRIGGER fixture_abort;")
+        .unwrap();
+    assert_eq!(roll_up(connection, NOW).unwrap().raw_rolled_up, 24);
+    assert_eq!(
+        rollup(connection, "hour", base),
+        (Some(33.0), Some(1_500), Some(1_100), 2, None)
+    );
+    assert_eq!(roll_up(connection, NOW).unwrap().raw_rolled_up, 0);
+    assert_eq!(
+        rollup(connection, "hour", base),
+        (Some(33.0), Some(1_500), Some(1_100), 2, None)
+    );
 }
 
 /// Cycle 35 F2: one job sampled across two nonempty passes into the same

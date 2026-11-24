@@ -9,6 +9,29 @@ The authoritative [SRS](ARC_SRS_2026-11-06.md) SHA-256 is `a8ef945251f9f3fd7c3e3
 The frozen [task-5 interface contract](../../.arc-verify/governor/contract.md#amendment-13-traceability-format-and-counts), [task-8 integrated receipt](../../.arc-verify/governor/integration.json) and its `task13RepairAttempt2` correction are consumed without modification. The current format requires `Complete`, `Partial`, `Pending` or `Blocked`; each primary row carries Source, one primary Phase, Status, Evidence and Cycle. Requirements and acceptance cross-references use their respective inventories. `None` always explains the unmapped obligation. Catalog IDs retain their separate inventory and related mappings.
 
 
+## Phase 1 hook, disk and writer integration outcome
+
+The [closing assessment](closing.md#phase-1-hook-disk-and-writer-integration)
+records the accepted baseline, integration snapshot, named passing tests and
+fixture limits. AT-TRF-01, MTR-001 and R-014 move Partial → Complete. ADR-003
+remains Partial for audit item 2. Phase 1 is 64 Complete, 5 Partial, 0 Pending
+and 2 Blocked of 71. The independent QA report and final runner-owned gates are
+separate deliveries. Later runner receipts passed the required checks and
+coverage; the [closing assessment](closing.md#verification-retry-cmake-queue-notice)
+records the nondeterministic final-verification retry and the correction to the
+frozen QA report. Independent acceptance of the combined evidence must be
+recorded in the mission review. The runner must assess these later record edits
+as part of the delivery.
+
+| Primary phase | Total | Complete | Partial | Pending | Blocked |
+| --- | --- | --- | --- | --- | --- |
+| Phase 0 | 40 | 22 | 1 | 0 | 17 |
+| Phase 1 | 71 | 64 | 5 | 0 | 2 |
+| Phase 2 | 43 | 4 | 8 | 30 | 1 |
+| Phase 3 | 108 | 0 | 5 | 103 | 0 |
+| Phase 4 | 44 | 0 | 15 | 29 | 0 |
+| Phase 5 | 10 | 0 | 1 | 9 | 0 |
+
 ## Phase 1 attribution integration outcome
 
 Accepted baseline `6f63a3a` (tree `a679952f`); the lane deliveries and integration edits are in the mission worktree. Skills used: `oma-backend`, `oma-db` and `oma-debug`. The independently written [QA snapshot](../../.arc-verify/phase-1-attribution/qa.md) is retained unchanged. The focused production-path tests and runner-owned gates are described below and in the [closing list](closing.md#remaining-phase-1-inventories).
@@ -590,7 +613,7 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 
 | Requirement ID | SRS declaration | Source | Acceptance-test ID | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| TRF-001 | 프로젝트·벤더 구분 없는 전역 큐 | [§9.11, L973](ARC_SRS_2026-11-06.md#911-traffic-기능-요구사항) | AT-TRF-01, AT-TRF-08 | Phase 1 | Complete | Complete | [Numbered cases](closing.md#remaining-phase-1-inventories) 1 and 2 have named passing tests. Projects: `at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` ([project_fairness](../../crates/arc-daemon/tests/project_fairness.rs)) holds two projects' builds in one queue, and `python_then_cargo_one_test_slot` ([traffic_python_tests](../../crates/arc-daemon/tests/traffic_python_tests.rs)) uses distinct project roots. Vendors: `agent_hooks_claude_first_one_build_slot` and `agent_hooks_cursor_first_one_build_slot` ([traffic_bun_scripts](../../crates/arc-daemon/tests/traffic_bun_scripts.rs)) pass recorded Claude Code and Cursor events through the built hook into one Build slot in both orders. The queue carries no vendor identity. A Codex adapter (AT-TRF-01) and fairness between vendors (TRF-013) are not part of this row and are not claimed; no live vendor session ran. | phase-1-entry-2026-11-22 |
+| TRF-001 | 프로젝트·벤더 구분 없는 전역 큐 | [§9.11, L973](ARC_SRS_2026-11-06.md#911-traffic-기능-요구사항) | AT-TRF-01, AT-TRF-08 | Phase 1 | Complete | Complete | [Numbered cases](closing.md#remaining-phase-1-inventories) 1 and 2 have named passing tests. Projects: `at_trf_08_project_b_is_granted_after_at_most_one_project_a_job` ([project_fairness](../../crates/arc-daemon/tests/project_fairness.rs)) holds two projects' builds in one queue, and `python_then_cargo_one_test_slot` ([traffic_python_tests](../../crates/arc-daemon/tests/traffic_python_tests.rs)) uses distinct project roots. Vendors: `agent_hooks_claude_first_one_build_slot` and `agent_hooks_cursor_first_one_build_slot` ([traffic_bun_scripts](../../crates/arc-daemon/tests/traffic_bun_scripts.rs)) pass recorded Claude Code and Cursor events through the built hook into one Build slot in both orders. The queue does not use vendor identity for fairness. The Codex adapter is covered separately by AT-TRF-01; vendor fairness (TRF-013) remains open. No live vendor session ran. | phase-1-entry-2026-11-22 |
 | TRF-002 | Build/Test/Lint/Typecheck window 각각 관리 | [§9.11, L974](ARC_SRS_2026-11-06.md#911-traffic-기능-요구사항) | AT-TRF-01 | Phase 1 | Complete | Complete | [four-window policy test](crates/arc-traffic/tests/script_policy.rs#all_script_classes_use_their_existing_or_distinct_windows); [paired native typechecks](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_two_typechecks_one_typecheck_slot); [both BUILD orders passed](.arc-verify/traffic-bun-scripts/integration.json#/nativeAcceptance/buildBothArrivalOrdersPassed); [executed Bun-script receipt](.arc-verify/traffic-bun-scripts/integration.json#/nativeIntegration/checkReceipts/5). The [four Python mixed TEST pairs](#focused-python-test-acceptance-evidence) additionally prove that pytest, cargo test and bun test share the existing one-slot TEST window; spare CPU/memory distinguishes a class-window wait from the separate global-budget case. No Python-specific scheduler/window/writer is introduced; final permits reconcile to zero active. Native tools reuse BUILD/TEST/LINT without a new scheduler or writer. [Class-aware witnesses](../../crates/arc-daemon/tests/traffic_native_tools/witnesses.rs) reconstruct all permit intervals; one class slot plus spare global resources establishes class contention. [Current native evidence](#focused-native-tool-family-evidence) retains actual gate failures rather than substituting isolated receipts. The [agent-event BUILD fixtures](../../crates/arc-daemon/tests/traffic_bun_scripts/agent_hooks.rs) additionally observed high-water one and zero second starts before release; registered-bridge execution remains runner-owned. [Test-performance integration](#test-performance-integration-evidence-2026-11-18) retains this evidence scope; final gates remain pending. | test-performance-2026-11-18 |
 | TRF-003 | 글로벌 CPU·메모리 예산과 클래스별 예약 연결 | [§9.11, L975](ARC_SRS_2026-11-06.md#911-traffic-기능-요구사항) | AT-TRF-03 | Phase 1 | Complete | Complete | [global resource policy test](crates/arc-traffic/tests/script_policy.rs#typecheck_window_is_independent_but_cpu_and_memory_are_global); [native CPU contention](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_mixed_cpu_budget); [native memory contention](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_mixed_memory_budget_injected_estimate); [executed workspace receipt](.arc-verify/traffic-bun-scripts/integration.json#/nativeIntegration/checkReceipts/5); supported mixed classes queue on shared CPU/memory reservation sums and release once, with SQLite/CLI/registered-bridge agreement. Memory isolation explicitly injects a 3758096384-byte estimate; estimates remain distinct from observed memory use. The daemon defaults to 2000 millicores and 4 GiB; `ARC_TRAFFIC_CPU_BUDGET_MILLIS` can change the CPU budget at startup, while class windows and memory budget remain fixed in this slice. | traffic-bun-scripts-2026-11-14 |
 | TRF-004 | Permit DB 트랜잭션·중복 방지 | [§9.11, L976](ARC_SRS_2026-11-06.md#911-traffic-기능-요구사항) | AT-TRF-01, AT-TRF-09 | Phase 1 | Complete | Complete | [GV-N07](.arc-verify/governor/integration.json#/nativeAcceptance/cases/6); [GV-N09](.arc-verify/governor/integration.json#/nativeAcceptance/cases/8); [GV-N11](.arc-verify/governor/integration.json#/nativeAcceptance/cases/10); [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); transactional reservations, stable duplicate handling and one-shot release accounting pass. Cycle 22 frozen publication/control-fence tests retain exclusion, setter ordering, generation retirement and exactly-once permit release. [Timing treatments](../../.arc-verify/cycle-22/contract.md#timing-inventory); repaired AV integration passed. Final gate evidence: [gates](../../.arc-verify/cycle-22/gates.json); independent review: [qa](../../.arc-verify/cycle-22/qa.json). | cycle22-amendment15 |
@@ -617,7 +640,7 @@ SRS declaration text is retained to make every ID independently reviewable. Evid
 
 | Requirement ID | SRS declaration | Source | Acceptance-test ID | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| MTR-001 | Host CPU/RAM/Disk pressure 실시간 계측 | [§10.9, L1115](ARC_SRS_2026-11-06.md#109-meter-기능-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 1 | Partial | Partial | Cases 1 and 2 of the [closing list](closing.md#remaining-phase-1-inventories) have named passing tests; case 2 is `meter_readings::met_host_cpu_memory_and_swap_values_agree_with_os_readings` (host CPU utilization and available memory as values from the real daemon through built `arcctl`). Remaining: 3, disk pressure judged under a pressure workload. | phase-1-resilience-2026-11-22 |
+| MTR-001 | Host CPU/RAM/Disk pressure 실시간 계측 | [§10.9, L1115](ARC_SRS_2026-11-06.md#109-meter-기능-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 1 | Complete | Complete | Cases 1 and 2 retain their named tests in the [closing list](closing.md#remaining-phase-1-inventories). Item 3: `meter_readings::mtr_001_disk_pressure_during_real_write_workload` compares real writes and published daemon samples with independent statfs readings; the observed judgment was Normal. | phase-1-hook-disk-writer-2026-11-24 |
 | MTR-002 | Managed Job의 PID/group 귀속 | [§10.9, L1116](ARC_SRS_2026-11-06.md#109-meter-기능-요구사항) | AT-TRF-10 | Phase 1 | Complete | Complete | Every HOST case of the [closing list](closing.md#remaining-phase-1-inventories) has a named passing production-path test; case 2 is `job_process_meter::mtr_002_unwaited_grandchild_cpu_memory_and_io_are_attributed_to_the_job`: an unwaited grandchild in the job's process group is sampled under the job from the recorded child identity across at least two Meter passes, each process revalidated by PID, start token and boot identity (confidence C, root A); an outside process and a recycled identity are never attributed. built `arcctl exec`, a real daemon and an offline compiled process-tree fixture. | phase-1-meter-policy-2026-11-22 |
 | MTR-003 | Job별 CPU time·duration·exit status | [§10.9, L1117](ARC_SRS_2026-11-06.md#109-meter-기능-요구사항) | AT-TRF-07, AT-MTR-01 | Phase 1 | Blocked | Blocked | HOST cases 1 and 2 of the [closing list](closing.md#remaining-phase-1-inventories) have named passing tests; case 2 is `job_process_meter::mtr_002_unwaited_grandchild_cpu_memory_and_io_are_attributed_to_the_job`: `arcctl meter summary --job --json` `process_tree.cpu_core_seconds` (basis `tree_samples`) is the waited rusage plus the unwaited grandchild's sampled CPU and exceeds the waited total. built `arcctl exec`, a real daemon and an offline compiled process-tree fixture. Case 3, other platforms, is external and was not run or claimed. | phase-1-meter-policy-2026-11-22 |
 | MTR-004 | 벤더/프로젝트별 집계 | [§10.9, L1118](ARC_SRS_2026-11-06.md#109-meter-기능-요구사항) | None — §21 declares no dedicated acceptance-test heading for this individual obligation. | Phase 1 | Complete | Complete | Every HOST case of the [closing list](closing.md#remaining-phase-1-inventories) has a named passing production-path test: `usage_summary::mtr_004_vendor_project_and_period_summaries_match_recorded_jobs`. Jobs from the installed hook with recorded Claude Code and Cursor payloads, built `arcctl` and a real daemon with offline stubs, plus a direct `arcctl exec` job and a gh REMOTE_CI job in two projects; `arcctl meter summary --by vendor` and `--by project --json` equal an independent SQLite recompute. A job without a vendor groups under `none`, not Unattributed. | phase-1-meter-policy-2026-11-22 |
@@ -756,7 +779,7 @@ These 47 rows refer to actual §21 Gherkin headings. GV-N and G01–G13 below ar
 
 | Acceptance-test ID | Scenario | Source | Requirement ID | Phase | Status | Assessment | Evidence | Cycle |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| AT-TRF-01 | 다중 벤더 전역 큐 | [AT-TRF-01, L2617](ARC_SRS_2026-11-06.md#at-trf-01-다중-벤더-전역-큐) | VND-006, DET-003, DET-004, TRF-001, TRF-002, TRF-004, TRF-015 | Phase 1 | Partial | Partial | [Cargo first](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_cargo_first_one_build_slot); [Bun-script first](apps/desktop/src-tauri/tests/traffic_bun_scripts.rs#registered_bridge_bun_script_first_one_build_slot); [both BUILD orders passed](.arc-verify/traffic-bun-scripts/integration.json#/nativeAcceptance/buildBothArrivalOrdersPassed) retain cargo build/bun run build evidence. The [four named native/registered Python TEST pairs](#focused-python-test-acceptance-evidence) add pytest/cargo test and pytest/bun test in both arrival orders, with zero second starts before release, TEST permit high-water one, exactly one execution each and all permits released across SQLite/CLI/registered bridge. The [documented Claude and Cursor fixture events](../../crates/arc-daemon/tests/traffic_bun_scripts/agent_hooks.rs) now drive real Cargo and Bun BUILD children in both orders against a production daemon; both daemon-side cases and both registered-bridge fixture orders passed in the runner's 2026-11-17 17:53Z workspace run on its recorded input. Production vendor handlers still pass through and live vendor execution and the full declared scenario remain open; Partial is retained. [Test-performance integration](#test-performance-integration-evidence-2026-11-18) retains this evidence scope; final gates remain pending. | test-performance-2026-11-18 |
+| AT-TRF-01 | 다중 벤더 전역 큐 | [AT-TRF-01, L2617](ARC_SRS_2026-11-06.md#at-trf-01-다중-벤더-전역-큐) | VND-006, DET-003, DET-004, TRF-001, TRF-002, TRF-004, TRF-015 | Phase 1 | Complete | Complete | The [closing list](closing.md#remaining-phase-1-inventories) retains the Claude/Cursor coordinator tests. Item 2: `agent_test_journey::at_trf_01_codex_claude_installed_hooks_share_one_build_slot` installs contract-derived hooks and executes offline children in both arrival orders against one real daemon; the second child waits, each starts once, high-water is one and permits release. This is not a live vendor session. | phase-1-hook-disk-writer-2026-11-24 |
 | AT-TRF-02 | 원격 GitHub Actions 우회 | [AT-TRF-02, L2629](ARC_SRS_2026-11-06.md#at-trf-02-원격-github-actions-우회) | DET-005, DET-006, TRF-006, SAFE-008, NFR-007 | Phase 0 | Complete | Complete | The [installed-hook execution](closing.md#integration-evidence-and-outstanding-boundary) ties the simulated event to the real daemon and stub child while a Build permit is held; named shell tests preserve the default-state command and native result. | phase-0-closure-2026-11-21 |
 | AT-TRF-03 | 로컬 Docker Build | [AT-TRF-03, L2639](ARC_SRS_2026-11-06.md#at-trf-03-로컬-docker-build) | DET-011, TRF-003 | Phase 2 | Complete | Complete | [Numbered cases](closing.md#at-trf-03--local-docker-build) pass in [local_container](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_locality/local_container.rs): with an isolated Docker context and Buildx builder on a proven local endpoint, `docker buildx build .` is recorded BUILD with compute location `LOCAL_CONTAINER` on `arcctl exec` and `hook-exec`, waits with zero stub starts while a separate Build permit is held, then runs once with one released BUILD reservation; `arcctl classify` names the location and contacts no socket. macOS-only, with an injected listener inventory and an offline docker stub; no live Docker engine ran. | phase-0-locality-desktop-2026-11-22 |
 | AT-TRF-04 | 원격 Docker Builder | [AT-TRF-04, L2648](ARC_SRS_2026-11-06.md#at-trf-04-원격-docker-builder) | DET-005, DET-011, TRF-006, SAFE-008, NFR-007 | Phase 2 | Complete | Complete | The [built CLI and real-daemon Buildx test](../../crates/arc-daemon/tests/managed_exec/capture_integration/held.rs#gh_and_buildx_same_execution_bypass_held_permit_and_buildx_cli_is_metered) passed with a remote builder selected from offline config while a separate local Build permit was held. Its stub ran once without a new queue entry or reservation, and the same job recorded local CLI CPU accounting separately. | endpoint-capture-2026-11-20 |
@@ -886,7 +909,7 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | ADR-001 | Architecture decisions | OS·벤더 중립 Core + 벤더별 Native Adapter | [§4.4, L313](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | VND-004, VND-006; G-03 | Phase 2 | Partial | Partial | [46 native integration checks](.arc-verify/governor/integration.json#/task8/checks/desktop-native-verified); shared core and native direct clients execute; eleven native vendor adapters remain outstanding. | governor-2026-11-13 |
 | ADR-002 | Architecture decisions | Rust 사용자별 데몬 + 별도 React/Tauri GUI | [§4.4, L314](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DEC-003, DEC-005 | Phase 0 | Blocked | Blocked | [HOST case 1](closing.md#desktop-shell-rows) passes: in `close_request_hides_main_and_same_daemon_serves_bridge_and_cli` in [lifecycle](../../apps/desktop/src-tauri/tests/lifecycle.rs) the separate `arc-daemon` process is reached by the desktop only through registered bridge commands and keeps serving the CLI after the GUI window is hidden. Case 2, the installed cross-platform lifecycle, was not run. | phase-0-locality-desktop-2026-11-22 |
-| ADR-003 | Architecture decisions | SQLite WAL과 append-only event audit + 주기 집계 | [§4.4, L315](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | MTR-014; NFR-010, NFR-023 | Phase 1 | Partial | Partial | [storage/transaction checks](.arc-verify/governor/integration.json#/task8/checks/storage-integration); SQLite/WAL committed state and receipts execute; complete audit/rollup policy remains outstanding. | governor-2026-11-13 |
+| ADR-003 | Architecture decisions | SQLite WAL과 append-only event audit + 주기 집계 | [§4.4, L315](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | MTR-014; NFR-010, NFR-023 | Phase 1 | Partial | Partial | The [closing list](closing.md#remaining-phase-1-inventories) names WAL recovery and periodic aggregation tests. The separate item 2, an append-only audit for every event class, remains unproven. Partial. | phase-1-hook-disk-writer-2026-11-24 |
 | ADR-004 | Architecture decisions | 정책 UI Switch-only, 임계값은 Self-Tuning 내부 결정 | [§4.4, L316](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DEC-020; POL-005; AT-GUI-02 | Phase 4 | Partial | Partial | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); Governor is switch-only; self-tuned internal thresholds and broader settings remain outstanding. | governor-2026-11-13 |
 | ADR-005 | Architecture decisions | 명령 이름보다 **실제 실행 위치**가 Traffic 대상 결정 | [§4.4, L317](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | DET-005, DET-006, DET-011, DET-016; SAFE-008 | Phase 0 | Blocked | Blocked | [HOST cases 1 and 3 to 5](closing.md#locality-rows) pass: the named DET-005 local, remote and UNKNOWN endpoint tests; `local_container_docker_build_via_exec`, `local_container_docker_build_via_hook_exec`, `local_container_buildx_via_exec` and `local_container_buildx_via_hook_exec` in [local_container](../../crates/arc-daemon/tests/managed_exec/capture_integration/closing_locality/local_container.rs) (macOS-only, injected listener inventory); and the four `mixed_*_stages_via_*` tests for the two named compounds. Case 2, live pod and WSL placement, was not run. | phase-0-locality-desktop-2026-11-22 |
 | ADR-006 | Architecture decisions | Hook 변경 불가면 Managed Launcher/Guard/Observe fallback | [§4.4, L318](ARC_SRS_2026-11-06.md#44-핵심-architecture-decision-records) | VND-004; AT-PLG-04 | Phase 2 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
@@ -954,7 +977,7 @@ The SRS also formally declares decisions, goals, ADRs, metric definitions and ri
 | R-011 | Risk register | GC TOCTOU · 사용 중 자원 삭제 · 삭제 직전 identity/lease 재검증 | [§25, L3392](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SWP-012; SAFE-006, SAFE-012 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | R-012 | Risk register | Shared dependency cache · 재빌드 증가 · 캐시 재사용 예측, shared cache 기본 OFF | [§25, L3393](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SWP-015, SWP-022; POL-009 | Phase 3 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
 | R-013 | Risk register | 학습 정책 불안정 · 계속 Window 진동/지연 · 히스테리시스·confidence bound·safe fallback | [§25, L3394](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | POL-005, POL-007 | Phase 4 | Partial | Partial | [GV-N06](.arc-verify/governor/integration.json#/nativeAcceptance/cases/5); conservative static pressure guard executes; learned-policy oscillation/regression risk remains open. | governor-2026-11-13 |
-| R-014 | Risk register | SQLite writer 병목 · 이벤트 드랍/Queue 지연 · single writer, event coalescing, rollups | [§25, L3395](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | MTR-014; NFR-023, NFR-027 | Phase 1 | Partial | Partial | [GV-N08](.arc-verify/governor/integration.json#/nativeAcceptance/cases/7); actual SQLite writer backlog executes; sustained event-coalescing/rollup load remains unverified. | governor-2026-11-13 |
+| R-014 | Risk register | SQLite writer 병목 · 이벤트 드랍/Queue 지연 · single writer, event coalescing, rollups | [§25, L3395](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | MTR-014; NFR-023, NFR-027 | Phase 1 | Complete | Complete | The [closing list](closing.md#remaining-phase-1-inventories) retains the backlog test. Item 2: `traffic_policy::r_014_slow_consumer_coalesces_latest_and_retains_audit`; item 3: `traffic_policy::r_014_scheduled_rollups_progress_during_sustained_load`. The latter rolls 42,000 rows over three bounded passes with admitted requests continuously outstanding, verifies minute/hour/day aggregates and durable audit events, and observes client progress. | phase-1-hook-disk-writer-2026-11-24 |
 | R-015 | Risk register | Tray WebView 높은 RAM · 제품 목적 위반 · native tray와 창 lazy loading 분리 | [§25, L3396](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | NFR-011 | Phase 4 | Partial | Partial | [18 Governor DOM/contract checks](.arc-verify/governor/integration.json#/task8/checks/desktop-interactions); hidden polling stops; native tray WebView memory remains unmeasured. | governor-2026-11-13 |
 | R-016 | Risk register | 악성 Plugin/Hook · 임의 삭제/비밀 탈취 · IPC ACL, trust review, operations capability | [§25, L3397](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | SAFE-007; VND-008 | Phase 2 | Partial | Partial | [GV-N01](.arc-verify/governor/integration.json#/nativeAcceptance/cases/0); same-user socket/job ownership is tested; plugin trust/destructive-capability security review remains outstanding. | governor-2026-11-13 |
 | R-017 | Risk register | Vendor Marketplace 정책 변경 · 배포 불가 · 공식 경로/대체 local install maintained | [§25, L3398](ARC_SRS_2026-11-06.md#25-위험제약대응-책임) | VND-011; G-10 | Phase 5 | Pending | Outstanding | Pending: No delivered full-catalog acceptance for this entry; its decision/metric/goal/risk is not completed by analogous Governor behavior. | governor-2026-11-13 |
@@ -1143,19 +1166,19 @@ These are row-level accounting totals. **No phase is declared finished**: the SR
 | Inventory | Phase | Total | Complete | Partial | Pending | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
 | Requirements | Phase 0 | 19 | 12 | 0 | 0 | 7 |
-| Requirements | Phase 1 | 34 | 30 | 3 | 0 | 1 |
+| Requirements | Phase 1 | 34 | 31 | 2 | 0 | 1 |
 | Requirements | Phase 2 | 24 | 1 | 3 | 19 | 1 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 52 | 0 |
 | Requirements | Phase 4 | 29 | 0 | 8 | 21 | 0 |
 | Requirements | Phase 5 | 4 | 0 | 1 | 3 | 0 |
 | Acceptance | Phase 0 | 4 | 2 | 0 | 0 | 2 |
-| Acceptance | Phase 1 | 10 | 9 | 1 | 0 | 0 |
+| Acceptance | Phase 1 | 10 | 10 | 0 | 0 | 0 |
 | Acceptance | Phase 2 | 7 | 3 | 1 | 3 | 0 |
 | Acceptance | Phase 3 | 22 | 0 | 0 | 22 | 0 |
 | Acceptance | Phase 4 | 4 | 0 | 2 | 2 | 0 |
 | Acceptance | Phase 5 | 0 | 0 | 0 | 0 | 0 |
 | Catalogs | Phase 0 | 17 | 8 | 1 | 0 | 8 |
-| Catalogs | Phase 1 | 27 | 22 | 4 | 0 | 1 |
+| Catalogs | Phase 1 | 27 | 23 | 3 | 0 | 1 |
 | Catalogs | Phase 2 | 12 | 0 | 4 | 8 | 0 |
 | Catalogs | Phase 3 | 31 | 0 | 2 | 29 | 0 |
 | Catalogs | Phase 4 | 11 | 0 | 5 | 6 | 0 |
@@ -1168,19 +1191,19 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 | Scope inventory | Primary phase | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Requirements | Phase 0 | 19 | 12 | 0 | 0 | 0 | 7 |
-| Requirements | Phase 1 | 34 | 30 | 3 | 0 | 0 | 1 |
+| Requirements | Phase 1 | 34 | 31 | 2 | 0 | 0 | 1 |
 | Requirements | Phase 2 | 24 | 1 | 3 | 1 | 18 | 1 |
 | Requirements | Phase 3 | 55 | 0 | 3 | 0 | 52 | 0 |
 | Requirements | Phase 4 | 29 | 0 | 8 | 0 | 21 | 0 |
 | Requirements | Phase 5 | 4 | 0 | 1 | 0 | 3 | 0 |
 | Acceptance | Phase 0 | 4 | 2 | 0 | 0 | 0 | 2 |
-| Acceptance | Phase 1 | 10 | 9 | 1 | 0 | 0 | 0 |
+| Acceptance | Phase 1 | 10 | 10 | 0 | 0 | 0 | 0 |
 | Acceptance | Phase 2 | 7 | 3 | 1 | 0 | 3 | 0 |
 | Acceptance | Phase 3 | 22 | 0 | 0 | 0 | 22 | 0 |
 | Acceptance | Phase 4 | 4 | 0 | 2 | 0 | 2 | 0 |
 | Acceptance | Phase 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | Catalogs | Phase 0 | 17 | 8 | 1 | 0 | 0 | 8 |
-| Catalogs | Phase 1 | 27 | 22 | 4 | 0 | 0 | 1 |
+| Catalogs | Phase 1 | 27 | 23 | 3 | 0 | 0 | 1 |
 | Catalogs | Phase 2 | 12 | 0 | 4 | 0 | 8 | 0 |
 | Catalogs | Phase 3 | 31 | 0 | 2 | 0 | 29 | 0 |
 | Catalogs | Phase 4 | 11 | 0 | 5 | 2 | 4 | 0 |
@@ -1190,14 +1213,14 @@ Pending is split below without changing validator vocabulary. For each row, Tota
 
 | Primary inventory | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| Requirements | 165 | 43 | 18 | 1 | 94 | 9 |
-| Acceptance | 47 | 14 | 4 | 0 | 27 | 2 |
-| Catalogs | 104 | 30 | 16 | 4 | 45 | 9 |
-| All primary rows | 316 | 87 | 38 | 5 | 166 | 20 |
+| Requirements | 165 | 44 | 17 | 1 | 94 | 9 |
+| Acceptance | 47 | 15 | 3 | 0 | 27 | 2 |
+| Catalogs | 104 | 31 | 15 | 4 | 45 | 9 |
+| All primary rows | 316 | 90 | 35 | 5 | 166 | 20 |
 
 | Acceptance family | Total | Complete | Partial | Unverified | Outstanding | Blocked |
 | --- | --- | --- | --- | --- | --- | --- |
-| TRF | 12 | 11 | 1 | 0 | 0 | 0 |
+| TRF | 12 | 12 | 0 | 0 | 0 | 0 |
 | MTR | 3 | 3 | 0 | 0 | 0 | 0 |
 | POL | 3 | 0 | 1 | 0 | 2 | 0 |
 | SWP | 21 | 0 | 0 | 0 | 21 | 0 |
@@ -1208,7 +1231,9 @@ Toggle supplement: 30 = 0 Complete + 1 Partial + 2 Unverified + 27 Outstanding. 
 
 ### Current-cycle completion delta
 
-The attribution integration moves eight selected rows Partial → Complete and DET-014 and AT-MTR-02 Pending → Complete. Phase 1 is 61 Complete, 8 Partial, 0 Pending and 2 Blocked of 71. Phase 0 remains 22 Complete, 1 Partial, 0 Pending and 17 Blocked of 40. See the [integration outcome](#phase-1-attribution-integration-outcome).
+The hook, disk and writer integration moves AT-TRF-01, MTR-001 and R-014 Partial → Complete. Phase 1 is 64 Complete, 5 Partial, 0 Pending and 2 Blocked of 71. Phase 0 remains 22 Complete, 1 Partial, 0 Pending and 17 Blocked of 40. See the [integration outcome](#phase-1-hook-disk-and-writer-integration-outcome).
+
+Previous attribution integration moved eight selected rows Partial → Complete and DET-014 and AT-MTR-02 Pending → Complete. Phase 1 was 61 Complete, 8 Partial, 0 Pending and 2 Blocked of 71. See the [historical outcome](#phase-1-attribution-integration-outcome).
 
 Previous Phase 1 meter and policy integration: in Phase 1, MTR-002, MTR-004, MTR-008, MTR-018, DET-012, TRF-015, POL-001, POL-004, MET-002, MET-003, MET-004, MET-013, MET-015, MET-017 and DEC-013 move Partial → Complete; MTR-009, MTR-014, NFR-023, MET-005, MET-009, MET-010 and MET-026 move Pending/Unverified → Complete; MTR-003 moves Partial → Blocked on its external case 3. Requirements Phase 1 is now 25 Complete, 7 Partial, 1 Pending and 1 Blocked; Acceptance Phase 1 is unchanged at 7, 2, 1 and 0; Catalogs Phase 1 is 19 Complete, 7 Partial, 0 Pending and 1 Blocked. Phase 1 is 51 Complete, 16 Partial, 2 Pending and 2 Blocked of 71; Phase 0 is unchanged at 22, 1, 0 and 17 of 40; all primary rows are 77 Complete, 46 Partial, 7 Unverified, 166 Outstanding and 20 Blocked. See [that evidence](#phase-1-meter-and-policy-integration-evidence).
 
